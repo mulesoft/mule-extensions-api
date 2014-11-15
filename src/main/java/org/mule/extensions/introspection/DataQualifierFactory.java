@@ -22,7 +22,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * {@link DataQualifier} for a given
  * {@link java.lang.Class}
  *
- * @since 1.0.0.0
+ * @since 1.0
  */
 public final class DataQualifierFactory
 {
@@ -124,9 +124,6 @@ public final class DataQualifierFactory
     private static final DataTypeQualifierEvaluator DECIMAL_EVALUATOR = new DefaultQualifierEvaluator(
             new Class[] {BigDecimal.class, BigInteger.class}, DataQualifier.DECIMAL);
 
-    private static final DataTypeQualifierEvaluator BYTE_EVALUATOR = new DefaultQualifierEvaluator(
-            new Class[] {byte.class, Byte.class}, DataQualifier.BYTE);
-
     private static final DataTypeQualifierEvaluator DATE_TIME_EVALUATOR = new DefaultQualifierEvaluator(
             new Class[] {Date.class, java.sql.Date.class, Calendar.class, XMLGregorianCalendar.class, java.sql.Time.class,
                     java.sql.Timestamp.class}, DataQualifier.DATE_TIME);
@@ -151,7 +148,6 @@ public final class DataQualifierFactory
             DOUBLE_EVALUATOR,
             LONG_EVALUATOR,
             DECIMAL_EVALUATOR,
-            BYTE_EVALUATOR,
             DATE_TIME_EVALUATOR,
             ENUM_EVALUATOR,
             LIST_EVALUATOR,

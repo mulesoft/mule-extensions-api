@@ -6,14 +6,20 @@
  */
 package org.mule.extensions.introspection.declaration;
 
+import org.mule.extensions.introspection.Extension;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-public final class Declaration
+/**
+ * A declaration object for a {@link Extension}. It contains raw, unvalidated
+ * data which is used to declare the structure of a {@link Extension}
+ *
+ * @since 1.0
+ */
+public final class Declaration extends CapableDeclaration<Declaration>
 {
 
     private final String name;
@@ -22,8 +28,6 @@ public final class Declaration
 
     private List<ConfigurationDeclaration> configurations = new ArrayList<>();
     private List<OperationDeclaration> operations = new LinkedList<>();
-    private Set<Object> capabilities = new HashSet<>();
-
 
     Declaration(String name, String version)
     {
@@ -41,11 +45,21 @@ public final class Declaration
         return name;
     }
 
+    /**
+     * @return
+     */
     public List<ConfigurationDeclaration> getConfigurations()
     {
         return Collections.unmodifiableList(configurations);
     }
 
+    /**
+     * Adds a {@link ConfigurationDeclaration}
+     *
+     * @param config a not {@code null} {@link ConfigurationDeclaration}
+     * @return this declaration
+     * @throws {@link IllegalArgumentException} if {@code config} is {@code null}
+     */
     public Declaration addConfig(ConfigurationDeclaration config)
     {
         if (config == null)
@@ -57,11 +71,22 @@ public final class Declaration
         return this;
     }
 
+    /**
+     * @return an unmodifiable {@link List} with
+     * the available {@link OperationDeclaration}s
+     */
     public List<OperationDeclaration> getOperations()
     {
         return Collections.unmodifiableList(operations);
     }
 
+    /**
+     * Adds a {@link OperationDeclaration}
+     *
+     * @param operation a not {@code null} {@link OperationDeclaration}
+     * @return this declaration
+     * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
+     */
     public Declaration addOperation(OperationDeclaration operation)
     {
         if (operation == null)
@@ -70,22 +95,6 @@ public final class Declaration
         }
 
         operations.add(operation);
-        return this;
-    }
-
-    public Set<Object> getCapabilities()
-    {
-        return Collections.unmodifiableSet(capabilities);
-    }
-
-    public Declaration addCapability(Object capability)
-    {
-        if (capability == null)
-        {
-            throw new IllegalArgumentException("Can't add a null capability");
-        }
-
-        capabilities.add(capability);
         return this;
     }
 
@@ -98,6 +107,4 @@ public final class Declaration
     {
         this.description = description;
     }
-
-
 }

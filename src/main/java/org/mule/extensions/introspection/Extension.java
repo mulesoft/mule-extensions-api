@@ -31,7 +31,7 @@ import java.util.List;
  * are expected to be used as individual building blocks in a bigger system, hence the name <code>Extension</code>
  * </p>
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface Extension extends Described, Capable
 {

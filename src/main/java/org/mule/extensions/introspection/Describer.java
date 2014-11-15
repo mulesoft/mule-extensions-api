@@ -24,7 +24,7 @@ import org.mule.extensions.introspection.spi.DescriberPostProcessor;
  * to locale registered instances of {@link DescriberPostProcessor}
  * which are invoked in order.
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface Describer
 {

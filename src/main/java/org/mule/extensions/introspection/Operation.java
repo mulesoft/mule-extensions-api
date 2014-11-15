@@ -11,9 +11,9 @@ import java.util.List;
 /**
  * A definition of an operation in a {@link Extension}
  *
- * @since 1.0.0
+ * @since 1.0
  */
-public interface Operation extends Described
+public interface Operation extends Described, Capable
 {
 
     /**
@@ -25,5 +25,9 @@ public interface Operation extends Described
      */
     List<Parameter> getParameters();
 
-    Class<?> getDeclaringClass();
+    /**
+     * returns the implementation for this operation
+     * @return a {@link OperationImplementation}
+     */
+    OperationImplementation getImplementation();
 }

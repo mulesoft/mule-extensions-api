@@ -6,16 +6,25 @@
  */
 package org.mule.extensions.introspection.declaration;
 
+import org.mule.extensions.introspection.Configuration;
+import org.mule.extensions.introspection.ConfigurationInstantiator;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public final class ConfigurationDeclaration
+/**
+ * A declaration object for a {@link Configuration}. It contains raw, unvalidated
+ * data which is used to declare the structure of a {@link Configuration}
+ *
+ * @since 1.0
+ */
+public final class ConfigurationDeclaration extends CapableDeclaration<ConfigurationDeclaration>
 {
 
     private final String name;
     private String description;
-    private Class<?> declaringClass;
     private List<ParameterDeclaration> parameters = new LinkedList<>();
+    private ConfigurationInstantiator configurationInstantiator;
 
     ConfigurationDeclaration(String name)
     {
@@ -37,18 +46,18 @@ public final class ConfigurationDeclaration
         this.description = description;
     }
 
-    public Class<?> getDeclaringClass()
-    {
-        return declaringClass;
-    }
-
-    public void setDeclaringClass(Class<?> declaringClass)
-    {
-        this.declaringClass = declaringClass;
-    }
-
     public List<ParameterDeclaration> getParameters()
     {
         return parameters;
+    }
+
+    public ConfigurationInstantiator getConfigurationInstantiator()
+    {
+        return configurationInstantiator;
+    }
+
+    public void setConfigurationInstantiator(ConfigurationInstantiator configurationInstantiator)
+    {
+        this.configurationInstantiator = configurationInstantiator;
     }
 }

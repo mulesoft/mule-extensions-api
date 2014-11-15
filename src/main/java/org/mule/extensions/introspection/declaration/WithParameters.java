@@ -6,6 +6,12 @@
  */
 package org.mule.extensions.introspection.declaration;
 
+/**
+ * A bridge which allows adding {@link ParameterDeclaration} to
+ * a {@link #owner} that belongs to a {@link DeclarationConstruct}
+ *
+ * @since 1.0
+ */
 public final class WithParameters
 {
 
@@ -18,21 +24,45 @@ public final class WithParameters
         this.declaration = declaration;
     }
 
+    /**
+     * Adds a required parameter
+     *
+     * @param name the name of the parameter
+     * @return a new {@link ParameterConstruct}
+     */
     public ParameterConstruct requiredParameter(String name)
     {
         return new ParameterConstruct(owner, newParameter(name, true), declaration);
     }
 
+    /**
+     * Adds an optional parameter
+     *
+     * @param name the name of the parameter
+     * @return a new {@link OptionalParameterConstruct}
+     */
     public OptionalParameterConstruct optionalParameter(String name)
     {
         return new OptionalParameterConstruct(owner, newParameter(name, false), declaration);
     }
 
+    /**
+     * Adds another config of the given name
+     *
+     * @param name the name of the config
+     * @return a new {@link ConfigurationConstruct}
+     */
     public ConfigurationConstruct withConfig(String name)
     {
         return declaration.withConfig(name);
     }
 
+    /**
+     * Adds another operation of the given name
+     *
+     * @param name the name of the config
+     * @return a new {@link OperationConstruct}
+     */
     public OperationConstruct withOperation(String name)
     {
         return declaration.withOperation(name);
@@ -47,5 +77,4 @@ public final class WithParameters
 
         return parameter;
     }
-
 }

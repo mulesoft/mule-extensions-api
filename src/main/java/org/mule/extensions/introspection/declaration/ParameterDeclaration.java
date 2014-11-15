@@ -7,12 +7,22 @@
 package org.mule.extensions.introspection.declaration;
 
 import org.mule.extensions.introspection.DataType;
+import org.mule.extensions.introspection.Described;
+import org.mule.extensions.introspection.Parameter;
 
-public final class ParameterDeclaration
+/**
+ * A declaration object for a {@link Parameter}. It contains raw, unvalidated
+ * data which is used to declare the structure of a {@link Parameter}.
+ * <p/>
+ * By default, {@link #isDynamic()} returns {@code true} and
+ * {@link #getDescription()} returns an empty {@link String}.
+ *
+ * @since 1.0
+ */
+public final class ParameterDeclaration extends CapableDeclaration<ParameterDeclaration> implements Described
 {
-
     private String name;
-    private String description;
+    private String description = "";
     private boolean required;
     private boolean dynamic = true;
     private DataType type;
@@ -22,6 +32,7 @@ public final class ParameterDeclaration
     {
     }
 
+    @Override
     public String getName()
     {
         return name;
@@ -62,6 +73,7 @@ public final class ParameterDeclaration
         this.type = type;
     }
 
+    @Override
     public String getDescription()
     {
         return description;

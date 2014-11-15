@@ -6,8 +6,18 @@
  */
 package org.mule.extensions.introspection.declaration;
 
+/**
+ * Base class for an object on which {@link ParameterDeclaration}s can be added
+ *
+ * @since 1.0
+ */
 abstract class HasParameters
 {
 
+    /**
+     * Adds the {@code parameter}
+     *
+     * @param parameter a {@link ParameterDeclaration}
+     */
     abstract void addParameter(ParameterDeclaration parameter);
 }

@@ -10,7 +10,7 @@ package org.mule.extensions.introspection;
  * Provides a high level definition about the &quot;family&quot;
  * a given {@link DataType}
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public enum DataQualifier
 {
@@ -87,19 +87,6 @@ public enum DataQualifier
                     visitor.onLong();
                 }
             },
-
-    /**
-     * A single byte
-     */
-    BYTE
-            {
-                @Override
-                public void accept(DataQualifierVisitor visitor)
-                {
-                    visitor.onByte();
-                }
-            },
-
 
     /**
      * An {@link java.lang.Enum} type

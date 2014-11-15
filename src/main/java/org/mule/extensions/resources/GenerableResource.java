@@ -13,7 +13,7 @@ import org.mule.extensions.introspection.Extension;
  * {@link Extension} and which can be generated
  * by the runtime
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface GenerableResource
 {

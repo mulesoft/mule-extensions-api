@@ -6,6 +6,12 @@
  */
 package org.mule.extensions.introspection.declaration;
 
+/**
+ * A specialization of {@link ParameterConstruct} for optional parameters.
+ * It allows adding properties that only apply to optional parameters
+ *
+ * @since 1.0
+ */
 public class OptionalParameterConstruct extends ParameterConstruct<OptionalParameterConstruct>
 {
 
@@ -14,9 +20,15 @@ public class OptionalParameterConstruct extends ParameterConstruct<OptionalParam
         super(owner, parameter, declaration);
     }
 
+    /**
+     * Adds a default value for the parameter
+     *
+     * @param defaultValue a default value
+     * @return this construct
+     */
     public OptionalParameterConstruct defaultingTo(Object defaultValue)
     {
-        getParameter().setDefaultValue(defaultValue);
+        getDeclaration().setDefaultValue(defaultValue);
         return this;
     }
 }

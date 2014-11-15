@@ -21,16 +21,16 @@ import java.util.Map;
  * {@link DescriberPostProcessor}s, which means that any
  * side effects applied by any of the before mentioned will be visible by the next ones.
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface DescribingContext
 {
 
     /**
-     * The {@link ExtensionBuilder} in which
+     * The {@link DeclarationConstruct} in which
      * the extension is being described into
      *
-     * @return a non {@code null} {@link ExtensionBuilder}
+     * @return a non {@code null} {@link DeclarationConstruct}
      */
     DeclarationConstruct getDeclarationConstruct();
 

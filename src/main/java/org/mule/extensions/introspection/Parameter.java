@@ -14,9 +14,9 @@ package org.mule.extensions.introspection;
  * It can apply either to a {@link Configuration} or a
  * {@link Operation}
  *
- * @since 1.0.0
+ * @since 1.0
  */
-public interface Parameter extends Described
+public interface Parameter extends Described, Capable
 {
 
     /**

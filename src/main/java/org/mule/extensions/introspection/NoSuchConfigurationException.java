@@ -8,6 +8,8 @@ package org.mule.extensions.introspection;
 
 /**
  * Exception thrown when querying for a specific configuration that is not registered to a given extension.
+ *
+ * @since 1.0
  */
 public final class NoSuchConfigurationException extends IllegalArgumentException
 {

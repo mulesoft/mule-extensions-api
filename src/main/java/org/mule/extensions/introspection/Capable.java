@@ -41,7 +41,7 @@ public interface Capable
      *
      * @param capabilityType the capability to be obtained.
      * @return a {@link java.util.Set}. Might be empty but will never be {@code null}
-     * @since 1.0.0
+     * @since 1.0
      */
     <T> Set<T> getCapabilities(Class<T> capabilityType);
 

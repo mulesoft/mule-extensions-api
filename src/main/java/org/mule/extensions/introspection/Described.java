@@ -10,7 +10,7 @@ package org.mule.extensions.introspection;
  * A generic contract for a class that has a name and a description.
  * Implementations might use {@link #getName()} as key, but they're not required to.
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface Described
 {

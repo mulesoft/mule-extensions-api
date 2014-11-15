@@ -24,14 +24,13 @@ import java.util.List;
  * configuration used, the same connector will have different reconnection strategies).
  * <p/>
  * The configuration is also the place in which cross operation, extension level attributes are configured.
- * For each configuration attribute, a valid setter is expected to exist on the {@link #getDeclaringClass()}
  * <p/>
  * Every {@link Extension} is required to have at least one configuration.
  * That configuration is defined as the &quot;default configuration&quot;
  *
- * @since 1.0.0
+ * @since 1.0
  */
-public interface Configuration extends Described
+public interface Configuration extends Described, Capable
 {
 
     /**
@@ -44,13 +43,8 @@ public interface Configuration extends Described
     List<Parameter> getParameters();
 
     /**
-     * The java which implements this configuration in runtime.
-     * This class is expected to have a public, default constructor
-     * and a valid setter for each parameter
-     * in {@link #getParameters()}
-     *
-     * @return a not {@code null} {@link java.lang.Class}
+     * Returns the {@link ConfigurationInstantiator} for this instance
      */
-    Class<?> getDeclaringClass();
+    ConfigurationInstantiator getInstantiator();
 
 }

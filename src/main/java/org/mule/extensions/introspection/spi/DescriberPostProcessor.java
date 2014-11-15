@@ -23,7 +23,7 @@ import org.mule.extensions.introspection.declaration.Declaration;
  * <p/>
  * Instances are to be discovered by standard SPI mechanism
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface DescriberPostProcessor
 {

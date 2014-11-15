@@ -6,37 +6,30 @@
  */
 package org.mule.extensions.introspection;
 
+import java.util.Map;
+
 /**
- * Doodle class. Disregard for now
+ * Provides context information about the execution of an operation
+ *
+ * @since 1.0
  */
 public interface OperationContext
 {
 
     /**
-     * Provides a value for a parameter.
-     * @param name the parameter's name to write
-     * @param value the value of the parameter
-     * @return {@code this}
-     * @throws IllegalArgumentException if the name doesn't match any parameter
-     *
-     * @since 1.0.0
+     * Returns the actual instance of the configuration to be used
+     * to execute the operation. This is <b>NOT</b> an instance of
+     * {@link Configuration} but an object which complies with the
+     * model described in a {@link Configuration}
      */
-    OperationContext setParameter(String name, Object value);
+    Object getConfigurationInstance();
 
     /**
-     * Provides a value for a parameter.
-     * This method will not fail if the value has an invalid type, or the actual value doesn't make sense at all. Validation will happen only
-     * when building the instance.
-     *
-     * @param param the parameter to write
-     * @param value the value of the parameter
-     * @return {@code this}
-     * @throws IllegalArgumentException if the parameter is not one of the allowed parameters
-     *
-     * @since 1.0.0
+     * Returns a {@link Map} in which the keys are the operation's
+     * {@link Parameter}s and the values are the actual values to which
+     * those parameters are mapped for this particular execution.
+     * Any of these values can be {@code null}
      */
-    OperationContext setParameter(Parameter param, Object value);
-
-    Operation getOperation();
+    Map<Parameter, Object> getParametersValues();
 
 }

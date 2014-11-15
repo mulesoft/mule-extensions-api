@@ -15,7 +15,7 @@ import java.util.Objects;
  * provides information about its parametrized generic types and
  * {@link DataQualifier}
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public final class DataType
 {

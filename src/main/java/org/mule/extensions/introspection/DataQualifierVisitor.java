@@ -14,7 +14,7 @@ package org.mule.extensions.introspection;
  * in which the dynamic linking relies on the concrete class of the visitable object. Instead,
  * a direct dispatch is done at a qualifier level.
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface DataQualifierVisitor
 {
@@ -48,11 +48,6 @@ public interface DataQualifierVisitor
      * Invoked when visiting {@link DataQualifier#LONG}
      */
     void onLong();
-
-    /**
-     * Invoked when visiting {@link DataQualifier#BYTE}
-     */
-    void onByte();
 
     /**
      * Invoked when visiting {@link DataQualifier#ENUM}

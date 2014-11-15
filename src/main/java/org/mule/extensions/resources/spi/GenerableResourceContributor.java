@@ -23,7 +23,7 @@ import org.mule.extensions.resources.ResourcesGenerator;
  * writes a XML schema will pass on a extension which doesn't have xml capabilities. It's completely
  * up to each contributor to decide when and when not contribute to a extension
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface GenerableResourceContributor
 {

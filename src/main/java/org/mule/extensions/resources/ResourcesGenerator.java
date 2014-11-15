@@ -35,7 +35,7 @@ import java.util.List;
  * Implementations are to be assumed not thread-safe and to be used in a
  * fire and forget fashion
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface ResourcesGenerator
 {

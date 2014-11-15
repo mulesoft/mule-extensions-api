@@ -6,7 +6,9 @@
  */
 package org.mule.extensions;
 
+import org.mule.extensions.introspection.Describer;
 import org.mule.extensions.introspection.Extension;
+import org.mule.extensions.introspection.ExtensionFactory;
 
 import java.util.List;
 import java.util.Set;
@@ -17,7 +19,7 @@ import java.util.Set;
  * runtime, the domain and the app. The one in APP2 should see the ones in runtime, domain and APP2. At the same time,
  * the one at a domain level should only see runtime and domain, and so forth...
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface ExtensionsManager
 {
@@ -28,17 +30,10 @@ public interface ExtensionsManager
      * <p/>
      * The discovery process works as follows:
      * <ul>
-     * <li>It scans the classpath looking for the files in the path META-INF/extensions/mule.extensions</li>
-     * <li>The found files are assumed to be text files in which one canonical class name is found per line</li>
-     * <li>Those classes are loaded and registered as {@link Extension}s</li>
+     * <li>Standard Java SPI mechanism is used to discover implementations of the {@link Describer} interface</li>
+     * <li>The discovered describers are fed into a {@link ExtensionFactory} and transformed in {@link Extension} instances</li>
+     * <li>Those extensions are registered through the {@link #registerExtension(Extension)} method</li>
      * </ul>
-     * <p/>
-     * If an {@link Extension} is found which is already registered,
-     * then this manager will apply whatever policy finds more convenient to decide if the existing
-     * registration is kept or replaced. That is up to the implementation. The only thing this contract
-     * guarantees is that each extension type will be registered only once and that the discovery process
-     * will not fail if many discovery runs are triggered over the same classpath.
-     * <p/>
      * Finally, a {@link java.util.List} will be returned with the {@link Extension}s
      * that were registered or modified. For instance, the first time this method is invoked, all the discovered extensions
      * will be returned. If it's then called again, the extensions that are already registered will not be present
@@ -50,6 +45,20 @@ public interface ExtensionsManager
      * an empty list if none is found or updated
      */
     List<Extension> discoverExtensions(ClassLoader classLoader);
+
+    /**
+     * Registers the given {@link Extension}
+     * If a matching {@link Extension} is already registered,
+     * then this manager will apply whatever policy finds more convenient to decide if the existing
+     * registration is kept or replaced. That is up to the implementation. The only thing this contract
+     * guarantees is that each extension type will be registered only once and that the discovery process
+     * will not fail if many discovery runs are triggered over the same classpath.
+     *
+     * @param extension the {@link Extension} to be registered. Cannot be {@code null}
+     * @return {@code true} if the extension was registered. {@code false} if the platform decided
+     * to kept an existing declaration
+     */
+    boolean registerExtension(Extension extension);
 
     /**
      * Returns a {@link java.util.Set} listing all the available

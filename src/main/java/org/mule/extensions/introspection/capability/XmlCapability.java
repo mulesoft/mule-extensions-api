@@ -10,7 +10,7 @@ package org.mule.extensions.introspection.capability;
  * Represents an extension's capability to be mapped and usable
  * from a Mule XML config
  *
- * @since 1.0.0
+ * @since 1.0
  */
 public interface XmlCapability
 {
