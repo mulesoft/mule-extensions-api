@@ -6,6 +6,8 @@
  */
 package org.mule.extension.introspection;
 
+import org.mule.extension.runtime.OperationExecutor;
+
 import java.util.List;
 
 /**
@@ -26,8 +28,12 @@ public interface Operation extends Described, Capable
     List<Parameter> getParameters();
 
     /**
-     * returns the implementation for this operation
-     * @return a {@link OperationImplementation}
+     * Provides a {@link OperationExecutor} for this operation.
+     *
+     * @param configurationInstance an object to act as a concrete configuration instance. This is not a {@link Configuration}
+     *                              but the actual object configuring the implementation
+     * @param <T>                   the type of the {@code configurationInstance}
+     * @return a {@link OperationExecutor}
      */
-    OperationImplementation getImplementation();
+    <T> OperationExecutor getExecutor(T configurationInstance);
 }

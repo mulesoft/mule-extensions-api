@@ -7,7 +7,6 @@
 package org.mule.extension.introspection.declaration;
 
 import org.mule.extension.introspection.Operation;
-import org.mule.extension.introspection.OperationImplementation;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -25,7 +24,7 @@ public final class OperationDeclaration extends CapableDeclaration<OperationDecl
     private final String name;
     private String description = "";
     private List<ParameterDeclaration> parameters = new LinkedList<>();
-    private OperationImplementation implementation;
+    private OperationExecutorFactory executorFactory;
 
     OperationDeclaration(String name)
     {
@@ -74,13 +73,13 @@ public final class OperationDeclaration extends CapableDeclaration<OperationDecl
         return this;
     }
 
-    public OperationImplementation getImplementation()
+    public OperationExecutorFactory getExecutorFactory()
     {
-        return implementation;
+        return executorFactory;
     }
 
-    public void setImplementation(OperationImplementation implementation)
+    public void setExecutorFactory(OperationExecutorFactory executorFactory)
     {
-        this.implementation = implementation;
+        this.executorFactory = executorFactory;
     }
 }

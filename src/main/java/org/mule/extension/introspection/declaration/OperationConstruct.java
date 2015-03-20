@@ -6,8 +6,7 @@
  */
 package org.mule.extension.introspection.declaration;
 
-import org.mule.extension.introspection.Operation;
-import org.mule.extension.introspection.OperationImplementation;
+import org.mule.extension.runtime.OperationExecutor;
 
 /**
  * A {@link Construct} which allows configuring a {@link OperationDeclaration}
@@ -68,14 +67,15 @@ public final class OperationConstruct extends HasParameters implements Construct
     }
 
     /**
-     * Specifies the {@link OperationImplementation} for the {@link Operation}
+     * Specifies the {@link OperationExecutorFactory} to be used
+     * to create {@link OperationExecutor} instances.
      *
-     * @param implementation a {@link OperationImplementation}
+     * @param executorFactory a {@link OperationExecutorFactory}
      * @return {@value this} construct
      */
-    public OperationConstruct implementedIn(OperationImplementation implementation)
+    public OperationConstruct executorsCreatedBy(OperationExecutorFactory executorFactory)
     {
-        operation.setImplementation(implementation);
+        operation.setExecutorFactory(executorFactory);
         return this;
     }
 
