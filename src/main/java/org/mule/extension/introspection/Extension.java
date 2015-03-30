@@ -6,6 +6,9 @@
  */
 package org.mule.extension.introspection;
 
+import org.mule.extension.exception.NoSuchConfigurationException;
+import org.mule.extension.exception.NoSuchOperationException;
+
 import java.util.List;
 
 /**

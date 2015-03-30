@@ -6,18 +6,31 @@
  */
 package org.mule.extension;
 
+import org.mule.extension.introspection.Configuration;
 import org.mule.extension.introspection.Describer;
 import org.mule.extension.introspection.Extension;
 import org.mule.extension.introspection.ExtensionFactory;
+import org.mule.extension.introspection.Operation;
+import org.mule.extension.runtime.OperationExecutor;
 
 import java.util.List;
 import java.util.Set;
 
 /**
- * Manages the {@link Extension}s available in the current context.
- * TODO: Define scopes and hierarchies. The extensions manager available in APP1 should see the extensions in the
- * runtime, the domain and the app. The one in APP2 should see the ones in runtime, domain and APP2. At the same time,
- * the one at a domain level should only see runtime and domain, and so forth...
+ * Manages the {@link Extension}s available in the current context and their state.
+ * Going beyond the introspection model defined by {@link Extension}, {@link Configuration}
+ * and {@link Operation} class, at runtime there will be instances implementing the extension
+ * components modeled by them. Those instances need to be registered with this manager in order to be used.
+ * <p/>
+ * The workflow for this manager would be to first discover the currently available extensions
+ * through {@link #discoverExtensions(ClassLoader)}. Additionally, {@link Extension} instances
+ * can also be added in runtime through {@link #registerExtension(Extension)}.
+ * <p/>
+ * Instances serving as realization of a {@link Configuration} model need to be registered
+ * with the {@link #registerConfigurationInstance(Configuration, String, Object)} method in order
+ * for this manager to provision the underlying infrastructure to host and execute such configuration. Once
+ * a configuration is registered, then operations can be executed with it by requesting a {@link OperationExecutor}
+ * to the {@link #getOperationExecutor(Operation, Object)} method
  *
  * @since 1.0
  */
@@ -61,21 +74,48 @@ public interface ExtensionManager
     boolean registerExtension(Extension extension);
 
     /**
-     * Returns a {@link java.util.Set} listing all the available
+     * Returns a {@link Set} listing all the available
      * {@link Extension}s.
      *
-     * @return an {@link java.util.Set}. Will not be {@code null} but might be empty
+     * @return an {@link Set}. Will not be {@code null} but might be empty
      */
     Set<Extension> getExtensions();
 
     /**
-     * Returns a {@link java.util.Set} with the {@link Extension}s
+     * Returns a {@link Set} with the {@link Extension}s
      * that have the given capability
      *
      * @param capability a {@link java.lang.Class} representing a capability
-     * @return a {@link java.util.Set} with the matching {@link Extension}s. It might
+     * @return a {@link Set} with the matching {@link Extension}s. It might
      * be {@code null} but will never be empty
      */
-    Set<Extension> getExtensionsCapableOf(Class<?> capability);
+    <C> Set<Extension> getExtensionsCapableOf(Class<C> capability);
+
+    /**
+     * Registers a {@code configurationInstance} which is an instance of an object which is compliant
+     * with the {@link Configuration} modeled by {@code configuration}. It is mandatory for configuration
+     * instances to be registered through this method before they can be used to execute operations.
+     * Implementations of this method are to be considered thread-safe.
+     *
+     * @param configuration             a {@link Configuration} model
+     * @param configurationInstanceName the name of the instance to be registered
+     * @param configurationInstance     an object which is compliant with the {@code configuration} model
+     * @param <C>                       the type of the configuration instance
+     * @throws IllegalStateException if an instance with the same {@code configurationInstanceName} has already been registered
+     */
+    <C> void registerConfigurationInstance(Configuration configuration, String configurationInstanceName, C configurationInstance);
+
+    /**
+     * Provisions a {@link OperationExecutor} to execute the {@link Operation} modeled by {@code operation}
+     * using the provided {@code configurationInstance}.
+     * <p/>
+     *
+     * @param operation             the {@link Operation} model that the {@link OperationExecutor} is capable of implementing
+     * @param configurationInstance an instance previously registered with {@link #registerConfigurationInstance(Configuration, String, Object)}
+     * @param <C>                   the type of the configuration instance
+     * @return a {@link OperationExecutor}
+     * @throws IllegalStateException is {@code configurationInstance} has not been previously registered through {@link #registerConfigurationInstance(Configuration, String, Object)}
+     */
+    <C> OperationExecutor getOperationExecutor(Operation operation, C configurationInstance);
 
 }

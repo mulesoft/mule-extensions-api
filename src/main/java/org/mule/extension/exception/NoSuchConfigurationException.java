@@ -4,18 +4,20 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.introspection;
+package org.mule.extension.exception;
+
+import org.mule.extension.introspection.Extension;
 
 /**
  * Exception thrown when querying for a specific configuration that is not registered to a given extension.
  *
  * @since 1.0
  */
-public final class NoSuchOperationException extends IllegalArgumentException
+public final class NoSuchConfigurationException extends IllegalArgumentException
 {
 
-    public NoSuchOperationException(Extension extension, String extensionName)
+    public NoSuchConfigurationException(Extension extension, String configName)
     {
-        super(String.format("Operation '%s' does not exists in extension '%s'", extensionName, extension.getName()));
+        super(String.format("Configuration '%s' does not exists in extension '%s'", configName, extension.getName()));
     }
 }
