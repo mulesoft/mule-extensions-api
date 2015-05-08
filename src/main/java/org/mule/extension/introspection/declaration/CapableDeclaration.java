@@ -6,8 +6,11 @@
  */
 package org.mule.extension.introspection.declaration;
 
+import org.mule.extension.introspection.Capable;
+
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -16,7 +19,7 @@ import java.util.Set;
  * @param <T> the type of the capable declaration
  * @since 1.0
  */
-public abstract class CapableDeclaration<T extends CapableDeclaration>
+public abstract class CapableDeclaration<T extends CapableDeclaration> implements Capable
 {
 
     private Set<Object> capabilities = new HashSet<>();
@@ -27,6 +30,24 @@ public abstract class CapableDeclaration<T extends CapableDeclaration>
     public Set<Object> getCapabilities()
     {
         return Collections.unmodifiableSet(capabilities);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <C> Set<C> getCapabilities(Class<C> capabilityType)
+    {
+        Set<C> matchingCapabilities = new LinkedHashSet<>(capabilities.size());
+        for (Object capability : capabilities)
+        {
+            if (capabilityType.isAssignableFrom(capability.getClass()))
+            {
+                matchingCapabilities.add((C) capability);
+            }
+        }
+
+        return Collections.unmodifiableSet(matchingCapabilities);
     }
 
     /**
@@ -47,4 +68,12 @@ public abstract class CapableDeclaration<T extends CapableDeclaration>
         return (T) this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isCapableOf(Class<?> capabilityType)
+    {
+        return capabilities.contains(capabilityType);
+    }
 }

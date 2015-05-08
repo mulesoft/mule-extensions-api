@@ -21,4 +21,14 @@ public interface ExtensionFactory
      * @return a {@link Extension}
      */
     Extension createFrom(Construct construct);
+
+    /**
+     * Creates a {@link Extension} from the given {@link Construct}
+     * using a specifing {@code describingContext}
+     *
+     * @param construct         a {@link Construct}. Can't be {@code null}
+     * @param describingContext a {@link DescribingContext}, useful to specify custom settings
+     * @return
+     */
+    Extension createFrom(Construct construct, DescribingContext describingContext);
 }
