@@ -62,17 +62,22 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @since 1.0
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DeclarationTestCase
+public class DeclarationTestCase extends CapableDeclarationContractTestCase<Declaration>
 {
 
     private WebServiceConsumerTestDeclarationReference testConstruct;
-    private Declaration declaration;
 
     @Before
-    public void buildDeclaration() throws Exception
+    public void before()
     {
         testConstruct = new WebServiceConsumerTestDeclarationReference();
-        declaration = testConstruct.getConstruct().getRootConstruct().getDeclaration();
+        declaration = createDeclaration();
+    }
+
+    @Override
+    protected Declaration createDeclaration()
+    {
+        return testConstruct.getConstruct().getRootConstruct().getDeclaration();
     }
 
     @Test
