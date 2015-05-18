@@ -5,8 +5,9 @@ import java.util.concurrent.Future;
 /**
  * A facade interface which hides the details of how an
  * operation is actually executed. It aims to decouple
- * the abstract meta model that the extension's API proposes from
- * the implementation details of the underlying environment.
+ * the abstract introspection model that the extension's
+ * API proposes from the implementation details of the
+ * underlying environment.
  *
  * @since 1.0
  */

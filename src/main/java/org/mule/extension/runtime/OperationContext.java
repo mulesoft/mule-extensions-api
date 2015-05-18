@@ -20,6 +20,14 @@ public interface OperationContext
 {
 
     /**
+     * The {@link Operation} model for the
+     * actual processor being executed
+     *
+     * @return a {@link Operation}
+     */
+    Operation getOperation();
+
+    /**
      * Returns a {@link Map} in which the keys are the operation's
      * {@link Parameter}s and the values are the actual values to which
      * those parameters are mapped for this particular execution.
