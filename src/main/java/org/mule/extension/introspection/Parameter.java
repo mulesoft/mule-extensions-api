@@ -20,7 +20,7 @@ public interface Parameter extends Described, Capable
 {
 
     /**
-     * Returns the type of the operation
+     * Returns the type of the parameter
      *
      * @return a not {@code null} {@link DataType}
      */
@@ -41,7 +41,7 @@ public interface Parameter extends Described, Capable
      * depending on contextual circumstances. E.g.: the parameter value is a MEL expression
      * or can be dynamically changed by a third party
      *
-     * @return
+     * @return whether this parameter is dynamic or not
      */
     boolean isDynamic();
 

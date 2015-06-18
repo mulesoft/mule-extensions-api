@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * A component capable of dinamically generating resources to back up
  * a set of {@link Extension}s.
- * Although extensions resolve their functionality mainly in runtime,
+ * Although extensions resolve their functionality mainly on runtime,
  * some configuration resources such as XML schemas, service registration files,
  * spring bundles, or whatever resource the runtime requires need to be generated
  * in compile or run time.
@@ -41,15 +41,15 @@ public interface ResourcesGenerator
 {
 
     /**
-     * Returns a {@link GenerableResource} that
+     * Returns a {@link GeneratedResource} that
      * will point to the given {@code filepath}. If another extension already contributed
      * to that resource, then the same instance is returned. If no resource has been
-     * contributed too yet, then it's created and registered.
+     * contributed to yet, then it's created and registered.
      *
      * @param filepath the path in which the resource is to be generated
-     * @return a {@link GenerableResource}
+     * @return a {@link GeneratedResource}
      */
-    GenerableResource getOrCreateResource(String filepath);
+    GeneratedResource getOrCreateResource(String filepath);
 
     /**
      * Generates resources for the given {@code extension}. This doesn't mean that
@@ -65,11 +65,11 @@ public interface ResourcesGenerator
     void generateFor(Extension extension);
 
     /**
-     * Writes all the {@link GenerableResource}s that were
+     * Writes all the {@link GeneratedResource}s that were
      * generated through {@link #getOrCreateResource(String)} and writes them to a persistent store.
      * The details of where and how those files are written are completely up to the implementation.
      *
-     * @return the list of {@link GenerableResource} that was written
+     * @return the list of {@link GeneratedResource} that was written
      */
-    List<GenerableResource> dumpAll();
+    List<GeneratedResource> dumpAll();
 }

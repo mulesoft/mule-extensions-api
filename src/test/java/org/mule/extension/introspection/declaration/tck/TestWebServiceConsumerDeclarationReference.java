@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public class WebServiceConsumerTestDeclarationReference
+public class TestWebServiceConsumerDeclarationReference
 {
 
     public static final String CONFIG_NAME = "config";
@@ -60,7 +60,7 @@ public class WebServiceConsumerTestDeclarationReference
     private final OperationExecutorFactory argLessExecutorFactory = mock(OperationExecutorFactory.class);
     private final Object capability = new Object();
 
-    public WebServiceConsumerTestDeclarationReference()
+    public TestWebServiceConsumerDeclarationReference()
     {
         descriptor = new DeclarationDescriptor(WS_CONSUMER, VERSION).describedAs(WS_CONSUMER_DESCRIPTION);
         descriptor

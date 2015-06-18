@@ -15,7 +15,7 @@ import org.mule.extension.introspection.Extension;
  *
  * @since 1.0
  */
-public interface GenerableResource
+public interface GeneratedResource
 {
 
     /**

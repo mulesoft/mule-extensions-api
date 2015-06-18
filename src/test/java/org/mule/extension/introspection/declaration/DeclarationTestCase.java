@@ -17,31 +17,31 @@ import static org.junit.Assert.assertThat;
 import static org.mule.extension.introspection.DataQualifier.BOOLEAN;
 import static org.mule.extension.introspection.DataQualifier.LIST;
 import static org.mule.extension.introspection.DataQualifier.STRING;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.ADDRESS;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.ARG_LESS;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.BROADCAST;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.BROADCAST_DESCRIPTION;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.CALLBACK;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.CALLBACK_DESCRIPTION;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.CONFIG_DESCRIPTION;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.CONFIG_NAME;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.CONSUMER;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.GO_GET_THEM_TIGER;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.HAS_NO_ARGS;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.MTOM_DESCRIPTION;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.MTOM_ENABLED;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.OPERATION;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.PORT;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.SERVICE;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.SERVICE_ADDRESS;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.SERVICE_NAME;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.SERVICE_PORT;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.THE_OPERATION_TO_USE;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.URI_TO_FIND_THE_WSDL;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.VERSION;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.WSDL_LOCATION;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.WS_CONSUMER;
-import static org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference.WS_CONSUMER_DESCRIPTION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.ADDRESS;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.ARG_LESS;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.BROADCAST;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.BROADCAST_DESCRIPTION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CALLBACK;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CALLBACK_DESCRIPTION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_DESCRIPTION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_NAME;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONSUMER;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.GO_GET_THEM_TIGER;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.HAS_NO_ARGS;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.MTOM_DESCRIPTION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.MTOM_ENABLED;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PORT;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE_ADDRESS;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE_NAME;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE_PORT;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.THE_OPERATION_TO_USE;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.URI_TO_FIND_THE_WSDL;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.VERSION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.WSDL_LOCATION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.WS_CONSUMER;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.WS_CONSUMER_DESCRIPTION;
 import org.mule.extension.introspection.DataQualifier;
 import org.mule.extension.introspection.DataType;
 import org.mule.extension.introspection.Operation;
@@ -49,7 +49,7 @@ import org.mule.extension.introspection.declaration.fluent.ConfigurationDeclarat
 import org.mule.extension.introspection.declaration.fluent.Declaration;
 import org.mule.extension.introspection.declaration.fluent.OperationDeclaration;
 import org.mule.extension.introspection.declaration.fluent.ParameterDeclaration;
-import org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference;
+import org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference;
 
 import java.util.List;
 import java.util.Set;
@@ -69,12 +69,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class DeclarationTestCase extends CapableDeclarationContractTestCase<Declaration>
 {
 
-    private WebServiceConsumerTestDeclarationReference testDeclaration;
+    private TestWebServiceConsumerDeclarationReference testDeclaration;
 
     @Before
     public void before()
     {
-        testDeclaration = new WebServiceConsumerTestDeclarationReference();
+        testDeclaration = new TestWebServiceConsumerDeclarationReference();
         declaration = createDeclaration();
     }
 

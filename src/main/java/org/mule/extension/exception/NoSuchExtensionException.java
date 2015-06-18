@@ -6,6 +6,14 @@
  */
 package org.mule.extension.exception;
 
+import org.mule.extension.introspection.Extension;
+
+/**
+ * An {@link Exception} to signal that an {@link Extension} has been referenced
+ * but the platform has no knowledge of it.
+ *
+ * @since 1.0
+ */
 public class NoSuchExtensionException extends RuntimeException
 {
 

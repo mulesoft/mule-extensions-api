@@ -46,7 +46,10 @@ public final class Declaration extends CapableDeclaration<Declaration>
     }
 
     /**
-     * @return
+     * Returns an immutable list with the {@link ConfigurationDeclaration} instances
+     * that have been declared so far.
+     *
+     * @return an unmodifiable list. May be empty but will never be {@code null}
      */
     public List<ConfigurationDeclaration> getConfigurations()
     {

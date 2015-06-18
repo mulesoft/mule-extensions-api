@@ -109,7 +109,9 @@ public final class DataType
     }
 
     /**
-     * {@inheritDoc}
+     * Similar to {@link Class#isAssignableFrom(Class)}
+     * but considering the {@link #getRawType()} of
+     * {@code this} instance and {@code dataType}
      */
     public boolean isAssignableFrom(DataType dataType)
     {
@@ -119,7 +121,7 @@ public final class DataType
     /**
      * Returns the {@link java.lang.Class} for the type described by this instance
      *
-     * @return a not {@code null} {@link java.lang.Class}
+     * @return a non {@code null} {@link java.lang.Class}
      */
     public Class<?> getRawType()
     {
@@ -148,22 +150,15 @@ public final class DataType
         return qualifier;
     }
 
-    public DataType getSuperclass()
-    {
-        if (Object.class.equals(type) || Object.class.equals(type.getSuperclass()))
-        {
-            return null;
-        }
-
-        return DataType.of(type.getSuperclass());
-    }
-
     /**
      * Defines equality by checking that the given object is a
      * {@link DataType} with matching
      * {@link #getRawType()} and {@link #getQualifier()}, which also
      * returns a {@link #getGenericTypes()} which every element (if any) also matches
      * the one in this instance
+     *
+     * @param obj the object to test equality against
+     * @return {@code true} if the objects are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(Object obj)

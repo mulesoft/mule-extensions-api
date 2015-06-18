@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * An object is capable if it may provide different facet of additional information.
  * <p>
- * Capabilities provide a mechanism for specific extensions to the api that do not break clients but may provide additional
+ * Capabilities provide a mechanism for specific extensions to the API that do not break clients but may provide additional
  * information on new (non-mandatory) aspects.
  * <p/>
  * <p>
@@ -22,26 +22,26 @@ import java.util.Set;
  * <p>
  * Consumers of a capability must be prepared to deal with he fact that the object may not implement it
  * </p>
- * <p>
+ * <p/>
  * Capabilities are used to provide a future-proof path to incorporate changes that may otherwise
  * break backwards compatibility. New information can be provided in a new class exposed when specifically queried
  * as a capability. Hence, clients that were not compiled with the new class in scope will not fail, and only
  * clients aware of a specific capability will use it (that's the reason why there's no enumeration of
  * capabilities in the interface)
- * </p>
+ *
+ * @since 1.0
  */
 public interface Capable
 {
 
     /**
      * Returns a {@link java.util.Set} with the capabilities
-     * which are an instance of the given {@code capability} type.
+     * which are an instance of the given {@code capabilityType}.
      * If no match is found, then an empty {@link java.util.Set} is
      * returned
      *
      * @param capabilityType the capability to be obtained.
      * @return a {@link java.util.Set}. Might be empty but will never be {@code null}
-     * @since 1.0
      */
     <T> Set<T> getCapabilities(Class<T> capabilityType);
 
