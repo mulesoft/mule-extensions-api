@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import org.mule.extension.introspection.declaration.Declaration;
+import org.mule.extension.introspection.declaration.fluent.Declaration;
 
 import java.util.List;
 import java.util.Map;

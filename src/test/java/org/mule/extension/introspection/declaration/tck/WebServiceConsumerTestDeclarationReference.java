@@ -9,8 +9,8 @@ package org.mule.extension.introspection.declaration.tck;
 import static org.mockito.Mockito.mock;
 import org.mule.extension.introspection.ConfigurationInstantiator;
 import org.mule.extension.introspection.Operation;
-import org.mule.extension.introspection.declaration.DeclarationDescriptor;
-import org.mule.extension.introspection.declaration.OperationExecutorFactory;
+import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
+import org.mule.extension.introspection.declaration.fluent.OperationExecutorFactory;
 
 import java.util.List;
 

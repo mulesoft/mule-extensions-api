@@ -11,6 +11,8 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
+import org.mule.extension.introspection.declaration.fluent.CapableDeclaration;
+
 import java.util.Collection;
 import java.util.Date;
 

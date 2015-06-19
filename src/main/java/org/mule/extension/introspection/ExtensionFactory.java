@@ -1,7 +1,8 @@
 package org.mule.extension.introspection;
 
-import org.mule.extension.introspection.declaration.Descriptor;
-import org.mule.extension.introspection.spi.DescriberPostProcessor;
+import org.mule.extension.introspection.declaration.DescribingContext;
+import org.mule.extension.introspection.declaration.fluent.Descriptor;
+import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
 
 /**
  * A factory that can take a {@link Descriptor} and transform it into an actual

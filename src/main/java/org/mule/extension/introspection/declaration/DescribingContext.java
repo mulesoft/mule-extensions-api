@@ -4,10 +4,11 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.introspection;
+package org.mule.extension.introspection.declaration;
 
-import org.mule.extension.introspection.declaration.DeclarationDescriptor;
-import org.mule.extension.introspection.spi.DescriberPostProcessor;
+import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
+import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
 
 import java.util.Map;
 
