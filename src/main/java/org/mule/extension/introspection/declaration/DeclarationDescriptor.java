@@ -7,23 +7,23 @@
 package org.mule.extension.introspection.declaration;
 
 /**
- * A {@link Construct} which allows configuring a {@link Declaration}
+ * A {@link Descriptor} which allows configuring a {@link Declaration}
  * through a fluent API
  *
  * @since 1.0
  */
-public class DeclarationConstruct implements Construct, HasCapabilities<DeclarationConstruct>
+public class DeclarationDescriptor implements Descriptor, HasCapabilities<DeclarationDescriptor>
 {
 
     private final Declaration declaration;
 
     /**
-     * Constructor for this construct
+     * Constructor for this descriptor
      *
      * @param name    a non blank name
      * @param version a non blank version
      */
-    public DeclarationConstruct(String name, String version)
+    public DeclarationDescriptor(String name, String version)
     {
         declaration = new Declaration(name, version);
     }
@@ -32,9 +32,9 @@ public class DeclarationConstruct implements Construct, HasCapabilities<Declarat
      * Adds a description
      *
      * @param description a description
-     * @return this construct
+     * @return this descriptor
      */
-    public DeclarationConstruct describedAs(String description)
+    public DeclarationDescriptor describedAs(String description)
     {
         declaration.setDescription(description);
         return this;
@@ -44,38 +44,38 @@ public class DeclarationConstruct implements Construct, HasCapabilities<Declarat
      * Adds a config of the given name
      *
      * @param name a non blank name
-     * @return a {@link ConfigurationConstruct} which allows describing the created configuration
+     * @return a {@link ConfigurationDescriptor} which allows describing the created configuration
      */
-    public ConfigurationConstruct withConfig(String name)
+    public ConfigurationDescriptor withConfig(String name)
     {
         ConfigurationDeclaration config = new ConfigurationDeclaration(name);
         declaration.addConfig(config);
 
-        return new ConfigurationConstruct(config, this);
+        return new ConfigurationDescriptor(config, this);
     }
 
     /**
      * Adds an operation of the given name
      *
      * @param name a non blank name
-     * @return a {@link OperationConstruct} which allows describing the created operation
+     * @return a {@link OperationDescriptor} which allows describing the created operation
      */
-    public OperationConstruct withOperation(String name)
+    public OperationDescriptor withOperation(String name)
     {
         OperationDeclaration operation = new OperationDeclaration(name);
         declaration.addOperation(operation);
 
-        return new OperationConstruct(operation, this);
+        return new OperationDescriptor(operation, this);
     }
 
     /**
      * Adds the given capability to this declaration
      *
      * @param capability a not {@code null} capability
-     * @return this construct
+     * @return this descriptor
      */
     @Override
-    public DeclarationConstruct withCapability(Object capability)
+    public DeclarationDescriptor withCapability(Object capability)
     {
         declaration.addCapability(capability);
         return this;
@@ -85,7 +85,7 @@ public class DeclarationConstruct implements Construct, HasCapabilities<Declarat
      * @return {@value this}
      */
     @Override
-    public DeclarationConstruct getRootConstruct()
+    public DeclarationDescriptor getRootDeclaration()
     {
         return this;
     }

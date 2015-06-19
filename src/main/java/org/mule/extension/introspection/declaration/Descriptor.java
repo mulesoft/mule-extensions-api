@@ -9,20 +9,20 @@ package org.mule.extension.introspection.declaration;
 import org.mule.extension.introspection.Extension;
 
 /**
- * A construct is a flat, intermediate representation
+ * A descriptor is a flat, intermediate representation
  * of an extension model. It's used to describe an extension
  * though a fluent API without dealing with the specific rules
  * and details of the final {@link Extension} model.
  *
  * @since 1.0
  */
-public interface Construct
+public interface Descriptor
 {
 
     /**
-     * Returns the root element of this construct
+     * Returns the root element of this declaration
      *
-     * @return a {@link DeclarationConstruct}
+     * @return a {@link DeclarationDescriptor}
      */
-    DeclarationConstruct getRootConstruct();
+    DeclarationDescriptor getRootDeclaration();
 }

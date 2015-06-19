@@ -21,7 +21,7 @@ import java.util.List;
  * </p>
  * <p>
  * An extension is not a miscellaneous group of methods, but can be seen (and may be derived from) an object model.
- * As such, an extension will provide several ways to configure itself (akin to providing different constructors), and
+ * As such, an extension will provide several ways to configure itself and
  * will provide a set of operations that may be eventually executed.
  * </p>
  * <p>

@@ -55,7 +55,7 @@ public abstract class CapableDeclaration<T extends CapableDeclaration> implement
      * Adds a capability to this declaration
      *
      * @param capability a not {@code null} capability
-     * @return this construct
+     * @return this declaration
      * @throws {@link IllegalArgumentException} if {@code capability} is {@code null}
      */
     public T addCapability(Object capability)

@@ -9,13 +9,13 @@ package org.mule.extension.introspection.spi;
 import org.mule.extension.introspection.Describer;
 import org.mule.extension.introspection.DescribingContext;
 import org.mule.extension.introspection.Extension;
-import org.mule.extension.introspection.declaration.Construct;
+import org.mule.extension.introspection.declaration.Descriptor;
 import org.mule.extension.introspection.declaration.Declaration;
 
 /**
  * A post processor that allows doing extra task before a
  * {@link Describer} finishes
- * describing a {@link Construct}
+ * describing a {@link Descriptor}
  * <p/>
  * This allows to customize the discovery process by given a hooking point
  * for manipulating the {@link Declaration} before

@@ -7,15 +7,15 @@
 package org.mule.extension.introspection.declaration;
 
 /**
- * A specialization of {@link ParameterConstruct} for optional parameters.
+ * A specialization of {@link ParameterDescriptor} for optional parameters.
  * It allows adding properties that only apply to optional parameters
  *
  * @since 1.0
  */
-public class OptionalParameterConstruct extends ParameterConstruct<OptionalParameterConstruct>
+public class OptionalParameterDescriptor extends ParameterDescriptor<OptionalParameterDescriptor>
 {
 
-    OptionalParameterConstruct(HasParameters owner, ParameterDeclaration parameter, DeclarationConstruct declaration)
+    OptionalParameterDescriptor(HasParameters owner, ParameterDeclaration parameter, DeclarationDescriptor declaration)
     {
         super(owner, parameter, declaration);
     }
@@ -24,9 +24,9 @@ public class OptionalParameterConstruct extends ParameterConstruct<OptionalParam
      * Adds a default value for the parameter
      *
      * @param defaultValue a default value
-     * @return this construct
+     * @return this descriptor
      */
-    public OptionalParameterConstruct defaultingTo(Object defaultValue)
+    public OptionalParameterDescriptor defaultingTo(Object defaultValue)
     {
         getDeclaration().setDefaultValue(defaultValue);
         return this;

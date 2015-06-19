@@ -10,19 +10,19 @@ import org.mule.extension.introspection.DataType;
 import org.mule.extension.introspection.Parameter;
 
 /**
- * A {@link Construct} which allows configuring a {@link ParameterDeclaration}
+ * A {@link Descriptor} which allows configuring a {@link ParameterDeclaration}
  * through a fluent API
  *
  * @since 1.0
  */
-public class ParameterConstruct<T extends ParameterConstruct> implements Construct, HasCapabilities<ParameterConstruct<T>>    
+public class ParameterDescriptor<T extends ParameterDescriptor> implements Descriptor, HasCapabilities<ParameterDescriptor<T>>
 {
 
-    private final DeclarationConstruct declaration;
+    private final DeclarationDescriptor declaration;
     private final ParameterDeclaration parameter;
     private final HasParameters owner;
 
-    ParameterConstruct(HasParameters owner, ParameterDeclaration parameter, DeclarationConstruct declaration)
+    ParameterDescriptor(HasParameters owner, ParameterDeclaration parameter, DeclarationDescriptor declaration)
     {
         this.declaration = declaration;
         this.owner = owner;
@@ -33,7 +33,7 @@ public class ParameterConstruct<T extends ParameterConstruct> implements Constru
      * Specifies the type of the {@link Parameter} and its parametrized types
      * @param type the type of the parameter
      * @param parametrizedTypes the generic types for {@code type}
-     * @return {@value this} construct
+     * @return {@value this} descriptor
      */
     public T ofType(Class<?> type, Class<?>... parametrizedTypes)
     {
@@ -55,7 +55,7 @@ public class ParameterConstruct<T extends ParameterConstruct> implements Constru
      * Adds a description
      *
      * @param description a description
-     * @return {@value this} construct
+     * @return {@value this} descriptor
      */
     public T describedAs(String description)
     {
@@ -65,7 +65,7 @@ public class ParameterConstruct<T extends ParameterConstruct> implements Constru
 
     /**
      * Specifies that the declared {@link Parameter} is not to be dynamic
-     * @return {@value this} construct
+     * @return {@value this} descriptor
      */
     public T whichIsNotDynamic()
     {
@@ -76,7 +76,7 @@ public class ParameterConstruct<T extends ParameterConstruct> implements Constru
     /**
      * Specifies that the declared {@link Parameter} is to be dynamic
      * (which is the default anyways...)
-     * @return {@value this} construct
+     * @return {@value this} descriptor
      */
     public T whichIsDynamic()
     {
@@ -87,38 +87,38 @@ public class ParameterConstruct<T extends ParameterConstruct> implements Constru
     /**
      * Adds another config of the given name
      * @param name the name of the config
-     * @return a new {@link ConfigurationConstruct}
+     * @return a new {@link ConfigurationDescriptor}
      */
-    public ConfigurationConstruct withConfig(String name)
+    public ConfigurationDescriptor withConfig(String name)
     {
-        return getRootConstruct().withConfig(name);
+        return getRootDeclaration().withConfig(name);
     }
 
     /**
      * Adds another operation of the given name
      *
      * @param name the name of the config
-     * @return a new {@link OperationConstruct}
+     * @return a new {@link OperationDescriptor}
      */
-    public OperationConstruct withOperation(String name)
+    public OperationDescriptor withOperation(String name)
     {
-        return getRootConstruct().withOperation(name);
+        return getRootDeclaration().withOperation(name);
     }
 
     /**
      * @return a {@link WithParameters} that allows adding more parameters
-     * to the owning {@link Construct}
+     * to the owning {@link Descriptor}
      */
     public WithParameters with()
     {
-        return new WithParameters(owner, getRootConstruct());
+        return new WithParameters(owner, getRootDeclaration());
     }
 
     /**
-     * @return the root {@link DeclarationConstruct}
+     * @return the root {@link DeclarationDescriptor}
      */
     @Override
-    public DeclarationConstruct getRootConstruct()
+    public DeclarationDescriptor getRootDeclaration()
     {
         return declaration;
     }
@@ -127,17 +127,17 @@ public class ParameterConstruct<T extends ParameterConstruct> implements Constru
      * Adds the given capability to the declaring parameter
      *
      * @param capability a not {@code null} capability
-     * @return {@value this} construct
+     * @return {@value this} descriptor
      */
     @Override
-    public ParameterConstruct<T> withCapability(Object capability)
+    public ParameterDescriptor<T> withCapability(Object capability)
     {
         parameter.addCapability(capability);
         return this;
     }
 
     /**
-     * Gets the declaration object for this construct
+     * Gets the declaration object for this descriptor
      * @return a {@link ParameterDeclaration}
      */
     public ParameterDeclaration getDeclaration()

@@ -7,17 +7,17 @@
 package org.mule.extension.introspection;
 
 
-import org.mule.extension.introspection.declaration.Construct;
+import org.mule.extension.introspection.declaration.Descriptor;
 import org.mule.extension.introspection.spi.DescriberPostProcessor;
 
 /**
  * Every Extension must ship with one implementation of this interface
  * which has to be discoverable through standard SPI and have a default constructor.
  * <p/>
- * This describer returns a {@link Construct} which contains a raw representation of the
+ * This describer returns a {@link Descriptor} which contains a raw representation of the
  * extension.
  * <p/>
- * The platform will discover all the describers, transform the returned {@link Construct}s
+ * The platform will discover all the describers, transform the returned {@link Descriptor}s
  * into {@link Extension}s and register them.
  * <p/>
  * To allow customization of the describing process, implementations will use standard SPI discovery mechanism
@@ -30,10 +30,10 @@ public interface Describer
 {
 
     /**
-     * Describes the extension as a {@link Construct}
+     * Describes the extension as a {@link Descriptor}
      *
-     * @return a {@link Construct}
+     * @return a {@link Descriptor}
      */
-    Construct describe();
+    Descriptor describe();
 
 }
