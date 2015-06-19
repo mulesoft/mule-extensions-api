@@ -2,12 +2,12 @@ package org.mule.extension.introspection.declaration;
 
 /**
  * A contract interface for an object capable of registering capabilities
- * in behalf of a {@link Construct}
+ * in behalf of a {@link Descriptor}
  *
- * @param <T> the type of {@link Construct} for which capabilities are being received
+ * @param <T> the type of {@link Descriptor} for which capabilities are being received
  * @since 1.0
  */
-public interface HasCapabilities<T extends Construct>
+public interface HasCapabilities<T extends Descriptor>
 {
 
     /**
@@ -16,7 +16,7 @@ public interface HasCapabilities<T extends Construct>
      * @param capability a capability
      * @return {@value this}
      */
-    public T withCapability(Object capability);
+    T withCapability(Object capability);
 
 
 }

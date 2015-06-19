@@ -9,16 +9,16 @@ package org.mule.extension.introspection.declaration.tck;
 import static org.mockito.Mockito.mock;
 import org.mule.extension.introspection.ConfigurationInstantiator;
 import org.mule.extension.introspection.Operation;
-import org.mule.extension.introspection.declaration.DeclarationConstruct;
+import org.mule.extension.introspection.declaration.DeclarationDescriptor;
 import org.mule.extension.introspection.declaration.OperationExecutorFactory;
 
 import java.util.List;
 
 /**
- * A simple pojo containing reference information for making test around a {@link DeclarationConstruct}
+ * A simple pojo containing reference information for making test around a {@link DeclarationDescriptor}
  * which represents a theoretical &quot;Web Service Consumer&quot; extension.
  *
- * It contains an actual {@link DeclarationConstruct} that can be accessed through the {@link #getConstruct()}
+ * It contains an actual {@link DeclarationDescriptor} that can be accessed through the {@link #getDescriptor()}
  * method plus some other getters which provides access to other declaration components
  * that you might want to make tests against
  *
@@ -53,7 +53,7 @@ public class WebServiceConsumerTestDeclarationReference
     public static final String HAS_NO_ARGS = "has no args";
     public static final String ARG_LESS = "argLess";
 
-    private final DeclarationConstruct construct;
+    private final DeclarationDescriptor descriptor;
     private final ConfigurationInstantiator configurationInstantiator = mock(ConfigurationInstantiator.class);
     private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory broadcastExecutorFactory = mock(OperationExecutorFactory.class);
@@ -62,8 +62,8 @@ public class WebServiceConsumerTestDeclarationReference
 
     public WebServiceConsumerTestDeclarationReference()
     {
-        construct = new DeclarationConstruct(WS_CONSUMER, VERSION).describedAs(WS_CONSUMER_DESCRIPTION);
-        construct
+        descriptor = new DeclarationDescriptor(WS_CONSUMER, VERSION).describedAs(WS_CONSUMER_DESCRIPTION);
+        descriptor
                 .withCapability(capability)
                 .withConfig(CONFIG_NAME).instantiatedWith(configurationInstantiator).describedAs(CONFIG_DESCRIPTION)
                 .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsNotDynamic()
@@ -80,9 +80,9 @@ public class WebServiceConsumerTestDeclarationReference
                 .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory);
     }
 
-    public DeclarationConstruct getConstruct()
+    public DeclarationDescriptor getDescriptor()
     {
-        return construct;
+        return descriptor;
     }
 
     public ConfigurationInstantiator getConfigurationInstantiator()

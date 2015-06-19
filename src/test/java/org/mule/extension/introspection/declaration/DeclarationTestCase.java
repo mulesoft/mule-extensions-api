@@ -65,19 +65,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class DeclarationTestCase extends CapableDeclarationContractTestCase<Declaration>
 {
 
-    private WebServiceConsumerTestDeclarationReference testConstruct;
+    private WebServiceConsumerTestDeclarationReference testDeclaration;
 
     @Before
     public void before()
     {
-        testConstruct = new WebServiceConsumerTestDeclarationReference();
+        testDeclaration = new WebServiceConsumerTestDeclarationReference();
         declaration = createDeclaration();
     }
 
     @Override
     protected Declaration createDeclaration()
     {
-        return testConstruct.getConstruct().getRootConstruct().getDeclaration();
+        return testDeclaration.getDescriptor().getRootDeclaration().getDeclaration();
     }
 
     @Test
@@ -91,7 +91,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         Set<Object> capabilities = declaration.getCapabilities();
         assertThat(capabilities, is(notNullValue()));
         assertThat(capabilities, hasSize(1));
-        assertThat(capabilities, contains(testConstruct.getCapability()));
+        assertThat(capabilities, contains(testDeclaration.getCapability()));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(declaration.getConfigurations(), hasSize(1));
         ConfigurationDeclaration configuration = declaration.getConfigurations().get(0);
         assertThat(configuration, is(notNullValue()));
-        assertThat(configuration.getConfigurationInstantiator(), is(sameInstance(testConstruct.getConfigurationInstantiator())));
+        assertThat(configuration.getConfigurationInstantiator(), is(sameInstance(testDeclaration.getConfigurationInstantiator())));
         assertThat(configuration.getName(), is(CONFIG_NAME));
         assertThat(configuration.getDescription(), is(CONFIG_DESCRIPTION));
 
@@ -110,13 +110,13 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertParameter(parameters.get(1), SERVICE, SERVICE_NAME, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(2), PORT, SERVICE_PORT, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(3), ADDRESS, SERVICE_ADDRESS, true, true, DataType.of(String.class), STRING, null);
-        assertThat(parameters.get(2).getCapabilities(), contains(testConstruct.getCapability()));
+        assertThat(parameters.get(2).getCapabilities(), contains(testDeclaration.getCapability()));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullCapability()
     {
-        testConstruct.getConstruct().withCapability(null);
+        testDeclaration.getDescriptor().withCapability(null);
     }
 
     @Test
@@ -134,14 +134,14 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         OperationDeclaration operation = operations.get(0);
         assertThat(operation.getName(), is(CONSUMER));
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
-        assertThat(operation.getExecutorFactory(), is(sameInstance(testConstruct.getConsumerExecutorFactory())));
-        assertThat(operation.getCapabilities(), contains(testConstruct.getCapability()));
+        assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
+        assertThat(operation.getCapabilities(), contains(testDeclaration.getCapability()));
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(2));
         assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, true, false, DataType.of(Boolean.class), BOOLEAN, true);
-        assertThat(parameters.get(0).getCapabilities(), contains(testConstruct.getCapability()));
+        assertThat(parameters.get(0).getCapabilities(), contains(testDeclaration.getCapability()));
     }
 
     private void assertBroadcastOperation(List<OperationDeclaration> operations)
@@ -150,7 +150,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
 
         assertThat(operation.getName(), is(BROADCAST));
         assertThat(operation.getDescription(), is(BROADCAST_DESCRIPTION));
-        assertThat(operation.getExecutorFactory(), is(sameInstance(testConstruct.getBroadcastExecutorFactory())));
+        assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getBroadcastExecutorFactory())));
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(3));

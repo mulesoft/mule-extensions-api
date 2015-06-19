@@ -6,7 +6,7 @@
  */
 package org.mule.extension.introspection;
 
-import org.mule.extension.introspection.declaration.DeclarationConstruct;
+import org.mule.extension.introspection.declaration.DeclarationDescriptor;
 import org.mule.extension.introspection.spi.DescriberPostProcessor;
 
 import java.util.Map;
@@ -27,12 +27,12 @@ public interface DescribingContext
 {
 
     /**
-     * The {@link DeclarationConstruct} in which
+     * The {@link DeclarationDescriptor} in which
      * the extension is being described into
      *
-     * @return a non {@code null} {@link DeclarationConstruct}
+     * @return a non {@code null} {@link DeclarationDescriptor}
      */
-    DeclarationConstruct getDeclarationConstruct();
+    DeclarationDescriptor getDeclarationDescriptor();
 
     /**
      * A {@link Map} to hold custom parameters that implementations of

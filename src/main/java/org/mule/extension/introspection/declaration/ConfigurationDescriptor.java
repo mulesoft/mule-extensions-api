@@ -9,18 +9,18 @@ package org.mule.extension.introspection.declaration;
 import org.mule.extension.introspection.ConfigurationInstantiator;
 
 /**
- * A {@link Construct} which allows configuring a {@link ConfigurationDeclaration}
+ * A {@link Descriptor} which allows configuring a {@link ConfigurationDeclaration}
  * through a fluent API
  *
  * @since 1.0
  */
-public final class ConfigurationConstruct extends HasParameters implements Construct, HasCapabilities<ConfigurationConstruct>
+public final class ConfigurationDescriptor extends HasParameters implements Descriptor, HasCapabilities<ConfigurationDescriptor>
 {
 
-    private final DeclarationConstruct declaration;
+    private final DeclarationDescriptor declaration;
     private final ConfigurationDeclaration config;
 
-    ConfigurationConstruct(ConfigurationDeclaration config, DeclarationConstruct declaration)
+    ConfigurationDescriptor(ConfigurationDeclaration config, DeclarationDescriptor declaration)
     {
         this.config = config;
         this.declaration = declaration;
@@ -32,16 +32,16 @@ public final class ConfigurationConstruct extends HasParameters implements Const
      */
     public WithParameters with()
     {
-        return new WithParameters(this, getRootConstruct());
+        return new WithParameters(this, getRootDeclaration());
     }
 
     /**
      * Adds a description to the configuration
      *
      * @param description a description
-     * @return this construct
+     * @return this descriptor
      */
-    public ConfigurationConstruct describedAs(String description)
+    public ConfigurationDescriptor describedAs(String description)
     {
         config.setDescription(description);
         return this;
@@ -62,10 +62,10 @@ public final class ConfigurationConstruct extends HasParameters implements Const
      * Adds the given capability to the declaring configuration
      *
      * @param capability a not {@code null} capability
-     * @return this construct
+     * @return this descriptor
      */
     @Override
-    public ConfigurationConstruct withCapability(Object capability)
+    public ConfigurationDescriptor withCapability(Object capability)
     {
         config.addCapability(capability);
         return this;
@@ -77,9 +77,9 @@ public final class ConfigurationConstruct extends HasParameters implements Const
      * configuration
      *
      * @param configurationInstantiator a {@link ConfigurationInstantiator}
-     * @return this construct
+     * @return this descriptor
      */
-    public ConfigurationConstruct instantiatedWith(ConfigurationInstantiator configurationInstantiator)
+    public ConfigurationDescriptor instantiatedWith(ConfigurationInstantiator configurationInstantiator)
     {
         config.setConfigurationInstantiator(configurationInstantiator);
         return this;
@@ -89,20 +89,20 @@ public final class ConfigurationConstruct extends HasParameters implements Const
      * Adds another config of the given name
      *
      * @param name the name of the config
-     * @return a new {@link ConfigurationConstruct}
+     * @return a new {@link ConfigurationDescriptor}
      */
-    public ConfigurationConstruct withConfig(String name)
+    public ConfigurationDescriptor withConfig(String name)
     {
         return declaration.withConfig(name);
     }
 
     /**
-     * Returns the owning {@link DeclarationConstruct}
+     * Returns the owning {@link DeclarationDescriptor}
      *
-     * @return a {@link DeclarationConstruct}
+     * @return a {@link DeclarationDescriptor}
      */
     @Override
-    public DeclarationConstruct getRootConstruct()
+    public DeclarationDescriptor getRootDeclaration()
     {
         return declaration;
     }

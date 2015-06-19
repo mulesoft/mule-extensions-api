@@ -8,7 +8,7 @@ package org.mule.extension.introspection.declaration;
 
 /**
  * A bridge which allows adding {@link ParameterDeclaration} to
- * a {@link #owner} that belongs to a {@link DeclarationConstruct}
+ * a {@link #owner} that belongs to a {@link DeclarationDescriptor}
  *
  * @since 1.0
  */
@@ -16,9 +16,9 @@ public final class WithParameters
 {
 
     private final HasParameters owner;
-    private final DeclarationConstruct declaration;
+    private final DeclarationDescriptor declaration;
 
-    protected WithParameters(HasParameters owner, DeclarationConstruct declaration)
+    protected WithParameters(HasParameters owner, DeclarationDescriptor declaration)
     {
         this.owner = owner;
         this.declaration = declaration;
@@ -28,31 +28,31 @@ public final class WithParameters
      * Adds a required parameter
      *
      * @param name the name of the parameter
-     * @return a new {@link ParameterConstruct}
+     * @return a new {@link ParameterDescriptor}
      */
-    public ParameterConstruct requiredParameter(String name)
+    public ParameterDescriptor requiredParameter(String name)
     {
-        return new ParameterConstruct(owner, newParameter(name, true), declaration);
+        return new ParameterDescriptor(owner, newParameter(name, true), declaration);
     }
 
     /**
      * Adds an optional parameter
      *
      * @param name the name of the parameter
-     * @return a new {@link OptionalParameterConstruct}
+     * @return a new {@link OptionalParameterDescriptor}
      */
-    public OptionalParameterConstruct optionalParameter(String name)
+    public OptionalParameterDescriptor optionalParameter(String name)
     {
-        return new OptionalParameterConstruct(owner, newParameter(name, false), declaration);
+        return new OptionalParameterDescriptor(owner, newParameter(name, false), declaration);
     }
 
     /**
      * Adds another config of the given name
      *
      * @param name the name of the config
-     * @return a new {@link ConfigurationConstruct}
+     * @return a new {@link ConfigurationDescriptor}
      */
-    public ConfigurationConstruct withConfig(String name)
+    public ConfigurationDescriptor withConfig(String name)
     {
         return declaration.withConfig(name);
     }
@@ -61,9 +61,9 @@ public final class WithParameters
      * Adds another operation of the given name
      *
      * @param name the name of the config
-     * @return a new {@link OperationConstruct}
+     * @return a new {@link OperationDescriptor}
      */
-    public OperationConstruct withOperation(String name)
+    public OperationDescriptor withOperation(String name)
     {
         return declaration.withOperation(name);
     }
