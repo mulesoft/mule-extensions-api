@@ -7,7 +7,7 @@
 package org.mule.extension;
 
 import org.mule.extension.introspection.Configuration;
-import org.mule.extension.introspection.Describer;
+import org.mule.extension.introspection.declaration.Describer;
 import org.mule.extension.introspection.Extension;
 import org.mule.extension.introspection.ExtensionFactory;
 import org.mule.extension.introspection.Operation;

@@ -45,6 +45,10 @@ import static org.mule.extension.introspection.declaration.tck.WebServiceConsume
 import org.mule.extension.introspection.DataQualifier;
 import org.mule.extension.introspection.DataType;
 import org.mule.extension.introspection.Operation;
+import org.mule.extension.introspection.declaration.fluent.ConfigurationDeclaration;
+import org.mule.extension.introspection.declaration.fluent.Declaration;
+import org.mule.extension.introspection.declaration.fluent.OperationDeclaration;
+import org.mule.extension.introspection.declaration.fluent.ParameterDeclaration;
 import org.mule.extension.introspection.declaration.tck.WebServiceConsumerTestDeclarationReference;
 
 import java.util.List;

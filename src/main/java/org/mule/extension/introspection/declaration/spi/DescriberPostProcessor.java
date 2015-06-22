@@ -4,13 +4,13 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.introspection.spi;
+package org.mule.extension.introspection.declaration.spi;
 
-import org.mule.extension.introspection.Describer;
-import org.mule.extension.introspection.DescribingContext;
+import org.mule.extension.introspection.declaration.Describer;
+import org.mule.extension.introspection.declaration.DescribingContext;
 import org.mule.extension.introspection.Extension;
-import org.mule.extension.introspection.declaration.Descriptor;
-import org.mule.extension.introspection.declaration.Declaration;
+import org.mule.extension.introspection.declaration.fluent.Descriptor;
+import org.mule.extension.introspection.declaration.fluent.Declaration;
 
 /**
  * A post processor that allows doing extra task before a

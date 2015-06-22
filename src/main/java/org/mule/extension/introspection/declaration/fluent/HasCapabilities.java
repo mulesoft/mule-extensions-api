@@ -1,4 +1,4 @@
-package org.mule.extension.introspection.declaration;
+package org.mule.extension.introspection.declaration.fluent;
 
 /**
  * A contract interface for an object capable of registering capabilities
