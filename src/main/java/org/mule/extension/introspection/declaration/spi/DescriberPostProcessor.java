@@ -13,9 +13,8 @@ import org.mule.extension.introspection.declaration.fluent.Descriptor;
 import org.mule.extension.introspection.declaration.fluent.Declaration;
 
 /**
- * A post processor that allows doing extra task before a
- * {@link Describer} finishes
- * describing a {@link Descriptor}
+ * A post processor that allows doing extra work before a
+ * {@link Describer} finishes describing a {@link Descriptor}
  * <p/>
  * This allows to customize the discovery process by given a hooking point
  * for manipulating the {@link Declaration} before

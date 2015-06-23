@@ -30,7 +30,7 @@ public final class DataQualifierFactory
     private interface DataTypeQualifierEvaluator
     {
 
-        boolean isEvaluatable(Class<?> c);
+        boolean isEvaluable(Class<?> c);
 
         DataQualifier evaluate(Class<?> c);
     }
@@ -55,7 +55,7 @@ public final class DataQualifierFactory
         @Override
         public DataQualifier evaluate(Class<?> c)
         {
-            if (isEvaluatable(c))
+            if (isEvaluable(c))
             {
                 return qualifier;
             }
@@ -63,7 +63,7 @@ public final class DataQualifierFactory
         }
 
         @Override
-        public boolean isEvaluatable(Class<?> c)
+        public boolean isEvaluable(Class<?> c)
         {
             for (Class<?> parentClass : parentClasses)
             {
@@ -85,9 +85,9 @@ public final class DataQualifierFactory
         }
 
         @Override
-        public boolean isEvaluatable(Class<?> c)
+        public boolean isEvaluable(Class<?> c)
         {
-            return c.isEnum() || super.isEvaluatable(c);
+            return c.isEnum() || super.isEvaluable(c);
         }
     }
 
@@ -100,7 +100,7 @@ public final class DataQualifierFactory
         }
 
         @Override
-        public boolean isEvaluatable(Class<?> c)
+        public boolean isEvaluable(Class<?> c)
         {
             return !c.isPrimitive();
         }

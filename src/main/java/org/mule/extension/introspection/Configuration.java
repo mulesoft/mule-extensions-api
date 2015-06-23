@@ -11,20 +11,15 @@ import java.util.List;
 /**
  * A named configuration for an extension
  * <p/>
- * <p>
  * Configurations describe different ways to initialize a scope for operations.
  * Upon execution, each operation will be associated to a given configuration, so configurations define both
  * a set of shared properties used in operations, and a common context to relate operations.
- * </p>
- * <p>
- * For example, an extension that provides access to an external resource may provide
- * </p>
+ * <p/>
  * The configuration can also imply different implicit behaviors not strictly attached to the operations
- * (e.g.: A connector supporting both stateful connections an OAuth2 authentication. Depending on the
+ * (e.g.: A connector supporting both stateful connections and OAuth2 authentication. Depending on the
  * configuration used, the same connector will have different reconnection strategies).
  * <p/>
  * The configuration is also the place in which cross operation, extension level attributes are configured.
- * <p/>
  * Every {@link Extension} is required to have at least one configuration.
  * That configuration is defined as the &quot;default configuration&quot;
  *

@@ -12,12 +12,14 @@ public interface ConfigurationInstantiator
     /**
      * Returns a new instance of an object which is compliant
      * with the model described by the owning {@link Configuration} object.
+     *
      * @return a new object
      */
     Object newInstance();
 
     /**
      * Returns the type of the object to be returned by this instance
+     *
      * @return a {@link Class}
      */
     Class<?> getObjectType();

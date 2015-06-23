@@ -8,7 +8,7 @@ package org.mule.extension.introspection;
 
 /**
  * Provides a high level definition about the &quot;family&quot;
- * a given {@link DataType}
+ * of a given {@link DataType}
  *
  * @since 1.0
  */
@@ -113,7 +113,7 @@ public enum DataQualifier
             },
 
     /**
-     * A pojo implementing the bean contract
+     * An Object implementing the bean contract
      */
     POJO
             {

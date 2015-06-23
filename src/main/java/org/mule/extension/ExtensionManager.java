@@ -78,7 +78,7 @@ public interface ExtensionManager
     boolean registerExtension(Extension extension);
 
     /**
-     * Returns a {@link Set} listing all the available
+     * Returns a {@link Set} listing all the discovered
      * {@link Extension}s.
      *
      * @return an {@link Set}. Will not be {@code null} but might be empty

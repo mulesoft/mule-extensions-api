@@ -10,7 +10,7 @@ import org.mule.extension.introspection.Configuration;
 import org.mule.extension.runtime.OperationExecutor;
 
 /**
- * A factory object for creating {@link OperationExecutor} instances
+ * Creates {@link OperationExecutor} instances
  *
  * @since 1.0
  */

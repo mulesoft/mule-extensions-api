@@ -9,6 +9,7 @@ package org.mule.extension.introspection;
 /**
  * A generic contract for a class that has a name and a description.
  * Implementations might use {@link #getName()} as key, but they're not required to.
+ * Notice that if the name is in fact used as a key, then it should be unique
  *
  * @since 1.0
  */

@@ -9,8 +9,6 @@ package org.mule.extension.runtime;
 import org.mule.extension.introspection.Operation;
 import org.mule.extension.introspection.Parameter;
 
-import java.util.Map;
-
 /**
  * Provides context information about the execution of an operation
  *
@@ -26,23 +24,6 @@ public interface OperationContext
      * @return a {@link Operation}
      */
     Operation getOperation();
-
-    /**
-     * Returns a {@link Map} in which the keys are the operation's
-     * {@link Parameter}s and the values are the actual values to which
-     * those parameters are mapped for this particular execution.
-     * Any of these values can be {@code null}
-     */
-    Map<Parameter, Object> getParameters();
-
-    /**
-     * Returns the value associated to the given {@code parameter}
-     *
-     * @param parameter a {@link Parameter} of the {@link Operation} being executed
-     * @return the parameter's value or {@code null}. Notice that {@code null} doesn't necessarily
-     * mean that the parameter is not present. It might have just been resolved to that value
-     */
-    Object getParameterValue(Parameter parameter);
 
     /**
      * Returns the value associated to a parameter of name {@code parameterName}
