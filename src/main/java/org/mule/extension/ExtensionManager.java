@@ -47,18 +47,17 @@ public interface ExtensionManager
      * <p/>
      * The discovery process works as follows:
      * <ul>
-     * <li>Standard Java SPI mechanism is used to discover implementations of the {@link Describer} interface</li>
+     * <li>Some discovery mechanism (which one is up to the implementation) is used to discover implementations of the {@link Describer} interface</li>
      * <li>The discovered describers are fed into a {@link ExtensionFactory} and transformed in {@link Extension} instances</li>
      * <li>Those extensions are registered through the {@link #registerExtension(Extension)} method</li>
      * </ul>
-     * Finally, a {@link java.util.List} will be returned with the {@link Extension}s
-     * that were registered or modified. For instance, the first time this method is invoked, all the discovered extensions
-     * will be returned. If it's then called again, the extensions that are already registered will not be present
-     * in the newly returned list, only those that were not there the first time or that were modified. If no extensions
-     * are found, or nothing has changed since the last discovery, then an empty list is returned
+     * Finally, a {@link List} will be returned with the {@link Extension}s that were registered or modified. For instance,the first time this method is invoked,
+     * all the discovered extensions will be returned. If it's then called again, the extensions that are already registered will not be present
+     * in the newly returned list, only those that were not there the first time or that were modified. If no extensions are found, or nothing has
+     * changed since the last discovery, then an empty list is returned
      *
      * @param classLoader a not {@code null} {@link java.lang.ClassLoader} in which to search for extensions
-     * @return a {@link java.util.List} with the registered or updated {@link Extension}s or
+     * @return a {@link List} with the registered or updated {@link Extension}s or
      * an empty list if none is found or updated
      */
     List<Extension> discoverExtensions(ClassLoader classLoader);
