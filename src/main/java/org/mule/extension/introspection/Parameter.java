@@ -6,6 +6,12 @@
  */
 package org.mule.extension.introspection;
 
+import static java.util.Arrays.asList;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A parameter of an operation or configuration
  * <p>
@@ -18,6 +24,8 @@ package org.mule.extension.introspection;
  */
 public interface Parameter extends Described, Capable
 {
+
+    Set<String> RESERVED_NAMES = Collections.unmodifiableSet(new HashSet<>(asList("name")));
 
     /**
      * Returns the type of the parameter
