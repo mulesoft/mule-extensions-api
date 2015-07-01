@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * Used for propagating state across all the components
- * that may take part on the activation of an {@link Extension}
+ * that may take part on the describing of an {@link Extension}
  * and its {@link DescriberPostProcessor}s
  * <p/>
  * Once the {@link Describer} finishes applying its logic,

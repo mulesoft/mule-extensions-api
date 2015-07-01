@@ -66,7 +66,7 @@ public class TestWebServiceConsumerDeclarationReference
         descriptor
                 .withCapability(capability)
                 .withConfig(CONFIG_NAME).instantiatedWith(configurationInstantiator).describedAs(CONFIG_DESCRIPTION)
-                .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsNotDynamic()
+                .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsStatic()
                 .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
                 .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class).withCapability(capability)
                 .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
@@ -76,7 +76,7 @@ public class TestWebServiceConsumerDeclarationReference
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
                 .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
                 .with().optionalParameter(MTOM_ENABLED).whichIsDynamic().describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
-                .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).whichIsNotDynamic().ofType(Operation.class)
+                .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).whichIsStatic().ofType(Operation.class)
                 .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory);
     }
 

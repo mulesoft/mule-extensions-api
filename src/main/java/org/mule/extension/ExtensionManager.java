@@ -51,14 +51,10 @@ public interface ExtensionManager
      * <li>The discovered describers are fed into a {@link ExtensionFactory} and transformed in {@link Extension} instances</li>
      * <li>Those extensions are registered through the {@link #registerExtension(Extension)} method</li>
      * </ul>
-     * Finally, a {@link List} will be returned with the {@link Extension}s that were registered or modified. For instance,the first time this method is invoked,
-     * all the discovered extensions will be returned. If it's then called again, the extensions that are already registered will not be present
-     * in the newly returned list, only those that were not there the first time or that were modified. If no extensions are found, or nothing has
-     * changed since the last discovery, then an empty list is returned
+     * Finally, a {@link List} is returned with all the {@link Extension extensions} available after the discovery process finishes.
      *
      * @param classLoader a not {@code null} {@link java.lang.ClassLoader} in which to search for extensions
-     * @return a {@link List} with the registered or updated {@link Extension}s or
-     * an empty list if none is found or updated
+     * @return a {@link List} with all the available {@link Extension extensions}
      */
     List<Extension> discoverExtensions(ClassLoader classLoader);
 
