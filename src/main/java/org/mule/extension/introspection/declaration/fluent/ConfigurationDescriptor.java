@@ -97,7 +97,7 @@ public final class ConfigurationDescriptor extends HasParameters implements Desc
     }
 
     /**
-     * Returns the owning {@link DeclarationDescriptor}
+     * Returns the root {@link DeclarationDescriptor}
      *
      * @return a {@link DeclarationDescriptor}
      */

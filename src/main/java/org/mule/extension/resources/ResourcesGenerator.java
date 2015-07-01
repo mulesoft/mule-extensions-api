@@ -49,14 +49,14 @@ public interface ResourcesGenerator
      * @param filepath the path in which the resource is to be generated
      * @return a {@link GeneratedResource}
      */
-    GeneratedResource getOrCreateResource(String filepath);
+    GeneratedResource get(String filepath);
 
     /**
      * Generates resources for the given {@code extension}. This doesn't mean that
      * the resource will be generated and written to disk. It means that
      * the discovered instances of {@link GenerableResourceContributor}
      * will be asked to contribute resources for the given extension. The contributors
-     * will use {@link #getOrCreateResource(String)} to get a hold of the resource in generation
+     * will use {@link #get(String)} to get a hold of the resource in generation
      * and will contribute their part of the content. Nothing gets written to disk
      * until {@link #dumpAll()} is invoked
      *
@@ -66,7 +66,7 @@ public interface ResourcesGenerator
 
     /**
      * Writes all the {@link GeneratedResource}s that were
-     * generated through {@link #getOrCreateResource(String)} and writes them to a persistent store.
+     * generated through {@link #get(String)} and writes them to a persistent store.
      * The details of where and how those files are written are completely up to the implementation.
      *
      * @return the list of {@link GeneratedResource} that was written

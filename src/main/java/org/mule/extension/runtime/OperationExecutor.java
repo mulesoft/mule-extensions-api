@@ -23,5 +23,5 @@ public interface OperationExecutor
      * @param operationContext a {@link OperationContext} with information about the execution
      * @return a {@link Future}
      */
-    <T> Future<T> execute(OperationContext operationContext) throws Exception;
+    <T> T execute(OperationContext operationContext) throws Exception;
 }

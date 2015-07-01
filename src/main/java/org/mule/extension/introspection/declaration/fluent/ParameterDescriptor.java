@@ -65,9 +65,10 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
 
     /**
      * Specifies that the declared {@link Parameter} is not to be dynamic
+     *
      * @return {@value this} descriptor
      */
-    public T whichIsNotDynamic()
+    public T whichIsStatic()
     {
         parameter.setDynamic(false);
         return (T) this;
