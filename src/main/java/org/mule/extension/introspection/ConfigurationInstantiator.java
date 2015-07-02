@@ -22,6 +22,6 @@ public interface ConfigurationInstantiator
      *
      * @return a {@link Class}
      */
-    Class<?> getObjectType();
+    Class<? extends Object> getObjectType();
 
 }

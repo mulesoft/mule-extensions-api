@@ -6,7 +6,6 @@
  */
 package org.mule.extension.introspection.declaration.fluent;
 
-import org.mule.extension.introspection.Configuration;
 import org.mule.extension.runtime.OperationExecutor;
 
 /**
@@ -18,13 +17,9 @@ public interface OperationExecutorFactory
 {
 
     /**
-     * Provides a {@link OperationExecutor} that will act on the
-     * given {@code configurationInstance}
+     * Creates a new {@link OperationExecutor}
      *
-     * @param configurationInstance an object to act as a concrete configuration instance. This is not a {@link Configuration}
-     *                              but the actual object configuring the implementation
-     * @param <C>                   the type of the {@code configurationInstance}
-     * @return a {@link OperationExecutor}
+     * @return a new {@link OperationExecutor}
      */
-    <C> OperationExecutor getExecutor(C configurationInstance);
+    OperationExecutor newExecutor();
 }

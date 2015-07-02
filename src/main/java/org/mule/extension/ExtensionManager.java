@@ -7,14 +7,11 @@
 package org.mule.extension;
 
 import org.mule.extension.introspection.Configuration;
-import org.mule.extension.introspection.declaration.Describer;
 import org.mule.extension.introspection.Extension;
 import org.mule.extension.introspection.ExtensionFactory;
 import org.mule.extension.introspection.Operation;
-import org.mule.extension.introspection.Parameter;
+import org.mule.extension.introspection.declaration.Describer;
 import org.mule.extension.runtime.ConfigurationInstanceProvider;
-import org.mule.extension.runtime.OperationContext;
-import org.mule.extension.runtime.OperationExecutor;
 
 import java.util.List;
 import java.util.Set;
@@ -31,11 +28,7 @@ import java.util.Set;
  * <p/>
  * Instances serving as realization of a {@link Configuration} model need to be registered
  * with the {@link #registerConfigurationInstanceProvider(String, ConfigurationInstanceProvider)}
- * method in orderfor this manager to provision the underlying infrastructure to host and execute such configuration.
- * Oncea configuration is registered, then operations can be executed with it by requesting a {@link OperationExecutor}
- * to the {@link #getOperationExecutor(String, OperationContext)} or {@link #getOperationExecutor(OperationContext)}
- * methods
- *
+ * method in order for this manager to provision the underlying infrastructure to host and execute such configuration.
  * @since 1.0
  */
 public interface ExtensionManager
@@ -100,50 +93,5 @@ public interface ExtensionManager
      * @param configurationInstanceProvider a {@link ConfigurationInstanceProvider}
      * @param <C>                           the type of the configurations instances that {@code configurationInstanceProvider} provides
      */
-    <C> void registerConfigurationInstanceProvider(String providerName, ConfigurationInstanceProvider<C> configurationInstanceProvider);
-
-    /**
-     * Provisions a {@link OperationExecutor} to execute the
-     * {@link Operation} that is referenced by {@code operationContext}.
-     * This method also requires referencing the {@link ConfigurationInstanceProvider}
-     * that will be used to obtain a configuration instance. That reference
-     * is done through the {@code configurationInstanceProviderName} parameter
-     * which must point to a {@link ConfigurationInstanceProvider} previously
-     * registered through {@link #registerConfigurationInstanceProvider(String, ConfigurationInstanceProvider)}
-     *
-     * @param configurationInstanceProviderName the name of the {@link ConfigurationInstanceProvider} used to obtain a configuration instance
-     * @param operationContext                  a {@link OperationContext}
-     * @return a functional {@link OperationExecutor}
-     */
-    OperationExecutor getOperationExecutor(String configurationInstanceProviderName, OperationContext operationContext);
-
-    /**
-     * Provisions a {@link OperationExecutor} to execute the {@link Operation}
-     * that is referenced by {@code operationContext}.
-     * <p/>
-     * Because this method makes no reference to a particular
-     * {@link ConfigurationInstanceProvider}, the platform will choose
-     * one by following criteria:
-     * <ul>
-     * <li>If only one {@link ConfigurationInstanceProvider} was registered
-     * through {@link #registerConfigurationInstanceProvider(String, ConfigurationInstanceProvider)}
-     * for the {@link Extension} that owns the {@link Operation}, then that provider will be used</li>
-     * <li>If more than one were registered, then an {@link IllegalStateException} will be thrown</li>
-     * <li>If no {@link ConfigurationInstanceProvider} was registered, then the platform
-     * will evaluate all the {@link Configuration}s on the {@link Extension} looking for those
-     * which can be created implicitly. If any are found, then the first one is selected and a
-     * {@link ConfigurationInstanceProvider} will be created and registered for it.
-     * </ul>
-     * <p/>
-     * It is considered that a {@link Configuration} can be created implicitly
-     * if for all its {@link Parameter}s it can be said that they're optional
-     * or/and have a default value. In such case, the platform will create an
-     * instance which respects those defaults and has {@code null} values for
-     * the rest of the parameters.
-     *
-     * @param operationContext a {@link OperationContext}
-     * @return a functional {@link OperationExecutor}
-     */
-    OperationExecutor getOperationExecutor(OperationContext operationContext);
-
+    <C> void registerConfigurationInstanceProvider(Extension extension, String providerName, ConfigurationInstanceProvider<C> configurationInstanceProvider);
 }
