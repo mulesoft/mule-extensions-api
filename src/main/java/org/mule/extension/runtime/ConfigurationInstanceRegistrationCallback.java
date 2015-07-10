@@ -7,13 +7,12 @@
 package org.mule.extension.runtime;
 
 import org.mule.extension.introspection.Configuration;
+import org.mule.extension.introspection.Extension;
 
 /**
- * A callback to be used by components which creates
- * new instances that are the realization of a
- * {@link Configuration} model. Every component which
- * creates such instances must notify this callback
- * in order for the platform to start managing such instance
+ * A callback to be used by components which creates new instances that are the realization of a
+ * {@link Configuration} model. Every component which creates such instances must notify this callback
+ * in order for the platform to start managing such instance.
  *
  * @since 1.0
  */
@@ -21,13 +20,13 @@ public interface ConfigurationInstanceRegistrationCallback
 {
 
     /**
-     * Notifies the creations of {@code configurationInstance}
-     * by the given {@code configurationInstanceProvider}
+     * Registers the given {@code configurationInstance}
      *
-     * @param configurationInstanceProvider the {@link ConfigurationInstanceProvider} which created the instance
-     * @param configurationInstance         the created instance
-     * @param <C>                           the type of the created instance
+     * @param extension                 The {@link Extension} model for the {@code configurationInstance}
+     * @param configuration             the {@link Configuration} model for the {@code configurationInstance}
+     * @param configurationInstanceName a unique name for the {@code configurationInstance}
+     * @param configurationInstance     an instance that is a realisation of the {@link Configuration} model
+     * @param <C>                       the generic type of the {@code configurationInstance}
      */
-    <C> void registerNewConfigurationInstance(ConfigurationInstanceProvider<C> configurationInstanceProvider,
-                                              C configurationInstance);
+    <C> void registerConfigurationInstance(Extension extension, Configuration configuration, String configurationInstanceName, C configurationInstance);
 }

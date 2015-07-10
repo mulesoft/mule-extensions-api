@@ -30,10 +30,7 @@ public interface Operation extends Described, Capable
     /**
      * Provides a {@link OperationExecutor} for this operation.
      *
-     * @param configurationInstance an object to act as a concrete configuration instance. This is not a {@link Configuration}
-     *                              but the actual object configuring the implementation
-     * @param <T>                   the type of the {@code configurationInstance}
      * @return a {@link OperationExecutor}
      */
-    <T> OperationExecutor getExecutor(T configurationInstance);
+    OperationExecutor getExecutor();
 }
