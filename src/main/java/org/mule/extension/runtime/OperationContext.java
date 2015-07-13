@@ -6,6 +6,7 @@
  */
 package org.mule.extension.runtime;
 
+import org.mule.extension.introspection.Configuration;
 import org.mule.extension.introspection.Operation;
 import org.mule.extension.introspection.Parameter;
 
@@ -33,4 +34,14 @@ public interface OperationContext
      * mean that the parameter is not present. It might have just been resolved to that value
      */
     Object getParameterValue(String parameterName);
+
+    /**
+     * Returns an object which is configuring the operation being executed. The actual type
+     * of the instance is unknown, but it's guaranteed to be a realisation of the {@link Configuration}
+     * model that was set for the operation
+     *
+     * @param <C> the generic type of the configuration instance
+     * @return a {@code C} consistent with a corresponding {@link Configuration} model
+     */
+    <C> C getConfigurationInstance();
 }
