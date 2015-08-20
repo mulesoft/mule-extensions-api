@@ -9,6 +9,10 @@ package org.mule.extension.runtime;
 import org.mule.extension.introspection.Configuration;
 import org.mule.extension.introspection.Operation;
 import org.mule.extension.introspection.Parameter;
+import org.mule.extension.runtime.event.OperationFailedEvent;
+import org.mule.extension.runtime.event.OperationSuccessfulEvent;
+
+import java.util.function.Consumer;
 
 /**
  * Provides context information about the execution of an operation
@@ -44,4 +48,22 @@ public interface OperationContext
      * @return a {@code C} consistent with a corresponding {@link Configuration} model
      */
     <C> C getConfigurationInstance();
+
+    /**
+     * Registers a {@link Consumer} which takes a {@link OperationSuccessfulEvent}
+     * and performs an action if the operation associated with {@code this} instance
+     * is executed successfully
+     *
+     * @param handler a {@link Consumer} which handles a {@link OperationSuccessfulEvent}
+     */
+    void onOperationSuccessful(Consumer<OperationSuccessfulEvent> handler);
+
+    /**
+     * Registers a {@link Consumer} which takes a {@link OperationFailedEvent}
+     * and performs an action if the operation associated with {@code this} instance
+     * throws a exception
+     *
+     * @param handler a {@link Consumer} which handles a {@link OperationFailedEvent}
+     */
+    void onOperationFailed(Consumer<OperationFailedEvent> handler);
 }
