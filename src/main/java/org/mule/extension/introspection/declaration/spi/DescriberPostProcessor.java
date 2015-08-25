@@ -8,7 +8,7 @@ package org.mule.extension.introspection.declaration.spi;
 
 import org.mule.extension.introspection.declaration.Describer;
 import org.mule.extension.introspection.declaration.DescribingContext;
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.introspection.declaration.fluent.Descriptor;
 import org.mule.extension.introspection.declaration.fluent.Declaration;
 
@@ -18,7 +18,7 @@ import org.mule.extension.introspection.declaration.fluent.Declaration;
  * <p/>
  * This allows to customize the discovery process by given a hooking point
  * for manipulating the {@link Declaration} before
- * it actually generates the final {@link Extension} instance.
+ * it actually generates the final {@link ExtensionModel}.
  * <p/>
  * Instances are to be discovered by standard SPI mechanism
  *

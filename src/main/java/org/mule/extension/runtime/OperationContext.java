@@ -6,9 +6,9 @@
  */
 package org.mule.extension.runtime;
 
-import org.mule.extension.introspection.Configuration;
-import org.mule.extension.introspection.Operation;
-import org.mule.extension.introspection.Parameter;
+import org.mule.extension.introspection.ConfigurationModel;
+import org.mule.extension.introspection.OperationModel;
+import org.mule.extension.introspection.ParameterModel;
 import org.mule.extension.runtime.event.OperationFailedSignal;
 import org.mule.extension.runtime.event.OperationSuccessfulSignal;
 
@@ -23,17 +23,17 @@ public interface OperationContext
 {
 
     /**
-     * The {@link Operation} model for the
+     * The {@link OperationModel} model for the
      * actual processor being executed
      *
-     * @return a {@link Operation}
+     * @return a {@link OperationModel}
      */
-    Operation getOperation();
+    OperationModel getOperationModel();
 
     /**
      * Returns the value associated to a parameter of name {@code parameterName}
      *
-     * @param parameterName the name of a {@link Parameter} of the {@link Operation} being executed
+     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
      * @return the parameter's value or {@code null}. Notice that {@code null} doesn't necessarily
      * mean that the parameter is not present. It might have just been resolved to that value
      */
@@ -41,13 +41,13 @@ public interface OperationContext
 
     /**
      * Returns an object which is configuring the operation being executed. The actual type
-     * of the instance is unknown, but it's guaranteed to be a realisation of the {@link Configuration}
-     * model that was set for the operation
+     * of the instance is unknown, but it's guaranteed to be a realisation of the {@link ConfigurationModel}
+     * that was set for the operation
      *
      * @param <C> the generic type of the configuration instance
-     * @return a {@code C} consistent with a corresponding {@link Configuration} model
+     * @return a {@code C} consistent with a corresponding {@link ConfigurationModel}
      */
-    <C> C getConfigurationInstance();
+    <C> C getConfiguration();
 
     /**
      * Registers a {@link Consumer} which takes a {@link OperationSuccessfulSignal}

@@ -11,21 +11,21 @@ import org.mule.extension.runtime.OperationExecutor;
 import java.util.List;
 
 /**
- * A definition of an operation in a {@link Extension}
+ * A definition of an operation in a {@link ExtensionModel}
  *
  * @since 1.0
  */
-public interface Operation extends Described, Capable
+public interface OperationModel extends Described, Capable
 {
 
     /**
      * Returns the parameters that this operation takes.
      *
      * @return an immutable {@link java.util.List} with instances of
-     * {@link Parameter}. It might be
+     * {@link ParameterModel}. It might be
      * empty if the operation takes no parameters, but it will never be {@code null}
      */
-    List<Parameter> getParameters();
+    List<ParameterModel> getParameterModels();
 
     /**
      * Provides a {@link OperationExecutor} for this operation.

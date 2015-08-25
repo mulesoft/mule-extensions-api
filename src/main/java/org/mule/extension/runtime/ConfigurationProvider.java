@@ -6,11 +6,10 @@
  */
 package org.mule.extension.runtime;
 
-import org.mule.extension.introspection.Configuration;
+import org.mule.extension.introspection.ConfigurationModel;
 
 /**
- * A component responsible for providing instances which are realizations of a give {@link Configuration}
- * model.
+ * A component responsible for providing instances which are realizations of a given {@link ConfigurationModel}.
  * <p/>
  * Instances are provided through the {@link #get(OperationContext)} method.
  * When that method is invoked, it's up to each implementation to return a brand
@@ -19,7 +18,7 @@ import org.mule.extension.introspection.Configuration;
  * @param <T> the type of configuration instances returned
  * @since 1.0
  */
-public interface ConfigurationInstanceProvider<T>
+public interface ConfigurationProvider<T>
 {
 
     /**

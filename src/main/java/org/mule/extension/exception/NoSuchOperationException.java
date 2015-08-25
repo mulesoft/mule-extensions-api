@@ -6,7 +6,7 @@
  */
 package org.mule.extension.exception;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 
 /**
  * Exception thrown when querying for a specific configuration that is not registered to a given extension.
@@ -16,8 +16,8 @@ import org.mule.extension.introspection.Extension;
 public final class NoSuchOperationException extends IllegalArgumentException
 {
 
-    public NoSuchOperationException(Extension extension, String extensionName)
+    public NoSuchOperationException(ExtensionModel extensionModel, String extensionName)
     {
-        super(String.format("Operation '%s' does not exists in extension '%s'", extensionName, extension.getName()));
+        super(String.format("Operation '%s' does not exists in extension '%s'", extensionName, extensionModel.getName()));
     }
 }

@@ -8,7 +8,7 @@ package org.mule.extension.introspection;
 
 /**
  * Creates instances of objects which are compliant
- * with the model described by the owning {@link Configuration} object.
+ * with the model described by the owning {@link ConfigurationModel}.
  *
  * @since 1.0
  */
@@ -17,7 +17,7 @@ public interface ConfigurationInstantiator
 
     /**
      * Returns a new instance of an object which is compliant
-     * with the model described by the owning {@link Configuration} object.
+     * with the model described by the owning {@link ConfigurationModel}.
      *
      * @return a new object
      */

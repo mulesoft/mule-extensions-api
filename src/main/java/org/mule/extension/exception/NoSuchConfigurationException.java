@@ -6,7 +6,7 @@
  */
 package org.mule.extension.exception;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 
 /**
  * Exception thrown when querying for a specific configuration that is not registered to a given extension.
@@ -16,8 +16,8 @@ import org.mule.extension.introspection.Extension;
 public final class NoSuchConfigurationException extends IllegalArgumentException
 {
 
-    public NoSuchConfigurationException(Extension extension, String configName)
+    public NoSuchConfigurationException(ExtensionModel extensionModel, String configName)
     {
-        super(String.format("Configuration '%s' does not exists in extension '%s'", configName, extension.getName()));
+        super(String.format("Configuration '%s' does not exists in extension '%s'", configName, extensionModel.getName()));
     }
 }

@@ -6,15 +6,15 @@
  */
 package org.mule.extension.introspection.declaration.fluent;
 
-import org.mule.extension.introspection.Configuration;
+import org.mule.extension.introspection.ConfigurationModel;
 import org.mule.extension.introspection.ConfigurationInstantiator;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A declaration object for a {@link Configuration}. It contains raw, unvalidated
- * data which is used to declare the structure of a {@link Configuration}
+ * A declaration object for a {@link ConfigurationModel}. It contains raw, unvalidated
+ * data which is used to declare the structure of a {@link ConfigurationModel}
  *
  * @since 1.0
  */

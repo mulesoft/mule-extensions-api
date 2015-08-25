@@ -20,22 +20,22 @@ import java.util.List;
  * configuration used, the same connector will have different reconnection strategies).
  * <p/>
  * The configuration is also the place in which cross operation, extension level attributes are configured.
- * Every {@link Extension} is required to have at least one configuration.
- * That configuration is defined as the &quot;default configuration&quot;
+ * Every {@link ExtensionModel} is required to have at least one {@link ConfigurationModel}.
+ * That {@link ConfigurationModel} is defined as the &quot;default configuration&quot;
  *
  * @since 1.0
  */
-public interface Configuration extends Described, Capable
+public interface ConfigurationModel extends Described, Capable
 {
 
     /**
-     * Returns the {@link Parameter}s
+     * Returns the {@link ParameterModel parameterModels}
      * available for this configuration
      *
-     * @return a immutable {@link java.util.List} with {@link Parameter}
+     * @return a immutable {@link java.util.List} with {@link ParameterModel}
      * instances. It might be empty but it will never be {@code null}
      */
-    List<Parameter> getParameters();
+    List<ParameterModel> getParameterModels();
 
     /**
      * Returns the {@link ConfigurationInstantiator} for this instance

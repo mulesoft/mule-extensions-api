@@ -7,7 +7,7 @@
 package org.mule.extension.introspection.declaration;
 
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.introspection.declaration.fluent.Descriptor;
 import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
 
@@ -19,7 +19,7 @@ import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
  * extension.
  * <p/>
  * The platform will discover all the describers, transform the returned {@link Descriptor}s
- * into {@link Extension}s and register them.
+ * into {@link ExtensionModel extensionModels} and register them.
  * <p/>
  * To allow customization of the describing process, implementations will use standard SPI discovery mechanism
  * to locale registered instances of {@link DescriberPostProcessor}

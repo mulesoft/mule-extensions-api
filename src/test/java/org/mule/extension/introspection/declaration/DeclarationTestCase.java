@@ -44,7 +44,7 @@ import static org.mule.extension.introspection.declaration.tck.TestWebServiceCon
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.WS_CONSUMER_DESCRIPTION;
 import org.mule.extension.introspection.DataQualifier;
 import org.mule.extension.introspection.DataType;
-import org.mule.extension.introspection.Operation;
+import org.mule.extension.introspection.OperationModel;
 import org.mule.extension.introspection.declaration.fluent.ConfigurationDeclaration;
 import org.mule.extension.introspection.declaration.fluent.Declaration;
 import org.mule.extension.introspection.declaration.fluent.OperationDeclaration;
@@ -160,7 +160,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(parameters, hasSize(3));
         assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, true, true, DataType.of(List.class, String.class), LIST, null);
         assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, true, false, DataType.of(Boolean.class), BOOLEAN, true);
-        assertParameter(parameters.get(2), CALLBACK, CALLBACK_DESCRIPTION, false, true, DataType.of(Operation.class), DataQualifier.OPERATION, null);
+        assertParameter(parameters.get(2), CALLBACK, CALLBACK_DESCRIPTION, false, true, DataType.of(OperationModel.class), DataQualifier.OPERATION, null);
     }
 
     private void assertArgLessOperation(List<OperationDeclaration> operations)

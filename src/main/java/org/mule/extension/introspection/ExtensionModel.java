@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface Extension extends Described, Capable
+public interface ExtensionModel extends Described, Capable
 {
 
     /**
@@ -66,46 +66,46 @@ public interface Extension extends Described, Capable
     String getVersion();
 
     /**
-     * Returns the {@link Configuration}s
+     * Returns the {@link ConfigurationModel configurationModels}
      * available for this extension. Each configuration is guaranteed to have a unique name.
      * <p>
      * There is always at least one configuration. The first configuration is the preferred (default) one,
      * the rest of the configurations are ordered alphabetically.
      * </p>
      *
-     * @return an immutable {@link java.util.List} with the available {@link Configuration}s.
+     * @return an immutable {@link java.util.List} with the available {@link ConfigurationModel configurationModels}.
      */
-    List<Configuration> getConfigurations();
+    List<ConfigurationModel> getConfigurations();
 
     /**
-     * Returns the {@link Configuration}
+     * Returns the {@link ConfigurationModel}
      * that matches the given name.
      *
      * @param name case sensitive configuration name
-     * @return a {@link Configuration}
+     * @return a {@link ConfigurationModel}
      * @throws NoSuchConfigurationException if no configuration available for that name
      */
-    Configuration getConfiguration(String name) throws NoSuchConfigurationException;
+    ConfigurationModel getConfiguration(String name) throws NoSuchConfigurationException;
 
     /**
-     * Returns the {@link Operation}s
+     * Returns the {@link OperationModel}s
      * available for this extension. Each operation is guaranteed to have a unique name, and that name
      * cannot be already in use by one of the available {@link #getConfigurations()}
      * <p>
      * There is always at least one operation, and operations will be sorted alphabetically.
      * </p>
      *
-     * @return an immutable {@link java.util.List} of {@link Operation}
+     * @return an immutable {@link java.util.List} of {@link OperationModel}
      */
-    List<Operation> getOperations();
+    List<OperationModel> getOperations();
 
     /**
-     * Returns the {@link Operation} that matches
+     * Returns the {@link OperationModel} that matches
      * the given name.
      *
      * @param name case sensitive operation name
-     * @return a {@link Operation}
+     * @return a {@link OperationModel}
      * @throws NoSuchOperationException if no operation matches the given name
      */
-    Operation getOperation(String name) throws NoSuchOperationException;
+    OperationModel getOperation(String name) throws NoSuchOperationException;
 }

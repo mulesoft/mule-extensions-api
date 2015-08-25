@@ -34,8 +34,8 @@ public class DataTypeTestCase
     @Test
     public void typeWithGeneric()
     {
-        DataType type = DataType.of(Map.class, String.class, Extension.class);
-        assertMap(type, String.class, DataQualifier.STRING, Extension.class, DataQualifier.POJO);
+        DataType type = DataType.of(Map.class, String.class, ExtensionModel.class);
+        assertMap(type, String.class, DataQualifier.STRING, ExtensionModel.class, DataQualifier.POJO);
         assertNoGenericTypes(type.getGenericTypes()[0]);
         assertNoGenericTypes(type.getGenericTypes()[1]);
     }
@@ -43,12 +43,12 @@ public class DataTypeTestCase
     @Test
     public void complexTypeWithManyGenerics()
     {
-        DataType introspectionMap = DataType.of(Map.class, Extension.class, Parameter.class);
+        DataType introspectionMap = DataType.of(Map.class, ExtensionModel.class, ParameterModel.class);
         DataType declarationList = DataType.of(List.class, Declaration.class);
         DataType type = DataType.of(Map.class, introspectionMap, declarationList);
 
         assertMap(type, Map.class, DataQualifier.MAP, List.class, DataQualifier.LIST);
-        assertMap(type.getGenericTypes()[0], Extension.class, DataQualifier.POJO, Parameter.class, DataQualifier.POJO);
+        assertMap(type.getGenericTypes()[0], ExtensionModel.class, DataQualifier.POJO, ParameterModel.class, DataQualifier.POJO);
         assertNoGenericTypes(type.getGenericTypes()[0].getGenericTypes()[0]);
         assertNoGenericTypes(type.getGenericTypes()[0].getGenericTypes()[1]);
 
@@ -77,7 +77,7 @@ public class DataTypeTestCase
     @Test
     public void notEqualsWithoutGenericTypes()
     {
-        DataType type1 = DataType.of(Extension.class);
+        DataType type1 = DataType.of(ExtensionModel.class);
         DataType type2 = DataType.of(String.class);
 
         assertThat(type1, not(equalTo(type2)));
@@ -87,7 +87,7 @@ public class DataTypeTestCase
     public void notEqualsWithGenericTypes()
     {
         DataType type1 = DataType.of(Map.class, String.class, Long.class);
-        DataType type2 = DataType.of(Map.class, String.class, Extension.class);
+        DataType type2 = DataType.of(Map.class, String.class, ExtensionModel.class);
 
         assertThat(type1, not(equalTo(type2)));
     }
@@ -105,7 +105,7 @@ public class DataTypeTestCase
     public void hashCodeOnUnequalTypes()
     {
         DataType type1 = DataType.of(Map.class, String.class, Long.class);
-        DataType type2 = DataType.of(Map.class, String.class, Extension.class);
+        DataType type2 = DataType.of(Map.class, String.class, ExtensionModel.class);
 
         assertThat(type1.hashCode(), not(equalTo(type2.hashCode())));
     }
