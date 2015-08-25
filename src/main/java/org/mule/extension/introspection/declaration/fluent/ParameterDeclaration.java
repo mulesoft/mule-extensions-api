@@ -8,11 +8,11 @@ package org.mule.extension.introspection.declaration.fluent;
 
 import org.mule.extension.introspection.DataType;
 import org.mule.extension.introspection.Described;
-import org.mule.extension.introspection.Parameter;
+import org.mule.extension.introspection.ParameterModel;
 
 /**
- * A declaration object for a {@link Parameter}. It contains raw, unvalidated
- * data which is used to declare the structure of a {@link Parameter}.
+ * A declaration object for a {@link ParameterModel}. It contains raw, unvalidated
+ * data which is used to declare the structure of a {@link ParameterModel}.
  * <p/>
  * By default, {@link #isDynamic()} returns {@code true} and
  * {@link #getDescription()} returns an empty {@link String}.

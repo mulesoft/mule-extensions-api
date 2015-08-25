@@ -6,20 +6,20 @@
  */
 package org.mule.extension.resources.spi;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.resources.ResourcesGenerator;
 
 /**
  * A delegate object that is obtained through standard SPI discovery mechanism
  * and that acts as a delegate inside a chain of responsibility pattern, in order to
- * generate backing resources for all the {@link Extension}s
+ * generate backing resources for all the {@link ExtensionModel extensionModels}
  * declared between a module
  * <p/>
  * Each contributor is responsible for declaring the resources that it wants to generate/contribute to
  * and add its piece of content.
  * <p/>
  * There might be situations in which a contributor should not generate anything for a given
- * {@link Extension}. For example, a contributor that
+ * {@link ExtensionModel}. For example, a contributor that
  * writes a XML schema will pass on a extension which doesn't have xml capabilities. It's completely
  * up to each contributor to decide when and when not contribute to a extension
  *
@@ -31,8 +31,8 @@ public interface GenerableResourceContributor
     /**
      * Contributes if necessary to the generation of the given {@code extension}'s resources.
      *
-     * @param extension          the {@link Extension} that requires the resource
+     * @param extensionModel          the {@link ExtensionModel} that requires the resource
      * @param resourcesGenerator a {@link ResourcesGenerator} used to obtain the resources
      */
-    void contribute(Extension extension, ResourcesGenerator resourcesGenerator);
+    void contribute(ExtensionModel extensionModel, ResourcesGenerator resourcesGenerator);
 }

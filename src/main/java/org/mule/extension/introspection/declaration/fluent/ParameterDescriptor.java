@@ -7,7 +7,7 @@
 package org.mule.extension.introspection.declaration.fluent;
 
 import org.mule.extension.introspection.DataType;
-import org.mule.extension.introspection.Parameter;
+import org.mule.extension.introspection.ParameterModel;
 
 /**
  * A {@link Descriptor} which allows configuring a {@link ParameterDeclaration}
@@ -30,7 +30,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     }
 
     /**
-     * Specifies the type of the {@link Parameter} and its parametrized types
+     * Specifies the type of the {@link ParameterModel} and its parametrized types
      * @param type the type of the parameter
      * @param parametrizedTypes the generic types for {@code type}
      * @return {@value this} descriptor
@@ -41,7 +41,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     }
 
     /**
-     * Specifies the type of the {@link Parameter}
+     * Specifies the type of the {@link ParameterModel}
      * @param dataType the type of the parameter
      * @return
      */
@@ -64,7 +64,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     }
 
     /**
-     * Specifies that the declared {@link Parameter} is not to be dynamic
+     * Specifies that the declared {@link ParameterModel} is not to be dynamic
      *
      * @return {@value this} descriptor
      */
@@ -75,7 +75,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     }
 
     /**
-     * Specifies that the declared {@link Parameter} is to be dynamic
+     * Specifies that the declared {@link ParameterModel} is to be dynamic
      * (which is the default anyways...)
      * @return {@value this} descriptor
      */

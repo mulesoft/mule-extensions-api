@@ -6,26 +6,26 @@
  */
 package org.mule.extension.resources;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.resources.spi.GenerableResourceContributor;
 
 import java.util.List;
 
 /**
- * A component capable of dinamically generating resources to back up
- * a set of {@link Extension}s.
+ * A component capable of dynamically generating resources to back up
+ * a set of {@link ExtensionModel extensionModels}.
  * Although extensions resolve their functionality mainly on runtime,
  * some configuration resources such as XML schemas, service registration files,
  * spring bundles, or whatever resource the runtime requires need to be generated
  * in compile or run time.
  * <p/>
  * Additionally, those resources might reference more than one
- * {@link Extension},
+ * {@link ExtensionModel},
  * for example, if a module registers many extensions,
  * we need only one service registration file for all of them.
  * <p/>
  * This interface provides semantics to generate resources for many
- * {@link Extension}s which might share the
+ * {@link ExtensionModel}s which might share the
  * generated resources and when finished, dump all of the generated content to some persistent store.
  * <p/>
  * To do so, implementations will work in tandem with instances of
@@ -60,9 +60,9 @@ public interface ResourcesGenerator
      * and will contribute their part of the content. Nothing gets written to disk
      * until {@link #dumpAll()} is invoked
      *
-     * @param extension a {@link Extension}
+     * @param extensionModel a {@link ExtensionModel}
      */
-    void generateFor(Extension extension);
+    void generateFor(ExtensionModel extensionModel);
 
     /**
      * Writes all the {@link GeneratedResource}s that were

@@ -6,7 +6,7 @@
  */
 package org.mule.extension.introspection.declaration.fluent;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,8 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A declaration object for a {@link Extension}. It contains raw, unvalidated
- * data which is used to declare the structure of a {@link Extension}
+ * A declaration object for a {@link ExtensionModel}. It contains raw, unvalidated
+ * data which is used to declare the structure of a {@link ExtensionModel}
  *
  * @since 1.0
  */

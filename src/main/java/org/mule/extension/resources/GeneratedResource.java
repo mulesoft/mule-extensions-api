@@ -6,11 +6,11 @@
  */
 package org.mule.extension.resources;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 
 /**
  * A resource that supports a
- * {@link Extension} and which can be generated
+ * {@link ExtensionModel} and which can be generated
  * by the runtime
  *
  * @since 1.0

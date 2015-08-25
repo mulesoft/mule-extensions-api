@@ -17,12 +17,12 @@ import java.util.Set;
  * <p>
  * A parameter provides a name and
  * </p>
- * It can apply either to a {@link Configuration} or a
- * {@link Operation}
+ * It can apply either to a {@link ConfigurationModel} or a
+ * {@link OperationModel}
  *
  * @since 1.0
  */
-public interface Parameter extends Described, Capable
+public interface ParameterModel extends Described, Capable
 {
 
     Set<String> RESERVED_NAMES = Collections.unmodifiableSet(new HashSet<>(asList("name")));

@@ -6,7 +6,7 @@
  */
 package org.mule.extension.introspection.declaration;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
 import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * Used for propagating state across all the components
- * that may take part on the describing of an {@link Extension}
+ * that may take part on the describing of an {@link ExtensionModel}
  * and its {@link DescriberPostProcessor}s
  * <p/>
  * Once the {@link Describer} finishes applying its logic,

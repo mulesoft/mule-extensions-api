@@ -6,15 +6,15 @@
  */
 package org.mule.extension.introspection.declaration.fluent;
 
-import org.mule.extension.introspection.Operation;
+import org.mule.extension.introspection.OperationModel;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A declaration object for a {@link Operation}. It contains raw, unvalidated
- * data which is used to declare the structure of a {@link Operation}
+ * A declaration object for a {@link OperationModel}. It contains raw, unvalidated
+ * data which is used to declare the structure of a {@link OperationModel}
  *
  * @since 1.0
  */

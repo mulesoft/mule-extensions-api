@@ -137,7 +137,7 @@ public final class DataQualifierFactory
             Map.class, DataQualifier.MAP);
 
     private static final DataTypeQualifierEvaluator OPERATION_EVALUATOR = new DefaultQualifierEvaluator(
-            Operation.class, DataQualifier.OPERATION);
+            OperationModel.class, DataQualifier.OPERATION);
 
     private static final DataTypeQualifierEvaluator POJO_EVALUATOR = new PojoTypeQualifierEvaluator();
 

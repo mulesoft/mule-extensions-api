@@ -8,7 +8,7 @@ package org.mule.extension.introspection.declaration.tck;
 
 import static org.mockito.Mockito.mock;
 import org.mule.extension.introspection.ConfigurationInstantiator;
-import org.mule.extension.introspection.Operation;
+import org.mule.extension.introspection.OperationModel;
 import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
 import org.mule.extension.introspection.declaration.fluent.OperationExecutorFactory;
 
@@ -76,7 +76,7 @@ public class TestWebServiceConsumerDeclarationReference
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
                     .with().optionalParameter(MTOM_ENABLED).whichIsDynamic().describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
-                    .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).whichIsStatic().ofType(Operation.class)
+                    .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).whichIsStatic().ofType(OperationModel.class)
                 .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory);
     }
 

@@ -88,13 +88,13 @@ public class DataQualifierFactoryTestCase
     @Test
     public void operation()
     {
-        doAssert(DataQualifier.OPERATION, Operation.class);
+        doAssert(DataQualifier.OPERATION, OperationModel.class);
     }
 
     @Test
     public void bean()
     {
-        doAssert(DataQualifier.POJO, Extension.class, Declaration.class, Object.class);
+        doAssert(DataQualifier.POJO, ExtensionModel.class, Declaration.class, Object.class);
     }
 
     private void doAssert(DataQualifier expected, Class<?>... types)

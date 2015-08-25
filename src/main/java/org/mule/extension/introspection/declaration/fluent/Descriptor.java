@@ -6,13 +6,13 @@
  */
 package org.mule.extension.introspection.declaration.fluent;
 
-import org.mule.extension.introspection.Extension;
+import org.mule.extension.introspection.ExtensionModel;
 
 /**
  * A descriptor is a flat, intermediate representation
  * of an extension model. It's used to describe an extension
  * though a fluent API without dealing with the specific rules
- * and details of the final {@link Extension} model.
+ * and details of the final {@link ExtensionModel}.
  *
  * @since 1.0
  */
