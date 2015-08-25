@@ -22,10 +22,11 @@ public interface ConfigurationInstanceRegistrationCallback
     /**
      * Registers the given {@code configurationInstance}
      *
-     * @param extension                 The {@link Extension} model for the {@code configurationInstance}
-     * @param configurationInstanceName a unique name for the {@code configurationInstance}
-     * @param configurationInstance     an instance that is a realisation of the {@link Configuration} model
-     * @param <C>                       the generic type of the {@code configurationInstance}
+     * @param extension                         The {@link Extension} model for the {@code configurationInstance}
+     * @param configurationInstanceProviderName the name of a registered {@link ConfigurationInstanceProvider} which owns the instance
+     * @param configurationInstance             an instance that is a realisation of the {@link Configuration} model
+     * @param <C>                               the generic type of the {@code configurationInstance}
+     * @return the name under which the {@code configurationInstance} was registered on the mule registry
      */
-    <C> void registerConfigurationInstance(Extension extension, String configurationInstanceName, C configurationInstance);
+    <C> String registerConfigurationInstance(Extension extension, String configurationInstanceProviderName, C configurationInstance);
 }
