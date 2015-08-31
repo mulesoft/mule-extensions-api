@@ -31,4 +31,18 @@ public interface ConfigurationProvider<T>
      */
     T get(OperationContext operationContext);
 
+    /**
+     * Returns the {@link ConfigurationModel} for the instances
+     * returned by {@link #get(OperationContext)}
+     *
+     * @return a {@link ConfigurationModel}
+     */
+    ConfigurationModel getModel();
+
+    /**
+     * The name under which this provider has been registered
+     *
+     * @return this provider's name
+     */
+    String getName();
 }

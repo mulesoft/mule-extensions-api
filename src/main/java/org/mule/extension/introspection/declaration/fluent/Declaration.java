@@ -22,27 +22,15 @@ import java.util.List;
 public final class Declaration extends CapableDeclaration<Declaration>
 {
 
-    private final String name;
-    private final String version;
+    private String name;
+    private String version;
     private String description;
 
-    private List<ConfigurationDeclaration> configurations = new ArrayList<>();
-    private List<OperationDeclaration> operations = new LinkedList<>();
+    private final List<ConfigurationDeclaration> configurations = new ArrayList<>();
+    private final List<OperationDeclaration> operations = new LinkedList<>();
 
-    Declaration(String name, String version)
+    Declaration()
     {
-        this.name = name;
-        this.version = version;
-    }
-
-    public String getVersion()
-    {
-        return version;
-    }
-
-    public String getName()
-    {
-        return name;
     }
 
     /**
@@ -109,5 +97,25 @@ public final class Declaration extends CapableDeclaration<Declaration>
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    public String getVersion()
+    {
+        return version;
+    }
+
+    void setVersion(String version)
+    {
+        this.version = version;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 }

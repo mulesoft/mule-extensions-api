@@ -8,9 +8,8 @@ package org.mule.extension.introspection.declaration;
 
 import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
+import org.mule.extension.introspection.declaration.spi.Describer;
 import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
-
-import java.util.Map;
 
 /**
  * Used for propagating state across all the components
@@ -36,13 +35,13 @@ public interface DescribingContext
     DeclarationDescriptor getDeclarationDescriptor();
 
     /**
-     * A {@link Map} to hold custom parameters that implementations of
-     * {@link Describer} and {@link DescriberPostProcessor} might
-     * want to share with each other
+     * Adds a custom parameter registered under {@code key}
      *
-     * @return a non {@code null} map. Not be assumed thread-safe
+     * @param key   the key under which the {@code value} is to be registered
+     * @param value the custom parameter value
+     * @throws IllegalArgumentException if {@code key} or {@code value} are {@code null}
      */
-    Map<String, Object> getCustomParameters();
+    void addParameter(String key, Object value);
 
     /**
      * Obtains the custom parameter registered under {@code key}
@@ -57,5 +56,5 @@ public interface DescribingContext
      * @param <T>          generic type of the expected value
      * @return an instance of {@code expectedType} or {@code null}
      */
-    <T> T getCheckedParameter(String key, Class<T> expectedType);
+    <T> T getParameter(String key, Class<T> expectedType);
 }

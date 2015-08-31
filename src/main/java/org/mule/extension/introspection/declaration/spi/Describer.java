@@ -4,12 +4,12 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.introspection.declaration;
+package org.mule.extension.introspection.declaration.spi;
 
 
 import org.mule.extension.introspection.ExtensionModel;
+import org.mule.extension.introspection.declaration.DescribingContext;
 import org.mule.extension.introspection.declaration.fluent.Descriptor;
-import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
 
 /**
  * Every Extension must ship with one implementation of this interface
@@ -33,8 +33,9 @@ public interface Describer
     /**
      * Describes the extension as a {@link Descriptor}
      *
+     * @param context a {@link DescribingContext} with state relevant to the operation
      * @return a {@link Descriptor}
      */
-    Descriptor describe();
+    Descriptor describe(DescribingContext context);
 
 }

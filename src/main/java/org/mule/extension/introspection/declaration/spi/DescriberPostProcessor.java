@@ -6,7 +6,6 @@
  */
 package org.mule.extension.introspection.declaration.spi;
 
-import org.mule.extension.introspection.declaration.Describer;
 import org.mule.extension.introspection.declaration.DescribingContext;
 import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.introspection.declaration.fluent.Descriptor;
