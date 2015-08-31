@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class ConfigurationDeclaration extends BaseDeclaration<ConfigurationDeclaration>
+public class ConfigurationDeclaration extends BaseDeclaration<ConfigurationDeclaration>
 {
 
     private final String name;
