@@ -19,20 +19,41 @@ public class DeclarationDescriptor implements Descriptor, HasCapabilities<Declar
 
     /**
      * Constructor for this descriptor
-     *
-     * @param name    a non blank name
-     * @param version a non blank version
      */
-    public DeclarationDescriptor(String name, String version)
+    public DeclarationDescriptor()
     {
-        declaration = new Declaration(name, version);
+        declaration = new Declaration();
+    }
+
+    /**
+     * Provides the extension's name
+     *
+     * @param name the extension's name
+     * @return {@value this} descriptor
+     */
+    public DeclarationDescriptor named(String name)
+    {
+        declaration.setName(name);
+        return this;
+    }
+
+    /**
+     * Provides the extension's version
+     *
+     * @param version the extensions version
+     * @return {@value this} descriptor
+     */
+    public DeclarationDescriptor onVersion(String version)
+    {
+        declaration.setVersion(version);
+        return this;
     }
 
     /**
      * Adds a description
      *
      * @param description a description
-     * @return this descriptor
+     * @return {@value this} descriptor
      */
     public DeclarationDescriptor describedAs(String description)
     {
@@ -72,7 +93,7 @@ public class DeclarationDescriptor implements Descriptor, HasCapabilities<Declar
      * Adds the given capability to this declaration
      *
      * @param capability a not {@code null} capability
-     * @return this descriptor
+     * @return {@value this} descriptor
      */
     @Override
     public DeclarationDescriptor withCapability(Object capability)

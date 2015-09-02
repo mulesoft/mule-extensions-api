@@ -10,7 +10,7 @@ import org.mule.extension.introspection.ConfigurationModel;
 import org.mule.extension.introspection.ExtensionFactory;
 import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.introspection.OperationModel;
-import org.mule.extension.introspection.declaration.Describer;
+import org.mule.extension.introspection.declaration.spi.Describer;
 import org.mule.extension.runtime.ConfigurationProvider;
 
 import java.util.List;
@@ -81,12 +81,9 @@ public interface ExtensionManager
 
     /**
      * Registers the {@code configurationProvider}.
-     * The provider can later be referenced by the given
-     * {@code providerName}
      *
-     * @param providerName          the name under which the {@code configurationProvider} will be referenced
      * @param configurationProvider a {@link ConfigurationProvider}
      * @param <C>                   the type of the configurations instances that {@code configurationProvider} provides
      */
-    <C> void registerConfigurationProvider(ExtensionModel extensionModel, String providerName, ConfigurationProvider<C> configurationProvider);
+    <C> void registerConfigurationProvider(ExtensionModel extensionModel, ConfigurationProvider<C> configurationProvider);
 }

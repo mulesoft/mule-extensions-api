@@ -40,6 +40,13 @@ public interface OperationContext
     Object getParameterValue(String parameterName);
 
     /**
+     * Returns the {@link ConfigurationModel} for {@link #getConfiguration()}
+     *
+     * @return a {@link ConfigurationModel}
+     */
+    ConfigurationModel getConfigurationModel();
+
+    /**
      * Returns an object which is configuring the operation being executed. The actual type
      * of the instance is unknown, but it's guaranteed to be a realisation of the {@link ConfigurationModel}
      * that was set for the operation

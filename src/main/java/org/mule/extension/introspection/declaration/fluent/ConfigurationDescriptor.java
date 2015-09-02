@@ -14,7 +14,7 @@ import org.mule.extension.introspection.ConfigurationInstantiator;
  *
  * @since 1.0
  */
-public final class ConfigurationDescriptor extends HasParameters implements Descriptor, HasCapabilities<ConfigurationDescriptor>
+public class ConfigurationDescriptor extends HasParameters implements Descriptor, HasCapabilities<ConfigurationDescriptor>
 {
 
     private final DeclarationDescriptor declaration;

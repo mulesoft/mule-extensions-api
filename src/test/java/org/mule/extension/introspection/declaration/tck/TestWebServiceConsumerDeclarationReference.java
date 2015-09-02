@@ -62,8 +62,8 @@ public class TestWebServiceConsumerDeclarationReference
 
     public TestWebServiceConsumerDeclarationReference()
     {
-        descriptor = new DeclarationDescriptor(WS_CONSUMER, VERSION).describedAs(WS_CONSUMER_DESCRIPTION);
-        descriptor
+        descriptor = new DeclarationDescriptor();
+        descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION)
                 .withCapability(capability)
                 .withConfig(CONFIG_NAME).instantiatedWith(configurationInstantiator).describedAs(CONFIG_DESCRIPTION)
                     .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsStatic()

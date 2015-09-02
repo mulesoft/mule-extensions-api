@@ -14,7 +14,7 @@ import org.mule.extension.runtime.OperationExecutor;
  *
  * @since 1.0
  */
-public final class OperationDescriptor extends HasParameters implements Descriptor, HasCapabilities<OperationDescriptor>
+public class OperationDescriptor extends HasParameters implements Descriptor, HasCapabilities<OperationDescriptor>
 {
     private final OperationDeclaration operation;
     private final DeclarationDescriptor declaration;
