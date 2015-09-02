@@ -54,18 +54,11 @@ public interface ExtensionManager
 
     /**
      * Registers the given {@link ExtensionModel}.
-     * <p/>
-     * If a matching {@link ExtensionModel} is already registered,
-     * then this manager will apply whatever policy finds more convenient to decide if the existing
-     * registration is kept or replaced. That is up to the implementation. The only thing this contract
-     * guarantees is that each extension type will be registered only once and that the discovery process
-     * will not fail if many discovery runs are triggered over the same classpath.
      *
      * @param extensionModel the {@link ExtensionModel} to be registered. Cannot be {@code null}
-     * @return {@code true} if the extension was registered. {@code false} if the platform decided
-     * to kept an existing declaration
+     * @throws IllegalArgumentException if an extension of the same name is already registered
      */
-    boolean registerExtension(ExtensionModel extensionModel);
+    void registerExtension(ExtensionModel extensionModel);
 
     /**
      * Returns a {@link Set} listing all the discovered
