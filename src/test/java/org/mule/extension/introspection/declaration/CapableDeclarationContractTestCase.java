@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
-import org.mule.extension.introspection.declaration.fluent.CapableDeclaration;
+import org.mule.extension.introspection.declaration.fluent.BaseDeclaration;
 
 import java.util.Collection;
 import java.util.Date;
@@ -19,7 +19,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-public abstract class CapableDeclarationContractTestCase<T extends CapableDeclaration>
+public abstract class CapableDeclarationContractTestCase<T extends BaseDeclaration>
 {
 
     private static final Object testCapability1 = new Object();

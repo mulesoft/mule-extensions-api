@@ -15,7 +15,7 @@ import org.mule.extension.introspection.ParameterModel;
  *
  * @since 1.0
  */
-public class ParameterDescriptor<T extends ParameterDescriptor> implements Descriptor, HasCapabilities<ParameterDescriptor<T>>
+public class ParameterDescriptor<T extends ParameterDescriptor> implements Descriptor, HasCapabilities<ParameterDescriptor<T>>, HasModelProperties<ParameterDescriptor<T>>
 {
 
     private final DeclarationDescriptor declaration;
@@ -31,7 +31,8 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
 
     /**
      * Specifies the type of the {@link ParameterModel} and its parametrized types
-     * @param type the type of the parameter
+     *
+     * @param type              the type of the parameter
      * @param parametrizedTypes the generic types for {@code type}
      * @return {@value this} descriptor
      */
@@ -42,6 +43,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
 
     /**
      * Specifies the type of the {@link ParameterModel}
+     *
      * @param dataType the type of the parameter
      * @return
      */
@@ -77,6 +79,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     /**
      * Specifies that the declared {@link ParameterModel} is to be dynamic
      * (which is the default anyways...)
+     *
      * @return {@value this} descriptor
      */
     public T whichIsDynamic()
@@ -87,6 +90,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
 
     /**
      * Adds another config of the given name
+     *
      * @param name the name of the config
      * @return a new {@link ConfigurationDescriptor}
      */
@@ -125,10 +129,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     }
 
     /**
-     * Adds the given capability to the declaring parameter
-     *
-     * @param capability a not {@code null} capability
-     * @return {@value this} descriptor
+     * {@inheritDoc}
      */
     @Override
     public ParameterDescriptor<T> withCapability(Object capability)
@@ -138,7 +139,18 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ParameterDescriptor<T> withModelProperty(String key, Object value)
+    {
+        parameter.addModelProperty(key, value);
+        return this;
+    }
+
+    /**
      * Gets the declaration object for this descriptor
+     *
      * @return a {@link ParameterDeclaration}
      */
     public ParameterDeclaration getDeclaration()

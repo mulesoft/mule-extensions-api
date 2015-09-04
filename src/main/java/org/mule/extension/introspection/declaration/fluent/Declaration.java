@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class Declaration extends CapableDeclaration<Declaration>
+public final class Declaration extends BaseDeclaration<Declaration>
 {
 
     private String name;

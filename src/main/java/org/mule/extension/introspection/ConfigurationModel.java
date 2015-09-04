@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ConfigurationModel extends Described, Capable
+public interface ConfigurationModel extends Described, Capable, EnrichableModel
 {
 
     /**

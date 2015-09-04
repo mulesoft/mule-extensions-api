@@ -8,18 +8,10 @@ package org.mule.extension.introspection.declaration;
 
 import org.mule.extension.introspection.ExtensionModel;
 import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
-import org.mule.extension.introspection.declaration.spi.Describer;
-import org.mule.extension.introspection.declaration.spi.DescriberPostProcessor;
 
 /**
  * Used for propagating state across all the components
  * that may take part on the describing of an {@link ExtensionModel}
- * and its {@link DescriberPostProcessor}s
- * <p/>
- * Once the {@link Describer} finishes applying its logic,
- * it will propagate this context through all the found
- * {@link DescriberPostProcessor}s, which means that any
- * side effects applied by any of the before mentioned will be visible by the next ones.
  *
  * @since 1.0
  */

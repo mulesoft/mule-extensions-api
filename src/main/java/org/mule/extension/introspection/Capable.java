@@ -9,19 +9,16 @@ package org.mule.extension.introspection;
 import java.util.Set;
 
 /**
- * An object is capable if it may provide different facet of additional information.
- * <p>
- * Capabilities provide a mechanism for specific extensions to the API that do not break clients but may provide additional
- * information on new (non-mandatory) aspects.
+ * An object is capable if it may provide different facets of additional behavior.
  * <p/>
- * <p>
+ * Capabilities provide a mechanism for specific extensions to the API that do not break clients but may provide additional
+ * new (non-mandatory) aspects.
+ * <p/>
  * When building a new Capability, you should consider that it may not be recognized or used at all by existing
  * consumers. This limits the use of this feature to non-critical stuff or to extended contracts targeting a specific
  * consumer.
- * </p>
- * <p>
- * Consumers of a capability must be prepared to deal with he fact that the object may not implement it
- * </p>
+ * <p/>
+ * Consumers of a capabilities must be prepared to deal with he fact that the object may not implement it.
  * <p/>
  * Capabilities are used to provide a future-proof path to incorporate changes that may otherwise
  * break backwards compatibility. New information can be provided in a new class exposed when specifically queried
@@ -48,6 +45,7 @@ public interface Capable
 
     /**
      * Tells if this instance is capable of the given capability
+     *
      * @param capabilityType a capability type
      * @return a boolean
      */

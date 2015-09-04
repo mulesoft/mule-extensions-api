@@ -14,8 +14,10 @@ import org.mule.extension.runtime.OperationExecutor;
  *
  * @since 1.0
  */
-public class OperationDescriptor extends HasParameters implements Descriptor, HasCapabilities<OperationDescriptor>
+public class OperationDescriptor extends HasParameters implements Descriptor,
+        HasCapabilities<OperationDescriptor>, HasModelProperties<OperationDescriptor>
 {
+
     private final OperationDeclaration operation;
     private final DeclarationDescriptor declaration;
 
@@ -102,15 +104,22 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     }
 
     /**
-     * Adds the given capability to the declaring operation
-     *
-     * @param capability a not {@code null} capability
-     * @return {@value this} descriptor
+     * {@inheritDoc}
      */
     @Override
     public OperationDescriptor withCapability(Object capability)
     {
         operation.addCapability(capability);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OperationDescriptor withModelProperty(String key, Object value)
+    {
+        operation.addModelProperty(key, value);
         return this;
     }
 }

@@ -19,7 +19,7 @@ import org.mule.extension.introspection.ParameterModel;
  *
  * @since 1.0
  */
-public final class ParameterDeclaration extends CapableDeclaration<ParameterDeclaration> implements Described
+public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration> implements Described
 {
     private String name;
     private String description = "";

@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.introspection.capability;
+package org.mule.extension.introspection.property;
 
 /**
  * Represents an extension's capability to be mapped and usable
@@ -12,8 +12,13 @@ package org.mule.extension.introspection.capability;
  *
  * @since 1.0
  */
-public interface XmlCapability
+public interface XmlModelProperty
 {
+
+    /**
+     * A unique key to identify this model property from others
+     */
+    String KEY = "XML.MODEL.PROPERTY";
 
     /**
      * The version of the module. Defaults to 1.0.

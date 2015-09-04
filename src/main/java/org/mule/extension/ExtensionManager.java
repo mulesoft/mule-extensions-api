@@ -27,7 +27,7 @@ import java.util.Set;
  * can also be added in runtime through {@link #registerExtension(ExtensionModel)}.
  * <p/>
  * Instances serving as realization of a {@link ConfigurationModel} need to be registered
- * with the {@link #registerConfigurationProvider(ExtensionModel, String, ConfigurationProvider)}
+ * with the {@link #registerConfigurationProvider(ExtensionModel, ConfigurationProvider)}
  * method in order for this manager to provision the underlying infrastructure to host and execute such configuration.
  *
  * @since 1.0
@@ -67,17 +67,6 @@ public interface ExtensionManager
      * @return an {@link Set}. Will not be {@code null} but might be empty
      */
     Set<ExtensionModel> getExtensions();
-
-    /**
-     * Returns a {@link Set} with the {@link ExtensionModel extensionModels}.
-     * that have the given capability
-     *
-     * @param capability a {@link java.lang.Class} representing a capability
-     * @return a {@link Set} with the matching {@link ExtensionModel extensionModels}.. It might
-     * be {@code null} but will never be empty
-     */
-    <C> Set<ExtensionModel> getExtensionsCapableOf(Class<C> capability);
-
 
     /**
      * Registers the {@code configurationProvider}.

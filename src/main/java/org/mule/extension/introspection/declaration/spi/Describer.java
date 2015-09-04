@@ -22,7 +22,7 @@ import org.mule.extension.introspection.declaration.fluent.Descriptor;
  * into {@link ExtensionModel extensionModels} and register them.
  * <p/>
  * To allow customization of the describing process, implementations will use standard SPI discovery mechanism
- * to locale registered instances of {@link DescriberPostProcessor}
+ * to locale registered instances of {@link ModelEnricher}
  * which are invoked in order.
  *
  * @since 1.0
