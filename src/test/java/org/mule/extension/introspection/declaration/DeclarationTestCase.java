@@ -9,6 +9,8 @@ package org.mule.extension.introspection.declaration;
 import static junit.framework.Assert.assertSame;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
@@ -23,14 +25,22 @@ import static org.mule.extension.introspection.declaration.tck.TestWebServiceCon
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.BROADCAST_DESCRIPTION;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CALLBACK;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CALLBACK_DESCRIPTION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIGURATION_MODEL_PROPERTY_KEY;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIGURATION_MODEL_PROPERTY_VALUE;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_DESCRIPTION;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_NAME;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONSUMER;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.EXTENSION_MODEL_PROPERTY_KEY;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.EXTENSION_MODEL_PROPERTY_VALUE;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.GO_GET_THEM_TIGER;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.HAS_NO_ARGS;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.MTOM_DESCRIPTION;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.MTOM_ENABLED;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION_MODEL_PROPERTY_KEY;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION_MODEL_PROPERTY_VALUE;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PARAMETER_MODEL_PROPERTY_KEY;
+import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PARAMETER_MODEL_PROPERTY_VALUE;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PORT;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE;
 import static org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE_ADDRESS;
@@ -45,6 +55,7 @@ import static org.mule.extension.introspection.declaration.tck.TestWebServiceCon
 import org.mule.extension.introspection.DataQualifier;
 import org.mule.extension.introspection.DataType;
 import org.mule.extension.introspection.OperationModel;
+import org.mule.extension.introspection.declaration.fluent.BaseDeclaration;
 import org.mule.extension.introspection.declaration.fluent.ConfigurationDeclaration;
 import org.mule.extension.introspection.declaration.fluent.Declaration;
 import org.mule.extension.introspection.declaration.fluent.OperationDeclaration;
@@ -52,6 +63,7 @@ import org.mule.extension.introspection.declaration.fluent.ParameterDeclaration;
 import org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -91,6 +103,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(declaration.getDescription(), is(WS_CONSUMER_DESCRIPTION));
         assertThat(declaration.getVersion(), is(VERSION));
         assertThat(declaration.getConfigurations(), hasSize(1));
+        assertModelProperties(declaration, EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE);
 
         Set<Object> capabilities = declaration.getCapabilities();
         assertThat(capabilities, is(notNullValue()));
@@ -107,6 +120,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(configuration.getConfigurationInstantiator(), is(sameInstance(testDeclaration.getConfigurationInstantiator())));
         assertThat(configuration.getName(), is(CONFIG_NAME));
         assertThat(configuration.getDescription(), is(CONFIG_DESCRIPTION));
+        assertModelProperties(configuration, CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE);
 
         List<ParameterDeclaration> parameters = configuration.getParameters();
         assertThat(parameters, hasSize(4));
@@ -115,6 +129,8 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertParameter(parameters.get(2), PORT, SERVICE_PORT, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(3), ADDRESS, SERVICE_ADDRESS, true, true, DataType.of(String.class), STRING, null);
         assertThat(parameters.get(2).getCapabilities(), contains(testDeclaration.getCapability()));
+
+        assertModelProperties(parameters.get(0), PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -139,6 +155,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(operation.getName(), is(CONSUMER));
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
+        assertModelProperties(operation, OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE);
         assertThat(operation.getCapabilities(), contains(testDeclaration.getCapability()));
 
         List<ParameterDeclaration> parameters = operation.getParameters();
@@ -193,5 +210,14 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(parameter.getDefaultValue(), equalTo(defaultValue));
         assertThat(parameter.getType(), equalTo(type));
         assertSame(qualifier, parameter.getType().getQualifier());
+    }
+
+    private void assertModelProperties(BaseDeclaration<?> declaration, String key, Object value)
+    {
+        Map<String, Object> properties = declaration.getModelProperties();
+        assertThat(properties, is(not(nullValue())));
+        assertThat(properties.size(), is(1));
+        assertThat(properties.containsKey(key), is(true));
+        assertThat(properties.get(key), is(sameInstance(value)));
     }
 }

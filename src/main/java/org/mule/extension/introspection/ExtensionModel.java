@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ExtensionModel extends Described, Capable
+public interface ExtensionModel extends Described, Capable, EnrichableModel
 {
 
     /**

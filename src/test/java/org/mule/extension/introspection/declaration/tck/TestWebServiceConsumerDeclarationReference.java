@@ -53,6 +53,16 @@ public class TestWebServiceConsumerDeclarationReference
     public static final String HAS_NO_ARGS = "has no args";
     public static final String ARG_LESS = "argLess";
 
+    public static final String EXTENSION_MODEL_PROPERTY_KEY = "customExtensionModelProperty";
+    public static final String CONFIGURATION_MODEL_PROPERTY_KEY = "customConfigurationModelProperty";
+    public static final String OPERATION_MODEL_PROPERTY_KEY = "customOperationModelProperty";
+    public static final String PARAMETER_MODEL_PROPERTY_KEY = "customParameterModelProperty";
+
+    public static final String EXTENSION_MODEL_PROPERTY_VALUE = "customExtensionModelPropertyValue";
+    public static final String CONFIGURATION_MODEL_PROPERTY_VALUE = "customConfigurationModelPropertyValue";
+    public static final String OPERATION_MODEL_PROPERTY_VALUE = "customOperationModelPropertyValue";
+    public static final String PARAMETER_MODEL_PROPERTY_VALUE = "customParameterModelPropertyValue";
+
     private final DeclarationDescriptor descriptor;
     private final ConfigurationInstantiator configurationInstantiator = mock(ConfigurationInstantiator.class);
     private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
@@ -64,13 +74,16 @@ public class TestWebServiceConsumerDeclarationReference
     {
         descriptor = new DeclarationDescriptor();
         descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION)
+                .withModelProperty(EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE)
                 .withCapability(capability)
                 .withConfig(CONFIG_NAME).instantiatedWith(configurationInstantiator).describedAs(CONFIG_DESCRIPTION)
-                    .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsStatic()
+                    .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
+                    .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsStatic().withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
                     .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
                     .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class).withCapability(capability)
                     .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
                 .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory).withCapability(capability)
+                    .withModelProperty(OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE)
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class).withCapability(capability)
                     .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)

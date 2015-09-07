@@ -14,7 +14,8 @@ import org.mule.extension.introspection.ConfigurationInstantiator;
  *
  * @since 1.0
  */
-public class ConfigurationDescriptor extends HasParameters implements Descriptor, HasCapabilities<ConfigurationDescriptor>
+public class ConfigurationDescriptor extends HasParameters implements Descriptor,
+        HasCapabilities<ConfigurationDescriptor>, HasModelProperties<ConfigurationDescriptor>
 {
 
     private final DeclarationDescriptor declaration;
@@ -59,15 +60,22 @@ public class ConfigurationDescriptor extends HasParameters implements Descriptor
     }
 
     /**
-     * Adds the given capability to the declaring configuration
-     *
-     * @param capability a not {@code null} capability
-     * @return this descriptor
+     * {@inheritDoc}
      */
     @Override
     public ConfigurationDescriptor withCapability(Object capability)
     {
         config.addCapability(capability);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationDescriptor withModelProperty(String key, Object value)
+    {
+        config.addModelProperty(key, value);
         return this;
     }
 

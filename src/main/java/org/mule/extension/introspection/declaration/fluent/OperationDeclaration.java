@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class OperationDeclaration extends CapableDeclaration<OperationDeclaration>
+public final class OperationDeclaration extends BaseDeclaration<OperationDeclaration>
 {
 
     private final String name;

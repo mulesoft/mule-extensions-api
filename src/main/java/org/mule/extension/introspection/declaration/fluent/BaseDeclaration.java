@@ -9,20 +9,23 @@ package org.mule.extension.introspection.declaration.fluent;
 import org.mule.extension.introspection.Capable;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * Base class for a declaration object on which capabilities can be added
+ * Base class for a declaration object
  *
- * @param <T> the type of the capable declaration
+ * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class CapableDeclaration<T extends CapableDeclaration> implements Capable
+public abstract class BaseDeclaration<T extends BaseDeclaration> implements Capable
 {
 
     private Set<Object> capabilities = new HashSet<>();
+    private Map<String, Object> modelProperties = new HashMap<>();
 
     /**
      * @return an unmodifiable copy of the declared capabilities
@@ -67,6 +70,55 @@ public abstract class CapableDeclaration<T extends CapableDeclaration> implement
 
         capabilities.add(capability);
         return (T) this;
+    }
+
+    /**
+     * Returns a map with the currently set model properties. Notice
+     * that this map is mutable and not thread-safe.
+     * <p/>
+     * This method is to be used when you need to access all the properties.
+     * For individual access use {@link #addModelProperty(String, Object)}
+     * or {@link #getModelProperty(String)} instead
+     *
+     * @return a {@link Map} with the current model properties. Might be empty but will never by {@code null}
+     */
+    public Map<String, Object> getModelProperties()
+    {
+        return modelProperties;
+    }
+
+    /**
+     * Returns the model property registered under {@code key}
+     *
+     * @param key the property's key
+     * @param <T> the generic type for the response value
+     * @return the associated value or {@code null} if no such property was registered
+     */
+    public <T> T getModelProperty(String key)
+    {
+        return (T) getModelProperties().get(key);
+    }
+
+    /**
+     * Associates the {@code key} with the {@code value} property
+     *
+     * @param key   the property's key
+     * @param value the property value
+     * @throws IllegalArgumentException if key is empty or if {@code value} is {@code null}
+     */
+    public void addModelProperty(String key, Object value)
+    {
+        if (value == null)
+        {
+            throw new IllegalArgumentException("A model property's value cannot be null");
+        }
+
+        if (key == null || key.trim().length() == 0)
+        {
+            throw new IllegalArgumentException("A model property's key cannot be null or empty");
+        }
+
+        modelProperties.put(key, value);
     }
 
     /**
