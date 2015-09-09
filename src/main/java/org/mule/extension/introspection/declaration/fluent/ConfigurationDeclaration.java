@@ -8,7 +8,9 @@ package org.mule.extension.introspection.declaration.fluent;
 
 import org.mule.extension.introspection.ConfigurationModel;
 import org.mule.extension.introspection.ConfigurationInstantiator;
+import org.mule.extension.runtime.InterceptorFactory;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +27,8 @@ public final class ConfigurationDeclaration extends BaseDeclaration<Configuratio
     private String description;
     private List<ParameterDeclaration> parameters = new LinkedList<>();
     private ConfigurationInstantiator configurationInstantiator;
+    private final List<InterceptorFactory> interceptorFactories = new ArrayList<>();
+
 
     ConfigurationDeclaration(String name)
     {
@@ -49,6 +53,17 @@ public final class ConfigurationDeclaration extends BaseDeclaration<Configuratio
     public List<ParameterDeclaration> getParameters()
     {
         return parameters;
+    }
+
+    public ConfigurationDeclaration addInterceptorFactory(InterceptorFactory interceptorFactory)
+    {
+        interceptorFactories.add(interceptorFactory);
+        return this;
+    }
+
+    public List<InterceptorFactory> getInterceptorFactories()
+    {
+        return interceptorFactories;
     }
 
     public ConfigurationInstantiator getConfigurationInstantiator()

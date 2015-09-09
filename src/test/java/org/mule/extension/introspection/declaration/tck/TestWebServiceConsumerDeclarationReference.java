@@ -11,6 +11,7 @@ import org.mule.extension.introspection.ConfigurationInstantiator;
 import org.mule.extension.introspection.OperationModel;
 import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
 import org.mule.extension.introspection.declaration.fluent.OperationExecutorFactory;
+import org.mule.extension.runtime.Interceptor;
 
 import java.util.List;
 
@@ -68,23 +69,25 @@ public class TestWebServiceConsumerDeclarationReference
     private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory broadcastExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory argLessExecutorFactory = mock(OperationExecutorFactory.class);
-    private final Object capability = new Object();
+    private final Interceptor interceptor1 = mock(Interceptor.class);
+    private final Interceptor interceptor2 = mock(Interceptor.class);
 
     public TestWebServiceConsumerDeclarationReference()
     {
         descriptor = new DeclarationDescriptor();
         descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION)
                 .withModelProperty(EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE)
-                .withCapability(capability)
                 .withConfig(CONFIG_NAME).instantiatedWith(configurationInstantiator).describedAs(CONFIG_DESCRIPTION)
                     .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
+                    .withInterceptorFrom(() -> interceptor1)
+                    .withInterceptorFrom(() -> interceptor2)
                     .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsStatic().withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
                     .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
-                    .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class).withCapability(capability)
+                    .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class)
                     .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
-                .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory).withCapability(capability)
+                .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
                     .withModelProperty(OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE)
-                    .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class).withCapability(capability)
+                    .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
                     .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
@@ -118,8 +121,13 @@ public class TestWebServiceConsumerDeclarationReference
         return argLessExecutorFactory;
     }
 
-    public Object getCapability()
+    public Interceptor getInterceptor1()
     {
-        return capability;
+        return interceptor1;
+    }
+
+    public Interceptor getInterceptor2()
+    {
+        return interceptor2;
     }
 }

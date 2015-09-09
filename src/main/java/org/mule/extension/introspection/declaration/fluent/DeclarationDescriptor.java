@@ -12,7 +12,7 @@ package org.mule.extension.introspection.declaration.fluent;
  *
  * @since 1.0
  */
-public class DeclarationDescriptor implements Descriptor, HasCapabilities<DeclarationDescriptor>, HasModelProperties<DeclarationDescriptor>
+public class DeclarationDescriptor implements Descriptor, HasModelProperties<DeclarationDescriptor>
 {
 
     private final Declaration declaration;
@@ -87,16 +87,6 @@ public class DeclarationDescriptor implements Descriptor, HasCapabilities<Declar
         declaration.addOperation(operation);
 
         return new OperationDescriptor(operation, this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DeclarationDescriptor withCapability(Object capability)
-    {
-        declaration.addCapability(capability);
-        return this;
     }
 
     /**

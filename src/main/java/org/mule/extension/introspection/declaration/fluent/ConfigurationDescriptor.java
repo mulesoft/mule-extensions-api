@@ -7,6 +7,7 @@
 package org.mule.extension.introspection.declaration.fluent;
 
 import org.mule.extension.introspection.ConfigurationInstantiator;
+import org.mule.extension.runtime.InterceptorFactory;
 
 /**
  * A {@link Descriptor} which allows configuring a {@link ConfigurationDeclaration}
@@ -14,8 +15,7 @@ import org.mule.extension.introspection.ConfigurationInstantiator;
  *
  * @since 1.0
  */
-public class ConfigurationDescriptor extends HasParameters implements Descriptor,
-        HasCapabilities<ConfigurationDescriptor>, HasModelProperties<ConfigurationDescriptor>
+public class ConfigurationDescriptor extends HasParameters implements Descriptor, HasModelProperties<ConfigurationDescriptor>
 {
 
     private final DeclarationDescriptor declaration;
@@ -63,19 +63,15 @@ public class ConfigurationDescriptor extends HasParameters implements Descriptor
      * {@inheritDoc}
      */
     @Override
-    public ConfigurationDescriptor withCapability(Object capability)
-    {
-        config.addCapability(capability);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ConfigurationDescriptor withModelProperty(String key, Object value)
     {
         config.addModelProperty(key, value);
+        return this;
+    }
+
+    public ConfigurationDescriptor withInterceptorFrom(InterceptorFactory interceptorFactory)
+    {
+        config.addInterceptorFactory(interceptorFactory);
         return this;
     }
 

@@ -12,7 +12,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -61,10 +60,10 @@ import org.mule.extension.introspection.declaration.fluent.Declaration;
 import org.mule.extension.introspection.declaration.fluent.OperationDeclaration;
 import org.mule.extension.introspection.declaration.fluent.ParameterDeclaration;
 import org.mule.extension.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference;
+import org.mule.extension.runtime.InterceptorFactory;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -78,22 +77,17 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @since 1.0
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DeclarationTestCase extends CapableDeclarationContractTestCase<Declaration>
+public class DeclarationTestCase
 {
 
     private TestWebServiceConsumerDeclarationReference testDeclaration;
+    private Declaration declaration;
 
     @Before
     public void before()
     {
         testDeclaration = new TestWebServiceConsumerDeclarationReference();
-        declaration = createDeclaration();
-    }
-
-    @Override
-    protected Declaration createDeclaration()
-    {
-        return testDeclaration.getDescriptor().getRootDeclaration().getDeclaration();
+        declaration = testDeclaration.getDescriptor().getRootDeclaration().getDeclaration();
     }
 
     @Test
@@ -104,11 +98,6 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(declaration.getVersion(), is(VERSION));
         assertThat(declaration.getConfigurations(), hasSize(1));
         assertModelProperties(declaration, EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE);
-
-        Set<Object> capabilities = declaration.getCapabilities();
-        assertThat(capabilities, is(notNullValue()));
-        assertThat(capabilities, hasSize(1));
-        assertThat(capabilities, contains(testDeclaration.getCapability()));
     }
 
     @Test
@@ -122,21 +111,20 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(configuration.getDescription(), is(CONFIG_DESCRIPTION));
         assertModelProperties(configuration, CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE);
 
+        List<InterceptorFactory> interceptorFactories = configuration.getInterceptorFactories();
+        assertThat(interceptorFactories, is(notNullValue()));
+        assertThat(interceptorFactories, hasSize(2));
+        assertThat(interceptorFactories.get(0).createInterceptor(), is(sameInstance(testDeclaration.getInterceptor1())));
+        assertThat(interceptorFactories.get(1).createInterceptor(), is(sameInstance(testDeclaration.getInterceptor2())));
+
         List<ParameterDeclaration> parameters = configuration.getParameters();
         assertThat(parameters, hasSize(4));
         assertParameter(parameters.get(0), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, false, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(1), SERVICE, SERVICE_NAME, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(2), PORT, SERVICE_PORT, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(3), ADDRESS, SERVICE_ADDRESS, true, true, DataType.of(String.class), STRING, null);
-        assertThat(parameters.get(2).getCapabilities(), contains(testDeclaration.getCapability()));
 
         assertModelProperties(parameters.get(0), PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nullCapability()
-    {
-        testDeclaration.getDescriptor().withCapability(null);
     }
 
     @Test
@@ -156,13 +144,11 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
         assertModelProperties(operation, OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE);
-        assertThat(operation.getCapabilities(), contains(testDeclaration.getCapability()));
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(2));
         assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, true, false, DataType.of(Boolean.class), BOOLEAN, true);
-        assertThat(parameters.get(0).getCapabilities(), contains(testDeclaration.getCapability()));
     }
 
     private void assertBroadcastOperation(List<OperationDeclaration> operations)
@@ -186,6 +172,7 @@ public class DeclarationTestCase extends CapableDeclarationContractTestCase<Decl
 
         assertThat(operation.getName(), is(ARG_LESS));
         assertThat(operation.getDescription(), is(HAS_NO_ARGS));
+        assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getArgLessExecutorFactory())));
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, is(notNullValue()));
