@@ -15,7 +15,7 @@ import org.mule.extension.introspection.ParameterModel;
  *
  * @since 1.0
  */
-public class ParameterDescriptor<T extends ParameterDescriptor> implements Descriptor, HasCapabilities<ParameterDescriptor<T>>, HasModelProperties<ParameterDescriptor<T>>
+public class ParameterDescriptor<T extends ParameterDescriptor> implements Descriptor, HasModelProperties<ParameterDescriptor<T>>
 {
 
     private final DeclarationDescriptor declaration;
@@ -126,16 +126,6 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     public DeclarationDescriptor getRootDeclaration()
     {
         return declaration;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ParameterDescriptor<T> withCapability(Object capability)
-    {
-        parameter.addCapability(capability);
-        return this;
     }
 
     /**

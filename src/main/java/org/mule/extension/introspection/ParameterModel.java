@@ -22,7 +22,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public interface ParameterModel extends Described, Capable, EnrichableModel
+public interface ParameterModel extends Described, EnrichableModel
 {
 
     Set<String> RESERVED_NAMES = Collections.unmodifiableSet(new HashSet<>(asList("name")));

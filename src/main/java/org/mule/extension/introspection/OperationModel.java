@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface OperationModel extends Described, Capable, EnrichableModel
+public interface OperationModel extends Described, EnrichableModel
 {
 
     /**

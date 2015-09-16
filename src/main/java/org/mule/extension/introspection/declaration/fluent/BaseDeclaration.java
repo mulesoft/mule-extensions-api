@@ -6,14 +6,8 @@
  */
 package org.mule.extension.introspection.declaration.fluent;
 
-import org.mule.extension.introspection.Capable;
-
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Base class for a declaration object
@@ -21,56 +15,10 @@ import java.util.Set;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class BaseDeclaration<T extends BaseDeclaration> implements Capable
+public abstract class BaseDeclaration<T extends BaseDeclaration>
 {
 
-    private Set<Object> capabilities = new HashSet<>();
     private Map<String, Object> modelProperties = new HashMap<>();
-
-    /**
-     * @return an unmodifiable copy of the declared capabilities
-     * @throws UnsupportedOperationException if mutation of this set is attempted
-     */
-    public Set<Object> getCapabilities()
-    {
-        return Collections.unmodifiableSet(capabilities);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <C> Set<C> getCapabilities(Class<C> capabilityType)
-    {
-        Set<C> matchingCapabilities = new LinkedHashSet<>(capabilities.size());
-        for (Object capability : capabilities)
-        {
-            if (capabilityType.isAssignableFrom(capability.getClass()))
-            {
-                matchingCapabilities.add((C) capability);
-            }
-        }
-
-        return Collections.unmodifiableSet(matchingCapabilities);
-    }
-
-    /**
-     * Adds a capability to this declaration
-     *
-     * @param capability a not {@code null} capability
-     * @return this declaration
-     * @throws {@link IllegalArgumentException} if {@code capability} is {@code null}
-     */
-    public T addCapability(Object capability)
-    {
-        if (capability == null)
-        {
-            throw new IllegalArgumentException("Can't add a null capability");
-        }
-
-        capabilities.add(capability);
-        return (T) this;
-    }
 
     /**
      * Returns a map with the currently set model properties. Notice
@@ -91,12 +39,12 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Capa
      * Returns the model property registered under {@code key}
      *
      * @param key the property's key
-     * @param <T> the generic type for the response value
+     * @param <P> the generic type for the response value
      * @return the associated value or {@code null} if no such property was registered
      */
-    public <T> T getModelProperty(String key)
+    public <P> P getModelProperty(String key)
     {
-        return (T) getModelProperties().get(key);
+        return (P) getModelProperties().get(key);
     }
 
     /**
@@ -106,7 +54,7 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Capa
      * @param value the property value
      * @throws IllegalArgumentException if key is empty or if {@code value} is {@code null}
      */
-    public void addModelProperty(String key, Object value)
+    public T addModelProperty(String key, Object value)
     {
         if (value == null)
         {
@@ -119,22 +67,6 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Capa
         }
 
         modelProperties.put(key, value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isCapableOf(Class<?> capabilityType)
-    {
-        for (Object capability : capabilities)
-        {
-            if (capabilityType.isInstance(capability))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return (T) this;
     }
 }

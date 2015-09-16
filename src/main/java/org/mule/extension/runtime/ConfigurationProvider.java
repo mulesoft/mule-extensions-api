@@ -11,7 +11,7 @@ import org.mule.extension.introspection.ConfigurationModel;
 /**
  * A component responsible for providing instances which are realizations of a given {@link ConfigurationModel}.
  * <p/>
- * Instances are provided through the {@link #get(OperationContext)} method.
+ * Instances are provided through the {@link #get(Object)} method.
  * When that method is invoked, it's up to each implementation to return a brand
  * new instance or one which has already been returned before.
  *
@@ -22,18 +22,19 @@ public interface ConfigurationProvider<T>
 {
 
     /**
-     * Returns a configuration instance to serve the given
-     * {@code operationContext}. This method may return an
-     * instance already returned in the past or a brand new one.
+     * Returns a {@link ConfigurationInstance}
+     * <p/>
+     * This method may return an instance already returned in the past or a brand new one.
      *
-     * @param operationContext a {@link OperationContext}
-     * @return a configuration instance
+     * @param muleEvent a {@link OperationContext}
+     * @return a {@link ConfigurationInstance}
      */
-    T get(OperationContext operationContext);
+    //TODO: MULE-8946
+    ConfigurationInstance<T> get(Object muleEvent);
 
     /**
      * Returns the {@link ConfigurationModel} for the instances
-     * returned by {@link #get(OperationContext)}
+     * returned by {@link #get(Object)}
      *
      * @return a {@link ConfigurationModel}
      */
