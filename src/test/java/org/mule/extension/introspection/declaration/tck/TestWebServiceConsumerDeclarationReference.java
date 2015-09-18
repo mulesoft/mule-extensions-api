@@ -7,11 +7,11 @@
 package org.mule.extension.introspection.declaration.tck;
 
 import static org.mockito.Mockito.mock;
-import org.mule.extension.introspection.ConfigurationInstantiator;
-import org.mule.extension.introspection.OperationModel;
-import org.mule.extension.introspection.declaration.fluent.DeclarationDescriptor;
-import org.mule.extension.introspection.declaration.fluent.OperationExecutorFactory;
-import org.mule.extension.runtime.Interceptor;
+import org.mule.api.extension.introspection.ConfigurationInstantiator;
+import org.mule.api.extension.introspection.OperationModel;
+import org.mule.api.extension.introspection.declaration.fluent.DeclarationDescriptor;
+import org.mule.api.extension.introspection.declaration.fluent.OperationExecutorFactory;
+import org.mule.api.extension.runtime.Interceptor;
 
 import java.util.List;
 
