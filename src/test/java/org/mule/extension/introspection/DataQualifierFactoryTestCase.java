@@ -8,7 +8,11 @@ package org.mule.extension.introspection;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import org.mule.extension.introspection.declaration.fluent.Declaration;
+import org.mule.api.extension.introspection.DataQualifier;
+import org.mule.api.extension.introspection.DataQualifierFactory;
+import org.mule.api.extension.introspection.ExtensionModel;
+import org.mule.api.extension.introspection.OperationModel;
+import org.mule.api.extension.introspection.declaration.fluent.Declaration;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
