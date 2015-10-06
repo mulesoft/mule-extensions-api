@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class OperationDeclaration extends InterceptableDeclaration<OperationDeclaration>
+public class OperationDeclaration extends InterceptableDeclaration<OperationDeclaration>
 {
 
     private final String name;

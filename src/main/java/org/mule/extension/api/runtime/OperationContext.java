@@ -22,10 +22,25 @@ public interface OperationContext
      * Returns the value associated to a parameter of name {@code parameterName}
      *
      * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
+     * @param <T>           the returned value's generic type
      * @return the parameter's value or {@code null}. Notice that {@code null} doesn't necessarily
      * mean that the parameter is not present. It might have just been resolved to that value
      */
-    Object getParameter(String parameterName);
+    <T> T getParameter(String parameterName);
+
+    /**
+     * Same as {@link #getParameter(String)} with the added restriction that the
+     * returned value is expected to be either an instance of {@code expectedType}
+     * or {@code null}
+     *
+     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
+     * @param expectedType  a {@link Class} of which the returned value is expected to be an instance of
+     * @param <T>           the returned value's expected type
+     * @return the parameter's value or {@code null}. Notice that {@code null} doesn't necessarily
+     * mean that the parameter is not present. It might have just been resolved to that value
+     * @throws IllegalArgumentException if the returned value is not an instance of {@code expectedType}
+     */
+    <T> T getTypeSafeParameter(String parameterName, Class<? extends T> expectedType);
 
     /**
      * Returns the {@link ConfigurationInstance} for the operation being executed.
@@ -34,4 +49,11 @@ public interface OperationContext
      * @return a {@code C} consistent with a corresponding {@link ConfigurationModel}
      */
     <C> ConfigurationInstance<C> getConfiguration();
+
+    /**
+     * Returns the model associated to the operation being executed
+     *
+     * @return a {@link OperationModel}
+     */
+    OperationModel getOperationModel();
 }
