@@ -28,7 +28,7 @@ public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclara
     private DataType type;
     private Object defaultValue = null;
 
-    ParameterDeclaration()
+    public ParameterDeclaration()
     {
     }
 
