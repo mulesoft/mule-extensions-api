@@ -12,6 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -114,8 +115,8 @@ public class DeclarationTestCase
         List<InterceptorFactory> interceptorFactories = configuration.getInterceptorFactories();
         assertThat(interceptorFactories, is(notNullValue()));
         assertThat(interceptorFactories, hasSize(2));
-        assertThat(interceptorFactories.get(0).createInterceptor(), is(sameInstance(testDeclaration.getInterceptor1())));
-        assertThat(interceptorFactories.get(1).createInterceptor(), is(sameInstance(testDeclaration.getInterceptor2())));
+        assertThat(interceptorFactories.get(0).createInterceptor(), is(sameInstance(testDeclaration.getConfigInterceptor1())));
+        assertThat(interceptorFactories.get(1).createInterceptor(), is(sameInstance(testDeclaration.getConfigInterceptor2())));
 
         List<ParameterDeclaration> parameters = configuration.getParameters();
         assertThat(parameters, hasSize(4));
@@ -149,6 +150,7 @@ public class DeclarationTestCase
         assertThat(parameters, hasSize(2));
         assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, true, true, DataType.of(String.class), STRING, null);
         assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, true, false, DataType.of(Boolean.class), BOOLEAN, true);
+        assertThat(operation.getInterceptorFactories(), is(empty()));
     }
 
     private void assertBroadcastOperation(List<OperationDeclaration> operations)
@@ -164,6 +166,11 @@ public class DeclarationTestCase
         assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, true, true, DataType.of(List.class, String.class), LIST, null);
         assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, true, false, DataType.of(Boolean.class), BOOLEAN, true);
         assertParameter(parameters.get(2), CALLBACK, CALLBACK_DESCRIPTION, false, true, DataType.of(OperationModel.class), DataQualifier.OPERATION, null);
+
+        List<InterceptorFactory> interceptorFactories = operation.getInterceptorFactories();
+        assertThat(operation.getInterceptorFactories(), hasSize(2));
+        assertThat(interceptorFactories.get(0).createInterceptor(), is(sameInstance(testDeclaration.getOperationInterceptor1())));
+        assertThat(interceptorFactories.get(1).createInterceptor(), is(sameInstance(testDeclaration.getOperationInterceptor2())));
     }
 
     private void assertArgLessOperation(List<OperationDeclaration> operations)
@@ -177,6 +184,7 @@ public class DeclarationTestCase
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, is(notNullValue()));
         assertThat(parameters.isEmpty(), is(true));
+        assertThat(operation.getInterceptorFactories(), is(empty()));
     }
 
     private void assertParameter(ParameterDeclaration parameter,

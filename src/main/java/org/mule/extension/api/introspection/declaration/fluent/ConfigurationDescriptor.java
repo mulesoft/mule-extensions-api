@@ -15,7 +15,8 @@ import org.mule.extension.api.runtime.InterceptorFactory;
  *
  * @since 1.0
  */
-public class ConfigurationDescriptor extends HasParameters implements Descriptor, HasModelProperties<ConfigurationDescriptor>
+public class ConfigurationDescriptor extends HasParameters implements
+        Descriptor, HasModelProperties<ConfigurationDescriptor>, HasInterceptors<ConfigurationDescriptor>
 {
 
     private final DeclarationDescriptor declaration;
@@ -69,6 +70,10 @@ public class ConfigurationDescriptor extends HasParameters implements Descriptor
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ConfigurationDescriptor withInterceptorFrom(InterceptorFactory interceptorFactory)
     {
         config.addInterceptorFactory(interceptorFactory);

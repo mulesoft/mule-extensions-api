@@ -6,9 +6,6 @@
  */
 package org.mule.extension.api.introspection;
 
-import org.mule.extension.api.runtime.Interceptor;
-import org.mule.extension.api.runtime.InterceptorFactory;
-
 import java.util.List;
 
 /**
@@ -28,7 +25,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ConfigurationModel extends Described, EnrichableModel
+public interface ConfigurationModel extends Described, EnrichableModel, InterceptableModel
 {
 
     /**
@@ -49,19 +46,5 @@ public interface ConfigurationModel extends Described, EnrichableModel
      * Returns the {@link ConfigurationInstantiator} for this instance
      */
     ConfigurationInstantiator getInstantiator();
-
-    /**
-     * Returns a {@link List} which items are {@link InterceptorFactory} instances
-     * that are to be used to provision the {@link Interceptor interceptors} for the
-     * configurations created from this model.
-     * <p/>
-     * The order of the factories in the list will be the same as the order of the resulting
-     * {@link Interceptor interceptors}. However, just like it's explained in the
-     * {@link Interceptable} interface, the order is not guaranteed to be respected although
-     * it should be expressed anyway.
-     *
-     * @return an immutable {@link List}. Can be empty but must never be {@code null}
-     */
-    List<InterceptorFactory> getInterceptorFactories();
 
 }
