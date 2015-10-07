@@ -69,8 +69,10 @@ public class TestWebServiceConsumerDeclarationReference
     private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory broadcastExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory argLessExecutorFactory = mock(OperationExecutorFactory.class);
-    private final Interceptor interceptor1 = mock(Interceptor.class);
-    private final Interceptor interceptor2 = mock(Interceptor.class);
+    private final Interceptor configInterceptor1 = mock(Interceptor.class);
+    private final Interceptor configInterceptor2 = mock(Interceptor.class);
+    private final Interceptor operationInterceptor1 = mock(Interceptor.class);
+    private final Interceptor operationInterceptor2 = mock(Interceptor.class);
 
     public TestWebServiceConsumerDeclarationReference()
     {
@@ -79,8 +81,8 @@ public class TestWebServiceConsumerDeclarationReference
                 .withModelProperty(EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE)
                 .withConfig(CONFIG_NAME).instantiatedWith(configurationInstantiator).describedAs(CONFIG_DESCRIPTION)
                     .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
-                    .withInterceptorFrom(() -> interceptor1)
-                    .withInterceptorFrom(() -> interceptor2)
+                    .withInterceptorFrom(() -> configInterceptor1)
+                    .withInterceptorFrom(() -> configInterceptor2)
                     .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsStatic().withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
                     .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
                     .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class)
@@ -90,6 +92,8 @@ public class TestWebServiceConsumerDeclarationReference
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
                     .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
+                    .withInterceptorFrom(() -> operationInterceptor1)
+                    .withInterceptorFrom(() -> operationInterceptor2)
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
                     .with().optionalParameter(MTOM_ENABLED).whichIsDynamic().describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                     .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).whichIsStatic().ofType(OperationModel.class)
@@ -121,13 +125,23 @@ public class TestWebServiceConsumerDeclarationReference
         return argLessExecutorFactory;
     }
 
-    public Interceptor getInterceptor1()
+    public Interceptor getConfigInterceptor1()
     {
-        return interceptor1;
+        return configInterceptor1;
     }
 
-    public Interceptor getInterceptor2()
+    public Interceptor getConfigInterceptor2()
     {
-        return interceptor2;
+        return configInterceptor2;
+    }
+
+    public Interceptor getOperationInterceptor1()
+    {
+        return operationInterceptor1;
+    }
+
+    public Interceptor getOperationInterceptor2()
+    {
+        return operationInterceptor2;
     }
 }

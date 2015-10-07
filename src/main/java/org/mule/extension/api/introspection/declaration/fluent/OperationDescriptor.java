@@ -6,6 +6,7 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
 
 /**
@@ -14,7 +15,7 @@ import org.mule.extension.api.runtime.OperationExecutor;
  *
  * @since 1.0
  */
-public class OperationDescriptor extends HasParameters implements Descriptor, HasModelProperties<OperationDescriptor>
+public class OperationDescriptor extends HasParameters implements Descriptor, HasModelProperties<OperationDescriptor>, HasInterceptors<OperationDescriptor>
 {
 
     private final OperationDeclaration operation;
@@ -81,6 +82,16 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OperationDescriptor withInterceptorFrom(InterceptorFactory interceptorFactory)
+    {
+        operation.addInterceptorFactory(interceptorFactory);
+        return this;
+    }
+
+    /**
      * Adds another operation to the root {@link DeclarationDescriptor}
      *
      * @param name the name of the operation
@@ -110,5 +121,13 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     {
         operation.addModelProperty(key, value);
         return this;
+    }
+
+    /**
+     * @return the {@link OperationDeclaration} which is being defined by {@code this} {@link Descriptor}
+     */
+    public OperationDeclaration getDeclaration()
+    {
+        return operation;
     }
 }
