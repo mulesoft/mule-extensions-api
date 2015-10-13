@@ -7,6 +7,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.ParameterModel;
 
 /**
@@ -65,26 +66,9 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
         return (T) this;
     }
 
-    /**
-     * Specifies that the declared {@link ParameterModel} is not to be dynamic
-     *
-     * @return {@value this} descriptor
-     */
-    public T whichIsStatic()
+    public T withExpressionSupport(ExpressionSupport support)
     {
-        parameter.setDynamic(false);
-        return (T) this;
-    }
-
-    /**
-     * Specifies that the declared {@link ParameterModel} is to be dynamic
-     * (which is the default anyways...)
-     *
-     * @return {@value this} descriptor
-     */
-    public T whichIsDynamic()
-    {
-        parameter.setDynamic(true);
+        parameter.setExpressionSupport(support);
         return (T) this;
     }
 

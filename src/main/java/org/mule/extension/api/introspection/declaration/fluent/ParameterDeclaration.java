@@ -6,16 +6,20 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
 import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.Described;
+import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.ParameterModel;
 
 /**
- * A declaration object for a {@link ParameterModel}. It contains raw, unvalidated
- * data which is used to declare the structure of a {@link ParameterModel}.
+ * A declaration object for a {@link ParameterModel}. It contains raw,
+ * unvalidated data which is used to declare the structure of a
+ * {@link ParameterModel}.
  * <p/>
- * By default, {@link #isDynamic()} returns {@code true} and
- * {@link #getDescription()} returns an empty {@link String}.
+ * By default, {@link #getExpressionSupport()} ()} returns
+ * {@link ExpressionSupport#SUPPORTED} and {@link #getDescription()}
+ * returns an empty {@link String}.
  *
  * @since 1.0
  */
@@ -24,7 +28,7 @@ public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclara
     private String name;
     private String description = "";
     private boolean required;
-    private boolean dynamic = true;
+    private ExpressionSupport expressionSupport = SUPPORTED;
     private DataType type;
     private Object defaultValue = null;
 
@@ -53,14 +57,14 @@ public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclara
         this.required = required;
     }
 
-    public boolean isDynamic()
+    public ExpressionSupport getExpressionSupport()
     {
-        return dynamic;
+        return expressionSupport;
     }
 
-    public void setDynamic(boolean dynamic)
+    public void setExpressionSupport(ExpressionSupport expressionSupport)
     {
-        this.dynamic = dynamic;
+        this.expressionSupport = expressionSupport;
     }
 
     public DataType getType()

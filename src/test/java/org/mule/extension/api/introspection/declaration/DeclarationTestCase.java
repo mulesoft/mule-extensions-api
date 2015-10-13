@@ -19,6 +19,9 @@ import static org.junit.Assert.assertThat;
 import static org.mule.extension.api.introspection.DataQualifier.BOOLEAN;
 import static org.mule.extension.api.introspection.DataQualifier.LIST;
 import static org.mule.extension.api.introspection.DataQualifier.STRING;
+import static org.mule.extension.api.introspection.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
+import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.ADDRESS;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.ARG_LESS;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.BROADCAST;
@@ -54,6 +57,7 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.WS_CONSUMER_DESCRIPTION;
 import org.mule.extension.api.introspection.DataQualifier;
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.BaseDeclaration;
 import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
@@ -120,10 +124,10 @@ public class DeclarationTestCase
 
         List<ParameterDeclaration> parameters = configuration.getParameters();
         assertThat(parameters, hasSize(4));
-        assertParameter(parameters.get(0), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, false, true, DataType.of(String.class), STRING, null);
-        assertParameter(parameters.get(1), SERVICE, SERVICE_NAME, true, true, DataType.of(String.class), STRING, null);
-        assertParameter(parameters.get(2), PORT, SERVICE_PORT, true, true, DataType.of(String.class), STRING, null);
-        assertParameter(parameters.get(3), ADDRESS, SERVICE_ADDRESS, true, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(0), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(1), SERVICE, SERVICE_NAME, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(2), PORT, SERVICE_PORT, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(3), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, DataType.of(String.class), STRING, null);
 
         assertModelProperties(parameters.get(0), PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE);
     }
@@ -148,8 +152,8 @@ public class DeclarationTestCase
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(2));
-        assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, true, true, DataType.of(String.class), STRING, null);
-        assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, true, false, DataType.of(Boolean.class), BOOLEAN, true);
+        assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, DataType.of(Boolean.class), BOOLEAN, true);
         assertThat(operation.getInterceptorFactories(), is(empty()));
     }
 
@@ -163,9 +167,9 @@ public class DeclarationTestCase
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(3));
-        assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, true, true, DataType.of(List.class, String.class), LIST, null);
-        assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, true, false, DataType.of(Boolean.class), BOOLEAN, true);
-        assertParameter(parameters.get(2), CALLBACK, CALLBACK_DESCRIPTION, false, true, DataType.of(OperationModel.class), DataQualifier.OPERATION, null);
+        assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, DataType.of(List.class, String.class), LIST, null);
+        assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, DataType.of(Boolean.class), BOOLEAN, true);
+        assertParameter(parameters.get(2), CALLBACK, CALLBACK_DESCRIPTION, REQUIRED, true, DataType.of(OperationModel.class), DataQualifier.OPERATION, null);
 
         List<InterceptorFactory> interceptorFactories = operation.getInterceptorFactories();
         assertThat(operation.getInterceptorFactories(), hasSize(2));
@@ -190,7 +194,7 @@ public class DeclarationTestCase
     private void assertParameter(ParameterDeclaration parameter,
                                  String name,
                                  String description,
-                                 boolean acceptsExpressions,
+                                 ExpressionSupport expressionSupport,
                                  boolean required,
                                  DataType type,
                                  DataQualifier qualifier,
@@ -200,7 +204,7 @@ public class DeclarationTestCase
         assertThat(parameter, is(notNullValue()));
         assertThat(parameter.getName(), is(name));
         assertThat(parameter.getDescription(), is(description));
-        assertThat(parameter.isDynamic(), is(acceptsExpressions));
+        assertThat(parameter.getExpressionSupport(), is(expressionSupport));
         assertThat(parameter.isRequired(), is(required));
         assertThat(parameter.getDefaultValue(), equalTo(defaultValue));
         assertThat(parameter.getType(), equalTo(type));
