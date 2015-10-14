@@ -45,17 +45,17 @@ public interface ParameterModel extends Described, EnrichableModel
     boolean isRequired();
 
     /**
-     * A parameter is considered to be dynamic if it's value can change in runtime
-     * depending on contextual circumstances. E.g.: the parameter value is a MEL expression
-     * or can be dynamically changed by a third party
+     * The level of support {@code this} parameter has for expressions
      *
-     * @return whether this parameter is dynamic or not
+     * @return a {@link ExpressionSupport}
      */
-    boolean isDynamic();
+    ExpressionSupport getExpressionSupport();
 
     /**
      * The default value for this parameter. It might be an expression if
-     * {@link #isDynamic()} returns {@code true}.
+     * {@link #getExpressionSupport()} returns {@link ExpressionSupport#REQUIRED}
+     * or {@link ExpressionSupport#SUPPORTED}.
+     * <p>
      * This method is exclusive with {@link #isRequired()}. Check that method's comments for
      * more information on the semantics of this two methods.
      *

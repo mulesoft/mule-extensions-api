@@ -7,6 +7,8 @@
 package org.mule.extension.api.introspection.declaration.tck;
 
 import static org.mockito.Mockito.mock;
+import static org.mule.extension.api.introspection.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
 import org.mule.extension.api.introspection.ConfigurationInstantiator;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.DeclarationDescriptor;
@@ -83,7 +85,9 @@ public class TestWebServiceConsumerDeclarationReference
                     .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
                     .withInterceptorFrom(() -> configInterceptor1)
                     .withInterceptorFrom(() -> configInterceptor2)
-                    .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class).whichIsStatic().withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
+                    .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class)
+                        .withExpressionSupport(NOT_SUPPORTED)
+                        .withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
                     .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
                     .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class)
                     .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
@@ -95,8 +99,8 @@ public class TestWebServiceConsumerDeclarationReference
                     .withInterceptorFrom(() -> operationInterceptor1)
                     .withInterceptorFrom(() -> operationInterceptor2)
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
-                    .with().optionalParameter(MTOM_ENABLED).whichIsDynamic().describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
-                    .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).whichIsStatic().ofType(OperationModel.class)
+                    .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
+                    .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(OperationModel.class).withExpressionSupport(REQUIRED)
                 .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory);
     }
 
