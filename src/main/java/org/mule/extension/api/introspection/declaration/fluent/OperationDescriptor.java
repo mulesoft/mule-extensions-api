@@ -22,6 +22,17 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     private final DeclarationDescriptor declaration;
 
     /**
+     * Creates a new instance
+     * @param operation the {@link OperationDeclaration} which will be defined through {@code this} {@link Descriptor}
+     * @param declaration the {@link DeclarationDescriptor} which owns {@code this} one
+     */
+    OperationDescriptor(OperationDeclaration operation, DeclarationDescriptor declaration)
+    {
+        this.operation = operation;
+        this.declaration = declaration;
+    }
+
+    /**
      * Adds a description
      *
      * @param description a description
@@ -31,12 +42,6 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     {
         operation.setDescription(description);
         return this;
-    }
-
-    OperationDescriptor(OperationDeclaration operation, DeclarationDescriptor declaration)
-    {
-        this.operation = operation;
-        this.declaration = declaration;
     }
 
     /**
@@ -89,28 +94,6 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     {
         operation.addInterceptorFactory(interceptorFactory);
         return this;
-    }
-
-    /**
-     * Adds another operation to the root {@link DeclarationDescriptor}
-     *
-     * @param name the name of the operation
-     * @return a new {@link OperationDescriptor}
-     */
-    public OperationDescriptor withOperation(String name)
-    {
-        return getRootDeclaration().withOperation(name);
-    }
-
-    /**
-     * Adds another configuration to the root {@link DeclarationDescriptor}
-     *
-     * @param name the name of the configuration
-     * @return a new {@link ConfigurationDescriptor}
-     */
-    public ConfigurationDescriptor withConfig(String name)
-    {
-        return getRootDeclaration().withConfig(name);
     }
 
     /**

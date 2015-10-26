@@ -25,4 +25,37 @@ public interface Descriptor
      * @return a {@link DeclarationDescriptor}
      */
     DeclarationDescriptor getRootDeclaration();
+
+    /**
+     * Adds a config of the given name
+     *
+     * @param name a non blank name
+     * @return a {@link ConfigurationDescriptor} which allows describing the created configuration
+     */
+    default ConfigurationDescriptor withConfig(String name)
+    {
+        return getRootDeclaration().withConfig(name);
+    }
+
+    /**
+     * Adds an operation of the given {@code name}
+     *
+     * @param name a non blank name
+     * @return a {@link OperationDescriptor} which allows describing the created operation
+     */
+    default OperationDescriptor withOperation(String name)
+    {
+        return getRootDeclaration().withOperation(name);
+    }
+
+    /**
+     * Adds a connection provider of the given {@code name}
+     *
+     * @param name a non blank name
+     * @return a {@link ConnectionProviderDescriptor} which allows describing the created provider
+     */
+    default ConnectionProviderDescriptor withConnectionProvider(String name)
+    {
+        return getRootDeclaration().withConnectionProvider(name);
+    }
 }

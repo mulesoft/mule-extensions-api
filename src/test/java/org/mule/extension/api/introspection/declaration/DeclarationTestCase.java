@@ -32,6 +32,10 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIGURATION_MODEL_PROPERTY_VALUE;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_DESCRIPTION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_NAME;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONNECTION_PROVIDER_CONFIG_TYPE;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONNECTION_PROVIDER_CONNECTOR_TYPE;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONNECTION_PROVIDER_DESCRIPTION;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONNECTION_PROVIDER_NAME;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONSUMER;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.EXTENSION_MODEL_PROPERTY_KEY;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.EXTENSION_MODEL_PROPERTY_VALUE;
@@ -44,6 +48,8 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION_MODEL_PROPERTY_VALUE;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PARAMETER_MODEL_PROPERTY_KEY;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PARAMETER_MODEL_PROPERTY_VALUE;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PASSWORD;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PASSWORD_DESCRIPTION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PORT;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE_ADDRESS;
@@ -51,6 +57,8 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.SERVICE_PORT;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.THE_OPERATION_TO_USE;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.URI_TO_FIND_THE_WSDL;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.USERNAME;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.USERNAME_DESCRIPTION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.VERSION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.WSDL_LOCATION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.WS_CONSUMER;
@@ -61,6 +69,7 @@ import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.BaseDeclaration;
 import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
+import org.mule.extension.api.introspection.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.extension.api.introspection.declaration.fluent.Declaration;
 import org.mule.extension.api.introspection.declaration.fluent.OperationDeclaration;
 import org.mule.extension.api.introspection.declaration.fluent.ParameterDeclaration;
@@ -111,7 +120,7 @@ public class DeclarationTestCase
         assertThat(declaration.getConfigurations(), hasSize(1));
         ConfigurationDeclaration configuration = declaration.getConfigurations().get(0);
         assertThat(configuration, is(notNullValue()));
-        assertThat(configuration.getConfigurationInstantiator(), is(sameInstance(testDeclaration.getConfigurationInstantiator())));
+        assertThat(configuration.getConfigurationFactory(), is(sameInstance(testDeclaration.getConfigurationFactory())));
         assertThat(configuration.getName(), is(CONFIG_NAME));
         assertThat(configuration.getDescription(), is(CONFIG_DESCRIPTION));
         assertModelProperties(configuration, CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE);
@@ -124,12 +133,12 @@ public class DeclarationTestCase
 
         List<ParameterDeclaration> parameters = configuration.getParameters();
         assertThat(parameters, hasSize(4));
-        assertParameter(parameters.get(0), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true, DataType.of(String.class), STRING, null);
-        assertParameter(parameters.get(1), SERVICE, SERVICE_NAME, SUPPORTED, true, DataType.of(String.class), STRING, null);
-        assertParameter(parameters.get(2), PORT, SERVICE_PORT, SUPPORTED, true, DataType.of(String.class), STRING, null);
-        assertParameter(parameters.get(3), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(0), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(1), PORT, SERVICE_PORT, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(2), SERVICE, SERVICE_NAME, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(3), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true, DataType.of(String.class), STRING, null);
 
-        assertModelProperties(parameters.get(0), PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE);
+        assertModelProperties(parameters.get(3), PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE);
     }
 
     @Test
@@ -140,6 +149,26 @@ public class DeclarationTestCase
         assertConsumeOperation(operations);
         assertBroadcastOperation(operations);
         assertArgLessOperation(operations);
+    }
+
+    @Test
+    public void connectionProvider() throws Exception
+    {
+        List<ConnectionProviderDeclaration> connectionProviders = declaration.getConnectionProviders();
+        assertThat(connectionProviders, hasSize(1));
+
+        ConnectionProviderDeclaration connectionProvider = connectionProviders.get(0);
+        assertThat(connectionProvider, is(notNullValue()));
+        assertThat(connectionProvider.getName(), is(CONNECTION_PROVIDER_NAME));
+        assertThat(connectionProvider.getDescription(), is(CONNECTION_PROVIDER_DESCRIPTION));
+        assertThat(connectionProvider.getFactory(), is(sameInstance(testDeclaration.getConnectionProviderFactory())));
+        assertThat(connectionProvider.getConfigurationType(), is(sameInstance(CONNECTION_PROVIDER_CONFIG_TYPE)));
+        assertThat(connectionProvider.getConnectionType(), is(sameInstance(CONNECTION_PROVIDER_CONNECTOR_TYPE)));
+
+        List<ParameterDeclaration> parameters = connectionProvider.getParameters();
+        assertThat(parameters, hasSize(2));
+        assertParameter(parameters.get(0), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, DataType.of(String.class), STRING, null);
+        assertParameter(parameters.get(1), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, DataType.of(String.class), STRING, null);
     }
 
     private void assertConsumeOperation(List<OperationDeclaration> operations)

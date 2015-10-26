@@ -46,28 +46,6 @@ public final class WithParameters
         return new OptionalParameterDescriptor(owner, newParameter(name, false), declaration);
     }
 
-    /**
-     * Adds another config of the given name
-     *
-     * @param name the name of the config
-     * @return a new {@link ConfigurationDescriptor}
-     */
-    public ConfigurationDescriptor withConfig(String name)
-    {
-        return declaration.withConfig(name);
-    }
-
-    /**
-     * Adds another operation of the given name
-     *
-     * @param name the name of the config
-     * @return a new {@link OperationDescriptor}
-     */
-    public OperationDescriptor withOperation(String name)
-    {
-        return declaration.withOperation(name);
-    }
-
     private ParameterDeclaration newParameter(String name, boolean required)
     {
         ParameterDeclaration parameter = new ParameterDeclaration();

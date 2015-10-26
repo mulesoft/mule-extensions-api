@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.ConfigurationInstantiator;
+import org.mule.extension.api.introspection.ConfigurationFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 
 /**
@@ -81,28 +81,17 @@ public class ConfigurationDescriptor extends HasParameters implements
     }
 
     /**
-     * Specifies the {@link ConfigurationInstantiator} to be used to
+     * Specifies the {@link ConfigurationFactory} to be used to
      * create instances of objects which are compliant with the declared
      * configuration
      *
-     * @param configurationInstantiator a {@link ConfigurationInstantiator}
+     * @param configurationFactory a {@link ConfigurationFactory}
      * @return this descriptor
      */
-    public ConfigurationDescriptor instantiatedWith(ConfigurationInstantiator configurationInstantiator)
+    public ConfigurationDescriptor createdWith(ConfigurationFactory configurationFactory)
     {
-        config.setConfigurationInstantiator(configurationInstantiator);
+        config.setConfigurationFactory(configurationFactory);
         return this;
-    }
-
-    /**
-     * Adds another config of the given name
-     *
-     * @param name the name of the config
-     * @return a new {@link ConfigurationDescriptor}
-     */
-    public ConfigurationDescriptor withConfig(String name)
-    {
-        return declaration.withConfig(name);
     }
 
     /**

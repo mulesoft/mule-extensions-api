@@ -6,8 +6,6 @@
  */
 package org.mule.extension.api.introspection;
 
-import java.util.List;
-
 /**
  * A named configuration for an extension
  * <p/>
@@ -25,7 +23,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ConfigurationModel extends Described, EnrichableModel, InterceptableModel
+public interface ConfigurationModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel
 {
 
     /**
@@ -34,17 +32,8 @@ public interface ConfigurationModel extends Described, EnrichableModel, Intercep
     ExtensionModel getExtensionModel();
 
     /**
-     * Returns the {@link ParameterModel parameterModels}
-     * available for this configuration
-     *
-     * @return a immutable {@link java.util.List} with {@link ParameterModel}
-     * instances. It might be empty but it will never be {@code null}
+     * Returns the {@link ConfigurationFactory} for this instance
      */
-    List<ParameterModel> getParameterModels();
-
-    /**
-     * Returns the {@link ConfigurationInstantiator} for this instance
-     */
-    ConfigurationInstantiator getInstantiator();
+    ConfigurationFactory getConfigurationFactory();
 
 }

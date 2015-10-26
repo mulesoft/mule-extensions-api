@@ -8,7 +8,6 @@ package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExtensionModel;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +25,9 @@ public class Declaration extends BaseDeclaration<Declaration>
     private String version;
     private String description;
 
-    private final List<ConfigurationDeclaration> configurations = new ArrayList<>();
+    private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
     private final List<OperationDeclaration> operations = new LinkedList<>();
+    private final List<ConnectionProviderDeclaration> connectionProviders = new LinkedList<>();
 
     Declaration()
     {
@@ -41,7 +41,7 @@ public class Declaration extends BaseDeclaration<Declaration>
      */
     public List<ConfigurationDeclaration> getConfigurations()
     {
-        return Collections.unmodifiableList(configurations);
+        return configurations;
     }
 
     /**
@@ -72,10 +72,36 @@ public class Declaration extends BaseDeclaration<Declaration>
     }
 
     /**
+     * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
+     */
+    public List<ConnectionProviderDeclaration> getConnectionProviders()
+    {
+        return Collections.unmodifiableList(connectionProviders);
+    }
+
+    /**
+     * Adds a {@link ConnectionProviderDeclaration}
+     *
+     * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
+     * @return {@code this} declaration
+     * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
+     */
+    public Declaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider)
+    {
+        if (connectionProvider == null)
+        {
+            throw new IllegalArgumentException("Can't add a null connection provider");
+        }
+
+        connectionProviders.add(connectionProvider);
+        return this;
+    }
+
+    /**
      * Adds a {@link OperationDeclaration}
      *
      * @param operation a not {@code null} {@link OperationDeclaration}
-     * @return this declaration
+     * @return {@code this} declaration
      * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
      */
     public Declaration addOperation(OperationDeclaration operation)

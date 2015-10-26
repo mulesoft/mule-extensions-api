@@ -12,7 +12,7 @@ package org.mule.extension.api.introspection;
  *
  * @since 1.0
  */
-public interface ConfigurationInstantiator
+public interface ConfigurationFactory
 {
 
     /**
