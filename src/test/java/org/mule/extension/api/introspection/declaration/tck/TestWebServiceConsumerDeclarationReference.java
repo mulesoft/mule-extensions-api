@@ -9,7 +9,8 @@ package org.mule.extension.api.introspection.declaration.tck;
 import static org.mockito.Mockito.mock;
 import static org.mule.extension.api.introspection.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
-import org.mule.extension.api.introspection.ConfigurationInstantiator;
+import org.mule.extension.api.introspection.ConfigurationFactory;
+import org.mule.extension.api.introspection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.DeclarationDescriptor;
 import org.mule.extension.api.introspection.declaration.fluent.OperationExecutorFactory;
@@ -55,6 +56,10 @@ public class TestWebServiceConsumerDeclarationReference
     public static final String CALLBACK_DESCRIPTION = "async callback";
     public static final String HAS_NO_ARGS = "has no args";
     public static final String ARG_LESS = "argLess";
+    public static final String USERNAME = "username";
+    public static final String USERNAME_DESCRIPTION = "Authentication username";
+    public static final String PASSWORD = "password";
+    public static final String PASSWORD_DESCRIPTION = "Authentication password";
 
     public static final String EXTENSION_MODEL_PROPERTY_KEY = "customExtensionModelProperty";
     public static final String CONFIGURATION_MODEL_PROPERTY_KEY = "customConfigurationModelProperty";
@@ -66,8 +71,13 @@ public class TestWebServiceConsumerDeclarationReference
     public static final String OPERATION_MODEL_PROPERTY_VALUE = "customOperationModelPropertyValue";
     public static final String PARAMETER_MODEL_PROPERTY_VALUE = "customParameterModelPropertyValue";
 
+    public static final String CONNECTION_PROVIDER_NAME = "connectionProvider";
+    public static final String CONNECTION_PROVIDER_DESCRIPTION = "my connection provider";
+    public static final Class<?> CONNECTION_PROVIDER_CONFIG_TYPE = String.class;
+    public static final Class<?> CONNECTION_PROVIDER_CONNECTOR_TYPE = Integer.class;
+
     private final DeclarationDescriptor descriptor;
-    private final ConfigurationInstantiator configurationInstantiator = mock(ConfigurationInstantiator.class);
+    private final ConfigurationFactory configurationFactory = mock(ConfigurationFactory.class);
     private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory broadcastExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory argLessExecutorFactory = mock(OperationExecutorFactory.class);
@@ -75,22 +85,23 @@ public class TestWebServiceConsumerDeclarationReference
     private final Interceptor configInterceptor2 = mock(Interceptor.class);
     private final Interceptor operationInterceptor1 = mock(Interceptor.class);
     private final Interceptor operationInterceptor2 = mock(Interceptor.class);
+    private final ConnectionProviderFactory connectionProviderFactory = mock(ConnectionProviderFactory.class);
 
     public TestWebServiceConsumerDeclarationReference()
     {
         descriptor = new DeclarationDescriptor();
         descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION)
                 .withModelProperty(EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE)
-                .withConfig(CONFIG_NAME).instantiatedWith(configurationInstantiator).describedAs(CONFIG_DESCRIPTION)
+                .withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
                     .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
                     .withInterceptorFrom(() -> configInterceptor1)
                     .withInterceptorFrom(() -> configInterceptor2)
+                    .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
+                    .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class)
+                    .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
                     .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class)
                         .withExpressionSupport(NOT_SUPPORTED)
                         .withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
-                    .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
-                    .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class)
-                    .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
                 .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
                     .withModelProperty(OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE)
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
@@ -101,7 +112,13 @@ public class TestWebServiceConsumerDeclarationReference
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
                     .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                     .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(OperationModel.class).withExpressionSupport(REQUIRED)
-                .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory);
+                .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory)
+                .withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
+                    .createdWith(connectionProviderFactory)
+                    .forConfigsOfType(CONNECTION_PROVIDER_CONFIG_TYPE)
+                    .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE)
+                    .with().requiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(String.class)
+                    .with().requiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(String.class);
     }
 
     public DeclarationDescriptor getDescriptor()
@@ -109,9 +126,9 @@ public class TestWebServiceConsumerDeclarationReference
         return descriptor;
     }
 
-    public ConfigurationInstantiator getConfigurationInstantiator()
+    public ConfigurationFactory getConfigurationFactory()
     {
-        return configurationInstantiator;
+        return configurationFactory;
     }
 
     public OperationExecutorFactory getConsumerExecutorFactory()
@@ -147,5 +164,10 @@ public class TestWebServiceConsumerDeclarationReference
     public Interceptor getOperationInterceptor2()
     {
         return operationInterceptor2;
+    }
+
+    public ConnectionProviderFactory getConnectionProviderFactory()
+    {
+        return connectionProviderFactory;
     }
 }

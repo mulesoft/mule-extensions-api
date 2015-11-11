@@ -8,24 +8,13 @@ package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.runtime.OperationExecutor;
 
-import java.util.List;
-
 /**
  * A definition of an operation in a {@link ExtensionModel}
  *
  * @since 1.0
  */
-public interface OperationModel extends Described, EnrichableModel, InterceptableModel
+public interface OperationModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel
 {
-
-    /**
-     * Returns the parameters that this operation takes.
-     *
-     * @return an immutable {@link java.util.List} with instances of
-     * {@link ParameterModel}. It might be
-     * empty if the operation takes no parameters, but it will never be {@code null}
-     */
-    List<ParameterModel> getParameterModels();
 
     /**
      * Provides a {@link OperationExecutor} for this operation.

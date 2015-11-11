@@ -18,7 +18,7 @@ import java.util.Map;
 public abstract class BaseDeclaration<T extends BaseDeclaration>
 {
 
-    private Map<String, Object> modelProperties = new HashMap<>();
+    private final Map<String, Object> modelProperties = new HashMap<>();
 
     /**
      * Returns a map with the currently set model properties. Notice

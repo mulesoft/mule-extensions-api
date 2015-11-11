@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.ConfigurationInstantiator;
+import org.mule.extension.api.introspection.ConfigurationFactory;
 import org.mule.extension.api.introspection.ConfigurationModel;
 
 import java.util.LinkedList;
@@ -24,7 +24,7 @@ public class ConfigurationDeclaration extends InterceptableDeclaration<Configura
     private final String name;
     private String description;
     private List<ParameterDeclaration> parameters = new LinkedList<>();
-    private ConfigurationInstantiator configurationInstantiator;
+    private ConfigurationFactory configurationFactory;
 
     ConfigurationDeclaration(String name)
     {
@@ -51,13 +51,13 @@ public class ConfigurationDeclaration extends InterceptableDeclaration<Configura
         return parameters;
     }
 
-    public ConfigurationInstantiator getConfigurationInstantiator()
+    public ConfigurationFactory getConfigurationFactory()
     {
-        return configurationInstantiator;
+        return configurationFactory;
     }
 
-    public void setConfigurationInstantiator(ConfigurationInstantiator configurationInstantiator)
+    public void setConfigurationFactory(ConfigurationFactory configurationFactory)
     {
-        this.configurationInstantiator = configurationInstantiator;
+        this.configurationFactory = configurationFactory;
     }
 }

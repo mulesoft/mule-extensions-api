@@ -29,7 +29,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
      * Provides the extension's name
      *
      * @param name the extension's name
-     * @return {@value this} descriptor
+     * @return {@code this} descriptor
      */
     public DeclarationDescriptor named(String name)
     {
@@ -41,7 +41,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
      * Provides the extension's version
      *
      * @param version the extensions version
-     * @return {@value this} descriptor
+     * @return {@code this} descriptor
      */
     public DeclarationDescriptor onVersion(String version)
     {
@@ -53,7 +53,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
      * Adds a description
      *
      * @param description a description
-     * @return {@value this} descriptor
+     * @return {@code this} descriptor
      */
     public DeclarationDescriptor describedAs(String description)
     {
@@ -62,11 +62,9 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
     }
 
     /**
-     * Adds a config of the given name
-     *
-     * @param name a non blank name
-     * @return a {@link ConfigurationDescriptor} which allows describing the created configuration
+     * {@inheritDoc}
      */
+    @Override
     public ConfigurationDescriptor withConfig(String name)
     {
         ConfigurationDeclaration config = new ConfigurationDeclaration(name);
@@ -76,17 +74,27 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
     }
 
     /**
-     * Adds an operation of the given name
-     *
-     * @param name a non blank name
-     * @return a {@link OperationDescriptor} which allows describing the created operation
+     * {@inheritDoc}
      */
+    @Override
     public OperationDescriptor withOperation(String name)
     {
         OperationDeclaration operation = new OperationDeclaration(name);
         declaration.addOperation(operation);
 
         return new OperationDescriptor(operation, this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConnectionProviderDescriptor withConnectionProvider(String name)
+    {
+        ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
+        this.declaration.addConnectionProvider(declaration);
+
+        return new ConnectionProviderDescriptor(this, declaration);
     }
 
     /**
@@ -100,7 +108,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
     }
 
     /**
-     * @return {@value this}
+     * @return {@code this}
      */
     @Override
     public DeclarationDescriptor getRootDeclaration()

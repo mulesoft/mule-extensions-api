@@ -46,7 +46,7 @@ public interface OperationContext
      * Returns the {@link ConfigurationInstance} for the operation being executed.
      *
      * @param <C> the generic type of the configuration instance
-     * @return a {@code C} consistent with a corresponding {@link ConfigurationModel}
+     * @return a {@link ConfigurationInstance} consistent with a corresponding {@link ConfigurationModel}
      */
     <C> ConfigurationInstance<C> getConfiguration();
 
