@@ -6,7 +6,8 @@
  */
 package org.mule.extension.api.introspection;
 
-import org.mule.extension.api.connection.ConnectionProvider;
+
+import org.mule.api.connection.ConnectionProvider;
 
 /**
  * Introspection model for {@link ConnectionProvider} types.
