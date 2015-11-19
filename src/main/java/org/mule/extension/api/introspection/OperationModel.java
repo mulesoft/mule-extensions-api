@@ -22,4 +22,11 @@ public interface OperationModel extends Described, EnrichableModel, Interceptabl
      * @return a {@link OperationExecutor}
      */
     OperationExecutor getExecutor();
+
+    /**
+     * Returns the operation's return type
+     *
+     * @return a {@link DataType}
+     */
+    DataType getReturnType();
 }

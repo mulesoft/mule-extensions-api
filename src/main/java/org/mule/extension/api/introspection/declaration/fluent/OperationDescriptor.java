@@ -6,6 +6,7 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
 
@@ -23,7 +24,8 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
 
     /**
      * Creates a new instance
-     * @param operation the {@link OperationDeclaration} which will be defined through {@code this} {@link Descriptor}
+     *
+     * @param operation   the {@link OperationDeclaration} which will be defined through {@code this} {@link Descriptor}
      * @param declaration the {@link DeclarationDescriptor} which owns {@code this} one
      */
     OperationDescriptor(OperationDeclaration operation, DeclarationDescriptor declaration)
@@ -36,11 +38,23 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
      * Adds a description
      *
      * @param description a description
-     * @return {@value this} descriptor
+     * @return {@code this} descriptor
      */
     public OperationDescriptor describedAs(String description)
     {
         operation.setDescription(description);
+        return this;
+    }
+
+    /**
+     * Specifies the operation's return type
+     *
+     * @param returnType a {@link DataType}
+     * @return {@code this} descriptor
+     */
+    public OperationDescriptor whichReturns(DataType returnType)
+    {
+        operation.setReturnType(returnType);
         return this;
     }
 
@@ -78,7 +92,7 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
      * to create {@link OperationExecutor} instances.
      *
      * @param executorFactory a {@link OperationExecutorFactory}
-     * @return {@value this} descriptor
+     * @return {@code this} descriptor
      */
     public OperationDescriptor executorsCreatedBy(OperationExecutorFactory executorFactory)
     {

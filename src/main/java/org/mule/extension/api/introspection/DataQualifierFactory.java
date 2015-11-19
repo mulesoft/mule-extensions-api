@@ -139,6 +139,9 @@ public final class DataQualifierFactory
     private static final DataTypeQualifierEvaluator OPERATION_EVALUATOR = new DefaultQualifierEvaluator(
             OperationModel.class, DataQualifier.OPERATION);
 
+    private static final DataTypeQualifierEvaluator VOID_EVALUATOR = new DefaultQualifierEvaluator(
+            new Class[] {void.class, Void.class}, DataQualifier.VOID);
+
     private static final DataTypeQualifierEvaluator POJO_EVALUATOR = new PojoTypeQualifierEvaluator();
 
     private static final DataTypeQualifierEvaluator[] evaluators = new DataTypeQualifierEvaluator[] {
@@ -153,7 +156,8 @@ public final class DataQualifierFactory
             LIST_EVALUATOR,
             MAP_EVALUATOR,
             OPERATION_EVALUATOR,
-            POJO_EVALUATOR
+            POJO_EVALUATOR,
+            VOID_EVALUATOR
     };
 
     /**
