@@ -79,4 +79,9 @@ public interface DataQualifierVisitor
      */
     void onOperation();
 
+    /**
+     * Invoked when visiting {@link DataQualifier#VOID}
+     */
+    void onVoid();
+
 }

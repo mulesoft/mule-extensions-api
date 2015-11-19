@@ -17,8 +17,11 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.extension.api.introspection.DataQualifier.BOOLEAN;
+import static org.mule.extension.api.introspection.DataQualifier.INTEGER;
 import static org.mule.extension.api.introspection.DataQualifier.LIST;
+import static org.mule.extension.api.introspection.DataQualifier.POJO;
 import static org.mule.extension.api.introspection.DataQualifier.STRING;
+import static org.mule.extension.api.introspection.DataQualifier.VOID;
 import static org.mule.extension.api.introspection.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
 import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
@@ -76,6 +79,7 @@ import org.mule.extension.api.introspection.declaration.fluent.ParameterDeclarat
 import org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference;
 import org.mule.extension.api.runtime.InterceptorFactory;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -177,6 +181,7 @@ public class DeclarationTestCase
         assertThat(operation.getName(), is(CONSUMER));
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
+        assertDataType(operation.getReturnType(), InputStream.class, POJO);
         assertModelProperties(operation, OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
@@ -193,6 +198,7 @@ public class DeclarationTestCase
         assertThat(operation.getName(), is(BROADCAST));
         assertThat(operation.getDescription(), is(BROADCAST_DESCRIPTION));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getBroadcastExecutorFactory())));
+        assertDataType(operation.getReturnType(), void.class, VOID);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(3));
@@ -213,6 +219,7 @@ public class DeclarationTestCase
         assertThat(operation.getName(), is(ARG_LESS));
         assertThat(operation.getDescription(), is(HAS_NO_ARGS));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getArgLessExecutorFactory())));
+        assertDataType(operation.getReturnType(), int.class, INTEGER);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, is(notNullValue()));
@@ -247,5 +254,11 @@ public class DeclarationTestCase
         assertThat(properties.size(), is(1));
         assertThat(properties.containsKey(key), is(true));
         assertThat(properties.get(key), is(sameInstance(value)));
+    }
+
+    private void assertDataType(DataType dataType, Class<?> expectedRawType, DataQualifier expectedQualifier)
+    {
+        assertThat(dataType.getRawType(), equalTo(expectedRawType));
+        assertThat(dataType.getQualifier(), is(expectedQualifier));
     }
 }

@@ -6,6 +6,7 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.OperationModel;
 
 import java.util.Collections;
@@ -25,6 +26,7 @@ public class OperationDeclaration extends InterceptableDeclaration<OperationDecl
     private String description = "";
     private List<ParameterDeclaration> parameters = new LinkedList<>();
     private OperationExecutorFactory executorFactory;
+    private DataType returnType;
 
     OperationDeclaration(String name)
     {
@@ -81,5 +83,15 @@ public class OperationDeclaration extends InterceptableDeclaration<OperationDecl
     public void setExecutorFactory(OperationExecutorFactory executorFactory)
     {
         this.executorFactory = executorFactory;
+    }
+
+    public DataType getReturnType()
+    {
+        return returnType;
+    }
+
+    public void setReturnType(DataType returnType)
+    {
+        this.returnType = returnType;
     }
 }

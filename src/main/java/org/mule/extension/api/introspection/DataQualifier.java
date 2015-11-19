@@ -159,6 +159,18 @@ public enum DataQualifier
                 {
                     visitor.onOperation();
                 }
+            },
+
+    /**
+     * Represents a void type
+     */
+    VOID
+            {
+                @Override
+                public void accept(DataQualifierVisitor visitor)
+                {
+                    visitor.onVoid();
+                }
             };
 
     public abstract void accept(DataQualifierVisitor visitor);
