@@ -24,6 +24,7 @@ public class Declaration extends BaseDeclaration<Declaration>
     private String name;
     private String version;
     private String description;
+    private String vendor;
 
     private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
     private final List<OperationDeclaration> operations = new LinkedList<>();
@@ -143,5 +144,15 @@ public class Declaration extends BaseDeclaration<Declaration>
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getVendor()
+    {
+        return vendor;
+    }
+
+    public void setVendor(String vendor)
+    {
+        this.vendor = vendor;
     }
 }

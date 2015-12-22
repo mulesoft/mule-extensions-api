@@ -115,4 +115,17 @@ public interface ExtensionModel extends Described, EnrichableModel
      * @return an immutable {@link List} of {@link ConnectionProviderModel}
      */
     List<ConnectionProviderModel> getConnectionProviders();
+
+    /**
+     * Returns the name of the extension's vendor
+     * This name is used to:
+     * <ul>
+     * <li>Represent the extension's vendor</li>
+     * <li>Differentiate different extensions with the same name, to give the possibility of having two connectors
+     * with the same name, for example, one made by MuleSoft and the second one by a third party</li>
+     * </ul>
+     *
+     * @return the name of the extension's vendor
+     */
+    String getVendor();
 }

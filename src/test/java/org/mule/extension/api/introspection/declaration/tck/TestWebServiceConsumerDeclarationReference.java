@@ -62,6 +62,7 @@ public class TestWebServiceConsumerDeclarationReference
     public static final String USERNAME_DESCRIPTION = "Authentication username";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_DESCRIPTION = "Authentication password";
+    public static final String MULESOFT = "MuleSoft";
 
     public static final String EXTENSION_MODEL_PROPERTY_KEY = "customExtensionModelProperty";
     public static final String CONFIGURATION_MODEL_PROPERTY_KEY = "customConfigurationModelProperty";
@@ -92,7 +93,7 @@ public class TestWebServiceConsumerDeclarationReference
     public TestWebServiceConsumerDeclarationReference()
     {
         descriptor = new DeclarationDescriptor();
-        descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION)
+        descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
                 .withModelProperty(EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE)
                 .withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
                     .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
