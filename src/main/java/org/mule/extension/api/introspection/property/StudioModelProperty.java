@@ -7,9 +7,11 @@
 package org.mule.extension.api.introspection.property;
 
 /**
- * Created by pablocabrera on 11/18/15.
+ * Represents an extension's capability to provide a custom UI description
+ *
+ * @since 1.0
  */
-public interface StudioEditorModelProperty
+public interface StudioModelProperty
 {
 
     /**
@@ -18,7 +20,12 @@ public interface StudioEditorModelProperty
     String KEY = "STUDIO.EDITOR.MODEL.PROPERTY";
 
     /**
-     * The version of the module. Defaults to editors.xml.
+     * The name of the file used to describe the UI. Defaults to editors.xml.
      */
-    String getFileName();
+    String getEditorFileName();
+
+    /**
+     * To signal that an editor will be provided by the connector or studio
+     */
+    boolean isProvided();
 }
