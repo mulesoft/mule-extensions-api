@@ -123,4 +123,10 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
     {
         return declaration;
     }
+
+    public DeclarationDescriptor fromVendor(String vendor)
+    {
+        declaration.setVendor(vendor);
+        return this;
+    }
 }
