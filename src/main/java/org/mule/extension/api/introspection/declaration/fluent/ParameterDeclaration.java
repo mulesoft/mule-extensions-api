@@ -8,7 +8,6 @@ package org.mule.extension.api.introspection.declaration.fluent;
 
 import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
 import org.mule.extension.api.introspection.DataType;
-import org.mule.extension.api.introspection.Described;
 import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.ParameterModel;
 
@@ -23,28 +22,19 @@ import org.mule.extension.api.introspection.ParameterModel;
  *
  * @since 1.0
  */
-public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration> implements Described
+public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration>
 {
-    private String name;
-    private String description = "";
     private boolean required;
     private ExpressionSupport expressionSupport = SUPPORTED;
     private DataType type;
     private Object defaultValue = null;
 
-    public ParameterDeclaration()
+    /**
+     * {@inheritDoc}
+     */
+    public ParameterDeclaration(String name)
     {
-    }
-
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
+        super(name);
     }
 
     public boolean isRequired()
@@ -75,17 +65,6 @@ public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclara
     public void setType(DataType type)
     {
         this.type = type;
-    }
-
-    @Override
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
     }
 
     public Object getDefaultValue()

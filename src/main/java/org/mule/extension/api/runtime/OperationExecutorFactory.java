@@ -4,9 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.api.introspection.declaration.fluent;
-
-import org.mule.extension.api.runtime.OperationExecutor;
+package org.mule.extension.api.runtime;
 
 /**
  * Creates {@link OperationExecutor} instances

@@ -48,8 +48,7 @@ public final class WithParameters
 
     private ParameterDeclaration newParameter(String name, boolean required)
     {
-        ParameterDeclaration parameter = new ParameterDeclaration();
-        parameter.setName(name);
+        ParameterDeclaration parameter = new ParameterDeclaration(name);
         parameter.setRequired(required);
         owner.addParameter(parameter);
 

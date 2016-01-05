@@ -21,7 +21,7 @@ public interface HasModelProperties<T extends Descriptor>
      *
      * @param key   the property's key
      * @param value the property's value
-     * @return {@value this} descriptor
+     * @return {@code this} descriptor
      */
     T withModelProperty(String key, Object value);
 

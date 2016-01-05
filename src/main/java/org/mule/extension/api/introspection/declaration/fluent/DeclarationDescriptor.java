@@ -105,6 +105,18 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
      * {@inheritDoc}
      */
     @Override
+    public SourceDescriptor withMessageSource(String name)
+    {
+        SourceDeclaration declaration = new SourceDeclaration(name);
+        this.declaration.addMessageSource(declaration);
+
+        return new SourceDescriptor(declaration, this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public DeclarationDescriptor withModelProperty(String key, Object value)
     {
         declaration.addModelProperty(key, value);

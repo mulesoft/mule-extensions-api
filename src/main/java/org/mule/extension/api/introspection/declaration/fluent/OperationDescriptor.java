@@ -10,6 +10,7 @@ import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
+import org.mule.extension.api.runtime.OperationExecutorFactory;
 
 import java.util.Optional;
 

@@ -25,16 +25,20 @@ public class Declaration extends BaseDeclaration<Declaration>
 
     private String name;
     private String version;
-    private String description;
     private String vendor;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
     private final List<OperationDeclaration> operations = new LinkedList<>();
     private final List<ConnectionProviderDeclaration> connectionProviders = new LinkedList<>();
+    private final List<SourceDeclaration> messageSources = new LinkedList<>();
 
+    /**
+     * Creates a new instance
+     */
     Declaration()
     {
+        super("");
     }
 
     /**
@@ -84,6 +88,14 @@ public class Declaration extends BaseDeclaration<Declaration>
     }
 
     /**
+     * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
+     */
+    public List<SourceDeclaration> getMessageSources()
+    {
+        return Collections.unmodifiableList(messageSources);
+    }
+
+    /**
      * Adds a {@link ConnectionProviderDeclaration}
      *
      * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
@@ -119,14 +131,36 @@ public class Declaration extends BaseDeclaration<Declaration>
         return this;
     }
 
-    public String getDescription()
+    /**
+     * Adds a {@link SourceDeclaration}
+     *
+     * @param sourceDeclaration a not {@code null} {@link SourceDeclaration}
+     * @return {@code this} declaration
+     * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
+     */
+    public Declaration addMessageSource(SourceDeclaration sourceDeclaration)
     {
-        return description;
+        if (sourceDeclaration == null)
+        {
+            throw new IllegalArgumentException("Can't add a null message source");
+        }
+
+        messageSources.add(sourceDeclaration);
+        return this;
     }
 
-    public void setDescription(String description)
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName()
     {
-        this.description = description;
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public String getVersion()
@@ -137,16 +171,6 @@ public class Declaration extends BaseDeclaration<Declaration>
     void setVersion(String version)
     {
         this.version = version;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
     }
 
     public String getVendor()

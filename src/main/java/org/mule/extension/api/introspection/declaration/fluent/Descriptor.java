@@ -58,4 +58,15 @@ public interface Descriptor
     {
         return getRootDeclaration().withConnectionProvider(name);
     }
+
+    /**
+     * Adds a message source of the given {@code name}
+     *
+     * @param name a non blank name
+     * @return a {@link SourceDescriptor} which allows describing the created provider
+     */
+    default SourceDescriptor withMessageSource(String name)
+    {
+        return getRootDeclaration().withMessageSource(name);
+    }
 }

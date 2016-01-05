@@ -9,10 +9,8 @@ package org.mule.extension.api.introspection.declaration.fluent;
 import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.OperationModel;
+import org.mule.extension.api.runtime.OperationExecutorFactory;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,61 +19,19 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class OperationDeclaration extends InterceptableDeclaration<OperationDeclaration>
+public class OperationDeclaration extends ParameterizedInterceptableDeclaration<OperationDeclaration>
 {
 
-    private final String name;
-    private String description = "";
-    private List<ParameterDeclaration> parameters = new LinkedList<>();
     private OperationExecutorFactory executorFactory;
     private DataType returnType;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
+    /**
+     * {@inheritDoc}
+     */
     OperationDeclaration(String name)
     {
-        this.name = name;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    /**
-     * @return an unmodifiable {@link List} with the available
-     * {@link ParameterDeclaration}s
-     */
-    public List<ParameterDeclaration> getParameters()
-    {
-        return Collections.unmodifiableList(parameters);
-    }
-
-    /**
-     * Adds a {@link ParameterDeclaration}
-     *
-     * @param parameter a not {@code null} {@link ParameterDeclaration}
-     * @return this declaration
-     * @throws {@link IllegalArgumentException} if {@code parameter} is {@code null}
-     */
-    public OperationDeclaration addParameter(ParameterDeclaration parameter)
-    {
-        if (parameter == null)
-        {
-            throw new IllegalArgumentException("Can't add a null parameter");
-        }
-
-        parameters.add(parameter);
-        return this;
+        super(name);
     }
 
     public OperationExecutorFactory getExecutorFactory()
