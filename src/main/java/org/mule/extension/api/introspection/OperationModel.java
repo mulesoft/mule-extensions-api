@@ -6,8 +6,8 @@
  */
 package org.mule.extension.api.introspection;
 
-import org.mule.extension.api.introspection.declaration.fluent.OperationExecutorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
+import org.mule.extension.api.runtime.OperationExecutorFactory;
 
 /**
  * A definition of an operation in a {@link ExtensionModel}

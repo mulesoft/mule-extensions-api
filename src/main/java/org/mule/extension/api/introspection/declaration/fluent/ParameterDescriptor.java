@@ -58,7 +58,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
      * Adds a description
      *
      * @param description a description
-     * @return {@value this} descriptor
+     * @return {@code this} descriptor
      */
     public T describedAs(String description)
     {

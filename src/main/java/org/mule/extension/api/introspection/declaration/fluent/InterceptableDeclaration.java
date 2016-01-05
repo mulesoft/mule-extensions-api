@@ -25,6 +25,14 @@ public abstract class InterceptableDeclaration<T extends InterceptableDeclaratio
     private final List<InterceptorFactory> interceptorFactories = new ArrayList<>();
 
     /**
+     * {@inheritDoc}
+     */
+    InterceptableDeclaration(String name)
+    {
+        super(name);
+    }
+
+    /**
      * Adds the {@code interceptorFactory} to {@code this} declaration
      *
      * @param interceptorFactory a {@link InterceptorFactory}

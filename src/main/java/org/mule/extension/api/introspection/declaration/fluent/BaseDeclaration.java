@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.extension.api.introspection.Described;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,15 +17,28 @@ import java.util.Map;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class BaseDeclaration<T extends BaseDeclaration>
+public abstract class BaseDeclaration<T extends BaseDeclaration> implements Described
 {
+
+    private final String name;
+    private String description = "";
 
     private final Map<String, Object> modelProperties = new HashMap<>();
 
     /**
+     * Creates a new instance
+     *
+     * @param name the name of the component being declared
+     */
+    public BaseDeclaration(String name)
+    {
+        this.name = name;
+    }
+
+    /**
      * Returns a map with the currently set model properties. Notice
      * that this map is mutable and not thread-safe.
-     * <p/>
+     * <p>
      * This method is to be used when you need to access all the properties.
      * For individual access use {@link #addModelProperty(String, Object)}
      * or {@link #getModelProperty(String)} instead
@@ -68,5 +83,33 @@ public abstract class BaseDeclaration<T extends BaseDeclaration>
 
         modelProperties.put(key, value);
         return (T) this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription()
+    {
+        return description;
+    }
+
+    /**
+     * Sets the {@link #description} for this declaration
+     *
+     * @param description
+     */
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 }

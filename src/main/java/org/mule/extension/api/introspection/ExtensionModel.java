@@ -7,6 +7,7 @@
 package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.exception.NoSuchConfigurationException;
+import org.mule.extension.api.exception.NoSuchMessageSourceException;
 import org.mule.extension.api.exception.NoSuchOperationException;
 
 import java.util.List;
@@ -88,8 +89,6 @@ public interface ExtensionModel extends Described, EnrichableModel, ExceptionEnr
      * Returns the {@link OperationModel}s
      * available for this extension. Each operation is guaranteed to have a unique name, and that name
      * cannot be already in use by one of the available {@link #getConfigurationModels()}
-     * <p>
-     * There is always at least one operation, and operations will be sorted alphabetically.
      *
      * @return an immutable {@link List} of {@link OperationModel}
      */
@@ -104,6 +103,25 @@ public interface ExtensionModel extends Described, EnrichableModel, ExceptionEnr
      * @throws NoSuchOperationException if no operation matches the given name
      */
     OperationModel getOperationModel(String name) throws NoSuchOperationException;
+
+    /**
+     * Returns the {@link SourceModel}s
+     * available for this extension. Each source is guaranteed to have a unique name, and that name
+     * cannot be already in use by one of the available {@link #getSourceModels()}
+     *
+     * @return an immutable {@link List} of {@link SourceModel}
+     */
+    List<SourceModel> getSourceModels();
+
+    /**
+     * Returns the {@link SourceModel} that matches
+     * the given name.
+     *
+     * @param name case sensitive operation name
+     * @return a {@link SourceModel}
+     * @throws NoSuchMessageSourceException if no operation matches the given name
+     */
+    SourceModel getSourceModel(String name) throws NoSuchMessageSourceException;
 
     /**
      * Returns the {@link ConnectionProviderModel}s exposed by this extension.

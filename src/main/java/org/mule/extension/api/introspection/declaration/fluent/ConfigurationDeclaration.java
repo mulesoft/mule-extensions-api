@@ -9,46 +9,23 @@ package org.mule.extension.api.introspection.declaration.fluent;
 import org.mule.extension.api.introspection.ConfigurationFactory;
 import org.mule.extension.api.introspection.ConfigurationModel;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * A declaration object for a {@link ConfigurationModel}. It contains raw, unvalidated
  * data which is used to declare the structure of a {@link ConfigurationModel}
  *
  * @since 1.0
  */
-public class ConfigurationDeclaration extends InterceptableDeclaration<ConfigurationDeclaration>
+public class ConfigurationDeclaration extends ParameterizedInterceptableDeclaration<ConfigurationDeclaration>
 {
 
-    private final String name;
-    private String description;
-    private List<ParameterDeclaration> parameters = new LinkedList<>();
     private ConfigurationFactory configurationFactory;
 
+    /**
+     * {@inheritDoc}
+     */
     ConfigurationDeclaration(String name)
     {
-        this.name = name;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    public List<ParameterDeclaration> getParameters()
-    {
-        return parameters;
+        super(name);
     }
 
     public ConfigurationFactory getConfigurationFactory()
