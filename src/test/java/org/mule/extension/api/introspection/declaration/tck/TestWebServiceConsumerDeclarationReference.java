@@ -12,6 +12,7 @@ import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
 import org.mule.extension.api.introspection.ConfigurationFactory;
 import org.mule.extension.api.introspection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.DeclarationDescriptor;
 import org.mule.extension.api.introspection.declaration.fluent.OperationExecutorFactory;
@@ -19,6 +20,7 @@ import org.mule.extension.api.runtime.Interceptor;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A simple pojo containing reference information for making test around a {@link DeclarationDescriptor}
@@ -89,11 +91,13 @@ public class TestWebServiceConsumerDeclarationReference
     private final Interceptor operationInterceptor1 = mock(Interceptor.class);
     private final Interceptor operationInterceptor2 = mock(Interceptor.class);
     private final ConnectionProviderFactory connectionProviderFactory = mock(ConnectionProviderFactory.class);
+    private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory = Optional.of(mock(ExceptionEnricherFactory.class));
 
     public TestWebServiceConsumerDeclarationReference()
     {
         descriptor = new DeclarationDescriptor();
         descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
+                .withExceptionEnricherFactory(exceptionEnricherFactory)
                 .withModelProperty(EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE)
                 .withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
                     .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
@@ -111,13 +115,14 @@ public class TestWebServiceConsumerDeclarationReference
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
                     .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
+                    .withExceptionEnricherFactory(exceptionEnricherFactory)
                     .whichReturns(DataType.of(void.class))
                     .withInterceptorFrom(() -> operationInterceptor1)
                     .withInterceptorFrom(() -> operationInterceptor2)
                     .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
                     .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                     .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(OperationModel.class).withExpressionSupport(REQUIRED)
-                .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory)
+                    .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory)
                 .whichReturns(DataType.of(int.class))
                 .withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
                     .createdWith(connectionProviderFactory)
@@ -175,5 +180,10 @@ public class TestWebServiceConsumerDeclarationReference
     public ConnectionProviderFactory getConnectionProviderFactory()
     {
         return connectionProviderFactory;
+    }
+
+    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
+    {
+        return exceptionEnricherFactory;
     }
 }

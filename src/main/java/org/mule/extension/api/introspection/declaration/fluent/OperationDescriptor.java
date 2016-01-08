@@ -7,8 +7,11 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
+
+import java.util.Optional;
 
 /**
  * A {@link Descriptor} which allows configuring a {@link OperationDeclaration}
@@ -16,7 +19,7 @@ import org.mule.extension.api.runtime.OperationExecutor;
  *
  * @since 1.0
  */
-public class OperationDescriptor extends HasParameters implements Descriptor, HasModelProperties<OperationDescriptor>, HasInterceptors<OperationDescriptor>
+public class OperationDescriptor extends HasParameters implements Descriptor, HasModelProperties<OperationDescriptor>, HasInterceptors<OperationDescriptor> , HasExceptionEnricher<OperationDescriptor>
 {
 
     private final OperationDeclaration operation;
@@ -117,6 +120,16 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     public OperationDescriptor withModelProperty(String key, Object value)
     {
         operation.addModelProperty(key, value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OperationDescriptor withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
+    {
+        operation.setExceptionEnricherFactory(enricherFactory);
         return this;
     }
 

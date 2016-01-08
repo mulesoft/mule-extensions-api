@@ -6,13 +6,17 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+
+import java.util.Optional;
+
 /**
  * A {@link Descriptor} which allows configuring a {@link Declaration}
  * through a fluent API
  *
  * @since 1.0
  */
-public class DeclarationDescriptor implements Descriptor, HasModelProperties<DeclarationDescriptor>
+public class DeclarationDescriptor implements Descriptor, HasModelProperties<DeclarationDescriptor>, HasExceptionEnricher<DeclarationDescriptor>
 {
 
     private final Declaration declaration;
@@ -113,6 +117,16 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
     @Override
     public DeclarationDescriptor getRootDeclaration()
     {
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DeclarationDescriptor withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
+    {
+        declaration.setExceptionEnricherFactory(enricherFactory);
         return this;
     }
 
