@@ -4,16 +4,10 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.api.exception;
+package org.mule.extension.api.exception.model;
 
-/**
- * A {@link RuntimeException} thrown when the Extensions API
- * (or a component of any of its implementations)
- * has been used to define an invalid model.
- *
- * @since 1.0
- */
-public class IllegalModelDefinitionException extends RuntimeException
+
+public class IllegalOperationModelDefinitionException extends IllegalModelDefinitionException
 {
 
     /**
@@ -21,7 +15,7 @@ public class IllegalModelDefinitionException extends RuntimeException
      *
      * @param message the detail message
      */
-    public IllegalModelDefinitionException(String message)
+    public IllegalOperationModelDefinitionException(String message)
     {
         super(message);
     }
@@ -32,7 +26,7 @@ public class IllegalModelDefinitionException extends RuntimeException
      * @param message the detail message
      * @param cause   the cause
      */
-    public IllegalModelDefinitionException(String message, Throwable cause)
+    public IllegalOperationModelDefinitionException(String message, Throwable cause)
     {
         super(message, cause);
     }
@@ -42,7 +36,7 @@ public class IllegalModelDefinitionException extends RuntimeException
      *
      * @param cause the cause
      */
-    public IllegalModelDefinitionException(Throwable cause)
+    public IllegalOperationModelDefinitionException(Throwable cause)
     {
         super(cause);
     }
