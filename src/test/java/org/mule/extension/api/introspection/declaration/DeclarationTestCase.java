@@ -70,6 +70,7 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 
 import org.mule.extension.api.introspection.DataQualifier;
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.BaseDeclaration;
@@ -84,6 +85,7 @@ import org.mule.extension.api.runtime.InterceptorFactory;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -118,6 +120,8 @@ public class DeclarationTestCase
         assertThat(declaration.getVersion(), is(VERSION));
         assertThat(declaration.getConfigurations(), hasSize(1));
         assertThat(declaration.getVendor(), is(MULESOFT));
+        assertThat(declaration.getExceptionEnricherFactory().isPresent(), is(true));
+        assertThat(declaration.getExceptionEnricherFactory().get(), is(sameInstance(testDeclaration.getExceptionEnricherFactory().get())));
         assertModelProperties(declaration, EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE);
     }
 
@@ -203,6 +207,10 @@ public class DeclarationTestCase
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getBroadcastExecutorFactory())));
         assertDataType(operation.getReturnType(), void.class, VOID);
 
+        Optional<ExceptionEnricherFactory> exceptionEnricherFactory = operation.getExceptionEnricherFactory();
+        assertThat(exceptionEnricherFactory.isPresent(), is(true));
+        assertThat(exceptionEnricherFactory.get(), is(sameInstance(testDeclaration.getExceptionEnricherFactory().get())));
+
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(3));
         assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, DataType.of(List.class, String.class), LIST, null);
@@ -239,7 +247,6 @@ public class DeclarationTestCase
                                  DataQualifier qualifier,
                                  Object defaultValue)
     {
-
         assertThat(parameter, is(notNullValue()));
         assertThat(parameter.getName(), is(name));
         assertThat(parameter.getDescription(), is(description));

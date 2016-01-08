@@ -69,7 +69,7 @@ public interface Interceptor
      * Some interceptors might deal with the concept of retries. For example, an operation failing because of
      * stale connection might attempt to reconnect and try again. For such interceptors, a {@code retryRequest}
      * is provided so that a retry can be requested. The runtime is not obligated to grant such request and might
-     * decide to ignore it. Notice that the {@link #onError(OperationContext, RetryRequest, Exception)} and
+     * decide to ignore it. Notice that the {@link #onError(OperationContext, RetryRequest, Throwable)} and
      * {@link #after(OperationContext, Object)} method in all the other interceptors in line will be executed before the
      * runtime decides to ignore/grant the retry request. If the petition is granted, then not only the operation will be
      * re-executed. The whole interceptor chain (including the {@link #before(OperationContext)} will also be executed again.
@@ -85,7 +85,7 @@ public interface Interceptor
      * @param exception        the {@link Exception} that was thrown by the failing operation
      * @return the {@link Exception} that should be propagated forward
      */
-    default Exception onError(OperationContext operationContext, RetryRequest retryRequest, Exception exception)
+    default Throwable onError(OperationContext operationContext, RetryRequest retryRequest, Throwable exception)
     {
         return exception;
     }
@@ -94,7 +94,7 @@ public interface Interceptor
      * Executes after the execution of an operation is finished, regardless of it being successful or not.
      * <p/>
      * In practical terms, it executes after the {@link #onSuccess(OperationContext, Object)} or
-     * {@link #onError(OperationContext, RetryRequest, Exception)} but it doesn't execute if
+     * {@link #onError(OperationContext, RetryRequest, Throwable)} but it doesn't execute if
      * {@link #before(OperationContext)} threw exception.
      * <p/>
      * The {@code result} argument holds the return value of the operation. Because this method is invoked
@@ -103,7 +103,7 @@ public interface Interceptor
      * failed or not, since the operation might have successfully returned {@code null}. This method should
      * be used for actions that should take place &quot;no matter what&quot;. Actions that should depend on
      * the operation's outcome are to be implemented using {@link #onSuccess(OperationContext, Object)} or
-     * {@link #onError(OperationContext, RetryRequest, Exception)}
+     * {@link #onError(OperationContext, RetryRequest, Throwable)}
      *
      * @param operationContext the {@link OperationContext} that was used to execute the operation
      * @param result           the result of the operation. Can be {@code null} if the operation itself returned that or failed.

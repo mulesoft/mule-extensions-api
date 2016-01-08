@@ -6,11 +6,13 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ExtensionModel;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A declaration object for a {@link ExtensionModel}. It contains raw, unvalidated
@@ -25,6 +27,7 @@ public class Declaration extends BaseDeclaration<Declaration>
     private String version;
     private String description;
     private String vendor;
+    private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
     private final List<OperationDeclaration> operations = new LinkedList<>();
@@ -154,5 +157,15 @@ public class Declaration extends BaseDeclaration<Declaration>
     public void setVendor(String vendor)
     {
         this.vendor = vendor;
+    }
+
+    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
+    {
+        return exceptionEnricherFactory;
+    }
+
+    public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
+    {
+        this.exceptionEnricherFactory = exceptionEnricherFactory;
     }
 }
