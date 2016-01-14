@@ -6,6 +6,7 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.extension.api.introspection.declaration.fluent.OperationExecutorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
 
 /**
@@ -13,7 +14,7 @@ import org.mule.extension.api.runtime.OperationExecutor;
  *
  * @since 1.0
  */
-public interface OperationModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel
+public interface OperationModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel, ExceptionEnrichableModel
 {
 
     /**
@@ -21,7 +22,7 @@ public interface OperationModel extends Described, EnrichableModel, Interceptabl
      *
      * @return a {@link OperationExecutor}
      */
-    OperationExecutor getExecutor();
+    OperationExecutorFactory getExecutor();
 
     /**
      * Returns the operation's return type
@@ -29,4 +30,5 @@ public interface OperationModel extends Described, EnrichableModel, Interceptabl
      * @return a {@link DataType}
      */
     DataType getReturnType();
+
 }

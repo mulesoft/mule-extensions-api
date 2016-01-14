@@ -7,11 +7,13 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.OperationModel;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A declaration object for a {@link OperationModel}. It contains raw, unvalidated
@@ -27,6 +29,7 @@ public class OperationDeclaration extends InterceptableDeclaration<OperationDecl
     private List<ParameterDeclaration> parameters = new LinkedList<>();
     private OperationExecutorFactory executorFactory;
     private DataType returnType;
+    private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     OperationDeclaration(String name)
     {
@@ -93,5 +96,15 @@ public class OperationDeclaration extends InterceptableDeclaration<OperationDecl
     public void setReturnType(DataType returnType)
     {
         this.returnType = returnType;
+    }
+
+    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
+    {
+        return exceptionEnricherFactory;
+    }
+
+    public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
+    {
+        this.exceptionEnricherFactory = exceptionEnricherFactory;
     }
 }
