@@ -57,7 +57,7 @@ public class ConfigurationDescriptor extends HasParameters implements
     @Override
     protected void addParameter(ParameterDeclaration parameter)
     {
-        config.getParameters().add(parameter);
+        config.addParameter(parameter);
     }
 
     /**

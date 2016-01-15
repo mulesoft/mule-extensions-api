@@ -19,20 +19,25 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class ConnectionProviderDeclaration extends BaseDeclaration<ConnectionProviderDeclaration>
+public final class ConnectionProviderDeclaration extends BaseDeclaration<ConnectionProviderDeclaration> implements ParameterizedDeclaration
 {
-    private final String name;
-    private String description;
     private final List<ParameterDeclaration> parameters = new LinkedList<>();
     private ConnectionProviderFactory factory;
     private Class<?> configurationType;
     private Class<?> connectionType;
 
-    public ConnectionProviderDeclaration(String name)
+    /**
+     * {@inheritDoc}
+     */
+    ConnectionProviderDeclaration(String name)
     {
-        this.name = name;
+        super(name);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<ParameterDeclaration> getParameters()
     {
         return parameters;
@@ -66,20 +71,5 @@ public final class ConnectionProviderDeclaration extends BaseDeclaration<Connect
     void setConnectionType(Class<?> connectionType)
     {
         this.connectionType = connectionType;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    void setDescription(String description)
-    {
-        this.description = description;
     }
 }
