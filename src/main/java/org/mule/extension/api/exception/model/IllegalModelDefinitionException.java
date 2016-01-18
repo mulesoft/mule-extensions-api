@@ -13,14 +13,16 @@ package org.mule.extension.api.exception.model;
  *
  * @since 1.0
  */
-public class IllegalModelDefinitionException extends RuntimeException {
+public class IllegalModelDefinitionException extends RuntimeException
+{
 
     /**
      * Creates a new instance
      *
      * @param message the detail message
      */
-    public IllegalModelDefinitionException(String message) {
+    public IllegalModelDefinitionException(String message)
+    {
         super(message);
     }
 
@@ -40,7 +42,8 @@ public class IllegalModelDefinitionException extends RuntimeException {
      *
      * @param cause the cause
      */
-    public IllegalModelDefinitionException(Throwable cause) {
+    public IllegalModelDefinitionException(Throwable cause)
+    {
         super(cause);
     }
 }
