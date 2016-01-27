@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.extension.api.runtime.OperationExecutor;
+
 /**
  * Enumerates the different types of support that
  * a given component can provide regarding expressions
@@ -28,5 +30,11 @@ public enum ExpressionSupport
     /**
      * Requires expressions. Static values are not supported
      */
-    REQUIRED
+    REQUIRED,
+
+    /**
+     * Expressions are allowed but are not going to be evaluated automatically.
+     * The value will be supplied into the {@link OperationExecutor} on its literal form.
+     */
+    LITERAL
 }
