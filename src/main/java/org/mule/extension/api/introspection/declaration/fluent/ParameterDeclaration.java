@@ -15,7 +15,7 @@ import org.mule.extension.api.introspection.ParameterModel;
  * A declaration object for a {@link ParameterModel}. It contains raw,
  * unvalidated data which is used to declare the structure of a
  * {@link ParameterModel}.
- * <p/>
+ * <p>
  * By default, {@link #getExpressionSupport()} ()} returns
  * {@link ExpressionSupport#SUPPORTED} and {@link #getDescription()}
  * returns an empty {@link String}.
@@ -24,6 +24,7 @@ import org.mule.extension.api.introspection.ParameterModel;
  */
 public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration>
 {
+
     private boolean required;
     private ExpressionSupport expressionSupport = SUPPORTED;
     private DataType type;
