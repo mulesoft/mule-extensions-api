@@ -9,6 +9,7 @@ package org.mule.extension.api.introspection;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.source.Source;
 import org.mule.extension.api.runtime.source.SourceFactory;
+import org.mule.metadata.api.model.MetadataType;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,8 +25,8 @@ public final class ImmutableSourceModel extends AbstractInterceptableModel imple
 {
 
     private final List<ParameterModel> parameterModels;
-    private final DataType returnType;
-    private final DataType attributesType;
+    private final MetadataType returnType;
+    private final MetadataType attributesType;
     private final SourceFactory sourceFactory;
     private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
@@ -35,18 +36,18 @@ public final class ImmutableSourceModel extends AbstractInterceptableModel imple
      * @param name                     the source name. Cannot be blank
      * @param description              the source description
      * @param parameterModels          a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param returnType               a {@link DataType} which represents the payload of generated messages
-     * @param attributesType           a {@link DataType} which represents the attributes on the generated messages
+     * @param returnType               a {@link MetadataType} which represents the payload of generated messages
+     * @param attributesType           a {@link MetadataType} which represents the attributes on the generated messages
      * @param sourceFactory            a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
      * @param modelProperties          A {@link Map} of custom properties which extend this model
      * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
-     * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link org.mule.extension.api.introspection.ExceptionEnricher} instance
+     * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
      */
     public ImmutableSourceModel(String name,
                                 String description,
                                 List<ParameterModel> parameterModels,
-                                DataType returnType,
-                                DataType attributesType,
+                                MetadataType returnType,
+                                MetadataType attributesType,
                                 SourceFactory sourceFactory,
                                 Map<String, Object> modelProperties,
                                 List<InterceptorFactory> interceptorFactories,
@@ -73,7 +74,7 @@ public final class ImmutableSourceModel extends AbstractInterceptableModel imple
      * {@inheritDoc}
      */
     @Override
-    public DataType getReturnType()
+    public MetadataType getReturnType()
     {
         return returnType;
     }
@@ -91,7 +92,7 @@ public final class ImmutableSourceModel extends AbstractInterceptableModel imple
      * {@inheritDoc}
      */
     @Override
-    public DataType getAttributesType()
+    public MetadataType getAttributesType()
     {
         return attributesType;
     }

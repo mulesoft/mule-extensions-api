@@ -8,6 +8,7 @@ package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
+import org.mule.metadata.api.model.MetadataType;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +25,7 @@ public final class ImmutableOperationModel extends AbstractInterceptableModel im
 
     private final List<ParameterModel> parameterModels;
     private final OperationExecutorFactory executorFactory;
-    private final DataType returnType;
+    private final MetadataType returnType;
     private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     /**
@@ -34,7 +35,7 @@ public final class ImmutableOperationModel extends AbstractInterceptableModel im
      * @param description              the operation's descriptor
      * @param executorFactory          a {@link OperationExecutorFactory}. Cannot be {@code null}
      * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
-     * @param returnType               a {@link DataType} which represents the operation's output
+     * @param returnType               a {@link MetadataType} which represents the operation's output
      * @param modelProperties          A {@link Map} of custom properties which extend this model
      * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
@@ -44,7 +45,7 @@ public final class ImmutableOperationModel extends AbstractInterceptableModel im
                                    String description,
                                    OperationExecutorFactory executorFactory,
                                    List<ParameterModel> parameterModels,
-                                   DataType returnType,
+                                   MetadataType returnType,
                                    Map<String, Object> modelProperties,
                                    List<InterceptorFactory> interceptorFactories,
                                    Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
@@ -83,7 +84,7 @@ public final class ImmutableOperationModel extends AbstractInterceptableModel im
      * {@inheritDoc}
      */
     @Override
-    public DataType getReturnType()
+    public MetadataType getReturnType()
     {
         return returnType;
     }

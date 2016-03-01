@@ -8,6 +8,7 @@ package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ConfigurationFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
+import org.mule.metadata.api.ClassTypeLoader;
 
 /**
  * A {@link Descriptor} which allows configuring a {@link ConfigurationDeclaration}
@@ -16,16 +17,15 @@ import org.mule.extension.api.runtime.InterceptorFactory;
  * @since 1.0
  */
 public class ConfigurationDescriptor extends HasParameters implements
-        Descriptor, HasModelProperties<ConfigurationDescriptor>, HasInterceptors<ConfigurationDescriptor>
+        HasModelProperties<ConfigurationDescriptor>, HasInterceptors<ConfigurationDescriptor>
 {
 
-    private final DeclarationDescriptor declaration;
     private final ConfigurationDeclaration config;
 
-    ConfigurationDescriptor(ConfigurationDeclaration config, DeclarationDescriptor declaration)
+    ConfigurationDescriptor(ConfigurationDeclaration config, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
     {
+        super(declaration, typeLoader);
         this.config = config;
-        this.declaration = declaration;
     }
 
     /**
@@ -34,7 +34,7 @@ public class ConfigurationDescriptor extends HasParameters implements
      */
     public WithParameters with()
     {
-        return new WithParameters(this, getRootDeclaration());
+        return new WithParameters(this, getRootDeclaration(), typeLoader);
     }
 
     /**

@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.metadata.api.ClassTypeLoader;
+
 /**
  * A bridge which allows adding {@link ParameterDeclaration} to
  * a {@link #owner} that belongs to a {@link DeclarationDescriptor}
@@ -17,11 +19,13 @@ public final class WithParameters
 
     private final HasParameters owner;
     private final DeclarationDescriptor declaration;
+    private final ClassTypeLoader typeLoader;
 
-    protected WithParameters(HasParameters owner, DeclarationDescriptor declaration)
+    protected WithParameters(HasParameters owner, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
     {
         this.owner = owner;
         this.declaration = declaration;
+        this.typeLoader = typeLoader;
     }
 
     /**
@@ -32,7 +36,7 @@ public final class WithParameters
      */
     public ParameterDescriptor requiredParameter(String name)
     {
-        return new ParameterDescriptor(owner, newParameter(name, true), declaration);
+        return new ParameterDescriptor(owner, newParameter(name, true), declaration, typeLoader);
     }
 
     /**
@@ -43,7 +47,7 @@ public final class WithParameters
      */
     public OptionalParameterDescriptor optionalParameter(String name)
     {
-        return new OptionalParameterDescriptor(owner, newParameter(name, false), declaration);
+        return new OptionalParameterDescriptor(owner, newParameter(name, false), declaration, typeLoader);
     }
 
     private ParameterDeclaration newParameter(String name, boolean required)

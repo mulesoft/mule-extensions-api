@@ -6,11 +6,12 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
+import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.model.MetadataType;
 
 import java.util.Optional;
 
@@ -20,11 +21,10 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class OperationDescriptor extends HasParameters implements Descriptor, HasModelProperties<OperationDescriptor>, HasInterceptors<OperationDescriptor> , HasExceptionEnricher<OperationDescriptor>
+public class OperationDescriptor extends HasParameters implements HasModelProperties<OperationDescriptor>, HasInterceptors<OperationDescriptor>, HasExceptionEnricher<OperationDescriptor>
 {
 
     private final OperationDeclaration operation;
-    private final DeclarationDescriptor declaration;
 
     /**
      * Creates a new instance
@@ -32,10 +32,10 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
      * @param operation   the {@link OperationDeclaration} which will be defined through {@code this} {@link Descriptor}
      * @param declaration the {@link DeclarationDescriptor} which owns {@code this} one
      */
-    OperationDescriptor(OperationDeclaration operation, DeclarationDescriptor declaration)
+    OperationDescriptor(OperationDeclaration operation, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
     {
+        super(declaration, typeLoader);
         this.operation = operation;
-        this.declaration = declaration;
     }
 
     /**
@@ -53,10 +53,21 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
     /**
      * Specifies the operation's return type
      *
-     * @param returnType a {@link DataType}
+     * @param returnType the returned type {@link Class}
      * @return {@code this} descriptor
      */
-    public OperationDescriptor whichReturns(DataType returnType)
+    public OperationDescriptor whichReturns(Class<?> returnType)
+    {
+        return whichReturns(typeLoader.load(returnType));
+    }
+
+    /**
+     * Specifies the operation's return type
+     *
+     * @param returnType a {@link MetadataType}
+     * @return {@code this} descriptor
+     */
+    public OperationDescriptor whichReturns(MetadataType returnType)
     {
         operation.setReturnType(returnType);
         return this;
@@ -68,7 +79,7 @@ public class OperationDescriptor extends HasParameters implements Descriptor, Ha
      */
     public WithParameters with()
     {
-        return new WithParameters(this, getRootDeclaration());
+        return new WithParameters(this, getRootDeclaration(), typeLoader);
     }
 
     /**

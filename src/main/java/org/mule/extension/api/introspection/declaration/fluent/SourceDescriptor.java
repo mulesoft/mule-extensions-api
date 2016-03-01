@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
  * The software in this package is published under the terms of the CPAL v1.0
  * license, a copy of which has been included with this distribution in the
@@ -6,11 +7,12 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.source.Source;
 import org.mule.extension.api.runtime.source.SourceFactory;
+import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.model.MetadataType;
 
 import java.util.Optional;
 
@@ -20,11 +22,10 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class SourceDescriptor extends HasParameters implements Descriptor, HasModelProperties<SourceDescriptor>, HasInterceptors<SourceDescriptor> , HasExceptionEnricher<SourceDescriptor>
+public class SourceDescriptor extends HasParameters implements HasModelProperties<SourceDescriptor>, HasInterceptors<SourceDescriptor>, HasExceptionEnricher<SourceDescriptor>
 {
 
     private final SourceDeclaration source;
-    private final DeclarationDescriptor declaration;
 
     /**
      * Creates a new instance
@@ -32,10 +33,10 @@ public class SourceDescriptor extends HasParameters implements Descriptor, HasMo
      * @param source      the {@link SourceDeclaration} which will be defined through {@code this} {@link Descriptor}
      * @param declaration the {@link DeclarationDescriptor} which owns {@code this} one
      */
-    SourceDescriptor(SourceDeclaration source, DeclarationDescriptor declaration)
+    SourceDescriptor(SourceDeclaration source, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
     {
+        super(declaration, typeLoader);
         this.source = source;
-        this.declaration = declaration;
     }
 
     /**
@@ -53,10 +54,21 @@ public class SourceDescriptor extends HasParameters implements Descriptor, HasMo
     /**
      * Specifies the source's return type
      *
-     * @param returnType a {@link DataType}
+     * @param returnType the returned type {@link Class}
      * @return {@code this} descriptor
      */
-    public SourceDescriptor whichReturns(DataType returnType)
+    public SourceDescriptor whichReturns(Class<?> returnType)
+    {
+        return whichReturns(typeLoader.load(returnType));
+    }
+
+    /**
+     * Specifies the source's return type
+     *
+     * @param returnType a {@link MetadataType}
+     * @return {@code this} descriptor
+     */
+    public SourceDescriptor whichReturns(MetadataType returnType)
     {
         source.setReturnType(returnType);
         return this;
@@ -66,10 +78,22 @@ public class SourceDescriptor extends HasParameters implements Descriptor, HasMo
      * Specifies the type of the attributes that the generated
      * messages will have
      *
-     * @param attributesType a {@link DataType}
+     * @param attributesType the attribute's {@link Class} type
      * @return {@code this} descriptor
      */
-    public SourceDescriptor withAttributesOfType(DataType attributesType)
+    public SourceDescriptor withAttributesOfType(Class<?> attributesType)
+    {
+        return withAttributesOfType(typeLoader.load(attributesType));
+    }
+
+    /**
+     * Specifies the type of the attributes that the generated
+     * messages will have
+     *
+     * @param attributesType a {@link MetadataType}
+     * @return {@code this} descriptor
+     */
+    public SourceDescriptor withAttributesOfType(MetadataType attributesType)
     {
         source.setAttributesType(attributesType);
         return this;
@@ -105,7 +129,7 @@ public class SourceDescriptor extends HasParameters implements Descriptor, HasMo
      */
     public WithParameters with()
     {
-        return new WithParameters(this, getRootDeclaration());
+        return new WithParameters(this, getRootDeclaration(), typeLoader);
     }
 
     /**

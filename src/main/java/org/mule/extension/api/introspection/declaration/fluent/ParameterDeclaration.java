@@ -7,9 +7,9 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
-import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.ParameterModel;
+import org.mule.metadata.api.model.MetadataType;
 
 /**
  * A declaration object for a {@link ParameterModel}. It contains raw,
@@ -27,7 +27,7 @@ public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclara
 
     private boolean required;
     private ExpressionSupport expressionSupport = SUPPORTED;
-    private DataType type;
+    private MetadataType type;
     private Object defaultValue = null;
 
     /**
@@ -58,12 +58,12 @@ public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclara
         this.expressionSupport = expressionSupport;
     }
 
-    public DataType getType()
+    public MetadataType getType()
     {
         return type;
     }
 
-    public void setType(DataType type)
+    public void setType(MetadataType type)
     {
         this.type = type;
     }

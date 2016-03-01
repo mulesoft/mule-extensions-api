@@ -8,6 +8,8 @@ package org.mule.extension.api.introspection;
 
 import static java.util.Arrays.asList;
 
+import org.mule.metadata.api.model.MetadataType;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,9 +32,9 @@ public interface ParameterModel extends Described, EnrichableModel
     /**
      * Returns the type of the parameter
      *
-     * @return a not {@code null} {@link DataType}
+     * @return a not {@code null} {@link MetadataType}
      */
-    DataType getType();
+    MetadataType getType();
 
     /**
      * Whether or not this parameter is required. This method is exclusive with
