@@ -14,7 +14,7 @@ import org.mule.extension.api.runtime.source.SourceFactory;
  *
  * @since 1.0
  */
-public interface SourceModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel
+public interface SourceModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel, ExceptionEnrichableModel
 {
 
     /**
