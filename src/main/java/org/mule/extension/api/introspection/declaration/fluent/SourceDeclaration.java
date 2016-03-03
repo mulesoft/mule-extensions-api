@@ -7,8 +7,11 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.SourceModel;
 import org.mule.extension.api.runtime.source.SourceFactory;
+
+import java.util.Optional;
 
 /**
  * A declaration object for a {@link SourceModel}. It contains raw, unvalidated
@@ -21,6 +24,8 @@ public class SourceDeclaration extends ParameterizedInterceptableDeclaration<Sou
     private DataType returnType;
     private DataType attributesType;
     private SourceFactory sourceFactory;
+    private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+
 
     /**
      * {@inheritDoc}
@@ -58,5 +63,15 @@ public class SourceDeclaration extends ParameterizedInterceptableDeclaration<Sou
     public void setAttributesType(DataType attributesType)
     {
         this.attributesType = attributesType;
+    }
+
+    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
+    {
+        return exceptionEnricherFactory;
+    }
+
+    public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
+    {
+        this.exceptionEnricherFactory = exceptionEnricherFactory;
     }
 }

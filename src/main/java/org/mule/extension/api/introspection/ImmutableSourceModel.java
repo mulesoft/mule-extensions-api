@@ -13,6 +13,7 @@ import org.mule.extension.api.runtime.source.SourceFactory;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Immutable implementation of {@link SourceModel}
@@ -26,18 +27,20 @@ public final class ImmutableSourceModel extends AbstractInterceptableModel imple
     private final DataType returnType;
     private final DataType attributesType;
     private final SourceFactory sourceFactory;
+    private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     /**
      * Creates a new instance
      *
-     * @param name                 the source name. Cannot be blank
-     * @param description          the source description
-     * @param parameterModels      a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param returnType           a {@link DataType} which represents the payload of generated messages
-     * @param attributesType       a {@link DataType} which represents the attributes on the generated messages
-     * @param sourceFactory        a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
-     * @param modelProperties      A {@link Map} of custom properties which extend this model
-     * @param interceptorFactories A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
+     * @param name                     the source name. Cannot be blank
+     * @param description              the source description
+     * @param parameterModels          a {@link List} with the source's {@link ParameterModel parameterModels}
+     * @param returnType               a {@link DataType} which represents the payload of generated messages
+     * @param attributesType           a {@link DataType} which represents the attributes on the generated messages
+     * @param sourceFactory            a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
+     * @param modelProperties          A {@link Map} of custom properties which extend this model
+     * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
+     * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link org.mule.extension.api.introspection.ExceptionEnricher} instance
      */
     public ImmutableSourceModel(String name,
                                 String description,
@@ -46,13 +49,15 @@ public final class ImmutableSourceModel extends AbstractInterceptableModel imple
                                 DataType attributesType,
                                 SourceFactory sourceFactory,
                                 Map<String, Object> modelProperties,
-                                List<InterceptorFactory> interceptorFactories)
+                                List<InterceptorFactory> interceptorFactories,
+                                Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
         super(name, description, modelProperties, interceptorFactories);
         this.parameterModels = Collections.unmodifiableList(parameterModels);
         this.returnType = returnType;
         this.sourceFactory = sourceFactory;
         this.attributesType = attributesType;
+        this.exceptionEnricherFactory = exceptionEnricherFactory;
     }
 
     /**
@@ -89,6 +94,15 @@ public final class ImmutableSourceModel extends AbstractInterceptableModel imple
     public DataType getAttributesType()
     {
         return attributesType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
+    {
+        return exceptionEnricherFactory;
     }
 
     @Override

@@ -7,9 +7,12 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.DataType;
+import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.source.Source;
 import org.mule.extension.api.runtime.source.SourceFactory;
+
+import java.util.Optional;
 
 /**
  * A {@link Descriptor} which allows configuring a {@link SourceDeclaration}
@@ -17,7 +20,7 @@ import org.mule.extension.api.runtime.source.SourceFactory;
  *
  * @since 1.0
  */
-public class SourceDescriptor extends HasParameters implements Descriptor, HasModelProperties<SourceDescriptor>, HasInterceptors<SourceDescriptor>
+public class SourceDescriptor extends HasParameters implements Descriptor, HasModelProperties<SourceDescriptor>, HasInterceptors<SourceDescriptor> , HasExceptionEnricher<SourceDescriptor>
 {
 
     private final SourceDeclaration source;
@@ -131,6 +134,16 @@ public class SourceDescriptor extends HasParameters implements Descriptor, HasMo
     public SourceDescriptor withModelProperty(String key, Object value)
     {
         source.addModelProperty(key, value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SourceDescriptor withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
+    {
+        source.setExceptionEnricherFactory(enricherFactory);
         return this;
     }
 
