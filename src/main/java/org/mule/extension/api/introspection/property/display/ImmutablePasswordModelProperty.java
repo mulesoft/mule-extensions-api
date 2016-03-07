@@ -4,9 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.api.introspection.property;
-
-import org.mule.extension.api.introspection.property.PasswordModelProperty;
+package org.mule.extension.api.introspection.property.display;
 
 /**
  * Immutable implementation of {@link PasswordModelProperty}
