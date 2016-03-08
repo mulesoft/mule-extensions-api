@@ -20,8 +20,8 @@ import java.lang.reflect.Method;
  * allows the user to specify the @link org.mule.api.metadata.DataType} 
  * of the annotated operation's output.
  * <p>
- * This annotation is intended to be used in {@link Method methods} which are
- * also annotated with {@link Operation}
+ * This annotation is intended to be used in {@link Method methods} from which
+ * an operation is derived
  *
  * @since 1.0
  */

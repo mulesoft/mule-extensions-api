@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.metadata.api.ClassTypeLoader;
+
 /**
  * A specialization of {@link ParameterDescriptor} for optional parameters.
  * It allows adding properties that only apply to optional parameters
@@ -15,9 +17,9 @@ package org.mule.extension.api.introspection.declaration.fluent;
 public class OptionalParameterDescriptor extends ParameterDescriptor<OptionalParameterDescriptor>
 {
 
-    OptionalParameterDescriptor(HasParameters owner, ParameterDeclaration parameter, DeclarationDescriptor declaration)
+    OptionalParameterDescriptor(HasParameters owner, ParameterDeclaration parameter, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
     {
-        super(owner, parameter, declaration);
+        super(owner, parameter, declaration, typeLoader);
     }
 
     /**

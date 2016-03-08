@@ -7,6 +7,8 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+import org.mule.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
+import org.mule.metadata.api.ClassTypeLoader;
 
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
 {
 
     private final Declaration declaration;
+    private final ClassTypeLoader typeLoader;
 
     /**
      * Constructor for this descriptor
@@ -27,6 +30,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
     public DeclarationDescriptor()
     {
         declaration = new Declaration();
+        typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     }
 
     /**
@@ -74,7 +78,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
         ConfigurationDeclaration config = new ConfigurationDeclaration(name);
         declaration.addConfig(config);
 
-        return new ConfigurationDescriptor(config, this);
+        return new ConfigurationDescriptor(config, this, typeLoader);
     }
 
     /**
@@ -86,7 +90,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
         OperationDeclaration operation = new OperationDeclaration(name);
         declaration.addOperation(operation);
 
-        return new OperationDescriptor(operation, this);
+        return new OperationDescriptor(operation, this, typeLoader);
     }
 
     /**
@@ -98,7 +102,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
         ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
         this.declaration.addConnectionProvider(declaration);
 
-        return new ConnectionProviderDescriptor(this, declaration);
+        return new ConnectionProviderDescriptor(this, declaration, typeLoader);
     }
 
     /**
@@ -110,7 +114,7 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
         SourceDeclaration declaration = new SourceDeclaration(name);
         this.declaration.addMessageSource(declaration);
 
-        return new SourceDescriptor(declaration, this);
+        return new SourceDescriptor(declaration, this, typeLoader);
     }
 
     /**

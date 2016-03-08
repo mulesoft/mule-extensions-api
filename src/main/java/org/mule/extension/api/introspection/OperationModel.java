@@ -8,6 +8,7 @@ package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.runtime.OperationExecutor;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
+import org.mule.metadata.api.model.MetadataType;
 
 /**
  * A definition of an operation in a {@link ExtensionModel}
@@ -27,8 +28,8 @@ public interface OperationModel extends Described, EnrichableModel, Interceptabl
     /**
      * Returns the operation's return type
      *
-     * @return a {@link DataType}
+     * @return a {@link MetadataType}
      */
-    DataType getReturnType();
+    MetadataType getReturnType();
 
 }

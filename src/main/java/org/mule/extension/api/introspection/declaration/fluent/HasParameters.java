@@ -6,13 +6,20 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.metadata.api.ClassTypeLoader;
+
 /**
  * Base class for an object on which {@link ParameterDeclaration}s can be added
  *
  * @since 1.0
  */
-abstract class HasParameters
+abstract class HasParameters extends ChildDescriptor
 {
+
+    public HasParameters(DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
+    {
+        super(declaration, typeLoader);
+    }
 
     /**
      * Adds the {@code parameter}

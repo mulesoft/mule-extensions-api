@@ -6,10 +6,10 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
+import org.mule.metadata.api.model.MetadataType;
 
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ public class OperationDeclaration extends ParameterizedInterceptableDeclaration<
 {
 
     private OperationExecutorFactory executorFactory;
-    private DataType returnType;
+    private MetadataType returnType;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     /**
@@ -44,12 +44,12 @@ public class OperationDeclaration extends ParameterizedInterceptableDeclaration<
         this.executorFactory = executorFactory;
     }
 
-    public DataType getReturnType()
+    public MetadataType getReturnType()
     {
         return returnType;
     }
 
-    public void setReturnType(DataType returnType)
+    public void setReturnType(MetadataType returnType)
     {
         this.returnType = returnType;
     }

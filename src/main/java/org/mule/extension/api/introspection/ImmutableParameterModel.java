@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.metadata.api.model.MetadataType;
+
 import java.util.Map;
 
 /**
@@ -16,7 +18,7 @@ import java.util.Map;
 public final class ImmutableParameterModel extends AbstractImmutableModel implements ParameterModel
 {
 
-    private final DataType type;
+    private final MetadataType type;
     private final boolean required;
     private final ExpressionSupport expressionSupport;
     private final Object defaultValue;
@@ -26,7 +28,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
      *
      * @param name              the parameter's name. Cannot be blank and cannot be one of the values in {@link #RESERVED_NAMES}
      * @param description       the parameter's description
-     * @param type              the parameter's {@link DataType}. Cannot be {@code null}
+     * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
      * @param required          whether this parameter is required or not
      * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
      * @param defaultValue      this parameter's default value
@@ -35,7 +37,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
      */
     public ImmutableParameterModel(String name,
                                    String description,
-                                   DataType type,
+                                   MetadataType type,
                                    boolean required,
                                    ExpressionSupport expressionSupport,
                                    Object defaultValue,
@@ -53,7 +55,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
      * {@inheritDoc}
      */
     @Override
-    public DataType getType()
+    public MetadataType getType()
     {
         return type;
     }

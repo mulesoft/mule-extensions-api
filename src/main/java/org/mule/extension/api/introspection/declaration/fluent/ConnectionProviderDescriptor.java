@@ -7,6 +7,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ConnectionProviderFactory;
+import org.mule.metadata.api.ClassTypeLoader;
 
 /**
  * A {@link Descriptor} which allows configuring a {@link ConnectionProviderDeclaration}
@@ -14,15 +15,14 @@ import org.mule.extension.api.introspection.ConnectionProviderFactory;
  *
  * @since 1.0
  */
-public final class ConnectionProviderDescriptor extends HasParameters implements Descriptor, HasModelProperties<ConnectionProviderDescriptor>
+public final class ConnectionProviderDescriptor extends HasParameters implements HasModelProperties<ConnectionProviderDescriptor>
 {
 
-    private final DeclarationDescriptor declaration;
     private final ConnectionProviderDeclaration connectionProvider;
 
-    public ConnectionProviderDescriptor(DeclarationDescriptor declaration, ConnectionProviderDeclaration connectionProvider)
+    public ConnectionProviderDescriptor(DeclarationDescriptor declaration, ConnectionProviderDeclaration connectionProvider, ClassTypeLoader typeLoader)
     {
-        this.declaration = declaration;
+        super(declaration, typeLoader);
         this.connectionProvider = connectionProvider;
     }
 
@@ -56,7 +56,7 @@ public final class ConnectionProviderDescriptor extends HasParameters implements
      */
     public WithParameters with()
     {
-        return new WithParameters(this, getRootDeclaration());
+        return new WithParameters(this, getRootDeclaration(), typeLoader);
     }
 
     /**

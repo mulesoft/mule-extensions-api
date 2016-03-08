@@ -6,10 +6,10 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.SourceModel;
 import org.mule.extension.api.runtime.source.SourceFactory;
+import org.mule.metadata.api.model.MetadataType;
 
 import java.util.Optional;
 
@@ -21,8 +21,9 @@ import java.util.Optional;
  */
 public class SourceDeclaration extends ParameterizedInterceptableDeclaration<SourceDeclaration>
 {
-    private DataType returnType;
-    private DataType attributesType;
+
+    private MetadataType returnType;
+    private MetadataType attributesType;
     private SourceFactory sourceFactory;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
@@ -35,12 +36,12 @@ public class SourceDeclaration extends ParameterizedInterceptableDeclaration<Sou
         super(name);
     }
 
-    public DataType getReturnType()
+    public MetadataType getReturnType()
     {
         return returnType;
     }
 
-    public void setReturnType(DataType returnType)
+    public void setReturnType(MetadataType returnType)
     {
         this.returnType = returnType;
     }
@@ -55,12 +56,12 @@ public class SourceDeclaration extends ParameterizedInterceptableDeclaration<Sou
         this.sourceFactory = sourceFactory;
     }
 
-    public DataType getAttributesType()
+    public MetadataType getAttributesType()
     {
         return attributesType;
     }
 
-    public void setAttributesType(DataType attributesType)
+    public void setAttributesType(MetadataType attributesType)
     {
         this.attributesType = attributesType;
     }

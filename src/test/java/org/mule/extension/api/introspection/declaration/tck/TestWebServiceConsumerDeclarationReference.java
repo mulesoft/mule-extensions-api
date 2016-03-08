@@ -11,13 +11,14 @@ import static org.mule.extension.api.introspection.ExpressionSupport.NOT_SUPPORT
 import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
 import org.mule.extension.api.introspection.ConfigurationFactory;
 import org.mule.extension.api.introspection.ConnectionProviderFactory;
-import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.DeclarationDescriptor;
 import org.mule.extension.api.runtime.Interceptor;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
 import org.mule.extension.api.runtime.source.Source;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
+import org.mule.metadata.java.JavaTypeLoader;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -105,6 +106,7 @@ public class TestWebServiceConsumerDeclarationReference
     private final Source<Object, Serializable> source = mock(Source.class);
     private final ConnectionProviderFactory connectionProviderFactory = mock(ConnectionProviderFactory.class);
     private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory = Optional.of(mock(ExceptionEnricherFactory.class));
+    private final BaseTypeBuilder<?> typeBuilder = BaseTypeBuilder.create(JavaTypeLoader.JAVA);
 
     public TestWebServiceConsumerDeclarationReference()
     {
@@ -123,20 +125,23 @@ public class TestWebServiceConsumerDeclarationReference
                 .withExpressionSupport(NOT_SUPPORTED)
                 .withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
                 .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
-                .whichReturns(DataType.of(InputStream.class))
+                .whichReturns(InputStream.class)
                 .withModelProperty(OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE)
                 .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
                 .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
                 .withExceptionEnricherFactory(exceptionEnricherFactory)
-                .whichReturns(DataType.of(void.class))
+                .whichReturns(void.class)
                 .withInterceptorFrom(() -> operationInterceptor1)
                 .withInterceptorFrom(() -> operationInterceptor2)
-                .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(List.class, String.class)
+                .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeBuilder.arrayType()
+                                                                                                      .id(List.class.getName())
+                                                                                                      .of(typeBuilder.stringType().id(String.class.getName()))
+                                                                                                      .build())
                 .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                 .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(OperationModel.class).withExpressionSupport(REQUIRED)
                 .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory)
-                .whichReturns(DataType.of(int.class))
+                .whichReturns(int.class)
                 .withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
                 .createdWith(connectionProviderFactory)
                 .forConfigsOfType(CONNECTION_PROVIDER_CONFIG_TYPE)
@@ -144,8 +149,8 @@ public class TestWebServiceConsumerDeclarationReference
                 .with().requiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(String.class)
                 .with().requiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(String.class)
                 .withMessageSource(LISTENER).describedAs(LISTEN_DESCRIPTION).sourceCreatedBy(() -> source)
-                .whichReturns(DataType.of(InputStream.class))
-                .withAttributesOfType(DataType.of(Serializable.class))
+                .whichReturns(InputStream.class)
+                .withAttributesOfType(Serializable.class)
                 .withModelProperty(SOURCE_MODEL_PROPERTY_KEY, SOURCE_MODEL_PROPERTY_VALUE)
                 .withInterceptorFrom(() -> messageSourceInterceptor1)
                 .withInterceptorFrom(() -> messageSourceInterceptor2)

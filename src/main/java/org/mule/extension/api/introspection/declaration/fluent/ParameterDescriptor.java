@@ -6,9 +6,10 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.DataType;
 import org.mule.extension.api.introspection.ExpressionSupport;
 import org.mule.extension.api.introspection.ParameterModel;
+import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.model.MetadataType;
 
 /**
  * A {@link Descriptor} which allows configuring a {@link ParameterDeclaration}
@@ -16,16 +17,15 @@ import org.mule.extension.api.introspection.ParameterModel;
  *
  * @since 1.0
  */
-public class ParameterDescriptor<T extends ParameterDescriptor> implements Descriptor, HasModelProperties<ParameterDescriptor<T>>
+public class ParameterDescriptor<T extends ParameterDescriptor> extends ChildDescriptor implements HasModelProperties<ParameterDescriptor<T>>
 {
 
-    private final DeclarationDescriptor declaration;
     private final ParameterDeclaration parameter;
     private final HasParameters owner;
 
-    ParameterDescriptor(HasParameters owner, ParameterDeclaration parameter, DeclarationDescriptor declaration)
+    ParameterDescriptor(HasParameters owner, ParameterDeclaration parameter, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
     {
-        this.declaration = declaration;
+        super(declaration, typeLoader);
         this.owner = owner;
         this.parameter = parameter;
     }
@@ -33,24 +33,23 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
     /**
      * Specifies the type of the {@link ParameterModel} and its parametrized types
      *
-     * @param type              the type of the parameter
-     * @param parametrizedTypes the generic types for {@code type}
-     * @return {@value this} descriptor
+     * @param type the type of the parameter
+     * @return {@code this} descriptor
      */
-    public T ofType(Class<?> type, Class<?>... parametrizedTypes)
+    public T ofType(Class<?> type)
     {
-        return ofType(DataType.of(type, parametrizedTypes));
+        return ofType(typeLoader.load(type));
     }
 
     /**
      * Specifies the type of the {@link ParameterModel}
      *
-     * @param dataType the type of the parameter
+     * @param type the type of the parameter
      * @return
      */
-    public T ofType(DataType dataType)
+    public T ofType(MetadataType type)
     {
-        parameter.setType(dataType);
+        parameter.setType(type);
         return (T) this;
     }
 
@@ -100,7 +99,7 @@ public class ParameterDescriptor<T extends ParameterDescriptor> implements Descr
      */
     public WithParameters with()
     {
-        return new WithParameters(owner, getRootDeclaration());
+        return new WithParameters(owner, getRootDeclaration(), typeLoader);
     }
 
     /**

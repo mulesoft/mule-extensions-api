@@ -8,6 +8,7 @@ package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.runtime.source.Source;
 import org.mule.extension.api.runtime.source.SourceFactory;
+import org.mule.metadata.api.model.MetadataType;
 
 /**
  * A definition of a message source in an {@link ExtensionModel}
@@ -23,12 +24,12 @@ public interface SourceModel extends Described, EnrichableModel, InterceptableMo
     SourceFactory getSourceFactory();
 
     /**
-     * @return a {@link DataType} representing the payload types for the generated messages
+     * @return a {@link MetadataType} representing the payload types for the generated messages
      */
-    DataType getReturnType();
+    MetadataType getReturnType();
 
     /**
-     * @return a {@link DataType} representing the attribute types for the generated messages
+     * @return a {@link MetadataType} representing the attribute types for the generated messages
      */
-    DataType getAttributesType();
+    MetadataType getAttributesType();
 }
