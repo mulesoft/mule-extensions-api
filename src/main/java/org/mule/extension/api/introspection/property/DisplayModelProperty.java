@@ -4,21 +4,35 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.api.introspection.property.display;
+
+package org.mule.extension.api.introspection.property;
 
 import org.mule.extension.api.introspection.ParameterModel;
 
 /**
- * Represents a {@link ParameterModel} capability to be located in the extension configuration window.
+ * Represents the {@link ParameterModel} properties related to its UI.
  *
  * @since 1.0
  */
-public interface PlacementModelProperty
+public interface DisplayModelProperty
 {
+
+    String KEY = "DISPLAY.MODEL.PROPERTY";
+
     /**
-     * A unique key to identify this model property from others
+     * The name that will be used for displaying
      */
-    String KEY = "PLACEMENT.MODEL.PROPERTY";
+    String getDisplayName();
+
+    /**
+     * Returns whether the field should be masked in the UI or not
+     */
+    boolean isPassword();
+
+    /**
+     * Returns whether the field should use a multi line string editor in the UI or not
+     */
+    boolean isText();
 
     /**
      * The order of the parameter within its group.
@@ -34,5 +48,5 @@ public interface PlacementModelProperty
      * The tab element name where parameter and its group it's going to be located.
      */
     String getTabName();
-
 }
+
