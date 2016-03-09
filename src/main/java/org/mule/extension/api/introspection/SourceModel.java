@@ -6,8 +6,6 @@
  */
 package org.mule.extension.api.introspection;
 
-import org.mule.extension.api.runtime.source.Source;
-import org.mule.extension.api.runtime.source.SourceFactory;
 import org.mule.metadata.api.model.MetadataType;
 
 /**
@@ -15,13 +13,8 @@ import org.mule.metadata.api.model.MetadataType;
  *
  * @since 1.0
  */
-public interface SourceModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel, ExceptionEnrichableModel
+public interface SourceModel extends Described, EnrichableModel, ParametrizedModel
 {
-
-    /**
-     * @return a {@link SourceFactory} used to create instances of {@link Source} which are compliant with this model
-     */
-    SourceFactory getSourceFactory();
 
     /**
      * @return a {@link MetadataType} representing the payload types for the generated messages

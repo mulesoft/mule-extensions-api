@@ -24,7 +24,7 @@ public interface ExtensionDiscoverer
      * {@link ExtensionManager#discoverExtensions(ClassLoader)}
      *
      * @param classLoader the {@link ClassLoader} on which the search will be performed
-     * @return a {@link List} of {@link ExtensionModel}. Might be empty but it will never be {@code null}
+     * @return a {@link List} of {@link RuntimeExtensionModel}. Might be empty but it will never be {@code null}
      */
-    List<ExtensionModel> discover(ClassLoader classLoader);
+    List<RuntimeExtensionModel> discover(ClassLoader classLoader);
 }

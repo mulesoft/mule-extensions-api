@@ -20,12 +20,6 @@ public interface ConnectionProviderModel<Config, Connection> extends Described, 
 {
 
     /**
-     * @return the {@link ConnectionProviderFactory} to be used to create instances
-     * consistent with this model
-     */
-    ConnectionProviderFactory getConnectionProviderFactory();
-
-    /**
      * @return The {@link Class} object for the {@code Config} type
      */
     Class<Config> getConfigurationType();

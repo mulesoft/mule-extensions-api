@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 
@@ -26,7 +25,7 @@ import java.util.function.Supplier;
  *
  * @since 1.0
  */
-public final class ImmutableExtensionModel extends AbstractImmutableModel implements ExtensionModel
+public class ImmutableExtensionModel extends AbstractImmutableModel implements ExtensionModel
 {
 
     private final String version;
@@ -35,22 +34,20 @@ public final class ImmutableExtensionModel extends AbstractImmutableModel implem
     private final List<ConnectionProviderModel> connectionProviders;
     private final Map<String, SourceModel> messageSources;
     private final String vendor;
-    private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
 
     /**
      * Creates a new instance with the given state
      *
-     * @param name                     the extension's name. Cannot be blank
-     * @param description              the extension's description
-     * @param version                  the extension's version
-     * @param vendor                   the extension's vendor name
-     * @param configurationModels      a {@link List} with the extension's {@link ConfigurationModel configurationModels}
-     * @param operationModels          a {@link List} with the extension's {@link OperationModel operationModels}
-     * @param connectionProviders      a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-     * @param sourceModels             a {@link List} with the extension's {@link SourceModel message source models}
-     * @param modelProperties          A {@link Map} of custom properties which extend this model
-     * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link org.mule.extension.api.introspection.ExceptionEnricher} instance
+     * @param name                the extension's name. Cannot be blank
+     * @param description         the extension's description
+     * @param version             the extension's version
+     * @param vendor              the extension's vendor name
+     * @param configurationModels a {@link List} with the extension's {@link ConfigurationModel configurationModels}
+     * @param operationModels     a {@link List} with the extension's {@link OperationModel operationModels}
+     * @param connectionProviders a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+     * @param sourceModels        a {@link List} with the extension's {@link SourceModel message source models}
+     * @param modelProperties     A {@link Map} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
      */
     public ImmutableExtensionModel(String name,
@@ -61,14 +58,12 @@ public final class ImmutableExtensionModel extends AbstractImmutableModel implem
                                    List<OperationModel> operationModels,
                                    List<ConnectionProviderModel> connectionProviders,
                                    List<SourceModel> sourceModels,
-                                   Map<String, Object> modelProperties,
-                                   Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
+                                   Map<String, Object> modelProperties)
     {
         super(name, description, modelProperties);
         this.configurations = toMap(configurationModels);
         this.operations = toMap(operationModels);
         this.connectionProviders = Collections.unmodifiableList(connectionProviders);
-        this.exceptionEnricherFactory = exceptionEnricherFactory;
         this.messageSources = toMap(sourceModels);
 
         checkArgument(version != null && version.length() > 0, "Version cannot be blank");
@@ -81,6 +76,7 @@ public final class ImmutableExtensionModel extends AbstractImmutableModel implem
         this.version = version;
         this.vendor = vendor;
     }
+
 
     /**
      * {@inheritDoc}
@@ -169,12 +165,6 @@ public final class ImmutableExtensionModel extends AbstractImmutableModel implem
     }
 
     @Override
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
-
-    @Override
     public String toString()
     {
         return new StringBuilder().append("ImmutableExtensionModel{")
@@ -185,7 +175,6 @@ public final class ImmutableExtensionModel extends AbstractImmutableModel implem
                 .append(", connectionProviders=").append(connectionProviders)
                 .append(", messageSources=").append(messageSources)
                 .append(", vendor='").append(vendor).append('\'')
-                .append(", exceptionEnricherFactory=").append(exceptionEnricherFactory)
                 .append('}').toString();
     }
 

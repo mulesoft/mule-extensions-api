@@ -6,9 +6,6 @@
  */
 package org.mule.extension.api.introspection;
 
-import org.mule.extension.api.introspection.Described;
-import org.mule.extension.api.introspection.EnrichableModel;
-
 import java.util.Collections;
 import java.util.Map;
 
@@ -68,6 +65,15 @@ abstract class AbstractImmutableModel implements Described, EnrichableModel
     {
         checkArgument(key != null && key.length() > 0, "A model property cannot have a blank key");
         return (T) modelProperties.get(key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<String,Object> getModelProperties()
+    {
+        return modelProperties;
     }
 
     /**

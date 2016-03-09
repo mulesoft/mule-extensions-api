@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection;
 
+import java.util.Map;
+
 /**
  * A model which can be augmented with custom key-value pairs of information
  * that are not part of the canonical introspection model. We call this pairs
@@ -37,4 +39,11 @@ public interface EnrichableModel
      * @throws IllegalArgumentException if {@code key} is {@code null} or blank
      */
     <T> T getModelProperty(String key);
+
+    /**
+     * Returns all the model properties registered for this model
+     *
+     * @return a map containing all the model properties
+     */
+    Map<String, Object> getModelProperties();
 }
