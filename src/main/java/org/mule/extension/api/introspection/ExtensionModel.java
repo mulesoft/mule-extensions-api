@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ExtensionModel extends Described, EnrichableModel, ExceptionEnrichableModel
+public interface ExtensionModel extends Described, EnrichableModel
 {
 
     /**

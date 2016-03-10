@@ -6,21 +6,15 @@
  */
 package org.mule.extension.api.introspection;
 
-import org.mule.metadata.api.model.MetadataType;
-
 /**
- * A definition of an operation in a {@link ExtensionModel}
+ * A specialization of the {@link ExtensionModel} interface which adds
+ * behavioural components that are relevant to the extension's functioning
+ * when in runtime.
  *
+ * @see ExtensionModel
  * @since 1.0
  */
-public interface OperationModel extends Described, EnrichableModel, ParametrizedModel
+public interface RuntimeExtensionModel extends ExtensionModel, ExceptionEnrichableModel
 {
-
-    /**
-     * Returns the operation's return type
-     *
-     * @return a {@link MetadataType}
-     */
-    MetadataType getReturnType();
 
 }

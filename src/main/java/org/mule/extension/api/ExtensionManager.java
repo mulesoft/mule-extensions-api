@@ -10,10 +10,11 @@ import org.mule.extension.api.introspection.ConfigurationModel;
 import org.mule.extension.api.introspection.ExtensionFactory;
 import org.mule.extension.api.introspection.ExtensionModel;
 import org.mule.extension.api.introspection.OperationModel;
+import org.mule.extension.api.introspection.RuntimeExtensionModel;
 import org.mule.extension.api.introspection.declaration.spi.Describer;
+import org.mule.extension.api.runtime.ConfigurationInstance;
 import org.mule.extension.api.runtime.ConfigurationProvider;
 import org.mule.extension.api.runtime.ConfigurationStats;
-import org.mule.extension.api.runtime.ConfigurationInstance;
 
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,7 @@ import java.util.Set;
  * <p/>
  * The workflow for this manager would be to first discover the currently available extensions
  * through {@link #discoverExtensions(ClassLoader)}. Additionally, {@link ExtensionModel} instances
- * can also be added in runtime through {@link #registerExtension(ExtensionModel)}.
+ * can also be added in runtime through {@link #registerExtension(RuntimeExtensionModel)}.
  *
  * @since 1.0
  */
@@ -42,21 +43,21 @@ public interface ExtensionManager
      * <ul>
      * <li>Some discovery mechanism (which one is up to the implementation) is used to discover implementations of the {@link Describer} interface</li>
      * <li>The discovered describers are fed into a {@link ExtensionFactory} and transformed in {@link ExtensionModel} instances</li>
-     * <li>Those extensions are registered through the {@link #registerExtension(ExtensionModel)} method</li>
+     * <li>Those extensions are registered through the {@link #registerExtension(RuntimeExtensionModel)} method</li>
      * </ul>
      * Finally, a {@link List} is returned with all the {@link ExtensionModel extensions} available after the discovery process finishes.
      *
      * @param classLoader a not {@code null} {@link java.lang.ClassLoader} in which to search for extensions
      * @return a {@link List} with all the available {@link ExtensionModel extensions}
      */
-    List<ExtensionModel> discoverExtensions(ClassLoader classLoader);
+    List<RuntimeExtensionModel> discoverExtensions(ClassLoader classLoader);
 
     /**
      * Registers the given {@link ExtensionModel}.
      *
      * @param extensionModel the {@link ExtensionModel} to be registered. Cannot be {@code null}
      */
-    void registerExtension(ExtensionModel extensionModel);
+    void registerExtension(RuntimeExtensionModel extensionModel);
 
     /**
      * Returns a {@link Set} listing all the discovered
@@ -64,7 +65,7 @@ public interface ExtensionManager
      *
      * @return an {@link Set}. Will not be {@code null} but might be empty
      */
-    Set<ExtensionModel> getExtensions();
+    Set<RuntimeExtensionModel> getExtensions();
 
     /**
      * Registers the {@code configurationProvider}.

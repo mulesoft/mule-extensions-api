@@ -23,17 +23,7 @@ package org.mule.extension.api.introspection;
  *
  * @since 1.0
  */
-public interface ConfigurationModel extends Described, EnrichableModel, InterceptableModel, ParametrizedModel
+public interface ConfigurationModel extends Described, EnrichableModel, ParametrizedModel
 {
-
-    /**
-     * @return the {@link ExtensionModel} that owns {@code this} model
-     */
-    ExtensionModel getExtensionModel();
-
-    /**
-     * Returns the {@link ConfigurationFactory} for this instance
-     */
-    ConfigurationFactory getConfigurationFactory();
 
 }

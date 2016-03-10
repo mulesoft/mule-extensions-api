@@ -9,6 +9,7 @@ package org.mule.extension.api.runtime;
 import org.mule.extension.api.introspection.ConfigurationModel;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.ParameterModel;
+import org.mule.extension.api.introspection.RuntimeOperationModel;
 
 /**
  * Provides context information about the execution of an operation
@@ -53,7 +54,7 @@ public interface OperationContext
     /**
      * Returns the model associated to the operation being executed
      *
-     * @return a {@link OperationModel}
+     * @return a {@link RuntimeOperationModel}
      */
-    OperationModel getOperationModel();
+    RuntimeOperationModel getOperationModel();
 }
