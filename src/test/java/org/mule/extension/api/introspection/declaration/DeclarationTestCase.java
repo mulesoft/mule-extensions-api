@@ -25,8 +25,7 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.BROADCAST_DESCRIPTION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CALLBACK;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CALLBACK_DESCRIPTION;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIGURATION_MODEL_PROPERTY_KEY;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIGURATION_MODEL_PROPERTY_VALUE;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIGURATION_MODEL_PROPERTY;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_DESCRIPTION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONFIG_NAME;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONNECTION_PROVIDER_CONFIG_TYPE;
@@ -35,8 +34,7 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONNECTION_PROVIDER_NAME;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.CONSUMER;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.DEFAULT_PORT;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.EXTENSION_MODEL_PROPERTY_KEY;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.EXTENSION_MODEL_PROPERTY_VALUE;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.EXTENSION_MODEL_PROPERTY;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.GO_GET_THEM_TIGER;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.HAS_NO_ARGS;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.LISTENER;
@@ -45,10 +43,8 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.MTOM_ENABLED;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.MULESOFT;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION_MODEL_PROPERTY_KEY;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION_MODEL_PROPERTY_VALUE;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PARAMETER_MODEL_PROPERTY_KEY;
-import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PARAMETER_MODEL_PROPERTY_VALUE;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.OPERATION_MODEL_PROPERTY;
+import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PARAMETER_MODEL_PROPERTY;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PASSWORD;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PASSWORD_DESCRIPTION;
 import static org.mule.extension.api.introspection.declaration.tck.TestWebServiceConsumerDeclarationReference.PORT;
@@ -70,6 +66,7 @@ import static org.mule.extension.api.introspection.declaration.tck.TestWebServic
 import static org.mule.metadata.java.JavaTypeLoader.JAVA;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ExpressionSupport;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.BaseDeclaration;
 import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
@@ -94,8 +91,8 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -136,7 +133,7 @@ public class DeclarationTestCase
         assertThat(declaration.getVendor(), is(MULESOFT));
         assertThat(declaration.getExceptionEnricherFactory().isPresent(), is(true));
         assertThat(declaration.getExceptionEnricherFactory().get(), is(sameInstance(testDeclaration.getExceptionEnricherFactory().get())));
-        assertModelProperties(declaration, EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE);
+        assertModelProperties(declaration, EXTENSION_MODEL_PROPERTY);
     }
 
     @Test
@@ -148,7 +145,7 @@ public class DeclarationTestCase
         assertThat(configuration.getConfigurationFactory(), is(sameInstance(testDeclaration.getConfigurationFactory())));
         assertThat(configuration.getName(), is(CONFIG_NAME));
         assertThat(configuration.getDescription(), is(CONFIG_DESCRIPTION));
-        assertModelProperties(configuration, CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE);
+        assertModelProperties(configuration, CONFIGURATION_MODEL_PROPERTY);
 
         List<InterceptorFactory> interceptorFactories = configuration.getInterceptorFactories();
         assertThat(interceptorFactories, is(notNullValue()));
@@ -163,7 +160,7 @@ public class DeclarationTestCase
         assertParameter(parameters.get(2), SERVICE, SERVICE_NAME, SUPPORTED, true, typeLoader.load(String.class), null);
         assertParameter(parameters.get(3), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true, typeLoader.load(String.class), null);
 
-        assertModelProperties(parameters.get(3), PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE);
+        assertModelProperties(parameters.get(3), PARAMETER_MODEL_PROPERTY);
     }
 
     @Test
@@ -223,7 +220,7 @@ public class DeclarationTestCase
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
         assertDataType(operation.getReturnType(), InputStream.class, BinaryType.class);
-        assertModelProperties(operation, OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE);
+        assertModelProperties(operation, OPERATION_MODEL_PROPERTY);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, hasSize(2));
@@ -293,13 +290,14 @@ public class DeclarationTestCase
         assertThat(parameter.getType(), equalTo(type));
     }
 
-    private void assertModelProperties(BaseDeclaration<?> declaration, String key, Object value)
+    private void assertModelProperties(BaseDeclaration<?> declaration, ModelProperty modelProperty)
     {
-        Map<String, Object> properties = declaration.getModelProperties();
+        Set<ModelProperty> properties = declaration.getModelProperties();
         assertThat(properties, is(not(nullValue())));
         assertThat(properties.size(), is(1));
-        assertThat(properties.containsKey(key), is(true));
-        assertThat(properties.get(key), is(sameInstance(value)));
+        assertThat(properties.contains(modelProperty), is(true));
+
+        assertThat(declaration.getModelProperty(modelProperty.getClass()).get(), is(sameInstance(modelProperty)));
     }
 
     private void assertDataType(MetadataType type, Class<?> expectedRawType, Class<? extends MetadataType> typeQualifier)

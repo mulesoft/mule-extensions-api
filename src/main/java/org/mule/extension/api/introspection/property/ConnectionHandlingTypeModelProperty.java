@@ -6,40 +6,122 @@
  */
 package org.mule.extension.api.introspection.property;
 
+import org.mule.api.connection.ConnectionHandlingStrategy;
+import org.mule.api.connection.ConnectionHandlingStrategyFactory;
 import org.mule.api.connection.ConnectionProvider;
+import org.mule.api.connection.PoolingListener;
+import org.mule.extension.api.introspection.ConnectionProviderModel;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.PoolingSupport;
 
 /**
- * A model property for {@link org.mule.extension.api.introspection.ConnectionProviderModel} which describes
+ * A model property for the {@link ConnectionProviderModel} which describes
  * the Connection Handling Type for a given {@link ConnectionProvider}.
  *
  * @since 1.0
  */
-public interface ConnectionHandlingTypeModelProperty
+public final class ConnectionHandlingTypeModelProperty implements ModelProperty
 {
 
-    /**
-     * A unique key that identifies this property type
-     */
-    public static final String KEY = ConnectionHandlingTypeModelProperty.class.getName();
+    private boolean cached = false;
+    private PoolingSupport poolingSupport = PoolingSupport.NOT_SUPPORTED;
+    private boolean none = false;
+
+    public ConnectionHandlingTypeModelProperty(ConnectionProvider connectionProvider)
+    {
+        connectionProvider.getHandlingStrategy(new ConnectionHandlingStrategyFactory()
+        {
+            @Override
+            public ConnectionHandlingStrategy supportsPooling()
+            {
+                poolingSupport = PoolingSupport.SUPPORTED;
+                return null;
+            }
+
+            @Override
+            public ConnectionHandlingStrategy supportsPooling(PoolingListener poolingListener)
+            {
+                return supportsPooling();
+            }
+
+            @Override
+            public ConnectionHandlingStrategy requiresPooling()
+            {
+                poolingSupport = PoolingSupport.REQUIRED;
+                return null;
+            }
+
+            @Override
+            public ConnectionHandlingStrategy requiresPooling(PoolingListener poolingListener)
+            {
+                return requiresPooling();
+            }
+
+            @Override
+            public ConnectionHandlingStrategy cached()
+            {
+                cached = true;
+                return null;
+            }
+
+            @Override
+            public ConnectionHandlingStrategy none()
+            {
+                none = true;
+                return null;
+            }
+        });
+    }
 
     /**
-     * To signal that the connection handling supports cache.
+     * Signals that the connection handling supports cache.
      */
-    boolean isCached();
+    public boolean isCached()
+    {
+        return cached;
+    }
 
     /**
-     * To signal that it has no connection handling strategy.
+     * Signals that it has no connection handling strategy.
      */
-    boolean isNone();
+    public boolean isNone()
+    {
+        return none;
+    }
 
     /**
-     * To signal that the connection handling supports pooling.
+     * Signals that the connection handling supports pooling.
      */
-    boolean isPooled();
+    public boolean isPooled()
+    {
+        return !poolingSupport.equals(PoolingSupport.NOT_SUPPORTED);
+    }
 
     /**
      * Return the type of {@link PoolingSupport} that the given ConnectionProvider supports.
      */
-    PoolingSupport getPoolingSupport();
+    public PoolingSupport getPoolingSupport()
+    {
+        return poolingSupport;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return {@code Connection Handling Type}
+     */
+    @Override
+    public String getName()
+    {
+        return "Connection Handling Type";
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return {@code true}
+     */
+    @Override
+    public boolean isExternalizable()
+    {
+        return true;
+    }
 }

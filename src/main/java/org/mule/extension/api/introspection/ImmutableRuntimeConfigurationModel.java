@@ -11,7 +11,7 @@ import org.mule.extension.api.runtime.InterceptorFactory;
 import java.beans.Transient;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -33,7 +33,7 @@ public final class ImmutableRuntimeConfigurationModel extends ImmutableConfigura
      * @param description          the configuration's description
      * @param configurationFactory the {@link ConfigurationFactory}. Cannot be {@code null}
      * @param parameterModels      a {@link List} with the configuration's {@link ParameterModel parameterModels}
-     * @param modelProperties      A {@link Map} of custom properties which extend this model
+     * @param modelProperties      A {@link Set} of custom properties which extend this model
      * @param interceptorFactories A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
      */
@@ -42,7 +42,7 @@ public final class ImmutableRuntimeConfigurationModel extends ImmutableConfigura
                                               Supplier<RuntimeExtensionModel> extensionModelSupplier,
                                               ConfigurationFactory configurationFactory,
                                               List<ParameterModel> parameterModels,
-                                              Map<String, Object> modelProperties,
+                                              Set<ModelProperty> modelProperties,
                                               List<InterceptorFactory> interceptorFactories)
     {
         super(name, description, parameterModels, modelProperties);
@@ -79,16 +79,5 @@ public final class ImmutableRuntimeConfigurationModel extends ImmutableConfigura
     public List<InterceptorFactory> getInterceptorFactories()
     {
         return interceptorFactories;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableRuntimeConfigurationModel{")
-                .append(super.toString())
-                .append(", extensionModelSupplier=").append(extensionModelSupplier)
-                .append(", configurationFactory=").append(configurationFactory)
-                .append(", interceptorFactories=").append(interceptorFactories)
-                .append('}').toString();
     }
 }

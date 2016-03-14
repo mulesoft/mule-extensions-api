@@ -14,8 +14,8 @@ import org.mule.metadata.api.model.MetadataType;
 import java.beans.Transient;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Runtime Immutable implementation of {@link SourceModel}
@@ -38,7 +38,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
      * @param returnType               a {@link MetadataType} which represents the payload of generated messages
      * @param attributesType           a {@link MetadataType} which represents the attributes on the generated messages
      * @param sourceFactory            a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
-     * @param modelProperties          A {@link Map} of custom properties which extend this model
+     * @param modelProperties          A {@link Set} of custom properties which extend this model
      * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
      */
@@ -48,7 +48,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
                                        MetadataType returnType,
                                        MetadataType attributesType,
                                        SourceFactory sourceFactory,
-                                       Map<String, Object> modelProperties,
+                                       Set<ModelProperty> modelProperties,
                                        List<InterceptorFactory> interceptorFactories,
                                        Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
@@ -86,15 +86,5 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
     public List<InterceptorFactory> getInterceptorFactories()
     {
         return interceptorFactories;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableRuntimeSourceModel{")
-                .append(super.toString())
-                .append(", sourceFactory=").append(sourceFactory)
-                .append(", interceptorFactories=").append(interceptorFactories)
-                .append('}').toString();
     }
 }

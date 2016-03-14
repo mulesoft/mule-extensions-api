@@ -10,7 +10,7 @@ import org.mule.api.connection.ConnectionProvider;
 
 import java.beans.Transient;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Immutable implementation of {@link ConnectionProviderModel}
@@ -33,7 +33,7 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
      * @param connectionType            the {@link Class} of the provided connections
      * @param connectionProviderFactory the {@link ConnectionProviderFactory} used to create realizations of {@code this} model
      * @param parameterModels           a {@link List} with the provider's {@link ParameterModel parameterModels}
-     * @param modelProperties           A {@link Map} of custom properties which extend this model
+     * @param modelProperties           A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType} are {@code null}
      */
     public ImmutableRuntimeConnectionProviderModel(String name,
@@ -42,7 +42,7 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
                                                    Class<Connection> connectionType,
                                                    ConnectionProviderFactory connectionProviderFactory,
                                                    List<ParameterModel> parameterModels,
-                                                   Map<String, Object> modelProperties)
+                                                   Set<ModelProperty> modelProperties)
     {
         super(name, description, configurationType, connectionType, parameterModels, modelProperties);
 
@@ -60,14 +60,5 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
     public ConnectionProviderFactory getConnectionProviderFactory()
     {
         return connectionProviderFactory;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableConnectionProviderModel{")
-                .append(super.toString())
-                .append(", connectionProviderFactory=").append(connectionProviderFactory)
-                .append('}').toString();
     }
 }

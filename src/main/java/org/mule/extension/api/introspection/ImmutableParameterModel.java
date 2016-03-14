@@ -8,7 +8,7 @@ package org.mule.extension.api.introspection;
 
 import org.mule.metadata.api.model.MetadataType;
 
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Immutable implementation of {@link ParameterModel}
@@ -32,7 +32,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
      * @param required          whether this parameter is required or not
      * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
      * @param defaultValue      this parameter's default value
-     * @param modelProperties   A {@link Map} of custom properties which extend this model
+     * @param modelProperties   A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
      */
     public ImmutableParameterModel(String name,
@@ -41,7 +41,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
                                    boolean required,
                                    ExpressionSupport expressionSupport,
                                    Object defaultValue,
-                                   Map<String, Object> modelProperties)
+                                   Set<ModelProperty> modelProperties)
     {
         super(name, description, modelProperties);
 
@@ -85,17 +85,5 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
     public Object getDefaultValue()
     {
         return defaultValue;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableParameterModel{")
-                .append(super.toString())
-                .append(", type=").append(type)
-                .append(", required=").append(required)
-                .append(", expressionSupport=").append(expressionSupport)
-                .append(", defaultValue=").append(defaultValue)
-                .append('}').toString();
     }
 }

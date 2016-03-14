@@ -6,33 +6,69 @@
  */
 package org.mule.extension.api.introspection.property;
 
+import org.mule.extension.api.introspection.ModelProperty;
+
 /**
  * Represents an extension's capability to be mapped and usable
  * from a Mule XML config
  *
  * @since 1.0
  */
-public interface XmlModelProperty
+public final class XmlModelProperty implements ModelProperty
 {
 
-    /**
-     * A unique key to identify this model property from others
-     */
-    String KEY = "XML.MODEL.PROPERTY";
+    private final String schemaVersion;
+    private final String namespace;
+    private final String schemaLocation;
+
+    public XmlModelProperty(String schemaVersion, String namespace, String schemaLocation)
+    {
+        this.schemaVersion = schemaVersion;
+        this.namespace = namespace;
+        this.schemaLocation = schemaLocation;
+    }
 
     /**
-     * The version of the module. Defaults to 1.0.
+     * @return The version of the module. Defaults to 1.0.
      */
-    String getSchemaVersion();
+    public String getSchemaVersion()
+    {
+        return schemaVersion;
+    }
 
     /**
-     * Namespace of the module
+     * @return The extension's namespace
      */
-    String getNamespace();
+    public String getNamespace()
+    {
+        return namespace;
+    }
 
     /**
-     * Location URI for the schema
+     * @return The Schema's Location URI
      */
-    String getSchemaLocation();
+    public String getSchemaLocation()
+    {
+        return schemaLocation;
+    }
 
+    /**
+     * {@inheritDoc}
+     * @return {@code XML}
+     */
+    @Override
+    public String getName()
+    {
+        return "XML";
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return {@code true}
+     */
+    @Override
+    public boolean isExternalizable()
+    {
+        return true;
+    }
 }

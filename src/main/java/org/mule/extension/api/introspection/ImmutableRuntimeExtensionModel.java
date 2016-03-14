@@ -8,8 +8,8 @@ package org.mule.extension.api.introspection;
 
 import java.beans.Transient;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 
 /**
@@ -34,7 +34,7 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
      * @param operationModels          a {@link List} with the extension's {@link OperationModel operationModels}
      * @param connectionProviders      a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
      * @param sourceModels             a {@link List} with the extension's {@link SourceModel message source models}
-     * @param modelProperties          A {@link Map} of custom properties which extend this model
+     * @param modelProperties          A {@link Set} of custom properties which extend this model
      * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
      * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
      */
@@ -46,10 +46,10 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
                                           List<OperationModel> operationModels,
                                           List<ConnectionProviderModel> connectionProviders,
                                           List<SourceModel> sourceModels,
-                                          Map<String, Object> modelProperties,
+                                          Set<ModelProperty> modelProperties,
                                           Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
-        super(name, description,version,vendor,configurationModels,operationModels,connectionProviders,sourceModels, modelProperties);
+        super(name, description, version, vendor, configurationModels, operationModels, connectionProviders, sourceModels, modelProperties);
         this.exceptionEnricherFactory = exceptionEnricherFactory;
     }
 
@@ -59,14 +59,5 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
     public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
     {
         return exceptionEnricherFactory;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableRuntimeExtensionModel{")
-                .append(super.toString())
-                .append(", exceptionEnricherFactory=").append(exceptionEnricherFactory)
-                .append('}').toString();
     }
 }

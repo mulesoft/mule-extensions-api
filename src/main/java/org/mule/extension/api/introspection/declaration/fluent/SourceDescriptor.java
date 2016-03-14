@@ -8,6 +8,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.source.Source;
 import org.mule.extension.api.runtime.source.SourceFactory;
@@ -155,9 +156,9 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * {@inheritDoc}
      */
     @Override
-    public SourceDescriptor withModelProperty(String key, Object value)
+    public SourceDescriptor withModelProperty(ModelProperty modelProperty)
     {
-        source.addModelProperty(key, value);
+        source.addModelProperty(modelProperty);
         return this;
     }
 

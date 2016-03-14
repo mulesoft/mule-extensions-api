@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
+import org.mule.extension.api.introspection.ModelProperty;
+
 /**
  * A contract interface for an object capable of adding a model property
  * into a {@link Descriptor}
@@ -17,12 +19,12 @@ public interface HasModelProperties<T extends Descriptor>
 {
 
     /**
-     * Adds a model property under the given {@code key} and {@code value}
+     * Adds the given {@code modelProperty}
      *
-     * @param key   the property's key
-     * @param value the property's value
+     * @param modelProperty a {@link ModelProperty}
      * @return {@code this} descriptor
+     * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
      */
-    T withModelProperty(String key, Object value);
+    T withModelProperty(ModelProperty modelProperty);
 
 }

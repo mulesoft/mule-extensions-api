@@ -13,8 +13,8 @@ import org.mule.metadata.api.model.MetadataType;
 import java.beans.Transient;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Runtime Immutable implementation of {@link OperationModel}
@@ -36,7 +36,7 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
      * @param executorFactory          a {@link OperationExecutorFactory}. Cannot be {@code null}
      * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
      * @param returnType               a {@link MetadataType} which represents the operation's output
-     * @param modelProperties          A {@link Map} of custom properties which extend this model
+     * @param modelProperties          A {@link Set} of custom properties which extend this model
      * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
      * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
@@ -47,7 +47,9 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
                                           OperationExecutorFactory executorFactory,
                                           List<ParameterModel> parameterModels,
                                           MetadataType returnType,
-                                          Map<String, Object> modelProperties, List<InterceptorFactory> interceptorFactories, Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
+                                          Set<ModelProperty> modelProperties,
+                                          List<InterceptorFactory> interceptorFactories,
+                                          Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
         super(name, description, parameterModels, returnType, modelProperties);
         if (executorFactory == null)
@@ -88,15 +90,5 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
     public List<InterceptorFactory> getInterceptorFactories()
     {
         return interceptorFactories;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableRuntimeOperationModel{")
-                .append(super.toString())
-                .append(", exceptionEnricherFactory=").append(exceptionEnricherFactory)
-                .append(", interceptorFactories=").append(interceptorFactories)
-                .append('}').toString();
     }
 }

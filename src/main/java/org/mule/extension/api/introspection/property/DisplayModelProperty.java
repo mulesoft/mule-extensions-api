@@ -7,46 +7,106 @@
 
 package org.mule.extension.api.introspection.property;
 
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.ParameterModel;
 
 /**
- * Represents the {@link ParameterModel} properties related to its UI.
+ * Provides UI related properties for a {@link ParameterModel}
  *
  * @since 1.0
  */
-public interface DisplayModelProperty
+public final class DisplayModelProperty implements ModelProperty
 {
 
-    String KEY = "DISPLAY.MODEL.PROPERTY";
+    private final String displayName;
+    private final boolean password;
+    private final boolean text;
+    private final int order;
+    private final String groupName;
+    private final String tabName;
+
+    public DisplayModelProperty(String displayName,
+                                boolean password,
+                                boolean text,
+                                int order,
+                                String groupName,
+                                String tabName)
+    {
+        this.displayName = displayName;
+        this.password = password;
+        this.text = text;
+        this.order = order;
+        this.groupName = groupName;
+        this.tabName = tabName;
+    }
+
 
     /**
-     * The name that will be used for displaying
+     * @return The name that will be used for displaying
      */
-    String getDisplayName();
+    public String getDisplayName()
+    {
+        return displayName;
+    }
 
     /**
-     * Returns whether the field should be masked in the UI or not
+     * @return Whether the field should be masked in the UI or not
      */
-    boolean isPassword();
+    public boolean isPassword()
+    {
+        return password;
+    }
 
     /**
-     * Returns whether the field should use a multi line string editor in the UI or not
+     * @return Whether the field should use a multi line string editor in the UI or not
      */
-    boolean isText();
+    public boolean isText()
+    {
+        return text;
+    }
 
     /**
-     * The order of the parameter within its group.
+     * @return The order of the parameter within its group.
      */
-    int getOrder();
+    public int getOrder()
+    {
+        return order;
+    }
 
     /**
-     * The group element name where the parameter is going to be located.
+     * @return The group element name where the parameter is going to be located.
      */
-    String getGroupName();
+    public String getGroupName()
+    {
+        return groupName;
+    }
 
     /**
-     * The tab element name where parameter and its group it's going to be located.
+     * @return The tab element name where parameter and its group it's going to be located.
      */
-    String getTabName();
+    public String getTabName()
+    {
+        return tabName;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return {@code Display properties}
+     */
+    @Override
+    public String getName()
+    {
+        return "Display properties";
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return {@code true}
+     */
+    @Override
+    public boolean isExternalizable()
+    {
+        return true;
+    }
 }
 

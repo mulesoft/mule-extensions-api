@@ -7,6 +7,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.metadata.api.ClassTypeLoader;
 
@@ -121,9 +122,9 @@ public class DeclarationDescriptor implements Descriptor, HasModelProperties<Dec
      * {@inheritDoc}
      */
     @Override
-    public DeclarationDescriptor withModelProperty(String key, Object value)
+    public DeclarationDescriptor withModelProperty(ModelProperty value)
     {
-        declaration.addModelProperty(key, value);
+        declaration.addModelProperty(value);
         return this;
     }
 
