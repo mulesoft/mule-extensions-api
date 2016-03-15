@@ -7,6 +7,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
@@ -129,9 +130,9 @@ public class OperationDescriptor extends HasParameters implements HasModelProper
      * {@inheritDoc}
      */
     @Override
-    public OperationDescriptor withModelProperty(String key, Object value)
+    public OperationDescriptor withModelProperty(ModelProperty modelProperty)
     {
-        operation.addModelProperty(key, value);
+        operation.addModelProperty(modelProperty);
         return this;
     }
 

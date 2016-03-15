@@ -6,8 +6,18 @@
  */
 package org.mule.extension.api.introspection;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.unmodifiableMap;
+
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
 /**
@@ -20,23 +30,23 @@ abstract class AbstractImmutableModel implements Described, EnrichableModel
 
     private final String name;
     private final String description;
-    private final Map<String, Object> modelProperties;
+    private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties;
 
     /**
      * Creates a new instance
      *
      * @param name            the model's name
      * @param description     the model's description
-     * @param modelProperties A {@link Map} of custom properties which extend this model
+     * @param modelProperties A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code name} is blank
      */
-    protected AbstractImmutableModel(String name, String description, Map<String, Object> modelProperties)
+    protected AbstractImmutableModel(String name, String description, Set<ModelProperty> modelProperties)
     {
         checkArgument(name != null && name.length() > 0, "Name attribute cannot be null or blank");
 
         this.name = name;
         this.description = description != null ? description : "";
-        this.modelProperties = modelProperties != null ? Collections.unmodifiableMap(modelProperties) : Collections.emptyMap();
+        this.modelProperties = toModelPropertiesMap(modelProperties);
     }
 
     /**
@@ -61,19 +71,19 @@ abstract class AbstractImmutableModel implements Described, EnrichableModel
      * {@inheritDoc}
      */
     @Override
-    public <T> T getModelProperty(String key)
+    public <T extends ModelProperty> Optional<T> getModelProperty(Class<T> propertyType)
     {
-        checkArgument(key != null && key.length() > 0, "A model property cannot have a blank key");
-        return (T) modelProperties.get(key);
+        checkArgument(propertyType != null, "Cannot get model properties of a null type");
+        return Optional.ofNullable((T) modelProperties.get(propertyType));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Map<String,Object> getModelProperties()
+    public Set<ModelProperty> getModelProperties()
     {
-        return modelProperties;
+        return Collections.unmodifiableSet(new HashSet(modelProperties.values()));
     }
 
     /**
@@ -109,10 +119,7 @@ abstract class AbstractImmutableModel implements Described, EnrichableModel
     @Override
     public String toString()
     {
-        return new StringBuilder().append("AbstractImmutableModel{")
-                .append("name='").append(name).append('\'')
-                .append(", description='").append(description).append('\'')
-                .append(", modelProperties=").append(modelProperties).append('}').toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     protected static void checkArgument(boolean condition, String message)
@@ -121,5 +128,14 @@ abstract class AbstractImmutableModel implements Described, EnrichableModel
         {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    private Map<Class<? extends ModelProperty>, ModelProperty> toModelPropertiesMap(Collection<ModelProperty> properties)
+    {
+        if (properties == null || properties.isEmpty())
+        {
+            return emptyMap();
+        }
+        return unmodifiableMap(properties.stream().collect(Collectors.toMap(p -> p.getClass(), p -> p)));
     }
 }

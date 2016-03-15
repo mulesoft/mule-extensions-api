@@ -9,7 +9,7 @@ package org.mule.extension.api.introspection;
 import org.mule.api.connection.ConnectionProvider;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Immutable implementation of {@link ConnectionProviderModel}
@@ -32,7 +32,7 @@ public class ImmutableConnectionProviderModel<Config, Connection> extends Abstra
      * @param configurationType the {@link Class} of the objects accepted as configs
      * @param connectionType    the {@link Class} of the provided connections
      * @param parameterModels   a {@link List} with the provider's {@link ParameterModel parameterModels}
-     * @param modelProperties   A {@link Map} of custom properties which extend this model
+     * @param modelProperties   A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType} are {@code null}
      */
     public ImmutableConnectionProviderModel(String name,
@@ -40,7 +40,7 @@ public class ImmutableConnectionProviderModel<Config, Connection> extends Abstra
                                             Class<Config> configurationType,
                                             Class<Connection> connectionType,
                                             List<ParameterModel> parameterModels,
-                                            Map<String, Object> modelProperties)
+                                            Set<ModelProperty> modelProperties)
     {
         super(name, description, modelProperties, parameterModels);
 
@@ -68,15 +68,5 @@ public class ImmutableConnectionProviderModel<Config, Connection> extends Abstra
     public Class<Connection> getConnectionType()
     {
         return connectionType;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableConnectionProviderModel{")
-                .append(super.toString())
-                .append(", configurationType=").append(configurationType)
-                .append(", connectionType=").append(connectionType)
-                .append('}').toString();
     }
 }

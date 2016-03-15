@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 
@@ -47,7 +48,7 @@ public class ImmutableExtensionModel extends AbstractImmutableModel implements E
      * @param operationModels     a {@link List} with the extension's {@link OperationModel operationModels}
      * @param connectionProviders a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
      * @param sourceModels        a {@link List} with the extension's {@link SourceModel message source models}
-     * @param modelProperties     A {@link Map} of custom properties which extend this model
+     * @param modelProperties     A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
      */
     public ImmutableExtensionModel(String name,
@@ -58,7 +59,7 @@ public class ImmutableExtensionModel extends AbstractImmutableModel implements E
                                    List<OperationModel> operationModels,
                                    List<ConnectionProviderModel> connectionProviders,
                                    List<SourceModel> sourceModels,
-                                   Map<String, Object> modelProperties)
+                                   Set<ModelProperty> modelProperties)
     {
         super(name, description, modelProperties);
         this.configurations = toMap(configurationModels);
@@ -164,20 +165,6 @@ public class ImmutableExtensionModel extends AbstractImmutableModel implements E
         return vendor;
     }
 
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableExtensionModel{")
-                .append(super.toString())
-                .append(", version='").append(version).append('\'')
-                .append(", configurations=").append(configurations)
-                .append(", operations=").append(operations)
-                .append(", connectionProviders=").append(connectionProviders)
-                .append(", messageSources=").append(messageSources)
-                .append(", vendor='").append(vendor).append('\'')
-                .append('}').toString();
-    }
-
     private <T extends Described> Map<String, T> toMap(List<T> objects)
     {
         if (objects == null || objects.isEmpty())
@@ -185,7 +172,7 @@ public class ImmutableExtensionModel extends AbstractImmutableModel implements E
             return Collections.emptyMap();
         }
 
-        Map<String, T> map = new LinkedHashMap<String, T>(objects.size());
+        Map<String, T> map = new LinkedHashMap<>(objects.size());
         for (T object : objects)
         {
             if (map.containsKey(object.getName()))

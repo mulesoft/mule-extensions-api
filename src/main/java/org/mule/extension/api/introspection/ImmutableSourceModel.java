@@ -9,7 +9,7 @@ package org.mule.extension.api.introspection;
 import org.mule.metadata.api.model.MetadataType;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Immutable implementation of {@link SourceModel}
@@ -30,14 +30,14 @@ public class ImmutableSourceModel extends AbstractParameterizedModel implements 
      * @param parameterModels a {@link List} with the source's {@link ParameterModel parameterModels}
      * @param returnType      a {@link MetadataType} which represents the payload of generated messages
      * @param attributesType  a {@link MetadataType} which represents the attributes on the generated messages
-     * @param modelProperties A {@link Map} of custom properties which extend this model
+     * @param modelProperties A {@link Set} of custom properties which extend this model
      */
     public ImmutableSourceModel(String name,
                                 String description,
                                 List<ParameterModel> parameterModels,
                                 MetadataType returnType,
                                 MetadataType attributesType,
-                                Map<String, Object> modelProperties)
+                                Set<ModelProperty> modelProperties)
     {
         super(name, description, modelProperties, parameterModels);
         this.returnType = returnType;
@@ -60,15 +60,5 @@ public class ImmutableSourceModel extends AbstractParameterizedModel implements 
     public MetadataType getAttributesType()
     {
         return attributesType;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableSourceModel{")
-                .append(super.toString())
-                .append(", returnType=").append(returnType)
-                .append(", attributesType=").append(attributesType)
-                .append('}').toString();
     }
 }

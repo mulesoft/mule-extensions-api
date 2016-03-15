@@ -9,7 +9,7 @@ package org.mule.extension.api.introspection;
 import org.mule.metadata.api.model.MetadataType;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Immutable concrete implementation of {@link OperationModel}
@@ -28,14 +28,14 @@ public class ImmutableOperationModel extends AbstractParameterizedModel implemen
      * @param description     the operation's descriptor
      * @param parameterModels a {@link List} with the operation's {@link ParameterModel parameterModels}
      * @param returnType      a {@link MetadataType} which represents the operation's output
-     * @param modelProperties A {@link Map} of custom properties which extend this model
+     * @param modelProperties A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
      */
     public ImmutableOperationModel(String name,
                                    String description,
                                    List<ParameterModel> parameterModels,
                                    MetadataType returnType,
-                                   Map<String, Object> modelProperties)
+                                   Set<ModelProperty> modelProperties)
     {
         super(name, description, modelProperties, parameterModels);
 
@@ -49,14 +49,5 @@ public class ImmutableOperationModel extends AbstractParameterizedModel implemen
     public MetadataType getReturnType()
     {
         return returnType;
-    }
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().append("ImmutableOperationModel{")
-                .append(super.toString())
-                .append(", returnType=").append(returnType)
-                .append('}').toString();
     }
 }

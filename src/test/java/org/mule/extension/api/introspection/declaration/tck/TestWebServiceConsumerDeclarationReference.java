@@ -12,6 +12,7 @@ import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
 import org.mule.extension.api.introspection.ConfigurationFactory;
 import org.mule.extension.api.introspection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.DeclarationDescriptor;
 import org.mule.extension.api.runtime.Interceptor;
@@ -75,17 +76,11 @@ public class TestWebServiceConsumerDeclarationReference
     public static final String PORT_DESCRIPTION = "Port to listen on";
     public static final int DEFAULT_PORT = 8080;
 
-    public static final String EXTENSION_MODEL_PROPERTY_KEY = "customExtensionModelProperty";
-    public static final String CONFIGURATION_MODEL_PROPERTY_KEY = "customConfigurationModelProperty";
-    public static final String OPERATION_MODEL_PROPERTY_KEY = "customOperationModelProperty";
-    public static final String PARAMETER_MODEL_PROPERTY_KEY = "customParameterModelProperty";
-    public static final String SOURCE_MODEL_PROPERTY_KEY = "customSourceModelProperty";
-
-    public static final String EXTENSION_MODEL_PROPERTY_VALUE = "customExtensionModelPropertyValue";
-    public static final String CONFIGURATION_MODEL_PROPERTY_VALUE = "customConfigurationModelPropertyValue";
-    public static final String OPERATION_MODEL_PROPERTY_VALUE = "customOperationModelPropertyValue";
-    public static final String PARAMETER_MODEL_PROPERTY_VALUE = "customParameterModelPropertyValue";
-    public static final String SOURCE_MODEL_PROPERTY_VALUE = "customSourceModelPropertyValue";
+    public static final ModelProperty EXTENSION_MODEL_PROPERTY = new TestModelProperty("customExtensionModelProperty");
+    public static final ModelProperty CONFIGURATION_MODEL_PROPERTY = new TestModelProperty("customConfigurationModelProperty");
+    public static final ModelProperty OPERATION_MODEL_PROPERTY = new TestModelProperty("customOperationModelProperty");
+    public static final ModelProperty PARAMETER_MODEL_PROPERTY = new TestModelProperty("customParameterModelProperty");
+    public static final ModelProperty SOURCE_MODEL_PROPERTY = new TestModelProperty("customSourceModelProperty");
 
     public static final String CONNECTION_PROVIDER_NAME = "connectionProvider";
     public static final String CONNECTION_PROVIDER_DESCRIPTION = "my connection provider";
@@ -113,9 +108,9 @@ public class TestWebServiceConsumerDeclarationReference
         descriptor = new DeclarationDescriptor();
         descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
                 .withExceptionEnricherFactory(exceptionEnricherFactory)
-                .withModelProperty(EXTENSION_MODEL_PROPERTY_KEY, EXTENSION_MODEL_PROPERTY_VALUE)
+                .withModelProperty(EXTENSION_MODEL_PROPERTY)
                 .withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
-                .withModelProperty(CONFIGURATION_MODEL_PROPERTY_KEY, CONFIGURATION_MODEL_PROPERTY_VALUE)
+                .withModelProperty(CONFIGURATION_MODEL_PROPERTY)
                 .withInterceptorFrom(() -> configInterceptor1)
                 .withInterceptorFrom(() -> configInterceptor2)
                 .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
@@ -123,10 +118,10 @@ public class TestWebServiceConsumerDeclarationReference
                 .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
                 .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class)
                 .withExpressionSupport(NOT_SUPPORTED)
-                .withModelProperty(PARAMETER_MODEL_PROPERTY_KEY, PARAMETER_MODEL_PROPERTY_VALUE)
+                .withModelProperty(PARAMETER_MODEL_PROPERTY)
                 .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
                 .whichReturns(InputStream.class)
-                .withModelProperty(OPERATION_MODEL_PROPERTY_KEY, OPERATION_MODEL_PROPERTY_VALUE)
+                .withModelProperty(OPERATION_MODEL_PROPERTY)
                 .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
                 .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
                 .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
@@ -151,7 +146,7 @@ public class TestWebServiceConsumerDeclarationReference
                 .withMessageSource(LISTENER).describedAs(LISTEN_DESCRIPTION).sourceCreatedBy(() -> source)
                 .whichReturns(InputStream.class)
                 .withAttributesOfType(Serializable.class)
-                .withModelProperty(SOURCE_MODEL_PROPERTY_KEY, SOURCE_MODEL_PROPERTY_VALUE)
+                .withModelProperty(SOURCE_MODEL_PROPERTY)
                 .withInterceptorFrom(() -> messageSourceInterceptor1)
                 .withInterceptorFrom(() -> messageSourceInterceptor2)
                 .with().requiredParameter(URL).describedAs(URL_DESCRIPTION).ofType(String.class)
@@ -216,5 +211,42 @@ public class TestWebServiceConsumerDeclarationReference
     public Source getSource()
     {
         return source;
+    }
+
+    private static class TestModelProperty implements ModelProperty {
+        private final String name;
+
+        private TestModelProperty(String name)
+        {
+            this.name = name;
+        }
+
+        @Override
+        public String getName()
+        {
+            return name;
+        }
+
+        @Override
+        public boolean isExternalizable()
+        {
+            return true;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (obj instanceof TestModelProperty) {
+                return name.equals(((TestModelProperty) obj).name);
+            }
+
+            return false;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return name.hashCode();
+        }
     }
 }

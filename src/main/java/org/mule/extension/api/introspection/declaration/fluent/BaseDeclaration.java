@@ -7,9 +7,14 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.Described;
+import org.mule.extension.api.introspection.ModelProperty;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Base class for a declaration object
@@ -23,7 +28,7 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
     private final String name;
     private String description = "";
 
-    private final Map<String, Object> modelProperties = new HashMap<>();
+    private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
 
     /**
      * Creates a new instance
@@ -36,52 +41,46 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
     }
 
     /**
-     * Returns a map with the currently set model properties. Notice
-     * that this map is mutable and not thread-safe.
+     * Returns a {@link Set} with the currently added properties. Notice
+     * that this {@link Set} is mutable and not thread-safe.
      * <p>
      * This method is to be used when you need to access all the properties.
-     * For individual access use {@link #addModelProperty(String, Object)}
-     * or {@link #getModelProperty(String)} instead
+     * For individual access use {@link #addModelProperty(ModelProperty)}}
+     * or {@link #getModelProperty(Class)} instead
      *
-     * @return a {@link Map} with the current model properties. Might be empty but will never by {@code null}
+     * @return a {@link Set} with the current model properties. Might be empty but will never by {@code null}
      */
-    public Map<String, Object> getModelProperties()
+    public Set<ModelProperty> getModelProperties()
     {
-        return modelProperties;
+        return Collections.unmodifiableSet(new HashSet<>(modelProperties.values()));
     }
 
     /**
      * Returns the model property registered under {@code key}
      *
-     * @param key the property's key
-     * @param <P> the generic type for the response value
-     * @return the associated value or {@code null} if no such property was registered
+     * @param propertyType the property's {@link Class}
+     * @param <P>          the generic type for the response value
+     * @return the associated value wrapped on an {@link Optional}
      */
-    public <P> P getModelProperty(String key)
+    public <P extends ModelProperty> Optional<P> getModelProperty(Class<P> propertyType)
     {
-        return (P) getModelProperties().get(key);
+        return Optional.ofNullable((P) modelProperties.get(propertyType));
     }
 
     /**
-     * Associates the {@code key} with the {@code value} property
+     * Adds the given {@code modelProperty}
      *
-     * @param key   the property's key
-     * @param value the property value
-     * @throws IllegalArgumentException if key is empty or if {@code value} is {@code null}
+     * @param modelProperty a {@link ModelProperty}
+     * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
      */
-    public T addModelProperty(String key, Object value)
+    public T addModelProperty(ModelProperty modelProperty)
     {
-        if (value == null)
+        if (modelProperty == null)
         {
-            throw new IllegalArgumentException("A model property's value cannot be null");
+            throw new IllegalArgumentException("Cannot add a null model property");
         }
 
-        if (key == null || key.trim().length() == 0)
-        {
-            throw new IllegalArgumentException("A model property's key cannot be null or empty");
-        }
-
-        modelProperties.put(key, value);
+        modelProperties.put(modelProperty.getClass(), modelProperty);
         return (T) this;
     }
 

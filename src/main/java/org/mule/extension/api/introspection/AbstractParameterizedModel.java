@@ -8,7 +8,7 @@ package org.mule.extension.api.introspection;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Base class for immutable implementeation of {@link ParametrizedModel}
@@ -25,11 +25,11 @@ abstract class AbstractParameterizedModel extends AbstractImmutableModel impleme
      *
      * @param name            the model's name
      * @param description     the model's description
-     * @param modelProperties A {@link Map} of custom properties which extend this model
+     * @param modelProperties A {@link Set} of custom properties which extend this model
      * @param parameterModels a {@link List} with the source's {@link ParameterModel parameterModels}
      * @throws IllegalArgumentException if {@code name} is blank
      */
-    protected AbstractParameterizedModel(String name, String description, Map<String, Object> modelProperties, List<ParameterModel> parameterModels)
+    protected AbstractParameterizedModel(String name, String description, Set<ModelProperty> modelProperties, List<ParameterModel> parameterModels)
     {
         super(name, description, modelProperties);
         this.parameterModels = Collections.unmodifiableList(parameterModels);
@@ -42,15 +42,5 @@ abstract class AbstractParameterizedModel extends AbstractImmutableModel impleme
     public List<ParameterModel> getParameterModels()
     {
         return parameterModels;
-    }
-
-
-    @Override
-    public String toString()
-    {
-        return new StringBuilder()
-                .append("AbstractParameterizedModel{")
-                .append("parameterModels='")
-                .append(parameterModels).toString();
     }
 }

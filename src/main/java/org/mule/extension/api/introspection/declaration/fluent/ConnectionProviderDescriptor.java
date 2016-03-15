@@ -7,6 +7,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ConnectionProviderFactory;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.metadata.api.ClassTypeLoader;
 
 /**
@@ -81,9 +82,9 @@ public final class ConnectionProviderDescriptor extends HasParameters implements
      * {@inheritDoc}
      */
     @Override
-    public ConnectionProviderDescriptor withModelProperty(String key, Object value)
+    public ConnectionProviderDescriptor withModelProperty(ModelProperty modelProperty)
     {
-        connectionProvider.addModelProperty(key, value);
+        connectionProvider.addModelProperty(modelProperty);
         return this;
     }
 }

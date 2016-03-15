@@ -7,6 +7,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExpressionSupport;
+import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.ParameterModel;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
@@ -115,9 +116,9 @@ public class ParameterDescriptor<T extends ParameterDescriptor> extends ChildDes
      * {@inheritDoc}
      */
     @Override
-    public ParameterDescriptor<T> withModelProperty(String key, Object value)
+    public ParameterDescriptor<T> withModelProperty(ModelProperty modelProperty)
     {
-        parameter.addModelProperty(key, value);
+        parameter.addModelProperty(modelProperty);
         return this;
     }
 
