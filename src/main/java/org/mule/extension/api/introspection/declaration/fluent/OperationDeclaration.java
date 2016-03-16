@@ -24,6 +24,7 @@ public class OperationDeclaration extends ParameterizedInterceptableDeclaration<
 
     private OperationExecutorFactory executorFactory;
     private MetadataType returnType;
+    private MetadataType attributesType;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     /**
@@ -62,5 +63,15 @@ public class OperationDeclaration extends ParameterizedInterceptableDeclaration<
     public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
         this.exceptionEnricherFactory = exceptionEnricherFactory;
+    }
+
+    public MetadataType getAttributesType()
+    {
+        return attributesType;
+    }
+
+    public void setAttributesType(MetadataType attributesType)
+    {
+        this.attributesType = attributesType;
     }
 }

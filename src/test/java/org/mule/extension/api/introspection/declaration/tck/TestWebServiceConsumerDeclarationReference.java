@@ -121,6 +121,7 @@ public class TestWebServiceConsumerDeclarationReference
                 .withModelProperty(PARAMETER_MODEL_PROPERTY)
                 .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
                 .whichReturns(InputStream.class)
+                .withAttributesOfType(String.class)
                 .withModelProperty(OPERATION_MODEL_PROPERTY)
                 .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
                 .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)

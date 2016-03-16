@@ -20,6 +20,7 @@ public class ImmutableOperationModel extends AbstractParameterizedModel implemen
 {
 
     private final MetadataType returnType;
+    private final MetadataType attributesType;
 
     /**
      * Creates a new instance with the given state
@@ -28,6 +29,7 @@ public class ImmutableOperationModel extends AbstractParameterizedModel implemen
      * @param description     the operation's descriptor
      * @param parameterModels a {@link List} with the operation's {@link ParameterModel parameterModels}
      * @param returnType      a {@link MetadataType} which represents the operation's output
+     * @param attributesType  a {@link MetadataType} which represents the attributes on the output messages
      * @param modelProperties A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
      */
@@ -35,11 +37,13 @@ public class ImmutableOperationModel extends AbstractParameterizedModel implemen
                                    String description,
                                    List<ParameterModel> parameterModels,
                                    MetadataType returnType,
+                                   MetadataType attributesType,
                                    Set<ModelProperty> modelProperties)
     {
         super(name, description, modelProperties, parameterModels);
 
         this.returnType = returnType;
+        this.attributesType = attributesType;
     }
 
     /**
@@ -49,5 +53,11 @@ public class ImmutableOperationModel extends AbstractParameterizedModel implemen
     public MetadataType getReturnType()
     {
         return returnType;
+    }
+
+    @Override
+    public MetadataType getAttributesType()
+    {
+        return attributesType;
     }
 }

@@ -25,9 +25,9 @@ import java.util.Set;
 public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel implements RuntimeSourceModel
 {
 
-    private final SourceFactory sourceFactory;
-    private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private final List<InterceptorFactory> interceptorFactories;
+    private transient final SourceFactory sourceFactory;
+    private transient final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+    private transient final List<InterceptorFactory> interceptorFactories;
 
     /**
      * Creates a new instance
