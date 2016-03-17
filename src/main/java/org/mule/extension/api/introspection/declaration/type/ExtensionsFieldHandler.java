@@ -67,7 +67,6 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
     private void setFieldType(TypeHandlerManager typeHandlerManager, ParsingContext context, Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
     {
         final Type fieldType = field.getGenericType();
-        fieldBuilder.id(fieldType.getTypeName());
         final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(fieldType);
 
         if (typeBuilder.isPresent())
