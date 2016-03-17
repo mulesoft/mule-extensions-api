@@ -75,6 +75,31 @@ public class OperationDescriptor extends HasParameters implements HasModelProper
     }
 
     /**
+     * Specifies the type of the attributes that the output
+     * messages will have
+     *
+     * @param attributesType the attribute's {@link Class} type
+     * @return {@code this} descriptor
+     */
+    public OperationDescriptor withAttributesOfType(Class<?> attributesType)
+    {
+        return withAttributesOfType(typeLoader.load(attributesType));
+    }
+
+    /**
+     * Specifies the type of the attributes that the output
+     * messages will have
+     *
+     * @param attributesType a {@link MetadataType}
+     * @return {@code this} descriptor
+     */
+    public OperationDescriptor withAttributesOfType(MetadataType attributesType)
+    {
+        operation.setAttributesType(attributesType);
+        return this;
+    }
+
+    /**
      * @return a {@link WithParameters} which allows adding {@link ParameterDeclaration}
      * to this descriptor
      */

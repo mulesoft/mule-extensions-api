@@ -24,9 +24,9 @@ import java.util.Set;
 public final class ImmutableRuntimeOperationModel extends ImmutableOperationModel implements RuntimeOperationModel
 {
 
-    private final OperationExecutorFactory executorFactory;
-    private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private final List<InterceptorFactory> interceptorFactories;
+    private final transient OperationExecutorFactory executorFactory;
+    private final transient Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+    private final transient List<InterceptorFactory> interceptorFactories;
 
     /**
      * Creates a new instance with the given state
@@ -36,6 +36,7 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
      * @param executorFactory          a {@link OperationExecutorFactory}. Cannot be {@code null}
      * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
      * @param returnType               a {@link MetadataType} which represents the operation's output
+     * @param attributesType           a {@link MetadataType} which represents the attributes on the output messages
      * @param modelProperties          A {@link Set} of custom properties which extend this model
      * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
@@ -47,11 +48,12 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
                                           OperationExecutorFactory executorFactory,
                                           List<ParameterModel> parameterModels,
                                           MetadataType returnType,
+                                          MetadataType attributesType,
                                           Set<ModelProperty> modelProperties,
                                           List<InterceptorFactory> interceptorFactories,
                                           Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
-        super(name, description, parameterModels, returnType, modelProperties);
+        super(name, description, parameterModels, returnType, attributesType, modelProperties);
         if (executorFactory == null)
         {
             throw new IllegalArgumentException(String.format("Operation '%s' cannot have a null executor factory", name));

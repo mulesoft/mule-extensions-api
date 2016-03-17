@@ -86,6 +86,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.NullType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.StringType;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -220,6 +221,7 @@ public class DeclarationTestCase
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
         assertDataType(operation.getReturnType(), InputStream.class, BinaryType.class);
+        assertDataType(operation.getAttributesType(), String.class, StringType.class);
         assertModelProperties(operation, OPERATION_MODEL_PROPERTY);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
