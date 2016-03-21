@@ -6,6 +6,7 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.extension.api.introspection.metadata.MetadataEnrichableModel;
 import org.mule.extension.api.runtime.OperationExecutor;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
 
@@ -17,7 +18,7 @@ import org.mule.extension.api.runtime.OperationExecutorFactory;
  * @see OperationModel
  * @since 1.0
  */
-public interface RuntimeOperationModel extends OperationModel, InterceptableModel, ExceptionEnrichableModel
+public interface RuntimeOperationModel extends OperationModel, InterceptableModel, ExceptionEnrichableModel, MetadataEnrichableModel
 {
 
     /**

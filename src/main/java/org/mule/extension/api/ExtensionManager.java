@@ -36,8 +36,7 @@ public interface ExtensionManager
 {
 
     /**
-     * Scans the classpath visible to the given
-     * {@link java.lang.ClassLoader} and registers them.
+     * Scans the classpath visible to the given {@link ClassLoader} and registers them.
      * <p/>
      * The discovery process works as follows:
      * <ul>
@@ -47,7 +46,7 @@ public interface ExtensionManager
      * </ul>
      * Finally, a {@link List} is returned with all the {@link ExtensionModel extensions} available after the discovery process finishes.
      *
-     * @param classLoader a not {@code null} {@link java.lang.ClassLoader} in which to search for extensions
+     * @param classLoader a not {@code null} {@link ClassLoader} in which to search for extensions
      * @return a {@link List} with all the available {@link ExtensionModel extensions}
      */
     List<RuntimeExtensionModel> discoverExtensions(ClassLoader classLoader);

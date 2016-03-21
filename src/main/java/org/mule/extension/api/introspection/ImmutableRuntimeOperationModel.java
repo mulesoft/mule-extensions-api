@@ -6,6 +6,10 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.api.metadata.resolving.MetadataContentResolver;
+import org.mule.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
 import org.mule.metadata.api.model.MetadataType;
@@ -27,6 +31,7 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
     private final transient OperationExecutorFactory executorFactory;
     private final transient Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
     private final transient List<InterceptorFactory> interceptorFactories;
+    private final MetadataResolverFactory metadataResolverFactory;
 
     /**
      * Creates a new instance with the given state
@@ -37,9 +42,11 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
      * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
      * @param returnType               a {@link MetadataType} which represents the operation's output
      * @param attributesType           a {@link MetadataType} which represents the attributes on the output messages
-     * @param modelProperties          A {@link Set} of custom properties which extend this model
-     * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
+     * @param modelProperties          a {@link Set} of custom properties which extend this model
+     * @param interceptorFactories     a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
+     * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver},
+     *                                 {@link MetadataContentResolver} and {@link MetadataOutputResolver}
      * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
      */
 
@@ -51,7 +58,8 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
                                           MetadataType attributesType,
                                           Set<ModelProperty> modelProperties,
                                           List<InterceptorFactory> interceptorFactories,
-                                          Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
+                                          Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
+                                          MetadataResolverFactory metadataResolverFactory)
     {
         super(name, description, parameterModels, returnType, attributesType, modelProperties);
         if (executorFactory == null)
@@ -62,6 +70,7 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
         this.exceptionEnricherFactory = exceptionEnricherFactory;
         this.interceptorFactories = interceptorFactories != null ? Collections.unmodifiableList(interceptorFactories) : Collections.emptyList();
 
+        this.metadataResolverFactory = metadataResolverFactory;
     }
 
     /**
@@ -93,4 +102,14 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
     {
         return interceptorFactories;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MetadataResolverFactory getMetadataResolverFactory()
+    {
+        return metadataResolverFactory;
+    }
+
 }

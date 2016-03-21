@@ -8,6 +8,7 @@ package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ModelProperty;
+import org.mule.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.OperationExecutor;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
@@ -22,7 +23,8 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class OperationDescriptor extends HasParameters implements HasModelProperties<OperationDescriptor>, HasInterceptors<OperationDescriptor>, HasExceptionEnricher<OperationDescriptor>
+public class OperationDescriptor extends HasParameters implements HasModelProperties<OperationDescriptor>, HasInterceptors<OperationDescriptor>,
+        HasExceptionEnricher<OperationDescriptor>, HasMetadataResolver<OperationDescriptor>
 {
 
     private final OperationDeclaration operation;
@@ -177,5 +179,15 @@ public class OperationDescriptor extends HasParameters implements HasModelProper
     public OperationDeclaration getDeclaration()
     {
         return operation;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OperationDescriptor withMetadataResolverFactory(MetadataResolverFactory metadataResolver)
+    {
+        operation.setMetadataResolverFactory(metadataResolver);
+        return this;
     }
 }
