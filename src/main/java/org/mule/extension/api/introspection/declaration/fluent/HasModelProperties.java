@@ -9,20 +9,19 @@ package org.mule.extension.api.introspection.declaration.fluent;
 import org.mule.extension.api.introspection.ModelProperty;
 
 /**
- * A contract interface for an object capable of adding a model property
- * into a {@link Descriptor}
+ * A contract interface for a declarer capable of adding a model properties
  *
- * @param <T> the generic type of the target {@link Descriptor}
+ * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-public interface HasModelProperties<T extends Descriptor>
+public interface HasModelProperties<T>
 {
 
     /**
      * Adds the given {@code modelProperty}
      *
      * @param modelProperty a {@link ModelProperty}
-     * @return {@code this} descriptor
+     * @return {@code this} declarer
      * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
      */
     T withModelProperty(ModelProperty modelProperty);

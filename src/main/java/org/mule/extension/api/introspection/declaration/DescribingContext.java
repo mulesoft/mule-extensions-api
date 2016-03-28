@@ -7,7 +7,7 @@
 package org.mule.extension.api.introspection.declaration;
 
 import org.mule.extension.api.introspection.ExtensionModel;
-import org.mule.extension.api.introspection.declaration.fluent.DeclarationDescriptor;
+import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
 
 /**
  * Used for propagating state across all the components
@@ -19,12 +19,12 @@ public interface DescribingContext
 {
 
     /**
-     * The {@link DeclarationDescriptor} in which
+     * The {@link ExtensionDeclarer} in which
      * the extension is being described into
      *
-     * @return a non {@code null} {@link DeclarationDescriptor}
+     * @return a non {@code null} {@link ExtensionDeclarer}
      */
-    DeclarationDescriptor getDeclarationDescriptor();
+    ExtensionDeclarer getExtensionDeclarer();
 
     /**
      * Adds a custom parameter registered under {@code key}

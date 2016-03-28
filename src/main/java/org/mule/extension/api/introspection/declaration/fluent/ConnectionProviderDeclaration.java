@@ -10,18 +10,14 @@ import org.mule.extension.api.introspection.ConfigurationModel;
 import org.mule.extension.api.introspection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.ConnectionProviderModel;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * A declaration object for a {@link ConnectionProviderModel}. It contains raw, unvalidated
  * data which is used to declare the structure of a {@link ConfigurationModel}
  *
  * @since 1.0
  */
-public final class ConnectionProviderDeclaration extends BaseDeclaration<ConnectionProviderDeclaration> implements ParameterizedDeclaration
+public final class ConnectionProviderDeclaration extends ParameterizedInterceptableDeclaration<ConnectionProviderDeclaration> implements ParameterizedDeclaration
 {
-    private final List<ParameterDeclaration> parameters = new LinkedList<>();
     private ConnectionProviderFactory factory;
     private Class<?> configurationType;
     private Class<?> connectionType;
@@ -32,15 +28,6 @@ public final class ConnectionProviderDeclaration extends BaseDeclaration<Connect
     ConnectionProviderDeclaration(String name)
     {
         super(name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ParameterDeclaration> getParameters()
-    {
-        return parameters;
     }
 
     public ConnectionProviderFactory getFactory()

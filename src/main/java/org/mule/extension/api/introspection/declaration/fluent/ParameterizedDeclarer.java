@@ -9,21 +9,22 @@ package org.mule.extension.api.introspection.declaration.fluent;
 import org.mule.metadata.api.ClassTypeLoader;
 
 /**
- * A bridge which allows adding {@link ParameterDeclaration} to
- * a {@link #owner} that belongs to a {@link DeclarationDescriptor}
+ * Base class for a declarer which allows adding {@link ParameterDeclaration}s
  *
  * @since 1.0
  */
-public final class WithParameters
+public abstract class ParameterizedDeclarer
 {
 
-    private final HasParameters owner;
-    private final DeclarationDescriptor declaration;
-    private final ClassTypeLoader typeLoader;
+    private ParameterizedInterceptableDeclaration declaration;
 
-    protected WithParameters(HasParameters owner, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
+    /**
+     * the {@link ClassTypeLoader} to be used
+     */
+    protected final ClassTypeLoader typeLoader;
+
+    public ParameterizedDeclarer(ParameterizedInterceptableDeclaration declaration, ClassTypeLoader typeLoader)
     {
-        this.owner = owner;
         this.declaration = declaration;
         this.typeLoader = typeLoader;
     }
@@ -32,29 +33,29 @@ public final class WithParameters
      * Adds a required parameter
      *
      * @param name the name of the parameter
-     * @return a new {@link ParameterDescriptor}
+     * @return a new {@link ParameterDeclarer}
      */
-    public ParameterDescriptor requiredParameter(String name)
+    public ParameterDeclarer withRequiredParameter(String name)
     {
-        return new ParameterDescriptor(owner, newParameter(name, true), declaration, typeLoader);
+        return new ParameterDeclarer(newParameter(name, true), typeLoader);
     }
 
     /**
      * Adds an optional parameter
      *
      * @param name the name of the parameter
-     * @return a new {@link OptionalParameterDescriptor}
+     * @return a new {@link OptionalParameterDeclarer}
      */
-    public OptionalParameterDescriptor optionalParameter(String name)
+    public OptionalParameterDeclarer withOptionalParameter(String name)
     {
-        return new OptionalParameterDescriptor(owner, newParameter(name, false), declaration, typeLoader);
+        return new OptionalParameterDeclarer(newParameter(name, false), typeLoader);
     }
 
     private ParameterDeclaration newParameter(String name, boolean required)
     {
         ParameterDeclaration parameter = new ParameterDeclaration(name);
         parameter.setRequired(required);
-        owner.addParameter(parameter);
+        declaration.addParameter(parameter);
 
         return parameter;
     }

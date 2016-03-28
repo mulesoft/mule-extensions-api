@@ -9,16 +9,16 @@ package org.mule.extension.api.introspection.declaration.spi;
 
 import org.mule.extension.api.introspection.ExtensionModel;
 import org.mule.extension.api.introspection.declaration.DescribingContext;
-import org.mule.extension.api.introspection.declaration.fluent.Descriptor;
+import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
 
 /**
  * Every Extension must ship with one implementation of this interface
  * which has to be discoverable through standard SPI and have a default constructor.
  * <p/>
- * This describer returns a {@link Descriptor} which contains a raw representation of the
+ * This describer returns a {@link ExtensionDeclarer} which contains a raw representation of the
  * extension.
  * <p/>
- * The platform will discover all the describers, transform the returned {@link Descriptor}s
+ * The platform will discover all the describers, transform the returned {@link ExtensionDeclarer}s
  * into {@link ExtensionModel extensionModels} and register them.
  * <p/>
  * To allow customization of the describing process, implementations will use standard SPI discovery mechanism
@@ -31,11 +31,11 @@ public interface Describer
 {
 
     /**
-     * Describes the extension as a {@link Descriptor}
+     * Describes the extension as a {@link ExtensionDeclarer}
      *
      * @param context a {@link DescribingContext} with state relevant to the operation
-     * @return a {@link Descriptor}
+     * @return a {@link ExtensionDeclarer}
      */
-    Descriptor describe(DescribingContext context);
+    ExtensionDeclarer describe(DescribingContext context);
 
 }

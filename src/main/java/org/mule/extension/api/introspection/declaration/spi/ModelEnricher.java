@@ -8,11 +8,11 @@ package org.mule.extension.api.introspection.declaration.spi;
 
 import org.mule.extension.api.introspection.EnrichableModel;
 import org.mule.extension.api.introspection.declaration.DescribingContext;
-import org.mule.extension.api.introspection.declaration.fluent.Descriptor;
+import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
 
 
 /**
- * A component which can enrich {@link Descriptor descriptors} before they are actually turned
+ * A component which can enrich {@link ExtensionDeclarer declarers} before they are actually turned
  * into models. This is useful for implementations of the extensions API which rely
  * on non programmatic describers.
  * <p/>

@@ -7,11 +7,11 @@
 package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.introspection.declaration.DescribingContext;
-import org.mule.extension.api.introspection.declaration.fluent.Descriptor;
+import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
 import org.mule.extension.api.introspection.declaration.spi.ModelEnricher;
 
 /**
- * A factory that can take a {@link Descriptor} and transform it into an actual
+ * A factory that can take ahn {@link ExtensionDeclarer} and transform it into an actual
  * {@link RuntimeExtensionModel}.
  * <p>
  * This factory is also responsible for leveraging the available {@link ModelEnricher} implementations
@@ -23,20 +23,20 @@ public interface ExtensionFactory
 {
 
     /**
-     * Creates a {@link ExtensionModel} from the given {@link Descriptor}
+     * Creates a {@link ExtensionModel} from the given {@code declarer}
      *
-     * @param descriptor a {@link Descriptor}. Cannot be {@code null}
+     * @param declarer an {@link ExtensionDeclarer}. Cannot be {@code null}
      * @return an {@link RuntimeExtensionModel}
      */
-    RuntimeExtensionModel createFrom(Descriptor descriptor);
+    RuntimeExtensionModel createFrom(ExtensionDeclarer declarer);
 
     /**
-     * Creates a {@link RuntimeExtensionModel} from the given {@link Descriptor}
+     * Creates a {@link RuntimeExtensionModel} from the given {@code declarer}
      * using a specifying {@code describingContext}
      *
-     * @param descriptor        a {@link Descriptor}. Cannot be {@code null}
+     * @param declarer          an {@link ExtensionDeclarer}. Cannot be {@code null}
      * @param describingContext a {@link DescribingContext}, useful to specify custom settings
      * @return an {@link RuntimeExtensionModel}
      */
-    RuntimeExtensionModel createFrom(Descriptor descriptor, DescribingContext describingContext);
+    RuntimeExtensionModel createFrom(ExtensionDeclarer declarer, DescribingContext describingContext);
 }

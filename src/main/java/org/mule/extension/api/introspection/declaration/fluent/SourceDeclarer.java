@@ -18,12 +18,11 @@ import org.mule.metadata.api.model.MetadataType;
 import java.util.Optional;
 
 /**
- * A {@link Descriptor} which allows configuring a {@link SourceDeclaration}
- * through a fluent API
+ * Allows configuring a {@link SourceDeclaration} through a fluent API
  *
  * @since 1.0
  */
-public class SourceDescriptor extends HasParameters implements HasModelProperties<SourceDescriptor>, HasInterceptors<SourceDescriptor>, HasExceptionEnricher<SourceDescriptor>
+public class SourceDeclarer extends ParameterizedDeclarer implements HasModelProperties<SourceDeclarer>, HasInterceptors<SourceDeclarer>, HasExceptionEnricher<SourceDeclarer>
 {
 
     private final SourceDeclaration source;
@@ -31,12 +30,12 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
     /**
      * Creates a new instance
      *
-     * @param source      the {@link SourceDeclaration} which will be defined through {@code this} {@link Descriptor}
-     * @param declaration the {@link DeclarationDescriptor} which owns {@code this} one
+     * @param source     the {@link SourceDeclaration} to be configured
+     * @param typeLoader a {@link ClassTypeLoader} used to create the {@link MetadataType types}
      */
-    SourceDescriptor(SourceDeclaration source, DeclarationDescriptor declaration, ClassTypeLoader typeLoader)
+    SourceDeclarer(SourceDeclaration source, ClassTypeLoader typeLoader)
     {
-        super(declaration, typeLoader);
+        super(source, typeLoader);
         this.source = source;
     }
 
@@ -46,7 +45,7 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * @param description a description
      * @return {@code this} descriptor
      */
-    public SourceDescriptor describedAs(String description)
+    public SourceDeclarer describedAs(String description)
     {
         source.setDescription(description);
         return this;
@@ -58,7 +57,7 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * @param returnType the returned type {@link Class}
      * @return {@code this} descriptor
      */
-    public SourceDescriptor whichReturns(Class<?> returnType)
+    public SourceDeclarer whichReturns(Class<?> returnType)
     {
         return whichReturns(typeLoader.load(returnType));
     }
@@ -69,7 +68,7 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * @param returnType a {@link MetadataType}
      * @return {@code this} descriptor
      */
-    public SourceDescriptor whichReturns(MetadataType returnType)
+    public SourceDeclarer whichReturns(MetadataType returnType)
     {
         source.setReturnType(returnType);
         return this;
@@ -82,7 +81,7 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * @param attributesType the attribute's {@link Class} type
      * @return {@code this} descriptor
      */
-    public SourceDescriptor withAttributesOfType(Class<?> attributesType)
+    public SourceDeclarer withAttributesOfType(Class<?> attributesType)
     {
         return withAttributesOfType(typeLoader.load(attributesType));
     }
@@ -94,7 +93,7 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * @param attributesType a {@link MetadataType}
      * @return {@code this} descriptor
      */
-    public SourceDescriptor withAttributesOfType(MetadataType attributesType)
+    public SourceDeclarer withAttributesOfType(MetadataType attributesType)
     {
         source.setAttributesType(attributesType);
         return this;
@@ -104,49 +103,20 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * Specifies the {@link SourceFactory} to be used
      * to create {@link Source} instances.
      *
-     * @param sourceFactory a {@link SourceDescriptor}
+     * @param sourceFactory a {@link SourceDeclarer}
      * @return {@code this} descriptor
      */
-    public SourceDescriptor sourceCreatedBy(SourceFactory sourceFactory)
+    public SourceDeclarer sourceCreatedBy(SourceFactory sourceFactory)
     {
         source.setSourceFactory(sourceFactory);
         return this;
     }
 
     /**
-     * Adds a {@link ParameterDeclaration}
-     *
-     * @param parameter a {@link ParameterDeclaration}
-     */
-    @Override
-    protected void addParameter(ParameterDeclaration parameter)
-    {
-        source.addParameter(parameter);
-    }
-
-    /**
-     * @return a {@link WithParameters} which allows adding {@link ParameterDeclaration}
-     * to this descriptor
-     */
-    public WithParameters with()
-    {
-        return new WithParameters(this, getRootDeclaration(), typeLoader);
-    }
-
-    /**
-     * @return the root {@link DeclarationDescriptor}
-     */
-    @Override
-    public DeclarationDescriptor getRootDeclaration()
-    {
-        return declaration;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
-    public SourceDescriptor withInterceptorFrom(InterceptorFactory interceptorFactory)
+    public SourceDeclarer withInterceptorFrom(InterceptorFactory interceptorFactory)
     {
         source.addInterceptorFactory(interceptorFactory);
         return this;
@@ -156,7 +126,7 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * {@inheritDoc}
      */
     @Override
-    public SourceDescriptor withModelProperty(ModelProperty modelProperty)
+    public SourceDeclarer withModelProperty(ModelProperty modelProperty)
     {
         source.addModelProperty(modelProperty);
         return this;
@@ -166,17 +136,9 @@ public class SourceDescriptor extends HasParameters implements HasModelPropertie
      * {@inheritDoc}
      */
     @Override
-    public SourceDescriptor withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
+    public SourceDeclarer withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
     {
         source.setExceptionEnricherFactory(enricherFactory);
         return this;
-    }
-
-    /**
-     * @return the {@link SourceDescriptor} which is being defined by {@code this} {@link Descriptor}
-     */
-    public SourceDeclaration getDeclaration()
-    {
-        return source;
     }
 }

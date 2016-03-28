@@ -9,20 +9,19 @@ package org.mule.extension.api.introspection.declaration.fluent;
 import org.mule.extension.api.runtime.InterceptorFactory;
 
 /**
- * A contract interface for an object capable of adding an {@link InterceptorFactory}
- * into a {@link Descriptor}
+ * A contract interface for a declarer capable of adding an {@link InterceptorFactory}
  *
- * @param <T> the generic type of the target {@link Descriptor}
+ * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-public interface HasInterceptors<T extends Descriptor>
+public interface HasInterceptors<T>
 {
 
     /**
      * Adds the given {@code interceptorFactory}
      *
      * @param interceptorFactory a {@link InterceptorFactory}
-     * @return {@code this} descriptor
+     * @return {@code this} declarer
      */
     T withInterceptorFrom(InterceptorFactory interceptorFactory);
 }

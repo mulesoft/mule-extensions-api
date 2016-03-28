@@ -27,7 +27,6 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
 
     private final String name;
     private String description = "";
-
     private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
 
     /**

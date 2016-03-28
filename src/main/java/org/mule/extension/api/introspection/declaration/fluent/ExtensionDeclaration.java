@@ -9,7 +9,6 @@ package org.mule.extension.api.introspection.declaration.fluent;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ExtensionModel;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class Declaration extends BaseDeclaration<Declaration>
+public class ExtensionDeclaration extends BaseDeclaration<ExtensionDeclaration>
 {
 
     private String name;
@@ -29,14 +28,12 @@ public class Declaration extends BaseDeclaration<Declaration>
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
     private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
-    private final List<OperationDeclaration> operations = new LinkedList<>();
-    private final List<ConnectionProviderDeclaration> connectionProviders = new LinkedList<>();
-    private final List<SourceDeclaration> messageSources = new LinkedList<>();
+    private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
 
     /**
      * Creates a new instance
      */
-    Declaration()
+    ExtensionDeclaration()
     {
         super("");
     }
@@ -59,7 +56,7 @@ public class Declaration extends BaseDeclaration<Declaration>
      * @return this declaration
      * @throws {@link IllegalArgumentException} if {@code config} is {@code null}
      */
-    public Declaration addConfig(ConfigurationDeclaration config)
+    public ExtensionDeclaration addConfig(ConfigurationDeclaration config)
     {
         if (config == null)
         {
@@ -76,7 +73,7 @@ public class Declaration extends BaseDeclaration<Declaration>
      */
     public List<OperationDeclaration> getOperations()
     {
-        return Collections.unmodifiableList(operations);
+        return subDeclarations.getOperations();
     }
 
     /**
@@ -84,7 +81,7 @@ public class Declaration extends BaseDeclaration<Declaration>
      */
     public List<ConnectionProviderDeclaration> getConnectionProviders()
     {
-        return Collections.unmodifiableList(connectionProviders);
+        return subDeclarations.getConnectionProviders();
     }
 
     /**
@@ -92,7 +89,7 @@ public class Declaration extends BaseDeclaration<Declaration>
      */
     public List<SourceDeclaration> getMessageSources()
     {
-        return Collections.unmodifiableList(messageSources);
+        return subDeclarations.getMessageSources();
     }
 
     /**
@@ -102,14 +99,9 @@ public class Declaration extends BaseDeclaration<Declaration>
      * @return {@code this} declaration
      * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
      */
-    public Declaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider)
+    public ExtensionDeclaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider)
     {
-        if (connectionProvider == null)
-        {
-            throw new IllegalArgumentException("Can't add a null connection provider");
-        }
-
-        connectionProviders.add(connectionProvider);
+        subDeclarations.addConnectionProvider(connectionProvider);
         return this;
     }
 
@@ -120,14 +112,9 @@ public class Declaration extends BaseDeclaration<Declaration>
      * @return {@code this} declaration
      * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
      */
-    public Declaration addOperation(OperationDeclaration operation)
+    public ExtensionDeclaration addOperation(OperationDeclaration operation)
     {
-        if (operation == null)
-        {
-            throw new IllegalArgumentException("Can't add a null operation");
-        }
-
-        operations.add(operation);
+        subDeclarations.addOperation(operation);
         return this;
     }
 
@@ -138,14 +125,9 @@ public class Declaration extends BaseDeclaration<Declaration>
      * @return {@code this} declaration
      * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
      */
-    public Declaration addMessageSource(SourceDeclaration sourceDeclaration)
+    public ExtensionDeclaration addMessageSource(SourceDeclaration sourceDeclaration)
     {
-        if (sourceDeclaration == null)
-        {
-            throw new IllegalArgumentException("Can't add a null message source");
-        }
-
-        messageSources.add(sourceDeclaration);
+        subDeclarations.addMessageSource(sourceDeclaration);
         return this;
     }
 

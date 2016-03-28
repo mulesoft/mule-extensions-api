@@ -10,7 +10,7 @@ import org.mule.extension.api.introspection.ExtensionModel;
 
 /**
  * An {@link Exception} to signal that an {@link ExtensionModel} has been referenced
- * but the platform has no knowledge of it.
+ * but the runtime has no knowledge of it.
  *
  * @since 1.0
  */
