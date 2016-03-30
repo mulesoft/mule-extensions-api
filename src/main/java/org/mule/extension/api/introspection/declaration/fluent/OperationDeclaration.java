@@ -8,6 +8,7 @@ package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.OperationModel;
+import org.mule.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
 import org.mule.metadata.api.model.MetadataType;
 
@@ -26,6 +27,7 @@ public class OperationDeclaration extends ParameterizedInterceptableDeclaration<
     private MetadataType returnType;
     private MetadataType attributesType;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+    private MetadataResolverFactory metadataResolverFactory;
 
     /**
      * {@inheritDoc}
@@ -73,5 +75,15 @@ public class OperationDeclaration extends ParameterizedInterceptableDeclaration<
     public void setAttributesType(MetadataType attributesType)
     {
         this.attributesType = attributesType;
+    }
+
+    public MetadataResolverFactory getMetadataResolverFactory()
+    {
+        return metadataResolverFactory;
+    }
+
+    public void setMetadataResolverFactory(MetadataResolverFactory metaDataResolverFactory)
+    {
+        this.metadataResolverFactory = metaDataResolverFactory;
     }
 }
