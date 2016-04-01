@@ -13,9 +13,9 @@ import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDecl
 import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
 import org.mule.extension.api.runtime.source.Source;
 
+import java.io.InputStream;
 import java.io.Serializable;
 
-import org.omg.CORBA.portable.InputStream;
 
 /**
  * A simple pojo containing reference information for making test around a {@link ExtensionDeclarer}
@@ -47,6 +47,7 @@ public class TestHttpConnectorDeclarer
     public static final String PORT = "port";
     public static final int DEFAULT_PORT = 8080;
     public static final String VERSION = "1.0";
+    public static final String STATIC_RESOURCE_OPERATION_NAME = "staticResource";
 
     private final ExtensionDeclarer extensionDeclarer = new ExtensionDeclarer();
     private final ConnectionProviderFactory requesterConnectionProviderFactory = mock(ConnectionProviderFactory.class);
@@ -55,6 +56,7 @@ public class TestHttpConnectorDeclarer
 
     public TestHttpConnectorDeclarer() {
         extensionDeclarer.named(EXTENSION_NAME).describedAs(EXTENSION_DESCRIPTION).fromVendor(VENDOR).onVersion(VERSION);
+        extensionDeclarer.withOperation(STATIC_RESOURCE_OPERATION_NAME).whichReturns(InputStream.class).withRequiredParameter(PATH).ofType(String.class);
         ConfigurationDeclarer requesterConfig = extensionDeclarer.withConfig(REQUESTER_CONFIG_NAME).describedAs(REQUESTER_CONFIG_DESCRIPTION).createdWith(configurationFactory);
         requesterConfig.withOperation(REQUEST_OPERATION_NAME).whichReturns(InputStream.class).withRequiredParameter(PATH).ofType(String.class);
         requesterConfig.withConnectionProvider(REQUESTER_PROVIDER)

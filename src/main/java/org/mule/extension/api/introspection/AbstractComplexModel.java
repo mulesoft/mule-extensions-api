@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A specializatio of {@link AbstractComplexModel} which also implements
+ * A specialization of {@link AbstractComplexModel} which also implements
  * {@link HasConnectionProviderModels}, {@link HasSourceModels} and
  * {@link HasOperationModels}
  *

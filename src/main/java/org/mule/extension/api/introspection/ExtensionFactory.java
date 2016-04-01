@@ -11,7 +11,7 @@ import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer
 import org.mule.extension.api.introspection.declaration.spi.ModelEnricher;
 
 /**
- * A factory that can take ahn {@link ExtensionDeclarer} and transform it into an actual
+ * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual
  * {@link RuntimeExtensionModel}.
  * <p>
  * This factory is also responsible for leveraging the available {@link ModelEnricher} implementations

@@ -25,6 +25,7 @@ import static org.mule.extension.api.introspection.declaration.tck.TestHttpConne
 import static org.mule.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE;
 import static org.mule.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.REQUESTER_PROVIDER;
 import static org.mule.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.REQUEST_OPERATION_NAME;
+import static org.mule.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.STATIC_RESOURCE_OPERATION_NAME;
 import static org.mule.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.VENDOR;
 import static org.mule.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.VERSION;
 import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
@@ -39,10 +40,10 @@ import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 
+import java.io.InputStream;
 import java.io.Serializable;
 
 import org.junit.Test;
-import org.omg.CORBA.portable.InputStream;
 
 public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
 {
@@ -59,7 +60,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(extensionDeclaration.getVersion(), is(VERSION));
         assertThat(extensionDeclaration.getConfigurations(), hasSize(2));
         assertThat(extensionDeclaration.getVendor(), is(VENDOR));
-        assertThat(extensionDeclaration.getOperations(), is(empty()));
+        assertThat(extensionDeclaration.getOperations(), hasSize(1));
         assertThat(extensionDeclaration.getConnectionProviders(), is(empty()));
         assertThat(extensionDeclaration.getMessageSources(), is(empty()));
     }
@@ -110,6 +111,19 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertDataType(operation.getReturnType(), InputStream.class, BinaryType.class);
         assertThat(operation.getParameters(), hasSize(1));
 
+        ParameterDeclaration parameter = operation.getParameters().get(0);
+        assertThat(parameter.getName(), is(PATH));
+        assertDataType(parameter.getType(), String.class, StringType.class);
+    }
+
+    @Test
+    public void staticResourceOperation()
+    {
+        OperationDeclaration operation = extensionDeclaration.getOperations().get(0);
+        assertThat(operation.getName(), is(STATIC_RESOURCE_OPERATION_NAME));
+        assertDataType(operation.getReturnType(), InputStream.class, BinaryType.class);
+
+        assertThat(operation.getParameters(), hasSize(1));
         ParameterDeclaration parameter = operation.getParameters().get(0);
         assertThat(parameter.getName(), is(PATH));
         assertDataType(parameter.getType(), String.class, StringType.class);

@@ -21,11 +21,11 @@ public interface HasConnectionProviderModels
      * Returns a {@link List} of {@link ConnectionProviderModel}s defined at the level
      * of the component implementing this interface.
      *
-     * Each source is guaranteed to have a unique name which will not
+     * Each provider is guaranteed to have a unique name which will not
      * overlap with any {@link OperationModel} or {@link SourceModel}
      * defined in the same {@link ExtensionModel}
      *
-     * @return an immutable {@link List} of {@link SourceModel}
+     * @return an immutable {@link List} of {@link ConnectionProviderModel}
      */
     List<ConnectionProviderModel> getConnectionProviders();
 
