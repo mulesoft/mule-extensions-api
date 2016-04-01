@@ -33,8 +33,11 @@ public final class ImmutableRuntimeConfigurationModel extends ImmutableConfigura
      * @param description          the configuration's description
      * @param configurationFactory the {@link ConfigurationFactory}. Cannot be {@code null}
      * @param parameterModels      a {@link List} with the configuration's {@link ParameterModel parameterModels}
-     * @param modelProperties      A {@link Set} of custom properties which extend this model
-     * @param interceptorFactories A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
+     * @param operationModels      a {@link List} with the extension's {@link OperationModel operationModels}
+     * @param connectionProviders  a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+     * @param sourceModels         a {@link List} with the extension's {@link SourceModel message source models}
+     * @param modelProperties      a {@link Set} of custom properties which extend this model
+     * @param interceptorFactories a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
      */
     public ImmutableRuntimeConfigurationModel(String name,
@@ -42,10 +45,13 @@ public final class ImmutableRuntimeConfigurationModel extends ImmutableConfigura
                                               Supplier<RuntimeExtensionModel> extensionModelSupplier,
                                               ConfigurationFactory configurationFactory,
                                               List<ParameterModel> parameterModels,
+                                              List<OperationModel> operationModels,
+                                              List<ConnectionProviderModel> connectionProviders,
+                                              List<SourceModel> sourceModels,
                                               Set<ModelProperty> modelProperties,
                                               List<InterceptorFactory> interceptorFactories)
     {
-        super(name, description, parameterModels, modelProperties);
+        super(name, description, parameterModels, operationModels, connectionProviders, sourceModels, modelProperties);
         checkArgument(configurationFactory != null, "Configuration factory cannot be null");
 
         this.extensionModelSupplier = extensionModelSupplier;

@@ -7,18 +7,11 @@
 package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.exception.IllegalModelDefinitionException;
-import org.mule.extension.api.exception.NoSuchConfigurationException;
-import org.mule.extension.api.exception.NoSuchMessageSourceException;
-import org.mule.extension.api.exception.NoSuchOperationException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
 
 
 /**
@@ -26,16 +19,12 @@ import java.util.function.Supplier;
  *
  * @since 1.0
  */
-public class ImmutableExtensionModel extends AbstractImmutableModel implements ExtensionModel
+public class ImmutableExtensionModel extends AbstractComplexModel implements ExtensionModel
 {
 
     private final String version;
     private final Map<String, ConfigurationModel> configurations;
-    private final Map<String, OperationModel> operations;
-    private final List<ConnectionProviderModel> connectionProviders;
-    private final Map<String, SourceModel> messageSources;
     private final String vendor;
-
 
     /**
      * Creates a new instance with the given state
@@ -61,11 +50,8 @@ public class ImmutableExtensionModel extends AbstractImmutableModel implements E
                                    List<SourceModel> sourceModels,
                                    Set<ModelProperty> modelProperties)
     {
-        super(name, description, modelProperties);
+        super(name, description, operationModels, connectionProviders, sourceModels, modelProperties);
         this.configurations = toMap(configurationModels);
-        this.operations = toMap(operationModels);
-        this.connectionProviders = Collections.unmodifiableList(connectionProviders);
-        this.messageSources = toMap(sourceModels);
 
         checkArgument(version != null && version.length() > 0, "Version cannot be blank");
 
@@ -92,30 +78,9 @@ public class ImmutableExtensionModel extends AbstractImmutableModel implements E
      * {@inheritDoc}
      */
     @Override
-    public ConfigurationModel getConfigurationModel(String name) throws NoSuchConfigurationException
+    public Optional<ConfigurationModel> getConfigurationModel(String name)
     {
-        return findModel(configurations, name, () -> new NoSuchConfigurationException(this, name));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<OperationModel> getOperationModels()
-    {
-        return toList(operations.values());
-    }
-
-    @Override
-    public List<SourceModel> getSourceModels()
-    {
-        return toList(messageSources.values());
-    }
-
-    @Override
-    public SourceModel getSourceModel(String name) throws NoSuchMessageSourceException
-    {
-        return findModel(messageSources, name, () -> new NoSuchMessageSourceException(this, name));
+        return findModel(configurations, name);
     }
 
     /**
@@ -131,65 +96,8 @@ public class ImmutableExtensionModel extends AbstractImmutableModel implements E
      * {@inheritDoc}
      */
     @Override
-    public OperationModel getOperationModel(String name) throws NoSuchOperationException
-    {
-        return findModel(operations, name, () -> new NoSuchOperationException(this, name));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ConnectionProviderModel> getConnectionProviders()
-    {
-        return connectionProviders;
-    }
-
-    private <T extends EnrichableModel> T findModel(Map<String, T> map, String name, Supplier<RuntimeException> exception)
-    {
-        T model = map.get(name);
-        if (model == null)
-        {
-            throw exception.get();
-        }
-
-        return model;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String getVendor()
     {
         return vendor;
-    }
-
-    private <T extends Described> Map<String, T> toMap(List<T> objects)
-    {
-        if (objects == null || objects.isEmpty())
-        {
-            return Collections.emptyMap();
-        }
-
-        Map<String, T> map = new LinkedHashMap<>(objects.size());
-        for (T object : objects)
-        {
-            if (map.containsKey(object.getName()))
-            {
-                throw new IllegalArgumentException(String.format("Multiple entries with the same key[%s]", object.getName()));
-            }
-            map.put(object.getName(), object);
-        }
-        return Collections.unmodifiableMap(map);
-    }
-
-    private <T extends Described> List<T> toList(Collection<T> collection)
-    {
-        if (collection == null || collection.isEmpty())
-        {
-            return Collections.emptyList();
-        }
-        return Collections.unmodifiableList(new ArrayList<T>(collection));
     }
 }

@@ -11,21 +11,20 @@ import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import java.util.Optional;
 
 /**
- * A contract interface for an object capable of adding an {@link ExceptionEnricherFactory}
- * into a {@link Descriptor}
+ * A contract interface for a declarer capable of adding an {@link ExceptionEnricherFactory}
  *
- * @param <D> the generic type of the target {@link Descriptor}
+ * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-public interface HasExceptionEnricher<D extends Descriptor>
+public interface HasExceptionEnricher<T>
 {
 
     /**
      * Provides the given {@link ExceptionEnricherFactory}
      *
      * @param enricherFactory a concrete ExceptionEnricherFactory
-     * @return the configured {@link Descriptor}
+     * @return {@code this} declarer
      */
-    D withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory);
+    T withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory);
 
 }

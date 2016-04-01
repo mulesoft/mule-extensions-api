@@ -12,16 +12,18 @@ import org.mule.extension.api.introspection.metadata.MetadataResolverFactory;
  * A contract interface for an object that has a {@link MetadataResolverFactory}
  * associated for Metadata retrieval
  *
- * @param <D> the generic type of the target {@link Descriptor}
+ * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-interface HasMetadataResolver<D extends Descriptor>
+interface HasMetadataResolver<T>
 {
+
     /**
+     * Sets the given {@code metadataResolverFactory}
      *
      * @param metadataResolverFactory the {@link MetadataResolverFactory} associated to the enriched component
-     * @return a {@link Descriptor} enriched with a {@link MetadataResolverFactory} instance
+     * @return {@code this} declarer
      */
-    D withMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory);
+    T withMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory);
 
 }

@@ -6,6 +6,7 @@
  */
 package org.mule.extension.api.introspection;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -14,23 +15,41 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableConfigurationModel extends AbstractParameterizedModel implements ConfigurationModel
+public class ImmutableConfigurationModel extends AbstractComplexModel implements ConfigurationModel
 {
+
+    private final List<ParameterModel> parameterModels;
 
     /**
      * Creates a new instance with the given state
      *
-     * @param name            the configuration's name
-     * @param description     the configuration's description
-     * @param parameterModels a {@link List} with the configuration's {@link ParameterModel parameterModels}
-     * @param modelProperties A {@link Set} of custom properties which extend this model
+     * @param name                the configuration's name
+     * @param description         the configuration's description
+     * @param parameterModels     a {@link List} with the configuration's {@link ParameterModel parameterModels}
+     * @param operationModels     a {@link List} with the extension's {@link OperationModel operationModels}
+     * @param connectionProviders a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+     * @param sourceModels        a {@link List} with the extension's {@link SourceModel message source models}
+     * @param modelProperties     a {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
      */
     public ImmutableConfigurationModel(String name,
                                        String description,
                                        List<ParameterModel> parameterModels,
+                                       List<OperationModel> operationModels,
+                                       List<ConnectionProviderModel> connectionProviders,
+                                       List<SourceModel> sourceModels,
                                        Set<ModelProperty> modelProperties)
     {
-        super(name, description, modelProperties, parameterModels);
+        super(name, description, operationModels, connectionProviders, sourceModels, modelProperties);
+        this.parameterModels = Collections.unmodifiableList(parameterModels);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ParameterModel> getParameterModels()
+    {
+        return parameterModels;
     }
 }

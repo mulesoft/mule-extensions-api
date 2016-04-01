@@ -14,7 +14,11 @@ import org.mule.extension.api.introspection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.OperationModel;
-import org.mule.extension.api.introspection.declaration.fluent.DeclarationDescriptor;
+import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDeclarer;
+import org.mule.extension.api.introspection.declaration.fluent.ConnectionProviderDeclarer;
+import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
+import org.mule.extension.api.introspection.declaration.fluent.OperationDeclarer;
+import org.mule.extension.api.introspection.declaration.fluent.SourceDeclarer;
 import org.mule.extension.api.runtime.Interceptor;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
 import org.mule.extension.api.runtime.source.Source;
@@ -27,16 +31,19 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A simple pojo containing reference information for making test around a {@link DeclarationDescriptor}
+ * A simple pojo containing reference information for making test around a {@link ExtensionDeclarer}
  * which represents a theoretical &quot;Web Service Consumer&quot; extension.
  * <p>
- * It contains an actual {@link DeclarationDescriptor} that can be accessed through the {@link #getDescriptor()}
+ * It contains an actual {@link ExtensionDeclarer} that can be accessed through the {@link #getExtensionDeclarer()}
  * method plus some other getters which provides access to other declaration components
- * that you might want to make tests against
+ * that you might want to make tests against.
+ *
+ * This case focuses on the scenario in which all sources, providers and operations are available
+ * on all configs
  *
  * @since 1.0
  */
-public class TestWebServiceConsumerDeclarationReference
+public class TestWebServiceConsumerDeclarer
 {
 
     public static final String CONFIG_NAME = "config";
@@ -87,7 +94,7 @@ public class TestWebServiceConsumerDeclarationReference
     public static final Class<?> CONNECTION_PROVIDER_CONFIG_TYPE = String.class;
     public static final Class<?> CONNECTION_PROVIDER_CONNECTOR_TYPE = Integer.class;
 
-    private final DeclarationDescriptor descriptor;
+    private final ExtensionDeclarer extensionDeclarer;
     private final ConfigurationFactory configurationFactory = mock(ConfigurationFactory.class);
     private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
     private final OperationExecutorFactory broadcastExecutorFactory = mock(OperationExecutorFactory.class);
@@ -103,60 +110,66 @@ public class TestWebServiceConsumerDeclarationReference
     private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory = Optional.of(mock(ExceptionEnricherFactory.class));
     private final BaseTypeBuilder<?> typeBuilder = BaseTypeBuilder.create(JavaTypeLoader.JAVA);
 
-    public TestWebServiceConsumerDeclarationReference()
+    public TestWebServiceConsumerDeclarer()
     {
-        descriptor = new DeclarationDescriptor();
-        descriptor.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
+        extensionDeclarer = new ExtensionDeclarer();
+        extensionDeclarer.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
                 .withExceptionEnricherFactory(exceptionEnricherFactory)
-                .withModelProperty(EXTENSION_MODEL_PROPERTY)
-                .withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
+                .withModelProperty(EXTENSION_MODEL_PROPERTY);
+        ConfigurationDeclarer config = extensionDeclarer.withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
                 .withModelProperty(CONFIGURATION_MODEL_PROPERTY)
                 .withInterceptorFrom(() -> configInterceptor1)
-                .withInterceptorFrom(() -> configInterceptor2)
-                .with().requiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class)
-                .with().requiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class)
-                .with().requiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class)
-                .with().requiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class)
+                .withInterceptorFrom(() -> configInterceptor2);
+        config.withRequiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(String.class);
+        config.withRequiredParameter(PORT).describedAs(SERVICE_PORT).ofType(String.class);
+        config.withRequiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(String.class);
+        config.withRequiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(String.class)
                 .withExpressionSupport(NOT_SUPPORTED)
-                .withModelProperty(PARAMETER_MODEL_PROPERTY)
-                .withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
+                .withModelProperty(PARAMETER_MODEL_PROPERTY);
+
+        OperationDeclarer operation = extensionDeclarer.withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
                 .whichReturns(InputStream.class)
                 .withAttributesOfType(String.class)
-                .withModelProperty(OPERATION_MODEL_PROPERTY)
-                .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class)
-                .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
-                .withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
+                .withModelProperty(OPERATION_MODEL_PROPERTY);
+        operation.withRequiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(String.class);
+        operation.withOptionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true);
+
+        operation = extensionDeclarer.withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
                 .withExceptionEnricherFactory(exceptionEnricherFactory)
                 .whichReturns(void.class)
                 .withInterceptorFrom(() -> operationInterceptor1)
-                .withInterceptorFrom(() -> operationInterceptor2)
-                .with().requiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeBuilder.arrayType()
-                                                                                                      .id(List.class.getName())
-                                                                                                      .of(typeBuilder.stringType().id(String.class.getName()))
-                                                                                                      .build())
-                .with().optionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true)
-                .with().requiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(OperationModel.class).withExpressionSupport(REQUIRED)
-                .withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory)
-                .whichReturns(int.class)
-                .withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
+                .withInterceptorFrom(() -> operationInterceptor2);
+        operation.withRequiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeBuilder.arrayType()
+                                                                                                    .id(List.class.getName())
+                                                                                                    .of(typeBuilder.stringType().id(String.class.getName()))
+                                                                                                    .build());
+
+        operation.withOptionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(Boolean.class).defaultingTo(true);
+        operation.withRequiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(OperationModel.class).withExpressionSupport(REQUIRED);
+
+        extensionDeclarer.withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory).whichReturns(int.class);
+
+        ConnectionProviderDeclarer connectionProvider = extensionDeclarer.withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
                 .createdWith(connectionProviderFactory)
                 .forConfigsOfType(CONNECTION_PROVIDER_CONFIG_TYPE)
-                .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE)
-                .with().requiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(String.class)
-                .with().requiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(String.class)
-                .withMessageSource(LISTENER).describedAs(LISTEN_DESCRIPTION).sourceCreatedBy(() -> source)
+                .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE);
+        connectionProvider.withRequiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(String.class);
+        connectionProvider.withRequiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(String.class);
+
+        SourceDeclarer sourceDeclarer = extensionDeclarer.withMessageSource(LISTENER).describedAs(LISTEN_DESCRIPTION).sourceCreatedBy(() -> source)
                 .whichReturns(InputStream.class)
                 .withAttributesOfType(Serializable.class)
                 .withModelProperty(SOURCE_MODEL_PROPERTY)
                 .withInterceptorFrom(() -> messageSourceInterceptor1)
-                .withInterceptorFrom(() -> messageSourceInterceptor2)
-                .with().requiredParameter(URL).describedAs(URL_DESCRIPTION).ofType(String.class)
-                .with().optionalParameter(PORT).describedAs(PORT_DESCRIPTION).ofType(Integer.class).defaultingTo(DEFAULT_PORT);
+                .withInterceptorFrom(() -> messageSourceInterceptor2);
+
+        sourceDeclarer.withRequiredParameter(URL).describedAs(URL_DESCRIPTION).ofType(String.class);
+        sourceDeclarer.withOptionalParameter(PORT).describedAs(PORT_DESCRIPTION).ofType(Integer.class).defaultingTo(DEFAULT_PORT);
     }
 
-    public DeclarationDescriptor getDescriptor()
+    public ExtensionDeclarer getExtensionDeclarer()
     {
-        return descriptor;
+        return extensionDeclarer;
     }
 
     public ConfigurationFactory getConfigurationFactory()
@@ -214,7 +227,9 @@ public class TestWebServiceConsumerDeclarationReference
         return source;
     }
 
-    private static class TestModelProperty implements ModelProperty {
+    private static class TestModelProperty implements ModelProperty
+    {
+
         private final String name;
 
         private TestModelProperty(String name)
@@ -237,7 +252,8 @@ public class TestWebServiceConsumerDeclarationReference
         @Override
         public boolean equals(Object obj)
         {
-            if (obj instanceof TestModelProperty) {
+            if (obj instanceof TestModelProperty)
+            {
                 return name.equals(((TestModelProperty) obj).name);
             }
 

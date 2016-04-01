@@ -6,11 +6,8 @@
  */
 package org.mule.extension.api.introspection;
 
-import org.mule.extension.api.exception.NoSuchConfigurationException;
-import org.mule.extension.api.exception.NoSuchMessageSourceException;
-import org.mule.extension.api.exception.NoSuchOperationException;
-
 import java.util.List;
+import java.util.Optional;
 
 /**
  * An Extension that provides packaged functionality.
@@ -33,7 +30,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ExtensionModel extends Described, EnrichableModel
+public interface ExtensionModel extends Described, EnrichableModel, HasOperationModels, HasSourceModels, HasConnectionProviderModels
 {
 
     /**
@@ -80,51 +77,22 @@ public interface ExtensionModel extends Described, EnrichableModel
      * that matches the given name.
      *
      * @param name case sensitive configuration name
-     * @return a {@link ConfigurationModel}
-     * @throws NoSuchConfigurationException if no configuration available for that name
+     * @return an {@link Optional} {@link ConfigurationModel}
      */
-    ConfigurationModel getConfigurationModel(String name) throws NoSuchConfigurationException;
+    Optional<ConfigurationModel> getConfigurationModel(String name);
 
     /**
-     * Returns the {@link OperationModel}s
-     * available for this extension. Each operation is guaranteed to have a unique name, and that name
-     * cannot be already in use by one of the available {@link #getConfigurationModels()}
+     * Returns the {@link OperationModel}s which will be available to every
+     * {@link ConfigurationModel} defined in {@code this} extension
      *
      * @return an immutable {@link List} of {@link OperationModel}
      */
+    @Override
     List<OperationModel> getOperationModels();
 
     /**
-     * Returns the {@link OperationModel} that matches
-     * the given name.
-     *
-     * @param name case sensitive operation name
-     * @return a {@link OperationModel}
-     * @throws NoSuchOperationException if no operation matches the given name
-     */
-    OperationModel getOperationModel(String name) throws NoSuchOperationException;
-
-    /**
-     * Returns the {@link SourceModel}s
-     * available for this extension. Each source is guaranteed to have a unique name, and that name
-     * cannot be already in use by one of the available {@link #getSourceModels()}
-     *
-     * @return an immutable {@link List} of {@link SourceModel}
-     */
-    List<SourceModel> getSourceModels();
-
-    /**
-     * Returns the {@link SourceModel} that matches
-     * the given name.
-     *
-     * @param name case sensitive operation name
-     * @return a {@link SourceModel}
-     * @throws NoSuchMessageSourceException if no operation matches the given name
-     */
-    SourceModel getSourceModel(String name) throws NoSuchMessageSourceException;
-
-    /**
-     * Returns the {@link ConnectionProviderModel}s exposed by this extension.
+     * Returns the {@link ConnectionProviderModel}s which will be available
+     * to every {@link ConfigurationModel} defined in {@code this} extension.
      * <p>
      * It is valid to define an {@link ExtensionModel} which does nothing but
      * exposing connection providers. It is not required for the extension
@@ -132,7 +100,17 @@ public interface ExtensionModel extends Described, EnrichableModel
      *
      * @return an immutable {@link List} of {@link ConnectionProviderModel}
      */
+    @Override
     List<ConnectionProviderModel> getConnectionProviders();
+
+    /**
+     * Returns the {@link SourceModel}s which will be available to every
+     * {@link ConfigurationModel} defined in {@code this} extension
+     *
+     * @return an immutable {@link List} of {@link SourceModel}
+     */
+    @Override
+    List<SourceModel> getSourceModels();
 
     /**
      * Returns the name of the extension's vendor

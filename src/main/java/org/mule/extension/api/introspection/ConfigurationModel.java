@@ -14,16 +14,19 @@ package org.mule.extension.api.introspection;
  * a set of shared properties used in operations, and a common context to relate operations.
  * <p/>
  * The configuration can also imply different implicit behaviors not strictly attached to the operations
- * (e.g.: A connector supporting both stateful connections and OAuth2 authentication. Depending on the
- * configuration used, the same connector will have different reconnection strategies).
  * <p/>
  * The configuration is also the place in which cross operation, extension level attributes are configured.
  * Every {@link ExtensionModel} is required to have at least one {@link ConfigurationModel}.
  * That {@link ConfigurationModel} is defined as the &quot;default configuration&quot;
+ * <p>
+ * Although the {@link SourceModel}s, {@link OperationModel}s and {@link ConnectionProviderModel}s
+ * defined at the extension level are available to every single config, configs can also
+ * define its own set of those which are exclusive to them.
  *
  * @since 1.0
  */
-public interface ConfigurationModel extends Described, EnrichableModel, ParametrizedModel
+public interface ConfigurationModel extends Described, EnrichableModel, ParametrizedModel,
+        HasOperationModels, HasSourceModels, HasConnectionProviderModels
 {
 
 }
