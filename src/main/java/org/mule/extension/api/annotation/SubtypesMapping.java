@@ -14,16 +14,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Container for the {@link Repeatable} {@link SubtypeMapping} annotation
+ * Container for the {@link Repeatable} {@link SubTypeMapping} annotation
  *
  * @since 1.0
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SubtypesMapping
+public @interface SubTypesMapping
 {
 
-    SubtypeMapping[] value() default {};
+    SubTypeMapping[] value() default {};
 
 }
