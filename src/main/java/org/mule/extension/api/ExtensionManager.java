@@ -90,7 +90,6 @@ public interface ExtensionManager
      */
     Optional<RuntimeExtensionModel> getExtension(String extensionName, String vendor);
 
-
     <C> void registerConfigurationProvider(ConfigurationProvider<C> configurationProvider);
 
     /**
