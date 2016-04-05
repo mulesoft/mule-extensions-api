@@ -17,6 +17,7 @@ import org.mule.extension.api.runtime.ConfigurationProvider;
 import org.mule.extension.api.runtime.ConfigurationStats;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -59,19 +60,36 @@ public interface ExtensionManager
     void registerExtension(RuntimeExtensionModel extensionModel);
 
     /**
-     * Returns a {@link Set} listing all the discovered
+     * Returns an immutable {@link Set} listing all the discovered
      * {@link ExtensionModel extensionModels}.
      *
-     * @return an {@link Set}. Will not be {@code null} but might be empty
+     * @return an immutable {@link Set}. Will not be {@code null} but might be empty
      */
     Set<RuntimeExtensionModel> getExtensions();
 
     /**
-     * Registers the {@code configurationProvider}.
+     * Returns an immutable {@link Set} listing all the discovered
+     * {@link ExtensionModel extensionModels} which name equals {@code extensionName}.
+     * <p>
+     * Notice that this returns a {@link Set} instead of a single instance
+     * because it is allowed to have extensions with the same name as long as the
+     * {@link ExtensionModel#getVendor()} value is different.
      *
-     * @param configurationProvider a {@link ConfigurationProvider}
-     * @param <C>                   the type of the configurations instances that {@code configurationProvider} provides
+     * @param extensionName the name of the extensions you want.
+     * @return an immutable {@link Set}. Will not be {@code null} but might be empty
      */
+    Set<RuntimeExtensionModel> getExtensions(String extensionName);
+
+    /**
+     * Returns an {@link Optional} {@link RuntimeExtensionModel} which
+     * name and vendor equals {@code extensionName} and {@code vendor}.
+     *
+     * @param extensionName the name of the extensions you want.
+     * @param vendor        the vendor of the extension you want
+     * @return an {@link Optional}. It will be empty if no such extension is registered
+     */
+    Optional<RuntimeExtensionModel> getExtension(String extensionName, String vendor);
+
     <C> void registerConfigurationProvider(ConfigurationProvider<C> configurationProvider);
 
     /**
