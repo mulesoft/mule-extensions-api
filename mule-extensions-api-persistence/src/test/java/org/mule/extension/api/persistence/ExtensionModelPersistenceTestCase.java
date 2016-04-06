@@ -9,7 +9,7 @@ package org.mule.extension.api.persistence;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.mule.extension.api.persistence.PersistenceConstants.DISPLAY_MODEL_PROPERTY;
+import static org.mule.extension.api.persistence.JsonSerializationConstants.DISPLAY_MODEL_PROPERTY;
 
 import org.mule.api.connection.ConnectionProvider;
 import org.mule.extension.api.introspection.ConnectionProviderFactory;
@@ -39,32 +39,32 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ExtensionModelPersistenceTestCase
 {
 
-    private static final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
-    private static final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
-    private static final Set<ModelProperty> modelProperties = new HashSet<>(Arrays.asList(nonExternalizableModelProperty, externalizableModelProperty));
-    private static final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
-    private static final MetadataType stringType = javaTypeLoader.load(String.class);
-    private static final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"displayName\":\"Car Name\",\"password\":false,\"text\":true,\"order\":0}";
-    private static final String GET_CAR_OPERATION_NAME = "getCar";
-    private static final String CAR_NAME_PARAMETER_NAME = "carName";
-    private static final String MODEL_PROPERTIES_NODE = "modelProperties";
-    private static final String OPERATIONS_NODE = "operations";
-    private static final String PARAMETER_MODELS_NODE = "parameterModels";
+    private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
+    private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
+    private final Set<ModelProperty> modelProperties = new HashSet<>(Arrays.asList(nonExternalizableModelProperty, externalizableModelProperty));
+    private final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
+    private final MetadataType stringType = javaTypeLoader.load(String.class);
+    private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"displayName\":\"Car Name\",\"password\":false,\"text\":true,\"order\":0}";
+    private final String GET_CAR_OPERATION_NAME = "getCar";
+    private final String CAR_NAME_PARAMETER_NAME = "carName";
+    private final String MODEL_PROPERTIES_NODE = "modelProperties";
+    private final String OPERATIONS_NODE = "operations";
+    private final String PARAMETER_MODELS_NODE = "parameterModels";
 
-    private static ExtensionModel deserializedExtensionModel;
-    private static ImmutableExtensionModel originalExtensionModel;
-    private static ImmutableOperationModel getCarOperation;
-    private static JsonElement serializedExtensionModel;
-    private static JsonObject operationModelProperties;
+    private ExtensionModel deserializedExtensionModel;
+    private ImmutableExtensionModel originalExtensionModel;
+    private ImmutableOperationModel getCarOperation;
+    private JsonElement serializedExtensionModel;
+    private JsonObject operationModelProperties;
 
-    @BeforeClass
-    public static void setUp()
+    @Before
+    public void setUp()
     {
         final ImmutableParameterModel carNameParameter = new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Car Name", false, true, 0, null, null)));
         final ImmutableParameterModel usernameParameter = new ImmutableParameterModel("username", "Username", stringType, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Username", false, true, 0, null, null)));
@@ -73,10 +73,10 @@ public class ExtensionModelPersistenceTestCase
         getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", Collections.singletonList(carNameParameter), stringType, stringType, modelProperties);
         final ImmutableRuntimeConnectionProviderModel<String, Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", String.class, Integer.class, new DefaultConnectionProviderFactory(), Arrays.asList(usernameParameter, passwordParameter), Collections.emptySet());
         originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", Collections.emptyList(), Collections.singletonList(getCarOperation), Collections.singletonList(basicAuth), Collections.emptyList(), Collections.emptySet(), Optional.empty());
-        final ExtensionModelSerializer extensionModelSerializer = new ExtensionModelSerializer(true);
-        final String serializedExtensionModelString = extensionModelSerializer.serialize(originalExtensionModel);
+        final ExtensionModelJsonSerializer extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
+        final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
         serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
-        deserializedExtensionModel = extensionModelSerializer.deserialize(serializedExtensionModelString);
+        deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
         operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonObject().get(GET_CAR_OPERATION_NAME).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
     }
 
@@ -140,10 +140,9 @@ public class ExtensionModelPersistenceTestCase
     {
         final InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
         return IOUtils.toString(resourceAsStream);
-
     }
 
-    private static class DefaultConnectionProviderFactory implements ConnectionProviderFactory
+    private class DefaultConnectionProviderFactory implements ConnectionProviderFactory
     {
 
         @Override
@@ -159,7 +158,7 @@ public class ExtensionModelPersistenceTestCase
         }
     }
 
-    private static class NonExternalizableModelProperty implements ModelProperty
+    private class NonExternalizableModelProperty implements ModelProperty
     {
 
         @Override
@@ -175,7 +174,7 @@ public class ExtensionModelPersistenceTestCase
         }
     }
 
-    private static class ExternalizableModelProperty implements ModelProperty
+    private class ExternalizableModelProperty implements ModelProperty
     {
 
         @Override

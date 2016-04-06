@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * {@link TypeAdapter} implementation that knows how to serialize and deserialize {@code Map<Class<? extends ModelProperty>, ModelProperty>}.
- * This {@link TypeAdapter} has been created a this level, and not just a {@link TypeAdapter<ModelProperty>}, to be able
+ * This {@link TypeAdapter} has been created at this level, and not just a {@link TypeAdapter<ModelProperty>}, to be able
  * to easily tag every object with a representative name of the class.
  * <p>
  * Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only
@@ -42,8 +42,8 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelPropertyMapTypeAdapter.class);
-    private static final Map<Class<? extends ModelProperty>, String> classNameMapping = PersistenceConstants.getClassNameMapping();
-    private static final Map<String, Class<? extends ModelProperty>> nameClassMapping = PersistenceConstants.getNameClassMapping();
+    private static final Map<Class<? extends ModelProperty>, String> classNameMapping = JsonSerializationConstants.getClassNameMapping();
+    private static final Map<String, Class<? extends ModelProperty>> nameClassMapping = JsonSerializationConstants.getNameClassMapping();
 
     private final Gson gson;
 
@@ -56,13 +56,16 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
     public void write(JsonWriter out, Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyMap) throws IOException
     {
         out.beginObject();
-        for (Map.Entry<Class<? extends ModelProperty>, ModelProperty> modelProperty : modelPropertyMap.entrySet())
+        for (Map.Entry<Class<? extends ModelProperty>, ModelProperty> entry : modelPropertyMap.entrySet())
         {
-            if (modelProperty.getValue().isExternalizable())
+            final ModelProperty modelProperty = entry.getValue();
+            final Class<? extends ModelProperty> modelPropertyClass = entry.getKey();
+
+            if (modelProperty.isExternalizable())
             {
-                out.name(getSerializableModelPropertyName(modelProperty.getKey()));
-                final TypeAdapter adapter = gson.getAdapter(modelProperty.getKey());
-                adapter.write(out, modelProperty.getValue());
+                out.name(getSerializableModelPropertyName(modelPropertyClass));
+                final TypeAdapter adapter = gson.getAdapter(modelPropertyClass);
+                adapter.write(out, modelProperty);
             }
         }
         out.endObject();
@@ -72,7 +75,7 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
     @Override
     public Map<Class<? extends ModelProperty>, ModelProperty> read(JsonReader in) throws IOException
     {
-        final HashMap<Class<? extends ModelProperty>, ModelProperty> modelPropertyHashMap = new HashMap<>();
+        final Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyHashMap = new HashMap<>();
 
         in.beginObject();
         while (in.hasNext())
@@ -106,7 +109,7 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
             }
             catch (ClassNotFoundException e)
             {
-                LOGGER.error("Error loading ModelProperty. Class not found in the current classloader", e);
+                throw new ExtensionModelSerializationException(String.format("Error loading [%s] ModelProperty. Class not found in the current classloader", modelPropertyName), e);
             }
         }
 
@@ -116,16 +119,6 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
 
     private String getSerializableModelPropertyName(Class<? extends ModelProperty> modelPropertyClass)
     {
-        String name;
-        if (classNameMapping.containsKey(modelPropertyClass))
-        {
-            name = classNameMapping.get(modelPropertyClass);
-        }
-        else
-        {
-            name = modelPropertyClass.getName();
-        }
-
-        return name;
+        return classNameMapping.getOrDefault(modelPropertyClass, modelPropertyClass.getName());
     }
 }

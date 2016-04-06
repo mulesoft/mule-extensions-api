@@ -20,11 +20,11 @@ import com.google.common.collect.HashBiMap;
 import java.util.Map;
 
 /**
- * Holds constants for the serialization and desarialization of {@link ExtensionModel}s
+ * Holds constants for the JSON serialization and desarialization of {@link ExtensionModel}s
  *
  * @since 1.0
  */
-final class PersistenceConstants
+final class JsonSerializationConstants
 {
 
     static final String DISPLAY_MODEL_PROPERTY = "display";
@@ -33,7 +33,7 @@ final class PersistenceConstants
     static final String XML_MODEL_PROPERTY = "xml";
     static final String METADATA_MODEL_PROPERTY = "metadata";
 
-    private PersistenceConstants()
+    private JsonSerializationConstants()
     {
 
     }
@@ -51,11 +51,20 @@ final class PersistenceConstants
         return stringClassHashMap;
     }
 
+    /**
+     * @return A {@link Map} that links a friendly name with a {@link ModelProperty} class.
+     * This is helpful when deserializing a {@link ModelProperty} to be able to create the correct instance type.
+     */
     static Map<String, Class<? extends ModelProperty>> getNameClassMapping()
     {
         return getMapping();
     }
 
+    /**
+     * @return A {@link Map} that links a {@link ModelProperty} class with their friendly name.
+     * This is helpful when serializing a {@link ModelProperty} to be able to tag it with a more friendly name that
+     * the full qualifier name of the class.
+     */
     static Map<Class<? extends ModelProperty>, String> getClassNameMapping()
     {
         return getMapping().inverse();

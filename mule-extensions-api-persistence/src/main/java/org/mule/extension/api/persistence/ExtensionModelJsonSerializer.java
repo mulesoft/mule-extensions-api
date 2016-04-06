@@ -49,28 +49,28 @@ import com.google.gson.GsonBuilder;
  *
  * @since 1.0
  */
-public class ExtensionModelSerializer
+public class ExtensionModelJsonSerializer
 {
 
     private final Gson gson;
 
     /**
-     * Creates a new instance of the {@link ExtensionModelSerializer}.
+     * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
      * This serializer is capable of serializing and deserializing {@link ExtensionModel} from JSON ({@link #deserialize(String)}
      * and to JSON ( {@link #serialize(ExtensionModel)}
      */
-    public ExtensionModelSerializer()
+    public ExtensionModelJsonSerializer()
     {
         this(false);
     }
 
     /**
-     * Creates a new instance of the {@link ExtensionModelSerializer}.
+     * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
      *
      * @param prettyPrint boolean indicating if the serialization of the {@link ExtensionModel} should be printed in
      *                    a human readable or into compact and more performable format
      */
-    public ExtensionModelSerializer(boolean prettyPrint)
+    public ExtensionModelJsonSerializer(boolean prettyPrint)
     {
         final DefaultImplementationTypeAdapterFactory configurationModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ConfigurationModel.class, ImmutableConfigurationModel.class);
         final DefaultImplementationTypeAdapterFactory connectionProviderModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ConnectionProviderModel.class, ImmutableConnectionProviderModel.class);

@@ -67,12 +67,20 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
         return connectionProviderFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Transient
     @Override
     public Class<Config> getConfigurationType()
     {
         return configurationType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Transient
     @Override
     public Class<Connection> getConnectionType()
     {

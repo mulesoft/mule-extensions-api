@@ -212,23 +212,6 @@
                             <owner>MuleSoft, Inc</owner>
                             <project.url>http://www.mulesoft.com</project.url>
                         </properties>
-                        <excludes>
-                            <exclude>target/**</exclude>
-                            <exclude>**/.gitignore</exclude>
-                            <exclude>**/*.txt</exclude>
-                            <exclude>**/*.groovy</exclude>
-                            <exclude>**/*.sh</exclude>
-                            <exclude>**/*.bat</exclude>
-                            <exclude>**/*.ftl</exclude>
-                            <exclude>**/*.xml</exclude>
-                            <exclude>**/*.properties</exclude>
-                            <exclude>**/*.sample</exclude>
-                            <exclude>**/*.md</exclude>
-                            <exclude>**/*.xsl</exclude>
-                            <exclude>**/*.html</exclude>
-                            <exclude>**/*.css</exclude>
-                            <exclude>**/build-number.txt</exclude>
-                        </excludes>
                         <includes>
                             <include>**/*.java</include>
                         </includes>
