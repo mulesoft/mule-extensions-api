@@ -28,6 +28,9 @@ import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 /**
  * Serializer that can convert a {@link ExtensionModel} into a readable and processable JSON representation and from a JSON
@@ -99,11 +102,20 @@ public class ExtensionModelJsonSerializer
      * Serializes an {@link ExtensionModel} into JSON
      *
      * @param extensionModel {@link ExtensionModel} to be serialized
-     * @return {@link String }JSON representation of the {@link ExtensionModel}
+     * @return {@link String} JSON representation of the {@link ExtensionModel}
      */
     public String serialize(ExtensionModel extensionModel)
     {
         return gson.toJson(extensionModel);
+    }
+
+    /**
+     * @param extensionModelList List of {@link ExtensionModel} to be serialized
+     * @return {@link String} JSON representation of the {@link List} of {@link ExtensionModel}
+     */
+    public String serializeList(List<ExtensionModel> extensionModelList)
+    {
+        return gson.toJson(extensionModelList);
     }
 
     /**
@@ -115,5 +127,18 @@ public class ExtensionModelJsonSerializer
     public ExtensionModel deserialize(String extensionModel)
     {
         return gson.fromJson(extensionModel, ImmutableExtensionModel.class);
+    }
+
+    /**
+     * Deserializes a JSON representation of a {@link List} of {@link ExtensionModel}, to an actual instance of it.
+     *
+     * @param extensionModelList serialized {@link List} {@link ExtensionModel}
+     * @return an instance of {@link ExtensionModel} based in the JSON
+     */
+    public List<ExtensionModel> deserializeList(String extensionModelList)
+    {
+        return gson.fromJson(extensionModelList, new TypeToken<List<ImmutableExtensionModel>>()
+        {
+        }.getType());
     }
 }

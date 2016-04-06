@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -62,6 +63,8 @@ public class ExtensionModelPersistenceTestCase
     private ImmutableOperationModel getCarOperation;
     private JsonElement serializedExtensionModel;
     private JsonObject operationModelProperties;
+    private List<ExtensionModel> extensionModelList;
+    private ExtensionModelJsonSerializer extensionModelJsonSerializer;
 
     @Before
     public void setUp()
@@ -73,11 +76,12 @@ public class ExtensionModelPersistenceTestCase
         getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", Collections.singletonList(carNameParameter), stringType, stringType, modelProperties);
         final ImmutableRuntimeConnectionProviderModel<String, Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", String.class, Integer.class, new DefaultConnectionProviderFactory(), Arrays.asList(usernameParameter, passwordParameter), Collections.emptySet());
         originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", Collections.emptyList(), Collections.singletonList(getCarOperation), Collections.singletonList(basicAuth), Collections.emptyList(), Collections.emptySet(), Optional.empty());
-        final ExtensionModelJsonSerializer extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
+        extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
         final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
         serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
         deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
         operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonObject().get(GET_CAR_OPERATION_NAME).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
+        extensionModelList = Arrays.asList(deserializedExtensionModel, originalExtensionModel);
     }
 
     @Test
@@ -124,6 +128,17 @@ public class ExtensionModelPersistenceTestCase
     {
         final JsonElement expectedSerializedExtensionModel = new JsonParser().parse(getResourceAsString("serialized-extension-model.json"));
         assertThat(serializedExtensionModel.equals(expectedSerializedExtensionModel), is(true));
+    }
+
+    @Test
+    public void validateJsonListStructure() throws IOException
+    {
+        final JsonParser jsonParser = new JsonParser();
+        final JsonElement expectedSerializedExtensionModel = jsonParser.parse(getResourceAsString("list-of-serialized-extension-model.json"));
+        final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
+        final JsonElement parse = jsonParser.parse(serializedList);
+
+        assertThat(parse.equals(expectedSerializedExtensionModel), is(true));
     }
 
     private JsonElement getModelProperty(JsonObject object, String modelPropertyName)
