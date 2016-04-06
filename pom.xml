@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.extensions</groupId>
-    <artifactId>mule-extensions-api</artifactId>
+    <artifactId>mule-extensions-api-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>Mule Extensions API</name>
-    <description>API for Mule Extensions to integrate with the Mule Runtime in a decoupled way</description>
+    <packaging>pom</packaging>
+    <name>Mule Extensions API Parent</name>
+    <description>Parent POM for Mule Extensions API modules</description>
     <url>https://github.com/mulesoft/mule-extensions-api</url>
 
     <organization>
@@ -27,6 +27,11 @@
             <post>mule-esb@mulesoft.com</post>
         </mailingList>
     </mailingLists>
+
+    <modules>
+        <module>mule-extensions-api</module>
+        <module>mule-extensions-api-persistence</module>
+    </modules>
 
     <developers>
         <developer>
@@ -200,9 +205,13 @@
                 <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.11</version>
                     <configuration>
-                        <header>LICENSE_HEADER.txt</header>
+                        <header>com/mycila/maven/plugin/license/templates/CPAL.txt</header>
+                        <properties>
+                            <owner>MuleSoft, Inc</owner>
+                            <project.url>http://www.mulesoft.com</project.url>
+                        </properties>
                         <includes>
                             <include>**/*.java</include>
                         </includes>
