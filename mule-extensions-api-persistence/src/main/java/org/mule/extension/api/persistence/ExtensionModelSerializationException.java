@@ -10,6 +10,8 @@ import org.mule.extension.api.introspection.ExtensionModel;
 
 /**
  * {@link RuntimeException} to indicate that a problem occurred serializing or deserializing a {@link ExtensionModel}
+ *
+ * @since 1.0
  */
 public class ExtensionModelSerializationException extends RuntimeException
 {
