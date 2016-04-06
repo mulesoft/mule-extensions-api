@@ -1,0 +1,109 @@
+{
+  "version": "4.0.0",
+  "configurations": {},
+  "vendor": "MuleSoft",
+  "operations": {
+    "getCar": {
+      "returnType": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "attributesType": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "parameterModels": [
+        {
+          "type": {
+            "format": "java",
+            "type": "String",
+            "annotations": {
+              "typeId": "java.lang.String"
+            }
+          },
+          "required": true,
+          "expressionSupport": "SUPPORTED",
+          "defaultValue": "",
+          "name": "carName",
+          "description": "Name of the car",
+          "modelProperties": {
+            "display": {
+              "displayName": "Car Name",
+              "password": false,
+              "text": true,
+              "order": 0
+            }
+          }
+        }
+      ],
+      "name": "getCar",
+      "description": "Obtains a car",
+      "modelProperties": {
+        "org.mule.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
+      }
+    }
+  },
+  "connectionProviders": {
+    "BasicAuth": {
+      "parameterModels": [
+        {
+          "type": {
+            "format": "java",
+            "type": "String",
+            "annotations": {
+              "typeId": "java.lang.String"
+            }
+          },
+          "required": true,
+          "expressionSupport": "SUPPORTED",
+          "defaultValue": "",
+          "name": "username",
+          "description": "Username",
+          "modelProperties": {
+            "display": {
+              "displayName": "Username",
+              "password": false,
+              "text": true,
+              "order": 0
+            }
+          }
+        },
+        {
+          "type": {
+            "format": "java",
+            "type": "String",
+            "annotations": {
+              "typeId": "java.lang.String"
+            }
+          },
+          "required": true,
+          "expressionSupport": "SUPPORTED",
+          "defaultValue": "",
+          "name": "password",
+          "description": "Password",
+          "modelProperties": {
+            "display": {
+              "displayName": "Password",
+              "password": true,
+              "text": true,
+              "order": 0
+            }
+          }
+        }
+      ],
+      "name": "BasicAuth",
+      "description": "Basic Auth Config",
+      "modelProperties": {}
+    }
+  },
+  "messageSources": {},
+  "name": "DummyExtension",
+  "description": "Test extension",
+  "modelProperties": {}
+}
