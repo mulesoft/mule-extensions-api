@@ -18,7 +18,7 @@ import java.util.Map;
  * {@link MetadataType} and its declared subTypes, which are concrete implementations
  * of the base {@link Class}
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class SubTypesModelProperty implements ModelProperty
 {
@@ -37,7 +37,8 @@ public final class SubTypesModelProperty implements ModelProperty
     }
 
     /**
-     * @return the FIXME container which holds the relationships of types and subTypes
+     * @return a {@link Map} containing the {@link List} of {@link MetadataType} subTypes for
+     * the key base type
      */
     public Map<MetadataType, List<MetadataType>> getSubTypesMapping()
     {
