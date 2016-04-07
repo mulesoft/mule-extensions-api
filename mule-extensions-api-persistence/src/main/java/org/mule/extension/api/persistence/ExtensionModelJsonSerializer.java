@@ -82,6 +82,7 @@ public class ExtensionModelJsonSerializer
         final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
 
         final GsonBuilder gsonBuilder = new GsonBuilder()
+                .registerTypeAdapter(Class.class, new ClassTypeAdapter())
                 .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
                 .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
                 .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
