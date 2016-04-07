@@ -24,6 +24,9 @@ import java.lang.annotation.Target;
 public @interface SubTypesMapping
 {
 
+    /**
+     * @return all the {@link SubTypeMapping} declarations on the annotated element
+     */
     SubTypeMapping[] value() default {};
 
 }
