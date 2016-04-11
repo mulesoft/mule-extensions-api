@@ -8,24 +8,27 @@ package org.mule.extension.api.introspection;
 
 import org.mule.api.temporary.MuleMessage;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.NullType;
 
 /**
- * A definition of an operation in a {@link ExtensionModel}
+ * A definition of an component in a {@link ExtensionModel}. This model represents an extension made component model
+ * like {@link OperationModel} or {@link SourceModel}
  *
  * @since 1.0
  */
-public interface OperationModel extends ComponentModel
+public interface ComponentModel extends Described, EnrichableModel, ParametrizedModel
 {
 
     /**
-     * Returns a {@link MetadataType} for the value that this operation sets
+     * Returns a {@link MetadataType} for the value that this component sets
+     * on the output {@link MuleMessage#getPayload()} field.
+     *
+     * @return a {@link MetadataType} representing the payload type for the output messages
+     */
+    MetadataType getReturnType();
+
+    /**
+     * Returns a {@link MetadataType} for the value that this component sets
      * on the output {@link MuleMessage#getAttributes()} field.
-     * <p>
-     * If this operation does not modify that value, then a {@link NullType} instance
-     * will be returned. Notice however that this <b>does not</b> mean that the property
-     * will be set to {@code null} on the message, it means that whatever value it had
-     * before the operation was executed will be preserved after it returns.
      *
      * @return a {@link MetadataType} representing the attribute types for the output messages
      */

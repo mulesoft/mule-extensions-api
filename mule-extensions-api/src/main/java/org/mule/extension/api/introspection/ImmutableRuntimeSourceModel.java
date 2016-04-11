@@ -6,6 +6,10 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.api.metadata.resolving.MetadataContentResolver;
+import org.mule.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.source.Source;
 import org.mule.extension.api.runtime.source.SourceFactory;
@@ -27,6 +31,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
 
     private transient final SourceFactory sourceFactory;
     private transient final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+    private final MetadataResolverFactory metadataResolverFactory;
     private transient final List<InterceptorFactory> interceptorFactories;
 
     /**
@@ -41,6 +46,8 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
      * @param modelProperties          A {@link Set} of custom properties which extend this model
      * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
+     * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver},
+     *                                 {@link MetadataContentResolver} and {@link MetadataOutputResolver}
      */
     public ImmutableRuntimeSourceModel(String name,
                                        String description,
@@ -50,11 +57,13 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
                                        SourceFactory sourceFactory,
                                        Set<ModelProperty> modelProperties,
                                        List<InterceptorFactory> interceptorFactories,
-                                       Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
+                                       Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
+                                       MetadataResolverFactory metadataResolverFactory)
     {
         super(name, description, parameterModels, returnType, attributesType, modelProperties);
         this.sourceFactory = sourceFactory;
         this.exceptionEnricherFactory = exceptionEnricherFactory;
+        this.metadataResolverFactory = metadataResolverFactory;
         this.interceptorFactories = interceptorFactories != null ? Collections.unmodifiableList(interceptorFactories) : Collections.emptyList();
     }
 
@@ -86,5 +95,15 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
     public List<InterceptorFactory> getInterceptorFactories()
     {
         return interceptorFactories;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Transient
+    @Override
+    public MetadataResolverFactory getMetadataResolverFactory()
+    {
+        return metadataResolverFactory;
     }
 }

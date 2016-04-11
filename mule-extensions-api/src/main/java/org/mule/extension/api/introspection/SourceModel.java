@@ -7,23 +7,12 @@
 package org.mule.extension.api.introspection;
 
 
-import org.mule.metadata.api.model.MetadataType;
-
 /**
  * A definition of a message source in an {@link ExtensionModel}
  *
  * @since 1.0
  */
-public interface SourceModel extends Described, EnrichableModel, ParametrizedModel
+public interface SourceModel extends ComponentModel
 {
 
-    /**
-     * @return a {@link MetadataType} representing the payload types for the generated messages
-     */
-    MetadataType getReturnType();
-
-    /**
-     * @return a {@link MetadataType} representing the attribute types for the generated messages
-     */
-    MetadataType getAttributesType();
 }
