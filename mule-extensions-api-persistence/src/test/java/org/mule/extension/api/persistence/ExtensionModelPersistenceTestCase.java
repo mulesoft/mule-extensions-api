@@ -126,7 +126,7 @@ public class ExtensionModelPersistenceTestCase
     @Test
     public void validateJsonStructure() throws IOException
     {
-        final JsonElement expectedSerializedExtensionModel = new JsonParser().parse(getResourceAsString("serialized-extension-model.json"));
+        final JsonElement expectedSerializedExtensionModel = new JsonParser().parse(getResourceAsString("extension/serialized-extension-model.json"));
         assertThat(serializedExtensionModel.equals(expectedSerializedExtensionModel), is(true));
     }
 
@@ -134,7 +134,7 @@ public class ExtensionModelPersistenceTestCase
     public void validateJsonListStructure() throws IOException
     {
         final JsonParser jsonParser = new JsonParser();
-        final JsonElement expectedSerializedExtensionModel = jsonParser.parse(getResourceAsString("list-of-serialized-extension-model.json"));
+        final JsonElement expectedSerializedExtensionModel = jsonParser.parse(getResourceAsString("extension/list-of-serialized-extension-model.json"));
         final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
         final JsonElement parse = jsonParser.parse(serializedList);
 

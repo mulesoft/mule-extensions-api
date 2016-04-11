@@ -20,7 +20,7 @@ import com.google.gson.reflect.TypeToken;
  *
  * @since 1.0
  */
-final class DefaultImplementationTypeAdapterFactory<SuperClass, ImplementationClass extends SuperClass> implements TypeAdapterFactory
+public final class DefaultImplementationTypeAdapterFactory<SuperClass, ImplementationClass extends SuperClass> implements TypeAdapterFactory
 {
 
     private final Class<ImplementationClass> clazz;
@@ -31,7 +31,7 @@ final class DefaultImplementationTypeAdapterFactory<SuperClass, ImplementationCl
      *                   time
      * @param clazz      class to fix the serialization or deserialization
      */
-    DefaultImplementationTypeAdapterFactory(Class<SuperClass> superClass, Class<ImplementationClass> clazz)
+    public DefaultImplementationTypeAdapterFactory(Class<SuperClass> superClass, Class<ImplementationClass> clazz)
     {
         if (!superClass.isAssignableFrom(clazz))
         {
