@@ -10,8 +10,8 @@ import org.mule.api.temporary.MuleMessage;
 import org.mule.metadata.api.model.MetadataType;
 
 /**
- * A definition of an component in a {@link ExtensionModel}. This model represents an extension made component model
- * like {@link OperationModel} or {@link SourceModel}
+ * A definition of an component in a {@link ExtensionModel}. This model groups all the common contracts between extension
+ * components like {@link OperationModel} or {@link SourceModel}
  *
  * @since 1.0
  */

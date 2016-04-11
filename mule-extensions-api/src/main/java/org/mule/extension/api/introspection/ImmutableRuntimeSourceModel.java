@@ -31,7 +31,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
 
     private transient final SourceFactory sourceFactory;
     private transient final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private final MetadataResolverFactory metadataResolverFactory;
+    private transient final MetadataResolverFactory metadataResolverFactory;
     private transient final List<InterceptorFactory> interceptorFactories;
 
     /**
