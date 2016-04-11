@@ -1,0 +1,10 @@
+{
+  "isSucess": false,
+  "failure": {
+    "message": "Metadata Failure Error",
+    "reason": "Metadata Failure Error",
+    "failureCode": {
+      "name": "CONNECTION_FAILURE"
+    }
+  }
+}
