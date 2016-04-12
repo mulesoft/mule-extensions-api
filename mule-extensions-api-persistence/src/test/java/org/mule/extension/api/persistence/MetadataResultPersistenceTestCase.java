@@ -12,10 +12,10 @@ import static org.hamcrest.Matchers.hasSize;
 import org.mule.api.metadata.DefaultMetadataKey;
 import org.mule.api.metadata.MetadataKey;
 import org.mule.api.metadata.MetadataKeyBuilder;
-import org.mule.api.metadata.descriptor.ImmutableOperationMetadataDescriptor;
+import org.mule.api.metadata.descriptor.ComponentMetadataDescriptor;
+import org.mule.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
 import org.mule.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
-import org.mule.api.metadata.descriptor.OperationMetadataDescriptor;
 import org.mule.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.api.metadata.resolving.FailureCode;
@@ -49,7 +49,7 @@ public class MetadataResultPersistenceTestCase
     private static final String SECOND_KEY_ID = "secondKey";
     private static final String METADATA_RESULT_ERROR_MESSAGE = "Metadata Failure Error";
 
-    private OperationMetadataDescriptor operationMetadataDescriptor;
+    private ComponentMetadataDescriptor operationMetadataDescriptor;
     private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
     private MetadataDescriptorResultJsonSerializer metadataDescriptorSerializer = new MetadataDescriptorResultJsonSerializer(true);
     private MetadataResult metadataResultFailure = MetadataResult.failure(null, METADATA_RESULT_ERROR_MESSAGE, FailureCode.CONNECTION_FAILURE, METADATA_RESULT_ERROR_MESSAGE);
@@ -101,7 +101,7 @@ public class MetadataResultPersistenceTestCase
     public void deserializeOperationMetadataDescriptorResult() throws IOException
     {
         String resource = resourceAsString(METADATA_DESCRIPTOR_RESULT_JSON);
-        ImmutableMetadataResult<ImmutableOperationMetadataDescriptor> metadataResult = metadataDescriptorSerializer.deserialize(resource);
+        ImmutableMetadataResult<ImmutableComponentMetadataDescriptor> metadataResult = metadataDescriptorSerializer.deserialize(resource);
         
         assertThat(metadataResult.isSuccess(), is(true));
         assertThat(metadataResult.get().getName(), is(operationMetadataDescriptor.getName()));
@@ -141,7 +141,7 @@ public class MetadataResultPersistenceTestCase
         return IOUtils.toString(resourceAsStream);
     }
 
-    private OperationMetadataDescriptor buildTestOperationMetadataDescriptor()
+    private ComponentMetadataDescriptor buildTestOperationMetadataDescriptor()
     {
         final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
         final MetadataType stringType = javaTypeLoader.load(String.class);
@@ -155,10 +155,10 @@ public class MetadataResultPersistenceTestCase
         ImmutableOutputMetadataDescriptor outputMetadataDescriptor = new ImmutableOutputMetadataDescriptor(new ImmutableTypeMetadataDescriptor("output", stringType), new ImmutableTypeMetadataDescriptor("att", stringType));
         ImmutableTypeMetadataDescriptor content = new ImmutableTypeMetadataDescriptor("content", javaTypeLoader.load(Object.class));
 
-        return new ImmutableOperationMetadataDescriptor("testOperationMetadataDescriptor", parameters, outputMetadataDescriptor, content);
+        return new ImmutableComponentMetadataDescriptor("testOperationMetadataDescriptor", parameters, outputMetadataDescriptor, content);
     }
 
-    private void assertOutputMedatada(MetadataResult<ImmutableOperationMetadataDescriptor> metadataResult)
+    private void assertOutputMedatada(MetadataResult<ImmutableComponentMetadataDescriptor> metadataResult)
     {
         OutputMetadataDescriptor outputMetadata = metadataResult.get().getOutputMetadata();
         OutputMetadataDescriptor expectedOutputMetadata = operationMetadataDescriptor.getOutputMetadata();
@@ -168,7 +168,7 @@ public class MetadataResultPersistenceTestCase
         assertThat(outputMetadata.getPayloadMetadata().getType(), is(expectedOutputMetadata.getPayloadMetadata().getType()));
     }
 
-    private void assertContentMetadata(MetadataResult<ImmutableOperationMetadataDescriptor> metadataResult)
+    private void assertContentMetadata(MetadataResult<ImmutableComponentMetadataDescriptor> metadataResult)
     {
         TypeMetadataDescriptor contentMetadata = metadataResult.get().getContentMetadata().get();
         TypeMetadataDescriptor expectedContentMetadata = operationMetadataDescriptor.getContentMetadata().get();

@@ -6,15 +6,15 @@
  */
 package org.mule.extension.api.persistence.metadata;
 
-import org.mule.api.metadata.descriptor.ImmutableOperationMetadataDescriptor;
-import org.mule.api.metadata.descriptor.OperationMetadataDescriptor;
+import org.mule.api.metadata.descriptor.ComponentMetadataDescriptor;
+import org.mule.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.api.metadata.resolving.MetadataResult;
 
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Serializer that can convert a {@link MetadataResult} of a {@link OperationMetadataDescriptor} type into
+ * Serializer that can convert a {@link MetadataResult} of a {@link ComponentMetadataDescriptor} type into
  * a readable and processable JSON representation and from a JSON {@link String} to an {@link MetadataResult} instance
  *
  * @since 1.0
@@ -45,9 +45,9 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
      * {@inheritDoc}
      */
     @Override
-    public ImmutableMetadataResult<ImmutableOperationMetadataDescriptor> deserialize(String metadataResult)
+    public ImmutableMetadataResult<ImmutableComponentMetadataDescriptor> deserialize(String metadataResult)
     {
-        return gson.fromJson(metadataResult, new TypeToken<ImmutableMetadataResult<ImmutableOperationMetadataDescriptor>>()
+        return gson.fromJson(metadataResult, new TypeToken<ImmutableMetadataResult<ImmutableComponentMetadataDescriptor>>()
         {
         }.getType());
     }
