@@ -17,7 +17,7 @@ import org.mule.extension.api.runtime.source.SourceFactory;
  * @see SourceModel
  * @since 1.0
  */
-public interface RuntimeSourceModel extends SourceModel, InterceptableModel, ExceptionEnrichableModel
+public interface RuntimeSourceModel extends RuntimeComponentModel, SourceModel
 {
 
     /**

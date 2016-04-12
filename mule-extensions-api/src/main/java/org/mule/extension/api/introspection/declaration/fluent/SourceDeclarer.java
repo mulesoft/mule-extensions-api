@@ -9,6 +9,7 @@ package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.extension.api.introspection.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ModelProperty;
+import org.mule.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.extension.api.runtime.source.Source;
 import org.mule.extension.api.runtime.source.SourceFactory;
@@ -22,7 +23,8 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class SourceDeclarer extends ParameterizedDeclarer implements HasModelProperties<SourceDeclarer>, HasInterceptors<SourceDeclarer>, HasExceptionEnricher<SourceDeclarer>
+public class SourceDeclarer extends ParameterizedDeclarer implements HasModelProperties<SourceDeclarer>, HasInterceptors<SourceDeclarer>,
+        HasExceptionEnricher<SourceDeclarer>, HasMetadataResolver<SourceDeclarer>
 {
 
     private final SourceDeclaration source;
@@ -139,6 +141,15 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
     public SourceDeclarer withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
     {
         source.setExceptionEnricherFactory(enricherFactory);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public SourceDeclarer withMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory)
+    {
+        source.setMetadataResolverFactory(metadataResolverFactory);
         return this;
     }
 }
