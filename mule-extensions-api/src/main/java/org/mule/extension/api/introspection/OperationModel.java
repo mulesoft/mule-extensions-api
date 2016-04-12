@@ -29,5 +29,6 @@ public interface OperationModel extends ComponentModel
      *
      * @return a {@link MetadataType} representing the attribute types for the output messages
      */
+    @Override
     MetadataType getAttributesType();
 }

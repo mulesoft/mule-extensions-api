@@ -46,8 +46,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
      * @param modelProperties          A {@link Set} of custom properties which extend this model
      * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
      * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
-     * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver},
-     *                                 {@link MetadataContentResolver} and {@link MetadataOutputResolver}
+     * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver}, {@link MetadataContentResolver} and {@link MetadataOutputResolver}
      */
     public ImmutableRuntimeSourceModel(String name,
                                        String description,

@@ -11,7 +11,7 @@ import org.mule.metadata.api.model.MetadataType;
 
 /**
  * A definition of an component in a {@link ExtensionModel}. This model groups all the common contracts between extension
- * components like {@link OperationModel} or {@link SourceModel}
+ * components like {@link OperationModel}, {@link SourceModel}, etc.
  *
  * @since 1.0
  */

@@ -12,19 +12,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.api.metadata.MetadataKey;
 import org.mule.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.extension.api.annotation.Parameter;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks one of the arguments of an Operation or or Source's method as the key for the metadata lookup.
- * This lookup is resolved by the {@link MetadataKeysResolver} referenced in the {@link MetadataScope},
- * at Operation, Source or Extension level, which will return the list of available the {@link MetadataKey}.
+ * Marks one of the parameters of an Operation or Source as the key for the metadata lookup.
+ * This lookup is resolved by the {@link MetadataKeysResolver} referenced in the {@link MetadataScope}, at Operation, Source
+ * or Extension level, which will return the list of available the {@link MetadataKey}.
  * <br/>
- * At design time, the selected {@link MetadataKey} of the annotated parameter will be taken as the key to provide
- * metadata for the parameter annotated with {@link Content} in a Operation and/or for output metadata of an Operation
- * or Source.
+ * At design time, the selected {@link MetadataKey} of the annotated parameter will be taken as the key to provide metadata
+ * for the parameter annotated with {@link Content} in a Operation and/or for output metadata of an Operation or Source.
+ * <p>
+ * <b>Annotation Usage:</b>
+ * <ul>
+ * <li><b>Operations: </b> The annotation must be applied to an Operation parameter to mark it as the metadata key parameter.
+ * The usage of this annotation in multiple parameters of the same operation or fields of the operation class is not allowed.</li>
+ * <li><b>Sources: </b> The annotation must be applied to a Source field annotated with {@link Parameter} to mark it as
+ * the metadata key parameter. The usage of this annotation in a non {@link Parameter} field, multiple fields or in a method
+ * parameter, is not allowed.</li>
+ * </ul>
+ * The illegal usage of this annotation could produce extension compilation errors
  *
  * @since 1.0
  */
