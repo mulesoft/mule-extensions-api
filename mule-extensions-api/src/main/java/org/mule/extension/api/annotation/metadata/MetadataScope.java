@@ -13,7 +13,7 @@ import org.mule.api.metadata.resolving.MetadataContentResolver;
 import org.mule.api.metadata.resolving.MetadataKeysResolver;
 import org.mule.api.metadata.resolving.MetadataOutputResolver;
 import org.mule.extension.api.annotation.Extension;
-import org.mule.extension.api.metadata.NullMetadataResolver;
+import org.mule.extension.api.introspection.metadata.NullMetadataResolver;
 import org.mule.metadata.api.model.MetadataType;
 
 import java.lang.annotation.Documented;
