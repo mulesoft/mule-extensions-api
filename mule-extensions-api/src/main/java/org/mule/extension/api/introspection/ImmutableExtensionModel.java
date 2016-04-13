@@ -7,6 +7,11 @@
 package org.mule.extension.api.introspection;
 
 import org.mule.extension.api.exception.IllegalModelDefinitionException;
+import org.mule.extension.api.introspection.config.ConfigurationModel;
+import org.mule.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.extension.api.introspection.operation.OperationModel;
+import org.mule.extension.api.introspection.parameter.ParameterModel;
+import org.mule.extension.api.introspection.source.SourceModel;
 
 import java.util.List;
 import java.util.Map;

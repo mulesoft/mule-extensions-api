@@ -6,8 +6,8 @@
  */
 package org.mule.extension.api.runtime;
 
-import org.mule.extension.api.introspection.ConfigurationModel;
-import org.mule.extension.api.introspection.RuntimeConfigurationModel;
+import org.mule.extension.api.introspection.config.ConfigurationModel;
+import org.mule.extension.api.introspection.config.RuntimeConfigurationModel;
 
 /**
  * A component responsible for providing instances which are realizations of a given {@link ConfigurationModel}.

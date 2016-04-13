@@ -6,6 +6,14 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.extension.api.introspection.config.ConfigurationModel;
+import org.mule.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.extension.api.introspection.connection.HasConnectionProviderModels;
+import org.mule.extension.api.introspection.operation.HasOperationModels;
+import org.mule.extension.api.introspection.operation.OperationModel;
+import org.mule.extension.api.introspection.source.HasSourceModels;
+import org.mule.extension.api.introspection.source.SourceModel;
+
 import java.util.List;
 import java.util.Optional;
 

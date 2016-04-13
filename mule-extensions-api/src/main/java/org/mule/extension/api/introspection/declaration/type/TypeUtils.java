@@ -12,7 +12,7 @@ import static org.reflections.ReflectionUtils.withAnnotation;
 import org.mule.extension.api.annotation.Alias;
 import org.mule.extension.api.annotation.Parameter;
 import org.mule.extension.api.annotation.param.Ignore;
-import org.mule.extension.api.introspection.ExpressionSupport;
+import org.mule.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.utils.MetadataTypeUtils;
 

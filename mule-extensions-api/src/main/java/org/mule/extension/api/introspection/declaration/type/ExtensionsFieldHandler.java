@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.introspection.declaration.type;
 
-import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
+import static org.mule.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import static org.mule.extension.api.introspection.declaration.type.TypeUtils.getAlias;
 import org.mule.extension.api.annotation.Expression;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;

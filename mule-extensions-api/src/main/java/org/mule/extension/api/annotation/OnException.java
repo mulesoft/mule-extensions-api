@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.annotation;
 
-import org.mule.extension.api.introspection.ExceptionEnricher;
+import org.mule.extension.api.introspection.exception.ExceptionEnricher;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

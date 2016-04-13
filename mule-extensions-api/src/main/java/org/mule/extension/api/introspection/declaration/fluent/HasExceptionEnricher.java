@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+import org.mule.extension.api.introspection.exception.ExceptionEnricherFactory;
 
 import java.util.Optional;
 

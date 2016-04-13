@@ -7,8 +7,8 @@
 package org.mule.extension.api.introspection.declaration.tck;
 
 import static org.mockito.Mockito.mock;
-import org.mule.extension.api.introspection.ConfigurationFactory;
-import org.mule.extension.api.introspection.ConnectionProviderFactory;
+import org.mule.extension.api.introspection.config.ConfigurationFactory;
+import org.mule.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDeclarer;
 import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
 import org.mule.extension.api.runtime.source.Source;

@@ -7,6 +7,9 @@
 package org.mule.extension.api.introspection;
 
 import org.mule.api.temporary.MuleMessage;
+import org.mule.extension.api.introspection.operation.OperationModel;
+import org.mule.extension.api.introspection.parameter.ParametrizedModel;
+import org.mule.extension.api.introspection.source.SourceModel;
 import org.mule.metadata.api.model.MetadataType;
 
 /**

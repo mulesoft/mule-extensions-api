@@ -6,9 +6,9 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
-import org.mule.extension.api.introspection.ExpressionSupport;
-import org.mule.extension.api.introspection.ParameterModel;
+import static org.mule.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import org.mule.extension.api.introspection.parameter.ExpressionSupport;
+import org.mule.extension.api.introspection.parameter.ParameterModel;
 import org.mule.metadata.api.model.MetadataType;
 
 /**
