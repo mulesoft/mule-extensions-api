@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-manifest>
+    <name>myExtension</name>
+    <description><![CDATA[Test extension]]></description>
+    <version>1.0</version>
+    <describer>
+        <id>annotations</id>
+        <properties>
+            <property key="propertyKey" value="propertyValue"/>
+        </properties>
+    </describer>
+</extension-manifest>
