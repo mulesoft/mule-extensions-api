@@ -6,9 +6,9 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.ConfigurationModel;
-import org.mule.extension.api.introspection.ConnectionProviderFactory;
-import org.mule.extension.api.introspection.ConnectionProviderModel;
+import org.mule.extension.api.introspection.config.ConfigurationModel;
+import org.mule.extension.api.introspection.connection.ConnectionProviderFactory;
+import org.mule.extension.api.introspection.connection.ConnectionProviderModel;
 
 /**
  * A declaration object for a {@link ConnectionProviderModel}. It contains raw, unvalidated

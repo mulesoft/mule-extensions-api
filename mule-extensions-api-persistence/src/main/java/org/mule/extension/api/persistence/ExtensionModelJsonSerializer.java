@@ -6,22 +6,22 @@
  */
 package org.mule.extension.api.persistence;
 
-import org.mule.extension.api.introspection.ConfigurationModel;
-import org.mule.extension.api.introspection.ConnectionProviderModel;
+import org.mule.extension.api.introspection.config.ConfigurationModel;
+import org.mule.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.extension.api.introspection.EnrichableModel;
 import org.mule.extension.api.introspection.ExtensionModel;
-import org.mule.extension.api.introspection.ImmutableConfigurationModel;
-import org.mule.extension.api.introspection.ImmutableConnectionProviderModel;
+import org.mule.extension.api.introspection.config.ImmutableConfigurationModel;
+import org.mule.extension.api.introspection.connection.ImmutableConnectionProviderModel;
 import org.mule.extension.api.introspection.ImmutableExtensionModel;
-import org.mule.extension.api.introspection.ImmutableOperationModel;
-import org.mule.extension.api.introspection.ImmutableParameterModel;
+import org.mule.extension.api.introspection.operation.ImmutableOperationModel;
+import org.mule.extension.api.introspection.parameter.ImmutableParameterModel;
 import org.mule.extension.api.introspection.ImmutableRuntimeExtensionModel;
-import org.mule.extension.api.introspection.ImmutableRuntimeOperationModel;
-import org.mule.extension.api.introspection.ImmutableSourceModel;
+import org.mule.extension.api.introspection.operation.ImmutableRuntimeOperationModel;
+import org.mule.extension.api.introspection.source.ImmutableSourceModel;
 import org.mule.extension.api.introspection.ModelProperty;
-import org.mule.extension.api.introspection.OperationModel;
-import org.mule.extension.api.introspection.ParameterModel;
-import org.mule.extension.api.introspection.SourceModel;
+import org.mule.extension.api.introspection.operation.OperationModel;
+import org.mule.extension.api.introspection.parameter.ParameterModel;
+import org.mule.extension.api.introspection.source.SourceModel;
 import org.mule.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;

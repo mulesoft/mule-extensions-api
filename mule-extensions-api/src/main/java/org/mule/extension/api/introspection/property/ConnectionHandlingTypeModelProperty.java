@@ -10,9 +10,9 @@ import org.mule.api.connection.ConnectionHandlingStrategy;
 import org.mule.api.connection.ConnectionHandlingStrategyFactory;
 import org.mule.api.connection.ConnectionProvider;
 import org.mule.api.connection.PoolingListener;
-import org.mule.extension.api.introspection.ConnectionProviderModel;
+import org.mule.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.extension.api.introspection.ModelProperty;
-import org.mule.extension.api.introspection.PoolingSupport;
+import org.mule.extension.api.introspection.connection.PoolingSupport;
 
 /**
  * A model property for the {@link ConnectionProviderModel} which describes

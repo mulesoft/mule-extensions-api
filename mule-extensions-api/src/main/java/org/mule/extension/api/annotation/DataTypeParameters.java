@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.annotation;
 
-import org.mule.extension.api.introspection.OperationModel;
+import org.mule.extension.api.introspection.operation.OperationModel;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

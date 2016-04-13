@@ -7,7 +7,7 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.ConfigurationFactory;
+import org.mule.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.runtime.InterceptorFactory;
 import org.mule.metadata.api.ClassTypeLoader;

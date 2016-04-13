@@ -7,13 +7,13 @@
 package org.mule.extension.api.introspection.declaration.tck;
 
 import static org.mockito.Mockito.mock;
-import static org.mule.extension.api.introspection.ExpressionSupport.NOT_SUPPORTED;
-import static org.mule.extension.api.introspection.ExpressionSupport.REQUIRED;
-import org.mule.extension.api.introspection.ConfigurationFactory;
-import org.mule.extension.api.introspection.ConnectionProviderFactory;
-import org.mule.extension.api.introspection.ExceptionEnricherFactory;
+import static org.mule.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
+import org.mule.extension.api.introspection.config.ConfigurationFactory;
+import org.mule.extension.api.introspection.connection.ConnectionProviderFactory;
+import org.mule.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ModelProperty;
-import org.mule.extension.api.introspection.OperationModel;
+import org.mule.extension.api.introspection.operation.OperationModel;
 import org.mule.extension.api.introspection.declaration.fluent.ConfigurationDeclarer;
 import org.mule.extension.api.introspection.declaration.fluent.ConnectionProviderDeclarer;
 import org.mule.extension.api.introspection.declaration.fluent.ExtensionDeclarer;

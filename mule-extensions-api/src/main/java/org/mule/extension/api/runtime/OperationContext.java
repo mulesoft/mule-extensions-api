@@ -6,10 +6,10 @@
  */
 package org.mule.extension.api.runtime;
 
-import org.mule.extension.api.introspection.ConfigurationModel;
-import org.mule.extension.api.introspection.OperationModel;
-import org.mule.extension.api.introspection.ParameterModel;
-import org.mule.extension.api.introspection.RuntimeOperationModel;
+import org.mule.extension.api.introspection.config.ConfigurationModel;
+import org.mule.extension.api.introspection.operation.OperationModel;
+import org.mule.extension.api.introspection.parameter.ParameterModel;
+import org.mule.extension.api.introspection.operation.RuntimeOperationModel;
 
 /**
  * Provides context information about the execution of an operation

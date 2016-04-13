@@ -6,6 +6,8 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.extension.api.introspection.exception.ExceptionEnrichableModel;
+
 /**
  * A specialization of the {@link ExtensionModel} interface which adds
  * behavioural components that are relevant to the extension's functioning

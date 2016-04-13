@@ -6,6 +6,13 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.extension.api.introspection.connection.HasConnectionProviderModels;
+import org.mule.extension.api.introspection.operation.HasOperationModels;
+import org.mule.extension.api.introspection.operation.OperationModel;
+import org.mule.extension.api.introspection.source.HasSourceModels;
+import org.mule.extension.api.introspection.source.SourceModel;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +29,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-abstract class AbstractComplexModel extends AbstractImmutableModel implements HasConnectionProviderModels, HasSourceModels, HasOperationModels
+public abstract class AbstractComplexModel extends AbstractImmutableModel implements HasConnectionProviderModels, HasSourceModels, HasOperationModels
 {
 
     private final Map<String, OperationModel> operations;

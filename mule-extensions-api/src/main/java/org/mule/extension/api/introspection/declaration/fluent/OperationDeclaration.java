@@ -6,8 +6,8 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.ExceptionEnricherFactory;
-import org.mule.extension.api.introspection.OperationModel;
+import org.mule.extension.api.introspection.exception.ExceptionEnricherFactory;
+import org.mule.extension.api.introspection.operation.OperationModel;
 import org.mule.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.extension.api.runtime.OperationExecutorFactory;
 import org.mule.metadata.api.model.MetadataType;

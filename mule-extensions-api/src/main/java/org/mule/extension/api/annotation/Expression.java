@@ -6,9 +6,9 @@
  */
 package org.mule.extension.api.annotation;
 
-import static org.mule.extension.api.introspection.ExpressionSupport.SUPPORTED;
-import org.mule.extension.api.introspection.ExpressionSupport;
-import org.mule.extension.api.introspection.ParameterModel;
+import static org.mule.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import org.mule.extension.api.introspection.parameter.ExpressionSupport;
+import org.mule.extension.api.introspection.parameter.ParameterModel;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

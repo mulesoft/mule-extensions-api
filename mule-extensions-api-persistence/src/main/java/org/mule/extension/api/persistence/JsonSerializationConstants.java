@@ -12,7 +12,7 @@ import org.mule.extension.api.introspection.property.ConnectionHandlingTypeModel
 import org.mule.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.extension.api.introspection.property.StudioModelProperty;
 import org.mule.extension.api.introspection.property.XmlModelProperty;
-import org.mule.extension.api.metadata.MetadataModelProperty;
+import org.mule.extension.api.introspection.property.MetadataModelProperty;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;

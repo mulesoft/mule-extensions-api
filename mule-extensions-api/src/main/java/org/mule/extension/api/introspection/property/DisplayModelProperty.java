@@ -8,7 +8,7 @@
 package org.mule.extension.api.introspection.property;
 
 import org.mule.extension.api.introspection.ModelProperty;
-import org.mule.extension.api.introspection.ParameterModel;
+import org.mule.extension.api.introspection.parameter.ParameterModel;
 
 /**
  * Provides UI related properties for a {@link ParameterModel}

@@ -7,7 +7,7 @@
 package org.mule.extension.api.introspection.declaration.fluent;
 
 import org.mule.api.connection.ConnectionProvider;
-import org.mule.extension.api.introspection.ConnectionProviderFactory;
+import org.mule.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;

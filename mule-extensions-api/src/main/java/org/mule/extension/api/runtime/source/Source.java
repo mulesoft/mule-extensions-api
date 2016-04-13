@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.runtime.source;
 
-import org.mule.extension.api.introspection.SourceModel;
+import org.mule.extension.api.introspection.source.SourceModel;
 
 import java.io.Serializable;
 

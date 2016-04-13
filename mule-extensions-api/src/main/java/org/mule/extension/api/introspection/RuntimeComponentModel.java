@@ -6,7 +6,10 @@
  */
 package org.mule.extension.api.introspection;
 
+import org.mule.extension.api.introspection.exception.ExceptionEnrichableModel;
 import org.mule.extension.api.introspection.metadata.MetadataEnrichableModel;
+import org.mule.extension.api.introspection.operation.RuntimeOperationModel;
+import org.mule.extension.api.introspection.source.RuntimeSourceModel;
 
 /**
  * A specialization of the {@link ComponentModel} that represents an extension made component in their runtime

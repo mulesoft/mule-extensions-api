@@ -6,8 +6,8 @@
  */
 package org.mule.extension.api.introspection.declaration.fluent;
 
-import org.mule.extension.api.introspection.ConfigurationFactory;
-import org.mule.extension.api.introspection.ConfigurationModel;
+import org.mule.extension.api.introspection.config.ConfigurationFactory;
+import org.mule.extension.api.introspection.config.ConfigurationModel;
 
 import java.util.List;
 
