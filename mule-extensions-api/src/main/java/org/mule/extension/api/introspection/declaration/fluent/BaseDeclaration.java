@@ -79,6 +79,8 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
             throw new IllegalArgumentException("Cannot add a null model property");
         }
 
+        //TODO: MULE-9581 take a look at MetadataKeyBuilder
+
         modelProperties.put(modelProperty.getClass(), modelProperty);
         return (T) this;
     }

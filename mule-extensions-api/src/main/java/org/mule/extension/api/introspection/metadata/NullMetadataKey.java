@@ -8,10 +8,11 @@ package org.mule.extension.api.introspection.metadata;
 
 
 import org.mule.api.metadata.MetadataKey;
+import org.mule.api.metadata.MetadataProperty;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Null {@link MetadataKey} implementation that represents the absence of a key
@@ -39,21 +40,15 @@ public final class NullMetadataKey implements MetadataKey
         return "";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Optional<String> getProperty(String propertyId)
+    public <T extends MetadataProperty> Optional<T> getMetadataProperty(Class<T> propertyType)
     {
         return Optional.empty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Map<String, String> getProperties()
+    public Set<MetadataProperty> getProperties()
     {
-        return Collections.emptyMap();
+        return Collections.emptySet();
     }
 }
