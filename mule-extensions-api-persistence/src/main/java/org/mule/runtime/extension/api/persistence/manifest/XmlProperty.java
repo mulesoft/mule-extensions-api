@@ -13,8 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**
- * Auxiliary serialization class to allow serializing {@link Map.Entry} instances
- * as a {@code &lt;property&gt;} element
+ * Allows serializing {@link Map.Entry} instances as a {@code &lt;property&gt;} element
  *
  * @since 1.0
  */
@@ -22,21 +21,29 @@ import javax.xml.bind.annotation.XmlAttribute;
 final class XmlProperty
 {
 
+    private String key;
+
+    @XmlAttribute
+    private String value;
+
+    /**
+     * Creates a new instance
+     */
     XmlProperty()
     {
     }
 
+    /**
+     * Creaes a new instance
+     *
+     * @param key   the initial {@link #key} value
+     * @param value the initial {@link #value}
+     */
     XmlProperty(String key, String value)
     {
         this.key = key;
         this.value = value;
     }
-
-    @XmlAttribute
-    private String key;
-
-    @XmlAttribute
-    private String value;
 
     public String getKey()
     {

@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Internal representation of a {@link XmlExtensionManifest} which contains
  * the necessary annotations and setters necessary to allow JAX-B
  * serialization/deserialization.
- *
+ * <p>
  * For internal uses only. Should not be instantiated outside the context
  * of a {@link ExtensionManifestXmlSerializer}
  *

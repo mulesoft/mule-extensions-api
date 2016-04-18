@@ -6,10 +6,10 @@
  */
 package org.mule.runtime.extension.api.manifest;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * A builder to create instances of {@link ExtensionManifest}.
@@ -93,7 +93,7 @@ public final class ExtensionManifestBuilder
 
     private void checkNotBlank(String value, String attributeName)
     {
-        if (StringUtils.isBlank(value))
+        if (isBlank(value))
         {
             throw new IllegalStateException("Manifest cannot have a blank " + attributeName);
         }
@@ -121,7 +121,7 @@ public final class ExtensionManifestBuilder
         }
 
         /**
-         * Sets the describer's id
+         * Sets the describer's ID
          *
          * @param id the id to be set
          * @return {@code this} builder
@@ -144,6 +144,7 @@ public final class ExtensionManifestBuilder
          */
         public DescriberManifestBuilder addProperty(String key, String value)
         {
+            validatePropertyKey(key);
             properties.put(key, value);
             return this;
         }
@@ -161,8 +162,17 @@ public final class ExtensionManifestBuilder
          */
         public DescriberManifestBuilder addProperties(Map<String, String> properties)
         {
+            properties.keySet().forEach(this::validatePropertyKey);
             this.properties.putAll(properties);
             return this;
+        }
+
+        private void validatePropertyKey(String key)
+        {
+            if (isBlank(key))
+            {
+                throw new IllegalArgumentException("Cannot add a property with a blank key");
+            }
         }
 
         /**
@@ -173,7 +183,7 @@ public final class ExtensionManifestBuilder
          */
         private DescriberManifest build()
         {
-            if (StringUtils.isBlank(id))
+            if (isBlank(id))
             {
                 throw new IllegalStateException("Describer manifest cannot have a blank id");
             }

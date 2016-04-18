@@ -6,6 +6,11 @@
  */
 package org.mule.extension.api.persistence.manifest;
 
+import static org.custommonkey.xmlunit.XMLUnit.compareXML;
+import static org.custommonkey.xmlunit.XMLUnit.setIgnoreAttributeOrder;
+import static org.custommonkey.xmlunit.XMLUnit.setIgnoreComments;
+import static org.custommonkey.xmlunit.XMLUnit.setIgnoreWhitespace;
+import static org.custommonkey.xmlunit.XMLUnit.setNormalizeWhitespace;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -23,7 +28,6 @@ import org.apache.commons.io.IOUtils;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,12 +58,12 @@ public class ExtensionManifestXmlSerializerTestCase
         InputStream expected = getClass().getResourceAsStream("/manifest/test-extension-manifest.xml");
         assertThat("Could not obtain expected file", expected, is(notNullValue()));
 
-        XMLUnit.setNormalizeWhitespace(true);
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreComments(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
+        setNormalizeWhitespace(true);
+        setIgnoreWhitespace(true);
+        setIgnoreComments(true);
+        setIgnoreAttributeOrder(true);
 
-        Diff diff = XMLUnit.compareXML(IOUtils.toString(expected), actual);
+        Diff diff = compareXML(IOUtils.toString(expected), actual);
         if (!(diff.similar() && diff.identical()))
         {
             System.out.println(actual);

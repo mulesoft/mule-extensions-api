@@ -24,7 +24,7 @@ final class ImmutableDescriberManifest implements DescriberManifest
     /**
      * Creates a new instance
      *
-     * @param id         the describer's id
+     * @param id         the describer's ID
      * @param properties the describer's properties
      */
     ImmutableDescriberManifest(String id, Map<String, String> properties)

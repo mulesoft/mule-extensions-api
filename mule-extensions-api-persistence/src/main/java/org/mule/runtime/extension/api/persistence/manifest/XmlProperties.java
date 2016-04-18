@@ -18,8 +18,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Auxiliary serialization class to allow serializing {@link Map} instances
- * as a sequence of {@code &lt;property&gt;} elements
+ * Allows serializing {@link Map} instances as a sequence of {@code &lt;property&gt;} elements
  *
  * @since 1.0
  */
@@ -31,11 +30,19 @@ final class XmlProperties
     @XmlElement(name = "property")
     private List<XmlProperty> properties;
 
+    /**
+     * Creates a new instance with empty {@link #properties}
+     */
     XmlProperties()
     {
         properties = new LinkedList<>();
     }
 
+    /**
+     * Creates a new instance initialised with the given properties
+     *
+     * @param properties initial properties
+     */
     XmlProperties(Map<String, String> properties)
     {
         this.properties = properties.entrySet().stream()
