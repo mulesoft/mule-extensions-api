@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.introspection.property;
 
-import org.mule.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.parameter.ParameterModel;

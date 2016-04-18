@@ -6,9 +6,9 @@
  */
 package org.mule.extension.api.introspection.metadata;
 
-import org.mule.api.metadata.resolving.MetadataContentResolver;
-import org.mule.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
 
 /**
  * Contract for models capable of providing a {@link MetadataResolverFactory}

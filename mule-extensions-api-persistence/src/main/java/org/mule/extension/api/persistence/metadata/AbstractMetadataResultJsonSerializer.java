@@ -6,11 +6,11 @@
  */
 package org.mule.extension.api.persistence.metadata;
 
-import org.mule.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
-import org.mule.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
-import org.mule.api.metadata.descriptor.OutputMetadataDescriptor;
-import org.mule.api.metadata.descriptor.TypeMetadataDescriptor;
-import org.mule.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
+import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.extension.api.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;

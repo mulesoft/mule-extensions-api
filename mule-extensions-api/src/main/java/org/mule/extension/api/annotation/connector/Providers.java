@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.annotation.connector;
 
-import org.mule.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.extension.api.annotation.Extension;
 
 import java.lang.annotation.Documented;

@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.runtime;
 
-import org.mule.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.extension.api.introspection.config.ConfigurationModel;
 import org.mule.extension.api.introspection.config.RuntimeConfigurationModel;
 

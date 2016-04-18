@@ -6,10 +6,10 @@
  */
 package org.mule.extension.api.introspection.property;
 
-import org.mule.api.connection.ConnectionHandlingStrategy;
-import org.mule.api.connection.ConnectionHandlingStrategyFactory;
-import org.mule.api.connection.ConnectionProvider;
-import org.mule.api.connection.PoolingListener;
+import org.mule.runtime.api.connection.ConnectionHandlingStrategy;
+import org.mule.runtime.api.connection.ConnectionHandlingStrategyFactory;
+import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.PoolingListener;
 import org.mule.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.connection.PoolingSupport;
