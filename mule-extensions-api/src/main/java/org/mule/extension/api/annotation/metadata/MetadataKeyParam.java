@@ -10,8 +10,8 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import org.mule.api.metadata.MetadataKey;
-import org.mule.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.runtime.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
 import org.mule.extension.api.annotation.Parameter;
 
 import java.lang.annotation.Documented;

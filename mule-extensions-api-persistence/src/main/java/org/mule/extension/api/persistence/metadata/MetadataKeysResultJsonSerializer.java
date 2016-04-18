@@ -6,10 +6,10 @@
  */
 package org.mule.extension.api.persistence.metadata;
 
-import org.mule.api.metadata.DefaultMetadataKey;
-import org.mule.api.metadata.MetadataKey;
-import org.mule.api.metadata.resolving.ImmutableMetadataResult;
-import org.mule.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.api.metadata.DefaultMetadataKey;
+import org.mule.runtime.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
+import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
 import com.google.gson.reflect.TypeToken;
 

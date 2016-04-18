@@ -11,7 +11,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.extension.api.persistence.JsonSerializationConstants.DISPLAY_MODEL_PROPERTY;
 
-import org.mule.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.extension.api.introspection.ExtensionModel;

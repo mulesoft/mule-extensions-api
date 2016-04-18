@@ -6,12 +6,12 @@
  */
 package org.mule.extension.api.introspection.metadata;
 
-import org.mule.api.metadata.MetadataContext;
-import org.mule.api.metadata.MetadataKey;
-import org.mule.api.metadata.MetadataResolvingException;
-import org.mule.api.metadata.resolving.MetadataContentResolver;
-import org.mule.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.MetadataContext;
+import org.mule.runtime.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.MetadataResolvingException;
+import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
 import org.mule.extension.api.annotation.metadata.Content;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;

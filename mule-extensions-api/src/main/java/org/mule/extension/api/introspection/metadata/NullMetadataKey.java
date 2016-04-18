@@ -7,8 +7,8 @@
 package org.mule.extension.api.introspection.metadata;
 
 
-import org.mule.api.metadata.MetadataKey;
-import org.mule.api.metadata.MetadataProperty;
+import org.mule.runtime.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.MetadataProperty;
 
 import java.util.Collections;
 import java.util.Optional;

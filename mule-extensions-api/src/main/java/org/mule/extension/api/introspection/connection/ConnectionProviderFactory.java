@@ -7,7 +7,7 @@
 package org.mule.extension.api.introspection.connection;
 
 
-import org.mule.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.ConnectionProvider;
 
 /**
  * Creates instances of {@link ConnectionProvider} for the generic

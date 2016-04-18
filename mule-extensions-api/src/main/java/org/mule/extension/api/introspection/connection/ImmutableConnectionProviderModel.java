@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.introspection.connection;
 
-import org.mule.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.extension.api.introspection.parameter.AbstractParameterizedModel;
 import org.mule.extension.api.introspection.ModelProperty;
 import org.mule.extension.api.introspection.parameter.ParameterModel;

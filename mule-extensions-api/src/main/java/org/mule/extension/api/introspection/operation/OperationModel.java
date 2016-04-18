@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.introspection.operation;
 
-import org.mule.api.temporary.MuleMessage;
+import org.mule.runtime.api.temporary.MuleMessage;
 import org.mule.extension.api.introspection.ComponentModel;
 import org.mule.extension.api.introspection.ExtensionModel;
 import org.mule.metadata.api.model.MetadataType;

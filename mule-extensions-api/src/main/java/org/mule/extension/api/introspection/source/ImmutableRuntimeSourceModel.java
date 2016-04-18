@@ -6,9 +6,9 @@
  */
 package org.mule.extension.api.introspection.source;
 
-import org.mule.api.metadata.resolving.MetadataContentResolver;
-import org.mule.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
 import org.mule.extension.api.introspection.exception.ExceptionEnricher;
 import org.mule.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.extension.api.introspection.ModelProperty;

@@ -6,7 +6,7 @@
  */
 package org.mule.extension.api.runtime.source;
 
-import org.mule.api.execution.CompletionHandler;
+import org.mule.runtime.api.execution.CompletionHandler;
 import org.mule.extension.api.runtime.ConfigurationInstance;
 import org.mule.extension.api.runtime.ExceptionCallback;
 import org.mule.extension.api.runtime.MessageHandler;

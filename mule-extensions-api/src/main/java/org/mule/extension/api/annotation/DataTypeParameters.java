@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 
 /**
  * Indicates that an {@link OperationModel} should expose parameters which
- * allows the user to specify the @link org.mule.api.metadata.DataType} 
+ * allows the user to specify the @link org.mule.runtime.api.metadata.DataType}
  * of the annotated operation's output.
  * <p>
  * This annotation is intended to be used in {@link Method methods} from which

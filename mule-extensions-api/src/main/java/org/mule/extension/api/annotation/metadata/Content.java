@@ -8,7 +8,7 @@ package org.mule.extension.api.annotation.metadata;
 
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import org.mule.api.metadata.resolving.MetadataContentResolver;
+import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
 import org.mule.metadata.api.model.MetadataType;
 
 import java.lang.annotation.Documented;
