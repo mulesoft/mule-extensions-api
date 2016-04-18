@@ -45,7 +45,7 @@
       "name": "getCar",
       "description": "Obtains a car",
       "modelProperties": {
-        "org.mule.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
+        "org.mule.runtime.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
       }
     }
   },
