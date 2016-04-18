@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.manifest;
 
-
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 
