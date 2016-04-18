@@ -41,7 +41,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
     public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context, ObjectTypeBuilder builder)
     {
         //TODO: MULE-9454
-        if (clazz.getName().equals("org.mule.api.NestedProcessor"))
+        if (clazz.getName().equals("org.mule.runtime.core.api.NestedProcessor"))
         {
             return;
         }
