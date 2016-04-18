@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.manifest;
 
 import static java.util.Collections.unmodifiableMap;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.Map;
 
@@ -29,6 +30,11 @@ final class ImmutableDescriberManifest implements DescriberManifest
      */
     ImmutableDescriberManifest(String id, Map<String, String> properties)
     {
+        if (isBlank(id))
+        {
+            throw new IllegalStateException("Describer manifest cannot have a blank id");
+        }
+
         this.id = id;
         this.properties = unmodifiableMap(properties);
     }

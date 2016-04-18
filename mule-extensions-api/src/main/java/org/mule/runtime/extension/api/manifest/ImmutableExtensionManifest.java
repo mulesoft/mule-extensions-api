@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.manifest;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /**
  * Immutable implementation of {@link ExtensionManifest}
  *
@@ -29,6 +31,9 @@ final class ImmutableExtensionManifest implements ExtensionManifest
      */
     ImmutableExtensionManifest(String name, String description, String version, DescriberManifest describerManifest)
     {
+        checkNotBlank(name, "name");
+        checkNotBlank(version, "version");
+
         this.name = name;
         this.description = description;
         this.version = version;
@@ -69,5 +74,13 @@ final class ImmutableExtensionManifest implements ExtensionManifest
     public DescriberManifest getDescriberManifest()
     {
         return describerManifest;
+    }
+
+    private void checkNotBlank(String value, String attributeName)
+    {
+        if (isBlank(value))
+        {
+            throw new IllegalStateException("Manifest cannot have a blank " + attributeName);
+        }
     }
 }

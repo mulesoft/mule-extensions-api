@@ -85,18 +85,7 @@ public final class ExtensionManifestBuilder
      */
     public ExtensionManifest build()
     {
-        checkNotBlank(name, "name");
-        checkNotBlank(version, "version");
-
         return new ImmutableExtensionManifest(name, description, version, describerManifestBuilder.build());
-    }
-
-    private void checkNotBlank(String value, String attributeName)
-    {
-        if (isBlank(value))
-        {
-            throw new IllegalStateException("Manifest cannot have a blank " + attributeName);
-        }
     }
 
     /**
@@ -183,11 +172,6 @@ public final class ExtensionManifestBuilder
          */
         private DescriberManifest build()
         {
-            if (isBlank(id))
-            {
-                throw new IllegalStateException("Describer manifest cannot have a blank id");
-            }
-
             return new ImmutableDescriberManifest(id, properties);
         }
     }

@@ -12,8 +12,7 @@ import org.mule.runtime.extension.api.resources.GeneratedResource;
 import java.util.Optional;
 
 /**
- * Factory class which creates a {@link GeneratedResource} instance
- * from an {@link ExtensionModel} instance.
+ * Creates a {@link GeneratedResource} instance from an {@link ExtensionModel} instance.
  * <p/>
  * Implementations are to be reusable and thread-safe.
  *
