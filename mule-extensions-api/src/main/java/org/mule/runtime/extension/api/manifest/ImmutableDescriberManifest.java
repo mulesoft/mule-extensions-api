@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
-final class ImmutableDescriberManifest implements DescriberManifest
+public final class ImmutableDescriberManifest implements DescriberManifest
 {
 
     private final String id;

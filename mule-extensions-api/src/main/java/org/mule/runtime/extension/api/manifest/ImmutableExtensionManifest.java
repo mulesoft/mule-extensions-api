@@ -13,7 +13,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  *
  * @since 1.0
  */
-final class ImmutableExtensionManifest implements ExtensionManifest
+public final class ImmutableExtensionManifest implements ExtensionManifest
 {
 
     private final String name;
