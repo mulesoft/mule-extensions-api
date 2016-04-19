@@ -13,9 +13,6 @@ import java.util.Map;
 
 /**
  * A builder to create instances of {@link ExtensionManifest}.
- * <p>
- * A new instance of this class should be used per each manifest to be
- * created. The created instances will be immutable.
  *
  * @since 1.0
  */

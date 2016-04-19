@@ -13,8 +13,6 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
 /**
  * A manifest which enunciates the main properties of a {@link ExtensionModel}
  * which is yet to be instantiated.
- * <p>
- * Instances should be created through the {@link ExtensionManifestBuilder}
  *
  * @see ExtensionManifestBuilder
  * @since 1.0

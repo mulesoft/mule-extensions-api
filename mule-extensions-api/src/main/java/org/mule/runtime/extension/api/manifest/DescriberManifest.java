@@ -14,8 +14,6 @@ import java.util.Map;
 /**
  * Manifest that enunciates the main properties of a {@link Describer}
  * to be instantiated by the Mule Runtime.
- * <p>
- * Instances should be created through the {@link DescriberManifestBuilder}
  *
  * @see DescriberManifestBuilder
  * @since 1.0
