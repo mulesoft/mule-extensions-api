@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.manifest;
+package org.mule.runtime.extension.internal.manifest;
 
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
@@ -19,14 +19,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * the necessary annotations and setters necessary to allow JAX-B
  * serialization/deserialization.
  * <p>
- * For internal uses only. Should not be instantiated outside the context
- * of a {@link ExtensionManifestXmlSerializer}
+ * This class is for internal use only. Users should not reference it.
  *
  * @since 1.0
  */
 @XmlRootElement(name = "extension-manifest")
 @XmlAccessorType(XmlAccessType.FIELD)
-final class XmlExtensionManifest implements ExtensionManifest
+public final class XmlExtensionManifest implements ExtensionManifest
 {
 
     @XmlElement

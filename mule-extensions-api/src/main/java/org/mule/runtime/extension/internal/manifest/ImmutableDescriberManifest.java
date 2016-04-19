@@ -4,15 +4,18 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.manifest;
+package org.mule.runtime.extension.internal.manifest;
 
 import static java.util.Collections.unmodifiableMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import org.mule.runtime.extension.api.manifest.DescriberManifest;
 
 import java.util.Map;
 
 /**
  * Immutable implementation of {@link DescriberManifest}
+ * <p>
+ * This class is for internal use only. Users should not reference it.
  *
  * @since 1.0
  */
@@ -28,7 +31,7 @@ public final class ImmutableDescriberManifest implements DescriberManifest
      * @param id         the describer's ID
      * @param properties the describer's properties
      */
-    ImmutableDescriberManifest(String id, Map<String, String> properties)
+    public ImmutableDescriberManifest(String id, Map<String, String> properties)
     {
         if (isBlank(id))
         {

@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.persistence.manifest;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder;
+import org.mule.runtime.extension.internal.manifest.XmlDescriberManifest;
+import org.mule.runtime.extension.internal.manifest.XmlExtensionManifest;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;

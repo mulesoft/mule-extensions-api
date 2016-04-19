@@ -4,12 +4,16 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.manifest;
+package org.mule.runtime.extension.internal.manifest;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import org.mule.runtime.extension.api.manifest.DescriberManifest;
+import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 
 /**
- * Immutable implementation of {@link ExtensionManifest}
+ * Immutable implementation of {@link ExtensionManifest}.
+ * <p>
+ * This class is for internal use only. Users should not reference it.
  *
  * @since 1.0
  */
@@ -29,7 +33,7 @@ public final class ImmutableExtensionManifest implements ExtensionManifest
      * @param version           the extension's version
      * @param describerManifest the extension's {@link DescriberManifest}
      */
-    ImmutableExtensionManifest(String name, String description, String version, DescriberManifest describerManifest)
+    public ImmutableExtensionManifest(String name, String description, String version, DescriberManifest describerManifest)
     {
         checkNotBlank(name, "name");
         checkNotBlank(version, "version");

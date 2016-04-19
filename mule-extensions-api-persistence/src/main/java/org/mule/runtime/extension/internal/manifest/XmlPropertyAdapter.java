@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.manifest;
+package org.mule.runtime.extension.internal.manifest;
 
 import static java.util.stream.Collectors.toMap;
 

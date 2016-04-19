@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.manifest;
+package org.mule.runtime.extension.internal.manifest;
 
 import java.util.Map;
 
@@ -13,14 +13,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**
- * Allows serializing {@link Map.Entry} instances as a {@code &lt;property&gt;} element
+ * Allows serializing {@link Map.Entry} instances as a {@code &lt;property&gt;} element.
+ *
+ * This class is for internal use only. Users should not reference it.
  *
  * @since 1.0
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-final class XmlProperty
+public final class XmlProperty
 {
 
+    @XmlAttribute
     private String key;
 
     @XmlAttribute

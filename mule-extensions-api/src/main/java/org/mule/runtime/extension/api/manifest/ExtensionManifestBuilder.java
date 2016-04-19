@@ -8,6 +8,9 @@ package org.mule.runtime.extension.api.manifest;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import org.mule.runtime.extension.internal.manifest.ImmutableDescriberManifest;
+import org.mule.runtime.extension.internal.manifest.ImmutableExtensionManifest;
+
 import java.util.HashMap;
 import java.util.Map;
 
