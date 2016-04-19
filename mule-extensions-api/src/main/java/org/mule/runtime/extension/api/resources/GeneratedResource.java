@@ -9,28 +9,47 @@ package org.mule.runtime.extension.api.resources;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 
 /**
- * A resource that supports a
- * {@link ExtensionModel} and which can be generated
- * by the runtime
+ * A resource that is generated in the context of an {@link ExtensionModel}'s
+ * build process
  *
  * @since 1.0
  */
-public interface GeneratedResource
+public final class GeneratedResource
 {
 
-    /**
-     * The path in which the file will be found after being generated.
-     * Also serves as the resource's primary key
-     *
-     * @return a {@link java.lang.String} not empty nor {@code null}
-     */
-    String getFilePath();
+    private final String path;
+    private final byte[] content;
 
     /**
-     * The builder which {@link org.mule.runtime.extension.api.resources.spi.GenerableResourceContributor}s
-     * will use to contribute their part
+     * Creates a new instance
      *
-     * @return a non {@code null} {@link java.lang.StringBuilder}
+     * @param path    the resource's path
+     * @param content the resource's content
      */
-    StringBuilder getContentBuilder();
+    public GeneratedResource(String path, byte[] content)
+    {
+        this.path = path;
+        this.content = content;
+    }
+
+    /**
+     * The path in which the resource will be found after being generated.
+     * Also serves as the resource's primary key
+     *
+     * @return a {@link java.lang.String}. Cannot empty nor {@code null}
+     */
+    public String getPath()
+    {
+        return path;
+    }
+
+    /**
+     * The resource's content
+     *
+     * @return a non {@code null} {@link byte[]}
+     */
+    public byte[] getContent()
+    {
+        return content;
+    }
 }

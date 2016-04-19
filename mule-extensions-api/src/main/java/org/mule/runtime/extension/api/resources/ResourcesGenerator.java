@@ -7,33 +7,22 @@
 package org.mule.runtime.extension.api.resources;
 
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.resources.spi.GenerableResourceContributor;
+import org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory;
 
 import java.util.List;
 
 /**
- * A component capable of dynamically generating resources to back up
- * a set of {@link ExtensionModel extensionModels}.
+ * A component capable of dynamically generating resources to support
+ * an {@link ExtensionModel}.
+ * <p>
  * Although extensions resolve their functionality mainly on runtime,
  * some configuration resources such as XML schemas, service registration files,
  * spring bundles, or whatever resource the runtime requires need to be generated
  * in compile or run time.
- * <p/>
- * Additionally, those resources might reference more than one
- * {@link ExtensionModel},
- * for example, if a module registers many extensions,
- * we need only one service registration file for all of them.
- * <p/>
- * This interface provides semantics to generate resources for many
- * {@link ExtensionModel}s which might share the
- * generated resources and when finished, dump all of the generated content to some persistent store.
- * <p/>
- * To do so, implementations will work in tandem with instances of
- * {@link GenerableResourceContributor} which will be
- * obtained and injected by the platform.
- * <p/>
- * Implementations are to be assumed not thread-safe and to be used in a
- * fire and forget fashion
+ * <p>
+ * To determine which resources need to be generated, a standard SPI
+ * mechanism will be used to obtain instances of {@link GeneratedResourceFactory}.
+ * Those factories will be used to create the resources needed by each extension.
  *
  * @since 1.0
  */
@@ -41,35 +30,15 @@ public interface ResourcesGenerator
 {
 
     /**
-     * Returns a {@link GeneratedResource} that
-     * will point to the given {@code filepath}. If another extension already contributed
-     * to that resource, then the same instance is returned. If no resource has been
-     * contributed to yet, then it's created and registered.
-     *
-     * @param filepath the path in which the resource is to be generated
-     * @return a {@link GeneratedResource}
-     */
-    GeneratedResource get(String filepath);
-
-    /**
-     * Generates resources for the given {@code extension}. This doesn't mean that
-     * the resource will be generated and written to disk. It means that
-     * the discovered instances of {@link GenerableResourceContributor}
-     * will be asked to contribute resources for the given extension. The contributors
-     * will use {@link #get(String)} to get a hold of the resource in generation
-     * and will contribute their part of the content. Nothing gets written to disk
-     * until {@link #dumpAll()} is invoked
+     * Generates resources for the given {@code extension} by propagating
+     * the given {@code extensionModel} through all the discovered
+     * {@link GeneratedResourceFactory} instances.
+     * <p>
+     * The generated resources are written to disk and returned for
+     * further processing.
      *
      * @param extensionModel a {@link ExtensionModel}
+     * @link a {@link List} with the generated resources. Might be empty but will never be {@code null}
      */
-    void generateFor(ExtensionModel extensionModel);
-
-    /**
-     * Writes all the {@link GeneratedResource}s that were
-     * generated through {@link #get(String)} and writes them to a persistent store.
-     * The details of where and how those files are written are completely up to the implementation.
-     *
-     * @return the list of {@link GeneratedResource} that was written
-     */
-    List<GeneratedResource> dumpAll();
+    List<GeneratedResource> generateFor(ExtensionModel extensionModel);
 }

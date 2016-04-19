@@ -6,58 +6,32 @@
  */
 package org.mule.runtime.extension.api;
 
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.ExtensionFactory;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.RuntimeExtensionModel;
-import org.mule.runtime.extension.api.introspection.declaration.spi.Describer;
+import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
+import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 import org.mule.runtime.extension.api.runtime.ConfigurationProvider;
 import org.mule.runtime.extension.api.runtime.ConfigurationStats;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 /**
  * Manages the {@link ExtensionModel extension models} available in the current context and their state.
  * <p/>
- * Going beyond the introspection model defined by {@link ExtensionModel}, {@link ConfigurationModel}
- * and {@link OperationModel} classes, at runtime there will be instances implementing the extension
- * components modeled by them. Those instances need to be registered with this manager in order to be used.
- * <p/>
- * The workflow for this manager would be to first discover the currently available extensions
- * through {@link #discoverExtensions(ClassLoader)}. Additionally, {@link ExtensionModel} instances
- * can also be added in runtime through {@link #registerExtension(RuntimeExtensionModel)}.
+ * This class is also the access point to obtaining {@link ConfigurationInstance configuration instances}
+ * of the extensions in use.
+ *
+ * For an extension to be usable, it has to be registered in this manager through the
+ * {@link #registerExtension(ExtensionManifest, ClassLoader)} method
  *
  * @since 1.0
  */
 public interface ExtensionManager
 {
 
-    /**
-     * Scans the classpath visible to the given {@link ClassLoader} and registers them.
-     * <p/>
-     * The discovery process works as follows:
-     * <ul>
-     * <li>Some discovery mechanism (which one is up to the implementation) is used to discover implementations of the {@link Describer} interface</li>
-     * <li>The discovered describers are fed into a {@link ExtensionFactory} and transformed in {@link ExtensionModel} instances</li>
-     * <li>Those extensions are registered through the {@link #registerExtension(RuntimeExtensionModel)} method</li>
-     * </ul>
-     * Finally, a {@link List} is returned with all the {@link ExtensionModel extensions} available after the discovery process finishes.
-     *
-     * @param classLoader a not {@code null} {@link ClassLoader} in which to search for extensions
-     * @return a {@link List} with all the available {@link ExtensionModel extensions}
-     */
-    List<RuntimeExtensionModel> discoverExtensions(ClassLoader classLoader);
-
-    /**
-     * Registers the given {@link ExtensionModel}.
-     *
-     * @param extensionModel the {@link ExtensionModel} to be registered. Cannot be {@code null}
-     */
-    void registerExtension(RuntimeExtensionModel extensionModel);
+    void registerExtension(ExtensionManifest manifest, ClassLoader classLoader);
 
     /**
      * Returns an immutable {@link Set} listing all the discovered
@@ -89,8 +63,6 @@ public interface ExtensionManager
      * @return an {@link Optional}. It will be empty if no such extension is registered
      */
     Optional<RuntimeExtensionModel> getExtension(String extensionName, String vendor);
-
-    <C> void registerConfigurationProvider(ConfigurationProvider<C> configurationProvider);
 
     /**
      * Returns a {@link ConfigurationInstance} obtained through a previously registered
