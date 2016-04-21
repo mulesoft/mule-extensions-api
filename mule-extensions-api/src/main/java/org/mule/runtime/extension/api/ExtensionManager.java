@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 import org.mule.runtime.extension.api.runtime.ConfigurationProvider;
 import org.mule.runtime.extension.api.runtime.ConfigurationStats;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
