@@ -19,12 +19,16 @@ public final class XmlModelProperty implements ModelProperty
 
     private final String schemaVersion;
     private final String namespace;
+    private final String namespaceUri;
+    private final String xsdFileName;
     private final String schemaLocation;
 
-    public XmlModelProperty(String schemaVersion, String namespace, String schemaLocation)
+    public XmlModelProperty(String schemaVersion, String namespace, String namespaceUri, String xsdFileName, String schemaLocation)
     {
         this.schemaVersion = schemaVersion;
         this.namespace = namespace;
+        this.namespaceUri = namespaceUri;
+        this.xsdFileName = xsdFileName;
         this.schemaLocation = schemaLocation;
     }
 
@@ -42,6 +46,22 @@ public final class XmlModelProperty implements ModelProperty
     public String getNamespace()
     {
         return namespace;
+    }
+
+    /**
+     * @return The extension's namespace URI
+     */
+    public String getNamespaceUri()
+    {
+        return namespaceUri;
+    }
+
+    /**
+     * @return The name of the schema file
+     */
+    public String getXsdFileName()
+    {
+        return xsdFileName;
     }
 
     /**
