@@ -44,6 +44,8 @@ public final class ExtensionManifestXmlSerializer
         xmlManifest.setName(manifest.getName());
         xmlManifest.setDescription(manifest.getDescription());
         xmlManifest.setVersion(manifest.getVersion());
+        xmlManifest.setExportedPackages(manifest.getExportedPackages());
+        xmlManifest.setExportedResources(manifest.getExportedResources());
         xmlManifest.setDescriberManifest(asXml(manifest.getDescriberManifest()));
 
         try
@@ -87,6 +89,8 @@ public final class ExtensionManifestXmlSerializer
         builder.setName(xmlManifest.getName())
                 .setDescription(xmlManifest.getDescription())
                 .setVersion(xmlManifest.getVersion())
+                .addExportedPackages(xmlManifest.getExportedPackages())
+                .addExportedResources(xmlManifest.getExportedResources())
                 .withDescriber()
                 .setId(xmlManifest.getDescriberManifest().getId())
                 .addProperties(xmlManifest.getDescriberManifest().getProperties());
