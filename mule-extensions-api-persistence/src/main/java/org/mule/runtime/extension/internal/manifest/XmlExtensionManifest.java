@@ -9,9 +9,13 @@ package org.mule.runtime.extension.internal.manifest;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,6 +40,14 @@ public final class XmlExtensionManifest implements ExtensionManifest
 
     @XmlElement
     private String version;
+
+    @XmlElementWrapper(name = "exportedPackages")
+    @XmlElement(name = "package")
+    private List<String> exportedPackages = new ArrayList<>();
+
+    @XmlElementWrapper(name = "exportedResources")
+    @XmlElement(name = "resource")
+    private List<String> exportedResources = new ArrayList<>();
 
     @XmlElement(name = "describer")
     private XmlDescriberManifest describerManifest;
@@ -82,5 +94,27 @@ public final class XmlExtensionManifest implements ExtensionManifest
     public void setDescriberManifest(XmlDescriberManifest describerManifest)
     {
         this.describerManifest = describerManifest;
+    }
+
+    @Override
+    public List<String> getExportedPackages()
+    {
+        return exportedPackages;
+    }
+
+    public void setExportedPackages(List<String> exportedPackages)
+    {
+        this.exportedPackages = exportedPackages;
+    }
+
+    @Override
+    public List<String> getExportedResources()
+    {
+        return exportedResources;
+    }
+
+    public void setExportedResources(List<String> exportedResources)
+    {
+        this.exportedResources = exportedResources;
     }
 }

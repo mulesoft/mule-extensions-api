@@ -10,6 +10,8 @@ package org.mule.runtime.extension.api.manifest;
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 
+import java.util.List;
+
 /**
  * A manifest which enunciates the main properties of a {@link ExtensionModel}
  * which is yet to be instantiated.
@@ -29,4 +31,14 @@ public interface ExtensionManifest extends Described
      * @return a {@link DescriberManifest}
      */
     DescriberManifest getDescriberManifest();
+
+    /**
+     * @return The {@link List} of java package names that the extension exposes
+     */
+    List<String> getExportedPackages();
+
+    /**
+     * @return The {@link List} of resources paths that the extension exposes
+     */
+    List<String> getExportedResources();
 }

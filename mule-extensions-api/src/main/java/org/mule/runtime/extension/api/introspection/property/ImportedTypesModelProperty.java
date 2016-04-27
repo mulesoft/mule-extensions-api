@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.extension.api.introspection.property;
+package org.mule.runtime.extension.api.introspection.property;
 
 
 import org.mule.metadata.api.model.MetadataType;

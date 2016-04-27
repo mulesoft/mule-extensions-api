@@ -8,10 +8,16 @@ package org.mule.runtime.extension.api.manifest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mule.runtime.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
-import static org.mule.runtime.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.EXTENSION_NAME;
-import static org.mule.runtime.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer.VERSION;
-import org.mule.runtime.extension.api.introspection.declaration.tck.TestHttpConnectorDeclarer;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_ID;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_PROPERTY;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_PROPERTY_VALUE;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.EXPORTED_PACKAGES;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.EXPORTED_RESOURCES;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.assertStringList;
+import org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,23 +25,12 @@ import org.junit.Test;
 public class ExtensionManifestBuilderTestCase
 {
 
-    private static final String DESCRIBER_ID = "annotations";
-    private static final String DESCRIBER_PROPERTY = "type";
-    private static final String DESCRIBER_PROPERTY_VALUE = TestHttpConnectorDeclarer.class.getName();
-
     private ExtensionManifestBuilder builder;
 
     @Before
     public void before()
     {
-        builder = new ExtensionManifestBuilder();
-        builder.setName(EXTENSION_NAME)
-                .setDescription(EXTENSION_DESCRIPTION)
-                .setVersion(VERSION)
-                .withDescriber()
-                .setId(DESCRIBER_ID)
-                .addProperty(DESCRIBER_PROPERTY, DESCRIBER_PROPERTY_VALUE);
-
+        builder = ExtensionManifestTestUtils.getTestBuilder();
     }
 
     @Test
@@ -45,6 +40,8 @@ public class ExtensionManifestBuilderTestCase
         assertThat(manifest.getName(), is(EXTENSION_NAME));
         assertThat(manifest.getDescription(), is(EXTENSION_DESCRIPTION));
         assertThat(manifest.getVersion(), is(VERSION));
+        assertStringList(manifest.getExportedPackages(), EXPORTED_PACKAGES);
+        assertStringList(manifest.getExportedResources(), EXPORTED_RESOURCES);
 
         DescriberManifest describerManifest = manifest.getDescriberManifest();
         assertThat(describerManifest.getId(), is(DESCRIBER_ID));

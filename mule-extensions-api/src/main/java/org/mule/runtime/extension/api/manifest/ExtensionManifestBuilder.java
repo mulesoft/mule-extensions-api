@@ -7,11 +7,13 @@
 package org.mule.runtime.extension.api.manifest;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-
 import org.mule.runtime.extension.internal.manifest.ImmutableDescriberManifest;
 import org.mule.runtime.extension.internal.manifest.ImmutableExtensionManifest;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +27,8 @@ public final class ExtensionManifestBuilder
     private String name;
     private String description;
     private String version;
+    private List<String> exportedPackages = new LinkedList<>();
+    private List<String> exportedResources = new LinkedList<>();
     private final DescriberManifestBuilder describerManifestBuilder = new DescriberManifestBuilder();
 
     /**
@@ -48,6 +52,32 @@ public final class ExtensionManifestBuilder
     public ExtensionManifestBuilder setDescription(String description)
     {
         this.description = description;
+        return this;
+    }
+
+    /**
+     * Adds the given {@code packages} names to the list of
+     * exported packages
+     *
+     * @param packages a {@link List} with java package names
+     * @return {@code this} builder
+     */
+    public ExtensionManifestBuilder addExportedPackages(Collection<String> packages)
+    {
+        exportedPackages.addAll(packages);
+        return this;
+    }
+
+    /**
+     * Adds the given {@code resources} paths to the list of
+     * exported resources
+     *
+     * @param resources a {@link List} with resources paths
+     * @return {@code this} builder
+     */
+    public ExtensionManifestBuilder addExportedResources(Collection<String> resources)
+    {
+        exportedResources.addAll(resources);
         return this;
     }
 
@@ -85,7 +115,7 @@ public final class ExtensionManifestBuilder
      */
     public ExtensionManifest build()
     {
-        return new ImmutableExtensionManifest(name, description, version, describerManifestBuilder.build());
+        return new ImmutableExtensionManifest(name, description, version, exportedPackages, exportedResources, describerManifestBuilder.build());
     }
 
     /**

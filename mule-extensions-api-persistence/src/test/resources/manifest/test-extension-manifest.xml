@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension-manifest>
-    <name>myExtension</name>
-    <description><![CDATA[Test extension]]></description>
+    <name>http</name>
+    <description><![CDATA[Http Connector]]></description>
     <version>1.0</version>
+    <exportedPackages>
+        <package>org.mule.foo</package>
+        <package>org.mule.bar</package>
+    </exportedPackages>
+    <exportedResources>
+        <resource>/META-INF/foo</resource>
+        <resource>bar</resource>
+    </exportedResources>
     <describer>
         <id>annotations</id>
         <properties>
-            <property key="propertyKey" value="propertyValue"/>
+            <property key="type" value="org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer"/>
         </properties>
     </describer>
 </extension-manifest>

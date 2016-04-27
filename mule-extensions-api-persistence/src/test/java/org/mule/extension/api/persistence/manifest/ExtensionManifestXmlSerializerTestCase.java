@@ -16,9 +16,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.assertStringList;
+import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.getTestBuilder;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
-import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder;
 import org.mule.runtime.extension.api.persistence.manifest.ExtensionManifestXmlSerializer;
 
 import java.io.InputStream;
@@ -40,15 +41,7 @@ public class ExtensionManifestXmlSerializerTestCase
     @Before
     public void before()
     {
-        ExtensionManifestBuilder builder = new ExtensionManifestBuilder();
-        builder.setName("myExtension")
-                .setDescription("Test extension")
-                .setVersion("1.0")
-                .withDescriber()
-                .setId("annotations")
-                .addProperty("propertyKey", "propertyValue");
-
-        manifest = builder.build();
+        manifest = getTestBuilder().build();
     }
 
     @Test
@@ -88,6 +81,8 @@ public class ExtensionManifestXmlSerializerTestCase
         assertThat(deserialized.getName(), equalTo(manifest.getName()));
         assertThat(deserialized.getDescription(), equalTo(manifest.getDescription()));
         assertThat(deserialized.getVersion(), equalTo(manifest.getVersion()));
+        assertStringList(manifest.getExportedPackages(), deserialized.getExportedPackages());
+        assertStringList(manifest.getExportedResources(), deserialized.getExportedResources());
 
         DescriberManifest deserializedDescriber = deserialized.getDescriberManifest();
         DescriberManifest manifestDescriber = manifest.getDescriberManifest();

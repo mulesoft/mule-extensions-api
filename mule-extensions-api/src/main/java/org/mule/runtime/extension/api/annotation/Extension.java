@@ -45,11 +45,6 @@ public @interface Extension
      */
     String vendor() default NO_VENDOR;
 
-    /**
-     * Name of the configuration element
-     */
-    String configElementName() default DEFAULT_CONFIG_NAME;
-
     String NO_VENDOR = "";
 
     String DEFAULT_CONFIG_NAME = "config";
