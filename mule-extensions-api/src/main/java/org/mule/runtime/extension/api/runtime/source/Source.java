@@ -41,10 +41,10 @@ public abstract class Source<Payload, Attributes extends Serializable>
     protected SourceContext<Payload, Attributes> sourceContext;
 
     //TODO: MULE-8946, should actually implement Startable
-    public abstract void start();
+    public abstract void start() throws Exception;
 
     //TODO: MULE-8946, should actually implement Stoppable
-    public abstract void stop();
+    public abstract void stop() throws Exception;
 
     /**
      * Configures {@code this} instances with {@code sourceContext}.
