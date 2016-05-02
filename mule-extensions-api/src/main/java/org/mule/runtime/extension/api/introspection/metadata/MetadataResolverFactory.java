@@ -31,13 +31,13 @@ public interface MetadataResolverFactory
      *
      * @return an instance of the {@link MetadataContentResolver}
      */
-    MetadataContentResolver getContentResolver();
+    <T> MetadataContentResolver<T> getContentResolver();
 
     /**
      * Provides an instance of the {@link MetadataOutputResolver} type associated to the Component
      *
      * @return an instance of the {@link MetadataOutputResolver}
      */
-    MetadataOutputResolver getOutputResolver();
+    <T> MetadataOutputResolver<T> getOutputResolver();
 
 }

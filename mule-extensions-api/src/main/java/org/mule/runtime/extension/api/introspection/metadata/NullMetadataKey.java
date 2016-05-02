@@ -7,10 +7,10 @@
 package org.mule.runtime.extension.api.introspection.metadata;
 
 
+import static java.util.Collections.emptySet;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataProperty;
 
-import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,15 +40,30 @@ public final class NullMetadataKey implements MetadataKey
         return "";
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<MetadataKey> getChilds()
+    {
+        return emptySet();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T extends MetadataProperty> Optional<T> getMetadataProperty(Class<T> propertyType)
     {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<MetadataProperty> getProperties()
     {
-        return Collections.emptySet();
+        return emptySet();
     }
 }

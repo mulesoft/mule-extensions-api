@@ -3,11 +3,13 @@
     {
       "id": "firstKey",
       "displayName": "firstKey",
+      "childs": [],
       "properties": {}
     },
     {
       "id": "secondKey",
       "displayName": "secondKey",
+      "childs": [],
       "properties": {}
     }
   ],

@@ -10,9 +10,10 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ConnectionHandlingTypeModelProperty;
 import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
+import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
+import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelProperty;
 import org.mule.runtime.extension.api.introspection.property.StudioModelProperty;
 import org.mule.runtime.extension.api.introspection.property.XmlModelProperty;
-import org.mule.runtime.extension.api.introspection.property.MetadataModelProperty;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -31,7 +32,8 @@ final class JsonSerializationConstants
     static final String CONNECTION_HANDLING_TYPE_MODEL_PROPERTY = "connectionHandlingType";
     static final String STUDIO_MODEL_PROPERTY = "studio";
     static final String XML_MODEL_PROPERTY = "xml";
-    static final String METADATA_MODEL_PROPERTY = "metadata";
+    static final String METADATA_KEY_ID_MODEL_PROPERTY = "metadataKeyId";
+    static final String METADATA_CONTENT_MODEL_PROPERTY = "metadataContent";
 
     private JsonSerializationConstants()
     {
@@ -46,7 +48,8 @@ final class JsonSerializationConstants
         stringClassHashMap.put(DISPLAY_MODEL_PROPERTY, DisplayModelProperty.class);
         stringClassHashMap.put(STUDIO_MODEL_PROPERTY, StudioModelProperty.class);
         stringClassHashMap.put(XML_MODEL_PROPERTY, XmlModelProperty.class);
-        stringClassHashMap.put(METADATA_MODEL_PROPERTY, MetadataModelProperty.class);
+        stringClassHashMap.put(METADATA_KEY_ID_MODEL_PROPERTY, MetadataKeyIdModelProperty.class);
+        stringClassHashMap.put(METADATA_CONTENT_MODEL_PROPERTY, MetadataContentModelProperty.class);
 
         return stringClassHashMap;
     }
