@@ -35,7 +35,7 @@ public interface MessageHandler<Payload, Attributes extends Serializable>
      */
     //TODO: MULE-8946: this should actually receive a messaging exception
     void handle(MuleMessage<Payload, Attributes> message,
-                                      CompletionHandler<MuleMessage<Payload, Attributes>, Exception> completionHandler);
+                                      CompletionHandler<MuleMessage<?, ? extends Serializable>, Exception> completionHandler);
 
     /**
      * Handles the {@code message} without notifying the result. Useful to implement fire and forget use cases
