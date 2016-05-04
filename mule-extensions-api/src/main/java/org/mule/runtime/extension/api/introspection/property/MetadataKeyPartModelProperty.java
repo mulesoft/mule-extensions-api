@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.property;
 
-import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
+import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
@@ -14,23 +14,24 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 
 /**
- * A {@link ModelProperty} for a of {@link SourceModel} and {@link OperationModel} parameters
- * that indicates that its a {@link MetadataKeyId}.
+ * A {@link ModelProperty} for {@link ParameterModel} of {@link SourceModel} and {@link OperationModel}
+ * parameters that indicates that the is a part of a {@link MetadataKey}.
  *
  * @since 1.0
  */
-public final class MetadataKeyIdModelProperty implements ModelProperty
+public final class MetadataKeyPartModelProperty implements ModelProperty
 {
-    private final Class<?> type;
+
+    private final int order;
 
     /**
      * Creates a new instance.
      *
-     * @param type of the {@link ParameterModel} annotated with {@link MetadataKeyId}.
+     * @param order the order of the parameter in the {@link MetadataKey};
      */
-    public MetadataKeyIdModelProperty(Class type)
+    public MetadataKeyPartModelProperty(int order)
     {
-        this.type = type;
+        this.order = order;
     }
 
     /**
@@ -52,10 +53,12 @@ public final class MetadataKeyIdModelProperty implements ModelProperty
     }
 
     /**
-     * @return the type of the {@link ParameterModel} annotated with {@link MetadataKeyId}
+     * The order of this parameter in the {@link MetadataKey}.
+     *
+     * @return the order of the parameter for a composed {@link MetadataKey}, 0 if is a simple {@link MetadataKey}
      */
-    public Class<?> getType()
+    public int getOrder()
     {
-        return type;
+        return order;
     }
 }
