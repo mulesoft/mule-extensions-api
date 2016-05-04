@@ -18,11 +18,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a field in a POJO that represents a composed {@link MetadataKey} as one of the parts
+ * Marks a field inside a POJO that represents a composed {@link MetadataKey} as one of the parts
  * of that composed {@link MetadataKey}.
  *
  * Multiple {@link MetadataKeyPart}s describe a POJO that can be annotated with {@link MetadataKeyId}
  * and also injected into a {@link MetadataContentResolver} or {@link MetadataOutputResolver}.
+ *
+ * {@link MetadataKeyPart} annotated fields must be of type {@link String}
  *
  * @since 1.0
  */
@@ -33,7 +35,8 @@ public @interface MetadataKeyPart
 {
 
     /**
-     * @return the order of the part in the composed key.
+     * @return the resolution order of this key part during the building of
+     * the {@link MetadataKeyId} annotated parameter corresponding to this {@link MetadataKeyPart}.
      */
     int order();
 }
