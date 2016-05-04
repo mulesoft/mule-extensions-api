@@ -1,5 +1,5 @@
 {
-  "isSucess": false,
+  "isSuccess": false,
   "failure": {
     "message": "Metadata Failure Error",
     "reason": "Metadata Failure Error",
