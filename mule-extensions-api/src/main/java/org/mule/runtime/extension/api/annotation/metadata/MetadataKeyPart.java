@@ -20,10 +20,10 @@ import java.lang.annotation.Target;
 /**
  * Marks a field inside a POJO that represents a composed {@link MetadataKey} as one of the parts
  * of that composed {@link MetadataKey}.
- *
+ * <p>
  * Multiple {@link MetadataKeyPart}s describe a POJO that can be annotated with {@link MetadataKeyId}
  * and also injected into a {@link MetadataContentResolver} or {@link MetadataOutputResolver}.
- *
+ * <p>
  * {@link MetadataKeyPart} annotated fields must be of type {@link String}
  *
  * @since 1.0
