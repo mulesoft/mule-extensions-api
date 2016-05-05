@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
-import org.mule.runtime.api.temporary.MuleMessage;
+import org.mule.runtime.api.message.MuleMessage;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParametrizedModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
