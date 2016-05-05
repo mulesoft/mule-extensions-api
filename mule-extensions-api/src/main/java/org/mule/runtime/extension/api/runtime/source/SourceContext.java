@@ -7,8 +7,8 @@
 package org.mule.runtime.extension.api.runtime.source;
 
 import org.mule.runtime.api.execution.CompletionHandler;
+import org.mule.runtime.api.execution.ExceptionCallback;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
-import org.mule.runtime.extension.api.runtime.ExceptionCallback;
 import org.mule.runtime.extension.api.runtime.MessageHandler;
 
 import java.io.Serializable;
@@ -39,7 +39,7 @@ public interface SourceContext<Payload, Attributes extends Serializable>
      *
      * @return a {@link ExceptionCallback}
      */
-    ExceptionCallback<Throwable> getExceptionCallback();
+    ExceptionCallback<Void, Throwable> getExceptionCallback();
 
     /**
      * @return the {@link ConfigurationInstance} to which the {@link Source} is associated
