@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.runtime;
 
 import org.mule.runtime.api.execution.CompletionHandler;
-import org.mule.runtime.api.temporary.MuleMessage;
+import org.mule.runtime.api.message.MuleMessage;
 
 import java.io.Serializable;
 
