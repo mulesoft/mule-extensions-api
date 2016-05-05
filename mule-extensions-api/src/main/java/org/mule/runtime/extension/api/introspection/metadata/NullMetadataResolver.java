@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class NullMetadataResolver implements MetadataContentResolver, MetadataOutputResolver, MetadataKeysResolver
+public final class NullMetadataResolver implements MetadataContentResolver<Object>, MetadataOutputResolver<Object>, MetadataKeysResolver
 {
 
     /**
@@ -54,7 +54,7 @@ public final class NullMetadataResolver implements MetadataContentResolver, Meta
      * @return {@link NullType}
      * @throws MetadataResolvingException
      */
-    public MetadataType getContentMetadata(MetadataContext context, MetadataKey key) throws MetadataResolvingException
+    public MetadataType getContentMetadata(MetadataContext context, Object key) throws MetadataResolvingException
     {
         return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
     }
@@ -69,7 +69,7 @@ public final class NullMetadataResolver implements MetadataContentResolver, Meta
      * @return {@link NullType}
      * @throws MetadataResolvingException
      */
-    public MetadataType getOutputMetadata(MetadataContext context, MetadataKey key) throws MetadataResolvingException
+    public MetadataType getOutputMetadata(MetadataContext context, Object key) throws MetadataResolvingException
     {
         return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
     }

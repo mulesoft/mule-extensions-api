@@ -41,7 +41,7 @@ import java.lang.annotation.Target;
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
-public @interface MetadataKeyParam
+public @interface MetadataKeyId
 {
 
 }
