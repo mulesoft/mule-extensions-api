@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.runtime;
 
 import org.mule.runtime.api.execution.CompletionHandler;
+import org.mule.runtime.api.message.MuleEvent;
 import org.mule.runtime.api.message.MuleMessage;
 
 import java.io.Serializable;
@@ -34,8 +35,7 @@ public interface MessageHandler<Payload, Attributes extends Serializable>
      * @param completionHandler the {@link CompletionHandler} on which the result is to be notified
      */
     //TODO: MULE-8946: this should actually receive a messaging exception
-    void handle(MuleMessage<Payload, Attributes> message,
-                                      CompletionHandler<MuleMessage<?, ? extends Serializable>, Exception> completionHandler);
+    void handle(MuleMessage<Payload, Attributes> message, CompletionHandler<MuleEvent, Exception> completionHandler);
 
     /**
      * Handles the {@code message} without notifying the result. Useful to implement fire and forget use cases
