@@ -67,7 +67,9 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
     }
 
     /**
-     * Adds the given {@code modelProperty}
+     * Adds the given {@param modelProperty}. If a property
+     * of the same {@link Class} has already been added, it will
+     * be overwritten.
      *
      * @param modelProperty a {@link ModelProperty}
      * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
