@@ -27,7 +27,6 @@ public class ExtensionFieldHandlerTestCase
 
     interface HasGetter
     {
-
         String getSomeString();
     }
 }
