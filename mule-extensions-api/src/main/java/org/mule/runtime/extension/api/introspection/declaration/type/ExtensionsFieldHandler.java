@@ -6,9 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
-import org.mule.runtime.extension.api.annotation.Expression;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -17,6 +16,7 @@ import org.mule.metadata.java.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.handler.ObjectFieldHandler;
 import org.mule.metadata.java.handler.TypeHandlerManager;
 import org.mule.metadata.java.utils.ParsingContext;
+import org.mule.runtime.extension.api.annotation.Expression;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -104,6 +104,9 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
 
     private void fallbackToBeanProperties(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context, ObjectTypeBuilder builder)
     {
-        new DefaultObjectFieldHandler().handleFields(clazz, typeHandlerManager, context, builder);
+        if (!clazz.isInterface())
+        {
+            new DefaultObjectFieldHandler().handleFields(clazz, typeHandlerManager, context, builder);
+        }
     }
 }
