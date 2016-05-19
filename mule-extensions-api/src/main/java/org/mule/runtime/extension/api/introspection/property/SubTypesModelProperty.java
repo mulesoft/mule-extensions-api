@@ -60,11 +60,11 @@ public final class SubTypesModelProperty implements ModelProperty
     /**
      * {@inheritDoc}
      *
-     * @return {@code true}
+     * @return {@code false}
      */
     @Override
     public boolean isExternalizable()
     {
-        return true;
+        return false;
     }
 }
