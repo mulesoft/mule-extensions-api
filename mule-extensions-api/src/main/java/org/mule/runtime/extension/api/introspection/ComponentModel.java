@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.introspection;
 
 import org.mule.runtime.api.message.MuleMessage;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParametrizedModel;
+import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 import org.mule.metadata.api.model.MetadataType;
 
@@ -18,7 +18,7 @@ import org.mule.metadata.api.model.MetadataType;
  *
  * @since 1.0
  */
-public interface ComponentModel extends Described, EnrichableModel, ParametrizedModel
+public interface ComponentModel extends Described, EnrichableModel, ParameterizedModel
 {
 
     /**
