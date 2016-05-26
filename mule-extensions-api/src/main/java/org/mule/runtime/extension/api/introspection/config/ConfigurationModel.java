@@ -12,7 +12,7 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
 import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParametrizedModel;
+import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.HasConnectionProviderModels;
@@ -36,7 +36,7 @@ import org.mule.runtime.extension.api.introspection.connection.HasConnectionProv
  *
  * @since 1.0
  */
-public interface ConfigurationModel extends Described, EnrichableModel, ParametrizedModel,
+public interface ConfigurationModel extends Described, EnrichableModel, ParameterizedModel,
         HasOperationModels, HasSourceModels, HasConnectionProviderModels
 {
 

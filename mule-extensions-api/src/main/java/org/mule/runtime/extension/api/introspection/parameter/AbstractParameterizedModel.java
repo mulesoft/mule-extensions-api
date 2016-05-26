@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Base class for immutable implementeation of {@link ParametrizedModel}
+ * Base class for immutable implementeation of {@link ParameterizedModel}
  *
  * @since 1.0
  */
-public abstract class AbstractParameterizedModel extends AbstractImmutableModel implements ParametrizedModel
+public abstract class AbstractParameterizedModel extends AbstractImmutableModel implements ParameterizedModel
 {
 
     private final List<ParameterModel> parameterModels;

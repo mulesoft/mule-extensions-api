@@ -10,7 +10,7 @@ package org.mule.runtime.extension.api.introspection.connection;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParametrizedModel;
+import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
 
 /**
  * Introspection model for {@link ConnectionProvider} types.
@@ -19,7 +19,7 @@ import org.mule.runtime.extension.api.introspection.parameter.ParametrizedModel;
  * @param <Connection> the generic type for the connections that the returned  {@link ConnectionProvider providers} produce
  * @since 1.0
  */
-public interface ConnectionProviderModel<Config, Connection> extends Described, EnrichableModel, ParametrizedModel
+public interface ConnectionProviderModel<Config, Connection> extends Described, EnrichableModel, ParameterizedModel
 {
 
 }
