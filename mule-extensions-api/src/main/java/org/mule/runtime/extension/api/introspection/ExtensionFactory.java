@@ -23,14 +23,6 @@ public interface ExtensionFactory
 {
 
     /**
-     * Creates a {@link ExtensionModel} from the given {@code declarer}
-     *
-     * @param declarer an {@link ExtensionDeclarer}. Cannot be {@code null}
-     * @return an {@link RuntimeExtensionModel}
-     */
-    RuntimeExtensionModel createFrom(ExtensionDeclarer declarer);
-
-    /**
      * Creates a {@link RuntimeExtensionModel} from the given {@code declarer}
      * using a specifying {@code describingContext}
      *
