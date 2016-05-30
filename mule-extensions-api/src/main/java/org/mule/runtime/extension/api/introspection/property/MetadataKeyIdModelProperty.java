@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.property;
 
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
@@ -21,14 +22,14 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  */
 public final class MetadataKeyIdModelProperty implements ModelProperty
 {
-    private final Class<?> type;
+    private final MetadataType type;
 
     /**
      * Creates a new instance.
      *
      * @param type of the {@link ParameterModel} annotated with {@link MetadataKeyId}.
      */
-    public MetadataKeyIdModelProperty(Class type)
+    public MetadataKeyIdModelProperty(MetadataType type)
     {
         this.type = type;
     }
@@ -54,7 +55,7 @@ public final class MetadataKeyIdModelProperty implements ModelProperty
     /**
      * @return the type of the {@link ParameterModel} annotated with {@link MetadataKeyId}
      */
-    public Class<?> getType()
+    public MetadataType getType()
     {
         return type;
     }
