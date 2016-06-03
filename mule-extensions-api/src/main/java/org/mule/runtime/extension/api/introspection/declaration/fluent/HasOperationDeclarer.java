@@ -22,4 +22,6 @@ public interface HasOperationDeclarer
      * @return a {@link OperationDeclarer} which allows describing the created operation
      */
     OperationDeclarer withOperation(String name);
+
+    void withOperation(OperationDeclarer declarer);
 }

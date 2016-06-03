@@ -18,12 +18,10 @@ import org.mule.metadata.api.model.MetadataType;
  *
  * @since 1.0
  */
-public class ConfigurationDeclarer extends ParameterizedDeclarer implements
+public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDeclaration> implements
         HasOperationDeclarer, HasConnectionProviderDeclarer, HasSourceDeclarer,
         HasModelProperties<ConfigurationDeclarer>, HasInterceptors<ConfigurationDeclarer>
 {
-
-    private final ConfigurationDeclaration declaration;
 
     /**
      * Creates a new instance
@@ -34,7 +32,6 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer implements
     ConfigurationDeclarer(ConfigurationDeclaration declaration, ClassTypeLoader typeLoader)
     {
         super(declaration, typeLoader);
-        this.declaration = declaration;
     }
 
     /**
@@ -56,9 +53,20 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer implements
     public OperationDeclarer withOperation(String name)
     {
         OperationDeclaration operation = new OperationDeclaration(name);
-        declaration.addOperation(operation);
 
-        return new OperationDeclarer(operation, typeLoader);
+        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation, typeLoader);
+        withOperation(operationDeclarer);
+
+        return operationDeclarer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void withOperation(OperationDeclarer declarer)
+    {
+        declaration.addOperation(declarer.getDeclaration());
     }
 
     /**
@@ -68,9 +76,20 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer implements
     public ConnectionProviderDeclarer withConnectionProvider(String name)
     {
         ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
-        this.declaration.addConnectionProvider(declaration);
 
-        return new ConnectionProviderDeclarer(declaration, typeLoader);
+        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration, typeLoader);
+        withConnectionProvider(connectionProviderDeclarer);
+
+        return connectionProviderDeclarer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void withConnectionProvider(ConnectionProviderDeclarer declarer)
+    {
+        this.declaration.addConnectionProvider(declarer.getDeclaration());
     }
 
     /**
@@ -80,9 +99,20 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer implements
     public SourceDeclarer withMessageSource(String name)
     {
         SourceDeclaration declaration = new SourceDeclaration(name);
-        this.declaration.addMessageSource(declaration);
 
-        return new SourceDeclarer(declaration, typeLoader);
+        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration, typeLoader);
+        withMessageSource(sourceDeclarer);
+
+        return sourceDeclarer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void withMessageSource(SourceDeclarer declarer)
+    {
+        this.declaration.addMessageSource(declarer.getDeclaration());
     }
 
     /**

@@ -23,4 +23,6 @@ public interface HasSourceDeclarer
      * @return a {@link SourceDeclarer} which allows describing the created provider
      */
     SourceDeclarer withMessageSource(String name);
+
+    void withMessageSource(SourceDeclarer declarer);
 }

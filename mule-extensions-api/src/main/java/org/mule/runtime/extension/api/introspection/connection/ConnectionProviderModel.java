@@ -14,6 +14,13 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel
 
 /**
  * Introspection model for {@link ConnectionProvider} types.
+ * <p>
+ * Provider models implement the flyweight pattern. This means
+ * that a given operation should only be represented by only
+ * one instance of this class. Thus, if the same operation is
+ * contained by different {@link HasConnectionProviderModels} instances,
+ * then each of those containers should reference the same
+ * operation model instance.
  *
  * @param <Config>     the generic type for the configuration objects that the returned {@link ConnectionProvider providers} accept
  * @param <Connection> the generic type for the connections that the returned  {@link ConnectionProvider providers} produce

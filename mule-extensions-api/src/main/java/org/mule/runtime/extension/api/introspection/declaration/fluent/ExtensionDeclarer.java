@@ -19,11 +19,10 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>, HasExceptionEnricher<ExtensionDeclarer>,
+public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements HasModelProperties<ExtensionDeclarer>, HasExceptionEnricher<ExtensionDeclarer>,
         HasOperationDeclarer, HasConnectionProviderDeclarer, HasSourceDeclarer
 {
 
-    private final ExtensionDeclaration extensionDeclaration;
     private final ClassTypeLoader typeLoader;
 
     /**
@@ -31,7 +30,7 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
      */
     public ExtensionDeclarer()
     {
-        extensionDeclaration = new ExtensionDeclaration();
+        super(new ExtensionDeclaration());
         typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     }
 
@@ -43,7 +42,7 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
      */
     public ExtensionDeclarer named(String name)
     {
-        extensionDeclaration.setName(name);
+        declaration.setName(name);
         return this;
     }
 
@@ -55,7 +54,7 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
      */
     public ExtensionDeclarer onVersion(String version)
     {
-        extensionDeclaration.setVersion(version);
+        declaration.setVersion(version);
         return this;
     }
 
@@ -67,7 +66,7 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
      */
     public ExtensionDeclarer describedAs(String description)
     {
-        extensionDeclaration.setDescription(description);
+        declaration.setDescription(description);
         return this;
     }
 
@@ -80,7 +79,7 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
     public ConfigurationDeclarer withConfig(String name)
     {
         ConfigurationDeclaration config = new ConfigurationDeclaration(name);
-        extensionDeclaration.addConfig(config);
+        declaration.addConfig(config);
 
         return new ConfigurationDeclarer(config, typeLoader);
     }
@@ -92,9 +91,20 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
     public ConnectionProviderDeclarer withConnectionProvider(String name)
     {
         ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
-        this.extensionDeclaration.addConnectionProvider(declaration);
 
-        return new ConnectionProviderDeclarer(declaration, typeLoader);
+        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration, typeLoader);
+        withConnectionProvider(connectionProviderDeclarer);
+
+        return connectionProviderDeclarer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void withConnectionProvider(ConnectionProviderDeclarer declarer)
+    {
+        this.declaration.addConnectionProvider(declarer.getDeclaration());
     }
 
     /**
@@ -104,9 +114,19 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
     public OperationDeclarer withOperation(String name)
     {
         OperationDeclaration operation = new OperationDeclaration(name);
-        extensionDeclaration.addOperation(operation);
+        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation, typeLoader);
+        withOperation(operationDeclarer);
 
-        return new OperationDeclarer(operation, typeLoader);
+        return operationDeclarer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void withOperation(OperationDeclarer declarer)
+    {
+        declaration.addOperation(declarer.getDeclaration());
     }
 
     /**
@@ -116,9 +136,20 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
     public SourceDeclarer withMessageSource(String name)
     {
         SourceDeclaration declaration = new SourceDeclaration(name);
-        this.extensionDeclaration.addMessageSource(declaration);
 
-        return new SourceDeclarer(declaration, typeLoader);
+        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration, typeLoader);
+        withMessageSource(sourceDeclarer);
+
+        return sourceDeclarer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void withMessageSource(SourceDeclarer declarer)
+    {
+        this.declaration.addMessageSource(declarer.getDeclaration());
     }
 
     /**
@@ -127,7 +158,7 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
     @Override
     public ExtensionDeclarer withModelProperty(ModelProperty value)
     {
-        extensionDeclaration.addModelProperty(value);
+        declaration.addModelProperty(value);
         return this;
     }
 
@@ -137,26 +168,13 @@ public class ExtensionDeclarer implements HasModelProperties<ExtensionDeclarer>,
     @Override
     public ExtensionDeclarer withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
     {
-        extensionDeclaration.setExceptionEnricherFactory(enricherFactory);
+        declaration.setExceptionEnricherFactory(enricherFactory);
         return this;
-    }
-
-    public ExtensionDeclaration getDeclaration()
-    {
-        return extensionDeclaration;
-    }
-
-    /**
-     * @return the configured {@link ExtensionDeclaration}
-     */
-    public ExtensionDeclaration getExtensionDeclaration()
-    {
-        return extensionDeclaration;
     }
 
     public ExtensionDeclarer fromVendor(String vendor)
     {
-        extensionDeclaration.setVendor(vendor);
+        declaration.setVendor(vendor);
         return this;
     }
 }

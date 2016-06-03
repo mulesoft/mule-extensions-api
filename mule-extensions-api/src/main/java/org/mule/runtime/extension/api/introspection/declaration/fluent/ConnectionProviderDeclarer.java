@@ -6,21 +6,19 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.runtime.api.connection.ConnectionProvider;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 
 /**
  * Allows configuring a {@link ConnectionProviderDeclaration} through a fluent API
  *
  * @since 1.0
  */
-public final class ConnectionProviderDeclarer extends ParameterizedDeclarer implements HasModelProperties<ConnectionProviderDeclarer>
+public final class ConnectionProviderDeclarer extends ParameterizedDeclarer<ConnectionProviderDeclaration> implements HasModelProperties<ConnectionProviderDeclarer>
 {
-
-    private final ConnectionProviderDeclaration declaration;
 
     /**
      * Creates a new instance
@@ -31,7 +29,6 @@ public final class ConnectionProviderDeclarer extends ParameterizedDeclarer impl
     public ConnectionProviderDeclarer(ConnectionProviderDeclaration declaration, ClassTypeLoader typeLoader)
     {
         super(declaration, typeLoader);
-        this.declaration = declaration;
     }
 
     /**
