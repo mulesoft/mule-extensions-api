@@ -13,19 +13,17 @@ import org.mule.metadata.api.ClassTypeLoader;
  *
  * @since 1.0
  */
-public abstract class ParameterizedDeclarer
+public abstract class ParameterizedDeclarer<D extends ParameterizedInterceptableDeclaration> extends Declarer<D>
 {
-
-    private ParameterizedInterceptableDeclaration declaration;
 
     /**
      * the {@link ClassTypeLoader} to be used
      */
     protected final ClassTypeLoader typeLoader;
 
-    public ParameterizedDeclarer(ParameterizedInterceptableDeclaration declaration, ClassTypeLoader typeLoader)
+    public ParameterizedDeclarer(D declaration, ClassTypeLoader typeLoader)
     {
-        this.declaration = declaration;
+        super(declaration);
         this.typeLoader = typeLoader;
     }
 

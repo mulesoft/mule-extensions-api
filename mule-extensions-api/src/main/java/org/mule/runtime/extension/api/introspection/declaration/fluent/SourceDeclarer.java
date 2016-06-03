@@ -23,22 +23,19 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class SourceDeclarer extends ParameterizedDeclarer implements HasModelProperties<SourceDeclarer>, HasInterceptors<SourceDeclarer>,
+public class SourceDeclarer extends ParameterizedDeclarer<SourceDeclaration> implements HasModelProperties<SourceDeclarer>, HasInterceptors<SourceDeclarer>,
         HasExceptionEnricher<SourceDeclarer>, HasMetadataResolver<SourceDeclarer>
 {
-
-    private final SourceDeclaration source;
 
     /**
      * Creates a new instance
      *
-     * @param source     the {@link SourceDeclaration} to be configured
+     * @param declaration     the {@link SourceDeclaration} to be configured
      * @param typeLoader a {@link ClassTypeLoader} used to create the {@link MetadataType types}
      */
-    SourceDeclarer(SourceDeclaration source, ClassTypeLoader typeLoader)
+    SourceDeclarer(SourceDeclaration declaration, ClassTypeLoader typeLoader)
     {
-        super(source, typeLoader);
-        this.source = source;
+        super(declaration, typeLoader);
     }
 
     /**
@@ -49,7 +46,7 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
      */
     public SourceDeclarer describedAs(String description)
     {
-        source.setDescription(description);
+        declaration.setDescription(description);
         return this;
     }
 
@@ -72,7 +69,7 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
      */
     public SourceDeclarer whichReturns(MetadataType returnType)
     {
-        source.setReturnType(returnType);
+        declaration.setReturnType(returnType);
         return this;
     }
 
@@ -97,7 +94,7 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
      */
     public SourceDeclarer withAttributesOfType(MetadataType attributesType)
     {
-        source.setAttributesType(attributesType);
+        declaration.setAttributesType(attributesType);
         return this;
     }
 
@@ -110,7 +107,7 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
      */
     public SourceDeclarer sourceCreatedBy(SourceFactory sourceFactory)
     {
-        source.setSourceFactory(sourceFactory);
+        declaration.setSourceFactory(sourceFactory);
         return this;
     }
 
@@ -120,7 +117,7 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
     @Override
     public SourceDeclarer withInterceptorFrom(InterceptorFactory interceptorFactory)
     {
-        source.addInterceptorFactory(interceptorFactory);
+        declaration.addInterceptorFactory(interceptorFactory);
         return this;
     }
 
@@ -130,7 +127,7 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
     @Override
     public SourceDeclarer withModelProperty(ModelProperty modelProperty)
     {
-        source.addModelProperty(modelProperty);
+        declaration.addModelProperty(modelProperty);
         return this;
     }
 
@@ -140,16 +137,17 @@ public class SourceDeclarer extends ParameterizedDeclarer implements HasModelPro
     @Override
     public SourceDeclarer withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
     {
-        source.setExceptionEnricherFactory(enricherFactory);
+        declaration.setExceptionEnricherFactory(enricherFactory);
         return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public SourceDeclarer withMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory)
     {
-        source.setMetadataResolverFactory(metadataResolverFactory);
+        declaration.setMetadataResolverFactory(metadataResolverFactory);
         return this;
     }
 }

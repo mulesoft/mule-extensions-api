@@ -6,14 +6,17 @@
  */
 package org.mule.runtime.extension.api.introspection.parameter;
 
+import org.mule.runtime.extension.api.introspection.Described;
+
 import java.util.List;
 
 /**
  * Base interface for a model which contains {@link ParameterModel parameters}
  *
+ * @see Described
  * @since 1.0
  */
-public interface ParameterizedModel
+public interface ParameterizedModel extends Described
 {
 
     /**

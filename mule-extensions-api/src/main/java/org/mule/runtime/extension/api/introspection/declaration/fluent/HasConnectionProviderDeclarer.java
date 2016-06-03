@@ -16,4 +16,6 @@ public interface HasConnectionProviderDeclarer
      * @return a {@link ConnectionProviderDeclarer} which allows describing the created provider
      */
     ConnectionProviderDeclarer withConnectionProvider(String name);
+
+    void withConnectionProvider(ConnectionProviderDeclarer declarer);
 }

@@ -22,11 +22,9 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class OperationDeclarer extends ParameterizedDeclarer implements HasModelProperties<OperationDeclarer>,
+public class OperationDeclarer extends ParameterizedDeclarer<OperationDeclaration> implements HasModelProperties<OperationDeclarer>,
         HasInterceptors<OperationDeclarer>, HasExceptionEnricher<OperationDeclarer>, HasMetadataResolver<OperationDeclarer>
 {
-
-    private final OperationDeclaration declaration;
 
     /**
      * Creates a new instance
@@ -37,7 +35,6 @@ public class OperationDeclarer extends ParameterizedDeclarer implements HasModel
     OperationDeclarer(OperationDeclaration declaration, ClassTypeLoader typeLoader)
     {
         super(declaration, typeLoader);
-        this.declaration = declaration;
     }
 
     /**
@@ -151,15 +148,5 @@ public class OperationDeclarer extends ParameterizedDeclarer implements HasModel
     {
         declaration.setMetadataResolverFactory(metadataResolver);
         return this;
-    }
-
-    /**
-     * Gets the declaration object for this descriptor
-     *
-     * @return a {@link OperationDeclaration}
-     */
-    public OperationDeclaration getDeclaration()
-    {
-        return declaration;
     }
 }

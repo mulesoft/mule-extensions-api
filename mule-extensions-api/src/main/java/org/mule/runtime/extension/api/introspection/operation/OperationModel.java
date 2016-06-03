@@ -6,14 +6,21 @@
  */
 package org.mule.runtime.extension.api.introspection.operation;
 
+import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.NullType;
 import org.mule.runtime.api.message.MuleMessage;
 import org.mule.runtime.extension.api.introspection.ComponentModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.NullType;
 
 /**
- * A definition of an operation in a {@link ExtensionModel}
+ * A definition of an operation in a {@link ExtensionModel}.
+ * <p>
+ * Operation models implement the flyweight pattern. This means
+ * that a given operation should only be represented by only
+ * one instance of this class. Thus, if the same operation is
+ * contained by different {@link HasOperationModels} instances,
+ * then each of those containers should reference the same
+ * operation model instance.
  *
  * @since 1.0
  */
