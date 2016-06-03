@@ -89,7 +89,7 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDe
     @Override
     public void withConnectionProvider(ConnectionProviderDeclarer declarer)
     {
-        this.declaration.addConnectionProvider(declarer.getDeclaration());
+        declaration.addConnectionProvider(declarer.getDeclaration());
     }
 
     /**
@@ -112,7 +112,7 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDe
     @Override
     public void withMessageSource(SourceDeclarer declarer)
     {
-        this.declaration.addMessageSource(declarer.getDeclaration());
+        declaration.addMessageSource(declarer.getDeclaration());
     }
 
     /**
