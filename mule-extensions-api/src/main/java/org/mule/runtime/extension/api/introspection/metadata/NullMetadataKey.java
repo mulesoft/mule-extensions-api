@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.introspection.metadata;
 
 
 import static java.util.Collections.emptySet;
+
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataProperty;
 
@@ -47,6 +48,12 @@ public final class NullMetadataKey implements MetadataKey
     public Set<MetadataKey> getChilds()
     {
         return emptySet();
+    }
+
+    @Override
+    public String getPartName()
+    {
+        return "";
     }
 
     /**

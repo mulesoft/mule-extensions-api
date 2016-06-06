@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.persistence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
+
 import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeyBuilder;
