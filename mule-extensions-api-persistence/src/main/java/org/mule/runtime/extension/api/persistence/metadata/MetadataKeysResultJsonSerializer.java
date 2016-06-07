@@ -47,7 +47,7 @@ public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJson
      * {@inheritDoc}
      */
     @Override
-    public ImmutableMetadataResult<List<DefaultMetadataKey>> deserialize(String metadataResult)
+    public ImmutableMetadataResult<List<MetadataKey>> deserialize(String metadataResult)
     {
         return gson.fromJson(metadataResult, new TypeToken<ImmutableMetadataResult<List<DefaultMetadataKey>>>()
         {

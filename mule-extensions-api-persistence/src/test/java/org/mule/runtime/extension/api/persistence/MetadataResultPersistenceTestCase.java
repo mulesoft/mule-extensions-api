@@ -73,8 +73,8 @@ public class MetadataResultPersistenceTestCase
     public void serializeSuccessMetadataKeysResult() throws IOException
     {
         List<MetadataKey> keys = new ArrayList<>();
-        keys.add(MetadataKeyBuilder.newKey(FIRST_KEY_ID).build());
-        keys.add(MetadataKeyBuilder.newKey(SECOND_KEY_ID).build());
+        keys.add(newKey(FIRST_KEY_ID).build());
+        keys.add(newKey(SECOND_KEY_ID).build());
 
         String serialized = metadataDescriptorSerializer.serialize(MetadataResult.success(keys));
         assertSerializedJson(serialized, MEDATADA_KEYS_RESULT_JSON);
@@ -91,7 +91,7 @@ public class MetadataResultPersistenceTestCase
     public void deserializeMetadataKeysResult() throws IOException
     {
         String resource = resourceAsString(MEDATADA_KEYS_RESULT_JSON);
-        ImmutableMetadataResult<List<DefaultMetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
+        ImmutableMetadataResult<List<MetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
 
         assertThat(metadataResult.isSuccess(), is(true));
         assertThat(metadataResult.get().size(), is(2));
@@ -116,7 +116,7 @@ public class MetadataResultPersistenceTestCase
     public void deserializeFailureResult() throws IOException
     {
         String resource = resourceAsString(METADATA_RESULT_FAILURE_JSON);
-        ImmutableMetadataResult<List<DefaultMetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
+        ImmutableMetadataResult<List<MetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
 
         assertThat(metadataResult.isSuccess(), is(false));
         assertThat(metadataResult.getFailure().isPresent(), is(true));

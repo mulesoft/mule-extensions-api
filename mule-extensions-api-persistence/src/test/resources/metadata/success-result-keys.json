@@ -3,14 +3,16 @@
     {
       "id": "firstKey",
       "displayName": "firstKey",
-      "childs": [],
-      "properties": {}
+      "partName": "",
+      "properties": {},
+      "childs": []
     },
     {
       "id": "secondKey",
       "displayName": "secondKey",
-      "childs": [],
-      "properties": {}
+      "partName": "",
+      "properties": {},
+      "childs": []
     }
   ],
   "isSuccess": true
