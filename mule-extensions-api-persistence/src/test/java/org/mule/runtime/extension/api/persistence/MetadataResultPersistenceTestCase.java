@@ -33,7 +33,9 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
@@ -74,7 +76,7 @@ public class MetadataResultPersistenceTestCase
     @Test
     public void serializeSuccessMetadataKeysResult() throws IOException
     {
-        List<MetadataKey> keys = new ArrayList<>();
+        Set<MetadataKey> keys = new LinkedHashSet<>();
         keys.add(newKey(FIRST_KEY_ID).build());
         keys.add(newKey(SECOND_KEY_ID).build());
 
@@ -85,7 +87,7 @@ public class MetadataResultPersistenceTestCase
     @Test
     public void serializeSuccessMultilevelMetadataKeyResult() throws IOException
     {
-        List<MetadataKey> keys = new ArrayList<>();
+        Set<MetadataKey> keys = new LinkedHashSet<>();
         keys.add(newKey(FIRST_KEY_ID).withChild(newKey(FIRST_CHILD)).withChild(newKey(SECOND_CHILD)).build());
         keys.add(newKey(SECOND_KEY_ID).build());
 
