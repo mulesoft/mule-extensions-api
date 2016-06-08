@@ -7,15 +7,15 @@
       "properties": {},
       "childs": [
         {
-          "id": "secondChild",
-          "displayName": "secondChild",
+          "id": "firstChild",
+          "displayName": "firstChild",
           "partName": "",
           "properties": {},
           "childs": []
         },
         {
-          "id": "firstChild",
-          "displayName": "firstChild",
+          "id": "secondChild",
+          "displayName": "secondChild",
           "partName": "",
           "properties": {},
           "childs": []
