@@ -6,6 +6,10 @@
  */
 package org.mule.runtime.extension.api.introspection.metadata;
 
+import org.mule.metadata.api.builder.BaseTypeBuilder;
+import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.NullType;
+import org.mule.metadata.java.JavaTypeLoader;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
@@ -13,13 +17,9 @@ import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
 import org.mule.runtime.extension.api.annotation.metadata.Content;
-import org.mule.metadata.api.builder.BaseTypeBuilder;
-import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.NullType;
-import org.mule.metadata.java.JavaTypeLoader;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Null implementation of {@link MetadataContentResolver}, {@link MetadataOutputResolver} and {@link MetadataKeysResolver},
@@ -39,9 +39,9 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
      * @return {@link Collections#emptyList()}
      * @throws MetadataResolvingException
      */
-    public List<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException
+    public Set<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException
     {
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 
     /**
@@ -73,5 +73,4 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
     {
         return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
     }
-
 }

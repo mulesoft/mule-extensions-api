@@ -1,0 +1,34 @@
+{
+  "payload": [
+    {
+      "id": "firstKey",
+      "displayName": "firstKey",
+      "partName": "",
+      "properties": {},
+      "childs": [
+        {
+          "id": "secondChild",
+          "displayName": "secondChild",
+          "partName": "",
+          "properties": {},
+          "childs": []
+        },
+        {
+          "id": "firstChild",
+          "displayName": "firstChild",
+          "partName": "",
+          "properties": {},
+          "childs": []
+        }
+      ]
+    },
+    {
+      "id": "secondKey",
+      "displayName": "secondKey",
+      "partName": "",
+      "properties": {},
+      "childs": []
+    }
+  ],
+  "isSuccess": true
+}
