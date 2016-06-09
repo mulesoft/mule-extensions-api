@@ -24,5 +24,11 @@ public interface HasSourceDeclarer
      */
     SourceDeclarer withMessageSource(String name);
 
+    /**
+     * Adds a {@link SourceDeclaration} by receiving
+     * a {@code declarer} which describes it
+     *
+     * @param declarer a {@link SourceDeclarer}
+     */
     void withMessageSource(SourceDeclarer declarer);
 }

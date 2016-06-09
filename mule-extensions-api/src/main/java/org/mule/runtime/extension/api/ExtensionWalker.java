@@ -66,7 +66,9 @@ public abstract class ExtensionWalker
      *
      * @param model a {@link ConfigurationModel}
      */
-    public abstract void onConfiguration(ConfigurationModel model);
+    public void onConfiguration(ConfigurationModel model)
+    {
+    }
 
     /**
      * Invoked when an {@link OperationModel} is found in the
@@ -75,7 +77,9 @@ public abstract class ExtensionWalker
      * @param owner The component that owns the operation
      * @param model the {@link OperationModel}
      */
-    public abstract void onOperation(HasOperationModels owner, OperationModel model);
+    public void onOperation(HasOperationModels owner, OperationModel model)
+    {
+    }
 
     /**
      * Invoked when an {@link ConnectionProviderModel} is found in the
@@ -84,7 +88,9 @@ public abstract class ExtensionWalker
      * @param owner The component that owns the provider
      * @param model the {@link ConnectionProviderModel}
      */
-    public abstract void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model);
+    public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model)
+    {
+    }
 
     /**
      * Invoked when an {@link SourceModel} is found in the
@@ -93,7 +99,9 @@ public abstract class ExtensionWalker
      * @param owner The component that owns the source
      * @param model the {@link SourceModel}
      */
-    public abstract void onSource(HasSourceModels owner, SourceModel model);
+    public void onSource(HasSourceModels owner, SourceModel model)
+    {
+    }
 
     /**
      * Invoked when an {@link ParameterModel} is found in the
@@ -102,7 +110,9 @@ public abstract class ExtensionWalker
      * @param owner The component that owns the parameter
      * @param model the {@link ParameterModel}
      */
-    public abstract void onParameter(ParameterizedModel owner, ParameterModel model);
+    public void onParameter(ParameterizedModel owner, ParameterModel model)
+    {
+    }
 
     private void walkSources(HasSourceModels model)
     {

@@ -75,14 +75,16 @@ public class ExtensionWalkerTestCase
     }
 
     @Test
-    public void walk() {
+    public void walk()
+    {
         AtomicInteger configs = new AtomicInteger(0);
         AtomicInteger operations = new AtomicInteger(0);
         AtomicInteger sources = new AtomicInteger(0);
         AtomicInteger parameters = new AtomicInteger(0);
         AtomicInteger providers = new AtomicInteger(0);
 
-        new ExtensionWalker() {
+        new ExtensionWalker()
+        {
             @Override
             public void onConfiguration(ConfigurationModel model)
             {
@@ -121,7 +123,8 @@ public class ExtensionWalkerTestCase
         assertCount(parameters, 7);
     }
 
-    private void assertCount(AtomicInteger actual, int expected)  {
+    private void assertCount(AtomicInteger actual, int expected)
+    {
         assertThat(actual.get(), is(expected));
     }
 }

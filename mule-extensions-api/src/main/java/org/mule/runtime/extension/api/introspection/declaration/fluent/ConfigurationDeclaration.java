@@ -18,6 +18,7 @@ import java.util.List;
  * @since 1.0
  */
 public class ConfigurationDeclaration extends ParameterizedInterceptableDeclaration<ConfigurationDeclaration>
+        implements ConnectedDeclaration<ConfigurationDeclaration>, WithSourcesDeclaration<ConfigurationDeclaration>, WithOperationsDeclaration<ConfigurationDeclaration>
 {
 
     private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
@@ -45,6 +46,7 @@ public class ConfigurationDeclaration extends ParameterizedInterceptableDeclarat
      * @return an unmodifiable {@link List} with
      * the available {@link OperationDeclaration}s
      */
+    @Override
     public List<OperationDeclaration> getOperations()
     {
         return subDeclarations.getOperations();
@@ -53,6 +55,7 @@ public class ConfigurationDeclaration extends ParameterizedInterceptableDeclarat
     /**
      * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
      */
+    @Override
     public List<ConnectionProviderDeclaration> getConnectionProviders()
     {
         return subDeclarations.getConnectionProviders();
@@ -61,6 +64,7 @@ public class ConfigurationDeclaration extends ParameterizedInterceptableDeclarat
     /**
      * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
      */
+    @Override
     public List<SourceDeclaration> getMessageSources()
     {
         return subDeclarations.getMessageSources();
@@ -73,6 +77,7 @@ public class ConfigurationDeclaration extends ParameterizedInterceptableDeclarat
      * @return {@code this} declaration
      * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
      */
+    @Override
     public ConfigurationDeclaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider)
     {
         subDeclarations.addConnectionProvider(connectionProvider);
@@ -86,6 +91,7 @@ public class ConfigurationDeclaration extends ParameterizedInterceptableDeclarat
      * @return {@code this} declaration
      * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
      */
+    @Override
     public ConfigurationDeclaration addOperation(OperationDeclaration operation)
     {
         subDeclarations.addOperation(operation);
@@ -99,6 +105,7 @@ public class ConfigurationDeclaration extends ParameterizedInterceptableDeclarat
      * @return {@code this} declaration
      * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
      */
+    @Override
     public ConfigurationDeclaration addMessageSource(SourceDeclaration sourceDeclaration)
     {
         subDeclarations.addMessageSource(sourceDeclaration);

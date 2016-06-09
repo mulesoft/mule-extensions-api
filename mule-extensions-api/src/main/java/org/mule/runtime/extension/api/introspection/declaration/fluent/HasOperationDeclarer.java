@@ -23,5 +23,11 @@ public interface HasOperationDeclarer
      */
     OperationDeclarer withOperation(String name);
 
+    /**
+     * Adds an {@link OperationDeclaration} by receiving
+     * a {@code declarer} which describes it
+     *
+     * @param declarer a {@link OperationDeclaration}
+     */
     void withOperation(OperationDeclarer declarer);
 }

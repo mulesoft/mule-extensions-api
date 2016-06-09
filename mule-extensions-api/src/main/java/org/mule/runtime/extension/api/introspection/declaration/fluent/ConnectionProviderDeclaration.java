@@ -16,7 +16,7 @@ import org.mule.runtime.extension.api.introspection.connection.ConnectionProvide
  *
  * @since 1.0
  */
-public final class ConnectionProviderDeclaration extends ParameterizedInterceptableDeclaration<ConnectionProviderDeclaration> implements ParameterizedDeclaration
+public class ConnectionProviderDeclaration extends ParameterizedInterceptableDeclaration<ConnectionProviderDeclaration> implements ParameterizedDeclaration
 {
     private ConnectionProviderFactory factory;
     private Class<?> configurationType;
