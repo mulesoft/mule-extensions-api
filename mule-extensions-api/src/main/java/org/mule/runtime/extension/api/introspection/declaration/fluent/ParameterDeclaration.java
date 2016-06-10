@@ -22,7 +22,7 @@ import org.mule.metadata.api.model.MetadataType;
  *
  * @since 1.0
  */
-public final class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration>
+public class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration>
 {
 
     private boolean required;

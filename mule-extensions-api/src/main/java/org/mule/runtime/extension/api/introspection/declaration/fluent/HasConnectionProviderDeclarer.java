@@ -17,5 +17,11 @@ public interface HasConnectionProviderDeclarer
      */
     ConnectionProviderDeclarer withConnectionProvider(String name);
 
+    /**
+     * Adds a {@link ConnectionProviderDeclaration} by receiving
+     * a {@code declarer} which describes it
+     *
+     * @param declarer a {@link ConnectionProviderDeclarer}
+     */
     void withConnectionProvider(ConnectionProviderDeclarer declarer);
 }
