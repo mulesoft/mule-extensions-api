@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection.parameter;
 
 import org.mule.runtime.extension.api.introspection.Described;
+import org.mule.runtime.extension.api.introspection.Named;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * @see Described
  * @since 1.0
  */
-public interface ParameterizedModel extends Described
+public interface ParameterizedModel extends Named, Described
 {
 
     /**

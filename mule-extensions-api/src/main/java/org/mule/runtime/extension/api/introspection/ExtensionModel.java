@@ -38,7 +38,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public interface ExtensionModel extends Described, EnrichableModel, HasOperationModels, HasSourceModels, HasConnectionProviderModels
+public interface ExtensionModel extends Named, Described, EnrichableModel, HasOperationModels, HasSourceModels, HasConnectionProviderModels
 {
 
     /**

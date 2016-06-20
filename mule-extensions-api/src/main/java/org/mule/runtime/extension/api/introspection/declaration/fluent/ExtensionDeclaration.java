@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,17 +19,16 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class ExtensionDeclaration extends BaseDeclaration<ExtensionDeclaration>
+public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
         implements ConnectedDeclaration<ExtensionDeclaration>, WithSourcesDeclaration<ExtensionDeclaration>, WithOperationsDeclaration<ExtensionDeclaration>
 {
 
+    private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
+    private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
     private String name;
     private String version;
     private String vendor;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-
-    private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
-    private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
 
     /**
      * Creates a new instance

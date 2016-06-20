@@ -28,34 +28,27 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public abstract class AbstractImmutableModel implements Described, EnrichableModel
 {
 
-    private final String name;
     private final String description;
     private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties;
 
     /**
      * Creates a new instance
      *
-     * @param name            the model's name
      * @param description     the model's description
      * @param modelProperties A {@link Set} of custom properties which extend this model
-     * @throws IllegalArgumentException if {@code name} is blank
      */
-    protected AbstractImmutableModel(String name, String description, Set<ModelProperty> modelProperties)
+    protected AbstractImmutableModel(String description, Set<ModelProperty> modelProperties)
     {
-        checkArgument(name != null && name.length() > 0, "Name attribute cannot be null or blank");
-
-        this.name = name;
         this.description = description != null ? description : "";
         this.modelProperties = toModelPropertiesMap(modelProperties);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final String getName()
+    protected static void checkArgument(boolean condition, String message)
     {
-        return name;
+        if (!condition)
+        {
+            throw new IllegalArgumentException(message);
+        }
     }
 
     /**
@@ -86,48 +79,10 @@ public abstract class AbstractImmutableModel implements Described, EnrichableMod
         return Collections.unmodifiableSet(new HashSet(modelProperties.values()));
     }
 
-    /**
-     * Defines object equality based on the given object
-     * being an object of this class and in the equality
-     * of the {@link #getName()} attributes
-     *
-     * @param obj an object
-     * @return {@code true} if equal
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (getClass().isInstance(obj))
-        {
-            return name.equals(((Described) obj).getName());
-        }
-
-        return false;
-    }
-
-    /**
-     * Calculates hashcode based on {@link #getName()}
-     *
-     * @return a hash code
-     */
-    @Override
-    public int hashCode()
-    {
-        return name.hashCode();
-    }
-
     @Override
     public String toString()
     {
         return ToStringBuilder.reflectionToString(this);
-    }
-
-    protected static void checkArgument(boolean condition, String message)
-    {
-        if (!condition)
-        {
-            throw new IllegalArgumentException(message);
-        }
     }
 
     private Map<Class<? extends ModelProperty>, ModelProperty> toModelPropertiesMap(Collection<ModelProperty> properties)

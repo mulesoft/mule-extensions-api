@@ -6,10 +6,11 @@
  */
 package org.mule.runtime.extension.api.introspection.operation;
 
-import org.mule.runtime.extension.api.introspection.parameter.AbstractParameterizedModel;
+import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.extension.api.introspection.AbstractComponentModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.OutputModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.metadata.api.model.MetadataType;
 
 import java.util.List;
 import java.util.Set;
@@ -19,48 +20,27 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableOperationModel extends AbstractParameterizedModel implements OperationModel
+public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel
 {
-
-    private final MetadataType returnType;
-    private final MetadataType attributesType;
 
     /**
      * Creates a new instance with the given state
      *
-     * @param name            the operation's name. Cannot be blank
-     * @param description     the operation's descriptor
-     * @param parameterModels a {@link List} with the operation's {@link ParameterModel parameterModels}
-     * @param returnType      a {@link MetadataType} which represents the operation's output
-     * @param attributesType  a {@link MetadataType} which represents the attributes on the output messages
-     * @param modelProperties A {@link Set} of custom properties which extend this model
+     * @param name             the operation's name. Cannot be blank
+     * @param description      the operation's descriptor
+     * @param parameterModels  a {@link List} with the operation's {@link ParameterModel parameterModels}
+     * @param outputPayload    an {@link OutputModel} which represents the operation's output payload
+     * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
+     * @param modelProperties  A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
      */
     public ImmutableOperationModel(String name,
                                    String description,
                                    List<ParameterModel> parameterModels,
-                                   MetadataType returnType,
-                                   MetadataType attributesType,
+                                   OutputModel outputPayload,
+                                   OutputModel outputAttributes,
                                    Set<ModelProperty> modelProperties)
     {
-        super(name, description, modelProperties, parameterModels);
-
-        this.returnType = returnType;
-        this.attributesType = attributesType;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MetadataType getReturnType()
-    {
-        return returnType;
-    }
-
-    @Override
-    public MetadataType getAttributesType()
-    {
-        return attributesType;
+        super(name, description, modelProperties, parameterModels, outputPayload, outputAttributes);
     }
 }

@@ -7,17 +7,20 @@
 package org.mule.runtime.extension.api.introspection;
 
 /**
- * A generic contract for a class that has a description.
+ * A generic contract for a class that has a name.
+ * Implementations might use {@link #getName()} as key, but they're not required to.
+ * Notice that if the name is in fact used as a key, then it should be unique
  *
  * @since 1.0
  */
-public interface Described
+public interface Named
 {
 
     /**
-     * Returns the component's description
+     * Returns the component's name
      *
-     * @return a non blank {@link java.lang.String}
+     * @return a non blank {@link String}
      */
-    String getDescription();
+    String getName();
+
 }

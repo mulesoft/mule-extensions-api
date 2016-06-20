@@ -6,25 +6,26 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static java.util.Collections.emptySet;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.DISPLAY_MODEL_PROPERTY;
-
-import org.mule.runtime.api.connection.ConnectionProvider;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
-import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
-import org.mule.runtime.extension.api.introspection.connection.ImmutableRuntimeConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.JavaTypeLoader;
+import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImmutableOutputModel;
+import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
+import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.connection.ImmutableRuntimeConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
+import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -46,6 +47,8 @@ import org.junit.Test;
 public class ExtensionModelPersistenceTestCase
 {
 
+    private static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
+    private static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON = "extension/list-of-serialized-extension-model.json";
     private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
     private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
     private final Set<ModelProperty> modelProperties = new HashSet<>(Arrays.asList(nonExternalizableModelProperty, externalizableModelProperty));
@@ -69,13 +72,16 @@ public class ExtensionModelPersistenceTestCase
     @Before
     public void setUp()
     {
-        final ImmutableParameterModel carNameParameter = new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Car Name", false, true, 0, null, null)));
-        final ImmutableParameterModel usernameParameter = new ImmutableParameterModel("username", "Username", stringType, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Username", false, true, 0, null, null)));
-        final ImmutableParameterModel passwordParameter = new ImmutableParameterModel("password", "Password", stringType, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Password", true, true, 0, null, null)));
+        final ImmutableParameterModel carNameParameter = new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Car Name", false, true, 0, null, null)));
+        final ImmutableParameterModel usernameParameter = new ImmutableParameterModel("username", "Username", stringType, true, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Username", false, true, 0, null, null)));
+        final ImmutableParameterModel passwordParameter = new ImmutableParameterModel("password", "Password", stringType, false, true, ExpressionSupport.SUPPORTED, "", Collections.singleton(new DisplayModelProperty("Password", true, true, 0, null, null)));
 
-        getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", Collections.singletonList(carNameParameter), stringType, stringType, modelProperties);
-        final ImmutableRuntimeConnectionProviderModel<String, Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", String.class, Integer.class, new DefaultConnectionProviderFactory(), Arrays.asList(usernameParameter, passwordParameter), Collections.emptySet());
-        originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", Collections.emptyList(), Collections.singletonList(getCarOperation), Collections.singletonList(basicAuth), Collections.emptyList(), Collections.emptySet(), Optional.empty());
+        getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", Collections.singletonList(carNameParameter),
+                                                      new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
+                                                      new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
+                                                      modelProperties);
+        final ImmutableRuntimeConnectionProviderModel<String, Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", String.class, Integer.class, new DefaultConnectionProviderFactory(), Arrays.asList(usernameParameter, passwordParameter), emptySet());
+        originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", Collections.emptyList(), Collections.singletonList(getCarOperation), Collections.singletonList(basicAuth), Collections.emptyList(), emptySet(), Optional.empty());
         extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
         final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
         serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
@@ -126,7 +132,7 @@ public class ExtensionModelPersistenceTestCase
     @Test
     public void validateJsonStructure() throws IOException
     {
-        final JsonElement expectedSerializedExtensionModel = new JsonParser().parse(getResourceAsString("extension/serialized-extension-model.json"));
+        final JsonElement expectedSerializedExtensionModel = new JsonParser().parse(getResourceAsString(SERIALIZED_EXTENSION_MODEL_JSON));
         assertThat(serializedExtensionModel.equals(expectedSerializedExtensionModel), is(true));
     }
 
@@ -134,7 +140,7 @@ public class ExtensionModelPersistenceTestCase
     public void validateJsonListStructure() throws IOException
     {
         final JsonParser jsonParser = new JsonParser();
-        final JsonElement expectedSerializedExtensionModel = jsonParser.parse(getResourceAsString("extension/list-of-serialized-extension-model.json"));
+        final JsonElement expectedSerializedExtensionModel = jsonParser.parse(getResourceAsString(LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON));
         final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
         final JsonElement parse = jsonParser.parse(serializedList);
 

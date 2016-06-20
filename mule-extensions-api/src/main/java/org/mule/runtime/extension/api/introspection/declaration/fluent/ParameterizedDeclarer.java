@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.metadata.api.ClassTypeLoader;
-
 /**
  * Base class for a declarer which allows adding {@link ParameterDeclaration}s
  *
@@ -16,15 +14,9 @@ import org.mule.metadata.api.ClassTypeLoader;
 public abstract class ParameterizedDeclarer<D extends ParameterizedInterceptableDeclaration> extends Declarer<D>
 {
 
-    /**
-     * the {@link ClassTypeLoader} to be used
-     */
-    protected final ClassTypeLoader typeLoader;
-
-    public ParameterizedDeclarer(D declaration, ClassTypeLoader typeLoader)
+    public ParameterizedDeclarer(D declaration)
     {
         super(declaration);
-        this.typeLoader = typeLoader;
     }
 
     /**
@@ -35,7 +27,7 @@ public abstract class ParameterizedDeclarer<D extends ParameterizedInterceptable
      */
     public ParameterDeclarer withRequiredParameter(String name)
     {
-        return new ParameterDeclarer(newParameter(name, true), typeLoader);
+        return new ParameterDeclarer(newParameter(name, true));
     }
 
     /**
@@ -46,7 +38,7 @@ public abstract class ParameterizedDeclarer<D extends ParameterizedInterceptable
      */
     public OptionalParameterDeclarer withOptionalParameter(String name)
     {
-        return new OptionalParameterDeclarer(newParameter(name, false), typeLoader);
+        return new OptionalParameterDeclarer(newParameter(name, false));
     }
 
     private ParameterDeclaration newParameter(String name, boolean required)

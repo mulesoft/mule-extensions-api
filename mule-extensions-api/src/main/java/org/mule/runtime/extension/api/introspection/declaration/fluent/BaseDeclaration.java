@@ -17,7 +17,9 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Base class for a declaration object
+ * Base class for a declaration object.
+ * <p>
+ * By default, {@link #getDescription()} returns an empty {@link String}.
  *
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
@@ -25,19 +27,8 @@ import java.util.Set;
 public abstract class BaseDeclaration<T extends BaseDeclaration> implements Described
 {
 
-    private final String name;
-    private String description = "";
     private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
-
-    /**
-     * Creates a new instance
-     *
-     * @param name the name of the component being declared
-     */
-    public BaseDeclaration(String name)
-    {
-        this.name = name;
-    }
+    private String description = "";
 
     /**
      * Returns a {@link Set} with the currently added properties. Notice
@@ -85,15 +76,6 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
 
         modelProperties.put(modelProperty.getClass(), modelProperty);
         return (T) this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return name;
     }
 
     /**

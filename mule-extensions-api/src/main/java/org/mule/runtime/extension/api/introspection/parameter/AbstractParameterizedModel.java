@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.parameter;
 
-import org.mule.runtime.extension.api.introspection.AbstractImmutableModel;
+import org.mule.runtime.extension.api.introspection.AbstractNamedImmutableModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 
 import java.util.Collections;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Base class for immutable implementeation of {@link ParameterizedModel}
+ * Base class for immutable implementation of {@link ParameterizedModel}
  *
  * @since 1.0
  */
-public abstract class AbstractParameterizedModel extends AbstractImmutableModel implements ParameterizedModel
+public abstract class AbstractParameterizedModel extends AbstractNamedImmutableModel implements ParameterizedModel
 {
 
     private final List<ParameterModel> parameterModels;

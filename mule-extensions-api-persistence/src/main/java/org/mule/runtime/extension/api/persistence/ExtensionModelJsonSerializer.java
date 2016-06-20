@@ -6,25 +6,27 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.config.ImmutableConfigurationModel;
-import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
-import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
-import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
-import org.mule.runtime.extension.api.introspection.operation.ImmutableRuntimeOperationModel;
-import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
-import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
+import org.mule.runtime.extension.api.introspection.EnrichableModel;
+import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImmutableOutputModel;
+import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.OutputModel;
+import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
+import org.mule.runtime.extension.api.introspection.config.ImmutableConfigurationModel;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.introspection.operation.ImmutableRuntimeOperationModel;
+import org.mule.runtime.extension.api.introspection.operation.OperationModel;
+import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
+import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
+import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -80,6 +82,7 @@ public class ExtensionModelJsonSerializer
         final DefaultImplementationTypeAdapterFactory operationModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(OperationModel.class, ImmutableOperationModel.class);
         final DefaultImplementationTypeAdapterFactory sourceModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
         final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
+        final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
 
         final GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
@@ -88,7 +91,8 @@ public class ExtensionModelJsonSerializer
                 .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)
                 .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
                 .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
-                .registerTypeAdapterFactory(operationModelTypeAdapterFactory);
+                .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
+                .registerTypeAdapterFactory(outputModelTypeAdapterFactory);
 
         if (prettyPrint)
         {

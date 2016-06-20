@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.introspection.parameter;
 
-import org.mule.runtime.extension.api.introspection.AbstractImmutableModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.introspection.AbstractNamedImmutableModel;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
 
 import java.util.Set;
 
@@ -17,10 +17,11 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ImmutableParameterModel extends AbstractImmutableModel implements ParameterModel
+public final class ImmutableParameterModel extends AbstractNamedImmutableModel implements ParameterModel
 {
 
     private final MetadataType type;
+    private boolean ofDynamicType;
     private final boolean required;
     private final ExpressionSupport expressionSupport;
     private final Object defaultValue;
@@ -40,6 +41,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
     public ImmutableParameterModel(String name,
                                    String description,
                                    MetadataType type,
+                                   boolean ofDynamicType,
                                    boolean required,
                                    ExpressionSupport expressionSupport,
                                    Object defaultValue,
@@ -51,6 +53,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
         this.required = required;
         this.expressionSupport = expressionSupport;
         this.defaultValue = defaultValue;
+        this.ofDynamicType = ofDynamicType;
     }
 
     /**
@@ -60,6 +63,12 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
     public MetadataType getType()
     {
         return type;
+    }
+
+    @Override
+    public boolean hasDynamicType()
+    {
+        return ofDynamicType;
     }
 
     /**
