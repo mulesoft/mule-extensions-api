@@ -6,10 +6,10 @@
  */
 package org.mule.runtime.extension.api.introspection.source;
 
-import org.mule.runtime.extension.api.introspection.parameter.AbstractParameterizedModel;
+import org.mule.runtime.extension.api.introspection.AbstractComponentModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.OutputModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.metadata.api.model.MetadataType;
 
 import java.util.List;
 import java.util.Set;
@@ -19,49 +19,27 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableSourceModel extends AbstractParameterizedModel implements SourceModel
+public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel
 {
-
-    private final MetadataType returnType;
-    private final MetadataType attributesType;
 
     /**
      * Creates a new instance
      *
-     * @param name            the source name. Cannot be blank
-     * @param description     the source description
-     * @param parameterModels a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param returnType      a {@link MetadataType} which represents the payload of generated messages
-     * @param attributesType  a {@link MetadataType} which represents the attributes on the generated messages
-     * @param modelProperties A {@link Set} of custom properties which extend this model
+     * @param name             the source name. Cannot be blank
+     * @param description      the source description
+     * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
+     * @param output           an {@link OutputModel} which represents the operation's output content
+     * @param outputAttributes an {@link OutputModel} which represents the attributes on the output me
+     * @param modelProperties  A {@link Set} of custom properties which extend this model
      */
     public ImmutableSourceModel(String name,
                                 String description,
                                 List<ParameterModel> parameterModels,
-                                MetadataType returnType,
-                                MetadataType attributesType,
+                                OutputModel output,
+                                OutputModel outputAttributes,
                                 Set<ModelProperty> modelProperties)
     {
-        super(name, description, modelProperties, parameterModels);
-        this.returnType = returnType;
-        this.attributesType = attributesType;
+        super(name, description, modelProperties, parameterModels, output, outputAttributes);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MetadataType getReturnType()
-    {
-        return returnType;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MetadataType getAttributesType()
-    {
-        return attributesType;
-    }
 }

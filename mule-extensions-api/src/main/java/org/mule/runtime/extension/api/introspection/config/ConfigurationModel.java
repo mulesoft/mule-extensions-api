@@ -9,13 +9,14 @@ package org.mule.runtime.extension.api.introspection.config;
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
-import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
+import org.mule.runtime.extension.api.introspection.Named;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.HasConnectionProviderModels;
+import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
+import org.mule.runtime.extension.api.introspection.operation.OperationModel;
+import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
+import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
+import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 /**
  * A named configuration for an extension
@@ -36,7 +37,7 @@ import org.mule.runtime.extension.api.introspection.connection.HasConnectionProv
  *
  * @since 1.0
  */
-public interface ConfigurationModel extends Described, EnrichableModel, ParameterizedModel,
+public interface ConfigurationModel extends Named, Described, EnrichableModel, ParameterizedModel,
         HasOperationModels, HasSourceModels, HasConnectionProviderModels
 {
 

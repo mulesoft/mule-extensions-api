@@ -61,9 +61,12 @@ import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsume
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
-import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
+import org.mule.metadata.api.model.BinaryType;
+import org.mule.metadata.api.model.NullType;
+import org.mule.metadata.api.model.NumberType;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ConnectionProviderDeclaration;
@@ -71,16 +74,14 @@ import org.mule.runtime.extension.api.introspection.declaration.fluent.Extension
 import org.mule.runtime.extension.api.introspection.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer;
+import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
+import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.runtime.InterceptorFactory;
-import org.mule.metadata.api.model.BinaryType;
-import org.mule.metadata.api.model.NullType;
-import org.mule.metadata.api.model.NumberType;
-import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.model.StringType;
+import org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -191,8 +192,8 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(source.getName(), is(LISTENER));
         assertThat(source.getDescription(), is(LISTEN_DESCRIPTION));
         assertThat(source.getSourceFactory().createSource(), is(sameInstance(testDeclaration.getSource())));
-        assertDataType(source.getReturnType(), InputStream.class, BinaryType.class);
-        assertDataType(source.getAttributesType(), Serializable.class, ObjectType.class);
+        assertDataType(source.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
 
         List<ParameterDeclaration> parameters = source.getParameters();
         assertThat(parameters, hasSize(2));
@@ -206,8 +207,8 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(operation.getName(), is(CONSUMER));
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
-        assertDataType(operation.getReturnType(), InputStream.class, BinaryType.class);
-        assertDataType(operation.getAttributesType(), String.class, StringType.class);
+        assertDataType(operation.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(operation.getOutputAttributes().getType(), String.class, StringType.class);
         assertModelProperties(operation, OPERATION_MODEL_PROPERTY);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
@@ -224,7 +225,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(operation.getName(), is(BROADCAST));
         assertThat(operation.getDescription(), is(BROADCAST_DESCRIPTION));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getBroadcastExecutorFactory())));
-        assertDataType(operation.getReturnType(), void.class, NullType.class);
+        assertDataType(operation.getOutputPayload().getType(), void.class, NullType.class);
 
         Optional<ExceptionEnricherFactory> exceptionEnricherFactory = operation.getExceptionEnricherFactory();
         assertThat(exceptionEnricherFactory.isPresent(), is(true));
@@ -253,7 +254,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(operation.getName(), is(ARG_LESS));
         assertThat(operation.getDescription(), is(HAS_NO_ARGS));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getArgLessExecutorFactory())));
-        assertDataType(operation.getReturnType(), int.class, NumberType.class);
+        assertDataType(operation.getOutputPayload().getType(), int.class, NumberType.class);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, is(notNullValue()));
@@ -261,13 +262,15 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(operation.getInterceptorFactories(), is(empty()));
     }
 
-    private void assertModelProperties(BaseDeclaration<?> declaration, ModelProperty modelProperty)
+    private void assertModelProperties(BaseDeclaration<?> declaration, ModelProperty... modelProperty)
     {
+        List<ModelProperty> expected = Arrays.asList(modelProperty);
         Set<ModelProperty> properties = declaration.getModelProperties();
         assertThat(properties, is(not(nullValue())));
-        assertThat(properties.size(), is(1));
-        assertThat(properties.contains(modelProperty), is(true));
-
-        assertThat(declaration.getModelProperty(modelProperty.getClass()).get(), is(sameInstance(modelProperty)));
+        assertThat(properties.size(), is(expected.size()));
+        expected.forEach(mp -> {
+            assertThat(properties.contains(mp), is(true));
+            assertThat(declaration.getModelProperty(mp.getClass()).get(), is(sameInstance(mp)));
+        });
     }
 }

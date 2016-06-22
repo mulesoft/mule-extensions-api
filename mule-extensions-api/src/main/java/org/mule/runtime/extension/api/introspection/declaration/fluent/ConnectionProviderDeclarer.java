@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.metadata.api.ClassTypeLoader;
-import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
@@ -24,11 +22,10 @@ public final class ConnectionProviderDeclarer extends ParameterizedDeclarer<Conn
      * Creates a new instance
      *
      * @param declaration the declaration object to be configured
-     * @param typeLoader  a {@link ClassTypeLoader} used to create the {@link MetadataType types}
      */
-    public ConnectionProviderDeclarer(ConnectionProviderDeclaration declaration, ClassTypeLoader typeLoader)
+    public ConnectionProviderDeclarer(ConnectionProviderDeclaration declaration)
     {
-        super(declaration, typeLoader);
+        super(declaration);
     }
 
     /**

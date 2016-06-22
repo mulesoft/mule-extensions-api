@@ -6,11 +6,11 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.message.MuleMessage;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
-import org.mule.metadata.api.model.MetadataType;
 
 /**
  * A definition of an component in a {@link ExtensionModel}. This model groups all the common contracts between extension
@@ -18,16 +18,16 @@ import org.mule.metadata.api.model.MetadataType;
  *
  * @since 1.0
  */
-public interface ComponentModel extends Described, EnrichableModel, ParameterizedModel
+public interface ComponentModel extends Named, Described, EnrichableModel, ParameterizedModel
 {
 
     /**
      * Returns a {@link MetadataType} for the value that this component sets
      * on the output {@link MuleMessage#getPayload()} field.
      *
-     * @return a {@link MetadataType} representing the payload type for the output messages
+     * @return a {@link MetadataType} representing the content type for the output messages
      */
-    MetadataType getReturnType();
+    OutputModel getOutput();
 
     /**
      * Returns a {@link MetadataType} for the value that this component sets
@@ -35,5 +35,5 @@ public interface ComponentModel extends Described, EnrichableModel, Parameterize
      *
      * @return a {@link MetadataType} representing the attribute types for the output messages
      */
-    MetadataType getAttributesType();
+    OutputModel getOutputAttributes();
 }

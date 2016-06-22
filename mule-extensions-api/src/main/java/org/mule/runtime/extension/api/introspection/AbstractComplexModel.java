@@ -29,7 +29,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractComplexModel extends AbstractImmutableModel implements HasConnectionProviderModels, HasSourceModels, HasOperationModels
+public abstract class AbstractComplexModel extends AbstractNamedImmutableModel implements HasConnectionProviderModels, HasSourceModels, HasOperationModels
 {
 
     private final Map<String, OperationModel> operations;
@@ -117,7 +117,7 @@ public abstract class AbstractComplexModel extends AbstractImmutableModel implem
         return Collections.unmodifiableList(new ArrayList<>(collection));
     }
 
-    protected <T extends Described> Map<String, T> toMap(List<T> objects)
+    protected <T extends Named> Map<String, T> toMap(List<T> objects)
     {
         if (objects == null || objects.isEmpty())
         {

@@ -7,27 +7,25 @@
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.metadata.api.model.MetadataType;
 
 /**
  * A declaration object for a {@link ParameterModel}. It contains raw,
- * unvalidated data which is used to declare the structure of a
- * {@link ParameterModel}.
+ * unvalidated data which is used to declare the structure of a {@link ParameterModel}.
  * <p>
- * By default, {@link #getExpressionSupport()} ()} returns
- * {@link ExpressionSupport#SUPPORTED} and {@link #getDescription()}
- * returns an empty {@link String}.
+ * By default, {@link #getExpressionSupport()} ()} returns {@link ExpressionSupport#SUPPORTED}.
  *
  * @since 1.0
  */
-public class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration>
+public class ParameterDeclaration extends NamedDeclaration<ParameterDeclaration>
 {
 
     private boolean required;
     private ExpressionSupport expressionSupport = SUPPORTED;
     private MetadataType type;
+    private boolean hasDynamicType;
     private Object defaultValue = null;
 
     /**
@@ -58,16 +56,6 @@ public class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration>
         this.expressionSupport = expressionSupport;
     }
 
-    public MetadataType getType()
-    {
-        return type;
-    }
-
-    public void setType(MetadataType type)
-    {
-        this.type = type;
-    }
-
     public Object getDefaultValue()
     {
         return defaultValue;
@@ -76,5 +64,21 @@ public class ParameterDeclaration extends BaseDeclaration<ParameterDeclaration>
     public void setDefaultValue(Object defaultValue)
     {
         this.defaultValue = defaultValue;
+    }
+
+    public MetadataType getType()
+    {
+        return type;
+    }
+
+    public void setType(MetadataType type, boolean isDynamic)
+    {
+        this.type = type;
+        this.hasDynamicType = isDynamic;
+    }
+
+    public boolean hasDynamicType()
+    {
+        return hasDynamicType;
     }
 }

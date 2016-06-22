@@ -5,19 +5,29 @@
     "vendor": "MuleSoft",
     "operations": {
       "getCar": {
-        "returnType": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+        "output": {
+          "type": {
+            "format": "java",
+            "type": "String",
+            "annotations": {
+              "typeId": "java.lang.String"
+            }
+          },
+          "hasDynamicType": true,
+          "description": "MuleMessage.Payload",
+          "modelProperties": {}
         },
-        "attributesType": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+        "outputAttributes": {
+          "type": {
+            "format": "java",
+            "type": "String",
+            "annotations": {
+              "typeId": "java.lang.String"
+            }
+          },
+          "hasDynamicType": false,
+          "description": "MuleMessage.Attributes",
+          "modelProperties": {}
         },
         "parameterModels": [
           {
@@ -28,6 +38,7 @@
                 "typeId": "java.lang.String"
               }
             },
+            "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
@@ -61,6 +72,7 @@
                 "typeId": "java.lang.String"
               }
             },
+            "hasDynamicType": true,
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
@@ -83,6 +95,7 @@
                 "typeId": "java.lang.String"
               }
             },
+            "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
@@ -114,19 +127,29 @@
     "vendor": "MuleSoft",
     "operations": {
       "getCar": {
-        "returnType": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+        "output": {
+          "type": {
+            "format": "java",
+            "type": "String",
+            "annotations": {
+              "typeId": "java.lang.String"
+            }
+          },
+          "hasDynamicType": true,
+          "description": "MuleMessage.Payload",
+          "modelProperties": {}
         },
-        "attributesType": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+        "outputAttributes": {
+          "type": {
+            "format": "java",
+            "type": "String",
+            "annotations": {
+              "typeId": "java.lang.String"
+            }
+          },
+          "hasDynamicType": false,
+          "description": "MuleMessage.Attributes",
+          "modelProperties": {}
         },
         "parameterModels": [
           {
@@ -137,6 +160,7 @@
                 "typeId": "java.lang.String"
               }
             },
+            "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
@@ -170,6 +194,7 @@
                 "typeId": "java.lang.String"
               }
             },
+            "hasDynamicType": true,
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
@@ -192,6 +217,7 @@
                 "typeId": "java.lang.String"
               }
             },
+            "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",

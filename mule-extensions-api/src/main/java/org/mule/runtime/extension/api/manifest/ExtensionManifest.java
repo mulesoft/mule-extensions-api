@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.manifest;
 
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.Named;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * @see ExtensionManifestBuilder
  * @since 1.0
  */
-public interface ExtensionManifest extends Described
+public interface ExtensionManifest extends Named, Described
 {
 
     /**

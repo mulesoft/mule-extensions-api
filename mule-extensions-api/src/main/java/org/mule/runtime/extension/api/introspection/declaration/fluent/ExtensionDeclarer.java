@@ -6,10 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 
 import java.util.Optional;
 
@@ -23,15 +21,12 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements
         HasOperationDeclarer, HasConnectionProviderDeclarer, HasSourceDeclarer
 {
 
-    private final ClassTypeLoader typeLoader;
-
     /**
      * Constructor for this descriptor
      */
     public ExtensionDeclarer()
     {
         super(new ExtensionDeclaration());
-        typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     }
 
     /**
@@ -81,7 +76,7 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements
         ConfigurationDeclaration config = new ConfigurationDeclaration(name);
         declaration.addConfig(config);
 
-        return new ConfigurationDeclarer(config, typeLoader);
+        return new ConfigurationDeclarer(config);
     }
 
     /**
@@ -92,7 +87,7 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements
     {
         ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
 
-        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration, typeLoader);
+        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration);
         withConnectionProvider(connectionProviderDeclarer);
 
         return connectionProviderDeclarer;
@@ -114,7 +109,7 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements
     public OperationDeclarer withOperation(String name)
     {
         OperationDeclaration operation = new OperationDeclaration(name);
-        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation, typeLoader);
+        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation);
         withOperation(operationDeclarer);
 
         return operationDeclarer;
@@ -137,7 +132,7 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements
     {
         SourceDeclaration declaration = new SourceDeclaration(name);
 
-        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration, typeLoader);
+        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration);
         withMessageSource(sourceDeclarer);
 
         return sourceDeclarer;

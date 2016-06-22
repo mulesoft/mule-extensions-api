@@ -8,27 +8,27 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.extension.api.introspection.OutputModel;
 
 /**
- * Allows configuring a {@link ParameterDeclaration} through a fluent API
+ * Allows configuring an {@link OutputDeclaration} through a fluent API
  *
  * @since 1.0
  */
-public class ParameterDeclarer<T extends ParameterDeclarer>
-        implements HasModelProperties<ParameterDeclarer<T>>, HasType<ParameterDeclarer<T>>, HasDynamicType<ParameterDeclarer<T>>
+public class OutputDeclarer<T extends OutputDeclarer>
+        implements HasModelProperties<OutputDeclarer<T>>, HasType<OutputDeclarer<T>>, HasDynamicType<OutputDeclarer<T>>
 {
 
-    private final ParameterDeclaration declaration;
+    private final OutputDeclaration declaration;
 
-    ParameterDeclarer(ParameterDeclaration declaration)
+    OutputDeclarer(OutputDeclaration declaration)
     {
         this.declaration = declaration;
     }
 
     /**
-     * Specifies the type of the {@link ParameterModel}
+     * Specifies that the {@link OutputModel} has a {@link MetadataType type}
+     * of <b>static</b> kind.
      *
      * @param type the type of the parameter
      * @return
@@ -41,10 +41,7 @@ public class ParameterDeclarer<T extends ParameterDeclarer>
     }
 
     /**
-     * Specifies the type of the {@link ParameterModel}
-     *
-     * @param type the type of the parameter
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public T ofDynamicType(MetadataType type)
@@ -65,17 +62,11 @@ public class ParameterDeclarer<T extends ParameterDeclarer>
         return (T) this;
     }
 
-    public T withExpressionSupport(ExpressionSupport support)
-    {
-        declaration.setExpressionSupport(support);
-        return (T) this;
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public ParameterDeclarer<T> withModelProperty(ModelProperty modelProperty)
+    public OutputDeclarer<T> withModelProperty(ModelProperty modelProperty)
     {
         declaration.addModelProperty(modelProperty);
         return this;
@@ -84,9 +75,9 @@ public class ParameterDeclarer<T extends ParameterDeclarer>
     /**
      * Gets the declaration object for this descriptor
      *
-     * @return a {@link ParameterDeclaration}
+     * @return a {@link OutputDeclaration}
      */
-    public ParameterDeclaration getDeclaration()
+    public OutputDeclaration getDeclaration()
     {
         return declaration;
     }

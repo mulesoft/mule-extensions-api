@@ -19,7 +19,7 @@ import java.util.List;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class InterceptableDeclaration<T extends InterceptableDeclaration> extends BaseDeclaration<T>
+public abstract class InterceptableDeclaration<T extends InterceptableDeclaration> extends NamedDeclaration<T>
 {
 
     private final List<InterceptorFactory> interceptorFactories = new ArrayList<>();

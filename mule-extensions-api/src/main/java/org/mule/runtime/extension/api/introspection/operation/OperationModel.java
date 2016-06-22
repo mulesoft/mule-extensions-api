@@ -11,6 +11,7 @@ import org.mule.metadata.api.model.NullType;
 import org.mule.runtime.api.message.MuleMessage;
 import org.mule.runtime.extension.api.introspection.ComponentModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.OutputModel;
 
 /**
  * A definition of an operation in a {@link ExtensionModel}.
@@ -39,5 +40,5 @@ public interface OperationModel extends ComponentModel
      * @return a {@link MetadataType} representing the attribute types for the output messages
      */
     @Override
-    MetadataType getAttributesType();
+    OutputModel getOutputAttributes();
 }

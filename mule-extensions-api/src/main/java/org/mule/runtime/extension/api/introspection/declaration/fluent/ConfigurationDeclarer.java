@@ -7,11 +7,9 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.runtime.InterceptorFactory;
-import org.mule.metadata.api.ClassTypeLoader;
-import org.mule.metadata.api.model.MetadataType;
 
 /**
  * Allows configuring a {@link ConfigurationDeclaration} through a fluent API
@@ -27,11 +25,10 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDe
      * Creates a new instance
      *
      * @param declaration the declaration object to be configured
-     * @param typeLoader  a {@link ClassTypeLoader} used to create the {@link MetadataType types}
      */
-    ConfigurationDeclarer(ConfigurationDeclaration declaration, ClassTypeLoader typeLoader)
+    ConfigurationDeclarer(ConfigurationDeclaration declaration)
     {
-        super(declaration, typeLoader);
+        super(declaration);
     }
 
     /**
@@ -54,7 +51,7 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDe
     {
         OperationDeclaration operation = new OperationDeclaration(name);
 
-        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation, typeLoader);
+        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation);
         withOperation(operationDeclarer);
 
         return operationDeclarer;
@@ -77,7 +74,7 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDe
     {
         ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
 
-        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration, typeLoader);
+        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration);
         withConnectionProvider(connectionProviderDeclarer);
 
         return connectionProviderDeclarer;
@@ -100,7 +97,7 @@ public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDe
     {
         SourceDeclaration declaration = new SourceDeclaration(name);
 
-        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration, typeLoader);
+        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration);
         withMessageSource(sourceDeclarer);
 
         return sourceDeclarer;

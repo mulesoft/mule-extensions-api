@@ -28,6 +28,10 @@ import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDecl
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.STATIC_RESOURCE_OPERATION_NAME;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VENDOR;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
+import org.mule.metadata.api.model.BinaryType;
+import org.mule.metadata.api.model.NumberType;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ExtensionDeclaration;
@@ -35,10 +39,6 @@ import org.mule.runtime.extension.api.introspection.declaration.fluent.Operation
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer;
-import org.mule.metadata.api.model.BinaryType;
-import org.mule.metadata.api.model.NumberType;
-import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.model.StringType;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -82,8 +82,8 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
         SourceDeclaration source = extensionDeclaration.getConfigurations().get(1).getMessageSources().get(0);
         assertThat(source.getName(), is(LISTEN_MESSAGE_SOURCE));
         assertThat(source.getSourceFactory().createSource(), is(sameInstance(testDeclarer.getSource())));
-        assertDataType(source.getReturnType(), InputStream.class, BinaryType.class);
-        assertDataType(source.getAttributesType(), Serializable.class, ObjectType.class);
+        assertDataType(source.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
         assertThat(source.getParameters(), hasSize(1));
 
         ParameterDeclaration parameter = source.getParameters().get(0);
@@ -108,7 +108,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     {
         OperationDeclaration operation = extensionDeclaration.getConfigurations().get(0).getOperations().get(0);
         assertThat(operation.getName(), is(REQUEST_OPERATION_NAME));
-        assertDataType(operation.getReturnType(), InputStream.class, BinaryType.class);
+        assertDataType(operation.getOutputPayload().getType(), InputStream.class, BinaryType.class);
         assertThat(operation.getParameters(), hasSize(1));
 
         ParameterDeclaration parameter = operation.getParameters().get(0);
@@ -121,7 +121,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     {
         OperationDeclaration operation = extensionDeclaration.getOperations().get(0);
         assertThat(operation.getName(), is(STATIC_RESOURCE_OPERATION_NAME));
-        assertDataType(operation.getReturnType(), InputStream.class, BinaryType.class);
+        assertDataType(operation.getOutputPayload().getType(), InputStream.class, BinaryType.class);
 
         assertThat(operation.getParameters(), hasSize(1));
         ParameterDeclaration parameter = operation.getParameters().get(0);

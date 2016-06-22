@@ -6,13 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.runtime.extension.api.runtime.OperationExecutorFactory;
-import org.mule.metadata.api.model.MetadataType;
-
-import java.util.Optional;
 
 /**
  * A declaration object for a {@link OperationModel}. It contains raw, unvalidated
@@ -20,14 +15,10 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class OperationDeclaration extends ParameterizedInterceptableDeclaration<OperationDeclaration>
+public class OperationDeclaration extends ComponentDeclaration<OperationDeclaration>
 {
 
     private OperationExecutorFactory executorFactory;
-    private MetadataType returnType;
-    private MetadataType attributesType;
-    private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private MetadataResolverFactory metadataResolverFactory;
 
     /**
      * {@inheritDoc}
@@ -47,43 +38,4 @@ public class OperationDeclaration extends ParameterizedInterceptableDeclaration<
         this.executorFactory = executorFactory;
     }
 
-    public MetadataType getReturnType()
-    {
-        return returnType;
-    }
-
-    public void setReturnType(MetadataType returnType)
-    {
-        this.returnType = returnType;
-    }
-
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
-
-    public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
-    {
-        this.exceptionEnricherFactory = exceptionEnricherFactory;
-    }
-
-    public MetadataType getAttributesType()
-    {
-        return attributesType;
-    }
-
-    public void setAttributesType(MetadataType attributesType)
-    {
-        this.attributesType = attributesType;
-    }
-
-    public MetadataResolverFactory getMetadataResolverFactory()
-    {
-        return metadataResolverFactory;
-    }
-
-    public void setMetadataResolverFactory(MetadataResolverFactory metaDataResolverFactory)
-    {
-        this.metadataResolverFactory = metaDataResolverFactory;
-    }
 }

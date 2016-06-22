@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.introspection.parameter;
 
-import org.mule.runtime.extension.api.introspection.AbstractImmutableModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.introspection.AbstractNamedImmutableModel;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
 
 import java.util.Set;
 
@@ -17,10 +17,11 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ImmutableParameterModel extends AbstractImmutableModel implements ParameterModel
+public final class ImmutableParameterModel extends AbstractNamedImmutableModel implements ParameterModel
 {
 
     private final MetadataType type;
+    private boolean hasDynamicType;
     private final boolean required;
     private final ExpressionSupport expressionSupport;
     private final Object defaultValue;
@@ -31,6 +32,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
      * @param name              the parameter's name. Cannot be blank and cannot be one of the values in {@link #RESERVED_NAMES}
      * @param description       the parameter's description
      * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
+     * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
      * @param required          whether this parameter is required or not
      * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
      * @param defaultValue      this parameter's default value
@@ -40,6 +42,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
     public ImmutableParameterModel(String name,
                                    String description,
                                    MetadataType type,
+                                   boolean hasDynamicType,
                                    boolean required,
                                    ExpressionSupport expressionSupport,
                                    Object defaultValue,
@@ -51,6 +54,7 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
         this.required = required;
         this.expressionSupport = expressionSupport;
         this.defaultValue = defaultValue;
+        this.hasDynamicType = hasDynamicType;
     }
 
     /**
@@ -60,6 +64,12 @@ public final class ImmutableParameterModel extends AbstractImmutableModel implem
     public MetadataType getType()
     {
         return type;
+    }
+
+    @Override
+    public boolean hasDynamicType()
+    {
+        return hasDynamicType;
     }
 
     /**
