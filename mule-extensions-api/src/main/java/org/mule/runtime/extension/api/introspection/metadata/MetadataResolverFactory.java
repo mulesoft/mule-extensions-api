@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.introspection.metadata;
 import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolverWithAttributes;
+import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
 
 /**
  * Provides instances of the {@link MetadataKeysResolver}, {@link MetadataKeysResolver}
@@ -42,10 +42,10 @@ public interface MetadataResolverFactory
     <T> MetadataOutputResolver<T> getOutputResolver();
 
     /**
-     * Provides an instance of the {@link MetadataOutputResolverWithAttributes} type associated to the Component
+     * Provides an instance of the {@link MetadataAttributesResolver} type associated to the Component
      *
-     * @return an instance of the {@link MetadataOutputResolverWithAttributes}
+     * @return an instance of the {@link MetadataAttributesResolver}
      */
-    <T> MetadataOutputResolverWithAttributes<T> getOutputAttributesResolver();
+    <T> MetadataAttributesResolver<T> getOutputAttributesResolver();
 
 }

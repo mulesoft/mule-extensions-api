@@ -17,20 +17,20 @@ import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolverWithAttributes;
+import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
 import org.mule.runtime.extension.api.annotation.metadata.Content;
 
 import java.util.Collections;
 import java.util.Set;
 
 /**
- * Null implementation of {@link MetadataContentResolver}, {@link MetadataOutputResolverWithAttributes}
+ * Null implementation of {@link MetadataContentResolver}, {@link MetadataAttributesResolver}
  * and {@link MetadataKeysResolver}, used to represent the absence of any of them when required.
  *
  * @since 1.0
  */
 public final class NullMetadataResolver implements MetadataContentResolver<Object>, MetadataKeysResolver,
-        MetadataOutputResolverWithAttributes<Object>
+        MetadataOutputResolver<Object>, MetadataAttributesResolver<Object>
 {
 
     /**
@@ -81,8 +81,8 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
     }
 
     /**
-     * Null implementation of {@link MetadataOutputResolverWithAttributes}, used when no implementation
-     * is provided by the connector developer. Represents the absence of a custom {@link MetadataOutputResolverWithAttributes},
+     * Null implementation of {@link MetadataAttributesResolver}, used when no implementation
+     * is provided by the connector developer. Represents the absence of a custom {@link MetadataAttributesResolver},
      * returning a {@link AnyType} instead of resolving a dynamic {@link MetadataType} for the component's output attributes.
      *
      * @param context {@link MetadataContext} of the MetaData resolution
