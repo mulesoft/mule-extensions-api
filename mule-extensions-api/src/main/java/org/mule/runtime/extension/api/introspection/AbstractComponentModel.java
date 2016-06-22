@@ -15,7 +15,7 @@ import java.util.Set;
 
 
 /**
- * Base class for immutable implementations of the introspection model
+ * Base class for immutable implementations of a {@link ComponentModel}
  *
  * @since 1.0
  */
