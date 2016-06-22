@@ -26,6 +26,7 @@ public class ImmutableOutputModel extends AbstractImmutableModel implements Outp
      *
      * @param description     the output's description
      * @param type            the output's {@link MetadataType}. Cannot be {@code null}
+     * @param hasDynamicType  if the given {@code type} is of dynamic kind and has to be discovered during design time
      * @param modelProperties A {@link Set} of custom properties which extend this model
      */
     public ImmutableOutputModel(String description, MetadataType type, boolean hasDynamicType, Set<ModelProperty> modelProperties)

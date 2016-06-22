@@ -22,7 +22,7 @@ import java.util.Set;
 public abstract class AbstractComponentModel extends AbstractParameterizedModel implements ComponentModel
 {
 
-    private final OutputModel outputPayload;
+    private final OutputModel output;
     private final OutputModel outputAttributes;
 
     /**
@@ -32,25 +32,24 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel 
      * @param description      the model's description
      * @param modelProperties  A {@link Set} of custom properties which extend this model
      * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param outputPayload    an {@link OutputModel} which represents the component's output payload
+     * @param output           an {@link OutputModel} which represents the component's output content
      * @param outputAttributes an {@link OutputModel} which represents the component's attributes on the output {@link MuleMessage}
      * @throws IllegalArgumentException if {@code name} is blank
      */
     protected AbstractComponentModel(String name, String description, Set<ModelProperty> modelProperties,
-                                     List<ParameterModel> parameterModels, OutputModel outputPayload, OutputModel outputAttributes)
+                                     List<ParameterModel> parameterModels, OutputModel output, OutputModel outputAttributes)
     {
         super(name, description, modelProperties, parameterModels);
-        this.outputPayload = outputPayload;
+        this.output = output;
         this.outputAttributes = outputAttributes;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public OutputModel getOutputPayload()
+    public OutputModel getOutput()
     {
-        return outputPayload;
+        return output;
     }
 
     /**

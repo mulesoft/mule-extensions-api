@@ -28,18 +28,18 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
      * @param name             the source name. Cannot be blank
      * @param description      the source description
      * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param outputPayload    an {@link OutputModel} which represents the operation's output payload
+     * @param output           an {@link OutputModel} which represents the operation's output content
      * @param outputAttributes an {@link OutputModel} which represents the attributes on the output me
      * @param modelProperties  A {@link Set} of custom properties which extend this model
      */
     public ImmutableSourceModel(String name,
                                 String description,
                                 List<ParameterModel> parameterModels,
-                                OutputModel outputPayload,
+                                OutputModel output,
                                 OutputModel outputAttributes,
                                 Set<ModelProperty> modelProperties)
     {
-        super(name, description, modelProperties, parameterModels, outputPayload, outputAttributes);
+        super(name, description, modelProperties, parameterModels, output, outputAttributes);
     }
 
 }

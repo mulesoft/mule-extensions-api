@@ -6,13 +6,13 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
-import java.util.Set;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import java.util.Set;
 
 
 /**
- * Base class for immutable implementations of the introspection model
+ * Base class for immutable implementations of {@link Named} introspection models
  *
  * @since 1.0
  */
@@ -65,12 +65,8 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
     @Override
     public boolean equals(Object obj)
     {
-        if (getClass().isInstance(obj))
-        {
-            return name.equals(((Named) obj).getName());
-        }
+        return getClass().isInstance(obj) && name.equals(((Named) obj).getName());
 
-        return false;
     }
 
     /**
@@ -87,7 +83,7 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
     @Override
     public String toString()
     {
-        return ToStringBuilder.reflectionToString(this);
+        return reflectionToString(this);
     }
 
 }

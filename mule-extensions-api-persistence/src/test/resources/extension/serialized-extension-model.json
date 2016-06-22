@@ -4,7 +4,7 @@
   "vendor": "MuleSoft",
   "operations": {
     "getCar": {
-      "outputPayload": {
+      "output": {
         "type": {
           "format": "java",
           "type": "String",
@@ -37,7 +37,7 @@
               "typeId": "java.lang.String"
             }
           },
-          "ofDynamicType": false,
+          "hasDynamicType": false,
           "required": true,
           "expressionSupport": "SUPPORTED",
           "defaultValue": "",
@@ -71,7 +71,7 @@
               "typeId": "java.lang.String"
             }
           },
-          "ofDynamicType": true,
+          "hasDynamicType": true,
           "required": true,
           "expressionSupport": "SUPPORTED",
           "defaultValue": "",
@@ -94,7 +94,7 @@
               "typeId": "java.lang.String"
             }
           },
-          "ofDynamicType": false,
+          "hasDynamicType": false,
           "required": true,
           "expressionSupport": "SUPPORTED",
           "defaultValue": "",

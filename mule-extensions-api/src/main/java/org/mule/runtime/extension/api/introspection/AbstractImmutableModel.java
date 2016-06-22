@@ -21,7 +21,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
 /**
- * Base class for immutable implementations of the introspection model
+ * Base class for immutable implementations of a {@link Described} {@link EnrichableModel} model
  *
  * @since 1.0
  */

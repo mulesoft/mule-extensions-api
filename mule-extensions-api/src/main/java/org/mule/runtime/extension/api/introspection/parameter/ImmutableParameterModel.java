@@ -21,7 +21,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
 {
 
     private final MetadataType type;
-    private boolean ofDynamicType;
+    private boolean hasDynamicType;
     private final boolean required;
     private final ExpressionSupport expressionSupport;
     private final Object defaultValue;
@@ -32,6 +32,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
      * @param name              the parameter's name. Cannot be blank and cannot be one of the values in {@link #RESERVED_NAMES}
      * @param description       the parameter's description
      * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
+     * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
      * @param required          whether this parameter is required or not
      * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
      * @param defaultValue      this parameter's default value
@@ -41,7 +42,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     public ImmutableParameterModel(String name,
                                    String description,
                                    MetadataType type,
-                                   boolean ofDynamicType,
+                                   boolean hasDynamicType,
                                    boolean required,
                                    ExpressionSupport expressionSupport,
                                    Object defaultValue,
@@ -53,7 +54,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
         this.required = required;
         this.expressionSupport = expressionSupport;
         this.defaultValue = defaultValue;
-        this.ofDynamicType = ofDynamicType;
+        this.hasDynamicType = hasDynamicType;
     }
 
     /**
@@ -68,7 +69,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     @Override
     public boolean hasDynamicType()
     {
-        return ofDynamicType;
+        return hasDynamicType;
     }
 
     /**

@@ -29,7 +29,7 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
      * @param name             the operation's name. Cannot be blank
      * @param description      the operation's descriptor
      * @param parameterModels  a {@link List} with the operation's {@link ParameterModel parameterModels}
-     * @param outputPayload    an {@link OutputModel} which represents the operation's output payload
+     * @param output           an {@link OutputModel} which represents the operation's output content
      * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
      * @param modelProperties  A {@link Set} of custom properties which extend this model
      * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
@@ -37,10 +37,10 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
     public ImmutableOperationModel(String name,
                                    String description,
                                    List<ParameterModel> parameterModels,
-                                   OutputModel outputPayload,
+                                   OutputModel output,
                                    OutputModel outputAttributes,
                                    Set<ModelProperty> modelProperties)
     {
-        super(name, description, modelProperties, parameterModels, outputPayload, outputAttributes);
+        super(name, description, modelProperties, parameterModels, output, outputAttributes);
     }
 }

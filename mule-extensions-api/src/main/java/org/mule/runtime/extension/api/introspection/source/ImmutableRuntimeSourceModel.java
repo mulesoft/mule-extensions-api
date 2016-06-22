@@ -44,7 +44,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
      * @param name                     the source name. Cannot be blank
      * @param description              the source description
      * @param parameterModels          a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param outputPayload            an {@link OutputModel} which represents the operation's output payload
+     * @param output                   an {@link OutputModel} which represents the operation's output content
      * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output me
      * @param sourceFactory            a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
      * @param modelProperties          A {@link Set} of custom properties which extend this model
@@ -56,7 +56,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
     public ImmutableRuntimeSourceModel(String name,
                                        String description,
                                        List<ParameterModel> parameterModels,
-                                       OutputModel outputPayload,
+                                       OutputModel output,
                                        OutputModel outputAttributes,
                                        SourceFactory sourceFactory,
                                        Set<ModelProperty> modelProperties,
@@ -64,7 +64,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
                                        Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
                                        MetadataResolverFactory metadataResolverFactory)
     {
-        super(name, description, parameterModels, outputPayload, outputAttributes, modelProperties);
+        super(name, description, parameterModels, output, outputAttributes, modelProperties);
         if (sourceFactory == null)
         {
             throw new IllegalArgumentException(String.format("Source '%s' cannot have a null source factory", name));

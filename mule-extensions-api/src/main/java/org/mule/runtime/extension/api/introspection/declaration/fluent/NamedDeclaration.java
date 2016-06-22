@@ -16,7 +16,7 @@ import org.mule.runtime.extension.api.introspection.Named;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class NamedDeclaration<T extends NamedDeclaration> extends BaseDeclaration<NamedDeclaration> implements Named
+public abstract class NamedDeclaration<T extends NamedDeclaration> extends BaseDeclaration<T> implements Named
 {
 
     private final String name;

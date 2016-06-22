@@ -25,9 +25,9 @@ public interface ComponentModel extends Named, Described, EnrichableModel, Param
      * Returns a {@link MetadataType} for the value that this component sets
      * on the output {@link MuleMessage#getPayload()} field.
      *
-     * @return a {@link MetadataType} representing the payload type for the output messages
+     * @return a {@link MetadataType} representing the content type for the output messages
      */
-    OutputModel getOutputPayload();
+    OutputModel getOutput();
 
     /**
      * Returns a {@link MetadataType} for the value that this component sets
