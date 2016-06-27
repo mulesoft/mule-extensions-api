@@ -43,9 +43,9 @@ public @interface Extension
     /**
      * Name of the extension's vendor
      */
-    String vendor() default NO_VENDOR;
+    String vendor() default MULESOFT;
 
-    String NO_VENDOR = "";
+    String MULESOFT = "Mulesoft";
 
     String DEFAULT_CONFIG_NAME = "config";
 

@@ -15,17 +15,16 @@ import org.mule.runtime.api.connection.ConnectionProvider;
  * <p>
  * Instances are thread-safe and reusable.
  *
- * @param <Config>     the generic type for the configuration objects that the returned {@link ConnectionProvider providers} accept
  * @param <Connection> the generic type for the connections that the returned  {@link ConnectionProvider providers} produce
  * @since 1.0
  */
-public interface ConnectionProviderFactory<Config, Connection>
+public interface ConnectionProviderFactory<Connection>
 {
 
     /**
      * @return a new {@link ConnectionProvider}
      */
-    ConnectionProvider<Config, Connection> newInstance();
+    ConnectionProvider<Connection> newInstance();
 
     /**
      * Returns the concrete type of the object to be returned by this instance

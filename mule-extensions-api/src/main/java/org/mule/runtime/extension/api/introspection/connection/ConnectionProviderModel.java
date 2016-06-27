@@ -23,11 +23,10 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel
  * then each of those containers should reference the same
  * operation model instance.
  *
- * @param <Config>     the generic type for the configuration objects that the returned {@link ConnectionProvider providers} accept
  * @param <Connection> the generic type for the connections that the returned  {@link ConnectionProvider providers} produce
  * @since 1.0
  */
-public interface ConnectionProviderModel<Config, Connection> extends Named, Described, EnrichableModel, ParameterizedModel
+public interface ConnectionProviderModel<Connection> extends Named, Described, EnrichableModel, ParameterizedModel
 {
 
 }
