@@ -12,6 +12,7 @@ import static org.mule.runtime.extension.api.introspection.parameter.ExpressionS
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.java.api.JavaTypeLoader;
+import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
@@ -116,6 +117,7 @@ public class TestWebServiceConsumerDeclarer
     {
         extensionDeclarer = new ExtensionDeclarer();
         extensionDeclarer.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
+                .withCategory(Category.SELECT).withMinMuleVersion(MIN_MULE_VERSION)
                 .withExceptionEnricherFactory(exceptionEnricherFactory)
                 .withModelProperty(EXTENSION_MODEL_PROPERTY);
 

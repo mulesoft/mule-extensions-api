@@ -11,7 +11,9 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
+
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder;
 import org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer;
@@ -51,6 +53,7 @@ public final class ExtensionManifestTestUtils
                 .addExportedPackages(EXPORTED_PACKAGES)
                 .addExportedResources(EXPORTED_RESOURCES)
                 .setVersion(VERSION)
+                .setMinMuleVersion(MIN_MULE_VERSION)
                 .withDescriber()
                 .setId(DESCRIBER_ID)
                 .addProperty(DESCRIBER_PROPERTY, DESCRIBER_PROPERTY_VALUE);

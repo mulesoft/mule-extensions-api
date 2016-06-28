@@ -8,6 +8,8 @@ package org.mule.runtime.extension.internal.manifest;
 
 import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+
+import org.mule.api.MuleVersion;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 
@@ -31,6 +33,7 @@ public final class ImmutableExtensionManifest implements ExtensionManifest
     private final List<String> exportedPackages;
     private final List<String> exportedResources;
     private final DescriberManifest describerManifest;
+    private final MuleVersion minMuleVersion;
 
     /**
      * Creates a new instance
@@ -38,11 +41,12 @@ public final class ImmutableExtensionManifest implements ExtensionManifest
      * @param name              the extension's name
      * @param description       the extension's description
      * @param version           the extension's version
+     * @param minMuleVersion    the extension's min Mule version
      * @param exportedPackages  the extension's exported package names
      * @param exportedResources the extension's exported resource paths
      * @param describerManifest the extension's {@link DescriberManifest}
      */
-    public ImmutableExtensionManifest(String name, String description, String version, List<String> exportedPackages, List<String> exportedResources, DescriberManifest describerManifest)
+    public ImmutableExtensionManifest(String name, String description, String version, MuleVersion minMuleVersion, List<String> exportedPackages, List<String> exportedResources, DescriberManifest describerManifest)
     {
         checkNotBlank(name, "name");
         checkNotBlank(version, "version");
@@ -50,6 +54,7 @@ public final class ImmutableExtensionManifest implements ExtensionManifest
         this.name = name;
         this.description = description;
         this.version = version;
+        this.minMuleVersion = minMuleVersion;
         this.describerManifest = describerManifest;
         this.exportedPackages = immutable(exportedPackages);
         this.exportedResources = immutable(exportedResources);
@@ -80,6 +85,15 @@ public final class ImmutableExtensionManifest implements ExtensionManifest
     public String getVersion()
     {
         return version;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MuleVersion getMinMuleVersion()
+    {
+        return minMuleVersion;
     }
 
     /**

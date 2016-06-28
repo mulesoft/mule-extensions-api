@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.manifest;
 
 
+import org.mule.api.MuleVersion;
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
@@ -27,6 +28,11 @@ public interface ExtensionManifest extends Named, Described
      * @return the extension's version
      */
     String getVersion();
+
+    /**
+     * @return the extension minimum Mule Runtime version which the extension requires to work correctly
+     */
+    MuleVersion getMinMuleVersion();
 
     /**
      * @return a {@link DescriberManifest}

@@ -12,11 +12,13 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
+import static org.mule.runtime.extension.api.Category.COMMUNITY;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.LISTENER_CONFIG_DESCRIPTION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.LISTENER_CONFIG_NAME;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.LISTEN_MESSAGE_SOURCE;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.PATH;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.PORT;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONFIG_DESCRIPTION;
@@ -27,6 +29,7 @@ import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDecl
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.STATIC_RESOURCE_OPERATION_NAME;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VENDOR;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
+
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
@@ -59,6 +62,8 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(extensionDeclaration.getVersion(), is(VERSION));
         assertThat(extensionDeclaration.getConfigurations(), hasSize(2));
         assertThat(extensionDeclaration.getVendor(), is(VENDOR));
+        assertThat(extensionDeclaration.getMinMuleVersion(), is(MIN_MULE_VERSION));
+        assertThat(extensionDeclaration.getCategory(), is(COMMUNITY));
         assertThat(extensionDeclaration.getOperations(), hasSize(1));
         assertThat(extensionDeclaration.getConnectionProviders(), is(empty()));
         assertThat(extensionDeclaration.getMessageSources(), is(empty()));

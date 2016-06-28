@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
+import org.mule.api.MuleVersion;
+import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 
@@ -167,9 +169,39 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements
         return this;
     }
 
+    /**
+     * Adds the extension's Vendor name
+     *
+     * @param vendor name
+     * @return {@code this} descriptor
+     */
     public ExtensionDeclarer fromVendor(String vendor)
     {
         declaration.setVendor(vendor);
+        return this;
+    }
+
+    /**
+     * Adds the extension's {@link Category}
+     *
+     * @param category of the extension
+     * @return {@code this} descriptor
+     */
+    public ExtensionDeclarer withCategory(Category category)
+    {
+        declaration.setCategory(category);
+        return this;
+    }
+
+    /**
+     * Adds the extension's minimum Mule Version
+     *
+     * @param minMuleVersion of the extension
+     * @return {@code this} descriptor
+     */
+    public ExtensionDeclarer withMinMuleVersion(MuleVersion minMuleVersion)
+    {
+        declaration.setMinMuleVersion(minMuleVersion);
         return this;
     }
 }

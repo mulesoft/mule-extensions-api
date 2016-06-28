@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
+import org.mule.api.MuleVersion;
+import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 
@@ -29,6 +31,8 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
     private String version;
     private String vendor;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+    private Category category;
+    private MuleVersion minMuleVersion;
 
     /**
      * Creates a new instance
@@ -179,5 +183,24 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
     public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
         this.exceptionEnricherFactory = exceptionEnricherFactory;
+    }
+
+    public void setCategory(Category category)
+    {
+        this.category = category;
+    }
+
+    public Category getCategory()
+    {
+        return this.category;
+    }
+
+    public void setMinMuleVersion(MuleVersion minMuleVersion)
+    {
+        this.minMuleVersion = minMuleVersion;
+    }
+
+    public MuleVersion getMinMuleVersion(){
+        return minMuleVersion;
     }
 }

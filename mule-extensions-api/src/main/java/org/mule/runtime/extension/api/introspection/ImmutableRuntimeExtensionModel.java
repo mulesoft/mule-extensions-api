@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import org.mule.api.MuleVersion;
+import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricher;
@@ -38,6 +40,8 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
      * @param description              the extension's description
      * @param version                  the extension's version
      * @param vendor                   the extension's vendor name
+     * @param category                 the extension's {@link Category}
+     * @param minMuleVersion           the extension's {@link MuleVersion}
      * @param configurationModels      a {@link List} with the extension's {@link ConfigurationModel configurationModels}
      * @param operationModels          a {@link List} with the extension's {@link OperationModel operationModels}
      * @param connectionProviders      a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
@@ -50,6 +54,8 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
                                           String description,
                                           String version,
                                           String vendor,
+                                          Category category,
+                                          MuleVersion minMuleVersion,
                                           List<ConfigurationModel> configurationModels,
                                           List<OperationModel> operationModels,
                                           List<ConnectionProviderModel> connectionProviders,
@@ -57,7 +63,7 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
                                           Set<ModelProperty> modelProperties,
                                           Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
     {
-        super(name, description, version, vendor, configurationModels, operationModels, connectionProviders, sourceModels, modelProperties);
+        super(name, description, version, vendor, category, minMuleVersion, configurationModels, operationModels, connectionProviders, sourceModels, modelProperties);
         this.exceptionEnricherFactory = exceptionEnricherFactory;
     }
 

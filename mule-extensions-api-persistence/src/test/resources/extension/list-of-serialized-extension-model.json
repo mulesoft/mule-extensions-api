@@ -1,8 +1,10 @@
 [
   {
-    "version": "4.0.0",
-    "configurations": {},
     "vendor": "MuleSoft",
+    "version": "4.0.0",
+    "minMuleVersion": "4.0",
+    "category": "COMMUNITY",
+    "configurations": {},
     "operations": {
       "getCar": {
         "output": {
@@ -122,9 +124,11 @@
     "modelProperties": {}
   },
   {
-    "version": "4.0.0",
-    "configurations": {},
     "vendor": "MuleSoft",
+    "version": "4.0.0",
+    "minMuleVersion": "4.0",
+    "category": "COMMUNITY",
+    "configurations": {},
     "operations": {
       "getCar": {
         "output": {

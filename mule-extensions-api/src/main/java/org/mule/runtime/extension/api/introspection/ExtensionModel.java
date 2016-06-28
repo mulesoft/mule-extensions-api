@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import org.mule.api.MuleVersion;
+import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.HasConnectionProviderModels;
@@ -132,4 +134,20 @@ public interface ExtensionModel extends Named, Described, EnrichableModel, HasOp
      * @return the name of the extension's vendor
      */
     String getVendor();
+
+    /**
+     * Returns the extension's {@link Category} that identifies the extension.
+     *
+     * @return the extension's {@link Category}
+     * @see Category
+     */
+    Category getCategory();
+
+    /**
+     * Returns the extension's Min {@link MuleVersion}. This {@link MuleVersion} represents the minimum version of the
+     * Mule Runtime that the extension requires to work correctly.
+     *
+     * @return the extension's Min {@link MuleVersion}.
+     */
+    MuleVersion getMinMuleVersion();
 }

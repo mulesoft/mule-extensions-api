@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.annotation;
 
+import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 
 import java.lang.annotation.Documented;
@@ -44,6 +45,16 @@ public @interface Extension
      * Name of the extension's vendor
      */
     String vendor() default MULESOFT;
+
+    /**
+     * Extension's {@link Category}
+     */
+    Category category() default Category.COMMUNITY;
+
+    /**
+     * Min Mule version that the extension requires to work correctly
+     */
+    String minMuleVersion() default "4.0";
 
     String MULESOFT = "Mulesoft";
 
