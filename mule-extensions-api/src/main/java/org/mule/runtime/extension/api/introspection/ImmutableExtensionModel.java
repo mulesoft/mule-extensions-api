@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.introspection;
 
 import org.mule.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
@@ -135,7 +136,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     {
         if (!condition)
         {
-            throw new IllegalArgumentException(errorMessage);
+            throw new IllegalModelDefinitionException(errorMessage);
         }
     }
 }
