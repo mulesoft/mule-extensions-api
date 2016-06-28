@@ -200,7 +200,8 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
         this.minMuleVersion = minMuleVersion;
     }
 
-    public MuleVersion getMinMuleVersion(){
+    public MuleVersion getMinMuleVersion()
+    {
         return minMuleVersion;
     }
 }
