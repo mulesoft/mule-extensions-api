@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
 import org.mule.metadata.api.ClassTypeLoader;
-import org.mule.metadata.java.JavaTypeLoader;
+import org.mule.metadata.java.api.JavaTypeLoader;
 
 /**
  * Default implementation of {@link ExtensionsTypeLoaderFactory}
