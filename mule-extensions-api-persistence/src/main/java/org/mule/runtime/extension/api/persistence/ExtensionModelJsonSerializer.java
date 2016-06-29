@@ -26,6 +26,7 @@ import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
+import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
@@ -84,11 +85,13 @@ public class ExtensionModelJsonSerializer
         final DefaultImplementationTypeAdapterFactory sourceModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
         final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
         final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
+        final ImportedTypesModelPropertyTypeAdapter importedTypesModelPropertyTypeAdapter = new ImportedTypesModelPropertyTypeAdapter();
         final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
 
         final GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
                 .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
+                .registerTypeAdapter(ImportedTypesModelProperty.class, importedTypesModelPropertyTypeAdapter)
                 .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
                 .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
                 .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

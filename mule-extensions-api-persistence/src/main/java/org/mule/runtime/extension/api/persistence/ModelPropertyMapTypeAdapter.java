@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * {@link TypeAdapter} implementation that knows how to serialize and deserialize {@code Map<Class<? extends ModelProperty>, ModelProperty>}.
  * This {@link TypeAdapter} has been created at this level, and not just a {@link TypeAdapter<ModelProperty>}, to be able
@@ -41,7 +38,6 @@ import org.slf4j.LoggerFactory;
 final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends ModelProperty>, ModelProperty>>
 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModelPropertyMapTypeAdapter.class);
     private static final Map<Class<? extends ModelProperty>, String> classNameMapping = JsonSerializationConstants.getClassNameMapping();
     private static final Map<String, Class<? extends ModelProperty>> nameClassMapping = JsonSerializationConstants.getNameClassMapping();
 
