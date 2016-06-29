@@ -19,9 +19,11 @@ import java.lang.annotation.Target;
  * This annotation defines a class that will export its functionality as a Mule module.
  * <p/>
  * There are a few restrictions as to which types as valid for this annotation:
- * - It cannot be an interface
- * - It must be public
- * - It cannot have a typed parameter (no generic)
+ * <ul>
+ * <li>It cannot be an interface</li>
+ * <li>It must be public</li>
+ * <li>It cannot have a typed parameter (no generic)</li>
+ * </ul>
  *
  * @since 1.0
  */
