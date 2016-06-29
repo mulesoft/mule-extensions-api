@@ -53,7 +53,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
     private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
     private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
     private final Set<ModelProperty> modelProperties = new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
-    private final MetadataType stringType = javaTypeLoader.load(String.class);
+    private final MetadataType stringType = typeLoader.load(String.class);
     private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"displayName\":\"Car Name\",\"password\":false,\"text\":true,\"order\":0}";
     private final String GET_CAR_OPERATION_NAME = "getCar";
     private final String CAR_NAME_PARAMETER_NAME = "carName";
