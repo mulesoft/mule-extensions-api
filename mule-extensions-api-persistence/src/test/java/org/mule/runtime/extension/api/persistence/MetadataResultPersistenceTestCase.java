@@ -26,21 +26,16 @@ import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataDescriptorResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MetadataResultPersistenceTestCase
+public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
 {
 
     private static final String METADATA_DESCRIPTOR_RESULT_JSON = "metadata/success-result-descriptor.json";
@@ -104,7 +99,7 @@ public class MetadataResultPersistenceTestCase
     @Test
     public void deserializeMetadataKeysResult() throws IOException
     {
-        String resource = resourceAsString(METADATA_KEYS_RESULT_JSON);
+        String resource = getResourceAsString(METADATA_KEYS_RESULT_JSON);
         ImmutableMetadataResult<List<MetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
 
         assertThat(metadataResult.isSuccess(), is(true));
@@ -116,7 +111,7 @@ public class MetadataResultPersistenceTestCase
     @Test
     public void deserializeOperationMetadataDescriptorResult() throws IOException
     {
-        String resource = resourceAsString(METADATA_DESCRIPTOR_RESULT_JSON);
+        String resource = getResourceAsString(METADATA_DESCRIPTOR_RESULT_JSON);
         ImmutableMetadataResult<ImmutableComponentMetadataDescriptor> metadataResult = metadataDescriptorSerializer.deserialize(resource);
 
         assertThat(metadataResult.isSuccess(), is(true));
@@ -129,7 +124,7 @@ public class MetadataResultPersistenceTestCase
     @Test
     public void deserializeFailureResult() throws IOException
     {
-        String resource = resourceAsString(METADATA_RESULT_FAILURE_JSON);
+        String resource = getResourceAsString(METADATA_RESULT_FAILURE_JSON);
         ImmutableMetadataResult<List<MetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
 
         assertThat(metadataResult.isSuccess(), is(false));
@@ -139,22 +134,6 @@ public class MetadataResultPersistenceTestCase
         assertThat(metadataFailure.getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
         assertThat(metadataFailure.getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
         assertThat(metadataFailure.getFailureCode().getName(), is(FailureCode.CONNECTION_FAILURE.getName()));
-    }
-
-    private void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException
-    {
-        String resource = resourceAsString(expectedFileName);
-        final JsonParser jsonParser = new JsonParser();
-        final JsonElement expected = jsonParser.parse(resource);
-        final JsonElement result = jsonParser.parse(serializedResult);
-
-        assertThat(result, is(expected));
-    }
-
-    private String resourceAsString(String expectedFileName) throws IOException
-    {
-        final InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(expectedFileName);
-        return IOUtils.toString(resourceAsStream);
     }
 
     private ComponentMetadataDescriptor buildTestOperationMetadataDescriptor()

@@ -19,7 +19,6 @@ import static org.mule.runtime.extension.api.introspection.parameter.ExpressionS
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.DISPLAY_MODEL_PROPERTY;
 import org.mule.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.java.api.JavaTypeLoader;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
@@ -38,17 +37,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ExtensionModelPersistenceTestCase
+public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
 {
 
     private static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
@@ -56,7 +53,6 @@ public class ExtensionModelPersistenceTestCase
     private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
     private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
     private final Set<ModelProperty> modelProperties = new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
-    private final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
     private final MetadataType stringType = javaTypeLoader.load(String.class);
     private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"displayName\":\"Car Name\",\"password\":false,\"text\":true,\"order\":0}";
     private final String GET_CAR_OPERATION_NAME = "getCar";
@@ -159,12 +155,6 @@ public class ExtensionModelPersistenceTestCase
             return modelProperties.get(modelPropertyName);
         }
         return null;
-    }
-
-    private String getResourceAsString(String fileName) throws IOException
-    {
-        final InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
-        return IOUtils.toString(resourceAsStream);
     }
 
     private class DefaultConnectionProviderFactory implements ConnectionProviderFactory

@@ -10,6 +10,7 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ConnectionHandlingTypeModelProperty;
 import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
+import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyPartModelProperty;
@@ -36,6 +37,7 @@ final class JsonSerializationConstants
     static final String METADATA_KEY_ID_MODEL_PROPERTY = "metadataKeyId";
     static final String METADATA_KEY_PART_MODEL_PROPERTY = "metadataKeyPart";
     static final String METADATA_CONTENT_MODEL_PROPERTY = "metadataContent";
+    static final String IMPORTED_TYPES_MODEL_PROPERTY = "importedTypes";
 
     private JsonSerializationConstants()
     {
@@ -53,6 +55,7 @@ final class JsonSerializationConstants
         stringClassHashMap.put(METADATA_KEY_ID_MODEL_PROPERTY, MetadataKeyIdModelProperty.class);
         stringClassHashMap.put(METADATA_KEY_PART_MODEL_PROPERTY, MetadataKeyPartModelProperty.class);
         stringClassHashMap.put(METADATA_CONTENT_MODEL_PROPERTY, MetadataContentModelProperty.class);
+        stringClassHashMap.put(IMPORTED_TYPES_MODEL_PROPERTY, ImportedTypesModelProperty.class);
 
         return stringClassHashMap;
     }
