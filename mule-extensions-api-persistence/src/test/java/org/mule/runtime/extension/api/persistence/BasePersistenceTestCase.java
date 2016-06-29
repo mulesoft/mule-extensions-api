@@ -9,7 +9,8 @@ package org.mule.runtime.extension.api.persistence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.mule.metadata.java.api.JavaTypeLoader;
+import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.runtime.extension.api.introspection.declaration.type.DefaultExtensionsTypeLoaderFactory;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -22,15 +23,15 @@ import org.apache.commons.io.IOUtils;
 abstract class BasePersistenceTestCase
 {
 
-    final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(this.getClass().getClassLoader());
+    protected ClassTypeLoader typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
 
-    String getResourceAsString(String fileName) throws IOException
+    protected String getResourceAsString(String fileName) throws IOException
     {
         final InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
         return IOUtils.toString(resourceAsStream);
     }
 
-    void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException
+    protected void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException
     {
         String resource = getResourceAsString(expectedFileName);
         final JsonParser jsonParser = new JsonParser();

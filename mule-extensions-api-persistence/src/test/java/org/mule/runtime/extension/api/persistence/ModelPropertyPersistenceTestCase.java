@@ -22,7 +22,7 @@ import org.junit.Test;
 public class ModelPropertyPersistenceTestCase extends BasePersistenceTestCase
 {
 
-    private final ImportedTypesModelProperty importedTypesModelProperty = new ImportedTypesModelProperty(singletonMap(javaTypeLoader.load(String.class), javaTypeLoader.load(Integer.class)));
+    private final ImportedTypesModelProperty importedTypesModelProperty = new ImportedTypesModelProperty(singletonMap(typeLoader.load(String.class), typeLoader.load(Integer.class)));
 
     @Test
     public void verifyImportedTypesModelPropertySerializationJson() throws IOException
