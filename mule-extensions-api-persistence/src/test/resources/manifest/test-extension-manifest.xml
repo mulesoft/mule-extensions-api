@@ -3,6 +3,7 @@
     <name>http</name>
     <description><![CDATA[Http Connector]]></description>
     <version>1.0</version>
+    <minMuleVersion>4.0</minMuleVersion>
     <exportedPackages>
         <package>org.mule.foo</package>
         <package>org.mule.bar</package>

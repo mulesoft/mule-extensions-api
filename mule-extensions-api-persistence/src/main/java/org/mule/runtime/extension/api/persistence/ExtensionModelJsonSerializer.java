@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import org.mule.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
@@ -83,9 +84,11 @@ public class ExtensionModelJsonSerializer
         final DefaultImplementationTypeAdapterFactory sourceModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
         final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
         final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
+        final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
 
         final GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
+                .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
                 .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
                 .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
                 .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

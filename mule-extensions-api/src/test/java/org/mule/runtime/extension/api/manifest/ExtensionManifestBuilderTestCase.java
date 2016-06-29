@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_ID;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_PROPERTY;
@@ -17,6 +18,7 @@ import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.EXPORTED_PACKAGES;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.EXPORTED_RESOURCES;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.assertStringList;
+
 import org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils;
 
 import org.junit.Before;
@@ -40,6 +42,7 @@ public class ExtensionManifestBuilderTestCase
         assertThat(manifest.getName(), is(EXTENSION_NAME));
         assertThat(manifest.getDescription(), is(EXTENSION_DESCRIPTION));
         assertThat(manifest.getVersion(), is(VERSION));
+        assertThat(manifest.getMinMuleVersion(), is(MIN_MULE_VERSION));
         assertStringList(manifest.getExportedPackages(), EXPORTED_PACKAGES);
         assertStringList(manifest.getExportedResources(), EXPORTED_RESOURCES);
 

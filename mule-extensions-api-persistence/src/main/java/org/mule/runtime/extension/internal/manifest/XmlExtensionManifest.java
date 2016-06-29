@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.manifest;
 
+import org.mule.api.MuleVersion;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 
@@ -41,6 +42,9 @@ public final class XmlExtensionManifest implements ExtensionManifest
     @XmlElement
     private String version;
 
+    @XmlElement
+    private String minMuleVersion;
+
     @XmlElementWrapper(name = "exportedPackages")
     @XmlElement(name = "package")
     private List<String> exportedPackages = new ArrayList<>();
@@ -71,6 +75,12 @@ public final class XmlExtensionManifest implements ExtensionManifest
     }
 
     @Override
+    public MuleVersion getMinMuleVersion()
+    {
+        return new MuleVersion(minMuleVersion);
+    }
+
+    @Override
     public DescriberManifest getDescriberManifest()
     {
         return describerManifest;
@@ -89,6 +99,11 @@ public final class XmlExtensionManifest implements ExtensionManifest
     public void setVersion(String version)
     {
         this.version = version;
+    }
+
+    public void setMinMuleVersion(MuleVersion minMuleVersion)
+    {
+        this.minMuleVersion = minMuleVersion.toString();
     }
 
     public void setDescriberManifest(XmlDescriberManifest describerManifest)

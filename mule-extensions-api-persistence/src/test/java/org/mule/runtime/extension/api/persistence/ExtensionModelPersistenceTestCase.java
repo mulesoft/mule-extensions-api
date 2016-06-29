@@ -14,8 +14,10 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.mule.runtime.extension.api.Category.COMMUNITY;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.DISPLAY_MODEL_PROPERTY;
+import org.mule.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.JavaTypeLoader;
 import org.mule.runtime.api.connection.ConnectionProvider;
@@ -83,7 +85,7 @@ public class ExtensionModelPersistenceTestCase
                                                       new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
                                                       modelProperties);
         final ImmutableRuntimeConnectionProviderModel<Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", Integer.class, new DefaultConnectionProviderFactory(), asList(usernameParameter, passwordParameter), emptySet());
-        originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", emptyList(), singletonList(getCarOperation), singletonList(basicAuth), emptyList(), emptySet(), Optional.empty());
+        originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY, new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation), singletonList(basicAuth), emptyList(), emptySet(), Optional.empty());
         extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
         final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
         serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);

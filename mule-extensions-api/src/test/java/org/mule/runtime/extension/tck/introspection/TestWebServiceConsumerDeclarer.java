@@ -9,9 +9,11 @@ package org.mule.runtime.extension.tck.introspection;
 import static org.mockito.Mockito.mock;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
+import org.mule.api.MuleVersion;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.java.api.JavaTypeLoader;
+import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
@@ -82,6 +84,8 @@ public class TestWebServiceConsumerDeclarer
     public static final String URL = "url";
     public static final String URL_DESCRIPTION = "Url to listen on";
     public static final String PORT_DESCRIPTION = "Port to listen on";
+    public static final MuleVersion MIN_MULE_VERSION = new MuleVersion("4.0");
+
     public static final int DEFAULT_PORT = 8080;
 
     public static final ModelProperty EXTENSION_MODEL_PROPERTY = new TestModelProperty("customExtensionModelProperty");
@@ -92,7 +96,6 @@ public class TestWebServiceConsumerDeclarer
 
     public static final String CONNECTION_PROVIDER_NAME = "connectionProvider";
     public static final String CONNECTION_PROVIDER_DESCRIPTION = "my connection provider";
-    public static final Class<?> CONNECTION_PROVIDER_CONFIG_TYPE = String.class;
     public static final Class<?> CONNECTION_PROVIDER_CONNECTOR_TYPE = Integer.class;
 
     private final ExtensionDeclarer extensionDeclarer;
@@ -116,6 +119,7 @@ public class TestWebServiceConsumerDeclarer
     {
         extensionDeclarer = new ExtensionDeclarer();
         extensionDeclarer.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
+                .withCategory(Category.SELECT).withMinMuleVersion(MIN_MULE_VERSION)
                 .withExceptionEnricherFactory(exceptionEnricherFactory)
                 .withModelProperty(EXTENSION_MODEL_PROPERTY);
 

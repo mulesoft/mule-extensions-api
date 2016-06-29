@@ -14,6 +14,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mule.runtime.extension.api.Category.SELECT;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
@@ -36,6 +37,7 @@ import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsume
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.HAS_NO_ARGS;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.LISTENER;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.LISTEN_DESCRIPTION;
+import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.MIN_MULE_VERSION;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.MTOM_DESCRIPTION;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.MTOM_ENABLED;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.MULESOFT;
@@ -60,6 +62,7 @@ import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsume
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.extension.tck.introspection.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
+
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.NullType;
 import org.mule.metadata.api.model.NumberType;
@@ -118,6 +121,8 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(extensionDeclaration.getVersion(), is(VERSION));
         assertThat(extensionDeclaration.getConfigurations(), hasSize(1));
         assertThat(extensionDeclaration.getVendor(), is(MULESOFT));
+        assertThat(extensionDeclaration.getMinMuleVersion(), is(MIN_MULE_VERSION));
+        assertThat(extensionDeclaration.getCategory(), is(SELECT));
         assertThat(extensionDeclaration.getExceptionEnricherFactory().isPresent(), is(true));
         assertThat(extensionDeclaration.getExceptionEnricherFactory().get(), is(sameInstance(testDeclaration.getExceptionEnricherFactory().get())));
         assertModelProperties(extensionDeclaration, EXTENSION_MODEL_PROPERTY);

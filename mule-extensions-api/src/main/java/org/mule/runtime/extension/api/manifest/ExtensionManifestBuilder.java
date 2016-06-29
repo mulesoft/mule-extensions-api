@@ -7,6 +7,8 @@
 package org.mule.runtime.extension.api.manifest;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+
+import org.mule.api.MuleVersion;
 import org.mule.runtime.extension.internal.manifest.ImmutableDescriberManifest;
 import org.mule.runtime.extension.internal.manifest.ImmutableExtensionManifest;
 
@@ -27,6 +29,7 @@ public final class ExtensionManifestBuilder
     private String name;
     private String description;
     private String version;
+    private MuleVersion minMuleVersion;
     private List<String> exportedPackages = new LinkedList<>();
     private List<String> exportedResources = new LinkedList<>();
     private final DescriberManifestBuilder describerManifestBuilder = new DescriberManifestBuilder();
@@ -94,6 +97,18 @@ public final class ExtensionManifestBuilder
     }
 
     /**
+     * Sets the extension's minimum Mule Runtime version that requires to work correctly
+     *
+     * @param muleVersion of the extension
+     * @return {@code this} builder
+     */
+    public ExtensionManifestBuilder setMinMuleVersion(MuleVersion muleVersion)
+    {
+        this.minMuleVersion = muleVersion;
+        return this;
+    }
+
+    /**
      * Returns a {@link DescriberManifestBuilder} to be used
      * for created the associated {@link DescriberManifest}.
      * <p>
@@ -115,7 +130,7 @@ public final class ExtensionManifestBuilder
      */
     public ExtensionManifest build()
     {
-        return new ImmutableExtensionManifest(name, description, version, exportedPackages, exportedResources, describerManifestBuilder.build());
+        return new ImmutableExtensionManifest(name, description, version, minMuleVersion, exportedPackages, exportedResources, describerManifestBuilder.build());
     }
 
     /**
