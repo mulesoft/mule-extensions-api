@@ -156,7 +156,6 @@ public class TestWebServiceConsumerDeclarer
 
         ConnectionProviderDeclarer connectionProvider = extensionDeclarer.withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
                 .createdWith(connectionProviderFactory)
-                .forConfigsOfType(CONNECTION_PROVIDER_CONFIG_TYPE)
                 .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE);
         connectionProvider.withRequiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(typeLoader.load(String.class));
         connectionProvider.withRequiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(typeLoader.load(String.class));

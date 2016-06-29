@@ -73,7 +73,6 @@ public class TestHttpConnectorDeclarer
 
         requesterConfig.withConnectionProvider(REQUESTER_PROVIDER)
                 .createdWith(requesterConnectionProviderFactory)
-                .forConfigsOfType(REQUESTER_CONNECTION_PROVIDER_CONFIG_TYPE)
                 .whichGivesConnectionsOfType(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE);
 
         ConfigurationDeclarer listenerRequester = extensionDeclarer.withConfig(LISTENER_CONFIG_NAME).describedAs(LISTENER_CONFIG_DESCRIPTION).createdWith(configurationFactory);

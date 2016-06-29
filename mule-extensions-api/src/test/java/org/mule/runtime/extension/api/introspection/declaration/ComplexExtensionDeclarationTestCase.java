@@ -21,7 +21,6 @@ import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDecl
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.PORT;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONFIG_DESCRIPTION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONFIG_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONNECTION_PROVIDER_CONFIG_TYPE;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_PROVIDER;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUEST_OPERATION_NAME;
@@ -135,7 +134,6 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
         ConnectionProviderDeclaration provider = extensionDeclaration.getConfigurations().get(0).getConnectionProviders().get(0);
         assertThat(provider.getName(), is(REQUESTER_PROVIDER));
         assertThat(provider.getFactory(), is(sameInstance(testDeclarer.getRequesterConnectionProviderFactory())));
-        assertThat(provider.getConfigurationType(), equalTo(REQUESTER_CONNECTION_PROVIDER_CONFIG_TYPE));
         assertThat(provider.getConnectionType(), equalTo(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE));
     }
 }

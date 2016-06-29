@@ -19,7 +19,6 @@ import org.mule.runtime.extension.api.introspection.connection.ConnectionProvide
 public class ConnectionProviderDeclaration extends ParameterizedInterceptableDeclaration<ConnectionProviderDeclaration> implements ParameterizedDeclaration
 {
     private ConnectionProviderFactory factory;
-    private Class<?> configurationType;
     private Class<?> connectionType;
 
     /**
@@ -38,16 +37,6 @@ public class ConnectionProviderDeclaration extends ParameterizedInterceptableDec
     void setFactory(ConnectionProviderFactory factory)
     {
         this.factory = factory;
-    }
-
-    public Class<?> getConfigurationType()
-    {
-        return configurationType;
-    }
-
-    void setConfigurationType(Class<?> configurationType)
-    {
-        this.configurationType = configurationType;
     }
 
     public Class<?> getConnectionType()

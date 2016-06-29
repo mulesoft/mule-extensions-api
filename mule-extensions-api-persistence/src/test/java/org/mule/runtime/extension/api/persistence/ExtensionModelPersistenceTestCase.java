@@ -82,7 +82,7 @@ public class ExtensionModelPersistenceTestCase
                                                       new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
                                                       new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
                                                       modelProperties);
-        final ImmutableRuntimeConnectionProviderModel<String, Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", String.class, Integer.class, new DefaultConnectionProviderFactory(), asList(usernameParameter, passwordParameter), emptySet());
+        final ImmutableRuntimeConnectionProviderModel<Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", Integer.class, new DefaultConnectionProviderFactory(), asList(usernameParameter, passwordParameter), emptySet());
         originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", emptyList(), singletonList(getCarOperation), singletonList(basicAuth), emptyList(), emptySet(), Optional.empty());
         extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
         final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);

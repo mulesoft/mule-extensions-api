@@ -17,14 +17,12 @@ import java.util.Set;
 /**
  * Immutable implementation of {@link ConnectionProviderModel}
  *
- * @param <Config>     the generic type for the configuration objects that the returned {@link ConnectionProvider providers} accept
  * @param <Connection> the generic type for the connections that the returned  {@link ConnectionProvider providers} produce
  * @since 1.0
  */
-public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> extends ImmutableConnectionProviderModel<Config, Connection> implements RuntimeConnectionProviderModel<Config, Connection>
+public final class ImmutableRuntimeConnectionProviderModel<Connection> extends ImmutableConnectionProviderModel<Connection> implements RuntimeConnectionProviderModel<Connection>
 {
 
-    private transient final Class<Config> configurationType;
     private transient Class<Connection> connectionType;
     private transient final ConnectionProviderFactory connectionProviderFactory;
 
@@ -33,7 +31,6 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
      *
      * @param name                      the provider's name
      * @param description               the provider's description
-     * @param configurationType         the {@link Class} of the objects accepted as configs
      * @param connectionType            the {@link Class} of the provided connections
      * @param connectionProviderFactory the {@link ConnectionProviderFactory} used to create realizations of {@code this} model
      * @param parameterModels           a {@link List} with the provider's {@link ParameterModel parameterModels}
@@ -42,7 +39,6 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
      */
     public ImmutableRuntimeConnectionProviderModel(String name,
                                                    String description,
-                                                   Class<Config> configurationType,
                                                    Class<Connection> connectionType,
                                                    ConnectionProviderFactory connectionProviderFactory,
                                                    List<ParameterModel> parameterModels,
@@ -50,11 +46,9 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
     {
         super(name, description, parameterModels, modelProperties);
 
-        checkArgument(configurationType != null, "configurationType cannot be null");
         checkArgument(connectionType != null, "connectionType cannot be null");
         checkArgument(connectionProviderFactory != null, "connectionProviderFactory cannot be null");
 
-        this.configurationType = configurationType;
         this.connectionType = connectionType;
         this.connectionProviderFactory = connectionProviderFactory;
     }
@@ -67,16 +61,6 @@ public final class ImmutableRuntimeConnectionProviderModel<Config, Connection> e
     public ConnectionProviderFactory getConnectionProviderFactory()
     {
         return connectionProviderFactory;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public Class<Config> getConfigurationType()
-    {
-        return configurationType;
     }
 
     /**

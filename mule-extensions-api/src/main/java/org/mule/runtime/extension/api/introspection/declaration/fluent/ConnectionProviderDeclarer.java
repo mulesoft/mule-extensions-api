@@ -55,19 +55,6 @@ public final class ConnectionProviderDeclarer extends ParameterizedDeclarer<Conn
     }
 
     /**
-     * The {@link Class} to which the first generic in the {@link ConnectionProvider}
-     * interface is resolved to on the instances that the {@link #declaration} describes
-     *
-     * @param configType a {@link Class}
-     * @return {@code this} declarer
-     */
-    public ConnectionProviderDeclarer forConfigsOfType(Class<?> configType)
-    {
-        declaration.setConfigurationType(configType);
-        return this;
-    }
-
-    /**
      * The {@link Class} to which the second generic in the {@link ConnectionProvider}
      * interface is resolved to on the instances that the {@link #declaration} describes
      *

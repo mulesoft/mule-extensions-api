@@ -15,7 +15,7 @@ package org.mule.runtime.extension.api.introspection.connection;
  * @see ConnectionProviderModel
  * @since 1.0
  */
-public interface RuntimeConnectionProviderModel<Config, Connection> extends ConnectionProviderModel<Config, Connection>
+public interface RuntimeConnectionProviderModel<Connection> extends ConnectionProviderModel<Connection>
 {
 
     /**
@@ -23,11 +23,6 @@ public interface RuntimeConnectionProviderModel<Config, Connection> extends Conn
      * consistent with this model
      */
     ConnectionProviderFactory getConnectionProviderFactory();
-
-    /**
-     * @return The {@link Class} object for the {@code Config} type
-     */
-    Class<Config> getConfigurationType();
 
     /**
      * @return The {@link Class} object for the {@code Connection} type
