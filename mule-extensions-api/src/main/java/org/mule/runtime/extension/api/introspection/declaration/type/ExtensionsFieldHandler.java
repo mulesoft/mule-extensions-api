@@ -12,10 +12,10 @@ import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
-import org.mule.metadata.java.handler.DefaultObjectFieldHandler;
-import org.mule.metadata.java.handler.ObjectFieldHandler;
-import org.mule.metadata.java.handler.TypeHandlerManager;
-import org.mule.metadata.java.utils.ParsingContext;
+import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
+import org.mule.metadata.java.api.handler.ObjectFieldHandler;
+import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.runtime.extension.api.annotation.Expression;
 
 import java.beans.Introspector;

@@ -61,7 +61,17 @@
         "format": "java",
         "type": "Object",
         "annotations": {
-          "typeId": "java.lang.Object"
+          "typeId": "java.lang.Object",
+          "classInformation": {
+            "hasDefaultConstructor": true,
+            "isInterface": false,
+            "isInstantiable": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "implementedInterfaces": [],
+            "parent":"",
+            "genericTypes": []
+          }
         },
         "fields": {}
       }

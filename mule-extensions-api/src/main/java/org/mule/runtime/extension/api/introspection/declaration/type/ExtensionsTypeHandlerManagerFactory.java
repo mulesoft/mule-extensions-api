@@ -7,8 +7,8 @@
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
 
-import org.mule.metadata.java.handler.TypeHandlerManager;
-import org.mule.metadata.java.handler.TypeHandlerManagerFactory;
+import org.mule.metadata.java.api.handler.TypeHandlerManager;
+import org.mule.metadata.java.api.handler.TypeHandlerManagerFactory;
 
 /**
  * An implementation of {@link TypeHandlerManagerFactory} which creates instances of
