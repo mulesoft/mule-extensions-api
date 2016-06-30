@@ -12,11 +12,12 @@ import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
-import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
+import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.NoRef;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -60,6 +61,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
 
             setOptionalAndDefault(field, fieldBuilder);
             setExpressionSupport(field, fieldBuilder);
+            setReferenceSupport(field, fieldBuilder);
             setFieldType(typeHandlerManager, context, field, fieldBuilder);
         }
     }
@@ -83,6 +85,14 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
     {
         Expression expression = field.getAnnotation(Expression.class);
         fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
+    }
+
+    private void setReferenceSupport(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
+    {
+        if (field.getAnnotation(NoRef.class) != null)
+        {
+            fieldBuilder.with(new NoReferenceAnnotation());
+        }
     }
 
     private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
