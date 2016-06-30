@@ -7,14 +7,14 @@
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
 import static com.google.common.base.Predicates.not;
+import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.reflections.ReflectionUtils.getAllFields;
 import static org.reflections.ReflectionUtils.withAnnotation;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.param.Ignore;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
-import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.utils.MetadataTypeUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -70,8 +70,13 @@ public final class TypeUtils
      */
     public static ExpressionSupport getExpressionSupport(MetadataType metadataType)
     {
-        return MetadataTypeUtils.getSingleAnnotation(metadataType, ExpressionSupportAnnotation.class)
+        return getSingleAnnotation(metadataType, ExpressionSupportAnnotation.class)
                 .map(ExpressionSupportAnnotation::getExpressionSupport)
                 .orElse(ExpressionSupport.SUPPORTED);
+    }
+
+    public static boolean acceptsReferences(MetadataType metadataType)
+    {
+        return !getSingleAnnotation(metadataType, NoReferenceAnnotation.class).isPresent();
     }
 }

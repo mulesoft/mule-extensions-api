@@ -6,10 +6,15 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.param.NoRef;
 
 import org.junit.Test;
 
@@ -25,8 +30,25 @@ public class ExtensionFieldHandlerTestCase
         assertThat(type.getFields(), hasSize(0));
     }
 
+    @Test
+    public void noRef()
+    {
+        ObjectType type = (ObjectType) typeLoader.load(NoRefType.class);
+        assertThat(type.getFields(), hasSize(1));
+        assertThat(type.getFields().iterator().next().getAnnotation(NoReferenceAnnotation.class), is(not(emptyIterable())));
+    }
+
     interface HasGetter
     {
+
         String getSomeString();
+    }
+
+    public class NoRefType
+    {
+
+        @Parameter
+        @NoRef
+        private Object data;
     }
 }
