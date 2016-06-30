@@ -12,10 +12,10 @@ import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
-import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
+import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
 
 import java.beans.Introspector;
@@ -91,7 +91,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
         if (optionalAnnotation != null)
         {
             fieldBuilder.required(false);
-            if (optionalAnnotation.defaultValue() != org.mule.runtime.extension.api.annotation.param.Optional.NULL)
+            if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL))
             {
                 fieldBuilder.with(new DefaultValueAnnotation(optionalAnnotation.defaultValue()));
             }
