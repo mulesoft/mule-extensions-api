@@ -24,8 +24,7 @@ public interface OperationContext
     /**
      * Returns whether parameter of name {@code parameterName} has a value associated to it.
      *
-     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being
-     *            executed
+     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
      * @return {@code true} if the parameter is present.
      */
     boolean hasParameter(String parameterName);
@@ -33,29 +32,25 @@ public interface OperationContext
     /**
      * Returns the value associated to a parameter of name {@code parameterName}
      *
-     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being
-     *            executed
-     * @param <T> the returned value's generic type
-     * @return the parameter's value or {@code null}. Notice that {@code null} means that the
-     *         parameter has been resolved to that value.
+     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
+     * @param <T>           the returned value's generic type
+     * @return the parameter's value or {@code null}. Notice that {@code null} means that the parameter has been
+     *         resolved to that value.
      * @throws NoSuchElementException if the parameter is not present.
      */
     <T> T getParameter(String parameterName);
 
     /**
-     * Same as {@link #getParameter(String)} with the added restriction that the returned value is
-     * expected to be either an instance of {@code expectedType} or {@code null}
+     * Same as {@link #getParameter(String)} with the added restriction that the returned value is expected to be either
+     * an instance of {@code expectedType} or {@code null}
      *
-     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being
-     *            executed
-     * @param expectedType a {@link Class} of which the returned value is expected to be an instance
-     *            of
-     * @param <T> the returned value's expected type
-     * @return the parameter's value or {@code null}. Notice that {@code null} means that the
-     *         parameter has been resolved to that value.
+     * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
+     * @param expectedType  a {@link Class} of which the returned value is expected to be an instance of
+     * @param <T>           the returned value's expected type
+     * @return the parameter's value or {@code null}. Notice that {@code null} means that the parameter has been
+     *         resolved to that value.
      * @throws NoSuchElementException if the parameter is not present.
-     * @throws IllegalArgumentException if the returned value is not an instance of
-     *             {@code expectedType}
+     * @throws IllegalArgumentException if the returned value is not an instance of {@code expectedType}
      */
     <T> T getTypeSafeParameter(String parameterName, Class<? extends T> expectedType);
 
