@@ -101,7 +101,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
         if (optionalAnnotation != null)
         {
             fieldBuilder.required(false);
-            if (optionalAnnotation.defaultValue() != org.mule.runtime.extension.api.annotation.param.Optional.NULL)
+            if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL))
             {
                 fieldBuilder.with(new DefaultValueAnnotation(optionalAnnotation.defaultValue()));
             }
