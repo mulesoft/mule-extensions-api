@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime;
 
+import org.mule.runtime.extension.api.runtime.operation.OperationContext;
+
 /**
  * Taps into different phases of the execution of an extension's operation
  * allowing to take different actions depending on the phase.

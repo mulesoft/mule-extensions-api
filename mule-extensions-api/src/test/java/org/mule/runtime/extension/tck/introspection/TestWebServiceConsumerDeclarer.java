@@ -25,7 +25,7 @@ import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsT
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.runtime.Interceptor;
-import org.mule.runtime.extension.api.runtime.OperationExecutorFactory;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory;
 import org.mule.runtime.extension.api.runtime.source.Source;
 
 import java.io.InputStream;

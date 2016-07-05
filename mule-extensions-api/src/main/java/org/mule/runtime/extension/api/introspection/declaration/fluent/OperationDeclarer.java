@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.runtime.extension.api.runtime.OperationExecutor;
-import org.mule.runtime.extension.api.runtime.OperationExecutorFactory;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutor;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory;
 
 /**
  * Allows configuring a {@link OperationDeclaration} through a fluent API

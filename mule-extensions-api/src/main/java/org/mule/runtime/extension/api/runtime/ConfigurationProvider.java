@@ -27,7 +27,7 @@ public interface ConfigurationProvider<T>
      * <p/>
      * This method may return an instance already returned in the past or a brand new one.
      *
-     * @param muleEvent a {@link OperationContext}
+     * @param muleEvent the event which processing requires the instance
      * @return a {@link ConfigurationInstance}
      */
     //TODO: MULE-8946
