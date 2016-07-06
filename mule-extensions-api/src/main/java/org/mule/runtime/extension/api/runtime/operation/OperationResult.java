@@ -19,10 +19,11 @@ import java.util.Optional;
  * {@link MediaType}.
  * <p>
  * The {@link #getOutput()} value is always taken at face value, meaning that
- * if it's {@code null}, then the message payload will also be nullified. However,
- * if the {@link #getAttributes()} or {@link #getMediaType()} are {@link Optional#empty},
- * then the runtime will interpret that as the operation not interested in changing
- * those values, keeping the input message's attributes and/or media type untouched.
+ * if it's {@code null}, then the value that the operation returns to the runtime
+ * will in fact be {@codenull}. However, if the {@link #getAttributes()} or
+ * {@link #getMediaType()} are {@link Optional#empty}, then the runtime will interpret
+ * that as the operation not interested in setting those values, keeping the input message's
+ * attributes and/or media type untouched.
  *
  * @param <OUTPUT>     the generic type of the output value
  * @param <ATTRIBUTES> the generic type of the message attributes
