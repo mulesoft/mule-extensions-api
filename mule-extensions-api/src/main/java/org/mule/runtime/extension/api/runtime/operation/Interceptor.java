@@ -4,7 +4,10 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.runtime;
+package org.mule.runtime.extension.api.runtime.operation;
+
+import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
+import org.mule.runtime.extension.api.runtime.RetryRequest;
 
 /**
  * Taps into different phases of the execution of an extension's operation

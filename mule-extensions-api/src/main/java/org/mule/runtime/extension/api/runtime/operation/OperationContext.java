@@ -4,12 +4,13 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.runtime;
+package org.mule.runtime.extension.api.runtime.operation;
 
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.operation.RuntimeOperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 
 import java.util.NoSuchElementException;
 

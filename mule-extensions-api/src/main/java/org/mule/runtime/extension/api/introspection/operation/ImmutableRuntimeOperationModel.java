@@ -17,7 +17,7 @@ import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherF
 import org.mule.runtime.extension.api.introspection.metadata.MetadataResolverFactory;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.runtime.InterceptorFactory;
-import org.mule.runtime.extension.api.runtime.OperationExecutorFactory;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory;
 
 import java.beans.Transient;
 import java.util.Collections;

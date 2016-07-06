@@ -7,8 +7,8 @@
 package org.mule.runtime.extension.api.introspection.operation;
 
 import org.mule.runtime.extension.api.introspection.RuntimeComponentModel;
-import org.mule.runtime.extension.api.runtime.OperationExecutor;
-import org.mule.runtime.extension.api.runtime.OperationExecutorFactory;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutor;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory;
 
 /**
  * A specialization of the {@link OperationModel} interface which adds

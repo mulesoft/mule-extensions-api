@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime;
 
+import org.mule.runtime.extension.api.runtime.operation.Interceptor;
+
 /**
  * Creates new instances of {@link Interceptor}.
  * <p/>

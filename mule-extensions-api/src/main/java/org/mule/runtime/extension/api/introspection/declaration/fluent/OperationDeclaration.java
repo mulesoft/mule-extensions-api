@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.runtime.OperationExecutorFactory;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory;
 
 /**
  * A declaration object for a {@link OperationModel}. It contains raw, unvalidated

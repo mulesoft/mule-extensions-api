@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.parameter;
 
-import org.mule.runtime.extension.api.runtime.OperationExecutor;
+import org.mule.runtime.extension.api.runtime.operation.OperationExecutor;
 
 /**
  * Enumerates the different types of support that
