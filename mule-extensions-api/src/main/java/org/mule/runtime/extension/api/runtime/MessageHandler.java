@@ -35,13 +35,13 @@ public interface MessageHandler<Payload, Attributes extends Serializable>
      * @param completionHandler the {@link CompletionHandler} on which the result is to be notified
      */
     //TODO: MULE-8946: this should actually receive a messaging exception
-    void handle(MuleMessage<Payload, Attributes> message, CompletionHandler<MuleEvent, Exception, MuleEvent> completionHandler);
+    void handle(MuleMessage message, CompletionHandler<MuleEvent, Exception, MuleEvent> completionHandler);
 
     /**
      * Handles the {@code message} without notifying the result. Useful to implement fire and forget use cases
      *
      * @param message the {@link MuleMessage} to be handled
      */
-    void handle(MuleMessage<Payload, Attributes> message);
+    void handle(MuleMessage message);
 
 }
