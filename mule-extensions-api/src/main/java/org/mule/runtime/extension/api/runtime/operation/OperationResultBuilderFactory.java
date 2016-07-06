@@ -66,10 +66,10 @@ public abstract class OperationResultBuilderFactory
     /**
      * Creates a new {@link OperationResult.Builder}
      *
-     * @param <OUTPUT>     the generic type of the output value
-     * @param <ATTRIBUTES> the generic type of the message attributes
+     * @param <Output>     the generic type of the output value
+     * @param <Attributes> the generic type of the message attributes
      * @return a new {@link OperationResult.Builder}
      */
-    public abstract <OUTPUT, ATTRIBUTES extends Serializable> OperationResult.Builder<OUTPUT, ATTRIBUTES> create();
+    public abstract <Output, Attributes extends Serializable> OperationResult.Builder<Output, Attributes> create();
 
 }
