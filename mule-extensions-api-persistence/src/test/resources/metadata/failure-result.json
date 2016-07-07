@@ -1,10 +1,74 @@
 {
-  "isSuccess": false,
-  "failure": {
-    "message": "Metadata Failure Error",
-    "reason": "Metadata Failure Error",
-    "failureCode": {
-      "name": "CONNECTION_FAILURE"
+  "componentName": "testOperationMetadataDescriptor",
+  "parameters": [
+    {
+      "name": "stringParam1",
+      "type": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "isDynamic": false
+    },
+    {
+      "name": "content",
+      "type": {
+        "format": "java",
+        "type": "Object",
+        "annotations": {
+          "typeId": "java.lang.Object",
+          "classInformation": {
+            "hasDefaultConstructor": true,
+            "isInterface": false,
+            "isInstantiable": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "implementedInterfaces": [],
+            "parent": "",
+            "genericTypes": []
+          }
+        },
+        "fields": []
+      },
+      "isDynamic": true
     }
-  }
+  ],
+  "output": {
+    "content": {
+      "type": {
+        "format": "java",
+        "type": "Number",
+        "annotations": {
+          "typeId": "java.lang.Integer"
+        }
+      },
+      "isDynamic": true
+    },
+    "attributes": {
+      "type": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "isDynamic": true
+    }
+  },
+  "failures": [
+    {
+      "failureCode": "CONNECTION_FAILURE",
+      "message": "Metadata Failure Error",
+      "reason": "Metadata Failure Error",
+      "failureComponent": "COMPONENT"
+    },
+    {
+      "failureCode": "INVALID_METADATA_KEY",
+      "message": "Metadata Content Failure Error",
+      "reason": "",
+      "failureComponent": "CONTENT"
+    }
+  ]
 }

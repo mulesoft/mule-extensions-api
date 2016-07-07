@@ -6,14 +6,16 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
-import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
-import org.mule.runtime.api.metadata.resolving.MetadataResult;
-import org.mule.runtime.extension.api.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
+import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
+import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
+import org.mule.runtime.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.extension.api.persistence.DefaultImplementationTypeAdapterFactory;
+import org.mule.runtime.extension.api.persistence.RestrictiveTypeAdapterFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,7 +34,9 @@ public abstract class AbstractMetadataResultJsonSerializer
     public AbstractMetadataResultJsonSerializer(boolean prettyPrint)
     {
         final GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(TypeMetadataDescriptor.class, ImmutableTypeMetadataDescriptor.class))
+                .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(ParameterMetadataDescriptor.class, ParameterMetadataDescriptor.class))
+                .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(TypeMetadataDescriptor.class, ParameterMetadataDescriptor.class))
+                .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(MetadataResult.class, ImmutableMetadataResult.class))
                 .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(OutputMetadataDescriptor.class, ImmutableOutputMetadataDescriptor.class))
                 .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter());
 

@@ -1,5 +1,6 @@
 {
-  "payload": [
+  "failures": [],
+  "keys": [
     {
       "id": "firstKey",
       "displayName": "firstKey",
@@ -14,6 +15,5 @@
       "properties": {},
       "childs": []
     }
-  ],
-  "isSuccess": true
+  ]
 }
