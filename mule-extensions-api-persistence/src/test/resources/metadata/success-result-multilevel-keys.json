@@ -1,8 +1,5 @@
 {
-  "result": {
-    "failures": [],
-    "isSuccess": true
-  },
+  "failures": [],
   "keys": [
     {
       "id": "firstKey",

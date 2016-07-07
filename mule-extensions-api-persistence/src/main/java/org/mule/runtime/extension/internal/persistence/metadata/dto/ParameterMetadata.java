@@ -4,11 +4,10 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata.dto;
+package org.mule.runtime.extension.internal.persistence.metadata.dto;
 
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
-import static org.mule.runtime.extension.api.persistence.metadata.dto.ComponentResult.CONTENT;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.metadata.descriptor.ImmutableParameterMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
@@ -24,6 +23,7 @@ import java.util.Optional;
  */
 class ParameterMetadata implements Descriptable<ParameterMetadataDescriptor>
 {
+    final static String CONTENT = "CONTENT";
 
     private final String name;
     private final MetadataType type;

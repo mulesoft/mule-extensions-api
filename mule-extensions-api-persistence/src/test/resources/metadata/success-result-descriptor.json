@@ -79,8 +79,5 @@
       "isDynamic": true
     }
   },
-  "result": {
-    "failures": [],
-    "isSuccess": true
-  }
+  "failures": []
 }

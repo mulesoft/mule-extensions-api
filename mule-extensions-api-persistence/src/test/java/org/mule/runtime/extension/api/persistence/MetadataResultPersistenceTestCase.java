@@ -56,6 +56,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
     private static final String METADATA_RESULT_ERROR_MESSAGE = "Metadata Failure Error";
     private static final String FIRST_CHILD = "firstChild";
     private static final String SECOND_CHILD = "secondChild";
+    private static final String METADATA_CONTENT_FAILURE = "Metadata Content Failure Error";
 
     private ComponentMetadataDescriptor operationMetadataDescriptor;
     private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
@@ -112,7 +113,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
         List<MetadataResult<ParameterMetadataDescriptor>> parameters = new ArrayList<>();
         parameters.add(success(new ImmutableParameterMetadataDescriptor("stringParam1", stringType)));
         MetadataResult<OutputMetadataDescriptor> outputMetadataDescriptor = success(new ImmutableOutputMetadataDescriptor(success(new ImmutableTypeMetadataDescriptor(intType)), success(new ImmutableTypeMetadataDescriptor(stringType))));
-        MetadataResult<ParameterMetadataDescriptor> content = failure(new ImmutableParameterMetadataDescriptor("content", javaTypeLoader.load(Object.class)), "Metadata Content Failure Error", FailureCode.INVALID_METADATA_KEY, "");
+        MetadataResult<ParameterMetadataDescriptor> content = failure(new ImmutableParameterMetadataDescriptor("content", javaTypeLoader.load(Object.class)), METADATA_CONTENT_FAILURE, FailureCode.INVALID_METADATA_KEY, "");
 
         ImmutableComponentMetadataDescriptor metadataDescriptor = new ImmutableComponentMetadataDescriptor("testOperationMetadataDescriptor", parameters, outputMetadataDescriptor, content);
 
@@ -148,7 +149,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
     }
 
     @Test
-    public void deserializeFailureResult() throws IOException
+    public void deserializeFailureKeysResult() throws IOException
     {
         String resource = getResourceAsString(METADATA_KEYS_RESULT_FAILURE_JSON);
         ImmutableMetadataResult<Set<DefaultMetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
@@ -160,6 +161,28 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
         assertThat(metadataFailures.get().getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
         assertThat(metadataFailures.get().getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
         assertThat(metadataFailures.get().getFailureCode().getName(), is(FailureCode.NOT_AUTHORIZED.getName()));
+    }
+
+    @Test
+    public void deserializeFailureResult() throws IOException
+    {
+        String resource = getResourceAsString(METADATA_RESULT_FAILURE_JSON);
+        ImmutableMetadataResult<ImmutableComponentMetadataDescriptor> metadataResult = metadataDescriptorSerializer.deserialize(resource);
+
+        assertThat(metadataResult.isSuccess(), is(false));
+        assertThat(metadataResult.getFailure().isPresent(), is(true));
+
+        Optional<MetadataFailure> metadataFailures = metadataResult.getFailure();
+        assertThat(metadataFailures.get().getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
+        assertThat(metadataFailures.get().getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
+        assertThat(metadataFailures.get().getFailureCode().getName(), is(FailureCode.CONNECTION_FAILURE.getName()));
+
+        MetadataResult<ParameterMetadataDescriptor> contentMetadata = metadataResult.get().getContentMetadata().get();
+        assertThat(contentMetadata.isSuccess(), is(false));
+        assertThat(contentMetadata.getFailure().get().getMessage(), is(METADATA_CONTENT_FAILURE));
+        assertThat(contentMetadata.getFailure().get().getFailureCode().getName(), is(FailureCode.INVALID_METADATA_KEY.getName()));
+
+        assertThat(metadataResult.get().getOutputMetadata().isSuccess(), is(true));
     }
 
     private ComponentMetadataDescriptor buildTestOperationMetadataDescriptor()

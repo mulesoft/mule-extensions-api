@@ -4,14 +4,11 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata.dto;
+package org.mule.runtime.extension.internal.persistence.metadata.dto;
 
 import static java.util.Collections.emptyList;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
-import static org.mule.runtime.extension.api.persistence.metadata.dto.ComponentResult.OUTPUT;
-import static org.mule.runtime.extension.api.persistence.metadata.dto.ComponentResult.OUTPUT_ATTRIBUTES;
-import static org.mule.runtime.extension.api.persistence.metadata.dto.ComponentResult.OUTPUT_PAYLOAD;
 import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
@@ -28,6 +25,9 @@ import java.util.Optional;
  */
 public class OutputMetadata implements Descriptable<OutputMetadataDescriptor>
 {
+    final static String OUTPUT_PAYLOAD = "OUTPUT_PAYLOAD";
+    final static String OUTPUT_ATTRIBUTES = "OUTPUT_ATTRIBUTES";
+    final static String OUTPUT = "OUTPUT";
 
     private final TypeMetadata content;
     private final TypeMetadata attributes;

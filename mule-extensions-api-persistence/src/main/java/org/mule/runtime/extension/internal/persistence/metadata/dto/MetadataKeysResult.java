@@ -4,13 +4,16 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata.dto;
+package org.mule.runtime.extension.internal.persistence.metadata.dto;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,21 +24,23 @@ import java.util.Set;
  */
 public class MetadataKeysResult
 {
+    private final static String KEYS = "KEYS";
 
-    private final KeysResult result;
+    private final List<Failure> failures;
     private final Set<DefaultMetadataKey> keys;
 
-    public MetadataKeysResult(MetadataResult<Set<DefaultMetadataKey>> metadataKeysResult)
+    public MetadataKeysResult(MetadataResult<Set<DefaultMetadataKey>> result)
     {
-        this.result = new KeysResult(metadataKeysResult);
-        this.keys = metadataKeysResult.get();
+        this.failures = result.isSuccess() ? emptyList()
+                                           : singletonList(new Failure(result.getFailure().get(), KEYS));
+        this.keys = result.get();
     }
 
     public MetadataResult<Set<DefaultMetadataKey>> toKeysMetadataResult()
     {
-        if (!result.isSuccess())
+        if (!failures.isEmpty())
         {
-            Failure metadataFailure = result.getFailures().get(0);
+            Failure metadataFailure = failures.get(0);
             return failure(keys, metadataFailure.getMessage(), metadataFailure.getFailureCode(), metadataFailure.getReason());
         }
 

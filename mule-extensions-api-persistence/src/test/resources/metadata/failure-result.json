@@ -57,21 +57,18 @@
       "isDynamic": true
     }
   },
-  "result": {
-    "failures": [
-      {
-        "failureCode": "CONNECTION_FAILURE",
-        "message": "Metadata Failure Error",
-        "reason": "Metadata Failure Error",
-        "failureComponent": "COMPONENT"
-      },
-      {
-        "failureCode": "INVALID_METADATA_KEY",
-        "message": "Metadata Content Failure Error",
-        "reason": "",
-        "failureComponent": "CONTENT"
-      }
-    ],
-    "isSuccess": false
-  }
+  "failures": [
+    {
+      "failureCode": "CONNECTION_FAILURE",
+      "message": "Metadata Failure Error",
+      "reason": "Metadata Failure Error",
+      "failureComponent": "COMPONENT"
+    },
+    {
+      "failureCode": "INVALID_METADATA_KEY",
+      "message": "Metadata Content Failure Error",
+      "reason": "",
+      "failureComponent": "CONTENT"
+    }
+  ]
 }

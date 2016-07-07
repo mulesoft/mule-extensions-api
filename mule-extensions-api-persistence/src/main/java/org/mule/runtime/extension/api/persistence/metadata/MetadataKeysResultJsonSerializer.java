@@ -10,7 +10,7 @@ import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
-import org.mule.runtime.extension.api.persistence.metadata.dto.MetadataKeysResult;
+import org.mule.runtime.extension.internal.persistence.metadata.dto.MetadataKeysResult;
 
 import com.google.gson.reflect.TypeToken;
 
