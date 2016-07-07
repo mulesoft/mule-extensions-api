@@ -55,9 +55,6 @@ public final class DefaultImplementationTypeAdapterFactory<SuperClass, Implement
         {
             return gson.getDelegateAdapter(this, TypeToken.get((Class<ImplementationClass>) clazz));
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 }

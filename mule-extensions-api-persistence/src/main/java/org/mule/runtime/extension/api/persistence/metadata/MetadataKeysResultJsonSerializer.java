@@ -10,10 +10,12 @@ import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.extension.api.persistence.metadata.dto.MetadataKeysResult;
 
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Serializer that can convert a {@link MetadataResult} of a {@link List} of {@link MetadataKey} type into
@@ -40,17 +42,16 @@ public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJson
     @Override
     public String serialize(MetadataResult metadataResult)
     {
-        return gson.toJson(metadataResult);
+        return gson.toJson(new MetadataKeysResult(metadataResult));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ImmutableMetadataResult<List<MetadataKey>> deserialize(String metadataResult)
+    public ImmutableMetadataResult<Set<DefaultMetadataKey>> deserialize(String metadataResult)
     {
-        return gson.fromJson(metadataResult, new TypeToken<ImmutableMetadataResult<List<DefaultMetadataKey>>>()
-        {
-        }.getType());
+        MetadataKeysResult result = gson.fromJson(metadataResult, new TypeToken<MetadataKeysResult>(){}.getType());
+        return (ImmutableMetadataResult<Set<DefaultMetadataKey>>) result.toKeysMetadataResult();
     }
 }

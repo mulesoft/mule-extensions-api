@@ -1,61 +1,40 @@
 {
-  "payload": {
-    "name": "testOperationMetadataDescriptor",
-    "parameters": [
-      {
-        "name": "stringParam1",
-        "type": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+  "componentName": "testOperationMetadataDescriptor",
+  "parameters": [
+    {
+      "name": "stringParam1",
+      "type": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
         }
       },
-      {
-        "name": "stringParam2",
-        "type": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
-        }
-      },
-      {
-        "name": "intParam1",
-        "type": {
-          "format": "java",
-          "type": "Number",
-          "annotations": {
-            "typeId": "java.lang.Integer"
-          }
-        }
-      }
-    ],
-    "outputParameter": {
-      "payload": {
-        "name": "output",
-        "type": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
-        }
-      },
-      "attributes": {
-        "name": "att",
-        "type": {
-          "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
-        }
-      }
+      "isDynamic": false
     },
-    "content": {
+    {
+      "name": "stringParam2",
+      "type": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "isDynamic": false
+    },
+    {
+      "name": "intParam1",
+      "type": {
+        "format": "java",
+        "type": "Number",
+        "annotations": {
+          "typeId": "java.lang.Integer"
+        }
+      },
+      "isDynamic": false
+    },
+    {
       "name": "content",
       "type": {
         "format": "java",
@@ -74,8 +53,34 @@
           }
         },
         "fields": []
-      }
+      },
+      "isDynamic": true
+    }
+  ],
+  "output": {
+    "content": {
+      "type": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "isDynamic": true
+    },
+    "attributes": {
+      "type": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "isDynamic": true
     }
   },
-  "isSuccess": true
+  "result": {
+    "failures": [],
+    "isSuccess": true
+  }
 }

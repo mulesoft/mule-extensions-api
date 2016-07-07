@@ -6,31 +6,12 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
-import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.metadata.MetadataManager;
-
 /**
  * Represents the output of a {@link ComponentModel Component}
  *
  * @since 1.0
  */
-public interface OutputModel extends Described, EnrichableModel
+public interface OutputModel extends Described, EnrichableModel, Typed
 {
-
-    /**
-     * Returns the type of the {@link ComponentModel Component}'s {@link OutputModel output}
-     *
-     * @return a not {@code null} {@link MetadataType}
-     */
-    MetadataType getType();
-
-    /**
-     * Returns {@code true} if the type of the {@link ComponentModel Component}'s
-     * {@link OutputModel output} is of dynamic kind, and has to be discovered
-     * during design time using the {@link MetadataManager} service.
-     *
-     * @return {@code true} if {@code this} element type is of dynamic kind
-     */
-    boolean hasDynamicType();
 
 }

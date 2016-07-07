@@ -10,6 +10,7 @@ import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.extension.api.persistence.metadata.dto.ComponentMetadataResult;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -38,7 +39,7 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
     @Override
     public String serialize(MetadataResult metadataResult)
     {
-        return gson.toJson(metadataResult);
+        return gson.toJson(new ComponentMetadataResult(metadataResult));
     }
 
     /**
@@ -47,9 +48,8 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
     @Override
     public ImmutableMetadataResult<ImmutableComponentMetadataDescriptor> deserialize(String metadataResult)
     {
-        return gson.fromJson(metadataResult, new TypeToken<ImmutableMetadataResult<ImmutableComponentMetadataDescriptor>>()
-        {
-        }.getType());
+        ComponentMetadataResult result = gson.fromJson(metadataResult, new TypeToken<ComponentMetadataResult>(){}.getType());
+        return (ImmutableMetadataResult<ImmutableComponentMetadataDescriptor>) result.toComponentMetadataResult();
     }
 
 }

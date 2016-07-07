@@ -7,12 +7,11 @@
 package org.mule.runtime.extension.api.introspection.parameter;
 
 import static java.util.Arrays.asList;
-import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.metadata.MetadataManager;
 import org.mule.runtime.extension.api.introspection.ComponentModel;
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.Named;
+import org.mule.runtime.extension.api.introspection.Typed;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 
 import java.util.Collections;
@@ -29,26 +28,10 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public interface ParameterModel extends Named, Described, EnrichableModel
+public interface ParameterModel extends Named, Described, EnrichableModel, Typed
 {
 
     Set<String> RESERVED_NAMES = Collections.unmodifiableSet(new HashSet<>(asList("name")));
-
-    /**
-     * Returns the type of the {@link ParameterModel Parameter}
-     *
-     * @return a not {@code null} {@link MetadataType}
-     */
-    MetadataType getType();
-
-    /**
-     * Returns {@code true} if the type of the {@link ParameterModel parameter}
-     * is of dynamic kind, and has to be discovered during design time
-     * using the {@link MetadataManager} service.
-     *
-     * @return {@code true} if {@code this} element type is of dynamic kind
-     */
-    boolean hasDynamicType();
 
     /**
      * Whether or not this parameter is required. This method is exclusive with

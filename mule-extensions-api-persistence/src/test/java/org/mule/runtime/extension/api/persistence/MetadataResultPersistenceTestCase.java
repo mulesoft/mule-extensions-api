@@ -10,15 +10,20 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
+import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.JavaTypeLoader;
+import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.ImmutableParameterMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.FailureCode;
 import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
@@ -28,8 +33,10 @@ import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJso
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.Before;
@@ -42,6 +49,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
     private static final String METADATA_KEYS_RESULT_JSON = "metadata/success-result-keys.json";
     private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "metadata/success-result-multilevel-keys.json";
     private static final String METADATA_RESULT_FAILURE_JSON = "metadata/failure-result.json";
+    private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
 
     private static final String FIRST_KEY_ID = "firstKey";
     private static final String SECOND_KEY_ID = "secondKey";
@@ -52,7 +60,6 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
     private ComponentMetadataDescriptor operationMetadataDescriptor;
     private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
     private MetadataDescriptorResultJsonSerializer metadataDescriptorSerializer = new MetadataDescriptorResultJsonSerializer(true);
-    private MetadataResult metadataResultFailure = MetadataResult.failure(null, METADATA_RESULT_ERROR_MESSAGE, FailureCode.CONNECTION_FAILURE, METADATA_RESULT_ERROR_MESSAGE);
 
     @Before
     public void setup()
@@ -63,7 +70,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
     @Test
     public void serializeSuccessMetadataDescriptorResult() throws IOException
     {
-        String serialized = metadataDescriptorSerializer.serialize(MetadataResult.success(operationMetadataDescriptor));
+        String serialized = metadataDescriptorSerializer.serialize(success((ImmutableComponentMetadataDescriptor) operationMetadataDescriptor));
         assertSerializedJson(serialized, METADATA_DESCRIPTOR_RESULT_JSON);
     }
 
@@ -74,7 +81,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
         keys.add(newKey(FIRST_KEY_ID).build());
         keys.add(newKey(SECOND_KEY_ID).build());
 
-        String serialized = metadataDescriptorSerializer.serialize(MetadataResult.success(keys));
+        String serialized = keysResultSerializer.serialize(success(keys));
         assertSerializedJson(serialized, METADATA_KEYS_RESULT_JSON);
     }
 
@@ -85,13 +92,31 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
         keys.add(newKey(FIRST_KEY_ID).withChild(newKey(FIRST_CHILD)).withChild(newKey(SECOND_CHILD)).build());
         keys.add(newKey(SECOND_KEY_ID).build());
 
-        String serialized = metadataDescriptorSerializer.serialize(MetadataResult.success(keys));
+        String serialized = keysResultSerializer.serialize(success(keys));
         assertSerializedJson(serialized, METADATA_MULTILEVEL_KEYS_RESULT_JSON);
+    }
+
+    @Test
+    public void serializeFailureMultilevelMetadataKeyResult() throws IOException
+    {
+        String serialized = keysResultSerializer.serialize(failure(new LinkedHashSet<MetadataKey>(), METADATA_RESULT_ERROR_MESSAGE, NOT_AUTHORIZED, METADATA_RESULT_ERROR_MESSAGE ));
+        assertSerializedJson(serialized, METADATA_KEYS_RESULT_FAILURE_JSON);
     }
 
     @Test
     public void serializeFailureMetadataResult() throws IOException
     {
+        final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
+        final MetadataType stringType = javaTypeLoader.load(String.class);
+        final MetadataType intType = javaTypeLoader.load(Integer.class);
+        List<MetadataResult<ParameterMetadataDescriptor>> parameters = new ArrayList<>();
+        parameters.add(success(new ImmutableParameterMetadataDescriptor("stringParam1", stringType)));
+        MetadataResult<OutputMetadataDescriptor> outputMetadataDescriptor = success(new ImmutableOutputMetadataDescriptor(success(new ImmutableTypeMetadataDescriptor(intType)), success(new ImmutableTypeMetadataDescriptor(stringType))));
+        MetadataResult<ParameterMetadataDescriptor> content = failure(new ImmutableParameterMetadataDescriptor("content", javaTypeLoader.load(Object.class)), "Metadata Content Failure Error", FailureCode.INVALID_METADATA_KEY, "");
+
+        ImmutableComponentMetadataDescriptor metadataDescriptor = new ImmutableComponentMetadataDescriptor("testOperationMetadataDescriptor", parameters, outputMetadataDescriptor, content);
+
+        MetadataResult metadataResultFailure = failure(metadataDescriptor, METADATA_RESULT_ERROR_MESSAGE, FailureCode.CONNECTION_FAILURE, METADATA_RESULT_ERROR_MESSAGE);
         String serialized = metadataDescriptorSerializer.serialize(metadataResultFailure);
         assertSerializedJson(serialized, METADATA_RESULT_FAILURE_JSON);
     }
@@ -100,12 +125,13 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
     public void deserializeMetadataKeysResult() throws IOException
     {
         String resource = getResourceAsString(METADATA_KEYS_RESULT_JSON);
-        ImmutableMetadataResult<List<MetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
+        ImmutableMetadataResult<Set<DefaultMetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
 
         assertThat(metadataResult.isSuccess(), is(true));
         assertThat(metadataResult.get().size(), is(2));
-        assertThat(metadataResult.get().get(0).getDisplayName(), is(FIRST_KEY_ID));
-        assertThat(metadataResult.get().get(1).getDisplayName(), is(SECOND_KEY_ID));
+        Iterator<DefaultMetadataKey> iterator = metadataResult.get().iterator();
+        assertThat(iterator.next().getDisplayName(), is(FIRST_KEY_ID));
+        assertThat(iterator.next().getDisplayName(), is(SECOND_KEY_ID));
     }
 
     @Test
@@ -117,23 +143,23 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
         assertThat(metadataResult.isSuccess(), is(true));
         assertThat(metadataResult.get().getName(), is(operationMetadataDescriptor.getName()));
         assertThat(metadataResult.get().getParametersMetadata(), hasSize(3));
-        assertOutputMedatada(metadataResult);
+        assertOutputMetadata(metadataResult);
         assertContentMetadata(metadataResult);
     }
 
     @Test
     public void deserializeFailureResult() throws IOException
     {
-        String resource = getResourceAsString(METADATA_RESULT_FAILURE_JSON);
-        ImmutableMetadataResult<List<MetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
+        String resource = getResourceAsString(METADATA_KEYS_RESULT_FAILURE_JSON);
+        ImmutableMetadataResult<Set<DefaultMetadataKey>> metadataResult = keysResultSerializer.deserialize(resource);
 
         assertThat(metadataResult.isSuccess(), is(false));
         assertThat(metadataResult.getFailure().isPresent(), is(true));
 
-        MetadataFailure metadataFailure = metadataResult.getFailure().get();
-        assertThat(metadataFailure.getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
-        assertThat(metadataFailure.getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
-        assertThat(metadataFailure.getFailureCode().getName(), is(FailureCode.CONNECTION_FAILURE.getName()));
+        Optional<MetadataFailure> metadataFailures = metadataResult.getFailure();
+        assertThat(metadataFailures.get().getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
+        assertThat(metadataFailures.get().getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
+        assertThat(metadataFailures.get().getFailureCode().getName(), is(FailureCode.NOT_AUTHORIZED.getName()));
     }
 
     private ComponentMetadataDescriptor buildTestOperationMetadataDescriptor()
@@ -142,32 +168,29 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase
         final MetadataType stringType = javaTypeLoader.load(String.class);
         final MetadataType intType = javaTypeLoader.load(Integer.class);
 
-        List<TypeMetadataDescriptor> parameters = new ArrayList<>();
-        parameters.add(new ImmutableTypeMetadataDescriptor("stringParam1", stringType));
-        parameters.add(new ImmutableTypeMetadataDescriptor("stringParam2", stringType));
-        parameters.add(new ImmutableTypeMetadataDescriptor("intParam1", intType));
+        List<MetadataResult<ParameterMetadataDescriptor>> parameters = new ArrayList<>();
+        parameters.add(success(new ImmutableParameterMetadataDescriptor("stringParam1", stringType)));
+        parameters.add(success(new ImmutableParameterMetadataDescriptor("stringParam2", stringType)));
+        parameters.add(success(new ImmutableParameterMetadataDescriptor("intParam1", intType)));
 
-        ImmutableOutputMetadataDescriptor outputMetadataDescriptor = new ImmutableOutputMetadataDescriptor(new ImmutableTypeMetadataDescriptor("output", stringType), new ImmutableTypeMetadataDescriptor("att", stringType));
-        ImmutableTypeMetadataDescriptor content = new ImmutableTypeMetadataDescriptor("content", javaTypeLoader.load(Object.class));
+        MetadataResult<OutputMetadataDescriptor> outputMetadataDescriptor = success(new ImmutableOutputMetadataDescriptor(success(new ImmutableTypeMetadataDescriptor(stringType)), success(new ImmutableTypeMetadataDescriptor(stringType))));
+        MetadataResult<ParameterMetadataDescriptor> content = success(new ImmutableParameterMetadataDescriptor("content", javaTypeLoader.load(Object.class)));
 
         return new ImmutableComponentMetadataDescriptor("testOperationMetadataDescriptor", parameters, outputMetadataDescriptor, content);
     }
 
-    private void assertOutputMedatada(MetadataResult<ImmutableComponentMetadataDescriptor> metadataResult)
+    private void assertOutputMetadata(MetadataResult<ImmutableComponentMetadataDescriptor> metadataResult)
     {
-        OutputMetadataDescriptor outputMetadata = metadataResult.get().getOutputMetadata();
-        OutputMetadataDescriptor expectedOutputMetadata = operationMetadataDescriptor.getOutputMetadata();
-        assertThat(outputMetadata.getAttributesMetadata().getName(), is(expectedOutputMetadata.getAttributesMetadata().getName()));
-        assertThat(outputMetadata.getAttributesMetadata().getType(), is(expectedOutputMetadata.getAttributesMetadata().getType()));
-        assertThat(outputMetadata.getPayloadMetadata().getName(), is(expectedOutputMetadata.getPayloadMetadata().getName()));
-        assertThat(outputMetadata.getPayloadMetadata().getType(), is(expectedOutputMetadata.getPayloadMetadata().getType()));
+        MetadataResult<OutputMetadataDescriptor> outputMetadata = metadataResult.get().getOutputMetadata();
+        MetadataResult<OutputMetadataDescriptor> expectedOutputMetadata = operationMetadataDescriptor.getOutputMetadata();
+        assertThat(outputMetadata.get().getAttributesMetadata().get().getType(), is(expectedOutputMetadata.get().getAttributesMetadata().get().getType()));
+        assertThat(outputMetadata.get().getPayloadMetadata().get().getType(), is(expectedOutputMetadata.get().getPayloadMetadata().get().getType()));
     }
 
     private void assertContentMetadata(MetadataResult<ImmutableComponentMetadataDescriptor> metadataResult)
     {
-        TypeMetadataDescriptor contentMetadata = metadataResult.get().getContentMetadata().get();
-        TypeMetadataDescriptor expectedContentMetadata = operationMetadataDescriptor.getContentMetadata().get();
-        assertThat(contentMetadata.getName(), is(expectedContentMetadata.getName()));
-        assertThat(contentMetadata.getType(), is(expectedContentMetadata.getType()));
+        MetadataResult<ParameterMetadataDescriptor> contentMetadata = metadataResult.get().getContentMetadata().get();
+        MetadataResult<ParameterMetadataDescriptor> expectedContentMetadata = operationMetadataDescriptor.getContentMetadata().get();
+        assertThat(contentMetadata.get().getType(), is(expectedContentMetadata.get().getType()));
     }
 }
