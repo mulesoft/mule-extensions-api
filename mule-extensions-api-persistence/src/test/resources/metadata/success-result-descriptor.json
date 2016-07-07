@@ -69,11 +69,11 @@
             "isAbstract": false,
             "isFinal": false,
             "implementedInterfaces": [],
-            "parent":"",
+            "parent": "",
             "genericTypes": []
           }
         },
-        "fields": {}
+        "fields": []
       }
     }
   },
