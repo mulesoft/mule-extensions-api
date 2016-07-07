@@ -11,6 +11,7 @@ import static org.mule.runtime.extension.api.Category.COMMUNITY;
 
 import org.mule.api.MuleVersion;
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ComponentDeclarer;
@@ -60,7 +61,7 @@ public class TestHttpConnectorDeclarer
     private final ExtensionDeclarer extensionDeclarer = new ExtensionDeclarer();
     private final ConnectionProviderFactory requesterConnectionProviderFactory = mock(ConnectionProviderFactory.class);
     private final ConfigurationFactory configurationFactory = mock(ConfigurationFactory.class);
-    private final Source<Object, Serializable> source = mock(Source.class);
+    private final Source<Object, Attributes> source = mock(Source.class);
     private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
     public TestHttpConnectorDeclarer()
@@ -96,7 +97,7 @@ public class TestHttpConnectorDeclarer
         return requesterConnectionProviderFactory;
     }
 
-    public Source<Object, Serializable> getSource()
+    public Source<Object, Attributes> getSource()
     {
         return source;
     }

@@ -6,9 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
-
-import java.io.Serializable;
 
 /**
  * Base class to write message sources compliant with a given {@link SourceModel}.
@@ -27,10 +26,10 @@ import java.io.Serializable;
  * {@link Void}.
  *
  * @param <Payload>    the generic type for the generated message's payload
- * @param <Attributes> the generic type for the generated message's attributes
+ * @param <A> the generic type for the generated message's attributes
  * @since 1.0
  */
-public abstract class Source<Payload, Attributes extends Serializable>
+public abstract class Source<Payload, A extends Attributes>
 {
 
     /**
@@ -38,7 +37,7 @@ public abstract class Source<Payload, Attributes extends Serializable>
      * this through the {@link #setSourceContext(SourceContext)} method
      * before {@link #start()} is to be invoked
      */
-    protected SourceContext<Payload, Attributes> sourceContext;
+    protected SourceContext<Payload, A> sourceContext;
 
     //TODO: MULE-8946, should actually implement Startable
     public abstract void start() throws Exception;
@@ -53,7 +52,7 @@ public abstract class Source<Payload, Attributes extends Serializable>
      *
      * @param sourceContext a {@link SourceContext}
      */
-    public void setSourceContext(SourceContext<Payload, Attributes> sourceContext)
+    public void setSourceContext(SourceContext<Payload, A> sourceContext)
     {
         this.sourceContext = sourceContext;
     }

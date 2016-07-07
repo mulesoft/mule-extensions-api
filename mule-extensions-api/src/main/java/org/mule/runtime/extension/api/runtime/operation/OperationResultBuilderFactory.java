@@ -8,8 +8,7 @@ package org.mule.runtime.extension.api.runtime.operation;
 
 import static java.lang.String.format;
 import static java.util.ServiceLoader.load;
-
-import java.io.Serializable;
+import org.mule.runtime.api.message.Attributes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,9 +66,9 @@ public abstract class OperationResultBuilderFactory
      * Creates a new {@link OperationResult.Builder}
      *
      * @param <Output>     the generic type of the output value
-     * @param <Attributes> the generic type of the message attributes
+     * @param <A> the generic type of the message attributes
      * @return a new {@link OperationResult.Builder}
      */
-    public abstract <Output, Attributes extends Serializable> OperationResult.Builder<Output, Attributes> create();
+    public abstract <Output, A extends Attributes> OperationResult.Builder<Output, A> create();
 
 }

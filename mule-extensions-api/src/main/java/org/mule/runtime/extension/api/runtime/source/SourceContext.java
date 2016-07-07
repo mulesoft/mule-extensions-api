@@ -8,25 +8,24 @@ package org.mule.runtime.extension.api.runtime.source;
 
 import org.mule.runtime.api.execution.CompletionHandler;
 import org.mule.runtime.api.execution.ExceptionCallback;
+import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 import org.mule.runtime.extension.api.runtime.MessageHandler;
-
-import java.io.Serializable;
 
 /**
  * Provides configuration and collaboratos for a {@link Source}
  *
  * @param <Payload>    the generic type for the generated message's payload
- * @param <Attributes> the generic type for the generated message's attributes
+ * @param <A> the generic type for the generated message's attributes
  * @since 1.0
  */
-public interface SourceContext<Payload, Attributes extends Serializable>
+public interface SourceContext<Payload, A extends Attributes>
 {
 
     /**
      * @return the {@link MessageHandler} to be used for processing the generated messages
      */
-    MessageHandler<Payload, Attributes> getMessageHandler();
+    MessageHandler<Payload, A> getMessageHandler();
 
     /**
      * Provides the {@link ExceptionCallback} on which exceptions are to be notified.
