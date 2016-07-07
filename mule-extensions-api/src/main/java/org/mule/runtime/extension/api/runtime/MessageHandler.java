@@ -7,10 +7,9 @@
 package org.mule.runtime.extension.api.runtime;
 
 import org.mule.runtime.api.execution.CompletionHandler;
+import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.api.message.MuleEvent;
 import org.mule.runtime.api.message.MuleMessage;
-
-import java.io.Serializable;
 
 /**
  * Handles the processing of a {@link MuleMessage} and notifies the result
@@ -22,10 +21,10 @@ import java.io.Serializable;
  * Implementations are to be reusable and thread-safe
  *
  * @param <Payload>    the generic type for the handled message's payload
- * @param <Attributes> the generic type for the handled message's attributes
+ * @param <A> the generic type for the handled message's attributes
  * @since 1.0
  */
-public interface MessageHandler<Payload, Attributes extends Serializable>
+public interface MessageHandler<Payload, A extends Attributes>
 {
 
     /**

@@ -13,6 +13,7 @@ import org.mule.api.MuleVersion;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.java.api.JavaTypeLoader;
+import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
@@ -109,7 +110,7 @@ public class TestWebServiceConsumerDeclarer
     private final Interceptor operationInterceptor2 = mock(Interceptor.class);
     private final Interceptor messageSourceInterceptor1 = mock(Interceptor.class);
     private final Interceptor messageSourceInterceptor2 = mock(Interceptor.class);
-    private final Source<Object, Serializable> source = mock(Source.class);
+    private final Source<Object, Attributes> source = mock(Source.class);
     private final ConnectionProviderFactory connectionProviderFactory = mock(ConnectionProviderFactory.class);
     private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory = Optional.of(mock(ExceptionEnricherFactory.class));
     private final BaseTypeBuilder<?> typeBuilder = BaseTypeBuilder.create(JavaTypeLoader.JAVA);

@@ -6,10 +6,10 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
+import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.api.message.MuleMessage;
 import org.mule.runtime.api.metadata.MediaType;
 
-import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -26,20 +26,20 @@ import java.util.Optional;
  * attributes and/or media type untouched.
  *
  * @param <Output>     the generic type of the output value
- * @param <Attributes> the generic type of the message attributes
+ * @param <A> the generic type of the message attributes
  * @since 1.0
  */
-public interface OperationResult<Output, Attributes extends Serializable>
+public interface OperationResult<Output, A extends Attributes>
 {
 
     /**
      * Creates a new {@link Builder}
      *
      * @param <Output>     the generic type of the output value
-     * @param <Attributes> the generic type of the message attributes
+     * @param <A> the generic type of the message attributes
      * @return a new {@link Builder}
      */
-    static <Output, Attributes extends Serializable> Builder<Output, Attributes> builder()
+    static <Output, A extends Attributes> Builder<Output, A> builder()
     {
         return OperationResultBuilderFactory.getDefaultFactory().create();
     }
@@ -50,12 +50,12 @@ public interface OperationResult<Output, Attributes extends Serializable>
      *
      * @param muleMessage  a reference {@link MuleMessage}
      * @param <Output>     the generic type of the output value
-     * @param <Attributes> the generic type of the message attributes
+     * @param <A> the generic type of the message attributes
      * @return a new {@link Builder}
      */
-    static <Output, Attributes extends Serializable> Builder<Output, Attributes> builder(MuleMessage muleMessage)
+    static <Output, A extends Attributes> Builder<Output, A> builder(MuleMessage muleMessage)
     {
-        return (Builder<Output, Attributes>) OperationResultBuilderFactory.getDefaultFactory().create()
+        return (Builder<Output, A>) OperationResultBuilderFactory.getDefaultFactory().create()
                 .output(muleMessage.getPayload())
                 .attributes(muleMessage.getAttributes())
                 .mediaType(muleMessage.getDataType().getMediaType());
@@ -74,7 +74,7 @@ public interface OperationResult<Output, Attributes extends Serializable>
      *
      * @return an {@link Optional} {@code Attributes} value
      */
-    Optional<Attributes> getAttributes();
+    Optional<A> getAttributes();
 
     /**
      * The new {@link MediaType} that the operation wants to set on {@link MuleMessage#getDataType()}.
@@ -90,9 +90,9 @@ public interface OperationResult<Output, Attributes extends Serializable>
      * Builds instances of {@link OperationResult}
      *
      * @param <Output>     the generic type of the output value
-     * @param <Attributes> the generic type of the message attributes
+     * @param <A> the generic type of the message attributes
      */
-    interface Builder<Output, Attributes extends Serializable>
+    interface Builder<Output, A extends Attributes>
     {
 
         /**
@@ -101,7 +101,7 @@ public interface OperationResult<Output, Attributes extends Serializable>
          * @param output the new output value
          * @return {@code this} builder
          */
-        Builder<Output, Attributes> output(Output output);
+        Builder<Output, A> output(Output output);
 
         /**
          * Sets the output attributes value
@@ -109,7 +109,7 @@ public interface OperationResult<Output, Attributes extends Serializable>
          * @param attributes the new attributes value
          * @return {@code this} builder
          */
-        Builder<Output, Attributes> attributes(Attributes attributes);
+        Builder<Output, A> attributes(A attributes);
 
         /**
          * Sets the output {@link MediaType}
@@ -117,12 +117,12 @@ public interface OperationResult<Output, Attributes extends Serializable>
          * @param mediaType the new {@link MediaType}
          * @return {@code this} builder
          */
-        Builder<Output, Attributes> mediaType(MediaType mediaType);
+        Builder<Output, A> mediaType(MediaType mediaType);
 
         /**
          * @return the build {@link OperationResult}
          */
-        OperationResult<Output, Attributes> build();
+        OperationResult<Output, A> build();
     }
 
 }
