@@ -15,7 +15,7 @@ import org.mule.runtime.extension.api.introspection.property.MetadataContentMode
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyPartModelProperty;
 import org.mule.runtime.extension.api.introspection.property.StudioModelProperty;
-import org.mule.runtime.extension.api.introspection.property.XmlModelProperty;
+import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;

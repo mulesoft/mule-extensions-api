@@ -27,10 +27,14 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.mule.extensions</groupId>
+            <artifactId>mule-extensions-api-xml-dsl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.mule</groupId>
             <artifactId>mule-metadata-model-persistence</artifactId>
         </dependency>
-
         <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>

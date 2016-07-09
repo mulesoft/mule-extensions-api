@@ -28,7 +28,7 @@ public abstract class ConfigurableOutputDeclarer<D extends ComponentDeclaration>
     public OutputDeclarer withOutput()
     {
         OutputDeclaration outputPayload = new OutputDeclaration();
-        declaration.setOutputPayload(outputPayload);
+        declaration.setOutput(outputPayload);
         return new OutputDeclarer<>(outputPayload);
     }
 
