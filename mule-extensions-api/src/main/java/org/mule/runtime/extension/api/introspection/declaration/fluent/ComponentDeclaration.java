@@ -21,7 +21,7 @@ import java.util.Optional;
 abstract class ComponentDeclaration<T extends ComponentDeclaration> extends ParameterizedInterceptableDeclaration<T>
 {
 
-    private OutputDeclaration outputPayload;
+    private OutputDeclaration outputContent;
     private OutputDeclaration outputAttributes;
     private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
     private MetadataResolverFactory metadataResolverFactory;
@@ -34,14 +34,14 @@ abstract class ComponentDeclaration<T extends ComponentDeclaration> extends Para
         super(name);
     }
 
-    public OutputDeclaration getOutputPayload()
+    public OutputDeclaration getOutput()
     {
-        return outputPayload;
+        return outputContent;
     }
 
-    public void setOutputPayload(OutputDeclaration payload)
+    public void setOutput(OutputDeclaration content)
     {
-        this.outputPayload = payload;
+        this.outputContent = content;
     }
 
     public OutputDeclaration getOutputAttributes()

@@ -30,6 +30,7 @@
 
     <modules>
         <module>mule-extensions-api</module>
+        <module>mule-extensions-api-xml-dsl</module>
         <module>mule-extensions-api-persistence</module>
     </modules>
 

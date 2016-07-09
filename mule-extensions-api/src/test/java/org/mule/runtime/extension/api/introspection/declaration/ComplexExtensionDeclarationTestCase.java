@@ -86,7 +86,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
         SourceDeclaration source = extensionDeclaration.getConfigurations().get(1).getMessageSources().get(0);
         assertThat(source.getName(), is(LISTEN_MESSAGE_SOURCE));
         assertThat(source.getSourceFactory().createSource(), is(sameInstance(testDeclarer.getSource())));
-        assertDataType(source.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(source.getOutput().getType(), InputStream.class, BinaryType.class);
         assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
         assertThat(source.getParameters(), hasSize(1));
 
@@ -112,7 +112,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     {
         OperationDeclaration operation = extensionDeclaration.getConfigurations().get(0).getOperations().get(0);
         assertThat(operation.getName(), is(REQUEST_OPERATION_NAME));
-        assertDataType(operation.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(operation.getOutput().getType(), InputStream.class, BinaryType.class);
         assertThat(operation.getParameters(), hasSize(1));
 
         ParameterDeclaration parameter = operation.getParameters().get(0);
@@ -125,7 +125,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     {
         OperationDeclaration operation = extensionDeclaration.getOperations().get(0);
         assertThat(operation.getName(), is(STATIC_RESOURCE_OPERATION_NAME));
-        assertDataType(operation.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(operation.getOutput().getType(), InputStream.class, BinaryType.class);
 
         assertThat(operation.getParameters(), hasSize(1));
         ParameterDeclaration parameter = operation.getParameters().get(0);

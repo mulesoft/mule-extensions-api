@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.property;
 
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 
 import java.util.List;
@@ -19,18 +20,18 @@ import java.util.List;
 public final class ExportModelProperty implements ModelProperty
 {
 
-    private final List<Class> exportedClasses;
+    private final List<MetadataType> exportedTypes;
     private final List<String> exportedResources;
 
     /**
      * Creates a new instance
      *
-     * @param exportedClasses   the {@link List} of {@link Class classes} to be exported
+     * @param exportedTypes     the {@link List} of {@link MetadataType types} to be exported
      * @param exportedResources the {@link List} of resources to be exported
      */
-    public ExportModelProperty(List<Class> exportedClasses, List<String> exportedResources)
+    public ExportModelProperty(List<MetadataType> exportedTypes, List<String> exportedResources)
     {
-        this.exportedClasses = exportedClasses;
+        this.exportedTypes = exportedTypes;
         this.exportedResources = exportedResources;
     }
 
@@ -52,9 +53,9 @@ public final class ExportModelProperty implements ModelProperty
         return false;
     }
 
-    public List<Class> getExportedClasses()
+    public List<MetadataType> getExportedTypes()
     {
-        return exportedClasses;
+        return exportedTypes;
     }
 
     public List<String> getExportedResources()

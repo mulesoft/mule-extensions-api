@@ -195,7 +195,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(source.getName(), is(LISTENER));
         assertThat(source.getDescription(), is(LISTEN_DESCRIPTION));
         assertThat(source.getSourceFactory().createSource(), is(sameInstance(testDeclaration.getSource())));
-        assertDataType(source.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(source.getOutput().getType(), InputStream.class, BinaryType.class);
         assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
 
         List<ParameterDeclaration> parameters = source.getParameters();
@@ -210,7 +210,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(operation.getName(), is(CONSUMER));
         assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getConsumerExecutorFactory())));
-        assertDataType(operation.getOutputPayload().getType(), InputStream.class, BinaryType.class);
+        assertDataType(operation.getOutput().getType(), InputStream.class, BinaryType.class);
         assertDataType(operation.getOutputAttributes().getType(), String.class, StringType.class);
         assertModelProperties(operation, OPERATION_MODEL_PROPERTY);
 
@@ -228,7 +228,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(operation.getName(), is(BROADCAST));
         assertThat(operation.getDescription(), is(BROADCAST_DESCRIPTION));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getBroadcastExecutorFactory())));
-        assertDataType(operation.getOutputPayload().getType(), void.class, NullType.class);
+        assertDataType(operation.getOutput().getType(), void.class, NullType.class);
 
         Optional<ExceptionEnricherFactory> exceptionEnricherFactory = operation.getExceptionEnricherFactory();
         assertThat(exceptionEnricherFactory.isPresent(), is(true));
@@ -257,7 +257,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase
         assertThat(operation.getName(), is(ARG_LESS));
         assertThat(operation.getDescription(), is(HAS_NO_ARGS));
         assertThat(operation.getExecutorFactory(), is(sameInstance(testDeclaration.getArgLessExecutorFactory())));
-        assertDataType(operation.getOutputPayload().getType(), int.class, NumberType.class);
+        assertDataType(operation.getOutput().getType(), int.class, NumberType.class);
 
         List<ParameterDeclaration> parameters = operation.getParameters();
         assertThat(parameters, is(notNullValue()));

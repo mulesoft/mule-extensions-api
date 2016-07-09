@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.introspection.property;
+package org.mule.runtime.extension.xml.dsl.api.property;
 
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 
@@ -17,10 +17,10 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
 public final class XmlModelProperty implements ModelProperty
 {
 
+    private final String xsdFileName;
     private final String schemaVersion;
     private final String namespace;
     private final String namespaceUri;
-    private final String xsdFileName;
     private final String schemaLocation;
 
     public XmlModelProperty(String schemaVersion, String namespace, String namespaceUri, String xsdFileName, String schemaLocation)
@@ -74,6 +74,7 @@ public final class XmlModelProperty implements ModelProperty
 
     /**
      * {@inheritDoc}
+     *
      * @return {@code XML}
      */
     @Override
@@ -84,6 +85,7 @@ public final class XmlModelProperty implements ModelProperty
 
     /**
      * {@inheritDoc}
+     *
      * @return {@code true}
      */
     @Override
