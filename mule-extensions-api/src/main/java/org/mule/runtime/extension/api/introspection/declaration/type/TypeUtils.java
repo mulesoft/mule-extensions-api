@@ -14,6 +14,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.param.Ignore;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NoReferenceAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 
 import java.lang.reflect.Field;

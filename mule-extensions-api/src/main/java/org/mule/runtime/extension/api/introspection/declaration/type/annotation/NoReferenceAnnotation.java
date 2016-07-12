@@ -4,8 +4,9 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.introspection.declaration.type;
+package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 
 /**
@@ -23,5 +24,17 @@ public class NoReferenceAnnotation implements TypeAnnotation
     public String getName()
     {
         return "noRef";
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj instanceof NoReferenceAnnotation;
     }
 }

@@ -23,11 +23,11 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
-import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.capability.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
@@ -354,8 +354,7 @@ public class DslElementResolver
 
         Optional<ClassInformationAnnotation> classInformation = getSingleAnnotation(metadataType, ClassInformationAnnotation.class);
         boolean isInstantiable = !isPojo || classInformation.map(ClassInformationAnnotation::isInstantiable).orElse(false);
-        //TODO MULE-10031 replace class usage with type annotation
-        boolean isExtensible = getType(metadataType).isAnnotationPresent(Extensible.class);
+        boolean isExtensible = getSingleAnnotation(metadataType, ExtensibleTypeAnnotation.class).isPresent();
 
         return !isExpressionRequired &&
                (subTypesMapping.containsBaseType(metadataType) || isExtensible ||
@@ -365,8 +364,7 @@ public class DslElementResolver
     private boolean typeRequiresWrapperElement(MetadataType metadataType)
     {
         boolean isPojo = metadataType instanceof ObjectType;
-        //TODO MULE-10031 replace class usage with type annotation
-        boolean isExtensible = getType(metadataType).isAnnotationPresent(Extensible.class);
+        boolean isExtensible = getSingleAnnotation(metadataType, ExtensibleTypeAnnotation.class).isPresent();
         boolean hasSubtypes = subTypesMapping.containsBaseType(metadataType);
 
         return isPojo && (isExtensible || hasSubtypes);
