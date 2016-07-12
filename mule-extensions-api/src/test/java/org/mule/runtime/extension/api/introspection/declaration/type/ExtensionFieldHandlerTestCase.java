@@ -15,6 +15,7 @@ import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.param.NoRef;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NoReferenceAnnotation;
 
 import org.junit.Test;
 

@@ -18,6 +18,7 @@ import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.NoRef;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NoReferenceAnnotation;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;

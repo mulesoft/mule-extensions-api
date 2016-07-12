@@ -31,6 +31,6 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
     @Override
     public TypeHandlerManager createTypeHandlerManager()
     {
-        return TypeHandlerManager.create(new ExtensionsFieldHandler());
+        return TypeHandlerManager.create(new ExtensionObjectTypeHandler(new ExtensionsFieldHandler()));
     }
 }
