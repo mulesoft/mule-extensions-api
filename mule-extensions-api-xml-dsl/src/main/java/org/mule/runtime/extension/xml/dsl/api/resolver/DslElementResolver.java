@@ -21,6 +21,7 @@ import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.extension.api.annotation.Extension;
@@ -43,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Provides the {@link DslElementDeclaration} of any {@link Named Component},
@@ -100,6 +102,12 @@ public class DslElementResolver
         parameter.getType().accept(
                 new MetadataTypeVisitor()
                 {
+                    @Override
+                    public void visitUnion(UnionType unionType)
+                    {
+                        unionType.getTypes().forEach(type -> type.accept(this));
+                    }
+
                     @Override
                     protected void defaultVisit(MetadataType metadataType)
                     {
@@ -179,7 +187,10 @@ public class DslElementResolver
             @Override
             public void visitObject(ObjectType objectType)
             {
-                listBuilder.withGeneric(objectType, resolve(objectType));
+                if (isInstantiable(objectType) && !objectType.getFields().isEmpty() && !typeRequiresWrapperElement(objectType))
+                {
+                    listBuilder.withGeneric(objectType, resolve(objectType));
+                }
             }
 
             @Override
@@ -226,13 +237,13 @@ public class DslElementResolver
             @Override
             public void visitObject(ObjectType objectType)
             {
-                mapBuilder.withGeneric(objectType,
-                                       DslElementDeclarationBuilder.create()
-                                               .withNamespace(namespace)
-                                               //TODO MULE-10029 handle wrapped types for maps xml generation (not required for parsers)
-                                               .withElementName(hyphenize(singularize(parameterName)))
-                                               .supportsChildDeclaration(shouldGenerateChildElements(objectType, SUPPORTED))
-                                               .build());
+                DslElementDeclarationBuilder valueChildBuilder = DslElementDeclarationBuilder.create()
+                        .withNamespace(namespace)
+                        //TODO MULE-10029 handle wrapped types for maps xml generation (not required for parsers)
+                        .withElementName(hyphenize(singularize(parameterName)))
+                        .supportsChildDeclaration(shouldGenerateChildElements(objectType, SUPPORTED));
+
+                mapBuilder.withGeneric(objectType, valueChildBuilder.build());
             }
 
             @Override
@@ -339,7 +350,8 @@ public class DslElementResolver
                                        Collection<ObjectFieldType> fields, final String namespace)
     {
         fields.forEach(
-                field -> {
+                field ->
+                {
                     DslElementDeclarationBuilder fieldBuilder = DslElementDeclarationBuilder.create();
                     String childName = field.getKey().getName().getLocalPart();
                     field.getValue().accept(getObjectFieldVisitor(fieldBuilder, childName, namespace));
@@ -349,25 +361,60 @@ public class DslElementResolver
 
     private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport)
     {
-        boolean isExpressionRequired = ExpressionSupport.REQUIRED == expressionSupport;
-        boolean isPojo = metadataType instanceof ObjectType;
+        final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
-        Optional<ClassInformationAnnotation> classInformation = getSingleAnnotation(metadataType, ClassInformationAnnotation.class);
-        boolean isInstantiable = !isPojo || classInformation.map(ClassInformationAnnotation::isInstantiable).orElse(false);
-        boolean isExtensible = getSingleAnnotation(metadataType, ExtensibleTypeAnnotation.class).isPresent();
+        if (ExpressionSupport.REQUIRED == expressionSupport)
+        {
+            return false;
+        }
 
-        return !isExpressionRequired &&
-               (subTypesMapping.containsBaseType(metadataType) || isExtensible ||
-                (isInstantiable && (!isPojo || !((ObjectType) metadataType).getFields().isEmpty())));
+        metadataType.accept(new MetadataTypeVisitor()
+        {
+            @Override
+            protected void defaultVisit(MetadataType metadataType)
+            {
+                supportsChildDeclaration.set(true);
+            }
+
+            @Override
+            public void visitArrayType(ArrayType arrayType)
+            {
+                arrayType.getType().accept(this);
+            }
+
+            @Override
+            public void visitObject(ObjectType objectType)
+            {
+                boolean isInstantiable = getSingleAnnotation(metadataType, ClassInformationAnnotation.class)
+                        .map(ClassInformationAnnotation::isInstantiable).orElse(false);
+
+                supportsChildDeclaration.set(isExtensible(metadataType) ||
+                                             subTypesMapping.containsBaseType(metadataType) ||
+                                             (isInstantiable && !((ObjectType) metadataType).getFields().isEmpty()));
+            }
+
+            @Override
+            public void visitUnion(UnionType unionType)
+            {
+                supportsChildDeclaration.set(false);
+            }
+
+            @Override
+            public void visitDictionary(DictionaryType dictionaryType)
+            {
+                supportsChildDeclaration.set(true);
+            }
+        });
+
+        return supportsChildDeclaration.get();
     }
 
     private boolean typeRequiresWrapperElement(MetadataType metadataType)
     {
         boolean isPojo = metadataType instanceof ObjectType;
-        boolean isExtensible = getSingleAnnotation(metadataType, ExtensibleTypeAnnotation.class).isPresent();
         boolean hasSubtypes = subTypesMapping.containsBaseType(metadataType);
 
-        return isPojo && (isExtensible || hasSubtypes);
+        return isPojo && (isExtensible(metadataType) || hasSubtypes);
     }
 
     private Map<MetadataType, XmlModelProperty> loadImportedTypes(ExtensionModel extension)
@@ -376,12 +423,13 @@ public class DslElementResolver
         extension.getModelProperty(ImportedTypesModelProperty.class)
                 .map(ImportedTypesModelProperty::getImportedTypes)
                 .ifPresent(imports -> imports
-                        .forEach((type, ownerExtension) -> {
-                            //TODO MULE-10028 stop using `createXmlModelProperty` and `ownerClass`
-                            Class<?> ownerClass = getType(ownerExtension);
-                            xmlByType.put(type, createXmlModelProperty(ownerClass.getAnnotation(Xml.class),
-                                                                       ownerClass.getAnnotation(Extension.class).name(), ""));
-                        }));
+                        .forEach((type, ownerExtension) ->
+                                 {
+                                     //TODO MULE-10028 stop using `createXmlModelProperty` and `ownerClass`
+                                     Class<?> ownerClass = getType(ownerExtension);
+                                     xmlByType.put(type, createXmlModelProperty(ownerClass.getAnnotation(Xml.class),
+                                                                                ownerClass.getAnnotation(Extension.class).name(), ""));
+                                 }));
 
         return xmlByType;
     }
@@ -412,4 +460,14 @@ public class DslElementResolver
         return xml != null ? xml.getNamespace() : defaultNamespace;
     }
 
+    private boolean isInstantiable(MetadataType metadataType)
+    {
+        Optional<ClassInformationAnnotation> classInformation = getSingleAnnotation(metadataType, ClassInformationAnnotation.class);
+        return classInformation.map(ClassInformationAnnotation::isInstantiable).orElse(false);
+    }
+
+    private boolean isExtensible(MetadataType metadataType)
+    {
+        return getSingleAnnotation(metadataType, ExtensibleTypeAnnotation.class).isPresent();
+    }
 }

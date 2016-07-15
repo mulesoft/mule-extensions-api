@@ -323,8 +323,40 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
         assertIsWrappedElement(false, result);
 
         DslElementDeclaration innerElement = getGenericTypeDsl(valueType, result);
-        assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
+        assertElementName(hyphenize(PARAMETER_NAME), innerElement);
         assertChildElementDeclarationIs(false, innerElement);
+        assertIsWrappedElement(false, innerElement);
+    }
+
+    @Test
+    public void testMapOfNonInstantiableValueTypeWithMappedSubtypesParameter()
+    {
+        MetadataType keyType = TYPE_BUILDER.stringType().id(String.class.getName()).build();
+        MetadataType valueType = TYPE_LOADER.load(InterfaceDeclarationWithMapping.class);
+
+        Map<MetadataType, List<MetadataType>> mapping = new HashMap<>();
+        mapping.put(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
+                    singletonList(TYPE_LOADER.load(InterfaceImplementation.class)));
+
+        when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(Optional.of(new SubTypesModelProperty(mapping)));
+
+
+        when(parameterModel.getType()).thenReturn(TYPE_BUILDER.dictionaryType().id(Map.class.getName())
+                                                          .ofKey(keyType)
+                                                          .ofValue(valueType)
+                                                          .build());
+
+        DslElementDeclaration result = new DslElementResolver(extension).resolve(parameterModel);
+
+        assertAttributeName(PARAMETER_NAME, result);
+        assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
+        assertElementNamespace(NAMESPACE, result);
+        assertChildElementDeclarationIs(true, result);
+        assertIsWrappedElement(false, result);
+
+        DslElementDeclaration innerElement = getGenericTypeDsl(valueType, result);
+        assertElementName(hyphenize(PARAMETER_NAME), innerElement);
+        assertChildElementDeclarationIs(true, innerElement);
         assertIsWrappedElement(false, innerElement);
     }
 
@@ -391,11 +423,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
         assertChildElementDeclarationIs(true, result);
         assertIsWrappedElement(false, result);
 
-        DslElementDeclaration innerElement = getGenericTypeDsl(itemType, result);
-        assertElementName(getTopLevelTypeName(itemType), innerElement);
-        assertElementNamespace(NAMESPACE, innerElement);
-        assertChildElementDeclarationIs(true, innerElement);
-        assertIsWrappedElement(false, innerElement);
+        assertThat(result.getGeneric(itemType).isPresent(), is(false));
     }
 
     @Test
@@ -440,10 +468,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
         assertChildElementDeclarationIs(true, listDsl);
         assertIsWrappedElement(false, listDsl);
 
-        DslElementDeclaration itemDsl = getGenericTypeDsl(itemType, listDsl);
-        assertElementName(getTopLevelTypeName(itemType), itemDsl);
-        assertChildElementDeclarationIs(true, itemDsl);
-        assertIsWrappedElement(false, itemDsl);
+        assertThat(listDsl.getGeneric(itemType).isPresent(), is(false));
     }
 
     @Test
@@ -496,10 +521,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
         assertIsWrappedElement(false, listDsl);
 
         MetadataType listItemType = TYPE_LOADER.load(ExtensibleType.class);
-        DslElementDeclaration innerElement = getGenericTypeDsl(listItemType, listDsl);
-        assertElementName(getTopLevelTypeName(listItemType), innerElement);
-        assertChildElementDeclarationIs(true, innerElement);
-        assertIsWrappedElement(false, innerElement);
+        assertThat(listDsl.getGeneric(listItemType).isPresent(), is(false));
 
         String recursiveChildName = "recursiveChild";
         DslElementDeclaration recursiveChildDsl = getChildFieldDsl(recursiveChildName, topDsl);
