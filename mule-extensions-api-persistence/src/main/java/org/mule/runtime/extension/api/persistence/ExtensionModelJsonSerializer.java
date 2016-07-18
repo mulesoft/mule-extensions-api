@@ -25,7 +25,7 @@ import org.mule.runtime.extension.api.introspection.operation.ImmutableRuntimeOp
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
+import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
@@ -47,7 +47,7 @@ import java.util.List;
  * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that {@link ModelProperty#isExternalizable()}
  * returns {@code true}, will be serialized</li>
  * <li>Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only
- * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link DisplayModelProperty}
+ * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModelProperty}
  * is going to be identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized
  * tagging it with the full qualifier name of the class.</li>
  * <li>When deserializing {@link ModelProperty}s, their full qualified name will be used, if the class is not found in the

@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Placement {
 
-    int DEFAULT_ORDER = 1;
+    int DEFAULT_ORDER = -1;
 
     /**
      * Gives the annotated element a relative order within its group. The value provided may be repeated

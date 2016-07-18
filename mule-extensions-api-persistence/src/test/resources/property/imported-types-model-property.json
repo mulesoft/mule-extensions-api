@@ -1,18 +1,20 @@
-[
-  {
-    "type": {
-      "format": "java",
-      "type": "String",
-      "annotations": {
-        "typeId": "java.lang.String"
-      }
-    },
-    "extension": {
-      "format": "java",
-      "type": "Number",
-      "annotations": {
-        "typeId": "java.lang.Integer"
+{
+  "importedTypes": [
+    {
+      "type": {
+        "format": "java",
+        "type": "String",
+        "annotations": {
+          "typeId": "java.lang.String"
+        }
+      },
+      "extension": {
+        "format": "java",
+        "type": "Number",
+        "annotations": {
+          "typeId": "java.lang.Integer"
+        }
       }
     }
-  }
-]
+  ]
+}

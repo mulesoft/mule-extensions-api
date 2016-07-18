@@ -12,33 +12,28 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import org.mule.runtime.api.connection.ConnectionProvider;
-import org.mule.runtime.extension.api.annotation.Configuration;
-import org.mule.runtime.extension.api.annotation.Parameter;
-import org.mule.runtime.extension.api.runtime.source.Source;
+import org.mule.runtime.extension.api.introspection.EnrichableModel;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Allows to specify a custom label for the element and/or field to be used in the UI.
+ * Allows to specify a summary for a {@link EnrichableModel} to be used in the UI.
  * If a value is not specified, the name is inferred from the annotated element's name.
  * <p>
- * Use this annotation to override the default inferred nickname for a {@link Parameter}, an operation, an operation's
- * parameter, {@link Source}, {@link Configuration} and {@link ConnectionProvider}.
+ * Use this annotation to override the default inferred name of the {@link EnrichableModel}
  *
  * @since 1.0
  */
-@Target({PARAMETER, FIELD, METHOD, TYPE})
+@Target({PARAMETER, FIELD, TYPE, METHOD})
 @Retention(RUNTIME)
 @Documented
-public @interface DisplayName
+public @interface Summary
 {
 
     /**
-     * The value is a short name for the annotated element.
-     * If this value is not specified it will be inferred from the annotated element name.
+     * @return The given summary text
      */
-    String value() default "";
+    String value();
 }

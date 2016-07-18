@@ -4,103 +4,50 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-
 package org.mule.runtime.extension.api.introspection.property;
 
+import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+
+import java.util.Optional;
 
 /**
- * Provides UI related properties for a {@link ParameterModel}
+ * Immutable {@link ModelProperty} which provides a friendly display name and summary for any {@link EnrichableModel}.
  *
  * @since 1.0
  */
-public final class DisplayModelProperty implements ModelProperty
+public class DisplayModelProperty implements ModelProperty
 {
 
-    private final String displayName;
-    private final boolean password;
-    private final boolean text;
-    private final int order;
-    private final String groupName;
-    private final String tabName;
+    private String displayName;
+    private String summary;
 
-    public DisplayModelProperty(String displayName,
-                                boolean password,
-                                boolean text,
-                                int order,
-                                String groupName,
-                                String tabName)
+    /**
+     * Instantiates a new {@link DisplayModelProperty}
+     *
+     * @param displayName nullable model display name
+     * @param summary     nullable model summary
+     */
+    public DisplayModelProperty(String displayName, String summary)
     {
         this.displayName = displayName;
-        this.password = password;
-        this.text = text;
-        this.order = order;
-        this.groupName = groupName;
-        this.tabName = tabName;
-    }
-
-
-    /**
-     * @return The name that will be used for displaying
-     */
-    public String getDisplayName()
-    {
-        return displayName;
-    }
-
-    /**
-     * @return Whether the field should be masked in the UI or not
-     */
-    public boolean isPassword()
-    {
-        return password;
-    }
-
-    /**
-     * @return Whether the field should use a multi line string editor in the UI or not
-     */
-    public boolean isText()
-    {
-        return text;
-    }
-
-    /**
-     * @return The order of the parameter within its group.
-     */
-    public int getOrder()
-    {
-        return order;
-    }
-
-    /**
-     * @return The group element name where the parameter is going to be located.
-     */
-    public String getGroupName()
-    {
-        return groupName;
-    }
-
-    /**
-     * @return The tab element name where parameter and its group it's going to be located.
-     */
-    public String getTabName()
-    {
-        return tabName;
+        this.summary = summary;
     }
 
     /**
      * {@inheritDoc}
-     * @return {@code Display properties}
+     *
+     * @return {@code displayModelProperty}
      */
     @Override
     public String getName()
     {
-        return "Display properties";
+        return "displayModelProperty";
     }
 
     /**
      * {@inheritDoc}
+     *
      * @return {@code true}
      */
     @Override
@@ -108,5 +55,20 @@ public final class DisplayModelProperty implements ModelProperty
     {
         return true;
     }
-}
 
+    /**
+     * @return the optional display name of the enriched {@link EnrichableModel}
+     */
+    public Optional<String> getDisplayName()
+    {
+        return Optional.ofNullable(displayName);
+    }
+
+    /**
+     * @return the optional summary of the enriched {@link EnrichableModel}
+     */
+    public Optional<String> getSummary()
+    {
+        return Optional.ofNullable(summary);
+    }
+}
