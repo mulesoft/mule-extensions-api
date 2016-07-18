@@ -16,7 +16,8 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.DISPLAY_MODEL_PROPERTY;
+import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
+
 import org.mule.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.connection.ConnectionProvider;
@@ -30,7 +31,7 @@ import org.mule.runtime.extension.api.introspection.connection.ImmutableConnecti
 import org.mule.runtime.extension.api.introspection.connection.ImmutableRuntimeConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
-import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
+import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -54,7 +55,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
     private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
     private final Set<ModelProperty> modelProperties = new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
     private final MetadataType stringType = typeLoader.load(String.class);
-    private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"displayName\":\"Car Name\",\"password\":false,\"text\":true,\"order\":0}";
+    private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"password\":false,\"text\":true,\"order\":0}";
     private final String GET_CAR_OPERATION_NAME = "getCar";
     private final String CAR_NAME_PARAMETER_NAME = "carName";
     private final String MODEL_PROPERTIES_NODE = "modelProperties";
@@ -72,9 +73,9 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
     @Before
     public void setUp()
     {
-        final ImmutableParameterModel carNameParameter = new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "", singleton(new DisplayModelProperty("Car Name", false, true, 0, null, null)));
-        final ImmutableParameterModel usernameParameter = new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "", singleton(new DisplayModelProperty("Username", false, true, 0, null, null)));
-        final ImmutableParameterModel passwordParameter = new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "", singleton(new DisplayModelProperty("Password", true, true, 0, null, null)));
+        final ImmutableParameterModel carNameParameter = new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "", singleton(new LayoutModelProperty(false, true, 0, null, null)));
+        final ImmutableParameterModel usernameParameter = new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "", singleton(new LayoutModelProperty(false, true, 0, null, null)));
+        final ImmutableParameterModel passwordParameter = new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "", singleton(new LayoutModelProperty(true, true, 0, null, null)));
 
         getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", singletonList(carNameParameter),
                                                       new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
@@ -100,7 +101,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
                 .get(0).getAsJsonObject();
 
         assertThat(carNameParameter.get("name").getAsString(), is(CAR_NAME_PARAMETER_NAME));
-        assertThat(getModelProperty(carNameParameter, DISPLAY_MODEL_PROPERTY).toString(), is(SERIALIZED_DISPLAY_MODEL_PROPERTY));
+        assertThat(getModelProperty(carNameParameter, LAYOUT_MODEL_PROPERTY).toString(), is(SERIALIZED_DISPLAY_MODEL_PROPERTY));
     }
 
     @Test
@@ -133,7 +134,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
     public void validateJsonStructure() throws IOException
     {
         final JsonElement expectedSerializedExtensionModel = new JsonParser().parse(getResourceAsString(SERIALIZED_EXTENSION_MODEL_JSON));
-        assertThat(serializedExtensionModel.equals(expectedSerializedExtensionModel), is(true));
+        assertThat(serializedExtensionModel, is(expectedSerializedExtensionModel));
     }
 
     @Test
@@ -144,7 +145,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
         final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
         final JsonElement parse = jsonParser.parse(serializedList);
 
-        assertThat(parse.equals(expectedSerializedExtensionModel), is(true));
+        assertThat(parse, is(expectedSerializedExtensionModel));
     }
 
     private JsonElement getModelProperty(JsonObject object, String modelPropertyName)

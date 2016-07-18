@@ -1,0 +1,9 @@
+{
+  "layout": {
+    "password": true,
+    "text": true,
+    "order": 43,
+    "groupName": "Group Name",
+    "tabName": "Tab Name"
+  }
+}

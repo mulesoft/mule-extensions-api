@@ -47,8 +47,7 @@
             "name": "carName",
             "description": "Name of the car",
             "modelProperties": {
-              "display": {
-                "displayName": "Car Name",
+              "layout": {
                 "password": false,
                 "text": true,
                 "order": 0
@@ -81,8 +80,7 @@
             "name": "username",
             "description": "Username",
             "modelProperties": {
-              "display": {
-                "displayName": "Username",
+              "layout": {
                 "password": false,
                 "text": true,
                 "order": 0
@@ -104,8 +102,7 @@
             "name": "password",
             "description": "Password",
             "modelProperties": {
-              "display": {
-                "displayName": "Password",
+              "layout": {
                 "password": true,
                 "text": true,
                 "order": 0
@@ -171,8 +168,7 @@
             "name": "carName",
             "description": "Name of the car",
             "modelProperties": {
-              "display": {
-                "displayName": "Car Name",
+              "layout": {
                 "password": false,
                 "text": true,
                 "order": 0
@@ -205,8 +201,7 @@
             "name": "username",
             "description": "Username",
             "modelProperties": {
-              "display": {
-                "displayName": "Username",
+              "layout": {
                 "password": false,
                 "text": true,
                 "order": 0
@@ -228,8 +223,7 @@
             "name": "password",
             "description": "Password",
             "modelProperties": {
-              "display": {
-                "displayName": "Password",
+              "layout": {
                 "password": true,
                 "text": true,
                 "order": 0
