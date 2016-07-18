@@ -7,18 +7,12 @@
 package org.mule.runtime.extension.api.introspection.property;
 
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import java.util.Optional;
 
 /**
- * Immutable {@link ModelProperty} which provides a friendly display name and summary for {@link ExtensionModel},
- * {@link ParameterModel}, {@link SourceModel}, {@link ConfigurationModel} and {@link ConnectionProviderModel}.
+ * Immutable {@link ModelProperty} which provides a friendly display name and summary for any {@link EnrichableModel}.
  *
  * @since 1.0
  */
