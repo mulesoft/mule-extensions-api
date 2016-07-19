@@ -15,8 +15,4 @@ package org.mule.runtime.extension.api.connectivity;
 public interface TransactionalConnection extends Transactional
 {
 
-    /**
-     * @return whether the transaction is in XA mode
-     */
-    boolean isXA();
 }
