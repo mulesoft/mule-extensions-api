@@ -6,7 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.property;
 
-import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import static org.mule.runtime.extension.api.annotation.param.display.Placement.DEFAULT_ORDER;
+import static org.mule.runtime.extension.api.annotation.param.display.Placement.GENERAL;
 
 /**
  * Builder for {@link LayoutModelProperty}
@@ -41,9 +42,9 @@ public class LayoutModelPropertyBuilder
     {
         this.isPassword = false;
         this.isText = false;
-        this.order = Placement.DEFAULT_ORDER;
+        this.order = DEFAULT_ORDER;
         this.groupName = "";
-        this.tabName = "";
+        this.tabName = GENERAL;
     }
 
     public LayoutModelPropertyBuilder withPassword(boolean isPassword)

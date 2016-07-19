@@ -15,22 +15,40 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines the particular place of a {@link Parameter} field
- * in the extension configuration window.
+ * Defines the particular place of a {@link Parameter} field in the extension configuration window.
  *
  * @since 1.0
  */
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Placement {
+public @interface Placement
+{
 
+    /**
+     * Parameter's default order. Indicates that the order is not specified by the extension developer.
+     */
     int DEFAULT_ORDER = -1;
+
+    /**
+     * Group or Tab name for parameters that are considered for general purposes.
+     */
+    String GENERAL = "General";
+
+    /**
+     * Group or Tab name for parameters that are considered for advanced usage.
+     */
+    String ADVANCED = "Advanced";
+
+    /**
+     * Group or Tab name for parameters that are considered to be part of a connection configuration.
+     */
+    String CONNECTION = "Connection";
 
     /**
      * Gives the annotated element a relative order within its group. The value provided may be repeated
      * and in that case the order is not guaranteed.
-     *
+     * <p>
      * The value is relative meaning that the element with order 10 is on top than one with value 25.
      */
     int order() default DEFAULT_ORDER;
@@ -38,7 +56,7 @@ public @interface Placement {
     /**
      * A group is a logical way to display one or more variables together. If no group is specified then a
      * default group is assumed.
-     *
+     * <p>
      * To place more than one element in the same group, use the exact same values for this attribute
      */
     String group() default "";
@@ -46,8 +64,11 @@ public @interface Placement {
     /**
      * A tab is a logical way to groups together. This attributes specifies the name of the tab in which the
      * annotated element should be displayed. If no tab is specified then a default tab is assumed.
-     *
-     * To display more than one parameter or field in the same the tab then this value should be exactly the same for all of them.
+     * <p>
+     * To display more than one parameter or field in the same the tab then this value should be exactly the same for
+     * all of them.
+     * <p>
+     * By default the value is {@link #GENERAL}
      */
-    String tab() default "";
+    String tab() default GENERAL;
 }
