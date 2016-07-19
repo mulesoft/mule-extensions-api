@@ -7,8 +7,7 @@
 package org.mule.runtime.extension.api.connectivity;
 
 /**
- * The type of joining actions that operations can take
- * regarding transactions.
+ * The type of joining actions that operations can take regarding transactions.
  *
  * @since 1.0
  */

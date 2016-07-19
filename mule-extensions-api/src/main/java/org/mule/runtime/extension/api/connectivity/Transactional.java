@@ -17,16 +17,22 @@ public interface Transactional
 
     /**
      * Begins the transaction
+     *
+     * @throws Exception if the transaction fails to begin
      */
     void begin() throws Exception;
 
     /**
      * Commits the transaction
+     *
+     * @throws Exception if the transaction fails to commit
      */
     void commit() throws Exception;
 
     /**
      * Rolls the transaction back
+     *
+     * @throws Exception if the transaction fails to roll back
      */
     void rollback() throws Exception;
 }
