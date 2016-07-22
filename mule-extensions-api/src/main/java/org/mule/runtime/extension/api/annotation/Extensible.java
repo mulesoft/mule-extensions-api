@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.annotation;
 
-import org.mule.runtime.extension.api.annotation.capability.Xml;
+import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

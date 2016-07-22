@@ -10,8 +10,8 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import org.mule.runtime.extension.xml.dsl.api.DslElementDeclaration;
-import org.mule.runtime.extension.xml.dsl.api.resolver.DslElementResolver;
+import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
+import org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxResolver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     @Test
     public void testOperationDeclaration()
     {
-        DslElementDeclaration result = new DslElementResolver(extension).resolve(operation);
+        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(operation);
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
@@ -36,7 +36,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     @Test
     public void testSourceDeclaration()
     {
-        DslElementDeclaration result = new DslElementResolver(extension).resolve(source);
+        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(source);
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
@@ -48,7 +48,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     @Test
     public void testConfigurationDeclaration()
     {
-        DslElementDeclaration result = new DslElementResolver(extension).resolve(configuration);
+        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(configuration);
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
@@ -60,7 +60,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     @Test
     public void testConnectionProviderDeclaration()
     {
-        DslElementDeclaration result = new DslElementResolver(extension).resolve(connectionProvider);
+        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(connectionProvider);
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));

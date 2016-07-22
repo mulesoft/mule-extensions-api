@@ -6,11 +6,16 @@
  */
 package org.mule.runtime.extension.xml.dsl.api;
 
+import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
-import org.mule.runtime.extension.api.annotation.capability.Xml;
+import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlElementStyleAnnotation;
+import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.extension.xml.dsl.api.property.XmlElementStyleModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class XmlModelUtils
 {
+
     private static final String XSD_EXTENSION = ".xsd";
     private static final String CURRENT_VERSION = "current";
     private static final String DEFAULT_SCHEMA_LOCATION_MASK = "http://www.mulesoft.org/schema/mule/%s";
@@ -35,6 +41,28 @@ public final class XmlModelUtils
         String schemaLocation = buildDefaultSchemaLocation(namespaceLocation, xsdFileName);
 
         return new XmlModelProperty(extensionVersion, namespace, namespaceLocation, xsdFileName, schemaLocation);
+    }
+
+    /**
+     * Optionally returns a {@link XmlElementStyleModelProperty} associated to the given {@code parameter}.
+     * <p>
+     * If the {@code parameter} doesn't contain the property itself, then it checks if the
+     * {@link ParameterModel#getType()} contains a {@link XmlElementStyleAnnotation} and if
+     * so, it adapts that annotation into a model property
+     *
+     * @param parameter a {@link ParameterModel}
+     * @return an {@link Optional} {@link XmlElementStyleModelProperty}
+     */
+    public static Optional<XmlElementStyleModelProperty> getStyleModelProperty(ParameterModel parameter)
+    {
+        Optional<XmlElementStyleModelProperty> property = parameter.getModelProperty(XmlElementStyleModelProperty.class);
+        if (!property.isPresent())
+        {
+            property = getSingleAnnotation(parameter.getType(), XmlElementStyleAnnotation.class)
+                    .map(annotation -> new XmlElementStyleModelProperty(annotation.isAllowInlineDefinition(), annotation.isAllowReferences()));
+        }
+
+        return property;
     }
 
     private static String calculateValue(Xml xml, Supplier<String> value, Supplier<String> fallback)

@@ -17,8 +17,8 @@ import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
-import org.mule.runtime.extension.api.annotation.param.NoRef;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NoReferenceAnnotation;
+import org.mule.runtime.extension.api.annotation.dsl.xml.XmlElementStyle;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlElementStyleAnnotation;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -62,7 +62,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
 
             setOptionalAndDefault(field, fieldBuilder);
             setExpressionSupport(field, fieldBuilder);
-            setReferenceSupport(field, fieldBuilder);
+            setElementStyle(field, fieldBuilder);
             setFieldType(typeHandlerManager, context, field, fieldBuilder);
         }
     }
@@ -88,11 +88,12 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
         fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
     }
 
-    private void setReferenceSupport(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
+    private void setElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
     {
-        if (field.getAnnotation(NoRef.class) != null)
+        final XmlElementStyle annotation = field.getAnnotation(XmlElementStyle.class);
+        if (annotation != null)
         {
-            fieldBuilder.with(new NoReferenceAnnotation());
+            fieldBuilder.with(new XmlElementStyleAnnotation(annotation.allowInlineDefinition(), annotation.allowReferences()));
         }
     }
 
