@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.api.MuleVersion;
+import org.mule.runtime.api.MuleVersion;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
