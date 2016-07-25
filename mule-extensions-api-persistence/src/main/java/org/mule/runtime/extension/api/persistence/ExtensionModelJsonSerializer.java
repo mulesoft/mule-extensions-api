@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.api.MuleVersion;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;

@@ -9,7 +9,7 @@ package org.mule.runtime.extension.tck.introspection;
 import static org.mockito.Mockito.mock;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
 
-import org.mule.api.MuleVersion;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;

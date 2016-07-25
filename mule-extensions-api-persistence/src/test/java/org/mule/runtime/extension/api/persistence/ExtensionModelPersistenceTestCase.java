@@ -18,7 +18,7 @@ import static org.mule.runtime.extension.api.Category.COMMUNITY;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
 
-import org.mule.api.MuleVersion;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;

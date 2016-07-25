@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import org.mule.api.MuleVersion;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;

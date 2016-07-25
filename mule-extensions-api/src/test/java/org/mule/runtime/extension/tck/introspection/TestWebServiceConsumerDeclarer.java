@@ -9,7 +9,7 @@ package org.mule.runtime.extension.tck.introspection;
 import static org.mockito.Mockito.mock;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
-import org.mule.api.MuleVersion;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.java.api.JavaTypeLoader;
