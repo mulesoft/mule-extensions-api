@@ -8,17 +8,17 @@
 package org.mule.runtime.extension.xml.dsl.internal;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.xml.dsl.api.DslElementDeclaration;
+import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Implementation of the builder design pattern to create instances of {@link DslElementDeclaration}
+ * Implementation of the builder design pattern to create instances of {@link DslElementSyntax}
  *
  * @since 1.0
  */
-public final class DslElementDeclarationBuilder
+public final class DslElementSyntaxBuilder
 {
 
     private String attributeName;
@@ -26,11 +26,11 @@ public final class DslElementDeclarationBuilder
     private String elementNameSpace;
     private boolean isWrapped = false;
     private boolean supportsChildDeclaration = false;
-    private Map<MetadataType, DslElementDeclaration> genericChilds = new HashMap<>();
-    private Map<String, DslElementDeclaration> namedChilds = new HashMap<>();
+    private Map<MetadataType, DslElementSyntax> genericChilds = new HashMap<>();
+    private Map<String, DslElementSyntax> namedChilds = new HashMap<>();
 
 
-    private DslElementDeclarationBuilder()
+    private DslElementSyntaxBuilder()
     {
         attributeName = "";
         elementName = "";
@@ -38,11 +38,11 @@ public final class DslElementDeclarationBuilder
     }
 
     /**
-     * @return a new instance of {@link DslElementDeclarationBuilder}
+     * @return a new instance of {@link DslElementSyntaxBuilder}
      */
-    public static DslElementDeclarationBuilder create()
+    public static DslElementSyntaxBuilder create()
     {
-        return new DslElementDeclarationBuilder();
+        return new DslElementSyntaxBuilder();
     }
 
     /**
@@ -50,7 +50,7 @@ public final class DslElementDeclarationBuilder
      *
      * @return the builder instance enriched with the {@code attributeName}
      */
-    public DslElementDeclarationBuilder withAttributeName(String attributeName)
+    public DslElementSyntaxBuilder withAttributeName(String attributeName)
     {
         this.attributeName = attributeName;
         return this;
@@ -61,7 +61,7 @@ public final class DslElementDeclarationBuilder
      *
      * @return the builder instance enriched with the {@code elementName}
      */
-    public DslElementDeclarationBuilder withElementName(String elementName)
+    public DslElementSyntaxBuilder withElementName(String elementName)
     {
         this.elementName = elementName;
         return this;
@@ -72,42 +72,42 @@ public final class DslElementDeclarationBuilder
      *
      * @return the builder instance enriched with the {@code namespace}
      */
-    public DslElementDeclarationBuilder withNamespace(String namespace)
+    public DslElementSyntaxBuilder withNamespace(String namespace)
     {
         this.elementNameSpace = namespace;
         return this;
     }
 
     /**
-     * Declares whether or not {@code this} {@link DslElementDeclaration} is a wrapped element.
+     * Declares whether or not {@code this} {@link DslElementSyntax} is a wrapped element.
      *
      * @return the builder instance enriched with the {@code isWrapped}
      */
-    public DslElementDeclarationBuilder asWrappedElement(boolean isWrapped)
+    public DslElementSyntaxBuilder asWrappedElement(boolean isWrapped)
     {
         this.isWrapped = isWrapped;
         return this;
     }
 
     /**
-     * Declares whether or not {@code this} {@link DslElementDeclaration} supports to be declared as child element
+     * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as child element
      * in the context for which it was created.
      *
      * @return the builder instance enriched with {@code supportsChildDeclaration}
      */
-    public DslElementDeclarationBuilder supportsChildDeclaration(boolean supportsChild)
+    public DslElementSyntaxBuilder supportsChildDeclaration(boolean supportsChild)
     {
         this.supportsChildDeclaration = supportsChild;
         return this;
     }
 
     /**
-     * Adds a {@link DslElementDeclaration childElement} declaration to {@code this} {@link DslElementDeclaration} that
+     * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
      * represents a generic type of {@code this} element.
      *
-     * @return the builder instance enriched with the {@code typed} {@link DslElementDeclaration childElement}
+     * @return the builder instance enriched with the {@code typed} {@link DslElementSyntax childElement}
      */
-    public DslElementDeclarationBuilder withGeneric(MetadataType type, DslElementDeclaration child)
+    public DslElementSyntaxBuilder withGeneric(MetadataType type, DslElementSyntax child)
     {
         if (child == null)
         {
@@ -119,12 +119,12 @@ public final class DslElementDeclarationBuilder
     }
 
     /**
-     * Adds a {@link DslElementDeclaration childElement} declaration to {@code this} {@link DslElementDeclaration} that
+     * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
      * can be referenced by {@code name}
      *
-     * @return the builder instance enriched with the {@code named} {@link DslElementDeclaration childElement}
+     * @return the builder instance enriched with the {@code named} {@link DslElementSyntax childElement}
      */
-    public DslElementDeclarationBuilder withChild(String name, DslElementDeclaration child)
+    public DslElementSyntaxBuilder withChild(String name, DslElementSyntax child)
     {
         if (child == null)
         {
@@ -136,11 +136,11 @@ public final class DslElementDeclarationBuilder
     }
 
     /**
-     * @return a new instance of {@link DslElementDeclaration}
+     * @return a new instance of {@link DslElementSyntax}
      */
-    public DslElementDeclaration build()
+    public DslElementSyntax build()
     {
-        return new DslElementDeclaration(attributeName, elementName, elementNameSpace, isWrapped, supportsChildDeclaration, genericChilds, namedChilds);
+        return new DslElementSyntax(attributeName, elementName, elementNameSpace, isWrapped, supportsChildDeclaration, genericChilds, namedChilds);
     }
 
 }

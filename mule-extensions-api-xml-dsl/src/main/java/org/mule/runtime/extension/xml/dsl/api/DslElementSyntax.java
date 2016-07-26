@@ -18,7 +18,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class DslElementDeclaration
+public class DslElementSyntax
 {
 
     private final String attributeName;
@@ -27,11 +27,11 @@ public class DslElementDeclaration
     private final boolean isWrapped;
     private final boolean supportsChildDeclaration;
 
-    private final Map<MetadataType, DslElementDeclaration> genericsDsl;
-    private final Map<String, DslElementDeclaration> childsByName;
+    private final Map<MetadataType, DslElementSyntax> genericsDsl;
+    private final Map<String, DslElementSyntax> childsByName;
 
     /**
-     * Creates a new instance of {@link DslElementDeclaration}
+     * Creates a new instance of {@link DslElementSyntax}
      *
      * @param attributeName            the name of the attribute in the parent element that references this element
      * @param elementName              the name of this xml element
@@ -39,18 +39,18 @@ public class DslElementDeclaration
      * @param isWrapped                {@code false} if the element implements the Component's type as an xml extension,
      *                                 or {@code true} if the element is a wrapper of a ref to the Component's type
      * @param supportsChildDeclaration {@code true} if this element supports to be declared as a child element of its parent
-     * @param genericsDsl              the {@link DslElementDeclaration} of this element's type generics, if any is present,
+     * @param genericsDsl              the {@link DslElementSyntax} of this element's type generics, if any is present,
      *                                 that complete the element description of container elements of generic types, like
      *                                 Collections or Maps for which the Dsl declaration is modified depending on the contained type.
-     * @param childsByName             the {@link DslElementDeclaration} of this element's named childs. For complex types
+     * @param childsByName             the {@link DslElementSyntax} of this element's named childs. For complex types
      *                                 with fields that are mapped as child elements of this element, the Dsl varies
      *                                 depending on each fields definition, associating each field's child element to this
      *                                 parent element.
      */
-    public DslElementDeclaration(String attributeName, String elementName, String elementNameSpace, boolean isWrapped,
-                                 boolean supportsChildDeclaration,
-                                 Map<MetadataType, DslElementDeclaration> genericsDsl,
-                                 Map<String, DslElementDeclaration> childsByName)
+    public DslElementSyntax(String attributeName, String elementName, String elementNameSpace, boolean isWrapped,
+                            boolean supportsChildDeclaration,
+                            Map<MetadataType, DslElementSyntax> genericsDsl,
+                            Map<String, DslElementSyntax> childsByName)
     {
         this.attributeName = attributeName;
         this.elementName = elementName;
@@ -103,19 +103,19 @@ public class DslElementDeclaration
     }
 
     /**
-     * @param type {@link MetadataType} of the generic for which its {@link DslElementDeclaration dsl} is required
-     * @return the {@link DslElementDeclaration dsl} for the given generic's type if one is present
+     * @param type {@link MetadataType} of the generic for which its {@link DslElementSyntax dsl} is required
+     * @return the {@link DslElementSyntax dsl} for the given generic's type if one is present
      */
-    public Optional<DslElementDeclaration> getGeneric(MetadataType type)
+    public Optional<DslElementSyntax> getGeneric(MetadataType type)
     {
         return Optional.ofNullable(genericsDsl.get(type));
     }
 
     /**
-     * @param name name of the child element for which its {@link DslElementDeclaration dsl} is required
-     * @return the {@link DslElementDeclaration dsl} of the child if one is present
+     * @param name name of the child element for which its {@link DslElementSyntax dsl} is required
+     * @return the {@link DslElementSyntax dsl} of the child if one is present
      */
-    public Optional<DslElementDeclaration> getChild(String name)
+    public Optional<DslElementSyntax> getChild(String name)
     {
         return Optional.ofNullable(childsByName.get(name));
     }

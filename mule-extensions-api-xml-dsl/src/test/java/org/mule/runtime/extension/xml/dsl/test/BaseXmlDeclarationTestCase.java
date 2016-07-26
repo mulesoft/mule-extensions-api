@@ -7,10 +7,12 @@
 package org.mule.runtime.extension.xml.dsl.test;
 
 import static java.util.Arrays.asList;
+import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -25,7 +27,7 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
-import org.mule.runtime.extension.xml.dsl.api.DslElementDeclaration;
+import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
 import java.util.Optional;
@@ -84,8 +86,8 @@ public abstract class BaseXmlDeclarationTestCase
         when(extension.getSourceModels()).thenReturn(asList(source));
         when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
-        when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(Optional.empty());
-        when(extension.getModelProperty(ImportedTypesModelProperty.class)).thenReturn(Optional.empty());
+        when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(empty());
+        when(extension.getModelProperty(ImportedTypesModelProperty.class)).thenReturn(empty());
         when(extension.getModelProperty(XmlModelProperty.class)).thenReturn(
                 Optional.of(new XmlModelProperty(EMPTY, NAMESPACE, NAMESPACE_URI, EMPTY, SCHEMA_LOCATION)));
 
@@ -95,6 +97,7 @@ public abstract class BaseXmlDeclarationTestCase
 
         when(parameterModel.getName()).thenReturn(PARAMETER_NAME);
         when(parameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
+        when(parameterModel.getModelProperty(any())).thenReturn(empty());
 
         when(source.getName()).thenReturn(SOURCE_NAME);
         when(operation.getName()).thenReturn(OPERATION_NAME);
@@ -105,27 +108,27 @@ public abstract class BaseXmlDeclarationTestCase
                 model -> when(model.getParameterModels()).thenReturn(asList(parameterModel)));
     }
 
-    protected void assertChildElementDeclarationIs(boolean expected, DslElementDeclaration result)
+    protected void assertChildElementDeclarationIs(boolean expected, DslElementSyntax result)
     {
         assertThat("Expected attribute only declaration", result.supportsChildDeclaration(), is(expected));
     }
 
-    protected void assertIsWrappedElement(boolean expected, DslElementDeclaration result)
+    protected void assertIsWrappedElement(boolean expected, DslElementSyntax result)
     {
         assertThat("Expected no wrapping but element is wrapped", result.isWrapped(), is(expected));
     }
 
-    protected void assertAttributeName(String expected, DslElementDeclaration result)
+    protected void assertAttributeName(String expected, DslElementSyntax result)
     {
         assertThat(result.getAttributeName(), equalTo(expected));
     }
 
-    protected void assertElementName(String expected, DslElementDeclaration result)
+    protected void assertElementName(String expected, DslElementSyntax result)
     {
         assertThat(result.getElementName(), equalTo(expected));
     }
 
-    protected void assertElementNamespace(String expected, DslElementDeclaration result)
+    protected void assertElementNamespace(String expected, DslElementSyntax result)
     {
         assertThat(result.getElementNamespace(), equalTo(expected));
     }

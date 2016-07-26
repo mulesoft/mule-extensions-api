@@ -6,9 +6,11 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
+import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -16,6 +18,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.createXmlModelProperty;
+import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.getStyleModelProperty;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
@@ -25,7 +28,7 @@ import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.extension.api.annotation.Extension;
-import org.mule.runtime.extension.api.annotation.capability.Xml;
+import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
@@ -34,9 +37,10 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
-import org.mule.runtime.extension.xml.dsl.api.DslElementDeclaration;
+import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
+import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
-import org.mule.runtime.extension.xml.dsl.internal.DslElementDeclarationBuilder;
+import org.mule.runtime.extension.xml.dsl.internal.DslElementSyntaxBuilder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -47,13 +51,13 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Provides the {@link DslElementDeclaration} of any {@link Named Component},
+ * Provides the {@link DslElementSyntax} of any {@link Named Component},
  * {@link ParameterModel Parameter} or {@link MetadataType Type} within the context
  * of the {@link ExtensionModel Extension model} where the Component was declared.
  *
  * @since 1.0
  */
-public class DslElementResolver
+public class DslSyntaxResolver
 {
 
     private Map<MetadataType, XmlModelProperty> importedTypes;
@@ -62,10 +66,10 @@ public class DslElementResolver
 
     /**
      * @param model the {@link ExtensionModel} that provides context for resolving the
-     *              component's {@link DslElementDeclaration}
+     *              component's {@link DslElementSyntax}
      * @throws IllegalArgumentException if the {@link ExtensionModel} doesn't have an {@link XmlModelProperty}
      */
-    public DslElementResolver(ExtensionModel model)
+    public DslSyntaxResolver(ExtensionModel model)
     {
         this.extensionXml = loadXmlProperties(model);
         this.subTypesMapping = loadSubTypes(model);
@@ -73,31 +77,32 @@ public class DslElementResolver
     }
 
     /**
-     * Resolves the {@link DslElementDeclaration} for the given {@link Named component}.
+     * Resolves the {@link DslElementSyntax} for the given {@link Named component}.
      *
-     * @param component the {@link Named} element to be described in the {@link DslElementDeclaration}
-     * @return the {@link DslElementDeclaration} for the {@link Named model}
+     * @param component the {@link Named} element to be described in the {@link DslElementSyntax}
+     * @return the {@link DslElementSyntax} for the {@link Named model}
      */
-    public DslElementDeclaration resolve(final Named component)
+    public DslElementSyntax resolve(final Named component)
     {
-        return DslElementDeclarationBuilder.create()
+        return DslElementSyntaxBuilder.create()
                 .withElementName(hyphenize(component.getName()))
                 .withNamespace(extensionXml.getNamespace())
                 .build();
     }
 
     /**
-     * Resolves the {@link DslElementDeclaration} for the given {@link ParameterModel parameter}, providing
+     * Resolves the {@link DslElementSyntax} for the given {@link ParameterModel parameter}, providing
      * all the required information for representing this {@code parameter} element in the DSL.
      *
-     * @param parameter the {@link ParameterModel} to be described in the {@link DslElementDeclaration}
-     * @return the {@link DslElementDeclaration} for the {@link ParameterModel parameter}
+     * @param parameter the {@link ParameterModel} to be described in the {@link DslElementSyntax}
+     * @return the {@link DslElementSyntax} for the {@link ParameterModel parameter}
      */
-    public DslElementDeclaration resolve(final ParameterModel parameter)
+    public DslElementSyntax resolve(final ParameterModel parameter)
     {
         final ExpressionSupport expressionSupport = parameter.getExpressionSupport();
-        final DslElementDeclarationBuilder builder = DslElementDeclarationBuilder.create();
+        final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
         final String namespace = getNamespace(parameter.getType());
+        final Optional<XmlHintsModelProperty> styleModelProperty = getStyleModelProperty(parameter);
 
         parameter.getType().accept(
                 new MetadataTypeVisitor()
@@ -122,7 +127,7 @@ public class DslElementResolver
                         defaultVisit(arrayType);
                         //TODO MULE-10029 review convention of singular/plural
                         MetadataType genericType = arrayType.getType();
-                        if (shouldGenerateChildElements(genericType, expressionSupport))
+                        if (shouldGenerateChildElements(genericType, expressionSupport, styleModelProperty))
                         {
                             builder.supportsChildDeclaration(true);
                             genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(), namespace, false));
@@ -136,7 +141,7 @@ public class DslElementResolver
                                 .withNamespace(namespace)
                                 .withElementName(hyphenize(parameter.getName()));
 
-                        if (shouldGenerateChildElements(objectType, expressionSupport))
+                        if (shouldGenerateChildElements(objectType, expressionSupport, styleModelProperty))
                         {
                             builder.supportsChildDeclaration(true);
 
@@ -160,7 +165,7 @@ public class DslElementResolver
                                 .withElementName(hyphenize(pluralize(parameter.getName())))
                                 .supportsChildDeclaration(shouldGenerateChildElements(dictionaryType.getKeyType(), expressionSupport));
 
-                        dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder, parameter.getName(), namespace));
+                        dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder, parameter.getName(), namespace, styleModelProperty));
                     }
                 }
         );
@@ -168,19 +173,19 @@ public class DslElementResolver
     }
 
     /**
-     * Resolves the xml top level element {@link DslElementDeclaration} for the given {@link MetadataType}
+     * Resolves the xml top level element {@link DslElementSyntax} for the given {@link MetadataType}
      *
-     * @param type the {@link MetadataType} to be described in the {@link DslElementDeclaration}
-     * @return the {@link DslElementDeclaration} for the top level element associated to the {@link MetadataType}
+     * @param type the {@link MetadataType} to be described in the {@link DslElementSyntax}
+     * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType}
      */
-    public DslElementDeclaration resolve(MetadataType type)
+    public DslElementSyntax resolve(MetadataType type)
     {
-        DslElementDeclarationBuilder typeBuilder = DslElementDeclarationBuilder.create();
+        DslElementSyntaxBuilder typeBuilder = DslElementSyntaxBuilder.create();
         resolve(type, typeBuilder);
         return typeBuilder.build();
     }
 
-    private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementDeclarationBuilder listBuilder, final String parameterName, final String namespace, boolean asItem)
+    private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementSyntaxBuilder listBuilder, final String parameterName, final String namespace, boolean asItem)
     {
         return new MetadataTypeVisitor()
         {
@@ -196,7 +201,7 @@ public class DslElementResolver
             @Override
             public void visitArrayType(ArrayType arrayType)
             {
-                DslElementDeclarationBuilder genericBuilder = DslElementDeclarationBuilder.create()
+                DslElementSyntaxBuilder genericBuilder = DslElementSyntaxBuilder.create()
                         .withNamespace(namespace)
                         .withElementName(getItemName());
 
@@ -215,7 +220,7 @@ public class DslElementResolver
             {
                 //TODO MULE-10029 review convention of singular/plural
                 listBuilder.withGeneric(metadataType,
-                                        DslElementDeclarationBuilder.create()
+                                        DslElementSyntaxBuilder.create()
                                                 .withNamespace(namespace)
                                                 .withElementName(getItemName())
                                                 .build());
@@ -230,18 +235,18 @@ public class DslElementResolver
         };
     }
 
-    private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementDeclarationBuilder mapBuilder, final String parameterName, final String namespace)
+    private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName, final String namespace, Optional<XmlHintsModelProperty> styleModelProperty)
     {
         return new MetadataTypeVisitor()
         {
             @Override
             public void visitObject(ObjectType objectType)
             {
-                DslElementDeclarationBuilder valueChildBuilder = DslElementDeclarationBuilder.create()
+                DslElementSyntaxBuilder valueChildBuilder = DslElementSyntaxBuilder.create()
                         .withNamespace(namespace)
                         //TODO MULE-10029 handle wrapped types for maps xml generation (not required for parsers)
                         .withElementName(hyphenize(singularize(parameterName)))
-                        .supportsChildDeclaration(shouldGenerateChildElements(objectType, SUPPORTED));
+                        .supportsChildDeclaration(shouldGenerateChildElements(objectType, SUPPORTED, styleModelProperty));
 
                 mapBuilder.withGeneric(objectType, valueChildBuilder.build());
             }
@@ -249,12 +254,12 @@ public class DslElementResolver
             @Override
             public void visitArrayType(ArrayType arrayType)
             {
-                DslElementDeclarationBuilder listBuilder = DslElementDeclarationBuilder.create()
+                DslElementSyntaxBuilder listBuilder = DslElementSyntaxBuilder.create()
                         .withNamespace(namespace)
                         .withElementName(hyphenize(singularize(parameterName)));
 
                 MetadataType genericType = arrayType.getType();
-                if (shouldGenerateChildElements(genericType, SUPPORTED))
+                if (shouldGenerateChildElements(genericType, SUPPORTED, styleModelProperty))
                 {
                     listBuilder.supportsChildDeclaration(true);
                     genericType.accept(getArrayItemTypeVisitor(listBuilder, parameterName, namespace, true));
@@ -267,7 +272,7 @@ public class DslElementResolver
             protected void defaultVisit(MetadataType metadataType)
             {
                 mapBuilder.withGeneric(metadataType,
-                                       DslElementDeclarationBuilder.create()
+                                       DslElementSyntaxBuilder.create()
                                                .withNamespace(namespace)
                                                .withElementName(hyphenize(singularize(parameterName)))
                                                .build());
@@ -275,7 +280,7 @@ public class DslElementResolver
         };
     }
 
-    private DslElementDeclaration resolve(MetadataType type, final DslElementDeclarationBuilder builder)
+    private DslElementSyntax resolve(MetadataType type, final DslElementSyntaxBuilder builder)
     {
         final String namespace = getNamespace(type);
 
@@ -296,7 +301,7 @@ public class DslElementResolver
         return builder.build();
     }
 
-    private MetadataTypeVisitor getObjectFieldVisitor(final DslElementDeclarationBuilder objectFieldBuilder,
+    private MetadataTypeVisitor getObjectFieldVisitor(final DslElementSyntaxBuilder objectFieldBuilder,
                                                       final String fieldName, final String ownerNamespace)
     {
         return new MetadataTypeVisitor()
@@ -341,18 +346,18 @@ public class DslElementResolver
                 MetadataType keyType = dictionaryType.getKeyType();
                 objectFieldBuilder.supportsChildDeclaration(shouldGenerateChildElements(keyType, ExpressionSupport.SUPPORTED));
 
-                dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(objectFieldBuilder, fieldName, ownerNamespace));
+                dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(objectFieldBuilder, fieldName, ownerNamespace, empty()));
             }
         };
     }
 
-    private void declareFieldsAsChilds(final DslElementDeclarationBuilder objectBuilder,
+    private void declareFieldsAsChilds(final DslElementSyntaxBuilder objectBuilder,
                                        Collection<ObjectFieldType> fields, final String namespace)
     {
         fields.forEach(
                 field ->
                 {
-                    DslElementDeclarationBuilder fieldBuilder = DslElementDeclarationBuilder.create();
+                    DslElementSyntaxBuilder fieldBuilder = DslElementSyntaxBuilder.create();
                     String childName = field.getKey().getName().getLocalPart();
                     field.getValue().accept(getObjectFieldVisitor(fieldBuilder, childName, namespace));
                     objectBuilder.withChild(childName, fieldBuilder.build());
@@ -361,9 +366,14 @@ public class DslElementResolver
 
     private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport)
     {
+        return shouldGenerateChildElements(metadataType, expressionSupport, empty());
+    }
+
+    private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport, Optional<XmlHintsModelProperty> styleModelProperty)
+    {
         final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
-        if (ExpressionSupport.REQUIRED == expressionSupport)
+        if (REQUIRED == expressionSupport)
         {
             return false;
         }
@@ -385,6 +395,12 @@ public class DslElementResolver
             @Override
             public void visitObject(ObjectType objectType)
             {
+                if (styleModelProperty.isPresent() && !styleModelProperty.get().allowsInlineDefinition())
+                {
+                    supportsChildDeclaration.set(false);
+                    return;
+                }
+
                 boolean isInstantiable = getSingleAnnotation(metadataType, ClassInformationAnnotation.class)
                         .map(ClassInformationAnnotation::isInstantiable).orElse(false);
 
