@@ -15,7 +15,7 @@ import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsStyleAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ public class ExtensionFieldHandlerTestCase
     {
         ObjectType type = (ObjectType) typeLoader.load(NoRefType.class);
         assertThat(type.getFields(), hasSize(1));
-        assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsStyleAnnotation.class), is(not(emptyIterable())));
+        assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsAnnotation.class), is(not(emptyIterable())));
     }
 
     interface HasGetter

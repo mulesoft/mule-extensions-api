@@ -20,7 +20,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsStyleAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
@@ -98,7 +98,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     public void xmlStyleAtTypeLevel()
     {
         XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false);
-        when(parameterModel.getType()).thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsStyleAnnotation(false, false)).build());
+        when(parameterModel.getType()).thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false)).build());
         when(parameterModel.getModelProperty(XmlHintsModelProperty.class)).thenReturn(Optional.of(styleModelProperty));
 
         DslElementSyntax result = new DslSyntaxResolver(extension).resolve(parameterModel);

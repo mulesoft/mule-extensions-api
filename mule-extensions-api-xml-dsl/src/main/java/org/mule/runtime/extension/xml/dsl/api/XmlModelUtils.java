@@ -10,7 +10,7 @@ import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsStyleAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
@@ -47,7 +47,7 @@ public final class XmlModelUtils
      * Optionally returns a {@link XmlHintsModelProperty} associated to the given {@code parameter}.
      * <p>
      * If the {@code parameter} doesn't contain the property itself, then it checks if the
-     * {@link ParameterModel#getType()} contains a {@link XmlHintsStyleAnnotation} and if
+     * {@link ParameterModel#getType()} contains a {@link XmlHintsAnnotation} and if
      * so, it adapts that annotation into a model property
      *
      * @param parameter a {@link ParameterModel}
@@ -58,7 +58,7 @@ public final class XmlModelUtils
         Optional<XmlHintsModelProperty> property = parameter.getModelProperty(XmlHintsModelProperty.class);
         if (!property.isPresent())
         {
-            property = getSingleAnnotation(parameter.getType(), XmlHintsStyleAnnotation.class)
+            property = getSingleAnnotation(parameter.getType(), XmlHintsAnnotation.class)
                     .map(annotation -> new XmlHintsModelProperty(annotation.isAllowInlineDefinition(), annotation.isAllowReferences()));
         }
 
