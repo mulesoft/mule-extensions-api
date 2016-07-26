@@ -65,6 +65,6 @@ public final class SubTypesModelProperty implements ModelProperty
     @Override
     public boolean isExternalizable()
     {
-        return false;
+        return true;
     }
 }

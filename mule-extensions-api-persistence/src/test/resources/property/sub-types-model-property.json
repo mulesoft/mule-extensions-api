@@ -1,0 +1,29 @@
+{
+  "subTypesMapping":[
+    {
+      "baseType":{
+        "format":"java",
+        "type":"String",
+        "annotations":{
+          "typeId":"java.lang.String"
+        }
+      },
+      "subTypes":[
+        {
+          "format":"java",
+          "type":"Number",
+          "annotations":{
+            "typeId":"java.lang.Integer"
+          }
+        },
+        {
+          "format":"java",
+          "type":"Number",
+          "annotations":{
+            "typeId":"java.lang.Double"
+          }
+        }
+      ]
+    }
+  ]
+}

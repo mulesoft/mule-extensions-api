@@ -27,6 +27,7 @@ import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameter
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
@@ -86,12 +87,14 @@ public class ExtensionModelJsonSerializer
         final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
         final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
         final ImportedTypesModelPropertyTypeAdapter importedTypesModelPropertyTypeAdapter = new ImportedTypesModelPropertyTypeAdapter();
+        final SubTypesModelPropertyTypeAdapter subTypesModelPropertyTypeAdapter = new SubTypesModelPropertyTypeAdapter();
         final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
 
         final GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
                 .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
                 .registerTypeAdapter(ImportedTypesModelProperty.class, importedTypesModelPropertyTypeAdapter)
+                .registerTypeAdapter(SubTypesModelProperty.class, subTypesModelPropertyTypeAdapter)
                 .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
                 .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
                 .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

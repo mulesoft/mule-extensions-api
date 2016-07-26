@@ -16,6 +16,7 @@ import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelP
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyPartModelProperty;
 import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.runtime.extension.api.introspection.property.StudioModelProperty;
+import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
 import com.google.common.collect.BiMap;
@@ -40,6 +41,7 @@ final class JsonSerializationConstants
     static final String METADATA_KEY_PART_MODEL_PROPERTY = "metadataKeyPart";
     static final String METADATA_CONTENT_MODEL_PROPERTY = "metadataContent";
     static final String IMPORTED_TYPES_MODEL_PROPERTY = "importedTypes";
+    static final String SUB_TYPES_MODEL_PROPERTY = "subTypesMapping";
 
     private JsonSerializationConstants()
     {
@@ -58,6 +60,7 @@ final class JsonSerializationConstants
         stringClassHashMap.put(METADATA_KEY_PART_MODEL_PROPERTY, MetadataKeyPartModelProperty.class);
         stringClassHashMap.put(METADATA_CONTENT_MODEL_PROPERTY, MetadataContentModelProperty.class);
         stringClassHashMap.put(IMPORTED_TYPES_MODEL_PROPERTY, ImportedTypesModelProperty.class);
+        stringClassHashMap.put(SUB_TYPES_MODEL_PROPERTY, SubTypesModelProperty.class);
         stringClassHashMap.put(DISPLAY_MODEL_PROPERTY, DisplayModelProperty.class);
 
         return stringClassHashMap;
