@@ -4,17 +4,17 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.xml.dsl.api.property;
+package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlElementStyle;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import org.mule.metadata.api.annotation.TypeAnnotation;
 
 /**
  * Contains directives regarding syntax and semantics of the generated XML DSL
  *
  * @since 1.0
  */
-public class XmlElementStyleModelProperty implements ModelProperty
+public class XmlHintsStyleAnnotation implements TypeAnnotation
 {
 
     private final boolean allowInlineDefinition;
@@ -23,47 +23,28 @@ public class XmlElementStyleModelProperty implements ModelProperty
     /**
      * Creates a new instance
      *
-     * @param styleAnnotation a {@link XmlElementStyle}
-     */
-    public XmlElementStyleModelProperty(XmlElementStyle styleAnnotation)
-    {
-        this(styleAnnotation.allowInlineDefinition(), styleAnnotation.allowReferences());
-    }
-
-    /**
-     * Creates a new instance
-     *
      * @param allowInlineDefinition whether the associated element should support inline definition as child element
      * @param allowReferences       whether the associated element should support registry references
      */
-    public XmlElementStyleModelProperty(boolean allowInlineDefinition, boolean allowReferences)
+    public XmlHintsStyleAnnotation(boolean allowInlineDefinition, boolean allowReferences)
     {
         this.allowInlineDefinition = allowInlineDefinition;
         this.allowReferences = allowReferences;
     }
 
     /**
-     * @return {@code xmlElementStyle}
+     * @return {@code xmlHints}
      */
     @Override
     public String getName()
     {
-        return "xmlElementStyle";
-    }
-
-    /**
-     * @return {@code false}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return false;
+        return "xmlHints";
     }
 
     /**
      * @return whether the associated element should support inline definition as child element
      */
-    public boolean allowsInlineDefinition()
+    public boolean isAllowInlineDefinition()
     {
         return allowInlineDefinition;
     }
@@ -71,8 +52,26 @@ public class XmlElementStyleModelProperty implements ModelProperty
     /**
      * @return whether the associated element should support registry references
      */
-    public boolean allowsReferences()
+    public boolean isAllowReferences()
     {
         return allowReferences;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof XmlHintsStyleAnnotation)
+        {
+            XmlHintsStyleAnnotation other = (XmlHintsStyleAnnotation) obj;
+            return allowInlineDefinition == other.isAllowInlineDefinition() && allowReferences == other.isAllowReferences();
+        }
+
+        return false;
     }
 }

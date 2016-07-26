@@ -17,8 +17,8 @@ import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlElementStyle;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlElementStyleAnnotation;
+import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsStyleAnnotation;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -90,10 +90,10 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler
 
     private void setElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
     {
-        final XmlElementStyle annotation = field.getAnnotation(XmlElementStyle.class);
+        final XmlHints annotation = field.getAnnotation(XmlHints.class);
         if (annotation != null)
         {
-            fieldBuilder.with(new XmlElementStyleAnnotation(annotation.allowInlineDefinition(), annotation.allowReferences()));
+            fieldBuilder.with(new XmlHintsStyleAnnotation(annotation.allowInlineDefinition(), annotation.allowReferences()));
         }
     }
 

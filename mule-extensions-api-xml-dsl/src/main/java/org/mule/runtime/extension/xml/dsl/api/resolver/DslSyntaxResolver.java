@@ -38,7 +38,7 @@ import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelP
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlElementStyleModelProperty;
+import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 import org.mule.runtime.extension.xml.dsl.internal.DslElementSyntaxBuilder;
 
@@ -102,7 +102,7 @@ public class DslSyntaxResolver
         final ExpressionSupport expressionSupport = parameter.getExpressionSupport();
         final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
         final String namespace = getNamespace(parameter.getType());
-        final Optional<XmlElementStyleModelProperty> styleModelProperty = getStyleModelProperty(parameter);
+        final Optional<XmlHintsModelProperty> styleModelProperty = getStyleModelProperty(parameter);
 
         parameter.getType().accept(
                 new MetadataTypeVisitor()
@@ -235,7 +235,7 @@ public class DslSyntaxResolver
         };
     }
 
-    private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName, final String namespace, Optional<XmlElementStyleModelProperty> styleModelProperty)
+    private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName, final String namespace, Optional<XmlHintsModelProperty> styleModelProperty)
     {
         return new MetadataTypeVisitor()
         {
@@ -369,7 +369,7 @@ public class DslSyntaxResolver
         return shouldGenerateChildElements(metadataType, expressionSupport, empty());
     }
 
-    private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport, Optional<XmlElementStyleModelProperty> styleModelProperty)
+    private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport, Optional<XmlHintsModelProperty> styleModelProperty)
     {
         final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
@@ -395,13 +395,10 @@ public class DslSyntaxResolver
             @Override
             public void visitObject(ObjectType objectType)
             {
-                if (styleModelProperty.isPresent())
+                if (styleModelProperty.isPresent() && !styleModelProperty.get().allowsInlineDefinition())
                 {
-                    if (!styleModelProperty.get().allowsInlineDefinition())
-                    {
-                        supportsChildDeclaration.set(false);
-                        return;
-                    }
+                    supportsChildDeclaration.set(false);
+                    return;
                 }
 
                 boolean isInstantiable = getSingleAnnotation(metadataType, ClassInformationAnnotation.class)

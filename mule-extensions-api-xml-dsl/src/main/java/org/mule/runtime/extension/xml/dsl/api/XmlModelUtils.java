@@ -10,9 +10,9 @@ import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlElementStyleAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsStyleAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlElementStyleModelProperty;
+import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
 import java.util.Optional;
@@ -44,22 +44,22 @@ public final class XmlModelUtils
     }
 
     /**
-     * Optionally returns a {@link XmlElementStyleModelProperty} associated to the given {@code parameter}.
+     * Optionally returns a {@link XmlHintsModelProperty} associated to the given {@code parameter}.
      * <p>
      * If the {@code parameter} doesn't contain the property itself, then it checks if the
-     * {@link ParameterModel#getType()} contains a {@link XmlElementStyleAnnotation} and if
+     * {@link ParameterModel#getType()} contains a {@link XmlHintsStyleAnnotation} and if
      * so, it adapts that annotation into a model property
      *
      * @param parameter a {@link ParameterModel}
-     * @return an {@link Optional} {@link XmlElementStyleModelProperty}
+     * @return an {@link Optional} {@link XmlHintsModelProperty}
      */
-    public static Optional<XmlElementStyleModelProperty> getStyleModelProperty(ParameterModel parameter)
+    public static Optional<XmlHintsModelProperty> getStyleModelProperty(ParameterModel parameter)
     {
-        Optional<XmlElementStyleModelProperty> property = parameter.getModelProperty(XmlElementStyleModelProperty.class);
+        Optional<XmlHintsModelProperty> property = parameter.getModelProperty(XmlHintsModelProperty.class);
         if (!property.isPresent())
         {
-            property = getSingleAnnotation(parameter.getType(), XmlElementStyleAnnotation.class)
-                    .map(annotation -> new XmlElementStyleModelProperty(annotation.isAllowInlineDefinition(), annotation.isAllowReferences()));
+            property = getSingleAnnotation(parameter.getType(), XmlHintsStyleAnnotation.class)
+                    .map(annotation -> new XmlHintsModelProperty(annotation.isAllowInlineDefinition(), annotation.isAllowReferences()));
         }
 
         return property;

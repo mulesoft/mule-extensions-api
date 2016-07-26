@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-public @interface XmlElementStyle
+public @interface XmlHints
 {
 
     /**

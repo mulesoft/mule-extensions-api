@@ -20,11 +20,11 @@ import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlElementStyleAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsStyleAnnotation;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlElementStyleModelProperty;
+import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.xml.dsl.test.model.AbstractType;
 import org.mule.runtime.extension.xml.dsl.test.model.ChildOfAbstractType;
@@ -86,9 +86,9 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     @Test
     public void xmlStyleAtParameterLevel()
     {
-        XmlElementStyleModelProperty styleModelProperty = new XmlElementStyleModelProperty(false, false);
+        XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false);
         when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(String.class));
-        when(parameterModel.getModelProperty(XmlElementStyleModelProperty.class)).thenReturn(Optional.of(styleModelProperty));
+        when(parameterModel.getModelProperty(XmlHintsModelProperty.class)).thenReturn(Optional.of(styleModelProperty));
 
         DslElementSyntax result = new DslSyntaxResolver(extension).resolve(parameterModel);
         assertChildElementDeclarationIs(false, result);
@@ -97,9 +97,9 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     @Test
     public void xmlStyleAtTypeLevel()
     {
-        XmlElementStyleModelProperty styleModelProperty = new XmlElementStyleModelProperty(false, false);
-        when(parameterModel.getType()).thenReturn(TYPE_BUILDER.stringType().with(new XmlElementStyleAnnotation(false, false)).build());
-        when(parameterModel.getModelProperty(XmlElementStyleModelProperty.class)).thenReturn(Optional.of(styleModelProperty));
+        XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false);
+        when(parameterModel.getType()).thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsStyleAnnotation(false, false)).build());
+        when(parameterModel.getModelProperty(XmlHintsModelProperty.class)).thenReturn(Optional.of(styleModelProperty));
 
         DslElementSyntax result = new DslSyntaxResolver(extension).resolve(parameterModel);
         assertChildElementDeclarationIs(false, result);
