@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 
@@ -20,6 +21,7 @@ public class ConnectionProviderDeclaration extends ParameterizedInterceptableDec
 {
     private ConnectionProviderFactory factory;
     private Class<?> connectionType;
+    private ConnectionManagementType connectionManagementType;
 
     /**
      * {@inheritDoc}
@@ -47,5 +49,15 @@ public class ConnectionProviderDeclaration extends ParameterizedInterceptableDec
     void setConnectionType(Class<?> connectionType)
     {
         this.connectionType = connectionType;
+    }
+
+    public ConnectionManagementType getConnectionManagementType()
+    {
+        return connectionManagementType;
+    }
+
+    public void setConnectionManagementType(ConnectionManagementType connectionManagementType)
+    {
+        this.connectionManagementType = connectionManagementType;
     }
 }

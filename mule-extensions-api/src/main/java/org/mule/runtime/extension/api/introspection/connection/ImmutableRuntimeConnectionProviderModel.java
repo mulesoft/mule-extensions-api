@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.connection;
 
-import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
@@ -17,13 +16,12 @@ import java.util.Set;
 /**
  * Immutable implementation of {@link ConnectionProviderModel}
  *
- * @param <Connection> the generic type for the connections that the returned  {@link ConnectionProvider providers} produce
  * @since 1.0
  */
-public final class ImmutableRuntimeConnectionProviderModel<Connection> extends ImmutableConnectionProviderModel<Connection> implements RuntimeConnectionProviderModel<Connection>
+public final class ImmutableRuntimeConnectionProviderModel extends ImmutableConnectionProviderModel implements RuntimeConnectionProviderModel
 {
 
-    private transient Class<Connection> connectionType;
+    private transient Class<?> connectionType;
     private transient final ConnectionProviderFactory connectionProviderFactory;
 
     /**
@@ -39,12 +37,13 @@ public final class ImmutableRuntimeConnectionProviderModel<Connection> extends I
      */
     public ImmutableRuntimeConnectionProviderModel(String name,
                                                    String description,
-                                                   Class<Connection> connectionType,
+                                                   Class<?> connectionType,
                                                    ConnectionProviderFactory connectionProviderFactory,
                                                    List<ParameterModel> parameterModels,
+                                                   ConnectionManagementType connectionManagementType,
                                                    Set<ModelProperty> modelProperties)
     {
-        super(name, description, parameterModels, modelProperties);
+        super(name, description, parameterModels, connectionManagementType, modelProperties);
 
         checkArgument(connectionType != null, "connectionType cannot be null");
         checkArgument(connectionProviderFactory != null, "connectionProviderFactory cannot be null");
@@ -68,7 +67,7 @@ public final class ImmutableRuntimeConnectionProviderModel<Connection> extends I
      */
     @Transient
     @Override
-    public Class<Connection> getConnectionType()
+    public Class<?> getConnectionType()
     {
         return connectionType;
     }

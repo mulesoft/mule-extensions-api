@@ -7,23 +7,26 @@
 package org.mule.runtime.extension.api.introspection.connection;
 
 /**
- * Enumerates the different types of support that
- * a given component can provide regarding pooling
+ * Enumerates the different strategies that the runtime
+ * supports for managing connections.
  *
  * @since 1.0
  */
-public enum PoolingSupport
+public enum ConnectionManagementType
 {
     /**
-     * Pooling is supported but not required
+     * Connections are pooled
      */
-    SUPPORTED,
+    POOLING,
+
     /**
-     * Pooling is required
+     * Connections are cached
      */
-    REQUIRED,
+    CACHED,
+
     /**
-     * Pooling is not supported
+     * Connections are created upon operation execution
+     * and destroyed when operation finished
      */
-    NOT_SUPPORTED
+    NONE
 }

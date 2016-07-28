@@ -8,9 +8,9 @@ package org.mule.runtime.extension.tck.introspection;
 
 import static org.mockito.Mockito.mock;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
-
-import org.mule.runtime.api.MuleVersion;
+import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
@@ -39,7 +39,6 @@ import java.io.Serializable;
 public class TestHttpConnectorDeclarer
 {
 
-    public static final Class<?> REQUESTER_CONNECTION_PROVIDER_CONFIG_TYPE = String.class;
     public static final Class<?> REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE = Integer.class;
     public static final String EXTENSION_NAME = "http";
     public static final String EXTENSION_DESCRIPTION = "Http Connector";
@@ -78,7 +77,8 @@ public class TestHttpConnectorDeclarer
 
         requesterConfig.withConnectionProvider(REQUESTER_PROVIDER)
                 .createdWith(requesterConnectionProviderFactory)
-                .whichGivesConnectionsOfType(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE);
+                .whichGivesConnectionsOfType(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE)
+                .withConnectionManagementType(NONE);
 
         ConfigurationDeclarer listenerRequester = extensionDeclarer.withConfig(LISTENER_CONFIG_NAME).describedAs(LISTENER_CONFIG_DESCRIPTION).createdWith(configurationFactory);
         ComponentDeclarer listen = listenerRequester.withMessageSource(LISTEN_MESSAGE_SOURCE).sourceCreatedBy(() -> source);
