@@ -51,7 +51,6 @@ public interface InterceptingCallback<T>
      * <p>
      * <ul>
      * <li>{@link #shouldProcessNext()} returns {@code false}</li>
-     * <li>There's no intercepted chain (the intercepting operation is last in the flow)</li>
      * <li>The intercepted chain failed</li>
      * </ul>
      *
