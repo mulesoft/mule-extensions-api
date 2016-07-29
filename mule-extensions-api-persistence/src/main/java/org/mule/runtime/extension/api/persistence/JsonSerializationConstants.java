@@ -8,13 +8,12 @@ package org.mule.runtime.extension.api.persistence;
 
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.property.ConnectionHandlingTypeModelProperty;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
+import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyPartModelProperty;
-import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.runtime.extension.api.introspection.property.StudioModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
@@ -34,7 +33,6 @@ final class JsonSerializationConstants
 
     static final String DISPLAY_MODEL_PROPERTY = "display";
     static final String LAYOUT_MODEL_PROPERTY = "layout";
-    static final String CONNECTION_HANDLING_TYPE_MODEL_PROPERTY = "connectionHandlingType";
     static final String STUDIO_MODEL_PROPERTY = "studio";
     static final String XML_MODEL_PROPERTY = "xml";
     static final String METADATA_KEY_ID_MODEL_PROPERTY = "metadataKeyId";
@@ -52,7 +50,6 @@ final class JsonSerializationConstants
     {
         final HashBiMap<String, Class<? extends ModelProperty>> stringClassHashMap = HashBiMap.create();
 
-        stringClassHashMap.put(CONNECTION_HANDLING_TYPE_MODEL_PROPERTY, ConnectionHandlingTypeModelProperty.class);
         stringClassHashMap.put(LAYOUT_MODEL_PROPERTY, LayoutModelProperty.class);
         stringClassHashMap.put(STUDIO_MODEL_PROPERTY, StudioModelProperty.class);
         stringClassHashMap.put(XML_MODEL_PROPERTY, XmlModelProperty.class);

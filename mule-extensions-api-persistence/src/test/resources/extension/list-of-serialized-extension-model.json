@@ -64,6 +64,7 @@
     },
     "connectionProviders": {
       "BasicAuth": {
+        "connectionManagementType":"NONE",
         "parameterModels": [
           {
             "type": {
@@ -185,6 +186,7 @@
     },
     "connectionProviders": {
       "BasicAuth": {
+        "connectionManagementType":"NONE",
         "parameterModels": [
           {
             "type": {

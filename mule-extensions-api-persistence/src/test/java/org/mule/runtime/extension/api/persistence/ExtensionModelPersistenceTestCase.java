@@ -15,11 +15,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
+import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
-
-import org.mule.runtime.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
@@ -81,7 +81,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
                                                       new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
                                                       new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
                                                       modelProperties);
-        final ImmutableRuntimeConnectionProviderModel<Integer> basicAuth = new ImmutableRuntimeConnectionProviderModel<>("BasicAuth", "Basic Auth Config", Integer.class, new DefaultConnectionProviderFactory(), asList(usernameParameter, passwordParameter), emptySet());
+        final ImmutableRuntimeConnectionProviderModel basicAuth = new ImmutableRuntimeConnectionProviderModel("BasicAuth", "Basic Auth Config", Integer.class, new DefaultConnectionProviderFactory(), asList(usernameParameter, passwordParameter), NONE, emptySet());
         originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY, new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation), singletonList(basicAuth), emptyList(), emptySet(), Optional.empty());
         extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
         final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);

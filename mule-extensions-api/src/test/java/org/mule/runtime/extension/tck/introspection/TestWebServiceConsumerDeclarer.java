@@ -7,12 +7,13 @@
 package org.mule.runtime.extension.tck.introspection;
 
 import static org.mockito.Mockito.mock;
+import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
-import org.mule.runtime.api.MuleVersion;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.java.api.JavaTypeLoader;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
@@ -161,7 +162,9 @@ public class TestWebServiceConsumerDeclarer
 
         ConnectionProviderDeclarer connectionProvider = extensionDeclarer.withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
                 .createdWith(connectionProviderFactory)
-                .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE);
+                .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE)
+                .withConnectionManagementType(NONE);
+
         connectionProvider.withRequiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(typeLoader.load(String.class));
         connectionProvider.withRequiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(typeLoader.load(String.class));
 

@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 
 /**
@@ -64,6 +65,17 @@ public final class ConnectionProviderDeclarer extends ParameterizedDeclarer<Conn
     public ConnectionProviderDeclarer whichGivesConnectionsOfType(Class<?> connectionType)
     {
         declaration.setConnectionType(connectionType);
+        return this;
+    }
+
+    /**
+     * Sets the type of connection management that the provider performs
+     * @param connectionManagementType a {@link ConnectionManagementType}
+     * @return {@code this} declarer
+     */
+    public ConnectionProviderDeclarer withConnectionManagementType(ConnectionManagementType connectionManagementType)
+    {
+        declaration.setConnectionManagementType(connectionManagementType);
         return this;
     }
 
