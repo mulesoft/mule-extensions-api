@@ -6,16 +6,13 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
-import static java.util.Collections.emptyMap;
-import static java.util.Collections.unmodifiableMap;
+import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -29,7 +26,7 @@ public abstract class AbstractImmutableModel implements Described, EnrichableMod
 {
 
     private final String description;
-    private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties;
+    private final HierarchyClassMap<ModelProperty> modelProperties = new HierarchyClassMap<>();
 
     /**
      * Creates a new instance
@@ -40,7 +37,7 @@ public abstract class AbstractImmutableModel implements Described, EnrichableMod
     protected AbstractImmutableModel(String description, Set<ModelProperty> modelProperties)
     {
         this.description = description != null ? description : "";
-        this.modelProperties = toModelPropertiesMap(modelProperties);
+        loadProperties(modelProperties);
     }
 
     protected static void checkArgument(boolean condition, String message)
@@ -85,12 +82,11 @@ public abstract class AbstractImmutableModel implements Described, EnrichableMod
         return ToStringBuilder.reflectionToString(this);
     }
 
-    private Map<Class<? extends ModelProperty>, ModelProperty> toModelPropertiesMap(Collection<ModelProperty> properties)
+    private void loadProperties(Collection<ModelProperty> properties)
     {
-        if (properties == null || properties.isEmpty())
+        if (properties != null)
         {
-            return emptyMap();
+            properties.forEach(property -> modelProperties.put(property.getClass(), property));
         }
-        return unmodifiableMap(properties.stream().collect(Collectors.toMap(p -> p.getClass(), p -> p)));
     }
 }
