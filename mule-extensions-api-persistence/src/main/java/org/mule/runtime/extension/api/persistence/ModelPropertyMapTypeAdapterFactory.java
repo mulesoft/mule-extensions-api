@@ -7,12 +7,14 @@
 package org.mule.runtime.extension.api.persistence;
 
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -24,12 +26,18 @@ import java.util.Map;
 final class ModelPropertyMapTypeAdapterFactory implements TypeAdapterFactory
 {
 
+    private final Type mapType = new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>()
+    {
+    }.getType();
+
+    private final Type hierarchyClassMapType = new TypeToken<HierarchyClassMap<ModelProperty>>()
+    {
+    }.getType();
+
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type)
     {
-        if (type.getType().equals(new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>()
-        {
-        }.getType()))
+        if (type.getType().equals(mapType) || type.getType().equals(hierarchyClassMapType))
         {
             return (TypeAdapter<T>) new ModelPropertyMapTypeAdapter(gson);
         }

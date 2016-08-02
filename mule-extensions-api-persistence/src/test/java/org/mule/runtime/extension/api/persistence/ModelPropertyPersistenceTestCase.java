@@ -15,6 +15,7 @@ import org.mule.runtime.extension.api.introspection.property.DisplayModelPropert
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
+import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -83,7 +84,7 @@ public class ModelPropertyPersistenceTestCase extends BasePersistenceTestCase
 
     private String toJson(ModelProperty modelProperty, Gson gson)
     {
-        return gson.toJson(singletonMap(modelProperty.getClass(), modelProperty), ANNOTATIONS_MAP_TYPE);
+        return gson.toJson(new HierarchyClassMap<>(singletonMap(modelProperty.getClass(), modelProperty)), ANNOTATIONS_MAP_TYPE);
     }
 
     private Gson getGson()

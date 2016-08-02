@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.persistence;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
+import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -16,7 +17,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,7 +35,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends ModelProperty>, ModelProperty>>
+final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<ModelProperty>>
 {
 
     private static final Map<Class<? extends ModelProperty>, String> classNameMapping = JsonSerializationConstants.getClassNameMapping();
@@ -49,13 +49,13 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
     }
 
     @Override
-    public void write(JsonWriter out, Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyMap) throws IOException
+    public void write(JsonWriter out, HierarchyClassMap<ModelProperty> modelPropertyMap) throws IOException
     {
         out.beginObject();
-        for (Map.Entry<Class<? extends ModelProperty>, ModelProperty> entry : modelPropertyMap.entrySet())
+        for (Map.Entry<Class<?>, ModelProperty> entry : modelPropertyMap.entrySet())
         {
             final ModelProperty modelProperty = entry.getValue();
-            final Class<? extends ModelProperty> modelPropertyClass = entry.getKey();
+            final Class<?> modelPropertyClass = entry.getKey();
 
             if (modelProperty.isExternalizable())
             {
@@ -69,9 +69,9 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
     }
 
     @Override
-    public Map<Class<? extends ModelProperty>, ModelProperty> read(JsonReader in) throws IOException
+    public HierarchyClassMap<ModelProperty> read(JsonReader in) throws IOException
     {
-        final Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyHashMap = new HashMap<>();
+        final HierarchyClassMap<ModelProperty> modelPropertyHashMap = new HierarchyClassMap<>();
 
         in.beginObject();
         while (in.hasNext())
@@ -113,7 +113,7 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends 
     }
 
 
-    private String getSerializableModelPropertyName(Class<? extends ModelProperty> modelPropertyClass)
+    private String getSerializableModelPropertyName(Class<?> modelPropertyClass)
     {
         return classNameMapping.getOrDefault(modelPropertyClass, modelPropertyClass.getName());
     }
