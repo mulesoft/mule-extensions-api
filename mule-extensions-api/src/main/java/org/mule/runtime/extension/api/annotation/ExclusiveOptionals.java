@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.annotation;
 
+import org.mule.runtime.extension.api.annotation.param.Optional;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,22 +15,23 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation marks that all the {@link Parameter}s contained  in the annotated class have an exclusive relationship among each other.
+ * This annotation marks that all the {@link Optional} {@link Parameter}s contained  in the annotated class have an exclusive relationship among each other.
  * The exclusive relation stands for "from all the parameters declared in this class, only one can be present at any time"
- * This annotation overrides the optionality of the {@link Parameter}s , forcing all of them
- * to be treated as optionals. If the case is given in which one of the {@link Parameter} must be present (no matter which one),
- * then {@link Exclusion#oneRequired()} must be set to true.
+ * This annotation doesn't override the optionality of the {@link Parameter}s. The required parameter will remain required
+ * and the exclusivity condition imposed by this annotation would not affect them.
+ * If the case is given in which one of the {@link Optional} {@link Parameter}s must be present (no matter which one),
+ * then {@link ExclusiveOptionals#oneRequired()} must be set to true.
  *
  * @since 1.0
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Exclusion
+public @interface ExclusiveOptionals
 {
 
     /**
-     * Enforces whether if at least one of the parameters must be present at any given time
+     * Enforces that one of the parameters must be set at any given time
      */
     boolean oneRequired() default false;
 }
