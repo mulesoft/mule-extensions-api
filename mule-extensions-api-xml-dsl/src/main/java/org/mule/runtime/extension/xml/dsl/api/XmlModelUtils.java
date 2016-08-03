@@ -53,7 +53,7 @@ public final class XmlModelUtils
      * @param parameter a {@link ParameterModel}
      * @return an {@link Optional} {@link XmlHintsModelProperty}
      */
-    public static Optional<XmlHintsModelProperty> getStyleModelProperty(ParameterModel parameter)
+    public static Optional<XmlHintsModelProperty> getHintsModelProperty(ParameterModel parameter)
     {
         Optional<XmlHintsModelProperty> property = parameter.getModelProperty(XmlHintsModelProperty.class);
         if (!property.isPresent())

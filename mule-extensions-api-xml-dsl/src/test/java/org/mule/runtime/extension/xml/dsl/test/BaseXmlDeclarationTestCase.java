@@ -42,19 +42,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 public abstract class BaseXmlDeclarationTestCase
 {
 
-    protected static final String NAMESPACE = "mockns";
-    protected static final String NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/mockns";
-    protected static final String SCHEMA_LOCATION = "http://www.mulesoft.org/schema/mule/mockns/current/mule-mockns.xsd";
-    protected static final String PARAMETER_NAME = "myCamelCaseName";
-    protected static final String EXTENSION_NAME = "extension";
-    protected static final String OPERATION_NAME = "mockOperation";
-    protected static final String SOURCE_NAME = "source";
-    protected static final String CONFIGURATION_NAME = "configuration";
-    protected static final String CONNECTION_PROVIDER_NAME = "connection";
-    protected static final String IMPORT_NAMESPACE = "importns";
-    protected static final String IMPORT_NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/importns";
-    protected static final String IMPORT_EXTENSION_NAME = "importExtension";
-    protected static final BaseTypeBuilder<?> TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
+    static final String NAMESPACE = "mockns";
+    static final String NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/mockns";
+    static final String SCHEMA_LOCATION = "http://www.mulesoft.org/schema/mule/mockns/current/mule-mockns.xsd";
+    static final String PARAMETER_NAME = "myCamelCaseName";
+    static final String EXTENSION_NAME = "extension";
+    static final String OPERATION_NAME = "mockOperation";
+    static final String SOURCE_NAME = "source";
+    static final String CONFIGURATION_NAME = "configuration";
+    static final String CONNECTION_PROVIDER_NAME = "connection";
+    static final String IMPORT_NAMESPACE = "importns";
+    static final String IMPORT_NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/importns";
+    static final String IMPORT_EXTENSION_NAME = "importExtension";
+    static final BaseTypeBuilder<?> TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
 
     @Mock
     protected ExtensionModel extension;
@@ -74,7 +74,7 @@ public abstract class BaseXmlDeclarationTestCase
     @Mock
     protected SourceModel source;
 
-    protected ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+    ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
     @Before
     public void before()
@@ -108,29 +108,34 @@ public abstract class BaseXmlDeclarationTestCase
                 model -> when(model.getParameterModels()).thenReturn(asList(parameterModel)));
     }
 
-    protected void assertChildElementDeclarationIs(boolean expected, DslElementSyntax result)
+    void assertChildElementDeclarationIs(boolean expected, DslElementSyntax result)
     {
         assertThat("Expected attribute only declaration", result.supportsChildDeclaration(), is(expected));
     }
 
-    protected void assertIsWrappedElement(boolean expected, DslElementSyntax result)
+    void assertIsWrappedElement(boolean expected, DslElementSyntax result)
     {
         assertThat("Expected no wrapping but element is wrapped", result.isWrapped(), is(expected));
     }
 
-    protected void assertAttributeName(String expected, DslElementSyntax result)
+    void assertAttributeName(String expected, DslElementSyntax result)
     {
         assertThat(result.getAttributeName(), equalTo(expected));
     }
 
-    protected void assertElementName(String expected, DslElementSyntax result)
+    void assertElementName(String expected, DslElementSyntax result)
     {
         assertThat(result.getElementName(), equalTo(expected));
     }
 
-    protected void assertElementNamespace(String expected, DslElementSyntax result)
+    void assertElementNamespace(String expected, DslElementSyntax result)
     {
-        assertThat(result.getElementNamespace(), equalTo(expected));
+        assertThat(result.getNamespace(), equalTo(expected));
+    }
+
+    void assertTopElementDeclarationIs(boolean expected, DslElementSyntax result)
+    {
+        assertThat("Expected the element to support Top Level definitions", result.supportsTopLevelDeclaration(), is(expected));
     }
 
 }

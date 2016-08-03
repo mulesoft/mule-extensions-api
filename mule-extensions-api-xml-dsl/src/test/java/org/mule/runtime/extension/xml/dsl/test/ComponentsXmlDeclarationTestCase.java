@@ -28,7 +28,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
-        assertThat(result.getElementNamespace(), is(NAMESPACE));
+        assertThat(result.getNamespace(), is(NAMESPACE));
         assertChildElementDeclarationIs(false, result);
         assertIsWrappedElement(false, result);
     }
@@ -40,7 +40,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
-        assertThat(result.getElementNamespace(), is(NAMESPACE));
+        assertThat(result.getNamespace(), is(NAMESPACE));
         assertChildElementDeclarationIs(false, result);
         assertIsWrappedElement(false, result);
     }
@@ -52,7 +52,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
-        assertThat(result.getElementNamespace(), is(NAMESPACE));
+        assertThat(result.getNamespace(), is(NAMESPACE));
         assertChildElementDeclarationIs(false, result);
         assertIsWrappedElement(false, result);
     }
@@ -64,7 +64,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
         assertThat(result.getAttributeName(), is(EMPTY));
         assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
-        assertThat(result.getElementNamespace(), is(NAMESPACE));
+        assertThat(result.getNamespace(), is(NAMESPACE));
         assertChildElementDeclarationIs(false, result);
         assertIsWrappedElement(false, result);
     }
