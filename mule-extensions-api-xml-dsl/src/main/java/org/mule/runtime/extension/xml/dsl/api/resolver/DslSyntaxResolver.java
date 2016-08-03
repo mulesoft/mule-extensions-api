@@ -428,12 +428,12 @@ public class DslSyntaxResolver
                 });
     }
 
-    boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport)
+    private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport)
     {
         return shouldGenerateChildElements(metadataType, expressionSupport, empty());
     }
 
-    boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport, Optional<XmlHintsModelProperty> xmlHints)
+    private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport, Optional<XmlHintsModelProperty> xmlHints)
     {
         final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
@@ -495,18 +495,12 @@ public class DslSyntaxResolver
         return supportsChildDeclaration.get();
     }
 
-    boolean supportTopLevelElement(MetadataType metadataType)
+    private boolean supportTopLevelElement(MetadataType metadataType)
     {
         final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
         metadataType.accept(new MetadataTypeVisitor()
         {
-            @Override
-            protected void defaultVisit(MetadataType metadataType)
-            {
-                supportsChildDeclaration.set(false);
-            }
-
             @Override
             public void visitObject(ObjectType objectType)
             {
@@ -521,7 +515,7 @@ public class DslSyntaxResolver
         return supportsChildDeclaration.get();
     }
 
-    boolean typeRequiresWrapperElement(MetadataType metadataType)
+    private boolean typeRequiresWrapperElement(MetadataType metadataType)
     {
         boolean isPojo = metadataType instanceof ObjectType;
         boolean hasSubtypes = subTypesMapping.containsBaseType(metadataType);
@@ -529,7 +523,7 @@ public class DslSyntaxResolver
         return isPojo && (isExtensible(metadataType) || hasSubtypes);
     }
 
-    String getNamespace(MetadataType type)
+    private String getNamespace(MetadataType type)
     {
         return getNamespace(type, extensionXml.getNamespace());
     }
@@ -540,7 +534,7 @@ public class DslSyntaxResolver
         return xml != null ? xml.getNamespace() : defaultNamespace;
     }
 
-    String getNamespaceUri(MetadataType type)
+    private String getNamespaceUri(MetadataType type)
     {
         return getNamespaceUri(type, extensionXml.getNamespaceUri());
     }
@@ -551,7 +545,7 @@ public class DslSyntaxResolver
         return xml != null ? xml.getNamespaceUri() : defaultUri;
     }
 
-    boolean isInstantiable(MetadataType metadataType)
+    private boolean isInstantiable(MetadataType metadataType)
     {
         Optional<ClassInformationAnnotation> classInformation = getSingleAnnotation(metadataType, ClassInformationAnnotation.class);
         return classInformation.map(ClassInformationAnnotation::isInstantiable).orElse(false);
