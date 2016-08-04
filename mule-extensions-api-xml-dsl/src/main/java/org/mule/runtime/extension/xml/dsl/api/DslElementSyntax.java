@@ -24,8 +24,10 @@ public class DslElementSyntax
     private final String attributeName;
     private final String elementName;
     private final String elementNameSpace;
+    private final String nameSpaceUri;
     private final boolean isWrapped;
     private final boolean supportsChildDeclaration;
+    private final boolean supportsTopLevelDeclaration;
 
     private final Map<MetadataType, DslElementSyntax> genericsDsl;
     private final Map<String, DslElementSyntax> childsByName;
@@ -47,16 +49,19 @@ public class DslElementSyntax
      *                                 depending on each fields definition, associating each field's child element to this
      *                                 parent element.
      */
-    public DslElementSyntax(String attributeName, String elementName, String elementNameSpace, boolean isWrapped,
+    public DslElementSyntax(String attributeName, String elementName, String elementNameSpace, String nameSpaceUri, boolean isWrapped,
                             boolean supportsChildDeclaration,
+                            boolean supportsTopLevelDeclaration,
                             Map<MetadataType, DslElementSyntax> genericsDsl,
                             Map<String, DslElementSyntax> childsByName)
     {
         this.attributeName = attributeName;
         this.elementName = elementName;
         this.elementNameSpace = elementNameSpace;
+        this.nameSpaceUri = nameSpaceUri;
         this.isWrapped = isWrapped;
         this.supportsChildDeclaration = supportsChildDeclaration;
+        this.supportsTopLevelDeclaration = supportsTopLevelDeclaration;
         this.genericsDsl = genericsDsl;
         this.childsByName = childsByName;
     }
@@ -72,9 +77,17 @@ public class DslElementSyntax
     /**
      * @return the namespace of this xml element
      */
-    public String getElementNamespace()
+    public String getNamespace()
     {
         return elementNameSpace;
+    }
+
+    /**
+     * @return the namespace URI of this xml element
+     */
+    public String getNamespaceUri()
+    {
+        return nameSpaceUri;
     }
 
     /**
@@ -100,6 +113,14 @@ public class DslElementSyntax
     public boolean supportsChildDeclaration()
     {
         return supportsChildDeclaration;
+    }
+
+    /**
+     * @return {@code true} if this element supports to be declared as a top level element
+     */
+    public boolean supportsTopLevelDeclaration()
+    {
+        return supportsTopLevelDeclaration;
     }
 
     /**

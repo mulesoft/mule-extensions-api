@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
+import org.mule.runtime.extension.api.introspection.operation.OperationModel;
+
 /**
  * Creates {@link OperationExecutor} instances
  *
@@ -17,7 +19,8 @@ public interface OperationExecutorFactory
     /**
      * Creates a new {@link OperationExecutor}
      *
+     * @param operationModel the model of the operation to be executed
      * @return a new {@link OperationExecutor}
      */
-    OperationExecutor createExecutor();
+    OperationExecutor createExecutor(OperationModel operationModel);
 }
