@@ -27,6 +27,7 @@ import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
@@ -38,6 +39,7 @@ import org.mule.runtime.extension.api.introspection.declaration.type.annotation.
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
@@ -127,6 +129,13 @@ public class DslSyntaxResolver
                     }
 
                     @Override
+                    public void visitString(StringType stringType)
+                    {
+                        defaultVisit(stringType);
+                        builder.supportsChildDeclaration(isText(parameter));
+                    }
+
+                    @Override
                     public void visitArrayType(ArrayType arrayType)
                     {
                         defaultVisit(arrayType);
@@ -177,6 +186,11 @@ public class DslSyntaxResolver
                 }
         );
         return builder.build();
+    }
+
+    private Boolean isText(ParameterModel parameter)
+    {
+        return parameter.getModelProperty(LayoutModelProperty.class).map(LayoutModelProperty::isText).orElse(false);
     }
 
     /**
