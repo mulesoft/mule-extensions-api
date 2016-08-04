@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * This annotation doesn't override the optionality of the {@link Parameter}s. The required parameter will remain required
  * and the exclusivity condition imposed by this annotation would not affect them.
  * If the case is given in which one of the {@link Optional} {@link Parameter}s must be present (no matter which one),
- * then {@link ExclusiveOptionals#oneRequired()} must be set to true.
+ * then {@link ExclusiveOptionals#isOneRequired()} must be set to true.
  *
  * @since 1.0
  */
@@ -33,5 +33,5 @@ public @interface ExclusiveOptionals
     /**
      * Enforces that one of the parameters must be set at any given time
      */
-    boolean oneRequired() default false;
+    boolean isOneRequired() default false;
 }
