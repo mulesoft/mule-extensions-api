@@ -24,8 +24,10 @@ public final class DslElementSyntaxBuilder
     private String attributeName;
     private String elementName;
     private String elementNameSpace;
+    private String nameSpaceUri;
     private boolean isWrapped = false;
     private boolean supportsChildDeclaration = false;
+    private boolean supportsTopLevelDeclaration = false;
     private Map<MetadataType, DslElementSyntax> genericChilds = new HashMap<>();
     private Map<String, DslElementSyntax> namedChilds = new HashMap<>();
 
@@ -68,13 +70,14 @@ public final class DslElementSyntaxBuilder
     }
 
     /**
-     * Adds a {@code namespace} to the element being declared
+     * Adds a {@code nameSpace} to the element being declared
      *
-     * @return the builder instance enriched with the {@code namespace}
+     * @return the builder instance enriched with the {@code nameSpace}
      */
-    public DslElementSyntaxBuilder withNamespace(String namespace)
+    public DslElementSyntaxBuilder withNamespace(String nameSpace, String nameSpaceUri)
     {
-        this.elementNameSpace = namespace;
+        this.elementNameSpace = nameSpace;
+        this.nameSpaceUri = nameSpaceUri;
         return this;
     }
 
@@ -98,6 +101,18 @@ public final class DslElementSyntaxBuilder
     public DslElementSyntaxBuilder supportsChildDeclaration(boolean supportsChild)
     {
         this.supportsChildDeclaration = supportsChild;
+        return this;
+    }
+
+    /**
+     * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as top level element
+     * in the context for which it was created.
+     *
+     * @return the builder instance enriched with {@code supportsTopLevelDeclaration}
+     */
+    public DslElementSyntaxBuilder supportsTopLevelDeclaration(boolean supportsTop)
+    {
+        this.supportsTopLevelDeclaration = supportsTop;
         return this;
     }
 
@@ -140,7 +155,8 @@ public final class DslElementSyntaxBuilder
      */
     public DslElementSyntax build()
     {
-        return new DslElementSyntax(attributeName, elementName, elementNameSpace, isWrapped, supportsChildDeclaration, genericChilds, namedChilds);
+        return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
+                                    supportsChildDeclaration, supportsTopLevelDeclaration, genericChilds, namedChilds);
     }
 
 }

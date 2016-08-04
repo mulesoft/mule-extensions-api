@@ -447,7 +447,12 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
         assertChildElementDeclarationIs(true, result);
         assertIsWrappedElement(false, result);
 
-        assertThat(result.getGeneric(itemType).isPresent(), is(false));
+        DslElementSyntax listItemDsl = getGenericTypeDsl(itemType, result);
+        assertElementName(getTopLevelTypeName(itemType), listItemDsl);
+        assertElementNamespace(NAMESPACE, listItemDsl);
+        assertChildElementDeclarationIs(true, listItemDsl);
+        assertTopElementDeclarationIs(true, listItemDsl);
+        assertIsWrappedElement(true, listItemDsl);
     }
 
     @Test
@@ -492,7 +497,12 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
         assertChildElementDeclarationIs(true, listDsl);
         assertIsWrappedElement(false, listDsl);
 
-        assertThat(listDsl.getGeneric(itemType).isPresent(), is(false));
+        DslElementSyntax listItemDsl = getGenericTypeDsl(itemType, listDsl);
+        assertElementName(getTopLevelTypeName(itemType), listItemDsl);
+        assertElementNamespace(NAMESPACE, listItemDsl);
+        assertChildElementDeclarationIs(true, listItemDsl);
+        assertTopElementDeclarationIs(true, listItemDsl);
+        assertIsWrappedElement(true, listItemDsl);
     }
 
     @Test
@@ -545,7 +555,12 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
         assertIsWrappedElement(false, listDsl);
 
         MetadataType listItemType = TYPE_LOADER.load(ExtensibleType.class);
-        assertThat(listDsl.getGeneric(listItemType).isPresent(), is(false));
+        DslElementSyntax listItemDsl = getGenericTypeDsl(listItemType, listDsl);
+        assertElementName(getTopLevelTypeName(listItemType), listItemDsl);
+        assertElementNamespace(NAMESPACE, listItemDsl);
+        assertChildElementDeclarationIs(true, listItemDsl);
+        assertTopElementDeclarationIs(true, listItemDsl);
+        assertIsWrappedElement(true, listItemDsl);
 
         String recursiveChildName = "recursiveChild";
         DslElementSyntax recursiveChildDsl = getChildFieldDsl(recursiveChildName, topDsl);
