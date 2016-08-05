@@ -21,10 +21,12 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
 public class ExtensibleTypeAnnotation implements TypeAnnotation
 {
 
+    public static final String NAME = "extensibleType";
+
     @Override
     public String getName()
     {
-        return "ExtensibleType";
+        return NAME;
     }
 
     @Override

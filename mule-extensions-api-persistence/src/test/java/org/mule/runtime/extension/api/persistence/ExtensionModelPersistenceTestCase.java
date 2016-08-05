@@ -42,16 +42,19 @@ import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -164,8 +167,6 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
     public void validateCustomTypeAnnotations() throws IOException
     {
         MetadataType complexType = deserializedExtensionModel.getOperationModels().get(0).getParameterModels().get(1).getType();
-
-
         assertThat(complexType, instanceOf(ObjectType.class));
         assertThat(getSingleAnnotation(complexType, TypeAliasAnnotation.class).isPresent(), is(true));
         assertThat(getSingleAnnotation(complexType, TypeAliasAnnotation.class).get().getValue(), is(ComplexFieldsType.ALIAS));

@@ -256,7 +256,7 @@ public class NameUtils
      * As a fallback, it uses {@link JavaTypeUtils#getType(MetadataType)} to obtain the
      * {@link Class} that the {@code metadataType} represents. Then, it
      * checks if the  {@link Alias} annotation is present. If so, the
-     * {@link Alias#value()} is used. Otherwise, the {@link Class::getSimpleName} will
+     * {@link Alias#value()} is used. Otherwise, the {@link Class#getSimpleName} will
      * be considered.
      *
      * @param metadataType the {@link MetadataType} which name you want

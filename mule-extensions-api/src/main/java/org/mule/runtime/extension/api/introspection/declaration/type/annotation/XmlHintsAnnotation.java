@@ -16,7 +16,7 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
  */
 public class XmlHintsAnnotation implements TypeAnnotation
 {
-
+    public static final String NAME = "xmlHints";
     private final boolean allowInlineDefinition;
     private final boolean allowReferences;
 
@@ -38,7 +38,7 @@ public class XmlHintsAnnotation implements TypeAnnotation
     @Override
     public String getName()
     {
-        return "xmlHints";
+        return NAME;
     }
 
     /**

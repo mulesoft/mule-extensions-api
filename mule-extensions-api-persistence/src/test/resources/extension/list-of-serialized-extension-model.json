@@ -70,7 +70,7 @@
                   "parent": "",
                   "genericTypes": []
                 },
-                "org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation": {
+                "typeAlias": {
                   "value": "complex-alias"
                 }
               },
@@ -99,8 +99,8 @@
                           "parent": "",
                           "genericTypes": []
                         },
-                        "org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation": {},
-                        "org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation": {
+                        "extensibleType": {},
+                        "typeAlias": {
                           "value": "aliasedExtensible"
                         }
                       },
@@ -117,8 +117,8 @@
                             }
                           },
                           "annotations": {
-                            "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                              "expressionSupport": "SUPPORTED"
+                            "expressionSupport": {
+                              "value": "SUPPORTED"
                             }
                           }
                         },
@@ -134,8 +134,8 @@
                             }
                           },
                           "annotations": {
-                            "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                              "expressionSupport": "SUPPORTED"
+                            "expressionSupport": {
+                              "value": "SUPPORTED"
                             }
                           }
                         }
@@ -143,8 +143,8 @@
                     }
                   },
                   "annotations": {
-                    "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                      "expressionSupport": "SUPPORTED"
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
                     }
                   }
                 },
@@ -154,8 +154,8 @@
                   },
                   "model": "#..",
                   "annotations": {
-                    "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                      "expressionSupport": "SUPPORTED"
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
                     }
                   }
                 },
@@ -178,7 +178,7 @@
                         "parent": "",
                         "genericTypes": []
                       },
-                      "org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation": {
+                      "typeAlias": {
                         "value": "SimpleFieldsType"
                       }
                     },
@@ -195,10 +195,10 @@
                           }
                         },
                         "annotations": {
-                          "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                            "expressionSupport": "SUPPORTED"
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
                           },
-                          "org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation": {
+                          "xmlHints": {
                             "allowInlineDefinition": true,
                             "allowReferences": false
                           }
@@ -216,16 +216,16 @@
                           }
                         },
                         "annotations": {
-                          "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                            "expressionSupport": "SUPPORTED"
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
                           }
                         }
                       }
                     ]
                   },
                   "annotations": {
-                    "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                      "expressionSupport": "SUPPORTED"
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
                     }
                   }
                 }
@@ -376,7 +376,7 @@
                   "parent": "",
                   "genericTypes": []
                 },
-                "org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation": {
+                "typeAlias": {
                   "value": "complex-alias"
                 }
               },
@@ -405,8 +405,8 @@
                           "parent": "",
                           "genericTypes": []
                         },
-                        "org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation": {},
-                        "org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation": {
+                        "extensibleType": {},
+                        "typeAlias": {
                           "value": "aliasedExtensible"
                         }
                       },
@@ -423,8 +423,8 @@
                             }
                           },
                           "annotations": {
-                            "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                              "expressionSupport": "SUPPORTED"
+                            "expressionSupport": {
+                              "value": "SUPPORTED"
                             }
                           }
                         },
@@ -440,8 +440,8 @@
                             }
                           },
                           "annotations": {
-                            "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                              "expressionSupport": "SUPPORTED"
+                            "expressionSupport": {
+                              "value": "SUPPORTED"
                             }
                           }
                         }
@@ -449,8 +449,8 @@
                     }
                   },
                   "annotations": {
-                    "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                      "expressionSupport": "SUPPORTED"
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
                     }
                   }
                 },
@@ -460,8 +460,8 @@
                   },
                   "model": "#..",
                   "annotations": {
-                    "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                      "expressionSupport": "SUPPORTED"
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
                     }
                   }
                 },
@@ -484,7 +484,7 @@
                         "parent": "",
                         "genericTypes": []
                       },
-                      "org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation": {
+                      "typeAlias": {
                         "value": "SimpleFieldsType"
                       }
                     },
@@ -501,10 +501,10 @@
                           }
                         },
                         "annotations": {
-                          "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                            "expressionSupport": "SUPPORTED"
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
                           },
-                          "org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation": {
+                          "xmlHints": {
                             "allowInlineDefinition": true,
                             "allowReferences": false
                           }
@@ -522,16 +522,16 @@
                           }
                         },
                         "annotations": {
-                          "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                            "expressionSupport": "SUPPORTED"
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
                           }
                         }
                       }
                     ]
                   },
                   "annotations": {
-                    "org.mule.runtime.extension.api.introspection.declaration.type.ExpressionSupportAnnotation": {
-                      "expressionSupport": "SUPPORTED"
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
                     }
                   }
                 }

@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 
@@ -17,6 +16,8 @@ import org.mule.metadata.api.model.MetadataType;
  */
 public class TypeAliasAnnotation implements TypeAnnotation
 {
+
+    public static final String NAME = "typeAlias";
 
     private final String value;
 
@@ -33,7 +34,7 @@ public class TypeAliasAnnotation implements TypeAnnotation
     @Override
     public String getName()
     {
-        return "TypeAlias";
+        return NAME;
     }
 
     @Override
@@ -45,12 +46,13 @@ public class TypeAliasAnnotation implements TypeAnnotation
     @Override
     public int hashCode()
     {
-        return reflectionHashCode(this);
+        return value.hashCode();
     }
 
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof TypeAliasAnnotation;
+        return obj instanceof TypeAliasAnnotation &&
+               ((TypeAliasAnnotation)obj).getValue().equals(this.getValue());
     }
 }
