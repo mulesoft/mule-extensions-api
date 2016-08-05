@@ -10,12 +10,16 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -246,10 +250,13 @@ public class NameUtils
     /**
      * Returns a hypenized name of the give top level {@code metadataType}.
      * <p>
-     * It uses {@link JavaTypeUtils#getType(MetadataType)} to obtain the
+     * This method will look for the {@link TypeAliasAnnotation} of the {@link MetadataType}
+     * to get the type simple name.
+     * <p>
+     * As a fallback, it uses {@link JavaTypeUtils#getType(MetadataType)} to obtain the
      * {@link Class} that the {@code metadataType} represents. Then, it
      * checks if the  {@link Alias} annotation is present. If so, the
-     * {@link Alias#value()} is used. Otherwise, the class name will
+     * {@link Alias#value()} is used. Otherwise, the {@link Class#getSimpleName} will
      * be considered.
      *
      * @param metadataType the {@link MetadataType} which name you want
@@ -257,12 +264,20 @@ public class NameUtils
      */
     public static String getTopLevelTypeName(MetadataType metadataType)
     {
-        //FIXME class => annotation
-        Class<?> type = JavaTypeUtils.getType(metadataType);
-        Alias alias = type.getAnnotation(Alias.class);
-        String name = alias != null ? alias.value() : type.getSimpleName();
+        String aliasName;
+        Optional<TypeAliasAnnotation> aliasAnnotation = getSingleAnnotation(metadataType, TypeAliasAnnotation.class);
+        if (aliasAnnotation.isPresent())
+        {
+            aliasName = aliasAnnotation.get().getValue();
+        }
+        else
+        {
+            Class<?> c = getType(metadataType);
+            Alias alias = c.getAnnotation(Alias.class);
+            aliasName = alias != null ? alias.value() : c.getSimpleName();
+        }
 
-        return hyphenize(name);
+        return hyphenize(aliasName);
     }
 
     public static String defaultNamespace(String extensionName)

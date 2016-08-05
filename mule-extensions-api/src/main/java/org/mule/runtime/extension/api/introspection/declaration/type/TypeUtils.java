@@ -14,6 +14,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.param.Ignore;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 
@@ -79,7 +80,7 @@ public final class TypeUtils
     public static boolean acceptsReferences(MetadataType metadataType)
     {
         return getSingleAnnotation(metadataType, XmlHintsAnnotation.class)
-                .map(XmlHintsAnnotation::isAllowReferences)
+                .map(XmlHintsAnnotation::allowsReferences)
                 .orElse(true);
     }
 }

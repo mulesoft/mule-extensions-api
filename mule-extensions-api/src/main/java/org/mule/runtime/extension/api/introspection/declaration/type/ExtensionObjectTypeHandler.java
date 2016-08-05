@@ -13,8 +13,10 @@ import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.metadata.java.internal.handler.ObjectHandler;
+import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -44,6 +46,9 @@ public class ExtensionObjectTypeHandler extends ObjectHandler
         {
             objectType.with(new ExtensibleTypeAnnotation());
         }
+
+        Alias alias = clazz.getAnnotation(Alias.class);
+        objectType.with(new TypeAliasAnnotation(alias != null ? alias.value() : clazz.getSimpleName()));
 
         return objectType;
     }

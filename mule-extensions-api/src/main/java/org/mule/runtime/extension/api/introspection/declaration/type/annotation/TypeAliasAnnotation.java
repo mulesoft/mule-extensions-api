@@ -6,22 +6,30 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import org.mule.metadata.api.annotation.TypeAnnotation;
-import org.mule.runtime.extension.api.annotation.Extensible;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.metadata.api.model.MetadataType;
 
 /**
- * Marks that the annotated type is of {@link Extensible} kind,
- * declaring that a given type can be extended by others in the context
- * of the {@link ExtensionModel}.
+ * Used to specify the alias name of the annotated {@link MetadataType}
  *
  * @since 1.0
  */
-public class ExtensibleTypeAnnotation implements TypeAnnotation
+public class TypeAliasAnnotation implements TypeAnnotation
 {
 
-    public static final String NAME = "extensibleType";
+    public static final String NAME = "typeAlias";
+
+    private final String value;
+
+    public TypeAliasAnnotation(String alias)
+    {
+        this.value = alias;
+    }
+
+    public String getValue()
+    {
+        return value;
+    }
 
     @Override
     public String getName()
@@ -38,12 +46,13 @@ public class ExtensibleTypeAnnotation implements TypeAnnotation
     @Override
     public int hashCode()
     {
-        return reflectionHashCode(this);
+        return value.hashCode();
     }
 
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof ExtensibleTypeAnnotation;
+        return obj instanceof TypeAliasAnnotation &&
+               ((TypeAliasAnnotation)obj).getValue().equals(this.getValue());
     }
 }

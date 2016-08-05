@@ -16,7 +16,7 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
  */
 public class XmlHintsAnnotation implements TypeAnnotation
 {
-
+    public static final String NAME = "xmlHints";
     private final boolean allowInlineDefinition;
     private final boolean allowReferences;
 
@@ -38,13 +38,13 @@ public class XmlHintsAnnotation implements TypeAnnotation
     @Override
     public String getName()
     {
-        return "xmlHints";
+        return NAME;
     }
 
     /**
      * @return whether the associated element should support inline definition as child element
      */
-    public boolean isAllowInlineDefinition()
+    public boolean allowsInlineDefinition()
     {
         return allowInlineDefinition;
     }
@@ -52,7 +52,7 @@ public class XmlHintsAnnotation implements TypeAnnotation
     /**
      * @return whether the associated element should support registry references
      */
-    public boolean isAllowReferences()
+    public boolean allowsReferences()
     {
         return allowReferences;
     }
@@ -69,7 +69,7 @@ public class XmlHintsAnnotation implements TypeAnnotation
         if (obj instanceof XmlHintsAnnotation)
         {
             XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
-            return allowInlineDefinition == other.isAllowInlineDefinition() && allowReferences == other.isAllowReferences();
+            return allowInlineDefinition == other.allowsInlineDefinition() && allowReferences == other.allowsReferences();
         }
 
         return false;

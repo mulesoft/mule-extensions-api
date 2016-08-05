@@ -4,11 +4,11 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.introspection.declaration.type;
+package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 
 /**
  * A {@link TypeAnnotation} used to enrich a {@link MetadataType} by specifying
@@ -21,7 +21,8 @@ import org.mule.metadata.api.model.MetadataType;
 public final class ExpressionSupportAnnotation implements TypeAnnotation
 {
 
-    private final ExpressionSupport expressionSupport;
+    public static final String NAME = "expressionSupport";
+    private final ExpressionSupport value;
 
     /**
      * Creates a new instance
@@ -35,18 +36,18 @@ public final class ExpressionSupportAnnotation implements TypeAnnotation
         {
             throw new IllegalArgumentException("expressionSupport cannot be null");
         }
-        this.expressionSupport = expressionSupport;
+        this.value = expressionSupport;
     }
 
     public ExpressionSupport getExpressionSupport()
     {
-        return expressionSupport;
+        return value;
     }
 
     @Override
     public String getName()
     {
-        return "expressionSupport";
+        return NAME;
     }
 
     @Override
@@ -54,7 +55,7 @@ public final class ExpressionSupportAnnotation implements TypeAnnotation
     {
         if (obj instanceof ExpressionSupportAnnotation)
         {
-            return expressionSupport == ((ExpressionSupportAnnotation) obj).getExpressionSupport();
+            return value == ((ExpressionSupportAnnotation) obj).getExpressionSupport();
         }
 
         return false;
@@ -63,12 +64,12 @@ public final class ExpressionSupportAnnotation implements TypeAnnotation
     @Override
     public int hashCode()
     {
-        return expressionSupport.hashCode();
+        return value.hashCode();
     }
 
     @Override
     public String toString()
     {
-        return expressionSupport.name();
+        return value.name();
     }
 }
