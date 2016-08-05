@@ -15,7 +15,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a {@link Parameter} field as one that needs a multi line string editor when it is populated from the UI.
+ * Marks a {@link Parameter} field as one that supports a multi line string input both
+ * in the editor (when it is populated from the UI) and in the DSL.
  * <p/>
  * This annotation should only be used with {@link String} parameters.
  *
