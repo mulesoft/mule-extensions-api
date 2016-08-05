@@ -79,7 +79,7 @@ public final class TypeUtils
     public static boolean acceptsReferences(MetadataType metadataType)
     {
         return getSingleAnnotation(metadataType, XmlHintsAnnotation.class)
-                .map(XmlHintsAnnotation::isAllowReferences)
+                .map(XmlHintsAnnotation::allowsReferences)
                 .orElse(true);
     }
 }

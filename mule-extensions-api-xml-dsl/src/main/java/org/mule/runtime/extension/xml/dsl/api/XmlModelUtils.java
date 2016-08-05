@@ -59,7 +59,7 @@ public final class XmlModelUtils
         if (!property.isPresent())
         {
             property = getSingleAnnotation(parameter.getType(), XmlHintsAnnotation.class)
-                    .map(annotation -> new XmlHintsModelProperty(annotation.isAllowInlineDefinition(), annotation.isAllowReferences()));
+                    .map(annotation -> new XmlHintsModelProperty(annotation.allowsInlineDefinition(), annotation.allowsReferences()));
         }
 
         return property;

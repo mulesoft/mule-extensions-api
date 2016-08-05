@@ -14,11 +14,14 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
 import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
+import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
@@ -29,9 +32,15 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.ImmutableRuntimeConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
+import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -76,8 +85,11 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
         final ImmutableParameterModel carNameParameter = new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "", singleton(new LayoutModelProperty(false, true, 0, null, null)));
         final ImmutableParameterModel usernameParameter = new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "", singleton(new LayoutModelProperty(false, true, 0, null, null)));
         final ImmutableParameterModel passwordParameter = new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "", singleton(new LayoutModelProperty(true, true, 0, null, null)));
+        final ImmutableParameterModel complexParameter = new ImmutableParameterModel("complex", "complex type to serialize",
+                                                                                     ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(ComplexFieldsType.class),
+                                                                                     false, true, SUPPORTED, null, emptySet());
 
-        getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", singletonList(carNameParameter),
+        getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
                                                       new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
                                                       new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
                                                       modelProperties);
@@ -146,6 +158,25 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
         final JsonElement parse = jsonParser.parse(serializedList);
 
         assertThat(parse, is(expectedSerializedExtensionModel));
+    }
+
+    @Test
+    public void validateCustomTypeAnnotations() throws IOException
+    {
+        MetadataType complexType = deserializedExtensionModel.getOperationModels().get(0).getParameterModels().get(1).getType();
+
+
+        assertThat(complexType, instanceOf(ObjectType.class));
+        assertThat(getSingleAnnotation(complexType, TypeAliasAnnotation.class).isPresent(), is(true));
+        assertThat(getSingleAnnotation(complexType, TypeAliasAnnotation.class).get().getValue(), is(ComplexFieldsType.ALIAS));
+
+        ArrayType extensibleTypeList = (ArrayType) ((ObjectType) complexType).getFieldByName("extensibleTypeList").get().getValue();
+        assertThat(getSingleAnnotation(extensibleTypeList.getType(), ExtensibleTypeAnnotation.class).isPresent(), is(true));
+        assertThat(getSingleAnnotation(extensibleTypeList.getType(), TypeAliasAnnotation.class).get().getValue(), is(ExtensibleType.ALIAS));
+
+        ObjectType simplePojo = (ObjectType) ((ObjectType) complexType).getFieldByName("simplePojo").get().getValue();
+        assertThat(getSingleAnnotation(simplePojo.getFieldByName("sampleString").get(), XmlHintsAnnotation.class).get().allowsReferences(), is(false));
+
     }
 
     private JsonElement getModelProperty(JsonObject object, String modelPropertyName)
