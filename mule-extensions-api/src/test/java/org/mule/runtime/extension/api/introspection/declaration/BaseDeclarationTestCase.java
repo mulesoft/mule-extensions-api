@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.introspection.declaration;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.metadata.java.api.JavaTypeLoader.JAVA;
@@ -22,7 +21,7 @@ import org.mule.runtime.extension.api.introspection.declaration.fluent.Parameter
 import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 
-import java.util.Collection;
+import java.util.Optional;
 
 public abstract class BaseDeclarationTestCase
 {
@@ -56,9 +55,9 @@ public abstract class BaseDeclarationTestCase
             return;
         }
 
-        Collection<TypeIdAnnotation> annotations = type.getAnnotation(TypeIdAnnotation.class);
-        assertThat(annotations, hasSize(1));
-        TypeIdAnnotation typeIdAnnotation = annotations.iterator().next();
+        Optional<TypeIdAnnotation> typeId = type.getAnnotation(TypeIdAnnotation.class);
+        assertThat(typeId.isPresent(), is(true));
+        TypeIdAnnotation typeIdAnnotation = typeId.get();
         assertThat(expectedRawType.getName(), is(equalTo(typeIdAnnotation.getValue())));
     }
 }

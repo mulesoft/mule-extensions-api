@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.xml.dsl.api;
 
-import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
@@ -58,7 +57,7 @@ public final class XmlModelUtils
         Optional<XmlHintsModelProperty> property = parameter.getModelProperty(XmlHintsModelProperty.class);
         if (!property.isPresent())
         {
-            property = getSingleAnnotation(parameter.getType(), XmlHintsAnnotation.class)
+            property = parameter.getType().getAnnotation(XmlHintsAnnotation.class)
                     .map(annotation -> new XmlHintsModelProperty(annotation.allowsInlineDefinition(), annotation.allowsReferences()));
         }
 

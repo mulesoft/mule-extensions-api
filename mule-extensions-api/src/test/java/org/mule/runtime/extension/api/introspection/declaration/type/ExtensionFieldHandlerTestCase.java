@@ -7,8 +7,6 @@
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -36,7 +34,7 @@ public class ExtensionFieldHandlerTestCase
     {
         ObjectType type = (ObjectType) typeLoader.load(NoRefType.class);
         assertThat(type.getFields(), hasSize(1));
-        assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsAnnotation.class), is(not(emptyIterable())));
+        assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsAnnotation.class).isPresent(), is(true));
     }
 
     interface HasGetter
