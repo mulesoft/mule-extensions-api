@@ -9,7 +9,6 @@ package org.mule.runtime.extension.xml.dsl.api.resolver;
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
@@ -242,7 +241,7 @@ public class DslSyntaxResolver
 
     private String getKey(MetadataType type, String namespace, String namespaceUri)
     {
-        return getTypeId(type).orElse(getSingleAnnotation(type, ClassInformationAnnotation.class).map(ClassInformationAnnotation::getName).orElse("")) + namespace + namespaceUri;
+        return getTypeId(type).orElse((type.getAnnotation(ClassInformationAnnotation.class).map(ClassInformationAnnotation::getName).orElse(""))) + namespace + namespaceUri;
     }
 
     private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementSyntaxBuilder listBuilder, final String parameterName,
@@ -485,7 +484,7 @@ public class DslSyntaxResolver
                     return;
                 }
 
-                boolean isInstantiable = getSingleAnnotation(metadataType, ClassInformationAnnotation.class)
+                boolean isInstantiable = metadataType.getAnnotation(ClassInformationAnnotation.class)
                         .map(ClassInformationAnnotation::isInstantiable).orElse(false);
 
                 supportsChildDeclaration.set(isExtensible(metadataType) ||
@@ -518,7 +517,7 @@ public class DslSyntaxResolver
             @Override
             public void visitObject(ObjectType objectType)
             {
-                boolean isInstantiable = getSingleAnnotation(metadataType, ClassInformationAnnotation.class)
+                boolean isInstantiable = metadataType.getAnnotation(ClassInformationAnnotation.class)
                         .map(ClassInformationAnnotation::isInstantiable).orElse(false);
 
                 supportsChildDeclaration.set(isInstantiable && !((ObjectType) metadataType).getFields().isEmpty());
@@ -561,13 +560,13 @@ public class DslSyntaxResolver
 
     private boolean isInstantiable(MetadataType metadataType)
     {
-        Optional<ClassInformationAnnotation> classInformation = getSingleAnnotation(metadataType, ClassInformationAnnotation.class);
+        Optional<ClassInformationAnnotation> classInformation = metadataType.getAnnotation(ClassInformationAnnotation.class);
         return classInformation.map(ClassInformationAnnotation::isInstantiable).orElse(false);
     }
 
     private boolean isExtensible(MetadataType metadataType)
     {
-        return getSingleAnnotation(metadataType, ExtensibleTypeAnnotation.class).isPresent();
+        return metadataType.getAnnotation(ExtensibleTypeAnnotation.class).isPresent();
     }
 
     private Map<MetadataType, XmlModelProperty> loadImportedTypes(ExtensionModel extension)

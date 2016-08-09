@@ -11,7 +11,6 @@ import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -265,7 +264,7 @@ public class NameUtils
     public static String getTopLevelTypeName(MetadataType metadataType)
     {
         String aliasName;
-        Optional<TypeAliasAnnotation> aliasAnnotation = getSingleAnnotation(metadataType, TypeAliasAnnotation.class);
+        Optional<TypeAliasAnnotation> aliasAnnotation = metadataType.getAnnotation(TypeAliasAnnotation.class);
         if (aliasAnnotation.isPresent())
         {
             aliasName = aliasAnnotation.get().getValue();

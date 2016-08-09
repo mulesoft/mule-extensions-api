@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
 import static com.google.common.base.Predicates.not;
-import static org.mule.metadata.utils.MetadataTypeUtils.getSingleAnnotation;
 import static org.reflections.ReflectionUtils.getAllFields;
 import static org.reflections.ReflectionUtils.withAnnotation;
 import org.mule.metadata.api.model.MetadataType;
@@ -72,14 +71,14 @@ public final class TypeUtils
      */
     public static ExpressionSupport getExpressionSupport(MetadataType metadataType)
     {
-        return getSingleAnnotation(metadataType, ExpressionSupportAnnotation.class)
+        return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
                 .map(ExpressionSupportAnnotation::getExpressionSupport)
                 .orElse(ExpressionSupport.SUPPORTED);
     }
 
     public static boolean acceptsReferences(MetadataType metadataType)
     {
-        return getSingleAnnotation(metadataType, XmlHintsAnnotation.class)
+        return metadataType.getAnnotation(XmlHintsAnnotation.class)
                 .map(XmlHintsAnnotation::allowsReferences)
                 .orElse(true);
     }
