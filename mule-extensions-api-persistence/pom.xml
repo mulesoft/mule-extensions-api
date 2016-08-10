@@ -18,6 +18,7 @@
 
     <properties>
         <dom4jVersion>1.6.1</dom4jVersion>
+        <formatterConfigPath>../formatter.xml</formatterConfigPath>
     </properties>
 
     <dependencies>
