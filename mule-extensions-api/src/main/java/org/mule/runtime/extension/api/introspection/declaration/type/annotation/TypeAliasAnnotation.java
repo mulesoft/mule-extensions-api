@@ -14,45 +14,38 @@ import org.mule.metadata.api.model.MetadataType;
  *
  * @since 1.0
  */
-public class TypeAliasAnnotation implements TypeAnnotation
-{
+public class TypeAliasAnnotation implements TypeAnnotation {
 
-    public static final String NAME = "typeAlias";
+  public static final String NAME = "typeAlias";
 
-    private final String value;
+  private final String value;
 
-    public TypeAliasAnnotation(String alias)
-    {
-        this.value = alias;
-    }
+  public TypeAliasAnnotation(String alias) {
+    this.value = alias;
+  }
 
-    public String getValue()
-    {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    @Override
-    public String getName()
-    {
-        return NAME;
-    }
+  @Override
+  public String getName() {
+    return NAME;
+  }
 
-    @Override
-    public String toString()
-    {
-        return getName();
-    }
+  @Override
+  public String toString() {
+    return getName();
+  }
 
-    @Override
-    public int hashCode()
-    {
-        return value.hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return value.hashCode();
+  }
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        return obj instanceof TypeAliasAnnotation &&
-               ((TypeAliasAnnotation)obj).getValue().equals(this.getValue());
-    }
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof TypeAliasAnnotation &&
+        ((TypeAliasAnnotation) obj).getValue().equals(this.getValue());
+  }
 }

@@ -16,18 +16,15 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * An {@link XmlAdapter} used to bridge between a {@link Map} of {@link String strings}
  * and a {@link XmlProperties} instance
  */
-final class XmlPropertyAdapter extends XmlAdapter<XmlProperties, Map<String, String>>
-{
+final class XmlPropertyAdapter extends XmlAdapter<XmlProperties, Map<String, String>> {
 
-    @Override
-    public Map<String, String> unmarshal(XmlProperties properties) throws Exception
-    {
-        return properties.getProperties().stream().collect(toMap(XmlProperty::getKey, XmlProperty::getValue));
-    }
+  @Override
+  public Map<String, String> unmarshal(XmlProperties properties) throws Exception {
+    return properties.getProperties().stream().collect(toMap(XmlProperty::getKey, XmlProperty::getValue));
+  }
 
-    @Override
-    public XmlProperties marshal(Map<String, String> properties) throws Exception
-    {
-        return new XmlProperties(properties);
-    }
+  @Override
+  public XmlProperties marshal(Map<String, String> properties) throws Exception {
+    return new XmlProperties(properties);
+  }
 }

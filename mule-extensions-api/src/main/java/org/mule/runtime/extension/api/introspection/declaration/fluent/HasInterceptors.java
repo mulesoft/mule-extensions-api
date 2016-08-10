@@ -14,14 +14,13 @@ import org.mule.runtime.extension.api.runtime.InterceptorFactory;
  * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-public interface HasInterceptors<T>
-{
+public interface HasInterceptors<T> {
 
-    /**
-     * Adds the given {@code interceptorFactory}
-     *
-     * @param interceptorFactory a {@link InterceptorFactory}
-     * @return {@code this} declarer
-     */
-    T withInterceptorFrom(InterceptorFactory interceptorFactory);
+  /**
+   * Adds the given {@code interceptorFactory}
+   *
+   * @param interceptorFactory a {@link InterceptorFactory}
+   * @return {@code this} declarer
+   */
+  T withInterceptorFrom(InterceptorFactory interceptorFactory);
 }

@@ -17,86 +17,79 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ImmutableParameterModel extends AbstractNamedImmutableModel implements ParameterModel
-{
+public final class ImmutableParameterModel extends AbstractNamedImmutableModel implements ParameterModel {
 
-    private final MetadataType type;
-    private boolean hasDynamicType;
-    private final boolean required;
-    private final ExpressionSupport expressionSupport;
-    private final Object defaultValue;
+  private final MetadataType type;
+  private boolean hasDynamicType;
+  private final boolean required;
+  private final ExpressionSupport expressionSupport;
+  private final Object defaultValue;
 
-    /**
-     * Creates a new instance with the given state
-     *
-     * @param name              the parameter's name. Cannot be blank and cannot be one of the values in {@link #RESERVED_NAMES}
-     * @param description       the parameter's description
-     * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
-     * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
-     * @param required          whether this parameter is required or not
-     * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
-     * @param defaultValue      this parameter's default value
-     * @param modelProperties   A {@link Set} of custom properties which extend this model
-     * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
-     */
-    public ImmutableParameterModel(String name,
-                                   String description,
-                                   MetadataType type,
-                                   boolean hasDynamicType,
-                                   boolean required,
-                                   ExpressionSupport expressionSupport,
-                                   Object defaultValue,
-                                   Set<ModelProperty> modelProperties)
-    {
-        super(name, description, modelProperties);
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name              the parameter's name. Cannot be blank and cannot be one of the values in {@link #RESERVED_NAMES}
+   * @param description       the parameter's description
+   * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required          whether this parameter is required or not
+   * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue      this parameter's default value
+   * @param modelProperties   A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
+   */
+  public ImmutableParameterModel(String name,
+                                 String description,
+                                 MetadataType type,
+                                 boolean hasDynamicType,
+                                 boolean required,
+                                 ExpressionSupport expressionSupport,
+                                 Object defaultValue,
+                                 Set<ModelProperty> modelProperties) {
+    super(name, description, modelProperties);
 
-        this.type = type;
-        this.required = required;
-        this.expressionSupport = expressionSupport;
-        this.defaultValue = defaultValue;
-        this.hasDynamicType = hasDynamicType;
-    }
+    this.type = type;
+    this.required = required;
+    this.expressionSupport = expressionSupport;
+    this.defaultValue = defaultValue;
+    this.hasDynamicType = hasDynamicType;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MetadataType getType()
-    {
-        return type;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public MetadataType getType() {
+    return type;
+  }
 
-    @Override
-    public boolean hasDynamicType()
-    {
-        return hasDynamicType;
-    }
+  @Override
+  public boolean hasDynamicType() {
+    return hasDynamicType;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isRequired()
-    {
-        return required;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isRequired() {
+    return required;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ExpressionSupport getExpressionSupport()
-    {
-        return expressionSupport;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ExpressionSupport getExpressionSupport() {
+    return expressionSupport;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object getDefaultValue()
-    {
-        return defaultValue;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Object getDefaultValue() {
+    return defaultValue;
+  }
 
 }

@@ -29,11 +29,10 @@ import java.lang.annotation.Target;
 @Target({PARAMETER, FIELD, TYPE, METHOD})
 @Retention(RUNTIME)
 @Documented
-public @interface Summary
-{
+public @interface Summary {
 
-    /**
-     * @return The given summary text
-     */
-    String value();
+  /**
+   * @return The given summary text
+   */
+  String value();
 }

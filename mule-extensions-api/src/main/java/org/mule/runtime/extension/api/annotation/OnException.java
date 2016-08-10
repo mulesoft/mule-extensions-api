@@ -27,11 +27,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface OnException
-{
+public @interface OnException {
 
-    /**
-     * A {@link Class} which implements the {@link ExceptionEnricher} interface.
-     */
-    Class<? extends ExceptionEnricher> value();
+  /**
+   * A {@link Class} which implements the {@link ExceptionEnricher} interface.
+   */
+  Class<? extends ExceptionEnricher> value();
 }

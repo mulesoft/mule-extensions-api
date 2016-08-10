@@ -20,43 +20,35 @@ import java.util.List;
  *
  * @since 1.0
  */
-public class TypeMetadata implements Descriptable<TypeMetadataDescriptor>
-{
+public class TypeMetadata implements Descriptable<TypeMetadataDescriptor> {
 
-    protected final MetadataType type;
-    protected final boolean isDynamic;
+  protected final MetadataType type;
+  protected final boolean isDynamic;
 
-    public TypeMetadata(MetadataType type, boolean isDynamic)
-    {
-        this.isDynamic = isDynamic;
-        this.type = type;
+  public TypeMetadata(MetadataType type, boolean isDynamic) {
+    this.isDynamic = isDynamic;
+    this.type = type;
+  }
+
+  public boolean isDynamic() {
+    return isDynamic;
+  }
+
+  public MetadataType getType() {
+    return type;
+  }
+
+  @Override
+  public MetadataResult<TypeMetadataDescriptor> toDescriptorResult(List<Failure> metadataFailure) {
+    ImmutableTypeMetadataDescriptor descriptor = new ImmutableTypeMetadataDescriptor(type);
+    if (metadataFailure.size() == 1) {
+      return failure(descriptor,
+                     metadataFailure.get(0).getMessage(),
+                     metadataFailure.get(0).getFailureCode(),
+                     metadataFailure.get(0).getReason());
+    } else {
+      return success(descriptor);
     }
-
-    public boolean isDynamic()
-    {
-        return isDynamic;
-    }
-
-    public MetadataType getType()
-    {
-        return type;
-    }
-
-    @Override
-    public MetadataResult<TypeMetadataDescriptor> toDescriptorResult(List<Failure> metadataFailure)
-    {
-        ImmutableTypeMetadataDescriptor descriptor = new ImmutableTypeMetadataDescriptor(type);
-        if (metadataFailure.size() == 1)
-        {
-            return failure(descriptor,
-                           metadataFailure.get(0).getMessage(),
-                           metadataFailure.get(0).getFailureCode(),
-                           metadataFailure.get(0).getReason());
-        }
-        else
-        {
-            return success(descriptor);
-        }
-    }
+  }
 
 }

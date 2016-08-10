@@ -15,12 +15,11 @@ package org.mule.runtime.extension.api.runtime;
  *
  * @since 1.0
  */
-public interface RetryRequest
-{
+public interface RetryRequest {
 
-    /**
-     * Request the retry of a failing operation
-     */
-    void request();
+  /**
+   * Request the retry of a failing operation
+   */
+  void request();
 
 }

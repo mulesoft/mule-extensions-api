@@ -31,12 +31,11 @@ import java.lang.annotation.Target;
 @Target({FIELD})
 @Retention(RUNTIME)
 @Documented
-public @interface MetadataKeyPart
-{
+public @interface MetadataKeyPart {
 
-    /**
-     * @return the resolution order of this key part during the building of
-     * the {@link MetadataKeyId} annotated parameter corresponding to this {@link MetadataKeyPart}.
-     */
-    int order();
+  /**
+   * @return the resolution order of this key part during the building of
+   * the {@link MetadataKeyId} annotated parameter corresponding to this {@link MetadataKeyPart}.
+   */
+  int order();
 }

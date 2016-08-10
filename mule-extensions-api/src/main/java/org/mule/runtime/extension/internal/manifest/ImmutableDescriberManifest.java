@@ -19,44 +19,39 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public final class ImmutableDescriberManifest implements DescriberManifest
-{
+public final class ImmutableDescriberManifest implements DescriberManifest {
 
-    private final String id;
-    private final Map<String, String> properties;
+  private final String id;
+  private final Map<String, String> properties;
 
-    /**
-     * Creates a new instance
-     *
-     * @param id         the describer's ID
-     * @param properties the describer's properties
-     */
-    public ImmutableDescriberManifest(String id, Map<String, String> properties)
-    {
-        if (isBlank(id))
-        {
-            throw new IllegalStateException("Describer manifest cannot have a blank id");
-        }
-
-        this.id = id;
-        this.properties = unmodifiableMap(properties);
+  /**
+   * Creates a new instance
+   *
+   * @param id         the describer's ID
+   * @param properties the describer's properties
+   */
+  public ImmutableDescriberManifest(String id, Map<String, String> properties) {
+    if (isBlank(id)) {
+      throw new IllegalStateException("Describer manifest cannot have a blank id");
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getId()
-    {
-        return id;
-    }
+    this.id = id;
+    this.properties = unmodifiableMap(properties);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Map<String, String> getProperties()
-    {
-        return properties;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getId() {
+    return id;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Map<String, String> getProperties() {
+    return properties;
+  }
 }

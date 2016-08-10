@@ -27,35 +27,30 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement(name = "describer")
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class XmlDescriberManifest implements DescriberManifest
-{
+public final class XmlDescriberManifest implements DescriberManifest {
 
-    @XmlElement
-    private String id;
+  @XmlElement
+  private String id;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(XmlPropertyAdapter.class)
-    private Map<String, String> properties;
+  @XmlElement
+  @XmlJavaTypeAdapter(XmlPropertyAdapter.class)
+  private Map<String, String> properties;
 
-    @Override
-    public String getId()
-    {
-        return id;
-    }
+  @Override
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id)
-    {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    @Override
-    public Map<String, String> getProperties()
-    {
-        return properties;
-    }
+  @Override
+  public Map<String, String> getProperties() {
+    return properties;
+  }
 
-    public void setProperties(Map<String, String> properties)
-    {
-        this.properties = properties;
-    }
+  public void setProperties(Map<String, String> properties) {
+    this.properties = properties;
+  }
 }

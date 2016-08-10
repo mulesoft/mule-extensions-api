@@ -14,11 +14,10 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ParameterizedDeclaration
-{
+public interface ParameterizedDeclaration {
 
-    /**
-     * @return A {@link List} of {@link ParameterizedDeclaration}
-     */
-    List<ParameterDeclaration> getParameters();
+  /**
+   * @return A {@link List} of {@link ParameterizedDeclaration}
+   */
+  List<ParameterDeclaration> getParameters();
 }

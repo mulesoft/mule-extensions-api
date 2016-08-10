@@ -17,17 +17,16 @@ import org.mule.runtime.extension.api.introspection.ComponentModel;
  * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-interface HasDynamicType<T>
-{
+interface HasDynamicType<T> {
 
-    /**
-     * Specifies that the Element being described has a {@link MetadataType type}
-     * of <b>dynamic</b> kind, meaning that this Element's type is
-     * bounded to the {@link ComponentModel component}'s configuration during
-     * application design time and should be discovered using the {@link MetadataManager} service
-     *
-     * @param type the type of the Element being described
-     * @return {@code this} declarer
-     */
-    T ofDynamicType(MetadataType type);
+  /**
+   * Specifies that the Element being described has a {@link MetadataType type}
+   * of <b>dynamic</b> kind, meaning that this Element's type is
+   * bounded to the {@link ComponentModel component}'s configuration during
+   * application design time and should be discovered using the {@link MetadataManager} service
+   *
+   * @param type the type of the Element being described
+   * @return {@code this} declarer
+   */
+  T ofDynamicType(MetadataType type);
 }

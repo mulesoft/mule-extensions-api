@@ -16,15 +16,14 @@ import org.mule.runtime.extension.api.introspection.declaration.fluent.Extension
  * <p/>
  * @since 1.0
  */
-public interface Describer
-{
+public interface Describer {
 
-    /**
-     * Describes the extension as a {@link ExtensionDeclarer}
-     *
-     * @param context a {@link DescribingContext} with state relevant to the operation
-     * @return a {@link ExtensionDeclarer}
-     */
-    ExtensionDeclarer describe(DescribingContext context);
+  /**
+   * Describes the extension as a {@link ExtensionDeclarer}
+   *
+   * @param context a {@link DescribingContext} with state relevant to the operation
+   * @return a {@link ExtensionDeclarer}
+   */
+  ExtensionDeclarer describe(DescribingContext context);
 
 }

@@ -17,19 +17,18 @@ package org.mule.runtime.extension.api.introspection.exception;
  *
  * @since 1.0
  */
-public interface ExceptionEnricher
-{
+public interface ExceptionEnricher {
 
-    /**
-     * This method can return a new enriched exception or the original exception
-     * after doing some processing with it. It must not return a null value.
-     *
-     * Also the implementation of this method needs to be thread safe and must not fail.
-     *
-     * @param e the exception thrown by the operation
-     * @return an Enriched Exception
-     *
-     * @since 1.0
-     */
-    Exception enrichException(Exception e);
+  /**
+   * This method can return a new enriched exception or the original exception
+   * after doing some processing with it. It must not return a null value.
+   *
+   * Also the implementation of this method needs to be thread safe and must not fail.
+   *
+   * @param e the exception thrown by the operation
+   * @return an Enriched Exception
+   *
+   * @since 1.0
+   */
+  Exception enrichException(Exception e);
 }

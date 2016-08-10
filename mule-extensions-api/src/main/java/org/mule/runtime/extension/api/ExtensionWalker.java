@@ -30,116 +30,99 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  *
  * @since 1.0
  */
-public abstract class ExtensionWalker
-{
+public abstract class ExtensionWalker {
 
-    /**
-     * Navigates the given {@code extensionModel} and invokes the
-     * other public method's in this class as the navigation
-     * progresses
-     *
-     * @param extensionModel the model to navigate
-     */
-    public final void walk(ExtensionModel extensionModel)
-    {
-        if (extensionModel == null)
-        {
-            throw new IllegalArgumentException("Cannot walk a null model");
-        }
-
-        extensionModel.getConfigurationModels().forEach(model -> {
-            onConfiguration(model);
-            walkConnectionProviders(model);
-            walkParameters(model);
-            walkSources(model);
-            walkOperations(model);
-        });
-
-        walkConnectionProviders(extensionModel);
-        walkSources(extensionModel);
-        walkOperations(extensionModel);
+  /**
+   * Navigates the given {@code extensionModel} and invokes the
+   * other public method's in this class as the navigation
+   * progresses
+   *
+   * @param extensionModel the model to navigate
+   */
+  public final void walk(ExtensionModel extensionModel) {
+    if (extensionModel == null) {
+      throw new IllegalArgumentException("Cannot walk a null model");
     }
 
-    /**
-     * Invoked when a {@link ConfigurationModel} is found in the
-     * traversed {@code extensionModel}
-     *
-     * @param model a {@link ConfigurationModel}
-     */
-    public void onConfiguration(ConfigurationModel model)
-    {
-    }
+    extensionModel.getConfigurationModels().forEach(model -> {
+      onConfiguration(model);
+      walkConnectionProviders(model);
+      walkParameters(model);
+      walkSources(model);
+      walkOperations(model);
+    });
 
-    /**
-     * Invoked when an {@link OperationModel} is found in the
-     * traversed {@code extensionModel}
-     *
-     * @param owner The component that owns the operation
-     * @param model the {@link OperationModel}
-     */
-    public void onOperation(HasOperationModels owner, OperationModel model)
-    {
-    }
+    walkConnectionProviders(extensionModel);
+    walkSources(extensionModel);
+    walkOperations(extensionModel);
+  }
 
-    /**
-     * Invoked when an {@link ConnectionProviderModel} is found in the
-     * traversed {@code extensionModel}
-     *
-     * @param owner The component that owns the provider
-     * @param model the {@link ConnectionProviderModel}
-     */
-    public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model)
-    {
-    }
+  /**
+   * Invoked when a {@link ConfigurationModel} is found in the
+   * traversed {@code extensionModel}
+   *
+   * @param model a {@link ConfigurationModel}
+   */
+  public void onConfiguration(ConfigurationModel model) {}
 
-    /**
-     * Invoked when an {@link SourceModel} is found in the
-     * traversed {@code extensionModel}
-     *
-     * @param owner The component that owns the source
-     * @param model the {@link SourceModel}
-     */
-    public void onSource(HasSourceModels owner, SourceModel model)
-    {
-    }
+  /**
+   * Invoked when an {@link OperationModel} is found in the
+   * traversed {@code extensionModel}
+   *
+   * @param owner The component that owns the operation
+   * @param model the {@link OperationModel}
+   */
+  public void onOperation(HasOperationModels owner, OperationModel model) {}
 
-    /**
-     * Invoked when an {@link ParameterModel} is found in the
-     * traversed {@code extensionModel}
-     *
-     * @param owner The component that owns the parameter
-     * @param model the {@link ParameterModel}
-     */
-    public void onParameter(ParameterizedModel owner, ParameterModel model)
-    {
-    }
+  /**
+   * Invoked when an {@link ConnectionProviderModel} is found in the
+   * traversed {@code extensionModel}
+   *
+   * @param owner The component that owns the provider
+   * @param model the {@link ConnectionProviderModel}
+   */
+  public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model) {}
 
-    private void walkSources(HasSourceModels model)
-    {
-        model.getSourceModels().forEach(source -> {
-            onSource(model, source);
-            walkParameters(source);
-        });
-    }
+  /**
+   * Invoked when an {@link SourceModel} is found in the
+   * traversed {@code extensionModel}
+   *
+   * @param owner The component that owns the source
+   * @param model the {@link SourceModel}
+   */
+  public void onSource(HasSourceModels owner, SourceModel model) {}
 
-    private void walkParameters(ParameterizedModel model)
-    {
-        model.getParameterModels().forEach(parameter -> onParameter(model, parameter));
-    }
+  /**
+   * Invoked when an {@link ParameterModel} is found in the
+   * traversed {@code extensionModel}
+   *
+   * @param owner The component that owns the parameter
+   * @param model the {@link ParameterModel}
+   */
+  public void onParameter(ParameterizedModel owner, ParameterModel model) {}
 
-    private void walkConnectionProviders(HasConnectionProviderModels model)
-    {
-        model.getConnectionProviders().stream().forEach(provider -> {
-            onConnectionProvider(model, provider);
-            walkParameters(provider);
-        });
-    }
+  private void walkSources(HasSourceModels model) {
+    model.getSourceModels().forEach(source -> {
+      onSource(model, source);
+      walkParameters(source);
+    });
+  }
 
-    private void walkOperations(HasOperationModels model)
-    {
-        model.getOperationModels().stream().forEach(operation -> {
-            onOperation(model, operation);
-            walkParameters(operation);
-        });
-    }
+  private void walkParameters(ParameterizedModel model) {
+    model.getParameterModels().forEach(parameter -> onParameter(model, parameter));
+  }
+
+  private void walkConnectionProviders(HasConnectionProviderModels model) {
+    model.getConnectionProviders().stream().forEach(provider -> {
+      onConnectionProvider(model, provider);
+      walkParameters(provider);
+    });
+  }
+
+  private void walkOperations(HasOperationModels model) {
+    model.getOperationModels().stream().forEach(operation -> {
+      onOperation(model, operation);
+      walkParameters(operation);
+    });
+  }
 }

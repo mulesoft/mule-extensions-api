@@ -18,26 +18,26 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public interface HasOperationModels
-{
-    /**
-     * Returns a {@link List} of {@link OperationModel}s defined at the level
-     * of the component implementing this interface.
-     *
-     * Each operation is guaranteed to have a unique name which will not
-     * overlap with any {@link SourceModel} or {@link ConnectionProviderModel}
-     * defined in the same {@link ExtensionModel}
-     *
-     * @return an immutable {@link List} of {@link OperationModel}
-     */
-    List<OperationModel> getOperationModels();
+public interface HasOperationModels {
 
-    /**
-     * Returns the {@link OperationModel} that matches
-     * the given name.
-     *
-     * @param name case sensitive operation name
-     * @return an {@link Optional} {@link OperationModel}
-     */
-    Optional<OperationModel> getOperationModel(String name);
+  /**
+   * Returns a {@link List} of {@link OperationModel}s defined at the level
+   * of the component implementing this interface.
+   *
+   * Each operation is guaranteed to have a unique name which will not
+   * overlap with any {@link SourceModel} or {@link ConnectionProviderModel}
+   * defined in the same {@link ExtensionModel}
+   *
+   * @return an immutable {@link List} of {@link OperationModel}
+   */
+  List<OperationModel> getOperationModels();
+
+  /**
+   * Returns the {@link OperationModel} that matches
+   * the given name.
+   *
+   * @param name case sensitive operation name
+   * @return an {@link Optional} {@link OperationModel}
+   */
+  Optional<OperationModel> getOperationModel(String name);
 }

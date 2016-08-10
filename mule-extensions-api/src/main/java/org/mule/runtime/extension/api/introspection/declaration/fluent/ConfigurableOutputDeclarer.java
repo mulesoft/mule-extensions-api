@@ -12,36 +12,32 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
  *
  * @since 1.0
  */
-public abstract class ConfigurableOutputDeclarer<D extends ComponentDeclaration> extends ParameterizedDeclarer<D>
-{
+public abstract class ConfigurableOutputDeclarer<D extends ComponentDeclaration> extends ParameterizedDeclarer<D> {
 
-    public ConfigurableOutputDeclarer(D declaration)
-    {
-        super(declaration);
-    }
+  public ConfigurableOutputDeclarer(D declaration) {
+    super(declaration);
+  }
 
-    /**
-     * Declares element output
-     *
-     * @return a new {@link OutputDeclarer}
-     */
-    public OutputDeclarer withOutput()
-    {
-        OutputDeclaration outputPayload = new OutputDeclaration();
-        declaration.setOutput(outputPayload);
-        return new OutputDeclarer<>(outputPayload);
-    }
+  /**
+   * Declares element output
+   *
+   * @return a new {@link OutputDeclarer}
+   */
+  public OutputDeclarer withOutput() {
+    OutputDeclaration outputPayload = new OutputDeclaration();
+    declaration.setOutput(outputPayload);
+    return new OutputDeclarer<>(outputPayload);
+  }
 
-    /**
-     * Declares element output
-     *
-     * @return a new {@link OutputDeclarer}
-     */
-    public OutputDeclarer withOutputAttributes()
-    {
-        OutputDeclaration outputAttributes = new OutputDeclaration();
-        declaration.setOutputAttributes(outputAttributes);
-        return new OutputDeclarer<>(outputAttributes);
-    }
+  /**
+   * Declares element output
+   *
+   * @return a new {@link OutputDeclarer}
+   */
+  public OutputDeclarer withOutputAttributes() {
+    OutputDeclaration outputAttributes = new OutputDeclaration();
+    declaration.setOutputAttributes(outputAttributes);
+    return new OutputDeclarer<>(outputAttributes);
+  }
 
 }

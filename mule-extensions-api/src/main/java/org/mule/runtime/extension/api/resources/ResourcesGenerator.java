@@ -26,19 +26,18 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ResourcesGenerator
-{
+public interface ResourcesGenerator {
 
-    /**
-     * Generates resources for the given {@code extension} by propagating
-     * the given {@code extensionModel} through all the discovered
-     * {@link GeneratedResourceFactory} instances.
-     * <p>
-     * The generated resources are written to disk and returned for
-     * further processing.
-     *
-     * @param extensionModel a {@link ExtensionModel}
-     * @link a {@link List} with the generated resources. Might be empty but will never be {@code null}
-     */
-    List<GeneratedResource> generateFor(ExtensionModel extensionModel);
+  /**
+   * Generates resources for the given {@code extension} by propagating
+   * the given {@code extensionModel} through all the discovered
+   * {@link GeneratedResourceFactory} instances.
+   * <p>
+   * The generated resources are written to disk and returned for
+   * further processing.
+   *
+   * @param extensionModel a {@link ExtensionModel}
+   * @link a {@link List} with the generated resources. Might be empty but will never be {@code null}
+   */
+  List<GeneratedResource> generateFor(ExtensionModel extensionModel);
 }

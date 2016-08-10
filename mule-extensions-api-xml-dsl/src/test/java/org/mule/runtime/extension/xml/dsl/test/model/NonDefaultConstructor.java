@@ -6,17 +6,13 @@
  */
 package org.mule.runtime.extension.xml.dsl.test.model;
 
-public class NonDefaultConstructor
-{
+public class NonDefaultConstructor {
 
-    private String superField;
+  private String superField;
 
-    private NonDefaultConstructor()
-    {
-    }
+  private NonDefaultConstructor() {}
 
-    public String getSuperField()
-    {
-        return superField;
-    }
+  public String getSuperField() {
+    return superField;
+  }
 }

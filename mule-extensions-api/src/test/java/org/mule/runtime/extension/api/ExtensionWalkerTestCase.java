@@ -30,101 +30,90 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ExtensionWalkerTestCase
-{
+public class ExtensionWalkerTestCase {
 
-    @Mock
-    private ExtensionModel extension;
+  @Mock
+  private ExtensionModel extension;
 
-    @Mock
-    private ConfigurationModel configuration;
+  @Mock
+  private ConfigurationModel configuration;
 
-    @Mock
-    private OperationModel operation;
+  @Mock
+  private OperationModel operation;
 
-    @Mock
-    private ConnectionProviderModel connectionProvider;
+  @Mock
+  private ConnectionProviderModel connectionProvider;
 
-    @Mock
-    private ParameterModel parameterModel;
+  @Mock
+  private ParameterModel parameterModel;
 
-    @Mock
-    private SourceModel source;
+  @Mock
+  private SourceModel source;
 
-    @Before
-    public void before()
-    {
-        when(extension.getConfigurationModels()).thenReturn(asList(configuration));
-        when(extension.getOperationModels()).thenReturn(asList(operation));
-        when(extension.getSourceModels()).thenReturn(asList(source));
-        when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
+  @Before
+  public void before() {
+    when(extension.getConfigurationModels()).thenReturn(asList(configuration));
+    when(extension.getOperationModels()).thenReturn(asList(operation));
+    when(extension.getSourceModels()).thenReturn(asList(source));
+    when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
-        when(configuration.getOperationModels()).thenReturn(asList(operation));
-        when(configuration.getSourceModels()).thenReturn(asList(source));
-        when(configuration.getConnectionProviders()).thenReturn(asList(connectionProvider));
+    when(configuration.getOperationModels()).thenReturn(asList(operation));
+    when(configuration.getSourceModels()).thenReturn(asList(source));
+    when(configuration.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
-        addParameter(configuration, operation, connectionProvider, source);
+    addParameter(configuration, operation, connectionProvider, source);
+  }
+
+  private void addParameter(ParameterizedModel... models) {
+    for (ParameterizedModel model : models) {
+      when(model.getParameterModels()).thenReturn(asList(parameterModel));
     }
+  }
 
-    private void addParameter(ParameterizedModel... models)
-    {
-        for (ParameterizedModel model : models)
-        {
-            when(model.getParameterModels()).thenReturn(asList(parameterModel));
-        }
-    }
+  @Test
+  public void walk() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
 
-    @Test
-    public void walk()
-    {
-        AtomicInteger configs = new AtomicInteger(0);
-        AtomicInteger operations = new AtomicInteger(0);
-        AtomicInteger sources = new AtomicInteger(0);
-        AtomicInteger parameters = new AtomicInteger(0);
-        AtomicInteger providers = new AtomicInteger(0);
+    new ExtensionWalker() {
 
-        new ExtensionWalker()
-        {
-            @Override
-            public void onConfiguration(ConfigurationModel model)
-            {
-                configs.incrementAndGet();
-            }
+      @Override
+      public void onConfiguration(ConfigurationModel model) {
+        configs.incrementAndGet();
+      }
 
-            @Override
-            public void onOperation(HasOperationModels owner, OperationModel model)
-            {
-                operations.incrementAndGet();
-            }
+      @Override
+      public void onOperation(HasOperationModels owner, OperationModel model) {
+        operations.incrementAndGet();
+      }
 
-            @Override
-            public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model)
-            {
-                providers.incrementAndGet();
-            }
+      @Override
+      public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model) {
+        providers.incrementAndGet();
+      }
 
-            @Override
-            public void onSource(HasSourceModels owner, SourceModel model)
-            {
-                sources.incrementAndGet();
-            }
+      @Override
+      public void onSource(HasSourceModels owner, SourceModel model) {
+        sources.incrementAndGet();
+      }
 
-            @Override
-            public void onParameter(ParameterizedModel owner, ParameterModel model)
-            {
-                parameters.incrementAndGet();
-            }
-        }.walk(extension);
+      @Override
+      public void onParameter(ParameterizedModel owner, ParameterModel model) {
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
 
-        assertCount(configs, 1);
-        assertCount(operations, 2);
-        assertCount(sources, 2);
-        assertCount(providers, 2);
-        assertCount(parameters, 7);
-    }
+    assertCount(configs, 1);
+    assertCount(operations, 2);
+    assertCount(sources, 2);
+    assertCount(providers, 2);
+    assertCount(parameters, 7);
+  }
 
-    private void assertCount(AtomicInteger actual, int expected)
-    {
-        assertThat(actual.get(), is(expected));
-    }
+  private void assertCount(AtomicInteger actual, int expected) {
+    assertThat(actual.get(), is(expected));
+  }
 }

@@ -54,183 +54,183 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase
-{
+public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
-    private static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
-    private static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON = "extension/list-of-serialized-extension-model.json";
-    private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
-    private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
-    private final Set<ModelProperty> modelProperties = new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
-    private final MetadataType stringType = typeLoader.load(String.class);
-    private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"password\":false,\"text\":true,\"order\":0}";
-    private final String GET_CAR_OPERATION_NAME = "getCar";
-    private final String CAR_NAME_PARAMETER_NAME = "carName";
-    private final String MODEL_PROPERTIES_NODE = "modelProperties";
-    private final String OPERATIONS_NODE = "operations";
-    private final String PARAMETER_MODELS_NODE = "parameterModels";
+  private static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
+  private static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON = "extension/list-of-serialized-extension-model.json";
+  private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
+  private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
+  private final Set<ModelProperty> modelProperties =
+      new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
+  private final MetadataType stringType = typeLoader.load(String.class);
+  private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"password\":false,\"text\":true,\"order\":0}";
+  private final String GET_CAR_OPERATION_NAME = "getCar";
+  private final String CAR_NAME_PARAMETER_NAME = "carName";
+  private final String MODEL_PROPERTIES_NODE = "modelProperties";
+  private final String OPERATIONS_NODE = "operations";
+  private final String PARAMETER_MODELS_NODE = "parameterModels";
 
-    private ExtensionModel deserializedExtensionModel;
-    private ImmutableExtensionModel originalExtensionModel;
-    private ImmutableOperationModel getCarOperation;
-    private JsonElement serializedExtensionModel;
-    private JsonObject operationModelProperties;
-    private List<ExtensionModel> extensionModelList;
-    private ExtensionModelJsonSerializer extensionModelJsonSerializer;
+  private ExtensionModel deserializedExtensionModel;
+  private ImmutableExtensionModel originalExtensionModel;
+  private ImmutableOperationModel getCarOperation;
+  private JsonElement serializedExtensionModel;
+  private JsonObject operationModelProperties;
+  private List<ExtensionModel> extensionModelList;
+  private ExtensionModelJsonSerializer extensionModelJsonSerializer;
 
-    @Before
-    public void setUp()
-    {
-        final ImmutableParameterModel carNameParameter = new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "", singleton(new LayoutModelProperty(false, true, 0, null, null)));
-        final ImmutableParameterModel usernameParameter = new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "", singleton(new LayoutModelProperty(false, true, 0, null, null)));
-        final ImmutableParameterModel passwordParameter = new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "", singleton(new LayoutModelProperty(true, true, 0, null, null)));
-        final ImmutableParameterModel complexParameter = new ImmutableParameterModel("complex", "complex type to serialize",
-                                                                                     ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(ComplexFieldsType.class),
-                                                                                     false, true, SUPPORTED, null, emptySet());
+  @Before
+  public void setUp() {
+    final ImmutableParameterModel carNameParameter =
+        new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "",
+                                    singleton(new LayoutModelProperty(false, true, 0, null, null)));
+    final ImmutableParameterModel usernameParameter =
+        new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "",
+                                    singleton(new LayoutModelProperty(false, true, 0, null, null)));
+    final ImmutableParameterModel passwordParameter =
+        new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "",
+                                    singleton(new LayoutModelProperty(true, true, 0, null, null)));
+    final ImmutableParameterModel complexParameter = new ImmutableParameterModel("complex", "complex type to serialize",
+                                                                                 ExtensionsTypeLoaderFactory.getDefault()
+                                                                                     .createTypeLoader()
+                                                                                     .load(ComplexFieldsType.class),
+                                                                                 false, true, SUPPORTED, null, emptySet());
 
-        getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
-                                                      new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
-                                                      new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
-                                                      modelProperties);
-        final ImmutableRuntimeConnectionProviderModel basicAuth = new ImmutableRuntimeConnectionProviderModel("BasicAuth", "Basic Auth Config", Integer.class, new DefaultConnectionProviderFactory(), asList(usernameParameter, passwordParameter), NONE, emptySet());
-        originalExtensionModel = new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY, new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation), singletonList(basicAuth), emptyList(), emptySet(), Optional.empty());
-        extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
-        final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
-        serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
-        deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
-        operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonObject().get(GET_CAR_OPERATION_NAME).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
-        extensionModelList = asList(deserializedExtensionModel, originalExtensionModel);
+    getCarOperation =
+        new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
+                                    new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
+                                    new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
+                                    modelProperties);
+    final ImmutableRuntimeConnectionProviderModel basicAuth =
+        new ImmutableRuntimeConnectionProviderModel("BasicAuth", "Basic Auth Config", Integer.class,
+                                                    new DefaultConnectionProviderFactory(),
+                                                    asList(usernameParameter, passwordParameter), NONE, emptySet());
+    originalExtensionModel =
+        new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
+                                           new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
+                                           singletonList(basicAuth), emptyList(), emptySet(), Optional.empty());
+    extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
+    final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
+    serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
+    deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
+    operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonObject()
+        .get(GET_CAR_OPERATION_NAME).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
+    extensionModelList = asList(deserializedExtensionModel, originalExtensionModel);
+  }
+
+  @Test
+  public void friendlyNameIsUsedForAlreadyKnowModelProperty() {
+    final JsonObject carNameParameter = serializedExtensionModel.getAsJsonObject()
+        .get(OPERATIONS_NODE).getAsJsonObject()
+        .get(GET_CAR_OPERATION_NAME).getAsJsonObject()
+        .get(PARAMETER_MODELS_NODE).getAsJsonArray()
+        .get(0).getAsJsonObject();
+
+    assertThat(carNameParameter.get("name").getAsString(), is(CAR_NAME_PARAMETER_NAME));
+    assertThat(getModelProperty(carNameParameter, LAYOUT_MODEL_PROPERTY).toString(), is(SERIALIZED_DISPLAY_MODEL_PROPERTY));
+  }
+
+  @Test
+  public void fullQualifiedNameIsUsedForUnknownModelProperty() {
+    assertThat(operationModelProperties.has(ExternalizableModelProperty.class.getName()), is(true));
+  }
+
+  @Test
+  public void nonExternalizableModelsAreNotSerialized() {
+    assertThat(getCarOperation.getModelProperties().contains(nonExternalizableModelProperty), is(true));
+    assertThat(getCarOperation.getModelProperties().size(), is(2));
+
+    assertThat(operationModelProperties.has(NonExternalizableModelProperty.class.getName()), is(false));
+    assertThat(operationModelProperties.entrySet().size(), is(1));
+  }
+
+  @Test
+  public void runtimeModelsAreDeserializedIntoNonRuntimeModels() {
+    assertThat(originalExtensionModel, instanceOf(ImmutableRuntimeExtensionModel.class));
+    assertThat(deserializedExtensionModel, instanceOf(ImmutableExtensionModel.class));
+
+    assertThat(originalExtensionModel.getConnectionProviders().get(0), instanceOf(ImmutableRuntimeConnectionProviderModel.class));
+    assertThat(deserializedExtensionModel.getConnectionProviders().get(0), instanceOf(ImmutableConnectionProviderModel.class));
+  }
+
+  @Test
+  public void validateJsonStructure() throws IOException {
+    final JsonElement expectedSerializedExtensionModel =
+        new JsonParser().parse(getResourceAsString(SERIALIZED_EXTENSION_MODEL_JSON));
+    assertThat(serializedExtensionModel, is(expectedSerializedExtensionModel));
+  }
+
+  @Test
+  public void validateJsonListStructure() throws IOException {
+    final JsonParser jsonParser = new JsonParser();
+    final JsonElement expectedSerializedExtensionModel =
+        jsonParser.parse(getResourceAsString(LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON));
+    final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
+    final JsonElement parse = jsonParser.parse(serializedList);
+
+    assertThat(parse, is(expectedSerializedExtensionModel));
+  }
+
+  @Test
+  public void validateCustomTypeAnnotations() throws IOException {
+    MetadataType complexType = deserializedExtensionModel.getOperationModels().get(0).getParameterModels().get(1).getType();
+    assertThat(complexType, instanceOf(ObjectType.class));
+    assertThat(complexType.getAnnotation(TypeAliasAnnotation.class).isPresent(), is(true));
+    assertThat(complexType.getAnnotation(TypeAliasAnnotation.class).get().getValue(), is(ComplexFieldsType.ALIAS));
+
+    ArrayType extensibleTypeList = (ArrayType) ((ObjectType) complexType).getFieldByName("extensibleTypeList").get().getValue();
+    assertThat(extensibleTypeList.getType().getAnnotation(ExtensibleTypeAnnotation.class).isPresent(), is(true));
+    assertThat(extensibleTypeList.getType().getAnnotation(TypeAliasAnnotation.class).get().getValue(), is(ExtensibleType.ALIAS));
+
+    ObjectType simplePojo = (ObjectType) ((ObjectType) complexType).getFieldByName("simplePojo").get().getValue();
+    assertThat(simplePojo.getFieldByName("sampleString").get().getAnnotation(XmlHintsAnnotation.class).get().allowsReferences(),
+               is(false));
+
+  }
+
+  private JsonElement getModelProperty(JsonObject object, String modelPropertyName) {
+    final JsonObject modelProperties = object.get(MODEL_PROPERTIES_NODE).getAsJsonObject();
+    if (modelProperties.has(modelPropertyName)) {
+      return modelProperties.get(modelPropertyName);
+    }
+    return null;
+  }
+
+  private class DefaultConnectionProviderFactory implements ConnectionProviderFactory {
+
+    @Override
+    public ConnectionProvider newInstance() {
+      return null;
     }
 
-    @Test
-    public void friendlyNameIsUsedForAlreadyKnowModelProperty()
-    {
-        final JsonObject carNameParameter = serializedExtensionModel.getAsJsonObject()
-                .get(OPERATIONS_NODE).getAsJsonObject()
-                .get(GET_CAR_OPERATION_NAME).getAsJsonObject()
-                .get(PARAMETER_MODELS_NODE).getAsJsonArray()
-                .get(0).getAsJsonObject();
+    @Override
+    public Class<? extends ConnectionProvider> getObjectType() {
+      return null;
+    }
+  }
 
-        assertThat(carNameParameter.get("name").getAsString(), is(CAR_NAME_PARAMETER_NAME));
-        assertThat(getModelProperty(carNameParameter, LAYOUT_MODEL_PROPERTY).toString(), is(SERIALIZED_DISPLAY_MODEL_PROPERTY));
+  private class NonExternalizableModelProperty implements ModelProperty {
+
+    @Override
+    public String getName() {
+      return "NonExternalizableModelProperty";
     }
 
-    @Test
-    public void fullQualifiedNameIsUsedForUnknownModelProperty()
-    {
-        assertThat(operationModelProperties.has(ExternalizableModelProperty.class.getName()), is(true));
+    @Override
+    public boolean isExternalizable() {
+      return false;
+    }
+  }
+
+  private class ExternalizableModelProperty implements ModelProperty {
+
+    @Override
+    public String getName() {
+      return "ExternalizableModelProperty";
     }
 
-    @Test
-    public void nonExternalizableModelsAreNotSerialized()
-    {
-        assertThat(getCarOperation.getModelProperties().contains(nonExternalizableModelProperty), is(true));
-        assertThat(getCarOperation.getModelProperties().size(), is(2));
-
-        assertThat(operationModelProperties.has(NonExternalizableModelProperty.class.getName()), is(false));
-        assertThat(operationModelProperties.entrySet().size(), is(1));
+    @Override
+    public boolean isExternalizable() {
+      return true;
     }
-
-    @Test
-    public void runtimeModelsAreDeserializedIntoNonRuntimeModels()
-    {
-        assertThat(originalExtensionModel, instanceOf(ImmutableRuntimeExtensionModel.class));
-        assertThat(deserializedExtensionModel, instanceOf(ImmutableExtensionModel.class));
-
-        assertThat(originalExtensionModel.getConnectionProviders().get(0), instanceOf(ImmutableRuntimeConnectionProviderModel.class));
-        assertThat(deserializedExtensionModel.getConnectionProviders().get(0), instanceOf(ImmutableConnectionProviderModel.class));
-    }
-
-    @Test
-    public void validateJsonStructure() throws IOException
-    {
-        final JsonElement expectedSerializedExtensionModel = new JsonParser().parse(getResourceAsString(SERIALIZED_EXTENSION_MODEL_JSON));
-        assertThat(serializedExtensionModel, is(expectedSerializedExtensionModel));
-    }
-
-    @Test
-    public void validateJsonListStructure() throws IOException
-    {
-        final JsonParser jsonParser = new JsonParser();
-        final JsonElement expectedSerializedExtensionModel = jsonParser.parse(getResourceAsString(LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON));
-        final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
-        final JsonElement parse = jsonParser.parse(serializedList);
-
-        assertThat(parse, is(expectedSerializedExtensionModel));
-    }
-
-    @Test
-    public void validateCustomTypeAnnotations() throws IOException
-    {
-        MetadataType complexType = deserializedExtensionModel.getOperationModels().get(0).getParameterModels().get(1).getType();
-        assertThat(complexType, instanceOf(ObjectType.class));
-        assertThat(complexType.getAnnotation(TypeAliasAnnotation.class).isPresent(), is(true));
-        assertThat(complexType.getAnnotation(TypeAliasAnnotation.class).get().getValue(), is(ComplexFieldsType.ALIAS));
-
-        ArrayType extensibleTypeList = (ArrayType) ((ObjectType) complexType).getFieldByName("extensibleTypeList").get().getValue();
-        assertThat(extensibleTypeList.getType().getAnnotation(ExtensibleTypeAnnotation.class).isPresent(), is(true));
-        assertThat(extensibleTypeList.getType().getAnnotation(TypeAliasAnnotation.class).get().getValue(), is(ExtensibleType.ALIAS));
-
-        ObjectType simplePojo = (ObjectType) ((ObjectType) complexType).getFieldByName("simplePojo").get().getValue();
-        assertThat(simplePojo.getFieldByName("sampleString").get().getAnnotation(XmlHintsAnnotation.class).get().allowsReferences(), is(false));
-
-    }
-
-    private JsonElement getModelProperty(JsonObject object, String modelPropertyName)
-    {
-        final JsonObject modelProperties = object.get(MODEL_PROPERTIES_NODE).getAsJsonObject();
-        if (modelProperties.has(modelPropertyName))
-        {
-            return modelProperties.get(modelPropertyName);
-        }
-        return null;
-    }
-
-    private class DefaultConnectionProviderFactory implements ConnectionProviderFactory
-    {
-
-        @Override
-        public ConnectionProvider newInstance()
-        {
-            return null;
-        }
-
-        @Override
-        public Class<? extends ConnectionProvider> getObjectType()
-        {
-            return null;
-        }
-    }
-
-    private class NonExternalizableModelProperty implements ModelProperty
-    {
-
-        @Override
-        public String getName()
-        {
-            return "NonExternalizableModelProperty";
-        }
-
-        @Override
-        public boolean isExternalizable()
-        {
-            return false;
-        }
-    }
-
-    private class ExternalizableModelProperty implements ModelProperty
-    {
-
-        @Override
-        public String getName()
-        {
-            return "ExternalizableModelProperty";
-        }
-
-        @Override
-        public boolean isExternalizable()
-        {
-            return true;
-        }
-    }
+  }
 }

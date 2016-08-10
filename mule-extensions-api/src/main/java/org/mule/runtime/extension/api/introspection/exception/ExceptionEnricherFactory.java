@@ -9,13 +9,12 @@ package org.mule.runtime.extension.api.introspection.exception;
 /**
  * Creates an instance of an {@link ExceptionEnricher}
  */
-public interface ExceptionEnricherFactory
-{
+public interface ExceptionEnricherFactory {
 
-    /**
-     * Creates a new instance of a {@link ExceptionEnricher}
-     *
-     * @return a new {@link ExceptionEnricher}
-     */
-    ExceptionEnricher createEnricher();
+  /**
+   * Creates a new instance of a {@link ExceptionEnricher}
+   *
+   * @return a new {@link ExceptionEnricher}
+   */
+  ExceptionEnricher createEnricher();
 }

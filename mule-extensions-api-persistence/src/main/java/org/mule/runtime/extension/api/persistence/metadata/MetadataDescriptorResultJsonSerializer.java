@@ -20,36 +20,31 @@ import com.google.gson.reflect.TypeToken;
  *
  * @since 1.0
  */
-public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResultJsonSerializer
-{
+public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
 
-    public MetadataDescriptorResultJsonSerializer()
-    {
-        super(false);
-    }
+  public MetadataDescriptorResultJsonSerializer() {
+    super(false);
+  }
 
-    public MetadataDescriptorResultJsonSerializer(boolean prettyPrint)
-    {
-        super(prettyPrint);
-    }
+  public MetadataDescriptorResultJsonSerializer(boolean prettyPrint) {
+    super(prettyPrint);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String serialize(MetadataResult metadataResult)
-    {
-        return gson.toJson(new ComponentMetadataResult(metadataResult));
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String serialize(MetadataResult metadataResult) {
+    return gson.toJson(new ComponentMetadataResult(metadataResult));
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ImmutableMetadataResult<ImmutableComponentMetadataDescriptor> deserialize(String metadataResult)
-    {
-        ComponentMetadataResult result = gson.fromJson(metadataResult, new TypeToken<ComponentMetadataResult>(){}.getType());
-        return (ImmutableMetadataResult<ImmutableComponentMetadataDescriptor>) result.toComponentMetadataResult();
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ImmutableMetadataResult<ImmutableComponentMetadataDescriptor> deserialize(String metadataResult) {
+    ComponentMetadataResult result = gson.fromJson(metadataResult, new TypeToken<ComponentMetadataResult>() {}.getType());
+    return (ImmutableMetadataResult<ImmutableComponentMetadataDescriptor>) result.toComponentMetadataResult();
+  }
 
 }

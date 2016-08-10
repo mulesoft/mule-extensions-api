@@ -15,30 +15,27 @@ import org.mule.runtime.extension.api.runtime.source.SourceFactory;
  *
  * @since 1.0
  */
-public class SourceDeclarer extends ComponentDeclarer<SourceDeclarer, SourceDeclaration>
-{
+public class SourceDeclarer extends ComponentDeclarer<SourceDeclarer, SourceDeclaration> {
 
-    /**
-     * Creates a new instance
-     *
-     * @param declaration the {@link SourceDeclaration} to be configured
-     */
-    SourceDeclarer(SourceDeclaration declaration)
-    {
-        super(declaration);
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param declaration the {@link SourceDeclaration} to be configured
+   */
+  SourceDeclarer(SourceDeclaration declaration) {
+    super(declaration);
+  }
 
-    /**
-     * Specifies the {@link SourceFactory} to be used
-     * to create {@link Source} instances.
-     *
-     * @param sourceFactory a {@link SourceDeclarer}
-     * @return {@code this} descriptor
-     */
-    public SourceDeclarer sourceCreatedBy(SourceFactory sourceFactory)
-    {
-        declaration.setSourceFactory(sourceFactory);
-        return this;
-    }
+  /**
+   * Specifies the {@link SourceFactory} to be used
+   * to create {@link Source} instances.
+   *
+   * @param sourceFactory a {@link SourceDeclarer}
+   * @return {@code this} descriptor
+   */
+  public SourceDeclarer sourceCreatedBy(SourceFactory sourceFactory) {
+    declaration.setSourceFactory(sourceFactory);
+    return this;
+  }
 
 }

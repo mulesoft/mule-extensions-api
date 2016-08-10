@@ -14,17 +14,16 @@ import javax.transaction.xa.XAResource;
  *
  * @since 1.0
  */
-public interface XATransactionalConnection extends TransactionalConnection
-{
+public interface XATransactionalConnection extends TransactionalConnection {
 
-    /**
-     * @return the {@link XAResource} which should be listed on the XA transaction
-     */
-    XAResource getXAResource();
+  /**
+   * @return the {@link XAResource} which should be listed on the XA transaction
+   */
+  XAResource getXAResource();
 
-    /**
-     * Closes this connection and the underlying {@link #getXAResource()}. Some providers
-     * require this method to be explicitly called.
-     */
-    void close();
+  /**
+   * Closes this connection and the underlying {@link #getXAResource()}. Some providers
+   * require this method to be explicitly called.
+   */
+  void close();
 }

@@ -11,7 +11,6 @@ package org.mule.runtime.extension.api.introspection;
  *
  * @since 1.0
  */
-public interface OutputModel extends Described, EnrichableModel, Typed
-{
+public interface OutputModel extends Described, EnrichableModel, Typed {
 
 }

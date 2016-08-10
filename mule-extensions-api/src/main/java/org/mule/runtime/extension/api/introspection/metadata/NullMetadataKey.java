@@ -20,57 +20,50 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class NullMetadataKey implements MetadataKey
-{
+public final class NullMetadataKey implements MetadataKey {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getId()
-    {
-        return "";
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getId() {
+    return "";
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getDisplayName()
-    {
-        return "";
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getDisplayName() {
+    return "";
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<MetadataKey> getChilds()
-    {
-        return emptySet();
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<MetadataKey> getChilds() {
+    return emptySet();
+  }
 
-    @Override
-    public String getPartName()
-    {
-        return "";
-    }
+  @Override
+  public String getPartName() {
+    return "";
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T extends MetadataProperty> Optional<T> getMetadataProperty(Class<T> propertyType)
-    {
-        return Optional.empty();
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public <T extends MetadataProperty> Optional<T> getMetadataProperty(Class<T> propertyType) {
+    return Optional.empty();
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<MetadataProperty> getProperties()
-    {
-        return emptySet();
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<MetadataProperty> getProperties() {
+    return emptySet();
+  }
 }

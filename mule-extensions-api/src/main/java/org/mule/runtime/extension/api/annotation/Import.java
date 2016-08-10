@@ -27,18 +27,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(ImportedTypes.class)
-public @interface Import
-{
+public @interface Import {
 
-    /**
-     * @return the {@link Class} which definition will be imported
-     */
-    Class<?> type();
+  /**
+   * @return the {@link Class} which definition will be imported
+   */
+  Class<?> type();
 
-    /**
-     * @return the {@link Extension} annotated {@link Class} which
-     * defines the imported {@code type}
-     */
-    Class<?> from();
+  /**
+   * @return the {@link Extension} annotated {@link Class} which
+   * defines the imported {@code type}
+   */
+  Class<?> from();
 
 }

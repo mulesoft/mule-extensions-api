@@ -21,50 +21,45 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public final class SubTypesModelProperty implements ModelProperty
-{
+public final class SubTypesModelProperty implements ModelProperty {
 
-    private final Map<MetadataType, List<MetadataType>> typesMap;
+  private final Map<MetadataType, List<MetadataType>> typesMap;
 
-    /**
-     * Creates a new instance containing all the baseType-subTypes declarations
-     * based on the {@link Class} references of each type
-     *
-     * @param mapping concrete implementations of the {@code baseType}
-     */
-    public SubTypesModelProperty(Map<MetadataType, List<MetadataType>> mapping)
-    {
-        this.typesMap = mapping;
-    }
+  /**
+   * Creates a new instance containing all the baseType-subTypes declarations
+   * based on the {@link Class} references of each type
+   *
+   * @param mapping concrete implementations of the {@code baseType}
+   */
+  public SubTypesModelProperty(Map<MetadataType, List<MetadataType>> mapping) {
+    this.typesMap = mapping;
+  }
 
-    /**
-     * @return a {@link Map} containing the {@link List} of {@link MetadataType} subTypes for
-     * the key base type
-     */
-    public Map<MetadataType, List<MetadataType>> getSubTypesMapping()
-    {
-        return Collections.unmodifiableMap(typesMap);
-    }
+  /**
+   * @return a {@link Map} containing the {@link List} of {@link MetadataType} subTypes for
+   * the key base type
+   */
+  public Map<MetadataType, List<MetadataType>> getSubTypesMapping() {
+    return Collections.unmodifiableMap(typesMap);
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code subTypesMapping}
-     */
-    @Override
-    public String getName()
-    {
-        return "subTypesMapping";
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code subTypesMapping}
+   */
+  @Override
+  public String getName() {
+    return "subTypesMapping";
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code false}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return true;
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code false}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return true;
+  }
 }

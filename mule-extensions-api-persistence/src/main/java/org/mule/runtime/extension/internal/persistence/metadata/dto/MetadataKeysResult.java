@@ -22,28 +22,25 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class MetadataKeysResult
-{
-    private final static String KEYS = "KEYS";
+public class MetadataKeysResult {
 
-    private final List<Failure> failures;
-    private final Set<DefaultMetadataKey> keys;
+  private final static String KEYS = "KEYS";
 
-    public MetadataKeysResult(MetadataResult<Set<DefaultMetadataKey>> result)
-    {
-        this.failures = result.isSuccess() ? emptyList()
-                                           : singletonList(new Failure(result.getFailure().get(), KEYS));
-        this.keys = result.get();
+  private final List<Failure> failures;
+  private final Set<DefaultMetadataKey> keys;
+
+  public MetadataKeysResult(MetadataResult<Set<DefaultMetadataKey>> result) {
+    this.failures = result.isSuccess() ? emptyList()
+        : singletonList(new Failure(result.getFailure().get(), KEYS));
+    this.keys = result.get();
+  }
+
+  public MetadataResult<Set<DefaultMetadataKey>> toKeysMetadataResult() {
+    if (!failures.isEmpty()) {
+      Failure metadataFailure = failures.get(0);
+      return failure(keys, metadataFailure.getMessage(), metadataFailure.getFailureCode(), metadataFailure.getReason());
     }
 
-    public MetadataResult<Set<DefaultMetadataKey>> toKeysMetadataResult()
-    {
-        if (!failures.isEmpty())
-        {
-            Failure metadataFailure = failures.get(0);
-            return failure(keys, metadataFailure.getMessage(), metadataFailure.getFailureCode(), metadataFailure.getReason());
-        }
-
-        return success(keys);
-    }
+    return success(keys);
+  }
 }

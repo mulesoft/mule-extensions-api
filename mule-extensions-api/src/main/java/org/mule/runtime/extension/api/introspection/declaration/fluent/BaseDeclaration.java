@@ -24,76 +24,69 @@ import java.util.Set;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class BaseDeclaration<T extends BaseDeclaration> implements Described
-{
+public abstract class BaseDeclaration<T extends BaseDeclaration> implements Described {
 
-    private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
-    private String description = "";
+  private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
+  private String description = "";
 
-    /**
-     * Returns a {@link Set} with the currently added properties. Notice
-     * that this {@link Set} is mutable and not thread-safe.
-     * <p>
-     * This method is to be used when you need to access all the properties.
-     * For individual access use {@link #addModelProperty(ModelProperty)}}
-     * or {@link #getModelProperty(Class)} instead
-     *
-     * @return a {@link Set} with the current model properties. Might be empty but will never by {@code null}
-     */
-    public Set<ModelProperty> getModelProperties()
-    {
-        return Collections.unmodifiableSet(new HashSet<>(modelProperties.values()));
+  /**
+   * Returns a {@link Set} with the currently added properties. Notice
+   * that this {@link Set} is mutable and not thread-safe.
+   * <p>
+   * This method is to be used when you need to access all the properties.
+   * For individual access use {@link #addModelProperty(ModelProperty)}}
+   * or {@link #getModelProperty(Class)} instead
+   *
+   * @return a {@link Set} with the current model properties. Might be empty but will never by {@code null}
+   */
+  public Set<ModelProperty> getModelProperties() {
+    return Collections.unmodifiableSet(new HashSet<>(modelProperties.values()));
+  }
+
+  /**
+   * Returns the model property registered under {@code key}
+   *
+   * @param propertyType the property's {@link Class}
+   * @param <P>          the generic type for the response value
+   * @return the associated value wrapped on an {@link Optional}
+   */
+  public <P extends ModelProperty> Optional<P> getModelProperty(Class<P> propertyType) {
+    return Optional.ofNullable((P) modelProperties.get(propertyType));
+  }
+
+  /**
+   * Adds the given {@param modelProperty}. If a property
+   * of the same {@link Class} has already been added, it will
+   * be overwritten.
+   *
+   * @param modelProperty a {@link ModelProperty}
+   * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
+   */
+  public T addModelProperty(ModelProperty modelProperty) {
+    if (modelProperty == null) {
+      throw new IllegalArgumentException("Cannot add a null model property");
     }
 
-    /**
-     * Returns the model property registered under {@code key}
-     *
-     * @param propertyType the property's {@link Class}
-     * @param <P>          the generic type for the response value
-     * @return the associated value wrapped on an {@link Optional}
-     */
-    public <P extends ModelProperty> Optional<P> getModelProperty(Class<P> propertyType)
-    {
-        return Optional.ofNullable((P) modelProperties.get(propertyType));
-    }
+    //TODO: MULE-9581 take a look at MetadataKeyBuilder
 
-    /**
-     * Adds the given {@param modelProperty}. If a property
-     * of the same {@link Class} has already been added, it will
-     * be overwritten.
-     *
-     * @param modelProperty a {@link ModelProperty}
-     * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
-     */
-    public T addModelProperty(ModelProperty modelProperty)
-    {
-        if (modelProperty == null)
-        {
-            throw new IllegalArgumentException("Cannot add a null model property");
-        }
+    modelProperties.put(modelProperty.getClass(), modelProperty);
+    return (T) this;
+  }
 
-        //TODO: MULE-9581 take a look at MetadataKeyBuilder
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getDescription() {
+    return description;
+  }
 
-        modelProperties.put(modelProperty.getClass(), modelProperty);
-        return (T) this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getDescription()
-    {
-        return description;
-    }
-
-    /**
-     * Sets the {@link #description} for this declaration
-     *
-     * @param description
-     */
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+  /**
+   * Sets the {@link #description} for this declaration
+   *
+   * @param description
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
 }

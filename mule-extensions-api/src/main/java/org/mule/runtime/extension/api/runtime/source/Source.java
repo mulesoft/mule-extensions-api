@@ -29,31 +29,29 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  * @param <A> the generic type for the generated message's attributes
  * @since 1.0
  */
-public abstract class Source<Payload, A extends Attributes>
-{
+public abstract class Source<Payload, A extends Attributes> {
 
-    /**
-     * The configured {@link SourceContext}. The platform is to have set
-     * this through the {@link #setSourceContext(SourceContext)} method
-     * before {@link #start()} is to be invoked
-     */
-    protected SourceContext<Payload, A> sourceContext;
+  /**
+   * The configured {@link SourceContext}. The platform is to have set
+   * this through the {@link #setSourceContext(SourceContext)} method
+   * before {@link #start()} is to be invoked
+   */
+  protected SourceContext<Payload, A> sourceContext;
 
-    //TODO: MULE-8946, should actually implement Startable
-    public abstract void start() throws Exception;
+  //TODO: MULE-8946, should actually implement Startable
+  public abstract void start() throws Exception;
 
-    //TODO: MULE-8946, should actually implement Stoppable
-    public abstract void stop() throws Exception;
+  //TODO: MULE-8946, should actually implement Stoppable
+  public abstract void stop() throws Exception;
 
-    /**
-     * Configures {@code this} instances with {@code sourceContext}.
-     * This method should only be used by the runtime, which also
-     * guarantees to have used it before {@link #start()} is invoked
-     *
-     * @param sourceContext a {@link SourceContext}
-     */
-    public void setSourceContext(SourceContext<Payload, A> sourceContext)
-    {
-        this.sourceContext = sourceContext;
-    }
+  /**
+   * Configures {@code this} instances with {@code sourceContext}.
+   * This method should only be used by the runtime, which also
+   * guarantees to have used it before {@link #start()} is invoked
+   *
+   * @param sourceContext a {@link SourceContext}
+   */
+  public void setSourceContext(SourceContext<Payload, A> sourceContext) {
+    this.sourceContext = sourceContext;
+  }
 }

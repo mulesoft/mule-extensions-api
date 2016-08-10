@@ -18,58 +18,49 @@ import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
  *
  * @since 1.0
  */
-public final class ExpressionSupportAnnotation implements TypeAnnotation
-{
+public final class ExpressionSupportAnnotation implements TypeAnnotation {
 
-    public static final String NAME = "expressionSupport";
-    private final ExpressionSupport value;
+  public static final String NAME = "expressionSupport";
+  private final ExpressionSupport value;
 
-    /**
-     * Creates a new instance
-     *
-     * @param expressionSupport a {@link ExpressionSupport}
-     * @throws IllegalArgumentException if {@code expressionSupport} is {@code null}
-     */
-    public ExpressionSupportAnnotation(ExpressionSupport expressionSupport)
-    {
-        if (expressionSupport == null)
-        {
-            throw new IllegalArgumentException("expressionSupport cannot be null");
-        }
-        this.value = expressionSupport;
+  /**
+   * Creates a new instance
+   *
+   * @param expressionSupport a {@link ExpressionSupport}
+   * @throws IllegalArgumentException if {@code expressionSupport} is {@code null}
+   */
+  public ExpressionSupportAnnotation(ExpressionSupport expressionSupport) {
+    if (expressionSupport == null) {
+      throw new IllegalArgumentException("expressionSupport cannot be null");
+    }
+    this.value = expressionSupport;
+  }
+
+  public ExpressionSupport getExpressionSupport() {
+    return value;
+  }
+
+  @Override
+  public String getName() {
+    return NAME;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ExpressionSupportAnnotation) {
+      return value == ((ExpressionSupportAnnotation) obj).getExpressionSupport();
     }
 
-    public ExpressionSupport getExpressionSupport()
-    {
-        return value;
-    }
+    return false;
+  }
 
-    @Override
-    public String getName()
-    {
-        return NAME;
-    }
+  @Override
+  public int hashCode() {
+    return value.hashCode();
+  }
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj instanceof ExpressionSupportAnnotation)
-        {
-            return value == ((ExpressionSupportAnnotation) obj).getExpressionSupport();
-        }
-
-        return false;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return value.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return value.name();
-    }
+  @Override
+  public String toString() {
+    return value.name();
+  }
 }

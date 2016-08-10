@@ -20,16 +20,14 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry
-{
+public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry {
 
-    @Override
-    public Map<String, Class<? extends TypeAnnotation>> getRegistry()
-    {
-        //TODO MULE-10209 customize how custom type annotations are serialized
-        return ImmutableMap.of(XmlHintsAnnotation.NAME, XmlHintsAnnotation.class,
-                               TypeAliasAnnotation.NAME, TypeAliasAnnotation.class,
-                               ExtensibleTypeAnnotation.NAME, ExtensibleTypeAnnotation.class,
-                               ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class);
-    }
+  @Override
+  public Map<String, Class<? extends TypeAnnotation>> getRegistry() {
+    //TODO MULE-10209 customize how custom type annotations are serialized
+    return ImmutableMap.of(XmlHintsAnnotation.NAME, XmlHintsAnnotation.class,
+                           TypeAliasAnnotation.NAME, TypeAliasAnnotation.class,
+                           ExtensibleTypeAnnotation.NAME, ExtensibleTypeAnnotation.class,
+                           ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class);
+  }
 }

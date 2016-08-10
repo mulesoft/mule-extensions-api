@@ -41,26 +41,25 @@ import java.lang.annotation.Target;
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
-public @interface MetadataScope
-{
+public @interface MetadataScope {
 
-    /**
-     * @return the associated {@link MetadataKeysResolver} for the annotated Component
-     */
-    Class<? extends MetadataKeysResolver> keysResolver() default NullMetadataResolver.class;
+  /**
+   * @return the associated {@link MetadataKeysResolver} for the annotated Component
+   */
+  Class<? extends MetadataKeysResolver> keysResolver() default NullMetadataResolver.class;
 
-    /**
-     * @return the associated {@link MetadataContentResolver} for the annotated Component
-     */
-    Class<? extends MetadataContentResolver> contentResolver() default NullMetadataResolver.class;
+  /**
+   * @return the associated {@link MetadataContentResolver} for the annotated Component
+   */
+  Class<? extends MetadataContentResolver> contentResolver() default NullMetadataResolver.class;
 
-    /**
-     * @return the associated {@link MetadataOutputResolver} for the annotated Component
-     */
-    Class<? extends MetadataOutputResolver> outputResolver() default NullMetadataResolver.class;
+  /**
+   * @return the associated {@link MetadataOutputResolver} for the annotated Component
+   */
+  Class<? extends MetadataOutputResolver> outputResolver() default NullMetadataResolver.class;
 
-    /**
-     * @return the associated {@link MetadataAttributesResolver} for the annotated Component
-     */
-    Class<? extends MetadataAttributesResolver> attributesResolver() default NullMetadataResolver.class;
+  /**
+   * @return the associated {@link MetadataAttributesResolver} for the annotated Component
+   */
+  Class<? extends MetadataAttributesResolver> attributesResolver() default NullMetadataResolver.class;
 }

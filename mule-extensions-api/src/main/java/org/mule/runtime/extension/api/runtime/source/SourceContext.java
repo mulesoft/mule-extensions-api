@@ -19,29 +19,28 @@ import org.mule.runtime.extension.api.runtime.MessageHandler;
  * @param <A> the generic type for the generated message's attributes
  * @since 1.0
  */
-public interface SourceContext<Payload, A extends Attributes>
-{
+public interface SourceContext<Payload, A extends Attributes> {
 
-    /**
-     * @return the {@link MessageHandler} to be used for processing the generated messages
-     */
-    MessageHandler<Payload, A> getMessageHandler();
+  /**
+   * @return the {@link MessageHandler} to be used for processing the generated messages
+   */
+  MessageHandler<Payload, A> getMessageHandler();
 
-    /**
-     * Provides the {@link ExceptionCallback} on which exceptions are to be notified.
-     * <p>
-     * Notice that this callback is for notifying the runtime about problems which actually
-     * belong to the source, such as loosing connectivity. This is not to be confused
-     * with the {@link CompletionHandler#onFailure(Throwable)} method which can be invoked
-     * through the {@link #getMessageHandler()} method, which is used to handle message
-     * errors which are actually related to the processing of it rather than the source
-     *
-     * @return a {@link ExceptionCallback}
-     */
-    ExceptionCallback<Void, Throwable> getExceptionCallback();
+  /**
+   * Provides the {@link ExceptionCallback} on which exceptions are to be notified.
+   * <p>
+   * Notice that this callback is for notifying the runtime about problems which actually
+   * belong to the source, such as loosing connectivity. This is not to be confused
+   * with the {@link CompletionHandler#onFailure(Throwable)} method which can be invoked
+   * through the {@link #getMessageHandler()} method, which is used to handle message
+   * errors which are actually related to the processing of it rather than the source
+   *
+   * @return a {@link ExceptionCallback}
+   */
+  ExceptionCallback<Void, Throwable> getExceptionCallback();
 
-    /**
-     * @return the {@link ConfigurationInstance} to which the {@link Source} is associated
-     */
-    ConfigurationInstance<Object> getConfigurationInstance();
+  /**
+   * @return the {@link ConfigurationInstance} to which the {@link Source} is associated
+   */
+  ConfigurationInstance<Object> getConfigurationInstance();
 }

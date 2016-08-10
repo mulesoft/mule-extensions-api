@@ -14,25 +14,19 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
  *
  * @since 1.0
  */
-public class NoSuchExtensionException extends RuntimeException
-{
+public class NoSuchExtensionException extends RuntimeException {
 
-    public NoSuchExtensionException()
-    {
-    }
+  public NoSuchExtensionException() {}
 
-    public NoSuchExtensionException(String message)
-    {
-        super(message);
-    }
+  public NoSuchExtensionException(String message) {
+    super(message);
+  }
 
-    public NoSuchExtensionException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
+  public NoSuchExtensionException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public NoSuchExtensionException(Throwable cause)
-    {
-        super(cause);
-    }
+  public NoSuchExtensionException(Throwable cause) {
+    super(cause);
+  }
 }

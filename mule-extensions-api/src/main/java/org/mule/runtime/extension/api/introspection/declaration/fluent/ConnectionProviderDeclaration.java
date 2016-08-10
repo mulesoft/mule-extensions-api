@@ -17,56 +17,49 @@ import org.mule.runtime.extension.api.introspection.connection.ConnectionProvide
  *
  * @since 1.0
  */
-public class ConnectionProviderDeclaration extends ParameterizedInterceptableDeclaration<ConnectionProviderDeclaration> implements ParameterizedDeclaration
-{
+public class ConnectionProviderDeclaration extends ParameterizedInterceptableDeclaration<ConnectionProviderDeclaration>
+    implements ParameterizedDeclaration {
 
-    private ConnectionProviderFactory factory;
-    private Class<?> connectionType;
-    private ConnectionManagementType connectionManagementType;
+  private ConnectionProviderFactory factory;
+  private Class<?> connectionType;
+  private ConnectionManagementType connectionManagementType;
 
-    /**
-     * {@inheritDoc}
-     */
-    ConnectionProviderDeclaration(String name)
-    {
-        super(name);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  ConnectionProviderDeclaration(String name) {
+    super(name);
+  }
 
-    public ConnectionProviderFactory getFactory()
-    {
-        return factory;
-    }
+  public ConnectionProviderFactory getFactory() {
+    return factory;
+  }
 
-    void setFactory(ConnectionProviderFactory factory)
-    {
-        this.factory = factory;
-    }
+  void setFactory(ConnectionProviderFactory factory) {
+    this.factory = factory;
+  }
 
-    public Class<?> getConnectionType()
-    {
-        return connectionType;
-    }
+  public Class<?> getConnectionType() {
+    return connectionType;
+  }
 
-    void setConnectionType(Class<?> connectionType)
-    {
-        this.connectionType = connectionType;
-    }
+  void setConnectionType(Class<?> connectionType) {
+    this.connectionType = connectionType;
+  }
 
-    /**
-     * @return the {@link ConnectionManagementType} that will be applied to the produced connections
-     */
-    public ConnectionManagementType getConnectionManagementType()
-    {
-        return connectionManagementType;
-    }
+  /**
+   * @return the {@link ConnectionManagementType} that will be applied to the produced connections
+   */
+  public ConnectionManagementType getConnectionManagementType() {
+    return connectionManagementType;
+  }
 
-    /**
-     * Sets the {@link ConnectionManagementType}
-     *
-     * @param connectionManagementType the {@link ConnectionManagementType} that will be applied to the produced connections
-     */
-    public void setConnectionManagementType(ConnectionManagementType connectionManagementType)
-    {
-        this.connectionManagementType = connectionManagementType;
-    }
+  /**
+   * Sets the {@link ConnectionManagementType}
+   *
+   * @param connectionManagementType the {@link ConnectionManagementType} that will be applied to the produced connections
+   */
+  public void setConnectionManagementType(ConnectionManagementType connectionManagementType) {
+    this.connectionManagementType = connectionManagementType;
+  }
 }

@@ -13,14 +13,13 @@ import org.mule.runtime.extension.api.introspection.operation.OperationModel;
  *
  * @since 1.0
  */
-public interface OperationExecutorFactory
-{
+public interface OperationExecutorFactory {
 
-    /**
-     * Creates a new {@link OperationExecutor}
-     *
-     * @param operationModel the model of the operation to be executed
-     * @return a new {@link OperationExecutor}
-     */
-    OperationExecutor createExecutor(OperationModel operationModel);
+  /**
+   * Creates a new {@link OperationExecutor}
+   *
+   * @param operationModel the model of the operation to be executed
+   * @return a new {@link OperationExecutor}
+   */
+  OperationExecutor createExecutor(OperationModel operationModel);
 }

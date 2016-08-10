@@ -25,61 +25,54 @@ import java.util.Collection;
  *
  * @since 1.0
  */
-public final class TypeUtils
-{
+public final class TypeUtils {
 
-    private TypeUtils()
-    {
-    }
+  private TypeUtils() {}
 
-    /**
-     * Returns all the {@link Field}s in the given {@code extensionType} which are annotated
-     * with {@link Parameter} but also do not have the {@link Ignore} one.
-     * <p>
-     * The introspection also includes parent classes.
-     *
-     * @param extensionType the class to introspect.
-     * @return a {@link Collection} of {@link Field fields}. May be empty but will never be {@code null}
-     */
-    public static Collection<Field> getParameterFields(Class<?> extensionType)
-    {
-        return getAllFields(extensionType, withAnnotation(Parameter.class), not(withAnnotation(Ignore.class)));
-    }
+  /**
+   * Returns all the {@link Field}s in the given {@code extensionType} which are annotated
+   * with {@link Parameter} but also do not have the {@link Ignore} one.
+   * <p>
+   * The introspection also includes parent classes.
+   *
+   * @param extensionType the class to introspect.
+   * @return a {@link Collection} of {@link Field fields}. May be empty but will never be {@code null}
+   */
+  public static Collection<Field> getParameterFields(Class<?> extensionType) {
+    return getAllFields(extensionType, withAnnotation(Parameter.class), not(withAnnotation(Ignore.class)));
+  }
 
-    /**
-     * Checks the given {@code field} for the {@link Alias} annotation. If present, {@link Alias#value()}
-     * is returned. Otherwise, {@link Field#getName()} is returned.
-     *
-     * @param field a {@link Field}
-     * @return the field's alias
-     */
-    public static String getAlias(Field field)
-    {
-        Alias alias = field.getAnnotation(Alias.class);
-        String name = alias != null ? alias.value() : null;
-        return name == null || name.length() == 0 ? field.getName() : name;
-    }
+  /**
+   * Checks the given {@code field} for the {@link Alias} annotation. If present, {@link Alias#value()}
+   * is returned. Otherwise, {@link Field#getName()} is returned.
+   *
+   * @param field a {@link Field}
+   * @return the field's alias
+   */
+  public static String getAlias(Field field) {
+    Alias alias = field.getAnnotation(Alias.class);
+    String name = alias != null ? alias.value() : null;
+    return name == null || name.length() == 0 ? field.getName() : name;
+  }
 
-    /**
-     * Checks the given {@code metadataType} for the {@link ExpressionSupportAnnotation}.
-     * <p>
-     * If present, the {@link ExpressionSupportAnnotation#getExpressionSupport()}
-     * value is returned. Otherwise, it defaults to {@link ExpressionSupport#SUPPORTED}
-     *
-     * @param metadataType a {@link MetadataType}
-     * @return a {@link ExpressionSupport}
-     */
-    public static ExpressionSupport getExpressionSupport(MetadataType metadataType)
-    {
-        return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
-                .map(ExpressionSupportAnnotation::getExpressionSupport)
-                .orElse(ExpressionSupport.SUPPORTED);
-    }
+  /**
+   * Checks the given {@code metadataType} for the {@link ExpressionSupportAnnotation}.
+   * <p>
+   * If present, the {@link ExpressionSupportAnnotation#getExpressionSupport()}
+   * value is returned. Otherwise, it defaults to {@link ExpressionSupport#SUPPORTED}
+   *
+   * @param metadataType a {@link MetadataType}
+   * @return a {@link ExpressionSupport}
+   */
+  public static ExpressionSupport getExpressionSupport(MetadataType metadataType) {
+    return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
+        .map(ExpressionSupportAnnotation::getExpressionSupport)
+        .orElse(ExpressionSupport.SUPPORTED);
+  }
 
-    public static boolean acceptsReferences(MetadataType metadataType)
-    {
-        return metadataType.getAnnotation(XmlHintsAnnotation.class)
-                .map(XmlHintsAnnotation::allowsReferences)
-                .orElse(true);
-    }
+  public static boolean acceptsReferences(MetadataType metadataType) {
+    return metadataType.getAnnotation(XmlHintsAnnotation.class)
+        .map(XmlHintsAnnotation::allowsReferences)
+        .orElse(true);
+  }
 }

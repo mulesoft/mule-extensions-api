@@ -14,42 +14,38 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
  *
  * @since 1.0
  */
-public final class GeneratedResource
-{
+public final class GeneratedResource {
 
-    private final String path;
-    private final byte[] content;
+  private final String path;
+  private final byte[] content;
 
-    /**
-     * Creates a new instance
-     *
-     * @param path    the resource's path
-     * @param content the resource's content
-     */
-    public GeneratedResource(String path, byte[] content)
-    {
-        this.path = path;
-        this.content = content;
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param path    the resource's path
+   * @param content the resource's content
+   */
+  public GeneratedResource(String path, byte[] content) {
+    this.path = path;
+    this.content = content;
+  }
 
-    /**
-     * The path in which the resource will be found after being generated.
-     * Also serves as the resource's primary key
-     *
-     * @return a {@link java.lang.String}. Cannot empty nor {@code null}
-     */
-    public String getPath()
-    {
-        return path;
-    }
+  /**
+   * The path in which the resource will be found after being generated.
+   * Also serves as the resource's primary key
+   *
+   * @return a {@link java.lang.String}. Cannot empty nor {@code null}
+   */
+  public String getPath() {
+    return path;
+  }
 
-    /**
-     * The resource's content
-     *
-     * @return a non {@code null} {@link byte[]}
-     */
-    public byte[] getContent()
-    {
-        return content;
-    }
+  /**
+   * The resource's content
+   *
+   * @return a non {@code null} {@link byte[]}
+   */
+  public byte[] getContent() {
+    return content;
+  }
 }

@@ -13,37 +13,33 @@ package org.mule.runtime.extension.api.exception;
  *
  * @since 1.0
  */
-public class IllegalModelDefinitionException extends RuntimeException
-{
+public class IllegalModelDefinitionException extends RuntimeException {
 
-    /**
-     * Creates a new instance
-     *
-     * @param message the detail message
-     */
-    public IllegalModelDefinitionException(String message)
-    {
-        super(message);
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param message the detail message
+   */
+  public IllegalModelDefinitionException(String message) {
+    super(message);
+  }
 
-    /**
-     * Creates a new instance
-     *
-     * @param message the detail message
-     * @param cause   the cause
-     */
-    public IllegalModelDefinitionException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param message the detail message
+   * @param cause   the cause
+   */
+  public IllegalModelDefinitionException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    /**
-     * Creates a new instance
-     *
-     * @param cause the cause
-     */
-    public IllegalModelDefinitionException(Throwable cause)
-    {
-        super(cause);
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param cause the cause
+   */
+  public IllegalModelDefinitionException(Throwable cause) {
+    super(cause);
+  }
 }

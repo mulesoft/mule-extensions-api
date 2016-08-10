@@ -27,16 +27,15 @@ import java.lang.annotation.Target;
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-public @interface XmlHints
-{
+public @interface XmlHints {
 
-    /**
-     * Whether the associated element should support inline definition as child element. Defaults to {@code true}
-     */
-    boolean allowInlineDefinition() default true;
+  /**
+   * Whether the associated element should support inline definition as child element. Defaults to {@code true}
+   */
+  boolean allowInlineDefinition() default true;
 
-    /**
-     * Whether the associated element should support registry references. Defaults to {@code true}
-     */
-    boolean allowReferences() default true;
+  /**
+   * Whether the associated element should support registry references. Defaults to {@code true}
+   */
+  boolean allowReferences() default true;
 }

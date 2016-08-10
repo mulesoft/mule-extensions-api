@@ -15,24 +15,21 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
  *
  * @since 1.0
  */
-public final class MetadataContentModelProperty implements ModelProperty
-{
+public final class MetadataContentModelProperty implements ModelProperty {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return "MetadataContent";
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+    return "MetadataContent";
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return true;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return true;
+  }
 }

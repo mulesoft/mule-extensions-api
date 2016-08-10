@@ -6,22 +6,21 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-public interface HasConnectionProviderDeclarer
-{
+public interface HasConnectionProviderDeclarer {
 
-    /**
-     * Adds a connection provider of the given {@code name}
-     *
-     * @param name a non blank name
-     * @return a {@link ConnectionProviderDeclarer} which allows describing the created provider
-     */
-    ConnectionProviderDeclarer withConnectionProvider(String name);
+  /**
+   * Adds a connection provider of the given {@code name}
+   *
+   * @param name a non blank name
+   * @return a {@link ConnectionProviderDeclarer} which allows describing the created provider
+   */
+  ConnectionProviderDeclarer withConnectionProvider(String name);
 
-    /**
-     * Adds a {@link ConnectionProviderDeclaration} by receiving
-     * a {@code declarer} which describes it
-     *
-     * @param declarer a {@link ConnectionProviderDeclarer}
-     */
-    void withConnectionProvider(ConnectionProviderDeclarer declarer);
+  /**
+   * Adds a {@link ConnectionProviderDeclaration} by receiving
+   * a {@code declarer} which describes it
+   *
+   * @param declarer a {@link ConnectionProviderDeclarer}
+   */
+  void withConnectionProvider(ConnectionProviderDeclarer declarer);
 }

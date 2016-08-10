@@ -22,186 +22,164 @@ import java.util.Optional;
  * @since 1.0
  */
 public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
-        implements ConnectedDeclaration<ExtensionDeclaration>, WithSourcesDeclaration<ExtensionDeclaration>, WithOperationsDeclaration<ExtensionDeclaration>
-{
+    implements ConnectedDeclaration<ExtensionDeclaration>, WithSourcesDeclaration<ExtensionDeclaration>,
+    WithOperationsDeclaration<ExtensionDeclaration> {
 
-    private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
-    private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
-    private String name;
-    private String version;
-    private String vendor;
-    private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private Category category;
-    private MuleVersion minMuleVersion;
+  private final List<ConfigurationDeclaration> configurations = new LinkedList<>();
+  private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
+  private String name;
+  private String version;
+  private String vendor;
+  private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+  private Category category;
+  private MuleVersion minMuleVersion;
 
-    /**
-     * Creates a new instance
-     */
-    ExtensionDeclaration()
-    {
-        super("");
+  /**
+   * Creates a new instance
+   */
+  ExtensionDeclaration() {
+    super("");
+  }
+
+  /**
+   * Returns an immutable list with the {@link ConfigurationDeclaration} instances
+   * that have been declared so far.
+   *
+   * @return an unmodifiable list. May be empty but will never be {@code null}
+   */
+  public List<ConfigurationDeclaration> getConfigurations() {
+    return configurations;
+  }
+
+  /**
+   * Adds a {@link ConfigurationDeclaration}
+   *
+   * @param config a not {@code null} {@link ConfigurationDeclaration}
+   * @return this declaration
+   * @throws {@link IllegalArgumentException} if {@code config} is {@code null}
+   */
+  public ExtensionDeclaration addConfig(ConfigurationDeclaration config) {
+    if (config == null) {
+      throw new IllegalArgumentException("Can't add a null config");
     }
 
-    /**
-     * Returns an immutable list with the {@link ConfigurationDeclaration} instances
-     * that have been declared so far.
-     *
-     * @return an unmodifiable list. May be empty but will never be {@code null}
-     */
-    public List<ConfigurationDeclaration> getConfigurations()
-    {
-        return configurations;
-    }
+    configurations.add(config);
+    return this;
+  }
 
-    /**
-     * Adds a {@link ConfigurationDeclaration}
-     *
-     * @param config a not {@code null} {@link ConfigurationDeclaration}
-     * @return this declaration
-     * @throws {@link IllegalArgumentException} if {@code config} is {@code null}
-     */
-    public ExtensionDeclaration addConfig(ConfigurationDeclaration config)
-    {
-        if (config == null)
-        {
-            throw new IllegalArgumentException("Can't add a null config");
-        }
+  /**
+   * @return an unmodifiable {@link List} with
+   * the available {@link OperationDeclaration}s
+   */
+  @Override
+  public List<OperationDeclaration> getOperations() {
+    return subDeclarations.getOperations();
+  }
 
-        configurations.add(config);
-        return this;
-    }
+  /**
+   * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
+   */
+  @Override
+  public List<ConnectionProviderDeclaration> getConnectionProviders() {
+    return subDeclarations.getConnectionProviders();
+  }
 
-    /**
-     * @return an unmodifiable {@link List} with
-     * the available {@link OperationDeclaration}s
-     */
-    @Override
-    public List<OperationDeclaration> getOperations()
-    {
-        return subDeclarations.getOperations();
-    }
+  /**
+   * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
+   */
+  @Override
+  public List<SourceDeclaration> getMessageSources() {
+    return subDeclarations.getMessageSources();
+  }
 
-    /**
-     * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
-     */
-    @Override
-    public List<ConnectionProviderDeclaration> getConnectionProviders()
-    {
-        return subDeclarations.getConnectionProviders();
-    }
+  /**
+   * Adds a {@link ConnectionProviderDeclaration}
+   *
+   * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
+   * @return {@code this} declaration
+   * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
+   */
+  @Override
+  public ExtensionDeclaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider) {
+    subDeclarations.addConnectionProvider(connectionProvider);
+    return this;
+  }
 
-    /**
-     * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
-     */
-    @Override
-    public List<SourceDeclaration> getMessageSources()
-    {
-        return subDeclarations.getMessageSources();
-    }
+  /**
+   * Adds a {@link OperationDeclaration}
+   *
+   * @param operation a not {@code null} {@link OperationDeclaration}
+   * @return {@code this} declaration
+   * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
+   */
+  @Override
+  public ExtensionDeclaration addOperation(OperationDeclaration operation) {
+    subDeclarations.addOperation(operation);
+    return this;
+  }
 
-    /**
-     * Adds a {@link ConnectionProviderDeclaration}
-     *
-     * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
-     * @return {@code this} declaration
-     * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
-     */
-    @Override
-    public ExtensionDeclaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider)
-    {
-        subDeclarations.addConnectionProvider(connectionProvider);
-        return this;
-    }
+  /**
+   * Adds a {@link SourceDeclaration}
+   *
+   * @param sourceDeclaration a not {@code null} {@link SourceDeclaration}
+   * @return {@code this} declaration
+   * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
+   */
+  @Override
+  public ExtensionDeclaration addMessageSource(SourceDeclaration sourceDeclaration) {
+    subDeclarations.addMessageSource(sourceDeclaration);
+    return this;
+  }
 
-    /**
-     * Adds a {@link OperationDeclaration}
-     *
-     * @param operation a not {@code null} {@link OperationDeclaration}
-     * @return {@code this} declaration
-     * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
-     */
-    @Override
-    public ExtensionDeclaration addOperation(OperationDeclaration operation)
-    {
-        subDeclarations.addOperation(operation);
-        return this;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * Adds a {@link SourceDeclaration}
-     *
-     * @param sourceDeclaration a not {@code null} {@link SourceDeclaration}
-     * @return {@code this} declaration
-     * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
-     */
-    @Override
-    public ExtensionDeclaration addMessageSource(SourceDeclaration sourceDeclaration)
-    {
-        subDeclarations.addMessageSource(sourceDeclaration);
-        return this;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return name;
-    }
+  public String getVersion() {
+    return version;
+  }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+  void setVersion(String version) {
+    this.version = version;
+  }
 
-    public String getVersion()
-    {
-        return version;
-    }
+  public String getVendor() {
+    return vendor;
+  }
 
-    void setVersion(String version)
-    {
-        this.version = version;
-    }
+  public void setVendor(String vendor) {
+    this.vendor = vendor;
+  }
 
-    public String getVendor()
-    {
-        return vendor;
-    }
+  public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory() {
+    return exceptionEnricherFactory;
+  }
 
-    public void setVendor(String vendor)
-    {
-        this.vendor = vendor;
-    }
+  public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory) {
+    this.exceptionEnricherFactory = exceptionEnricherFactory;
+  }
 
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
+  public void setCategory(Category category) {
+    this.category = category;
+  }
 
-    public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
-    {
-        this.exceptionEnricherFactory = exceptionEnricherFactory;
-    }
+  public Category getCategory() {
+    return this.category;
+  }
 
-    public void setCategory(Category category)
-    {
-        this.category = category;
-    }
+  public void setMinMuleVersion(MuleVersion minMuleVersion) {
+    this.minMuleVersion = minMuleVersion;
+  }
 
-    public Category getCategory()
-    {
-        return this.category;
-    }
-
-    public void setMinMuleVersion(MuleVersion minMuleVersion)
-    {
-        this.minMuleVersion = minMuleVersion;
-    }
-
-    public MuleVersion getMinMuleVersion()
-    {
-        return minMuleVersion;
-    }
+  public MuleVersion getMinMuleVersion() {
+    return minMuleVersion;
+  }
 }

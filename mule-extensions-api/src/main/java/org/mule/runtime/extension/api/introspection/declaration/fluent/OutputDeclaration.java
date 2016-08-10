@@ -15,25 +15,21 @@ import org.mule.runtime.extension.api.introspection.OutputModel;
  *
  * @since 1.0
  */
-public class OutputDeclaration extends BaseDeclaration<OutputDeclaration>
-{
+public class OutputDeclaration extends BaseDeclaration<OutputDeclaration> {
 
-    private MetadataType type;
-    private boolean hasDynamicType;
+  private MetadataType type;
+  private boolean hasDynamicType;
 
-    public void setType(MetadataType type, boolean isDynamic)
-    {
-        this.type = type;
-        this.hasDynamicType = isDynamic;
-    }
+  public void setType(MetadataType type, boolean isDynamic) {
+    this.type = type;
+    this.hasDynamicType = isDynamic;
+  }
 
-    public MetadataType getType()
-    {
-        return type;
-    }
+  public MetadataType getType() {
+    return type;
+  }
 
-    public boolean hasDynamicType()
-    {
-        return hasDynamicType;
-    }
+  public boolean hasDynamicType() {
+    return hasDynamicType;
+  }
 }

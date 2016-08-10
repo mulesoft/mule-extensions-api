@@ -18,18 +18,17 @@ import org.mule.runtime.api.connection.ConnectionProvider;
  * @param <Connection> the generic type for the connections that the returned  {@link ConnectionProvider providers} produce
  * @since 1.0
  */
-public interface ConnectionProviderFactory<Connection>
-{
+public interface ConnectionProviderFactory<Connection> {
 
-    /**
-     * @return a new {@link ConnectionProvider}
-     */
-    ConnectionProvider<Connection> newInstance();
+  /**
+   * @return a new {@link ConnectionProvider}
+   */
+  ConnectionProvider<Connection> newInstance();
 
-    /**
-     * Returns the concrete type of the object to be returned by this instance
-     *
-     * @return a {@link Class}
-     */
-    Class<? extends ConnectionProvider> getObjectType();
+  /**
+   * Returns the concrete type of the object to be returned by this instance
+   *
+   * @return a {@link Class}
+   */
+  Class<? extends ConnectionProvider> getObjectType();
 }

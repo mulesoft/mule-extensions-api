@@ -26,39 +26,39 @@ import com.google.gson.GsonBuilder;
  *
  * @since 1.0
  */
-public abstract class AbstractMetadataResultJsonSerializer
-{
+public abstract class AbstractMetadataResultJsonSerializer {
 
-    protected final Gson gson;
+  protected final Gson gson;
 
-    public AbstractMetadataResultJsonSerializer(boolean prettyPrint)
-    {
-        final GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(ParameterMetadataDescriptor.class, ParameterMetadataDescriptor.class))
-                .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(TypeMetadataDescriptor.class, ParameterMetadataDescriptor.class))
-                .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(MetadataResult.class, ImmutableMetadataResult.class))
-                .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(OutputMetadataDescriptor.class, ImmutableOutputMetadataDescriptor.class))
-                .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter());
+  public AbstractMetadataResultJsonSerializer(boolean prettyPrint) {
+    final GsonBuilder gsonBuilder = new GsonBuilder()
+        .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(ParameterMetadataDescriptor.class,
+                                                                        ParameterMetadataDescriptor.class))
+        .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(TypeMetadataDescriptor.class,
+                                                                        ParameterMetadataDescriptor.class))
+        .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(MetadataResult.class, ImmutableMetadataResult.class))
+        .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(OutputMetadataDescriptor.class,
+                                                                                  ImmutableOutputMetadataDescriptor.class))
+        .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter());
 
-        if (prettyPrint)
-        {
-            gsonBuilder.setPrettyPrinting();
-        }
-
-        this.gson = gsonBuilder.create();
+    if (prettyPrint) {
+      gsonBuilder.setPrettyPrinting();
     }
 
-    /**
-     * @param result the {@link MetadataResult} to be serialized
-     * @return {@link String} JSON representation of the {@link MetadataResult}
-     */
-    public abstract String serialize(MetadataResult result);
+    this.gson = gsonBuilder.create();
+  }
 
-    /**
-     * Deserializes a JSON representation of an {@link MetadataResult}, to an actual instance of it.
-     *
-     * @param result the serialized {@link MetadataResult} in a {@link String} JSON representation
-     * @return an instance of {@link MetadataResult} based on the serialized JSON
-     */
-    public abstract MetadataResult deserialize(String result);
+  /**
+   * @param result the {@link MetadataResult} to be serialized
+   * @return {@link String} JSON representation of the {@link MetadataResult}
+   */
+  public abstract String serialize(MetadataResult result);
+
+  /**
+   * Deserializes a JSON representation of an {@link MetadataResult}, to an actual instance of it.
+   *
+   * @param result the serialized {@link MetadataResult} in a {@link String} JSON representation
+   * @return an instance of {@link MetadataResult} based on the serialized JSON
+   */
+  public abstract MetadataResult deserialize(String result);
 }

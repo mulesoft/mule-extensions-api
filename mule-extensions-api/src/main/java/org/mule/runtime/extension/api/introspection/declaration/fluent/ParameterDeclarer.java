@@ -17,77 +17,69 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
  * @since 1.0
  */
 public class ParameterDeclarer<T extends ParameterDeclarer>
-        implements HasModelProperties<ParameterDeclarer<T>>, HasType<ParameterDeclarer<T>>, HasDynamicType<ParameterDeclarer<T>>
-{
+    implements HasModelProperties<ParameterDeclarer<T>>, HasType<ParameterDeclarer<T>>, HasDynamicType<ParameterDeclarer<T>> {
 
-    private final ParameterDeclaration declaration;
+  private final ParameterDeclaration declaration;
 
-    ParameterDeclarer(ParameterDeclaration declaration)
-    {
-        this.declaration = declaration;
-    }
+  ParameterDeclarer(ParameterDeclaration declaration) {
+    this.declaration = declaration;
+  }
 
-    /**
-     * Specifies the type of the {@link ParameterModel}
-     *
-     * @param type the type of the parameter
-     * @return
-     */
-    @Override
-    public T ofType(MetadataType type)
-    {
-        declaration.setType(type, false);
-        return (T) this;
-    }
+  /**
+   * Specifies the type of the {@link ParameterModel}
+   *
+   * @param type the type of the parameter
+   * @return
+   */
+  @Override
+  public T ofType(MetadataType type) {
+    declaration.setType(type, false);
+    return (T) this;
+  }
 
-    /**
-     * Specifies the type of the {@link ParameterModel}
-     *
-     * @param type the type of the parameter
-     * @return
-     */
-    @Override
-    public T ofDynamicType(MetadataType type)
-    {
-        declaration.setType(type, true);
-        return (T) this;
-    }
+  /**
+   * Specifies the type of the {@link ParameterModel}
+   *
+   * @param type the type of the parameter
+   * @return
+   */
+  @Override
+  public T ofDynamicType(MetadataType type) {
+    declaration.setType(type, true);
+    return (T) this;
+  }
 
-    /**
-     * Adds a description
-     *
-     * @param description a description
-     * @return {@code this} descriptor
-     */
-    public T describedAs(String description)
-    {
-        declaration.setDescription(description);
-        return (T) this;
-    }
+  /**
+   * Adds a description
+   *
+   * @param description a description
+   * @return {@code this} descriptor
+   */
+  public T describedAs(String description) {
+    declaration.setDescription(description);
+    return (T) this;
+  }
 
-    public T withExpressionSupport(ExpressionSupport support)
-    {
-        declaration.setExpressionSupport(support);
-        return (T) this;
-    }
+  public T withExpressionSupport(ExpressionSupport support) {
+    declaration.setExpressionSupport(support);
+    return (T) this;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ParameterDeclarer<T> withModelProperty(ModelProperty modelProperty)
-    {
-        declaration.addModelProperty(modelProperty);
-        return this;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ParameterDeclarer<T> withModelProperty(ModelProperty modelProperty) {
+    declaration.addModelProperty(modelProperty);
+    return this;
+  }
 
-    /**
-     * Gets the declaration object for this descriptor
-     *
-     * @return a {@link ParameterDeclaration}
-     */
-    public ParameterDeclaration getDeclaration()
-    {
-        return declaration;
-    }
+  /**
+   * Gets the declaration object for this descriptor
+   *
+   * @return a {@link ParameterDeclaration}
+   */
+  public ParameterDeclaration getDeclaration() {
+    return declaration;
+  }
 }

@@ -16,28 +16,25 @@ import org.mule.runtime.extension.api.introspection.Named;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class NamedDeclaration<T extends NamedDeclaration> extends BaseDeclaration<T> implements Named
-{
+public abstract class NamedDeclaration<T extends NamedDeclaration> extends BaseDeclaration<T> implements Named {
 
-    private final String name;
+  private final String name;
 
-    /**
-     * Creates a new instance
-     *
-     * @param name the name of the component being declared
-     */
-    public NamedDeclaration(String name)
-    {
-        this.name = name;
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param name the name of the component being declared
+   */
+  public NamedDeclaration(String name) {
+    this.name = name;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return name;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+    return name;
+  }
 
 }

@@ -12,34 +12,29 @@ import org.mule.runtime.extension.api.annotation.Parameter;
 
 @Extensible
 @Alias("aliasedExtensible")
-public class ExtensibleType
-{
+public class ExtensibleType {
 
-    public static final String ALIAS = "aliasedExtensible";
+  public static final String ALIAS = "aliasedExtensible";
 
-    @Parameter
-    private String sampleString;
+  @Parameter
+  private String sampleString;
 
-    @Parameter
-    private Integer otherNumber;
+  @Parameter
+  private Integer otherNumber;
 
-    public String getSampleString()
-    {
-        return sampleString;
-    }
+  public String getSampleString() {
+    return sampleString;
+  }
 
-    public void setSampleString(String sampleString)
-    {
-        this.sampleString = sampleString;
-    }
+  public void setSampleString(String sampleString) {
+    this.sampleString = sampleString;
+  }
 
-    public Integer getOtherNumber()
-    {
-        return otherNumber;
-    }
+  public Integer getOtherNumber() {
+    return otherNumber;
+  }
 
-    public void setOtherNumber(Integer otherNumber)
-    {
-        this.otherNumber = otherNumber;
-    }
+  public void setOtherNumber(Integer otherNumber) {
+    this.otherNumber = otherNumber;
+  }
 }

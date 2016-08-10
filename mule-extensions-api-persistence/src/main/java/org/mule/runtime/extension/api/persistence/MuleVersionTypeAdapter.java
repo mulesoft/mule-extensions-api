@@ -19,18 +19,15 @@ import java.io.IOException;
  *
  * @since 1.0
  */
-class MuleVersionTypeAdapter extends TypeAdapter<MuleVersion>
-{
+class MuleVersionTypeAdapter extends TypeAdapter<MuleVersion> {
 
-    @Override
-    public void write(JsonWriter out, MuleVersion muleVersion) throws IOException
-    {
-        out.value(muleVersion.toString());
-    }
+  @Override
+  public void write(JsonWriter out, MuleVersion muleVersion) throws IOException {
+    out.value(muleVersion.toString());
+  }
 
-    @Override
-    public MuleVersion read(JsonReader in) throws IOException
-    {
-        return new MuleVersion(in.nextString());
-    }
+  @Override
+  public MuleVersion read(JsonReader in) throws IOException {
+    return new MuleVersion(in.nextString());
+  }
 }

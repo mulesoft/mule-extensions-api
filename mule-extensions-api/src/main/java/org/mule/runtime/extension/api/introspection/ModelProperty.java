@@ -24,27 +24,26 @@ import java.io.Serializable;
  *
  * @since 1.0
  */
-public interface ModelProperty extends Serializable
-{
+public interface ModelProperty extends Serializable {
 
-    /**
-     * A unique name which identifies this property. No model
-     * should contain two instances with the same name
-     *
-     * @return a unique name
-     */
-    String getName();
+  /**
+   * A unique name which identifies this property. No model
+   * should contain two instances with the same name
+   *
+   * @return a unique name
+   */
+  String getName();
 
-    /**
-     * Whether this instance should be included when serializing or sharing
-     * the owning {@link EnrichableModel} or if on the contrary, this model property
-     * holds information which is proprietary to the runtime and should not
-     * communicated.
-     * <p>
-     * Non externalizable properties should be skipped by serializers and any
-     * other kind of sharing mechanisms.
-     *
-     * @return whether this property should be communicated or not
-     */
-    boolean isExternalizable();
+  /**
+   * Whether this instance should be included when serializing or sharing
+   * the owning {@link EnrichableModel} or if on the contrary, this model property
+   * holds information which is proprietary to the runtime and should not
+   * communicated.
+   * <p>
+   * Non externalizable properties should be skipped by serializers and any
+   * other kind of sharing mechanisms.
+   *
+   * @return whether this property should be communicated or not
+   */
+  boolean isExternalizable();
 }

@@ -22,11 +22,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Configurations
-{
+public @interface Configurations {
 
-    /**
-     * @return An array of classes annotated with {@link Configuration}
-     */
-    Class<?>[] value();
+  /**
+   * @return An array of classes annotated with {@link Configuration}
+   */
+  Class<?>[] value();
 }

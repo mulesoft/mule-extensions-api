@@ -26,12 +26,11 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ExtensionOf
-{
+public @interface ExtensionOf {
 
-    /**
-     * The type being extended. The type has to be
-     * annotated with {@link Extensible}
-     */
-    Class<?> value();
+  /**
+   * The type being extended. The type has to be
+   * annotated with {@link Extensible}
+   */
+  Class<?> value();
 }

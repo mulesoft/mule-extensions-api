@@ -18,97 +18,88 @@ import java.util.List;
  * @since 1.0
  */
 public class ConfigurationDeclaration extends ParameterizedInterceptableDeclaration<ConfigurationDeclaration>
-        implements ConnectedDeclaration<ConfigurationDeclaration>, WithSourcesDeclaration<ConfigurationDeclaration>, WithOperationsDeclaration<ConfigurationDeclaration>
-{
+    implements ConnectedDeclaration<ConfigurationDeclaration>, WithSourcesDeclaration<ConfigurationDeclaration>,
+    WithOperationsDeclaration<ConfigurationDeclaration> {
 
-    private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
-    private ConfigurationFactory configurationFactory;
+  private final SubDeclarationsContainer subDeclarations = new SubDeclarationsContainer();
+  private ConfigurationFactory configurationFactory;
 
-    /**
-     * {@inheritDoc}
-     */
-    ConfigurationDeclaration(String name)
-    {
-        super(name);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  ConfigurationDeclaration(String name) {
+    super(name);
+  }
 
-    public ConfigurationFactory getConfigurationFactory()
-    {
-        return configurationFactory;
-    }
+  public ConfigurationFactory getConfigurationFactory() {
+    return configurationFactory;
+  }
 
-    public void setConfigurationFactory(ConfigurationFactory configurationFactory)
-    {
-        this.configurationFactory = configurationFactory;
-    }
+  public void setConfigurationFactory(ConfigurationFactory configurationFactory) {
+    this.configurationFactory = configurationFactory;
+  }
 
-    /**
-     * @return an unmodifiable {@link List} with
-     * the available {@link OperationDeclaration}s
-     */
-    @Override
-    public List<OperationDeclaration> getOperations()
-    {
-        return subDeclarations.getOperations();
-    }
+  /**
+   * @return an unmodifiable {@link List} with
+   * the available {@link OperationDeclaration}s
+   */
+  @Override
+  public List<OperationDeclaration> getOperations() {
+    return subDeclarations.getOperations();
+  }
 
-    /**
-     * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
-     */
-    @Override
-    public List<ConnectionProviderDeclaration> getConnectionProviders()
-    {
-        return subDeclarations.getConnectionProviders();
-    }
+  /**
+   * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
+   */
+  @Override
+  public List<ConnectionProviderDeclaration> getConnectionProviders() {
+    return subDeclarations.getConnectionProviders();
+  }
 
-    /**
-     * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
-     */
-    @Override
-    public List<SourceDeclaration> getMessageSources()
-    {
-        return subDeclarations.getMessageSources();
-    }
+  /**
+   * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
+   */
+  @Override
+  public List<SourceDeclaration> getMessageSources() {
+    return subDeclarations.getMessageSources();
+  }
 
-    /**
-     * Adds a {@link ConnectionProviderDeclaration}
-     *
-     * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
-     * @return {@code this} declaration
-     * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
-     */
-    @Override
-    public ConfigurationDeclaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider)
-    {
-        subDeclarations.addConnectionProvider(connectionProvider);
-        return this;
-    }
+  /**
+   * Adds a {@link ConnectionProviderDeclaration}
+   *
+   * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
+   * @return {@code this} declaration
+   * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
+   */
+  @Override
+  public ConfigurationDeclaration addConnectionProvider(ConnectionProviderDeclaration connectionProvider) {
+    subDeclarations.addConnectionProvider(connectionProvider);
+    return this;
+  }
 
-    /**
-     * Adds a {@link OperationDeclaration}
-     *
-     * @param operation a not {@code null} {@link OperationDeclaration}
-     * @return {@code this} declaration
-     * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
-     */
-    @Override
-    public ConfigurationDeclaration addOperation(OperationDeclaration operation)
-    {
-        subDeclarations.addOperation(operation);
-        return this;
-    }
+  /**
+   * Adds a {@link OperationDeclaration}
+   *
+   * @param operation a not {@code null} {@link OperationDeclaration}
+   * @return {@code this} declaration
+   * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
+   */
+  @Override
+  public ConfigurationDeclaration addOperation(OperationDeclaration operation) {
+    subDeclarations.addOperation(operation);
+    return this;
+  }
 
-    /**
-     * Adds a {@link SourceDeclaration}
-     *
-     * @param sourceDeclaration a not {@code null} {@link SourceDeclaration}
-     * @return {@code this} declaration
-     * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
-     */
-    @Override
-    public ConfigurationDeclaration addMessageSource(SourceDeclaration sourceDeclaration)
-    {
-        subDeclarations.addMessageSource(sourceDeclaration);
-        return this;
-    }
+  /**
+   * Adds a {@link SourceDeclaration}
+   *
+   * @param sourceDeclaration a not {@code null} {@link SourceDeclaration}
+   * @return {@code this} declaration
+   * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
+   */
+  @Override
+  public ConfigurationDeclaration addMessageSource(SourceDeclaration sourceDeclaration) {
+    subDeclarations.addMessageSource(sourceDeclaration);
+    return this;
+  }
 }

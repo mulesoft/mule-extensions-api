@@ -29,96 +29,85 @@ import javax.xml.bind.Unmarshaller;
  *
  * @since 1.0
  */
-public final class ExtensionManifestXmlSerializer
-{
+public final class ExtensionManifestXmlSerializer {
 
-    /**
-     * Serializes the given {@code manifest} to XML
-     *
-     * @param manifest the manifest to be marshaled
-     * @return the resulting {@code XML} in {@link String} format
-     */
-    public String serialize(ExtensionManifest manifest)
-    {
-        final XmlExtensionManifest xmlManifest = new XmlExtensionManifest();
-        xmlManifest.setName(manifest.getName());
-        xmlManifest.setDescription(manifest.getDescription());
-        xmlManifest.setVersion(manifest.getVersion());
-        xmlManifest.setMinMuleVersion(manifest.getMinMuleVersion());
-        xmlManifest.setExportedPackages(manifest.getExportedPackages());
-        xmlManifest.setExportedResources(manifest.getExportedResources());
-        xmlManifest.setDescriberManifest(asXml(manifest.getDescriberManifest()));
+  /**
+   * Serializes the given {@code manifest} to XML
+   *
+   * @param manifest the manifest to be marshaled
+   * @return the resulting {@code XML} in {@link String} format
+   */
+  public String serialize(ExtensionManifest manifest) {
+    final XmlExtensionManifest xmlManifest = new XmlExtensionManifest();
+    xmlManifest.setName(manifest.getName());
+    xmlManifest.setDescription(manifest.getDescription());
+    xmlManifest.setVersion(manifest.getVersion());
+    xmlManifest.setMinMuleVersion(manifest.getMinMuleVersion());
+    xmlManifest.setExportedPackages(manifest.getExportedPackages());
+    xmlManifest.setExportedResources(manifest.getExportedResources());
+    xmlManifest.setDescriberManifest(asXml(manifest.getDescriberManifest()));
 
-        try
-        {
-            JAXBContext jaxbContext = JAXBContext.newInstance(XmlExtensionManifest.class);
-            Marshaller marshaller = jaxbContext.createMarshaller();
+    try {
+      JAXBContext jaxbContext = JAXBContext.newInstance(XmlExtensionManifest.class);
+      Marshaller marshaller = jaxbContext.createMarshaller();
 
-            ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-            marshaller.marshal(xmlManifest, getXMLSerializer(out).asContentHandler());
+      ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+      marshaller.marshal(xmlManifest, getXMLSerializer(out).asContentHandler());
 
-            return out.toString();
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+      return out.toString();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Deserializes the given {@code xml} back into a {@link ExtensionManifest}
+   *
+   * @param xml a manifest {@code XML} in {@link String} format
+   * @return an {@link ExtensionManifest} instance
+   */
+  public ExtensionManifest deserialize(String xml) {
+    XmlExtensionManifest xmlManifest;
+    try {
+      JAXBContext jaxbContext = JAXBContext.newInstance(XmlExtensionManifest.class);
+      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+      xmlManifest = (XmlExtensionManifest) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
 
-    /**
-     * Deserializes the given {@code xml} back into a {@link ExtensionManifest}
-     *
-     * @param xml a manifest {@code XML} in {@link String} format
-     * @return an {@link ExtensionManifest} instance
-     */
-    public ExtensionManifest deserialize(String xml)
-    {
-        XmlExtensionManifest xmlManifest;
-        try
-        {
-            JAXBContext jaxbContext = JAXBContext.newInstance(XmlExtensionManifest.class);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+    ExtensionManifestBuilder builder = new ExtensionManifestBuilder();
+    builder.setName(xmlManifest.getName())
+        .setDescription(xmlManifest.getDescription())
+        .setVersion(xmlManifest.getVersion())
+        .setMinMuleVersion(xmlManifest.getMinMuleVersion())
+        .addExportedPackages(xmlManifest.getExportedPackages())
+        .addExportedResources(xmlManifest.getExportedResources())
+        .withDescriber()
+        .setId(xmlManifest.getDescriberManifest().getId())
+        .addProperties(xmlManifest.getDescriberManifest().getProperties());
 
-            xmlManifest = (XmlExtensionManifest) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+    return builder.build();
+  }
 
-        ExtensionManifestBuilder builder = new ExtensionManifestBuilder();
-        builder.setName(xmlManifest.getName())
-                .setDescription(xmlManifest.getDescription())
-                .setVersion(xmlManifest.getVersion())
-                .setMinMuleVersion(xmlManifest.getMinMuleVersion())
-                .addExportedPackages(xmlManifest.getExportedPackages())
-                .addExportedResources(xmlManifest.getExportedResources())
-                .withDescriber()
-                .setId(xmlManifest.getDescriberManifest().getId())
-                .addProperties(xmlManifest.getDescriberManifest().getProperties());
+  private XMLSerializer getXMLSerializer(OutputStream out) {
+    OutputFormat of = new OutputFormat();
 
-        return builder.build();
-    }
+    of.setCDataElements(new String[] {"^description"});
+    of.setIndenting(true);
 
-    private XMLSerializer getXMLSerializer(OutputStream out)
-    {
-        OutputFormat of = new OutputFormat();
+    XMLSerializer serializer = new XMLSerializer(of);
+    serializer.setOutputByteStream(out);
 
-        of.setCDataElements(new String[] {"^description"});
-        of.setIndenting(true);
+    return serializer;
+  }
 
-        XMLSerializer serializer = new XMLSerializer(of);
-        serializer.setOutputByteStream(out);
+  private XmlDescriberManifest asXml(DescriberManifest manifest) {
+    XmlDescriberManifest xmlManifest = new XmlDescriberManifest();
+    xmlManifest.setId(manifest.getId());
+    xmlManifest.setProperties(manifest.getProperties());
 
-        return serializer;
-    }
-
-    private XmlDescriberManifest asXml(DescriberManifest manifest)
-    {
-        XmlDescriberManifest xmlManifest = new XmlDescriberManifest();
-        xmlManifest.setId(manifest.getId());
-        xmlManifest.setProperties(manifest.getProperties());
-
-        return xmlManifest;
-    }
+    return xmlManifest;
+  }
 }

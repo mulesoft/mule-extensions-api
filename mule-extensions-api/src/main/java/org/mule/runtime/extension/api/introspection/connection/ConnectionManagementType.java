@@ -12,21 +12,20 @@ package org.mule.runtime.extension.api.introspection.connection;
  *
  * @since 1.0
  */
-public enum ConnectionManagementType
-{
-    /**
-     * Connections are pooled
-     */
-    POOLING,
+public enum ConnectionManagementType {
+  /**
+   * Connections are pooled
+   */
+  POOLING,
 
-    /**
-     * Connections are cached
-     */
-    CACHED,
+  /**
+   * Connections are cached
+   */
+  CACHED,
 
-    /**
-     * Connections are created upon operation execution
-     * and destroyed when operation finished
-     */
-    NONE
+  /**
+   * Connections are created upon operation execution
+   * and destroyed when operation finished
+   */
+  NONE
 }

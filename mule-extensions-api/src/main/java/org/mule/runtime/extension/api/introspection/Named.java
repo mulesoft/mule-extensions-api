@@ -13,14 +13,13 @@ package org.mule.runtime.extension.api.introspection;
  *
  * @since 1.0
  */
-public interface Named
-{
+public interface Named {
 
-    /**
-     * Returns the component's name
-     *
-     * @return a non blank {@link String}
-     */
-    String getName();
+  /**
+   * Returns the component's name
+   *
+   * @return a non blank {@link String}
+   */
+  String getName();
 
 }

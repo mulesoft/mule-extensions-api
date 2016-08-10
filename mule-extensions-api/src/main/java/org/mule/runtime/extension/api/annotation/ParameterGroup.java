@@ -95,7 +95,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ParameterGroup
-{
+public @interface ParameterGroup {
 
 }

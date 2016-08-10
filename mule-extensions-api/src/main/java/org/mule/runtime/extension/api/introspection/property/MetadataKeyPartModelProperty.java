@@ -19,46 +19,41 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  *
  * @since 1.0
  */
-public final class MetadataKeyPartModelProperty implements ModelProperty
-{
+public final class MetadataKeyPartModelProperty implements ModelProperty {
 
-    private final int order;
+  private final int order;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param order the order of the parameter in the {@link MetadataKey};
-     */
-    public MetadataKeyPartModelProperty(int order)
-    {
-        this.order = order;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * @param order the order of the parameter in the {@link MetadataKey};
+   */
+  public MetadataKeyPartModelProperty(int order) {
+    this.order = order;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return "MetadataKeyId";
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+    return "MetadataKeyId";
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return true;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return true;
+  }
 
-    /**
-     * The order of this parameter in the {@link MetadataKey}.
-     *
-     * @return the order of the parameter for a composed {@link MetadataKey}, 0 if is a simple {@link MetadataKey}
-     */
-    public int getOrder()
-    {
-        return order;
-    }
+  /**
+   * The order of this parameter in the {@link MetadataKey}.
+   *
+   * @return the order of the parameter for a composed {@link MetadataKey}, 0 if is a simple {@link MetadataKey}
+   */
+  public int getOrder() {
+    return order;
+  }
 }

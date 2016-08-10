@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Text
-{
+public @interface Text {
 
 }

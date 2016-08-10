@@ -27,7 +27,6 @@ import java.lang.annotation.Target;
 @Target(value = {PARAMETER, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Connection
-{
+public @interface Connection {
 
 }

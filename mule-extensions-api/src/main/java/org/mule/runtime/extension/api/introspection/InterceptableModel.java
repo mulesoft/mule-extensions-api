@@ -17,20 +17,19 @@ import java.util.List;
  * @see Interceptable
  * @since 1.0
  */
-public interface InterceptableModel
-{
+public interface InterceptableModel {
 
-    /**
-     * Returns a {@link List} which items are {@link InterceptorFactory} instances
-     * that are to be used to provision the {@link Interceptor interceptors} for the
-     * configurations created from this model.
-     * <p>
-     * The order of the factories in the list will be the same as the order of the resulting
-     * {@link Interceptor interceptors}. However, just like it's explained in the
-     * {@link Interceptable} interface, the order is not guaranteed to be respected although
-     * it should be expressed anyway.
-     *
-     * @return an immutable {@link List}. Can be empty but must never be {@code null}
-     */
-    List<InterceptorFactory> getInterceptorFactories();
+  /**
+   * Returns a {@link List} which items are {@link InterceptorFactory} instances
+   * that are to be used to provision the {@link Interceptor interceptors} for the
+   * configurations created from this model.
+   * <p>
+   * The order of the factories in the list will be the same as the order of the resulting
+   * {@link Interceptor interceptors}. However, just like it's explained in the
+   * {@link Interceptable} interface, the order is not guaranteed to be respected although
+   * it should be expressed anyway.
+   *
+   * @return an immutable {@link List}. Can be empty but must never be {@code null}
+   */
+  List<InterceptorFactory> getInterceptorFactories();
 }

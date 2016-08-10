@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
 @Target(value = FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ConfigName
-{
+public @interface ConfigName {
 
 }

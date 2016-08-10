@@ -20,41 +20,35 @@ import javax.xml.bind.annotation.XmlAttribute;
  * @since 1.0
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class XmlProperty
-{
+public final class XmlProperty {
 
-    @XmlAttribute
-    private String key;
+  @XmlAttribute
+  private String key;
 
-    @XmlAttribute
-    private String value;
+  @XmlAttribute
+  private String value;
 
-    /**
-     * Creates a new instance
-     */
-    XmlProperty()
-    {
-    }
+  /**
+   * Creates a new instance
+   */
+  XmlProperty() {}
 
-    /**
-     * Creaes a new instance
-     *
-     * @param key   the initial {@link #key} value
-     * @param value the initial {@link #value}
-     */
-    XmlProperty(String key, String value)
-    {
-        this.key = key;
-        this.value = value;
-    }
+  /**
+   * Creaes a new instance
+   *
+   * @param key   the initial {@link #key} value
+   * @param value the initial {@link #value}
+   */
+  XmlProperty(String key, String value) {
+    this.key = key;
+    this.value = value;
+  }
 
-    public String getKey()
-    {
-        return key;
-    }
+  public String getKey() {
+    return key;
+  }
 
-    public String getValue()
-    {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 }

@@ -22,26 +22,25 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Xml
-{
+public @interface Xml {
 
-    /**
-     * Extension's namespace. If left empty it will create a default one
-     * based on the extension's name, removing the words "extension", "module" or "connector"
-     * at the end if they are present and hyphenizing the resulting name.
-     * <pre>
-     * Mulesoft Extension           = mulesoft
-     * Cloud Service Connector      = cloud-service
-     * Extension                    = extension
-     * </pre>
-     */
-    String namespace() default "";
+  /**
+   * Extension's namespace. If left empty it will create a default one
+   * based on the extension's name, removing the words "extension", "module" or "connector"
+   * at the end if they are present and hyphenizing the resulting name.
+   * <pre>
+   * Mulesoft Extension           = mulesoft
+   * Cloud Service Connector      = cloud-service
+   * Extension                    = extension
+   * </pre>
+   */
+  String namespace() default "";
 
-    /**
-     * Location URI for the namespace. If left empty it will default to
-     * &quot;http://www.mulesoft.org/schema/mule/&lt;&lt;extension_namespace&gt;&gt;
-     */
-    String namespaceLocation() default "";
+  /**
+   * Location URI for the namespace. If left empty it will default to
+   * &quot;http://www.mulesoft.org/schema/mule/&lt;&lt;extension_namespace&gt;&gt;
+   */
+  String namespaceLocation() default "";
 
 
 }

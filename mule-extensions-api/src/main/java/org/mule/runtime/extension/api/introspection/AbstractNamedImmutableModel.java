@@ -16,74 +16,66 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel implements Named
-{
+public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel implements Named {
 
-    private final String name;
+  private final String name;
 
-    /**
-     * Creates a new instance
-     *
-     * @param name            the model's name
-     * @param description     the model's description
-     * @param modelProperties A {@link Set} of custom properties which extend this model
-     * @throws IllegalArgumentException if {@code name} is blank
-     */
-    protected AbstractNamedImmutableModel(String name, String description, Set<ModelProperty> modelProperties)
-    {
-        super(description, modelProperties);
+  /**
+   * Creates a new instance
+   *
+   * @param name            the model's name
+   * @param description     the model's description
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code name} is blank
+   */
+  protected AbstractNamedImmutableModel(String name, String description, Set<ModelProperty> modelProperties) {
+    super(description, modelProperties);
 
-        checkArgument(name != null && name.length() > 0, "Name attribute cannot be null or blank");
-        this.name = name;
+    checkArgument(name != null && name.length() > 0, "Name attribute cannot be null or blank");
+    this.name = name;
+  }
+
+  protected static void checkArgument(boolean condition, String message) {
+    if (!condition) {
+      throw new IllegalArgumentException(message);
     }
+  }
 
-    protected static void checkArgument(boolean condition, String message)
-    {
-        if (!condition)
-        {
-            throw new IllegalArgumentException(message);
-        }
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final String getName() {
+    return name;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final String getName()
-    {
-        return name;
-    }
+  /**
+   * Defines object equality based on the given object
+   * being an object of this class and in the equality
+   * of the {@link #getName()} attributes
+   *
+   * @param obj an object
+   * @return {@code true} if equal
+   */
+  @Override
+  public boolean equals(Object obj) {
+    return getClass().isInstance(obj) && name.equals(((Named) obj).getName());
 
-    /**
-     * Defines object equality based on the given object
-     * being an object of this class and in the equality
-     * of the {@link #getName()} attributes
-     *
-     * @param obj an object
-     * @return {@code true} if equal
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        return getClass().isInstance(obj) && name.equals(((Named) obj).getName());
+  }
 
-    }
+  /**
+   * Calculates hashcode based on {@link #getName()}
+   *
+   * @return a hash code
+   */
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
 
-    /**
-     * Calculates hashcode based on {@link #getName()}
-     *
-     * @return a hash code
-     */
-    @Override
-    public int hashCode()
-    {
-        return name.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return reflectionToString(this);
-    }
+  @Override
+  public String toString() {
+    return reflectionToString(this);
+  }
 
 }

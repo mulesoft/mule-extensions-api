@@ -16,6 +16,10 @@
     <description>API for Mule Extensions to integrate with the Mule Runtime in a decoupled way</description>
     <url>https://github.com/mulesoft/mule-extensions-api</url>
 
+    <properties>
+        <formatterConfigPath>../formatter.xml</formatterConfigPath>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.mule</groupId>

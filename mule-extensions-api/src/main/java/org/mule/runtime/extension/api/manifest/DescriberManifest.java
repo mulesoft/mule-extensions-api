@@ -18,18 +18,17 @@ import java.util.Map;
  * @see DescriberManifestBuilder
  * @since 1.0
  */
-public interface DescriberManifest
-{
+public interface DescriberManifest {
 
-    /**
-     * @return A unique ID which identifies a describer type.
-     */
-    String getId();
+  /**
+   * @return A unique ID which identifies a describer type.
+   */
+  String getId();
 
-    /**
-     * Providers properties which parameterize the {@link Describer}
-     *
-     * @return a {@link Map} of {@link String strings}. Could be empty but will never be {@code null}
-     */
-    Map<String, String> getProperties();
+  /**
+   * Providers properties which parameterize the {@link Describer}
+   *
+   * @return a {@link Map} of {@link String strings}. Could be empty but will never be {@code null}
+   */
+  Map<String, String> getProperties();
 }

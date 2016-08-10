@@ -11,42 +11,37 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
  *
  * @since 1.0
  */
-public abstract class ParameterizedDeclarer<D extends ParameterizedInterceptableDeclaration> extends Declarer<D>
-{
+public abstract class ParameterizedDeclarer<D extends ParameterizedInterceptableDeclaration> extends Declarer<D> {
 
-    public ParameterizedDeclarer(D declaration)
-    {
-        super(declaration);
-    }
+  public ParameterizedDeclarer(D declaration) {
+    super(declaration);
+  }
 
-    /**
-     * Adds a required parameter
-     *
-     * @param name the name of the parameter
-     * @return a new {@link ParameterDeclarer}
-     */
-    public ParameterDeclarer withRequiredParameter(String name)
-    {
-        return new ParameterDeclarer(newParameter(name, true));
-    }
+  /**
+   * Adds a required parameter
+   *
+   * @param name the name of the parameter
+   * @return a new {@link ParameterDeclarer}
+   */
+  public ParameterDeclarer withRequiredParameter(String name) {
+    return new ParameterDeclarer(newParameter(name, true));
+  }
 
-    /**
-     * Adds an optional parameter
-     *
-     * @param name the name of the parameter
-     * @return a new {@link OptionalParameterDeclarer}
-     */
-    public OptionalParameterDeclarer withOptionalParameter(String name)
-    {
-        return new OptionalParameterDeclarer(newParameter(name, false));
-    }
+  /**
+   * Adds an optional parameter
+   *
+   * @param name the name of the parameter
+   * @return a new {@link OptionalParameterDeclarer}
+   */
+  public OptionalParameterDeclarer withOptionalParameter(String name) {
+    return new OptionalParameterDeclarer(newParameter(name, false));
+  }
 
-    private ParameterDeclaration newParameter(String name, boolean required)
-    {
-        ParameterDeclaration parameter = new ParameterDeclaration(name);
-        parameter.setRequired(required);
-        declaration.addParameter(parameter);
+  private ParameterDeclaration newParameter(String name, boolean required) {
+    ParameterDeclaration parameter = new ParameterDeclaration(name);
+    parameter.setRequired(required);
+    declaration.addParameter(parameter);
 
-        return parameter;
-    }
+    return parameter;
+  }
 }

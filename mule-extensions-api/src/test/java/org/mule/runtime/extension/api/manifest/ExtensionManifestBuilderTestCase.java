@@ -24,52 +24,46 @@ import org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ExtensionManifestBuilderTestCase
-{
+public class ExtensionManifestBuilderTestCase {
 
-    private ExtensionManifestBuilder builder;
+  private ExtensionManifestBuilder builder;
 
-    @Before
-    public void before()
-    {
-        builder = ExtensionManifestTestUtils.getTestBuilder();
-    }
+  @Before
+  public void before() {
+    builder = ExtensionManifestTestUtils.getTestBuilder();
+  }
 
-    @Test
-    public void build()
-    {
-        ExtensionManifest manifest = builder.build();
-        assertThat(manifest.getName(), is(EXTENSION_NAME));
-        assertThat(manifest.getDescription(), is(EXTENSION_DESCRIPTION));
-        assertThat(manifest.getVersion(), is(VERSION));
-        assertThat(manifest.getMinMuleVersion(), is(MIN_MULE_VERSION));
-        assertStringList(manifest.getExportedPackages(), EXPORTED_PACKAGES);
-        assertStringList(manifest.getExportedResources(), EXPORTED_RESOURCES);
+  @Test
+  public void build() {
+    ExtensionManifest manifest = builder.build();
+    assertThat(manifest.getName(), is(EXTENSION_NAME));
+    assertThat(manifest.getDescription(), is(EXTENSION_DESCRIPTION));
+    assertThat(manifest.getVersion(), is(VERSION));
+    assertThat(manifest.getMinMuleVersion(), is(MIN_MULE_VERSION));
+    assertStringList(manifest.getExportedPackages(), EXPORTED_PACKAGES);
+    assertStringList(manifest.getExportedResources(), EXPORTED_RESOURCES);
 
-        DescriberManifest describerManifest = manifest.getDescriberManifest();
-        assertThat(describerManifest.getId(), is(DESCRIBER_ID));
-        assertThat(describerManifest.getProperties().size(), is(1));
-        assertThat(describerManifest.getProperties().get(DESCRIBER_PROPERTY), is(DESCRIBER_PROPERTY_VALUE));
-    }
+    DescriberManifest describerManifest = manifest.getDescriberManifest();
+    assertThat(describerManifest.getId(), is(DESCRIBER_ID));
+    assertThat(describerManifest.getProperties().size(), is(1));
+    assertThat(describerManifest.getProperties().get(DESCRIBER_PROPERTY), is(DESCRIBER_PROPERTY_VALUE));
+  }
 
-    @Test(expected = IllegalStateException.class)
-    public void blankName()
-    {
-        builder.setName(null);
-        builder.build();
-    }
+  @Test(expected = IllegalStateException.class)
+  public void blankName() {
+    builder.setName(null);
+    builder.build();
+  }
 
-    @Test(expected = IllegalStateException.class)
-    public void blankVersion()
-    {
-        builder.setVersion(null);
-        builder.build();
-    }
+  @Test(expected = IllegalStateException.class)
+  public void blankVersion() {
+    builder.setVersion(null);
+    builder.build();
+  }
 
-    @Test(expected = IllegalStateException.class)
-    public void blankDescriberId()
-    {
-        builder.withDescriber().setId(null);
-        builder.build();
-    }
+  @Test(expected = IllegalStateException.class)
+  public void blankDescriberId() {
+    builder.withDescriber().setId(null);
+    builder.build();
+  }
 }

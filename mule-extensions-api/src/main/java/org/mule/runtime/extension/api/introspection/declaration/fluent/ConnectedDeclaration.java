@@ -15,20 +15,19 @@ import java.util.List;
  * @param <T> the generic type of the {@link BaseDeclaration} which is implementing the interface
  * @since 1.0
  */
-public interface ConnectedDeclaration<T extends BaseDeclaration>
-{
+public interface ConnectedDeclaration<T extends BaseDeclaration> {
 
-    /**
-     * Adds a {@link ConnectionProviderDeclaration}
-     *
-     * @param connectionProvider the provider's declaration
-     * @return {@code this} declaration
-     */
-    T addConnectionProvider(ConnectionProviderDeclaration connectionProvider);
+  /**
+   * Adds a {@link ConnectionProviderDeclaration}
+   *
+   * @param connectionProvider the provider's declaration
+   * @return {@code this} declaration
+   */
+  T addConnectionProvider(ConnectionProviderDeclaration connectionProvider);
 
-    /**
-     * @return a {@link List} with the {@link ConnectionProviderDeclaration} which have been
-     * added to {@code this} declaration
-     */
-    List<ConnectionProviderDeclaration> getConnectionProviders();
+  /**
+   * @return a {@link List} with the {@link ConnectionProviderDeclaration} which have been
+   * added to {@code this} declaration
+   */
+  List<ConnectionProviderDeclaration> getConnectionProviders();
 }

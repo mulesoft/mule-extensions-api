@@ -18,17 +18,16 @@ import org.mule.runtime.extension.api.introspection.RuntimeExtensionModel;
  * @see ConfigurationModel
  * @since 1.0
  */
-public interface RuntimeConfigurationModel extends ConfigurationModel, InterceptableModel
-{
+public interface RuntimeConfigurationModel extends ConfigurationModel, InterceptableModel {
 
-    /**
-     * @return the {@link ExtensionModel} that owns {@code this} model
-     */
-    RuntimeExtensionModel getExtensionModel();
+  /**
+   * @return the {@link ExtensionModel} that owns {@code this} model
+   */
+  RuntimeExtensionModel getExtensionModel();
 
-    /**
-     * Returns the {@link ConfigurationFactory} for this instance
-     */
-    ConfigurationFactory getConfigurationFactory();
+  /**
+   * Returns the {@link ConfigurationFactory} for this instance
+   */
+  ConfigurationFactory getConfigurationFactory();
 
 }

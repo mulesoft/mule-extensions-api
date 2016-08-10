@@ -17,6 +17,10 @@
     <description>XML implementation of DSL declaration for Mule Extensions</description>
     <url>https://github.com/mulesoft/mule-extensions-api</url>
 
+    <properties>
+        <formatterConfigPath>../formatter.xml</formatterConfigPath>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.mule.extensions</groupId>

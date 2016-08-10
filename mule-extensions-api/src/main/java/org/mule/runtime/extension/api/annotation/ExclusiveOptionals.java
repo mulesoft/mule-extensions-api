@@ -27,11 +27,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ExclusiveOptionals
-{
+public @interface ExclusiveOptionals {
 
-    /**
-     * Enforces that one of the parameters must be set at any given time
-     */
-    boolean isOneRequired() default false;
+  /**
+   * Enforces that one of the parameters must be set at any given time
+   */
+  boolean isOneRequired() default false;
 }

@@ -36,69 +36,67 @@ import java.io.Serializable;
  *
  * @since 1.0
  */
-public class TestHttpConnectorDeclarer
-{
+public class TestHttpConnectorDeclarer {
 
-    public static final Class<?> REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE = Integer.class;
-    public static final String EXTENSION_NAME = "http";
-    public static final String EXTENSION_DESCRIPTION = "Http Connector";
-    public static final String VENDOR = "Mulesoft";
-    public static final String REQUESTER_CONFIG_NAME = "requester";
-    public static final String REQUESTER_CONFIG_DESCRIPTION = "http requester";
-    public static final String REQUEST_OPERATION_NAME = "request";
-    public static final String PATH = "path";
-    public static final String REQUESTER_PROVIDER = "requesterProvider";
-    public static final String LISTENER_CONFIG_NAME = "listener";
-    public static final String LISTENER_CONFIG_DESCRIPTION = "http listener";
-    public static final String LISTEN_MESSAGE_SOURCE = "listen";
-    public static final String PORT = "port";
-    public static final int DEFAULT_PORT = 8080;
-    public static final String VERSION = "1.0";
-    public static final String STATIC_RESOURCE_OPERATION_NAME = "staticResource";
-    public static final MuleVersion MIN_MULE_VERSION = new MuleVersion("4.0");
+  public static final Class<?> REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE = Integer.class;
+  public static final String EXTENSION_NAME = "http";
+  public static final String EXTENSION_DESCRIPTION = "Http Connector";
+  public static final String VENDOR = "Mulesoft";
+  public static final String REQUESTER_CONFIG_NAME = "requester";
+  public static final String REQUESTER_CONFIG_DESCRIPTION = "http requester";
+  public static final String REQUEST_OPERATION_NAME = "request";
+  public static final String PATH = "path";
+  public static final String REQUESTER_PROVIDER = "requesterProvider";
+  public static final String LISTENER_CONFIG_NAME = "listener";
+  public static final String LISTENER_CONFIG_DESCRIPTION = "http listener";
+  public static final String LISTEN_MESSAGE_SOURCE = "listen";
+  public static final String PORT = "port";
+  public static final int DEFAULT_PORT = 8080;
+  public static final String VERSION = "1.0";
+  public static final String STATIC_RESOURCE_OPERATION_NAME = "staticResource";
+  public static final MuleVersion MIN_MULE_VERSION = new MuleVersion("4.0");
 
-    private final ExtensionDeclarer extensionDeclarer = new ExtensionDeclarer();
-    private final ConnectionProviderFactory requesterConnectionProviderFactory = mock(ConnectionProviderFactory.class);
-    private final ConfigurationFactory configurationFactory = mock(ConfigurationFactory.class);
-    private final Source<Object, Attributes> source = mock(Source.class);
-    private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+  private final ExtensionDeclarer extensionDeclarer = new ExtensionDeclarer();
+  private final ConnectionProviderFactory requesterConnectionProviderFactory = mock(ConnectionProviderFactory.class);
+  private final ConfigurationFactory configurationFactory = mock(ConfigurationFactory.class);
+  private final Source<Object, Attributes> source = mock(Source.class);
+  private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
-    public TestHttpConnectorDeclarer()
-    {
-        extensionDeclarer.named(EXTENSION_NAME).describedAs(EXTENSION_DESCRIPTION).fromVendor(VENDOR).onVersion(VERSION).withCategory(COMMUNITY).withMinMuleVersion(MIN_MULE_VERSION);
-        ComponentDeclarer staticResource = extensionDeclarer.withOperation(STATIC_RESOURCE_OPERATION_NAME);
-        staticResource.withOutput().ofType(typeLoader.load(InputStream.class));
-        staticResource.withRequiredParameter(PATH).ofType(typeLoader.load(String.class));
+  public TestHttpConnectorDeclarer() {
+    extensionDeclarer.named(EXTENSION_NAME).describedAs(EXTENSION_DESCRIPTION).fromVendor(VENDOR).onVersion(VERSION)
+        .withCategory(COMMUNITY).withMinMuleVersion(MIN_MULE_VERSION);
+    ComponentDeclarer staticResource = extensionDeclarer.withOperation(STATIC_RESOURCE_OPERATION_NAME);
+    staticResource.withOutput().ofType(typeLoader.load(InputStream.class));
+    staticResource.withRequiredParameter(PATH).ofType(typeLoader.load(String.class));
 
-        ConfigurationDeclarer requesterConfig = extensionDeclarer.withConfig(REQUESTER_CONFIG_NAME).describedAs(REQUESTER_CONFIG_DESCRIPTION).createdWith(configurationFactory);
-        ComponentDeclarer request = requesterConfig.withOperation(REQUEST_OPERATION_NAME);
-        request.withOutput().ofType(typeLoader.load(InputStream.class));
-        request.withRequiredParameter(PATH).ofType(typeLoader.load(String.class));
+    ConfigurationDeclarer requesterConfig = extensionDeclarer.withConfig(REQUESTER_CONFIG_NAME)
+        .describedAs(REQUESTER_CONFIG_DESCRIPTION).createdWith(configurationFactory);
+    ComponentDeclarer request = requesterConfig.withOperation(REQUEST_OPERATION_NAME);
+    request.withOutput().ofType(typeLoader.load(InputStream.class));
+    request.withRequiredParameter(PATH).ofType(typeLoader.load(String.class));
 
-        requesterConfig.withConnectionProvider(REQUESTER_PROVIDER)
-                .createdWith(requesterConnectionProviderFactory)
-                .whichGivesConnectionsOfType(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE)
-                .withConnectionManagementType(NONE);
+    requesterConfig.withConnectionProvider(REQUESTER_PROVIDER)
+        .createdWith(requesterConnectionProviderFactory)
+        .whichGivesConnectionsOfType(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE)
+        .withConnectionManagementType(NONE);
 
-        ConfigurationDeclarer listenerRequester = extensionDeclarer.withConfig(LISTENER_CONFIG_NAME).describedAs(LISTENER_CONFIG_DESCRIPTION).createdWith(configurationFactory);
-        ComponentDeclarer listen = listenerRequester.withMessageSource(LISTEN_MESSAGE_SOURCE).sourceCreatedBy(() -> source);
-        listen.withOutput().ofType(typeLoader.load(InputStream.class));
-        listen.withOutputAttributes().ofType(typeLoader.load(Serializable.class));
-        listen.withOptionalParameter(PORT).ofType(typeLoader.load(Integer.class)).defaultingTo(DEFAULT_PORT);
-    }
+    ConfigurationDeclarer listenerRequester = extensionDeclarer.withConfig(LISTENER_CONFIG_NAME)
+        .describedAs(LISTENER_CONFIG_DESCRIPTION).createdWith(configurationFactory);
+    ComponentDeclarer listen = listenerRequester.withMessageSource(LISTEN_MESSAGE_SOURCE).sourceCreatedBy(() -> source);
+    listen.withOutput().ofType(typeLoader.load(InputStream.class));
+    listen.withOutputAttributes().ofType(typeLoader.load(Serializable.class));
+    listen.withOptionalParameter(PORT).ofType(typeLoader.load(Integer.class)).defaultingTo(DEFAULT_PORT);
+  }
 
-    public ExtensionDeclarer getExtensionDeclarer()
-    {
-        return extensionDeclarer;
-    }
+  public ExtensionDeclarer getExtensionDeclarer() {
+    return extensionDeclarer;
+  }
 
-    public ConnectionProviderFactory getRequesterConnectionProviderFactory()
-    {
-        return requesterConnectionProviderFactory;
-    }
+  public ConnectionProviderFactory getRequesterConnectionProviderFactory() {
+    return requesterConnectionProviderFactory;
+  }
 
-    public Source<Object, Attributes> getSource()
-    {
-        return source;
-    }
+  public Source<Object, Attributes> getSource() {
+    return source;
+  }
 }

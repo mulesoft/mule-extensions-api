@@ -14,30 +14,27 @@ import org.mule.metadata.java.api.JavaTypeLoader;
  *
  * @since 1.0
  */
-public class DefaultExtensionsTypeLoaderFactory implements ExtensionsTypeLoaderFactory
-{
+public class DefaultExtensionsTypeLoaderFactory implements ExtensionsTypeLoaderFactory {
 
-    /**
-     * Delegates into {@link #createTypeLoader(ClassLoader)} using the current context
-     * {@link ClassLoader}
-     *
-     * @return a new {@link JavaTypeLoader}
-     */
-    @Override
-    public ClassTypeLoader createTypeLoader()
-    {
-        return createTypeLoader(Thread.currentThread().getContextClassLoader());
-    }
+  /**
+   * Delegates into {@link #createTypeLoader(ClassLoader)} using the current context
+   * {@link ClassLoader}
+   *
+   * @return a new {@link JavaTypeLoader}
+   */
+  @Override
+  public ClassTypeLoader createTypeLoader() {
+    return createTypeLoader(Thread.currentThread().getContextClassLoader());
+  }
 
-    /**
-     * Creates a new {@link JavaTypeLoader} using the given {@code classLoader}
-     *
-     * @param classLoader the {@link ClassLoader} that the created loader should use to access java typesl
-     * @return a new {@link JavaTypeLoader}
-     */
-    @Override
-    public ClassTypeLoader createTypeLoader(ClassLoader classLoader)
-    {
-        return new JavaTypeLoader(classLoader, new ExtensionsTypeHandlerManagerFactory());
-    }
+  /**
+   * Creates a new {@link JavaTypeLoader} using the given {@code classLoader}
+   *
+   * @param classLoader the {@link ClassLoader} that the created loader should use to access java typesl
+   * @return a new {@link JavaTypeLoader}
+   */
+  @Override
+  public ClassTypeLoader createTypeLoader(ClassLoader classLoader) {
+    return new JavaTypeLoader(classLoader, new ExtensionsTypeHandlerManagerFactory());
+  }
 }

@@ -14,44 +14,39 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
  *
  * @since 1.0
  */
-public class ClassLoaderModelProperty implements ModelProperty
-{
+public class ClassLoaderModelProperty implements ModelProperty {
 
-    private final ClassLoader classLoader;
+  private final ClassLoader classLoader;
 
-    /**
-     * Creates a new instance
-     *
-     * @param classLoader the {@link ClassLoader} that {@code this} instance references
-     */
-    public ClassLoaderModelProperty(ClassLoader classLoader)
-    {
-        this.classLoader = classLoader;
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param classLoader the {@link ClassLoader} that {@code this} instance references
+   */
+  public ClassLoaderModelProperty(ClassLoader classLoader) {
+    this.classLoader = classLoader;
+  }
 
-    /**
-     * @return {@code classLoader}
-     */
-    @Override
-    public String getName()
-    {
-        return "classLoader";
-    }
+  /**
+   * @return {@code classLoader}
+   */
+  @Override
+  public String getName() {
+    return "classLoader";
+  }
 
-    /**
-     * @return {@code false}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return false;
-    }
+  /**
+   * @return {@code false}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return false;
+  }
 
-    /**
-     * @return The referenced {@link ClassLoader}
-     */
-    public ClassLoader getClassLoader()
-    {
-        return classLoader;
-    }
+  /**
+   * @return The referenced {@link ClassLoader}
+   */
+  public ClassLoader getClassLoader() {
+    return classLoader;
+  }
 }

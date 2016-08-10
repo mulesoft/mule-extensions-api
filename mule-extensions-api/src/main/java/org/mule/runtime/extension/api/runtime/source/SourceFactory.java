@@ -13,13 +13,12 @@ package org.mule.runtime.extension.api.runtime.source;
  *
  * @since 1.0
  */
-public interface SourceFactory
-{
+public interface SourceFactory {
 
-    /**
-     * Creates a new instance of {@link Source}
-     *
-     * @return a new {@link Source}
-     */
-    Source createSource();
+  /**
+   * Creates a new instance of {@link Source}
+   *
+   * @return a new {@link Source}
+   */
+  Source createSource();
 }

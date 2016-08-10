@@ -28,7 +28,6 @@ import java.lang.reflect.Method;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DataTypeParameters
-{
+public @interface DataTypeParameters {
 
 }

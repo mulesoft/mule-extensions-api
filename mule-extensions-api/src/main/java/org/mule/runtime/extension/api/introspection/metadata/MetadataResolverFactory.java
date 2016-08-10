@@ -17,35 +17,34 @@ import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
  *
  * @since 1.0
  */
-public interface MetadataResolverFactory
-{
+public interface MetadataResolverFactory {
 
-    /**
-     * Provides an instance of the {@link MetadataKeysResolver} type associated to the Component
-     *
-     * @return an instance of the {@link MetadataKeysResolver}
-     */
-    MetadataKeysResolver getKeyResolver();
+  /**
+   * Provides an instance of the {@link MetadataKeysResolver} type associated to the Component
+   *
+   * @return an instance of the {@link MetadataKeysResolver}
+   */
+  MetadataKeysResolver getKeyResolver();
 
-    /**
-     * Provides an instance of the {@link MetadataContentResolver} type associated to the Component
-     *
-     * @return an instance of the {@link MetadataContentResolver}
-     */
-    <T> MetadataContentResolver<T> getContentResolver();
+  /**
+   * Provides an instance of the {@link MetadataContentResolver} type associated to the Component
+   *
+   * @return an instance of the {@link MetadataContentResolver}
+   */
+  <T> MetadataContentResolver<T> getContentResolver();
 
-    /**
-     * Provides an instance of the {@link MetadataOutputResolver} type associated to the Component
-     *
-     * @return an instance of the {@link MetadataOutputResolver}
-     */
-    <T> MetadataOutputResolver<T> getOutputResolver();
+  /**
+   * Provides an instance of the {@link MetadataOutputResolver} type associated to the Component
+   *
+   * @return an instance of the {@link MetadataOutputResolver}
+   */
+  <T> MetadataOutputResolver<T> getOutputResolver();
 
-    /**
-     * Provides an instance of the {@link MetadataAttributesResolver} type associated to the Component
-     *
-     * @return an instance of the {@link MetadataAttributesResolver}
-     */
-    <T> MetadataAttributesResolver<T> getOutputAttributesResolver();
+  /**
+   * Provides an instance of the {@link MetadataAttributesResolver} type associated to the Component
+   *
+   * @return an instance of the {@link MetadataAttributesResolver}
+   */
+  <T> MetadataAttributesResolver<T> getOutputAttributesResolver();
 
 }

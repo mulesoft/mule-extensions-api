@@ -24,13 +24,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Providers
-{
+public @interface Providers {
 
-    /**
-     * An array of classes which implement the {@link ConnectionProvider} interface.
-     *
-     * @return A not empty array
-     */
-    Class<? extends ConnectionProvider>[] value();
+  /**
+   * An array of classes which implement the {@link ConnectionProvider} interface.
+   *
+   * @return A not empty array
+   */
+  Class<? extends ConnectionProvider>[] value();
 }

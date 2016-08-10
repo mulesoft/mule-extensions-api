@@ -15,21 +15,20 @@ import java.util.List;
  * @param <T> the generic type of the {@link BaseDeclaration} which is implementing the interface
  * @since 1.0
  */
-public interface WithOperationsDeclaration<T extends BaseDeclaration>
-{
+public interface WithOperationsDeclaration<T extends BaseDeclaration> {
 
-    /**
-     * Adds a {@link OperationDeclaration}
-     *
-     * @param operation the provider's declaration
-     * @return {@code this} declaration
-     */
-    T addOperation(OperationDeclaration operation);
+  /**
+   * Adds a {@link OperationDeclaration}
+   *
+   * @param operation the provider's declaration
+   * @return {@code this} declaration
+   */
+  T addOperation(OperationDeclaration operation);
 
-    /**
-     * @return a {@link List} with the {@link OperationDeclaration} which have been
-     * added to {@code this} declaration
-     */
-    List<OperationDeclaration> getOperations();
+  /**
+   * @return a {@link List} with the {@link OperationDeclaration} which have been
+   * added to {@code this} declaration
+   */
+  List<OperationDeclaration> getOperations();
 
 }

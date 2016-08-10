@@ -16,26 +16,25 @@ import java.util.concurrent.TimeUnit;
  *
  * @since 1.0
  */
-public interface ExpirationPolicy
-{
+public interface ExpirationPolicy {
 
-    /**
-     * Determines if an instance should be expired based on the last time it was used.
-     *
-     * @param lastUsed a scalar time value
-     * @param timeUnit a {@link TimeUnit} that qualifies the {@code lastUsed}
-     * @return {@code true} if expiration should take place. {@code false} otherwise.
-     */
-    boolean isExpired(long lastUsed, TimeUnit timeUnit);
+  /**
+   * Determines if an instance should be expired based on the last time it was used.
+   *
+   * @param lastUsed a scalar time value
+   * @param timeUnit a {@link TimeUnit} that qualifies the {@code lastUsed}
+   * @return {@code true} if expiration should take place. {@code false} otherwise.
+   */
+  boolean isExpired(long lastUsed, TimeUnit timeUnit);
 
-    /**
-     * Returns a scalar value for the maximum amount of time that an instance should be allowed
-     * to be idle
-     */
-    long getMaxIdleTime();
+  /**
+   * Returns a scalar value for the maximum amount of time that an instance should be allowed
+   * to be idle
+   */
+  long getMaxIdleTime();
 
-    /**
-     * Returns a {@link TimeUnit} that qualifies the {@link #getMaxIdleTime()} value
-     */
-    TimeUnit getTimeUnit();
+  /**
+   * Returns a {@link TimeUnit} that qualifies the {@link #getMaxIdleTime()} value
+   */
+  TimeUnit getTimeUnit();
 }

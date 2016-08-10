@@ -14,65 +14,58 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
  *
  * @since 1.0
  */
-public class XmlHintsModelProperty implements ModelProperty
-{
+public class XmlHintsModelProperty implements ModelProperty {
 
-    private final boolean allowInlineDefinition;
-    private final boolean allowReferences;
+  private final boolean allowInlineDefinition;
+  private final boolean allowReferences;
 
-    /**
-     * Creates a new instance
-     *
-     * @param styleAnnotation a {@link XmlHints}
-     */
-    public XmlHintsModelProperty(XmlHints styleAnnotation)
-    {
-        this(styleAnnotation.allowInlineDefinition(), styleAnnotation.allowReferences());
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param styleAnnotation a {@link XmlHints}
+   */
+  public XmlHintsModelProperty(XmlHints styleAnnotation) {
+    this(styleAnnotation.allowInlineDefinition(), styleAnnotation.allowReferences());
+  }
 
-    /**
-     * Creates a new instance
-     *
-     * @param allowInlineDefinition whether the associated element should support inline definition as child element
-     * @param allowReferences       whether the associated element should support registry references
-     */
-    public XmlHintsModelProperty(boolean allowInlineDefinition, boolean allowReferences)
-    {
-        this.allowInlineDefinition = allowInlineDefinition;
-        this.allowReferences = allowReferences;
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param allowInlineDefinition whether the associated element should support inline definition as child element
+   * @param allowReferences       whether the associated element should support registry references
+   */
+  public XmlHintsModelProperty(boolean allowInlineDefinition, boolean allowReferences) {
+    this.allowInlineDefinition = allowInlineDefinition;
+    this.allowReferences = allowReferences;
+  }
 
-    /**
-     * @return {@code xmlHints}
-     */
-    @Override
-    public String getName()
-    {
-        return "xmlHints";
-    }
+  /**
+   * @return {@code xmlHints}
+   */
+  @Override
+  public String getName() {
+    return "xmlHints";
+  }
 
-    /**
-     * @return {@code false}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return false;
-    }
+  /**
+   * @return {@code false}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return false;
+  }
 
-    /**
-     * @return whether the associated element should support inline definition as child element
-     */
-    public boolean allowsInlineDefinition()
-    {
-        return allowInlineDefinition;
-    }
+  /**
+   * @return whether the associated element should support inline definition as child element
+   */
+  public boolean allowsInlineDefinition() {
+    return allowInlineDefinition;
+  }
 
-    /**
-     * @return whether the associated element should support registry references
-     */
-    public boolean allowsReferences()
-    {
-        return allowReferences;
-    }
+  /**
+   * @return whether the associated element should support registry references
+   */
+  public boolean allowsReferences() {
+    return allowReferences;
+  }
 }

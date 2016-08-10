@@ -16,15 +16,14 @@ import java.util.Optional;
  * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-public interface HasExceptionEnricher<T>
-{
+public interface HasExceptionEnricher<T> {
 
-    /**
-     * Provides the given {@link ExceptionEnricherFactory}
-     *
-     * @param enricherFactory a concrete ExceptionEnricherFactory
-     * @return {@code this} declarer
-     */
-    T withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory);
+  /**
+   * Provides the given {@link ExceptionEnricherFactory}
+   *
+   * @param enricherFactory a concrete ExceptionEnricherFactory
+   * @return {@code this} declarer
+   */
+  T withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory);
 
 }

@@ -24,23 +24,22 @@ import org.mule.runtime.api.message.MuleMessage;
  * @param <A> the generic type for the handled message's attributes
  * @since 1.0
  */
-public interface MessageHandler<Payload, A extends Attributes>
-{
+public interface MessageHandler<Payload, A extends Attributes> {
 
-    /**
-     * Handles the {@code message} and notifies the result using the given {@code completionHandler}
-     *
-     * @param message           the {@link MuleMessage} to be handled
-     * @param completionHandler the {@link CompletionHandler} on which the result is to be notified
-     */
-    //TODO: MULE-8946: this should actually receive a messaging exception
-    void handle(MuleMessage message, CompletionHandler<MuleEvent, Exception, MuleEvent> completionHandler);
+  /**
+   * Handles the {@code message} and notifies the result using the given {@code completionHandler}
+   *
+   * @param message           the {@link MuleMessage} to be handled
+   * @param completionHandler the {@link CompletionHandler} on which the result is to be notified
+   */
+  //TODO: MULE-8946: this should actually receive a messaging exception
+  void handle(MuleMessage message, CompletionHandler<MuleEvent, Exception, MuleEvent> completionHandler);
 
-    /**
-     * Handles the {@code message} without notifying the result. Useful to implement fire and forget use cases
-     *
-     * @param message the {@link MuleMessage} to be handled
-     */
-    void handle(MuleMessage message);
+  /**
+   * Handles the {@code message} without notifying the result. Useful to implement fire and forget use cases
+   *
+   * @param message the {@link MuleMessage} to be handled
+   */
+  void handle(MuleMessage message);
 
 }

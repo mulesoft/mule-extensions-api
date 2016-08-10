@@ -17,43 +17,40 @@ import java.util.List;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class ParameterizedInterceptableDeclaration<T extends ParameterizedInterceptableDeclaration> extends InterceptableDeclaration<T> implements ParameterizedDeclaration
-{
-    private List<ParameterDeclaration> parameters = new LinkedList<>();
+public abstract class ParameterizedInterceptableDeclaration<T extends ParameterizedInterceptableDeclaration>
+    extends InterceptableDeclaration<T> implements ParameterizedDeclaration {
 
-    /**
-     * {@inheritDoc}
-     */
-    ParameterizedInterceptableDeclaration(String name)
-    {
-        super(name);
+  private List<ParameterDeclaration> parameters = new LinkedList<>();
+
+  /**
+   * {@inheritDoc}
+   */
+  ParameterizedInterceptableDeclaration(String name) {
+    super(name);
+  }
+
+  /**
+   * @return an unmodifiable {@link List} with the available
+   * {@link ParameterDeclaration}s
+   */
+  @Override
+  public List<ParameterDeclaration> getParameters() {
+    return Collections.unmodifiableList(parameters);
+  }
+
+  /**
+   * Adds a {@link ParameterDeclaration}
+   *
+   * @param parameter a not {@code null} {@link ParameterDeclaration}
+   * @return this declaration
+   * @throws {@link IllegalArgumentException} if {@code parameter} is {@code null}
+   */
+  public T addParameter(ParameterDeclaration parameter) {
+    if (parameter == null) {
+      throw new IllegalArgumentException("Can't add a null parameter");
     }
 
-    /**
-     * @return an unmodifiable {@link List} with the available
-     * {@link ParameterDeclaration}s
-     */
-    @Override
-    public List<ParameterDeclaration> getParameters()
-    {
-        return Collections.unmodifiableList(parameters);
-    }
-
-    /**
-     * Adds a {@link ParameterDeclaration}
-     *
-     * @param parameter a not {@code null} {@link ParameterDeclaration}
-     * @return this declaration
-     * @throws {@link IllegalArgumentException} if {@code parameter} is {@code null}
-     */
-    public T addParameter(ParameterDeclaration parameter)
-    {
-        if (parameter == null)
-        {
-            throw new IllegalArgumentException("Can't add a null parameter");
-        }
-
-        parameters.add(parameter);
-        return (T) this;
-    }
+    parameters.add(parameter);
+    return (T) this;
+  }
 }

@@ -14,16 +14,15 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
  * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-public interface HasModelProperties<T>
-{
+public interface HasModelProperties<T> {
 
-    /**
-     * Adds the given {@code modelProperty}
-     *
-     * @param modelProperty a {@link ModelProperty}
-     * @return {@code this} declarer
-     * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
-     */
-    T withModelProperty(ModelProperty modelProperty);
+  /**
+   * Adds the given {@code modelProperty}
+   *
+   * @param modelProperty a {@link ModelProperty}
+   * @return {@code this} declarer
+   * @throws IllegalArgumentException if {@code modelProperty} is {@code null{}}
+   */
+  T withModelProperty(ModelProperty modelProperty);
 
 }

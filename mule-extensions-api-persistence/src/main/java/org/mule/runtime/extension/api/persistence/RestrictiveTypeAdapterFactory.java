@@ -17,36 +17,33 @@ import com.google.gson.reflect.TypeToken;
  *
  * @since 1.0
  */
-public final class RestrictiveTypeAdapterFactory<SpecificClass, ImplementationClass extends SpecificClass> implements TypeAdapterFactory
-{
+public final class RestrictiveTypeAdapterFactory<SpecificClass, ImplementationClass extends SpecificClass>
+    implements TypeAdapterFactory {
 
-    private final Class<ImplementationClass> implementationClazz;
-    private final Class<SpecificClass> clazz;
+  private final Class<ImplementationClass> implementationClazz;
+  private final Class<SpecificClass> clazz;
 
-    /**
-     * @param specificClass class to look for at serialization and deserialization time.
-     * @param clazz         class to fix the serialization or deserialization
-     */
-    public RestrictiveTypeAdapterFactory(Class<SpecificClass> specificClass, Class<ImplementationClass> clazz)
-    {
-        this.implementationClazz = clazz;
-        this.clazz = specificClass;
+  /**
+   * @param specificClass class to look for at serialization and deserialization time.
+   * @param clazz         class to fix the serialization or deserialization
+   */
+  public RestrictiveTypeAdapterFactory(Class<SpecificClass> specificClass, Class<ImplementationClass> clazz) {
+    this.implementationClazz = clazz;
+    this.clazz = specificClass;
+  }
+
+  /**
+   * @param gson                  The actual Gson serializer
+   * @param type                  Implementation that GSON is trying to find a {@link TypeAdapter}
+   * @param <ImplementationClass> type of objects that the {@link TypeAdapter} will create
+   * @return if {@param type} is a {@link #clazz} a {@link TypeAdapter}, that serializes and deserialize
+   * {@link ImplementationClass} instances
+   */
+  @Override
+  public <ImplementationClass> TypeAdapter<ImplementationClass> create(Gson gson, TypeToken<ImplementationClass> type) {
+    if (clazz.equals(type.getRawType())) {
+      return gson.getDelegateAdapter(this, TypeToken.get((Class<ImplementationClass>) implementationClazz));
     }
-
-    /**
-     * @param gson                  The actual Gson serializer
-     * @param type                  Implementation that GSON is trying to find a {@link TypeAdapter}
-     * @param <ImplementationClass> type of objects that the {@link TypeAdapter} will create
-     * @return if {@param type} is a {@link #clazz} a {@link TypeAdapter}, that serializes and deserialize
-     * {@link ImplementationClass} instances
-     */
-    @Override
-    public <ImplementationClass> TypeAdapter<ImplementationClass> create(Gson gson, TypeToken<ImplementationClass> type)
-    {
-        if (clazz.equals(type.getRawType()))
-        {
-            return gson.getDelegateAdapter(this, TypeToken.get((Class<ImplementationClass>) implementationClazz));
-        }
-        return null;
-    }
+    return null;
+  }
 }

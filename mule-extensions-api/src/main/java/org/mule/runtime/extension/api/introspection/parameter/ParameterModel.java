@@ -28,37 +28,36 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public interface ParameterModel extends Named, Described, EnrichableModel, Typed
-{
+public interface ParameterModel extends Named, Described, EnrichableModel, Typed {
 
-    Set<String> RESERVED_NAMES = Collections.unmodifiableSet(new HashSet<>(asList("name")));
+  Set<String> RESERVED_NAMES = Collections.unmodifiableSet(new HashSet<>(asList("name")));
 
-    /**
-     * Whether or not this parameter is required. This method is exclusive with
-     * {@link #getDefaultValue()} in the sense that a required parameter cannot have a default
-     * value. At the same time, if the parameter has a default value, then it makes no sense
-     * to consider it as required
-     *
-     * @return a boolean value saying if this parameter is required or not
-     */
-    boolean isRequired();
+  /**
+   * Whether or not this parameter is required. This method is exclusive with
+   * {@link #getDefaultValue()} in the sense that a required parameter cannot have a default
+   * value. At the same time, if the parameter has a default value, then it makes no sense
+   * to consider it as required
+   *
+   * @return a boolean value saying if this parameter is required or not
+   */
+  boolean isRequired();
 
-    /**
-     * The level of support {@code this} parameter has for expressions
-     *
-     * @return a {@link ExpressionSupport}
-     */
-    ExpressionSupport getExpressionSupport();
+  /**
+   * The level of support {@code this} parameter has for expressions
+   *
+   * @return a {@link ExpressionSupport}
+   */
+  ExpressionSupport getExpressionSupport();
 
-    /**
-     * The default value for this parameter. It might be an expression if
-     * {@link #getExpressionSupport()} returns {@link ExpressionSupport#REQUIRED}
-     * or {@link ExpressionSupport#SUPPORTED}.
-     * <p>
-     * This method is exclusive with {@link #isRequired()}. Check that method's comments for
-     * more information on the semantics of this two methods.
-     *
-     * @return the default value
-     */
-    Object getDefaultValue();
+  /**
+   * The default value for this parameter. It might be an expression if
+   * {@link #getExpressionSupport()} returns {@link ExpressionSupport#REQUIRED}
+   * or {@link ExpressionSupport#SUPPORTED}.
+   * <p>
+   * This method is exclusive with {@link #isRequired()}. Check that method's comments for
+   * more information on the semantics of this two methods.
+   *
+   * @return the default value
+   */
+  Object getDefaultValue();
 }

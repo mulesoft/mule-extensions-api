@@ -35,33 +35,32 @@ import java.util.Optional;
  * @param <T> the generic type for the actual value
  * @since 1.0
  */
-public interface ConfigurationInstance<T>
-{
+public interface ConfigurationInstance<T> {
 
-    /**
-     * @return the name for this instance
-     */
-    String getName();
+  /**
+   * @return the name for this instance
+   */
+  String getName();
 
-    /**
-     * @return the {@link RuntimeConfigurationModel} this instance is based on
-     */
-    RuntimeConfigurationModel getModel();
+  /**
+   * @return the {@link RuntimeConfigurationModel} this instance is based on
+   */
+  RuntimeConfigurationModel getModel();
 
-    /**
-     * @return the actual configuration instance to be used
-     */
-    T getValue();
+  /**
+   * @return the actual configuration instance to be used
+   */
+  T getValue();
 
-    /**
-     * @return a {@link ConfigurationStats} object with statistics about the usage of the configuration
-     */
-    ConfigurationStats getStatistics();
+  /**
+   * @return a {@link ConfigurationStats} object with statistics about the usage of the configuration
+   */
+  ConfigurationStats getStatistics();
 
-    /**
-     * @return An {@link Optional} which (maybe) holds the {@link ConnectionProvider} to be used with {@code this}
-     * {@link ConfigurationInstance}
-     */
-    Optional<ConnectionProvider> getConnectionProvider();
+  /**
+   * @return An {@link Optional} which (maybe) holds the {@link ConnectionProvider} to be used with {@code this}
+   * {@link ConfigurationInstance}
+   */
+  Optional<ConnectionProvider> getConnectionProvider();
 
 }

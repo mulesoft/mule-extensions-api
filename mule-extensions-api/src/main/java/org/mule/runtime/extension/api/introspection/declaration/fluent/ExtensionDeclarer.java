@@ -19,189 +19,173 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class ExtensionDeclarer extends Declarer<ExtensionDeclaration> implements HasModelProperties<ExtensionDeclarer>, HasExceptionEnricher<ExtensionDeclarer>,
-        HasOperationDeclarer, HasConnectionProviderDeclarer, HasSourceDeclarer
-{
+public class ExtensionDeclarer extends Declarer<ExtensionDeclaration>
+    implements HasModelProperties<ExtensionDeclarer>, HasExceptionEnricher<ExtensionDeclarer>,
+    HasOperationDeclarer, HasConnectionProviderDeclarer, HasSourceDeclarer {
 
-    /**
-     * Constructor for this descriptor
-     */
-    public ExtensionDeclarer()
-    {
-        super(new ExtensionDeclaration());
-    }
+  /**
+   * Constructor for this descriptor
+   */
+  public ExtensionDeclarer() {
+    super(new ExtensionDeclaration());
+  }
 
-    /**
-     * Provides the extension's name
-     *
-     * @param name the extension's name
-     * @return {@code this} descriptor
-     */
-    public ExtensionDeclarer named(String name)
-    {
-        declaration.setName(name);
-        return this;
-    }
+  /**
+   * Provides the extension's name
+   *
+   * @param name the extension's name
+   * @return {@code this} descriptor
+   */
+  public ExtensionDeclarer named(String name) {
+    declaration.setName(name);
+    return this;
+  }
 
-    /**
-     * Provides the extension's version
-     *
-     * @param version the extensions version
-     * @return {@code this} descriptor
-     */
-    public ExtensionDeclarer onVersion(String version)
-    {
-        declaration.setVersion(version);
-        return this;
-    }
+  /**
+   * Provides the extension's version
+   *
+   * @param version the extensions version
+   * @return {@code this} descriptor
+   */
+  public ExtensionDeclarer onVersion(String version) {
+    declaration.setVersion(version);
+    return this;
+  }
 
-    /**
-     * Adds a description
-     *
-     * @param description a description
-     * @return {@code this} descriptor
-     */
-    public ExtensionDeclarer describedAs(String description)
-    {
-        declaration.setDescription(description);
-        return this;
-    }
+  /**
+   * Adds a description
+   *
+   * @param description a description
+   * @return {@code this} descriptor
+   */
+  public ExtensionDeclarer describedAs(String description) {
+    declaration.setDescription(description);
+    return this;
+  }
 
-    /**
-     * Adds a config of the given name
-     *
-     * @param name a non blank name
-     * @return a {@link ConfigurationDeclarer} which allows describing the created configuration
-     */
-    public ConfigurationDeclarer withConfig(String name)
-    {
-        ConfigurationDeclaration config = new ConfigurationDeclaration(name);
-        declaration.addConfig(config);
+  /**
+   * Adds a config of the given name
+   *
+   * @param name a non blank name
+   * @return a {@link ConfigurationDeclarer} which allows describing the created configuration
+   */
+  public ConfigurationDeclarer withConfig(String name) {
+    ConfigurationDeclaration config = new ConfigurationDeclaration(name);
+    declaration.addConfig(config);
 
-        return new ConfigurationDeclarer(config);
-    }
+    return new ConfigurationDeclarer(config);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConnectionProviderDeclarer withConnectionProvider(String name)
-    {
-        ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConnectionProviderDeclarer withConnectionProvider(String name) {
+    ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
 
-        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration);
-        withConnectionProvider(connectionProviderDeclarer);
+    final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration);
+    withConnectionProvider(connectionProviderDeclarer);
 
-        return connectionProviderDeclarer;
-    }
+    return connectionProviderDeclarer;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void withConnectionProvider(ConnectionProviderDeclarer declarer)
-    {
-        declaration.addConnectionProvider(declarer.getDeclaration());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void withConnectionProvider(ConnectionProviderDeclarer declarer) {
+    declaration.addConnectionProvider(declarer.getDeclaration());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OperationDeclarer withOperation(String name)
-    {
-        OperationDeclaration operation = new OperationDeclaration(name);
-        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation);
-        withOperation(operationDeclarer);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public OperationDeclarer withOperation(String name) {
+    OperationDeclaration operation = new OperationDeclaration(name);
+    final OperationDeclarer operationDeclarer = new OperationDeclarer(operation);
+    withOperation(operationDeclarer);
 
-        return operationDeclarer;
-    }
+    return operationDeclarer;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void withOperation(OperationDeclarer declarer)
-    {
-        declaration.addOperation(declarer.getDeclaration());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void withOperation(OperationDeclarer declarer) {
+    declaration.addOperation(declarer.getDeclaration());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SourceDeclarer withMessageSource(String name)
-    {
-        SourceDeclaration declaration = new SourceDeclaration(name);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SourceDeclarer withMessageSource(String name) {
+    SourceDeclaration declaration = new SourceDeclaration(name);
 
-        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration);
-        withMessageSource(sourceDeclarer);
+    final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration);
+    withMessageSource(sourceDeclarer);
 
-        return sourceDeclarer;
-    }
+    return sourceDeclarer;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void withMessageSource(SourceDeclarer declarer)
-    {
-        declaration.addMessageSource(declarer.getDeclaration());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void withMessageSource(SourceDeclarer declarer) {
+    declaration.addMessageSource(declarer.getDeclaration());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ExtensionDeclarer withModelProperty(ModelProperty value)
-    {
-        declaration.addModelProperty(value);
-        return this;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ExtensionDeclarer withModelProperty(ModelProperty value) {
+    declaration.addModelProperty(value);
+    return this;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ExtensionDeclarer withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory)
-    {
-        declaration.setExceptionEnricherFactory(enricherFactory);
-        return this;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ExtensionDeclarer withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory) {
+    declaration.setExceptionEnricherFactory(enricherFactory);
+    return this;
+  }
 
-    /**
-     * Adds the extension's Vendor name
-     *
-     * @param vendor name
-     * @return {@code this} descriptor
-     */
-    public ExtensionDeclarer fromVendor(String vendor)
-    {
-        declaration.setVendor(vendor);
-        return this;
-    }
+  /**
+   * Adds the extension's Vendor name
+   *
+   * @param vendor name
+   * @return {@code this} descriptor
+   */
+  public ExtensionDeclarer fromVendor(String vendor) {
+    declaration.setVendor(vendor);
+    return this;
+  }
 
-    /**
-     * Adds the extension's {@link Category}
-     *
-     * @param category of the extension
-     * @return {@code this} descriptor
-     */
-    public ExtensionDeclarer withCategory(Category category)
-    {
-        declaration.setCategory(category);
-        return this;
-    }
+  /**
+   * Adds the extension's {@link Category}
+   *
+   * @param category of the extension
+   * @return {@code this} descriptor
+   */
+  public ExtensionDeclarer withCategory(Category category) {
+    declaration.setCategory(category);
+    return this;
+  }
 
-    /**
-     * Adds the extension's minimum Mule Version
-     *
-     * @param minMuleVersion of the extension
-     * @return {@code this} descriptor
-     */
-    public ExtensionDeclarer withMinMuleVersion(MuleVersion minMuleVersion)
-    {
-        declaration.setMinMuleVersion(minMuleVersion);
-        return this;
-    }
+  /**
+   * Adds the extension's minimum Mule Version
+   *
+   * @param minMuleVersion of the extension
+   * @return {@code this} descriptor
+   */
+  public ExtensionDeclarer withMinMuleVersion(MuleVersion minMuleVersion) {
+    declaration.setMinMuleVersion(minMuleVersion);
+    return this;
+  }
 }

@@ -14,30 +14,27 @@ import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory
  *
  * @since 1.0
  */
-public class OperationDeclarer extends ComponentDeclarer<OperationDeclarer, OperationDeclaration>
-{
+public class OperationDeclarer extends ComponentDeclarer<OperationDeclarer, OperationDeclaration> {
 
-    /**
-     * Creates a new instance
-     *
-     * @param declaration the {@link OperationDeclaration} which will be configured
-     */
-    OperationDeclarer(OperationDeclaration declaration)
-    {
-        super(declaration);
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param declaration the {@link OperationDeclaration} which will be configured
+   */
+  OperationDeclarer(OperationDeclaration declaration) {
+    super(declaration);
+  }
 
-    /**
-     * Specifies the {@link OperationExecutorFactory} to be used
-     * to create {@link OperationExecutor} instances.
-     *
-     * @param executorFactory a {@link OperationExecutorFactory}
-     * @return {@code this} declarer
-     */
-    public OperationDeclarer executorsCreatedBy(OperationExecutorFactory executorFactory)
-    {
-        declaration.setExecutorFactory(executorFactory);
-        return this;
-    }
+  /**
+   * Specifies the {@link OperationExecutorFactory} to be used
+   * to create {@link OperationExecutor} instances.
+   *
+   * @param executorFactory a {@link OperationExecutorFactory}
+   * @return {@code this} declarer
+   */
+  public OperationDeclarer executorsCreatedBy(OperationExecutorFactory executorFactory) {
+    declaration.setExecutorFactory(executorFactory);
+    return this;
+  }
 
 }

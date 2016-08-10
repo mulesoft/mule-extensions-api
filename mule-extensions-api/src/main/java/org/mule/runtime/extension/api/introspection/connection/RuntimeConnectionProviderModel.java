@@ -15,18 +15,17 @@ package org.mule.runtime.extension.api.introspection.connection;
  * @see ConnectionProviderModel
  * @since 1.0
  */
-public interface RuntimeConnectionProviderModel extends ConnectionProviderModel
-{
+public interface RuntimeConnectionProviderModel extends ConnectionProviderModel {
 
-    /**
-     * @return the {@link ConnectionProviderFactory} to be used to create instances
-     * consistent with this model
-     */
-    ConnectionProviderFactory getConnectionProviderFactory();
+  /**
+   * @return the {@link ConnectionProviderFactory} to be used to create instances
+   * consistent with this model
+   */
+  ConnectionProviderFactory getConnectionProviderFactory();
 
-    /**
-     * @return The {@link Class} object for the {@code Connection} type
-     */
-    Class<?> getConnectionType();
+  /**
+   * @return The {@link Class} object for the {@code Connection} type
+   */
+  Class<?> getConnectionType();
 
 }

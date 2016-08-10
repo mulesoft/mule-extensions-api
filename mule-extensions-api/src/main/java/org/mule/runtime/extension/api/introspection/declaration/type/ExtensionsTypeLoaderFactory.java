@@ -17,25 +17,23 @@ import org.mule.metadata.api.ClassTypeLoader;
  *
  * @since 1.0
  */
-public interface ExtensionsTypeLoaderFactory
-{
+public interface ExtensionsTypeLoaderFactory {
 
-    /**
-     * @return the system default implementation of this class
-     */
-    static ExtensionsTypeLoaderFactory getDefault()
-    {
-        return new DefaultExtensionsTypeLoaderFactory();
-    }
+  /**
+   * @return the system default implementation of this class
+   */
+  static ExtensionsTypeLoaderFactory getDefault() {
+    return new DefaultExtensionsTypeLoaderFactory();
+  }
 
-    /**
-     * @return a new instance of {@link ClassTypeLoader}
-     */
-    ClassTypeLoader createTypeLoader();
+  /**
+   * @return a new instance of {@link ClassTypeLoader}
+   */
+  ClassTypeLoader createTypeLoader();
 
-    /**
-     * @param classLoader the {@link ClassLoader} that the created loader should use to access java typesl
-     * @return a new instance of {@link ClassTypeLoader}
-     */
-    ClassTypeLoader createTypeLoader(ClassLoader classLoader);
+  /**
+   * @param classLoader the {@link ClassLoader} that the created loader should use to access java typesl
+   * @return a new instance of {@link ClassTypeLoader}
+   */
+  ClassTypeLoader createTypeLoader(ClassLoader classLoader);
 }

@@ -16,11 +16,10 @@ import java.util.Optional;
  * @see Interceptable
  * @since 1.0
  */
-public interface ExceptionEnrichableModel
-{
+public interface ExceptionEnrichableModel {
 
-    /**
-     * @return an {@link Optional} concrete {@link ExceptionEnricherFactory}
-     */
-    Optional<ExceptionEnricherFactory> getExceptionEnricherFactory();
+  /**
+   * @return an {@link Optional} concrete {@link ExceptionEnricherFactory}
+   */
+  Optional<ExceptionEnricherFactory> getExceptionEnricherFactory();
 }

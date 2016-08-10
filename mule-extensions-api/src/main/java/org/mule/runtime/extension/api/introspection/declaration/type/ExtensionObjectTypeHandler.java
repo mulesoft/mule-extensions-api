@@ -27,29 +27,25 @@ import java.util.List;
  *
  * @since 1.0
  */
-public class ExtensionObjectTypeHandler extends ObjectHandler
-{
+public class ExtensionObjectTypeHandler extends ObjectHandler {
 
-    public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler)
-    {
-        super(fieldHandler);
+  public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler) {
+    super(fieldHandler);
+  }
+
+  @Override
+  public TypeBuilder<?> handleClass(Class<?> clazz, List<Type> genericTypes, TypeHandlerManager typeHandlerManager,
+                                    ParsingContext context, BaseTypeBuilder<?> typeBuilder) {
+    final ObjectTypeBuilder<?> objectType = (ObjectTypeBuilder<?>) super.handleClass(clazz, genericTypes,
+                                                                                     typeHandlerManager, context, typeBuilder);
+
+    if (clazz.isAnnotationPresent(Extensible.class)) {
+      objectType.with(new ExtensibleTypeAnnotation());
     }
 
-    @Override
-    public TypeBuilder<?> handleClass(Class<?> clazz, List<Type> genericTypes, TypeHandlerManager typeHandlerManager,
-                                      ParsingContext context, BaseTypeBuilder<?> typeBuilder)
-    {
-        final ObjectTypeBuilder<?> objectType = (ObjectTypeBuilder<?>) super.handleClass(clazz, genericTypes,
-                                                                                         typeHandlerManager, context, typeBuilder);
+    Alias alias = clazz.getAnnotation(Alias.class);
+    objectType.with(new TypeAliasAnnotation(alias != null ? alias.value() : clazz.getSimpleName()));
 
-        if (clazz.isAnnotationPresent(Extensible.class))
-        {
-            objectType.with(new ExtensibleTypeAnnotation());
-        }
-
-        Alias alias = clazz.getAnnotation(Alias.class);
-        objectType.with(new TypeAliasAnnotation(alias != null ? alias.value() : clazz.getSimpleName()));
-
-        return objectType;
-    }
+    return objectType;
+  }
 }

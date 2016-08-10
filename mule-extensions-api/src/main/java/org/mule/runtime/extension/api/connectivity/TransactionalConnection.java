@@ -12,7 +12,6 @@ package org.mule.runtime.extension.api.connectivity;
  *
  * @since 1.0
  */
-public interface TransactionalConnection extends Transactional
-{
+public interface TransactionalConnection extends Transactional {
 
 }
