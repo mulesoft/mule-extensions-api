@@ -37,89 +37,74 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-final class ExtensionsFieldHandler implements ObjectFieldHandler
-{
+final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
-    @Override
-    public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context, ObjectTypeBuilder builder)
-    {
-        //TODO: MULE-9454
-        if (clazz.getName().equals("org.mule.runtime.core.api.NestedProcessor"))
-        {
-            return;
-        }
-
-        Collection<Field> fields = TypeUtils.getParameterFields(clazz);
-        if (fields.isEmpty())
-        {
-            fallbackToBeanProperties(clazz, typeHandlerManager, context, builder);
-            return;
-        }
-
-        for (Field field : fields)
-        {
-            final ObjectFieldTypeBuilder<?> fieldBuilder = builder.addField();
-            fieldBuilder.key(getAlias(field));
-
-            setOptionalAndDefault(field, fieldBuilder);
-            setExpressionSupport(field, fieldBuilder);
-            setElementStyle(field, fieldBuilder);
-            setFieldType(typeHandlerManager, context, field, fieldBuilder);
-        }
+  @Override
+  public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
+                           ObjectTypeBuilder builder) {
+    //TODO: MULE-9454
+    if (clazz.getName().equals("org.mule.runtime.core.api.NestedProcessor")) {
+      return;
     }
 
-    private void setFieldType(TypeHandlerManager typeHandlerManager, ParsingContext context, Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
-    {
-        final Type fieldType = field.getGenericType();
-        final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(fieldType);
-
-        if (typeBuilder.isPresent())
-        {
-            fieldBuilder.value(typeBuilder.get());
-        }
-        else
-        {
-            typeHandlerManager.handle(fieldType, context, fieldBuilder.value());
-        }
+    Collection<Field> fields = TypeUtils.getParameterFields(clazz);
+    if (fields.isEmpty()) {
+      fallbackToBeanProperties(clazz, typeHandlerManager, context, builder);
+      return;
     }
 
-    private void setExpressionSupport(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
-    {
-        Expression expression = field.getAnnotation(Expression.class);
-        fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
-    }
+    for (Field field : fields) {
+      final ObjectFieldTypeBuilder<?> fieldBuilder = builder.addField();
+      fieldBuilder.key(getAlias(field));
 
-    private void setElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
-    {
-        final XmlHints annotation = field.getAnnotation(XmlHints.class);
-        if (annotation != null)
-        {
-            fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(), annotation.allowReferences()));
-        }
+      setOptionalAndDefault(field, fieldBuilder);
+      setExpressionSupport(field, fieldBuilder);
+      setElementStyle(field, fieldBuilder);
+      setFieldType(typeHandlerManager, context, field, fieldBuilder);
     }
+  }
 
-    private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder<?> fieldBuilder)
-    {
-        org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation = field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
-        if (optionalAnnotation != null)
-        {
-            fieldBuilder.required(false);
-            if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL))
-            {
-                fieldBuilder.with(new DefaultValueAnnotation(optionalAnnotation.defaultValue()));
-            }
-        }
-        else
-        {
-            fieldBuilder.required(true);
-        }
-    }
+  private void setFieldType(TypeHandlerManager typeHandlerManager, ParsingContext context, Field field,
+                            ObjectFieldTypeBuilder<?> fieldBuilder) {
+    final Type fieldType = field.getGenericType();
+    final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(fieldType);
 
-    private void fallbackToBeanProperties(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context, ObjectTypeBuilder builder)
-    {
-        if (!clazz.isInterface())
-        {
-            new DefaultObjectFieldHandler().handleFields(clazz, typeHandlerManager, context, builder);
-        }
+    if (typeBuilder.isPresent()) {
+      fieldBuilder.value(typeBuilder.get());
+    } else {
+      typeHandlerManager.handle(fieldType, context, fieldBuilder.value());
     }
+  }
+
+  private void setExpressionSupport(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    Expression expression = field.getAnnotation(Expression.class);
+    fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
+  }
+
+  private void setElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    final XmlHints annotation = field.getAnnotation(XmlHints.class);
+    if (annotation != null) {
+      fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(), annotation.allowReferences()));
+    }
+  }
+
+  private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
+        field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
+    if (optionalAnnotation != null) {
+      fieldBuilder.required(false);
+      if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL)) {
+        fieldBuilder.with(new DefaultValueAnnotation(optionalAnnotation.defaultValue()));
+      }
+    } else {
+      fieldBuilder.required(true);
+    }
+  }
+
+  private void fallbackToBeanProperties(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
+                                        ObjectTypeBuilder builder) {
+    if (!clazz.isInterface()) {
+      new DefaultObjectFieldHandler().handleFields(clazz, typeHandlerManager, context, builder);
+    }
+  }
 }

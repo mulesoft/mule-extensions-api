@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
 @Target(PARAMETER)
 @Retention(RUNTIME)
 @Documented
-public @interface Content
-{
+public @interface Content {
 
 }

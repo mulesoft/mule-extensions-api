@@ -15,15 +15,14 @@ import org.mule.runtime.extension.api.introspection.metadata.MetadataResolverFac
  * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-interface HasMetadataResolver<T>
-{
+interface HasMetadataResolver<T> {
 
-    /**
-     * Sets the given {@code metadataResolverFactory}
-     *
-     * @param metadataResolverFactory the {@link MetadataResolverFactory} associated to the enriched component
-     * @return {@code this} declarer
-     */
-    T withMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory);
+  /**
+   * Sets the given {@code metadataResolverFactory}
+   *
+   * @param metadataResolverFactory the {@link MetadataResolverFactory} associated to the enriched component
+   * @return {@code this} declarer
+   */
+  T withMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory);
 
 }

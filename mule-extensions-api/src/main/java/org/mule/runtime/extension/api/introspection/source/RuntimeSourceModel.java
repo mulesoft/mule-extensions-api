@@ -18,11 +18,10 @@ import org.mule.runtime.extension.api.runtime.source.SourceFactory;
  * @see SourceModel
  * @since 1.0
  */
-public interface RuntimeSourceModel extends RuntimeComponentModel, SourceModel
-{
+public interface RuntimeSourceModel extends RuntimeComponentModel, SourceModel {
 
-    /**
-     * @return a {@link SourceFactory} used to create instances of {@link Source} which are compliant with this model
-     */
-    SourceFactory getSourceFactory();
+  /**
+   * @return a {@link SourceFactory} used to create instances of {@link Source} which are compliant with this model
+   */
+  SourceFactory getSourceFactory();
 }

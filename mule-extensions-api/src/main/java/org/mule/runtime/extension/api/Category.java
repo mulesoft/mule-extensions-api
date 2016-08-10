@@ -20,7 +20,6 @@ package org.mule.runtime.extension.api;
  *
  * @since 1.0
  */
-public enum Category
-{
-    COMMUNITY, SELECT, PREMIUM, CERTIFIED
+public enum Category {
+  COMMUNITY, SELECT, PREMIUM, CERTIFIED
 }

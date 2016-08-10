@@ -15,15 +15,14 @@ import org.mule.metadata.api.model.MetadataType;
  * @param <T> the type of the implementing type. Used to allow method chaining
  * @since 1.0
  */
-interface HasType<T>
-{
+interface HasType<T> {
 
-    /**
-     * Specifies that the Element being described has a {@link MetadataType type}
-     * of <b>static</b> kind.
-     *
-     * @param type the type of the Element being described
-     * @return {@code this} declarer
-     */
-    T ofType(MetadataType type);
+  /**
+   * Specifies that the Element being described has a {@link MetadataType type}
+   * of <b>static</b> kind.
+   *
+   * @param type the type of the Element being described
+   * @return {@code this} declarer
+   */
+  T ofType(MetadataType type);
 }

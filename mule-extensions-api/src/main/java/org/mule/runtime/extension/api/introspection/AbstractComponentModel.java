@@ -19,45 +19,41 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractComponentModel extends AbstractParameterizedModel implements ComponentModel
-{
+public abstract class AbstractComponentModel extends AbstractParameterizedModel implements ComponentModel {
 
-    private final OutputModel output;
-    private final OutputModel outputAttributes;
+  private final OutputModel output;
+  private final OutputModel outputAttributes;
 
-    /**
-     * Creates a new instance
-     *
-     * @param name             the model's name
-     * @param description      the model's description
-     * @param modelProperties  A {@link Set} of custom properties which extend this model
-     * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param output           an {@link OutputModel} which represents the component's output content
-     * @param outputAttributes an {@link OutputModel} which represents the component's attributes on the output {@link MuleMessage}
-     * @throws IllegalArgumentException if {@code name} is blank
-     */
-    protected AbstractComponentModel(String name, String description, Set<ModelProperty> modelProperties,
-                                     List<ParameterModel> parameterModels, OutputModel output, OutputModel outputAttributes)
-    {
-        super(name, description, modelProperties, parameterModels);
-        this.output = output;
-        this.outputAttributes = outputAttributes;
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param name             the model's name
+   * @param description      the model's description
+   * @param modelProperties  A {@link Set} of custom properties which extend this model
+   * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
+   * @param output           an {@link OutputModel} which represents the component's output content
+   * @param outputAttributes an {@link OutputModel} which represents the component's attributes on the output {@link MuleMessage}
+   * @throws IllegalArgumentException if {@code name} is blank
+   */
+  protected AbstractComponentModel(String name, String description, Set<ModelProperty> modelProperties,
+                                   List<ParameterModel> parameterModels, OutputModel output, OutputModel outputAttributes) {
+    super(name, description, modelProperties, parameterModels);
+    this.output = output;
+    this.outputAttributes = outputAttributes;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    public OutputModel getOutput()
-    {
-        return output;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  public OutputModel getOutput() {
+    return output;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OutputModel getOutputAttributes()
-    {
-        return outputAttributes;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public OutputModel getOutputAttributes() {
+    return outputAttributes;
+  }
 }

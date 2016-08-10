@@ -15,27 +15,23 @@ import org.mule.runtime.extension.api.runtime.source.SourceFactory;
  *
  * @since 1.0
  */
-public class SourceDeclaration extends ComponentDeclaration<SourceDeclaration>
-{
+public class SourceDeclaration extends ComponentDeclaration<SourceDeclaration> {
 
-    private SourceFactory sourceFactory;
+  private SourceFactory sourceFactory;
 
-    /**
-     * {@inheritDoc}
-     */
-    SourceDeclaration(String name)
-    {
-        super(name);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  SourceDeclaration(String name) {
+    super(name);
+  }
 
-    public SourceFactory getSourceFactory()
-    {
-        return sourceFactory;
-    }
+  public SourceFactory getSourceFactory() {
+    return sourceFactory;
+  }
 
-    public void setSourceFactory(SourceFactory sourceFactory)
-    {
-        this.sourceFactory = sourceFactory;
-    }
+  public void setSourceFactory(SourceFactory sourceFactory) {
+    this.sourceFactory = sourceFactory;
+  }
 
 }

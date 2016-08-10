@@ -16,12 +16,11 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public interface Descriptable<T>
-{
-    MetadataResult<T> toDescriptorResult(List<Failure> failures);
+public interface Descriptable<T> {
 
-    default Optional<Failure> getComponentFailure(List<Failure> failures, String component)
-    {
-        return failures.stream().filter(f -> f.getFailureComponent().equals(component)).findFirst();
-    }
+  MetadataResult<T> toDescriptorResult(List<Failure> failures);
+
+  default Optional<Failure> getComponentFailure(List<Failure> failures, String component) {
+    return failures.stream().filter(f -> f.getFailureComponent().equals(component)).findFirst();
+  }
 }

@@ -11,25 +11,24 @@ package org.mule.runtime.extension.api.connectivity;
  *
  * @since 1.0
  */
-public enum OperationTransactionalAction
-{
-    /**
-     * There must always be a transaction present for the invocation
-     * <p>
-     * J2EE: Mandatory
-     */
-    ALWAYS_JOIN,
+public enum OperationTransactionalAction {
+  /**
+   * There must always be a transaction present for the invocation
+   * <p>
+   * J2EE: Mandatory
+   */
+  ALWAYS_JOIN,
 
-    /**
-     * If there is a transaction available, then use it, otherwise continue processing
-     * <p>
-     * J2EE: Supports
-     */
-    JOIN_IF_POSSIBLE,
+  /**
+   * If there is a transaction available, then use it, otherwise continue processing
+   * <p>
+   * J2EE: Supports
+   */
+  JOIN_IF_POSSIBLE,
 
 
-    /**
-     * Executes outside any existent transaction
-     */
-    NOT_SUPPORTED
+  /**
+   * Executes outside any existent transaction
+   */
+  NOT_SUPPORTED
 }

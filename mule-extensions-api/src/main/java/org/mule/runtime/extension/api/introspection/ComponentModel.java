@@ -18,22 +18,21 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  *
  * @since 1.0
  */
-public interface ComponentModel extends Named, Described, EnrichableModel, ParameterizedModel
-{
+public interface ComponentModel extends Named, Described, EnrichableModel, ParameterizedModel {
 
-    /**
-     * Returns a {@link MetadataType} for the value that this component sets
-     * on the output {@link MuleMessage#getPayload()} field.
-     *
-     * @return a {@link MetadataType} representing the content type for the output messages
-     */
-    OutputModel getOutput();
+  /**
+   * Returns a {@link MetadataType} for the value that this component sets
+   * on the output {@link MuleMessage#getPayload()} field.
+   *
+   * @return a {@link MetadataType} representing the content type for the output messages
+   */
+  OutputModel getOutput();
 
-    /**
-     * Returns a {@link MetadataType} for the value that this component sets
-     * on the output {@link MuleMessage#getAttributes()} field.
-     *
-     * @return a {@link MetadataType} representing the attribute types for the output messages
-     */
-    OutputModel getOutputAttributes();
+  /**
+   * Returns a {@link MetadataType} for the value that this component sets
+   * on the output {@link MuleMessage#getAttributes()} field.
+   *
+   * @return a {@link MetadataType} representing the attribute types for the output messages
+   */
+  OutputModel getOutputAttributes();
 }

@@ -29,100 +29,96 @@ import java.util.Optional;
  * @param <A> the generic type of the message attributes
  * @since 1.0
  */
-public interface OperationResult<Output, A extends Attributes>
-{
+public interface OperationResult<Output, A extends Attributes> {
+
+  /**
+   * Creates a new {@link Builder}
+   *
+   * @param <Output>     the generic type of the output value
+   * @param <A> the generic type of the message attributes
+   * @return a new {@link Builder}
+   */
+  static <Output, A extends Attributes> Builder<Output, A> builder() {
+    return OperationResultBuilderFactory.getDefaultFactory().create();
+  }
+
+  /**
+   * Creates a new {@link Builder} initialises with a state that matched
+   * the one of the given {@code muleMessage}
+   *
+   * @param muleMessage  a reference {@link MuleMessage}
+   * @param <Output>     the generic type of the output value
+   * @param <A> the generic type of the message attributes
+   * @return a new {@link Builder}
+   */
+  static <Output, A extends Attributes> Builder<Output, A> builder(MuleMessage muleMessage) {
+    return (Builder<Output, A>) OperationResultBuilderFactory.getDefaultFactory().create()
+        .output(muleMessage.getPayload())
+        .attributes(muleMessage.getAttributes())
+        .mediaType(muleMessage.getDataType().getMediaType());
+  }
+
+  /**
+   * @return The operation's output
+   */
+  Output getOutput();
+
+  /**
+   * The new value that the operation wants to set on {@link MuleMessage#getAttributes()}.
+   * <p>
+   * The operation might not be interested in changing that value, in which case
+   * this method would return {@link Optional#empty()}
+   *
+   * @return an {@link Optional} {@code Attributes} value
+   */
+  Optional<A> getAttributes();
+
+  /**
+   * The new {@link MediaType} that the operation wants to set on {@link MuleMessage#getDataType()}.
+   * <p>
+   * The operation might not be interested in changing that value, in which case
+   * this method would return {@link Optional#empty()}
+   *
+   * @return an {@link Optional} {@link MediaType} value
+   */
+  Optional<MediaType> getMediaType();
+
+  /**
+   * Builds instances of {@link OperationResult}
+   *
+   * @param <Output>     the generic type of the output value
+   * @param <A> the generic type of the message attributes
+   */
+  interface Builder<Output, A extends Attributes> {
 
     /**
-     * Creates a new {@link Builder}
+     * Sets the output value
      *
-     * @param <Output>     the generic type of the output value
-     * @param <A> the generic type of the message attributes
-     * @return a new {@link Builder}
+     * @param output the new output value
+     * @return {@code this} builder
      */
-    static <Output, A extends Attributes> Builder<Output, A> builder()
-    {
-        return OperationResultBuilderFactory.getDefaultFactory().create();
-    }
+    Builder<Output, A> output(Output output);
 
     /**
-     * Creates a new {@link Builder} initialises with a state that matched
-     * the one of the given {@code muleMessage}
+     * Sets the output attributes value
      *
-     * @param muleMessage  a reference {@link MuleMessage}
-     * @param <Output>     the generic type of the output value
-     * @param <A> the generic type of the message attributes
-     * @return a new {@link Builder}
+     * @param attributes the new attributes value
+     * @return {@code this} builder
      */
-    static <Output, A extends Attributes> Builder<Output, A> builder(MuleMessage muleMessage)
-    {
-        return (Builder<Output, A>) OperationResultBuilderFactory.getDefaultFactory().create()
-                .output(muleMessage.getPayload())
-                .attributes(muleMessage.getAttributes())
-                .mediaType(muleMessage.getDataType().getMediaType());
-    }
+    Builder<Output, A> attributes(A attributes);
 
     /**
-     * @return The operation's output
-     */
-    Output getOutput();
-
-    /**
-     * The new value that the operation wants to set on {@link MuleMessage#getAttributes()}.
-     * <p>
-     * The operation might not be interested in changing that value, in which case
-     * this method would return {@link Optional#empty()}
+     * Sets the output {@link MediaType}
      *
-     * @return an {@link Optional} {@code Attributes} value
+     * @param mediaType the new {@link MediaType}
+     * @return {@code this} builder
      */
-    Optional<A> getAttributes();
+    Builder<Output, A> mediaType(MediaType mediaType);
 
     /**
-     * The new {@link MediaType} that the operation wants to set on {@link MuleMessage#getDataType()}.
-     * <p>
-     * The operation might not be interested in changing that value, in which case
-     * this method would return {@link Optional#empty()}
-     *
-     * @return an {@link Optional} {@link MediaType} value
+     * @return the build {@link OperationResult}
      */
-    Optional<MediaType> getMediaType();
-
-    /**
-     * Builds instances of {@link OperationResult}
-     *
-     * @param <Output>     the generic type of the output value
-     * @param <A> the generic type of the message attributes
-     */
-    interface Builder<Output, A extends Attributes>
-    {
-
-        /**
-         * Sets the output value
-         *
-         * @param output the new output value
-         * @return {@code this} builder
-         */
-        Builder<Output, A> output(Output output);
-
-        /**
-         * Sets the output attributes value
-         *
-         * @param attributes the new attributes value
-         * @return {@code this} builder
-         */
-        Builder<Output, A> attributes(A attributes);
-
-        /**
-         * Sets the output {@link MediaType}
-         *
-         * @param mediaType the new {@link MediaType}
-         * @return {@code this} builder
-         */
-        Builder<Output, A> mediaType(MediaType mediaType);
-
-        /**
-         * @return the build {@link OperationResult}
-         */
-        OperationResult<Output, A> build();
-    }
+    OperationResult<Output, A> build();
+  }
 
 }

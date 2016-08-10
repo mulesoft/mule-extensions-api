@@ -17,37 +17,32 @@ import org.mule.runtime.extension.api.introspection.declaration.type.annotation.
 
 import org.junit.Test;
 
-public class ExtensionFieldHandlerTestCase
-{
+public class ExtensionFieldHandlerTestCase {
 
-    private ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+  private ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
-    @Test
-    public void interfaceWithGetter()
-    {
-        ObjectType type = (ObjectType) typeLoader.load(HasGetter.class);
-        assertThat(type.getFields(), hasSize(0));
-    }
+  @Test
+  public void interfaceWithGetter() {
+    ObjectType type = (ObjectType) typeLoader.load(HasGetter.class);
+    assertThat(type.getFields(), hasSize(0));
+  }
 
-    @Test
-    public void xmlElementStyle()
-    {
-        ObjectType type = (ObjectType) typeLoader.load(NoRefType.class);
-        assertThat(type.getFields(), hasSize(1));
-        assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsAnnotation.class).isPresent(), is(true));
-    }
+  @Test
+  public void xmlElementStyle() {
+    ObjectType type = (ObjectType) typeLoader.load(NoRefType.class);
+    assertThat(type.getFields(), hasSize(1));
+    assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsAnnotation.class).isPresent(), is(true));
+  }
 
-    interface HasGetter
-    {
+  interface HasGetter {
 
-        String getSomeString();
-    }
+    String getSomeString();
+  }
 
-    public class NoRefType
-    {
+  public class NoRefType {
 
-        @Parameter
-        @XmlHints(allowReferences = false)
-        private Object data;
-    }
+    @Parameter
+    @XmlHints(allowReferences = false)
+    private Object data;
+  }
 }

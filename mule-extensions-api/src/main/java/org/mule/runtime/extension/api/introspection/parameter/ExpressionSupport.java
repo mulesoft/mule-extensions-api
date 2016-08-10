@@ -14,27 +14,26 @@ import org.mule.runtime.extension.api.runtime.operation.OperationExecutor;
  *
  * @since 1.0
  */
-public enum ExpressionSupport
-{
-    /**
-     * Expressions are required but not enforced. Static values
-     * are accepted too.
-     */
-    SUPPORTED,
+public enum ExpressionSupport {
+  /**
+   * Expressions are required but not enforced. Static values
+   * are accepted too.
+   */
+  SUPPORTED,
 
-    /**
-     * Expressions not allowed. Static values only
-     */
-    NOT_SUPPORTED,
+  /**
+   * Expressions not allowed. Static values only
+   */
+  NOT_SUPPORTED,
 
-    /**
-     * Requires expressions. Static values are not supported
-     */
-    REQUIRED,
+  /**
+   * Requires expressions. Static values are not supported
+   */
+  REQUIRED,
 
-    /**
-     * Expressions are allowed but are not going to be evaluated automatically.
-     * The value will be supplied into the {@link OperationExecutor} on its literal form.
-     */
-    LITERAL
+  /**
+   * Expressions are allowed but are not going to be evaluated automatically.
+   * The value will be supplied into the {@link OperationExecutor} on its literal form.
+   */
+  LITERAL
 }

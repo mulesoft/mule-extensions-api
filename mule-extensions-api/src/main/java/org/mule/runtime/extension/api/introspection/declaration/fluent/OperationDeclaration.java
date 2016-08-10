@@ -15,27 +15,23 @@ import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory
  *
  * @since 1.0
  */
-public class OperationDeclaration extends ComponentDeclaration<OperationDeclaration>
-{
+public class OperationDeclaration extends ComponentDeclaration<OperationDeclaration> {
 
-    private OperationExecutorFactory executorFactory;
+  private OperationExecutorFactory executorFactory;
 
-    /**
-     * {@inheritDoc}
-     */
-    OperationDeclaration(String name)
-    {
-        super(name);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  OperationDeclaration(String name) {
+    super(name);
+  }
 
-    public OperationExecutorFactory getExecutorFactory()
-    {
-        return executorFactory;
-    }
+  public OperationExecutorFactory getExecutorFactory() {
+    return executorFactory;
+  }
 
-    public void setExecutorFactory(OperationExecutorFactory executorFactory)
-    {
-        this.executorFactory = executorFactory;
-    }
+  public void setExecutorFactory(OperationExecutorFactory executorFactory) {
+    this.executorFactory = executorFactory;
+  }
 
 }

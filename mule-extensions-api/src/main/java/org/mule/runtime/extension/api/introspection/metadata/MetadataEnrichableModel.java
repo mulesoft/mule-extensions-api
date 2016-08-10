@@ -15,14 +15,13 @@ import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
  *
  * @since 1.0
  */
-public interface MetadataEnrichableModel
-{
+public interface MetadataEnrichableModel {
 
-    /**
-     * @return the {@link MetadataResolverFactory} required to instantiate the
-     * {@link MetadataKeysResolver}, {@link MetadataContentResolver} and {@link MetadataOutputResolver}
-     * associated to this component's model.
-     */
-    MetadataResolverFactory getMetadataResolverFactory();
+  /**
+   * @return the {@link MetadataResolverFactory} required to instantiate the
+   * {@link MetadataKeysResolver}, {@link MetadataContentResolver} and {@link MetadataOutputResolver}
+   * associated to this component's model.
+   */
+  MetadataResolverFactory getMetadataResolverFactory();
 
 }

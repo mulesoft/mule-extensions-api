@@ -30,106 +30,91 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "extension-manifest")
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class XmlExtensionManifest implements ExtensionManifest
-{
+public final class XmlExtensionManifest implements ExtensionManifest {
 
-    @XmlElement
-    private String name;
+  @XmlElement
+  private String name;
 
-    @XmlElement
-    private String description;
+  @XmlElement
+  private String description;
 
-    @XmlElement
-    private String version;
+  @XmlElement
+  private String version;
 
-    @XmlElement
-    private String minMuleVersion;
+  @XmlElement
+  private String minMuleVersion;
 
-    @XmlElementWrapper(name = "exportedPackages")
-    @XmlElement(name = "package")
-    private List<String> exportedPackages = new ArrayList<>();
+  @XmlElementWrapper(name = "exportedPackages")
+  @XmlElement(name = "package")
+  private List<String> exportedPackages = new ArrayList<>();
 
-    @XmlElementWrapper(name = "exportedResources")
-    @XmlElement(name = "resource")
-    private List<String> exportedResources = new ArrayList<>();
+  @XmlElementWrapper(name = "exportedResources")
+  @XmlElement(name = "resource")
+  private List<String> exportedResources = new ArrayList<>();
 
-    @XmlElement(name = "describer")
-    private XmlDescriberManifest describerManifest;
+  @XmlElement(name = "describer")
+  private XmlDescriberManifest describerManifest;
 
-    @Override
-    public String getName()
-    {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public String getDescription()
-    {
-        return description;
-    }
+  @Override
+  public String getDescription() {
+    return description;
+  }
 
-    @Override
-    public String getVersion()
-    {
-        return version;
-    }
+  @Override
+  public String getVersion() {
+    return version;
+  }
 
-    @Override
-    public MuleVersion getMinMuleVersion()
-    {
-        return new MuleVersion(minMuleVersion);
-    }
+  @Override
+  public MuleVersion getMinMuleVersion() {
+    return new MuleVersion(minMuleVersion);
+  }
 
-    @Override
-    public DescriberManifest getDescriberManifest()
-    {
-        return describerManifest;
-    }
+  @Override
+  public DescriberManifest getDescriberManifest() {
+    return describerManifest;
+  }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setVersion(String version)
-    {
-        this.version = version;
-    }
+  public void setVersion(String version) {
+    this.version = version;
+  }
 
-    public void setMinMuleVersion(MuleVersion minMuleVersion)
-    {
-        this.minMuleVersion = minMuleVersion.toString();
-    }
+  public void setMinMuleVersion(MuleVersion minMuleVersion) {
+    this.minMuleVersion = minMuleVersion.toString();
+  }
 
-    public void setDescriberManifest(XmlDescriberManifest describerManifest)
-    {
-        this.describerManifest = describerManifest;
-    }
+  public void setDescriberManifest(XmlDescriberManifest describerManifest) {
+    this.describerManifest = describerManifest;
+  }
 
-    @Override
-    public List<String> getExportedPackages()
-    {
-        return exportedPackages;
-    }
+  @Override
+  public List<String> getExportedPackages() {
+    return exportedPackages;
+  }
 
-    public void setExportedPackages(List<String> exportedPackages)
-    {
-        this.exportedPackages = exportedPackages;
-    }
+  public void setExportedPackages(List<String> exportedPackages) {
+    this.exportedPackages = exportedPackages;
+  }
 
-    @Override
-    public List<String> getExportedResources()
-    {
-        return exportedResources;
-    }
+  @Override
+  public List<String> getExportedResources() {
+    return exportedResources;
+  }
 
-    public void setExportedResources(List<String> exportedResources)
-    {
-        this.exportedResources = exportedResources;
-    }
+  public void setExportedResources(List<String> exportedResources) {
+    this.exportedResources = exportedResources;
+  }
 }

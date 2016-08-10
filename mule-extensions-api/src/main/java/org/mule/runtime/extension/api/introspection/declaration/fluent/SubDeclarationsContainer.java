@@ -16,83 +16,73 @@ import java.util.List;
  *
  * @since 1.0
  */
-final class SubDeclarationsContainer
-{
+final class SubDeclarationsContainer {
 
-    private final List<OperationDeclaration> operations = new LinkedList<>();
-    private final List<ConnectionProviderDeclaration> connectionProviders = new LinkedList<>();
-    private final List<SourceDeclaration> messageSources = new LinkedList<>();
+  private final List<OperationDeclaration> operations = new LinkedList<>();
+  private final List<ConnectionProviderDeclaration> connectionProviders = new LinkedList<>();
+  private final List<SourceDeclaration> messageSources = new LinkedList<>();
 
-    /**
-     * @return an unmodifiable {@link List} with
-     * the available {@link OperationDeclaration}s
-     */
-    public List<OperationDeclaration> getOperations()
-    {
-        return Collections.unmodifiableList(operations);
+  /**
+   * @return an unmodifiable {@link List} with
+   * the available {@link OperationDeclaration}s
+   */
+  public List<OperationDeclaration> getOperations() {
+    return Collections.unmodifiableList(operations);
+  }
+
+  /**
+   * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
+   */
+  public List<ConnectionProviderDeclaration> getConnectionProviders() {
+    return Collections.unmodifiableList(connectionProviders);
+  }
+
+  /**
+   * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
+   */
+  public List<SourceDeclaration> getMessageSources() {
+    return Collections.unmodifiableList(messageSources);
+  }
+
+  /**
+   * Adds a {@link ConnectionProviderDeclaration}
+   *
+   * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
+   * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
+   */
+  public void addConnectionProvider(ConnectionProviderDeclaration connectionProvider) {
+    if (connectionProvider == null) {
+      throw new IllegalArgumentException("Can't add a null connection provider");
     }
 
-    /**
-     * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
-     */
-    public List<ConnectionProviderDeclaration> getConnectionProviders()
-    {
-        return Collections.unmodifiableList(connectionProviders);
+    connectionProviders.add(connectionProvider);
+  }
+
+  /**
+   * Adds a {@link OperationDeclaration}
+   *
+   * @param operation a not {@code null} {@link OperationDeclaration}
+   * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
+   */
+  public void addOperation(OperationDeclaration operation) {
+    if (operation == null) {
+      throw new IllegalArgumentException("Can't add a null operation");
     }
 
-    /**
-     * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
-     */
-    public List<SourceDeclaration> getMessageSources()
-    {
-        return Collections.unmodifiableList(messageSources);
+    operations.add(operation);
+  }
+
+  /**
+   * Adds a {@link SourceDeclaration}
+   *
+   * @param sourceDeclaration a not {@code null} {@link SourceDeclaration}
+   * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
+   */
+  public void addMessageSource(SourceDeclaration sourceDeclaration) {
+    if (sourceDeclaration == null) {
+      throw new IllegalArgumentException("Can't add a null message source");
     }
 
-    /**
-     * Adds a {@link ConnectionProviderDeclaration}
-     *
-     * @param connectionProvider a not {@code null} {@link ConnectionProviderDeclaration}
-     * @throws IllegalArgumentException if {@code connectionProvider} is {@code null}
-     */
-    public void addConnectionProvider(ConnectionProviderDeclaration connectionProvider)
-    {
-        if (connectionProvider == null)
-        {
-            throw new IllegalArgumentException("Can't add a null connection provider");
-        }
-
-        connectionProviders.add(connectionProvider);
-    }
-
-    /**
-     * Adds a {@link OperationDeclaration}
-     *
-     * @param operation a not {@code null} {@link OperationDeclaration}
-     * @throws {@link IllegalArgumentException} if {@code operation} is {@code null}
-     */
-    public void addOperation(OperationDeclaration operation)
-    {
-        if (operation == null)
-        {
-            throw new IllegalArgumentException("Can't add a null operation");
-        }
-
-        operations.add(operation);
-    }
-
-    /**
-     * Adds a {@link SourceDeclaration}
-     *
-     * @param sourceDeclaration a not {@code null} {@link SourceDeclaration}
-     * @throws {@link IllegalArgumentException} if {@code sourceDeclaration} is {@code null}
-     */
-    public void addMessageSource(SourceDeclaration sourceDeclaration)
-    {
-        if (sourceDeclaration == null)
-        {
-            throw new IllegalArgumentException("Can't add a null message source");
-        }
-
-        messageSources.add(sourceDeclaration);
-    }
+    messageSources.add(sourceDeclaration);
+  }
 }

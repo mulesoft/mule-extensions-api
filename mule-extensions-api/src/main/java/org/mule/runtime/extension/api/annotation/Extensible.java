@@ -34,11 +34,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Extensible
-{
+public @interface Extensible {
 
-    /**
-     * An optional alias for the type
-     */
-    String alias() default "";
+  /**
+   * An optional alias for the type
+   */
+  String alias() default "";
 }

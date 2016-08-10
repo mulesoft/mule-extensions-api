@@ -10,32 +10,27 @@ import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.Parameter;
 
 @Extensible
-public class ExtensibleType
-{
+public class ExtensibleType {
 
-    @Parameter
-    private String sampleString;
+  @Parameter
+  private String sampleString;
 
-    @Parameter
-    private Integer otherNumber;
+  @Parameter
+  private Integer otherNumber;
 
-    public String getSampleString()
-    {
-        return sampleString;
-    }
+  public String getSampleString() {
+    return sampleString;
+  }
 
-    public void setSampleString(String sampleString)
-    {
-        this.sampleString = sampleString;
-    }
+  public void setSampleString(String sampleString) {
+    this.sampleString = sampleString;
+  }
 
-    public Integer getOtherNumber()
-    {
-        return otherNumber;
-    }
+  public Integer getOtherNumber() {
+    return otherNumber;
+  }
 
-    public void setOtherNumber(Integer otherNumber)
-    {
-        this.otherNumber = otherNumber;
-    }
+  public void setOtherNumber(Integer otherNumber) {
+    this.otherNumber = otherNumber;
+  }
 }

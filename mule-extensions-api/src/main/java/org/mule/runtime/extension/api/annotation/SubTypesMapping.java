@@ -21,12 +21,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SubTypesMapping
-{
+public @interface SubTypesMapping {
 
-    /**
-     * @return all the {@link SubTypeMapping} declarations on the annotated element
-     */
-    SubTypeMapping[] value() default {};
+  /**
+   * @return all the {@link SubTypeMapping} declarations on the annotated element
+   */
+  SubTypeMapping[] value() default {};
 
 }

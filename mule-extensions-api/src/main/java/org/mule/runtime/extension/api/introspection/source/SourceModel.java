@@ -22,7 +22,6 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
  *
  * @since 1.0
  */
-public interface SourceModel extends ComponentModel
-{
+public interface SourceModel extends ComponentModel {
 
 }

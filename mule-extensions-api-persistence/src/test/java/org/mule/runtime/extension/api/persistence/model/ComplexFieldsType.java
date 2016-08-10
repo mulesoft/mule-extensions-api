@@ -12,47 +12,40 @@ import org.mule.runtime.extension.api.annotation.Parameter;
 import java.util.List;
 
 @Alias("complex-alias")
-public class ComplexFieldsType
-{
+public class ComplexFieldsType {
 
-    public static final String ALIAS = "complex-alias";
+  public static final String ALIAS = "complex-alias";
 
-    @Parameter
-    private List<ExtensibleType> extensibleTypeList;
+  @Parameter
+  private List<ExtensibleType> extensibleTypeList;
 
-    @Parameter
-    private ComplexFieldsType recursiveChild;
+  @Parameter
+  private ComplexFieldsType recursiveChild;
 
-    @Parameter
-    private SimpleFieldsType simplePojo;
+  @Parameter
+  private SimpleFieldsType simplePojo;
 
-    public List<ExtensibleType> getExtensibleTypeList()
-    {
-        return extensibleTypeList;
-    }
+  public List<ExtensibleType> getExtensibleTypeList() {
+    return extensibleTypeList;
+  }
 
-    public void setExtensibleTypeList(List<ExtensibleType> extensibleTypeList)
-    {
-        this.extensibleTypeList = extensibleTypeList;
-    }
+  public void setExtensibleTypeList(List<ExtensibleType> extensibleTypeList) {
+    this.extensibleTypeList = extensibleTypeList;
+  }
 
-    public ComplexFieldsType getRecursiveChild()
-    {
-        return recursiveChild;
-    }
+  public ComplexFieldsType getRecursiveChild() {
+    return recursiveChild;
+  }
 
-    public void setRecursiveChild(ComplexFieldsType recursiveChild)
-    {
-        this.recursiveChild = recursiveChild;
-    }
+  public void setRecursiveChild(ComplexFieldsType recursiveChild) {
+    this.recursiveChild = recursiveChild;
+  }
 
-    public SimpleFieldsType getSimplePojo()
-    {
-        return simplePojo;
-    }
+  public SimpleFieldsType getSimplePojo() {
+    return simplePojo;
+  }
 
-    public void setSimplePojo(SimpleFieldsType simplePojo)
-    {
-        this.simplePojo = simplePojo;
-    }
+  public void setSimplePojo(SimpleFieldsType simplePojo) {
+    this.simplePojo = simplePojo;
+  }
 }

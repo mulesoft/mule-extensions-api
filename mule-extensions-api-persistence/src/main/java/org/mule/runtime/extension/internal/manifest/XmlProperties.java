@@ -26,35 +26,31 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "properties")
-public final class XmlProperties
-{
+public final class XmlProperties {
 
-    @XmlElement(name = "property")
-    private List<XmlProperty> properties;
+  @XmlElement(name = "property")
+  private List<XmlProperty> properties;
 
-    /**
-     * Creates a new instance with empty {@link #properties}
-     */
-    XmlProperties()
-    {
-        properties = new LinkedList<>();
-    }
+  /**
+   * Creates a new instance with empty {@link #properties}
+   */
+  XmlProperties() {
+    properties = new LinkedList<>();
+  }
 
-    /**
-     * Creates a new instance initialised with the given properties
-     *
-     * @param properties initial properties
-     */
-    XmlProperties(Map<String, String> properties)
-    {
-        this.properties = properties.entrySet().stream()
-                .map(entry -> new XmlProperty(entry.getKey(), entry.getValue()))
-                .collect(toList());
-    }
+  /**
+   * Creates a new instance initialised with the given properties
+   *
+   * @param properties initial properties
+   */
+  XmlProperties(Map<String, String> properties) {
+    this.properties = properties.entrySet().stream()
+        .map(entry -> new XmlProperty(entry.getKey(), entry.getValue()))
+        .collect(toList());
+  }
 
 
-    public List<XmlProperty> getProperties()
-    {
-        return properties;
-    }
+  public List<XmlProperty> getProperties() {
+    return properties;
+  }
 }

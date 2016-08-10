@@ -20,50 +20,45 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public final class ImportedTypesModelProperty implements ModelProperty
-{
+public final class ImportedTypesModelProperty implements ModelProperty {
 
-    private final Map<MetadataType, MetadataType> importedTypes;
+  private final Map<MetadataType, MetadataType> importedTypes;
 
-    /**
-     * Creates a new instance containing all the imported {@link MetadataType} declarations
-     * along with the {@link MetadataType} from where they have to be imported from
-     *
-     * @param importedTypes
-     */
-    public ImportedTypesModelProperty(Map<MetadataType, MetadataType> importedTypes)
-    {
-        this.importedTypes = importedTypes;
-    }
+  /**
+   * Creates a new instance containing all the imported {@link MetadataType} declarations
+   * along with the {@link MetadataType} from where they have to be imported from
+   *
+   * @param importedTypes
+   */
+  public ImportedTypesModelProperty(Map<MetadataType, MetadataType> importedTypes) {
+    this.importedTypes = importedTypes;
+  }
 
-    /**
-     * @return a {@link Map} containing the {@link MetadataType} from where the {@code key}
-     * {@link MetadataType} was imported from
-     */
-    public Map<MetadataType, MetadataType> getImportedTypes()
-    {
-        return Collections.unmodifiableMap(importedTypes);
-    }
+  /**
+   * @return a {@link Map} containing the {@link MetadataType} from where the {@code key}
+   * {@link MetadataType} was imported from
+   */
+  public Map<MetadataType, MetadataType> getImportedTypes() {
+    return Collections.unmodifiableMap(importedTypes);
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code importedTypesProperty}
-     */
-    @Override
-    public String getName()
-    {
-        return "importedTypesProperty";
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code importedTypesProperty}
+   */
+  @Override
+  public String getName() {
+    return "importedTypesProperty";
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code true}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return true;
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code true}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return true;
+  }
 }

@@ -19,32 +19,31 @@ import org.mule.runtime.extension.api.introspection.config.RuntimeConfigurationM
  * @param <T> the type of configuration instances returned
  * @since 1.0
  */
-public interface ConfigurationProvider<T>
-{
+public interface ConfigurationProvider<T> {
 
-    /**
-     * Returns a {@link ConfigurationInstance}
-     * <p/>
-     * This method may return an instance already returned in the past or a brand new one.
-     *
-     * @param muleEvent the event which processing requires the instance
-     * @return a {@link ConfigurationInstance}
-     */
-    //TODO: MULE-8946
-    ConfigurationInstance<T> get(Object muleEvent);
+  /**
+   * Returns a {@link ConfigurationInstance}
+   * <p/>
+   * This method may return an instance already returned in the past or a brand new one.
+   *
+   * @param muleEvent the event which processing requires the instance
+   * @return a {@link ConfigurationInstance}
+   */
+  //TODO: MULE-8946
+  ConfigurationInstance<T> get(Object muleEvent);
 
-    /**
-     * Returns the {@link RuntimeConfigurationModel} for the instances
-     * returned by {@link #get(Object)}
-     *
-     * @return a {@link RuntimeConfigurationModel}
-     */
-    RuntimeConfigurationModel getModel();
+  /**
+   * Returns the {@link RuntimeConfigurationModel} for the instances
+   * returned by {@link #get(Object)}
+   *
+   * @return a {@link RuntimeConfigurationModel}
+   */
+  RuntimeConfigurationModel getModel();
 
-    /**
-     * The name under which this provider has been registered
-     *
-     * @return this provider's name
-     */
-    String getName();
+  /**
+   * The name under which this provider has been registered
+   *
+   * @return this provider's name
+   */
+  String getName();
 }

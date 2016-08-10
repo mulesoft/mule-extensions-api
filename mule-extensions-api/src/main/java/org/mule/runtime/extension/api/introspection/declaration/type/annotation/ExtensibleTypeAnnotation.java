@@ -18,32 +18,27 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
  *
  * @since 1.0
  */
-public class ExtensibleTypeAnnotation implements TypeAnnotation
-{
+public class ExtensibleTypeAnnotation implements TypeAnnotation {
 
-    public static final String NAME = "extensibleType";
+  public static final String NAME = "extensibleType";
 
-    @Override
-    public String getName()
-    {
-        return NAME;
-    }
+  @Override
+  public String getName() {
+    return NAME;
+  }
 
-    @Override
-    public String toString()
-    {
-        return getName();
-    }
+  @Override
+  public String toString() {
+    return getName();
+  }
 
-    @Override
-    public int hashCode()
-    {
-        return reflectionHashCode(this);
-    }
+  @Override
+  public int hashCode() {
+    return reflectionHashCode(this);
+  }
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        return obj instanceof ExtensibleTypeAnnotation;
-    }
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof ExtensibleTypeAnnotation;
+  }
 }

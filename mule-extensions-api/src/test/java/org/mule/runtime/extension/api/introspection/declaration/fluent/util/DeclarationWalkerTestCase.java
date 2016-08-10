@@ -30,101 +30,90 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DeclarationWalkerTestCase
-{
+public class DeclarationWalkerTestCase {
 
-    @Mock
-    private ExtensionDeclaration extension;
+  @Mock
+  private ExtensionDeclaration extension;
 
-    @Mock
-    private ConfigurationDeclaration configuration;
+  @Mock
+  private ConfigurationDeclaration configuration;
 
-    @Mock
-    private OperationDeclaration operation;
+  @Mock
+  private OperationDeclaration operation;
 
-    @Mock
-    private ConnectionProviderDeclaration connectionProvider;
+  @Mock
+  private ConnectionProviderDeclaration connectionProvider;
 
-    @Mock
-    private ParameterDeclaration parameterModel;
+  @Mock
+  private ParameterDeclaration parameterModel;
 
-    @Mock
-    private SourceDeclaration source;
+  @Mock
+  private SourceDeclaration source;
 
-    @Before
-    public void before()
-    {
-        when(extension.getConfigurations()).thenReturn(asList(configuration));
-        when(extension.getOperations()).thenReturn(asList(operation));
-        when(extension.getMessageSources()).thenReturn(asList(source));
-        when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
+  @Before
+  public void before() {
+    when(extension.getConfigurations()).thenReturn(asList(configuration));
+    when(extension.getOperations()).thenReturn(asList(operation));
+    when(extension.getMessageSources()).thenReturn(asList(source));
+    when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
-        when(configuration.getOperations()).thenReturn(asList(operation));
-        when(configuration.getMessageSources()).thenReturn(asList(source));
-        when(configuration.getConnectionProviders()).thenReturn(asList(connectionProvider));
+    when(configuration.getOperations()).thenReturn(asList(operation));
+    when(configuration.getMessageSources()).thenReturn(asList(source));
+    when(configuration.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
-        addParameter(configuration, operation, connectionProvider, source);
+    addParameter(configuration, operation, connectionProvider, source);
+  }
+
+  private void addParameter(ParameterizedInterceptableDeclaration... declarations) {
+    for (ParameterizedInterceptableDeclaration declaration : declarations) {
+      when(declaration.getParameters()).thenReturn(asList(parameterModel));
     }
+  }
 
-    private void addParameter(ParameterizedInterceptableDeclaration... declarations)
-    {
-        for (ParameterizedInterceptableDeclaration declaration : declarations)
-        {
-            when(declaration.getParameters()).thenReturn(asList(parameterModel));
-        }
-    }
+  @Test
+  public void walk() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
 
-    @Test
-    public void walk()
-    {
-        AtomicInteger configs = new AtomicInteger(0);
-        AtomicInteger operations = new AtomicInteger(0);
-        AtomicInteger sources = new AtomicInteger(0);
-        AtomicInteger parameters = new AtomicInteger(0);
-        AtomicInteger providers = new AtomicInteger(0);
+    new DeclarationWalker() {
 
-        new DeclarationWalker()
-        {
-            @Override
-            public void onConfiguration(ConfigurationDeclaration declaration)
-            {
-                configs.incrementAndGet();
-            }
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+      }
 
-            @Override
-            public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration)
-            {
-                operations.incrementAndGet();
-            }
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+      }
 
-            @Override
-            public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration)
-            {
-                providers.incrementAndGet();
-            }
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+      }
 
-            @Override
-            public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration)
-            {
-                sources.incrementAndGet();
-            }
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+      }
 
-            @Override
-            public void onParameter(ParameterizedInterceptableDeclaration owner, ParameterDeclaration declaration)
-            {
-                parameters.incrementAndGet();
-            }
-        }.walk(extension);
+      @Override
+      public void onParameter(ParameterizedInterceptableDeclaration owner, ParameterDeclaration declaration) {
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
 
-        assertCount(configs, 1);
-        assertCount(operations, 2);
-        assertCount(sources, 2);
-        assertCount(providers, 2);
-        assertCount(parameters, 7);
-    }
+    assertCount(configs, 1);
+    assertCount(operations, 2);
+    assertCount(sources, 2);
+    assertCount(providers, 2);
+    assertCount(parameters, 7);
+  }
 
-    private void assertCount(AtomicInteger actual, int expected)
-    {
-        assertThat(actual.get(), is(expected));
-    }
+  private void assertCount(AtomicInteger actual, int expected) {
+    assertThat(actual.get(), is(expected));
+  }
 }

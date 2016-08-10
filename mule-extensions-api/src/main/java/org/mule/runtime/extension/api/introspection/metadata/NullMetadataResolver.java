@@ -30,69 +30,64 @@ import java.util.Set;
  * @since 1.0
  */
 public final class NullMetadataResolver implements MetadataContentResolver<Object>, MetadataKeysResolver,
-        MetadataOutputResolver<Object>, MetadataAttributesResolver<Object>
-{
+    MetadataOutputResolver<Object>, MetadataAttributesResolver<Object> {
 
-    /**
-     * Null implementation of {@link MetadataKeysResolver}, used when no implementation
-     * is provided by the connector developer. Represents the absence of a custom {@link MetadataKeysResolver},
-     * returning an empty list of {@link MetadataKey}.
-     *
-     * @param context {@link MetadataContext} of the MetaData resolution
-     * @return {@link Collections#emptyList()}
-     * @throws MetadataResolvingException
-     */
-    @Override
-    public Set<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException
-    {
-        return Collections.emptySet();
-    }
+  /**
+   * Null implementation of {@link MetadataKeysResolver}, used when no implementation
+   * is provided by the connector developer. Represents the absence of a custom {@link MetadataKeysResolver},
+   * returning an empty list of {@link MetadataKey}.
+   *
+   * @param context {@link MetadataContext} of the MetaData resolution
+   * @return {@link Collections#emptyList()}
+   * @throws MetadataResolvingException
+   */
+  @Override
+  public Set<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException {
+    return Collections.emptySet();
+  }
 
-    /**
-     * Null implementation of {@link MetadataContentResolver}, used when no implementation
-     * is provided by the connector developer. Represents the absence of a custom {@link MetadataContentResolver},
-     * returning a {@link NullType} instead of resolving a valid {@link MetadataType} for the {@link Content} parameter
-     *
-     * @param context {@link MetadataContext} of the MetaData resolution
-     * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-     * @return {@link NullType}
-     * @throws MetadataResolvingException
-     */
-    @Override
-    public MetadataType getContentMetadata(MetadataContext context, Object key) throws MetadataResolvingException
-    {
-        return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
-    }
+  /**
+   * Null implementation of {@link MetadataContentResolver}, used when no implementation
+   * is provided by the connector developer. Represents the absence of a custom {@link MetadataContentResolver},
+   * returning a {@link NullType} instead of resolving a valid {@link MetadataType} for the {@link Content} parameter
+   *
+   * @param context {@link MetadataContext} of the MetaData resolution
+   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
+   * @return {@link NullType}
+   * @throws MetadataResolvingException
+   */
+  @Override
+  public MetadataType getContentMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
+    return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
+  }
 
-    /**
-     * Null implementation of {@link MetadataOutputResolver}, used when no implementation
-     * is provided by the connector developer. Represents the absence of a custom {@link MetadataOutputResolver},
-     * returning a {@link NullType} instead of resolving a dynamic {@link MetadataType} for the component's output.
-     *
-     * @param context {@link MetadataContext} of the MetaData resolution
-     * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-     * @return {@link NullType}
-     * @throws MetadataResolvingException
-     */
-    @Override
-    public MetadataType getOutputMetadata(MetadataContext context, Object key) throws MetadataResolvingException
-    {
-        return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
-    }
+  /**
+   * Null implementation of {@link MetadataOutputResolver}, used when no implementation
+   * is provided by the connector developer. Represents the absence of a custom {@link MetadataOutputResolver},
+   * returning a {@link NullType} instead of resolving a dynamic {@link MetadataType} for the component's output.
+   *
+   * @param context {@link MetadataContext} of the MetaData resolution
+   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
+   * @return {@link NullType}
+   * @throws MetadataResolvingException
+   */
+  @Override
+  public MetadataType getOutputMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
+    return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
+  }
 
-    /**
-     * Null implementation of {@link MetadataAttributesResolver}, used when no implementation
-     * is provided by the connector developer. Represents the absence of a custom {@link MetadataAttributesResolver},
-     * returning a {@link AnyType} instead of resolving a dynamic {@link MetadataType} for the component's output attributes.
-     *
-     * @param context {@link MetadataContext} of the MetaData resolution
-     * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-     * @return {@link NullType}
-     * @throws MetadataResolvingException
-     */
-    @Override
-    public MetadataType getAttributesMetadata(MetadataContext context, Object key) throws MetadataResolvingException
-    {
-        return BaseTypeBuilder.create(JavaTypeLoader.JAVA).anyType().build();
-    }
+  /**
+   * Null implementation of {@link MetadataAttributesResolver}, used when no implementation
+   * is provided by the connector developer. Represents the absence of a custom {@link MetadataAttributesResolver},
+   * returning a {@link AnyType} instead of resolving a dynamic {@link MetadataType} for the component's output attributes.
+   *
+   * @param context {@link MetadataContext} of the MetaData resolution
+   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
+   * @return {@link NullType}
+   * @throws MetadataResolvingException
+   */
+  @Override
+  public MetadataType getAttributesMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
+    return BaseTypeBuilder.create(JavaTypeLoader.JAVA).anyType().build();
+  }
 }

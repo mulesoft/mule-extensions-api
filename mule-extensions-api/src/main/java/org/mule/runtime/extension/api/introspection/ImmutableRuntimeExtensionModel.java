@@ -27,50 +27,48 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionModel implements RuntimeExtensionModel
-{
+public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionModel implements RuntimeExtensionModel {
 
-    private transient final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+  private transient final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
 
 
-    /**
-     * Creates a new instance with the given state
-     *
-     * @param name                     the extension's name. Cannot be blank
-     * @param description              the extension's description
-     * @param version                  the extension's version
-     * @param vendor                   the extension's vendor name
-     * @param category                 the extension's {@link Category}
-     * @param minMuleVersion           the extension's {@link MuleVersion}
-     * @param configurationModels      a {@link List} with the extension's {@link ConfigurationModel configurationModels}
-     * @param operationModels          a {@link List} with the extension's {@link OperationModel operationModels}
-     * @param connectionProviders      a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-     * @param sourceModels             a {@link List} with the extension's {@link SourceModel message source models}
-     * @param modelProperties          A {@link Set} of custom properties which extend this model
-     * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
-     * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
-     */
-    public ImmutableRuntimeExtensionModel(String name,
-                                          String description,
-                                          String version,
-                                          String vendor,
-                                          Category category,
-                                          MuleVersion minMuleVersion,
-                                          List<ConfigurationModel> configurationModels,
-                                          List<OperationModel> operationModels,
-                                          List<ConnectionProviderModel> connectionProviders,
-                                          List<SourceModel> sourceModels,
-                                          Set<ModelProperty> modelProperties,
-                                          Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
-    {
-        super(name, description, version, vendor, category, minMuleVersion, configurationModels, operationModels, connectionProviders, sourceModels, modelProperties);
-        this.exceptionEnricherFactory = exceptionEnricherFactory;
-    }
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name                     the extension's name. Cannot be blank
+   * @param description              the extension's description
+   * @param version                  the extension's version
+   * @param vendor                   the extension's vendor name
+   * @param category                 the extension's {@link Category}
+   * @param minMuleVersion           the extension's {@link MuleVersion}
+   * @param configurationModels      a {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels          a {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders      a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels             a {@link List} with the extension's {@link SourceModel message source models}
+   * @param modelProperties          A {@link Set} of custom properties which extend this model
+   * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
+   * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
+   */
+  public ImmutableRuntimeExtensionModel(String name,
+                                        String description,
+                                        String version,
+                                        String vendor,
+                                        Category category,
+                                        MuleVersion minMuleVersion,
+                                        List<ConfigurationModel> configurationModels,
+                                        List<OperationModel> operationModels,
+                                        List<ConnectionProviderModel> connectionProviders,
+                                        List<SourceModel> sourceModels,
+                                        Set<ModelProperty> modelProperties,
+                                        Optional<ExceptionEnricherFactory> exceptionEnricherFactory) {
+    super(name, description, version, vendor, category, minMuleVersion, configurationModels, operationModels, connectionProviders,
+          sourceModels, modelProperties);
+    this.exceptionEnricherFactory = exceptionEnricherFactory;
+  }
 
-    @Override
-    @Transient
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
+  @Override
+  @Transient
+  public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory() {
+    return exceptionEnricherFactory;
+  }
 }

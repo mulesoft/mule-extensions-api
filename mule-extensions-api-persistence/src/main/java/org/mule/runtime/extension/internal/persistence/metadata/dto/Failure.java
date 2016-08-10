@@ -14,39 +14,33 @@ import org.mule.runtime.api.metadata.resolving.MetadataFailure;
  *
  * @since 1.0
  */
-class Failure
-{
+class Failure {
 
-    private final String failureCode;
-    private final String message;
-    private final String reason;
-    private final String failureComponent;
+  private final String failureCode;
+  private final String message;
+  private final String reason;
+  private final String failureComponent;
 
-    Failure(MetadataFailure failure, String failureComponent)
-    {
-        this.failureComponent = failureComponent;
-        this.reason = failure.getReason();
-        this.message = failure.getMessage();
-        this.failureCode = failure.getFailureCode().getName();
-    }
+  Failure(MetadataFailure failure, String failureComponent) {
+    this.failureComponent = failureComponent;
+    this.reason = failure.getReason();
+    this.message = failure.getMessage();
+    this.failureCode = failure.getFailureCode().getName();
+  }
 
-    FailureCode getFailureCode()
-    {
-        return new FailureCode(failureCode);
-    }
+  FailureCode getFailureCode() {
+    return new FailureCode(failureCode);
+  }
 
-    String getMessage()
-    {
-        return message;
-    }
+  String getMessage() {
+    return message;
+  }
 
-    String getReason()
-    {
-        return reason;
-    }
+  String getReason() {
+    return reason;
+  }
 
-    String getFailureComponent()
-    {
-        return failureComponent;
-    }
+  String getFailureComponent() {
+    return failureComponent;
+  }
 }

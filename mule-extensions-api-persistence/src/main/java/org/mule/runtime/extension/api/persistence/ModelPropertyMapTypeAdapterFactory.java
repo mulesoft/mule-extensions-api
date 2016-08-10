@@ -23,24 +23,17 @@ import java.util.Map;
  *
  * @since 1.0
  */
-final class ModelPropertyMapTypeAdapterFactory implements TypeAdapterFactory
-{
+final class ModelPropertyMapTypeAdapterFactory implements TypeAdapterFactory {
 
-    private final Type mapType = new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>()
-    {
-    }.getType();
+  private final Type mapType = new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>() {}.getType();
 
-    private final Type hierarchyClassMapType = new TypeToken<HierarchyClassMap<ModelProperty>>()
-    {
-    }.getType();
+  private final Type hierarchyClassMapType = new TypeToken<HierarchyClassMap<ModelProperty>>() {}.getType();
 
-    @Override
-    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type)
-    {
-        if (type.getType().equals(mapType) || type.getType().equals(hierarchyClassMapType))
-        {
-            return (TypeAdapter<T>) new ModelPropertyMapTypeAdapter(gson);
-        }
-        return null;
+  @Override
+  public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+    if (type.getType().equals(mapType) || type.getType().equals(hierarchyClassMapType)) {
+      return (TypeAdapter<T>) new ModelPropertyMapTypeAdapter(gson);
     }
+    return null;
+  }
 }

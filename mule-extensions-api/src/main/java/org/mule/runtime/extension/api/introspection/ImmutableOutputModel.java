@@ -15,37 +15,33 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableOutputModel extends AbstractImmutableModel implements OutputModel
-{
+public class ImmutableOutputModel extends AbstractImmutableModel implements OutputModel {
 
-    private final MetadataType type;
-    private final boolean hasDynamicType;
+  private final MetadataType type;
+  private final boolean hasDynamicType;
 
-    /**
-     * Creates a new instance with the given state
-     *
-     * @param description     the output's description
-     * @param type            the output's {@link MetadataType}. Cannot be {@code null}
-     * @param hasDynamicType  if the given {@code type} is of dynamic kind and has to be discovered during design time
-     * @param modelProperties A {@link Set} of custom properties which extend this model
-     */
-    public ImmutableOutputModel(String description, MetadataType type, boolean hasDynamicType, Set<ModelProperty> modelProperties)
-    {
-        super(description, modelProperties);
-        this.type = type;
-        this.hasDynamicType = hasDynamicType;
-    }
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param description     the output's description
+   * @param type            the output's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType  if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   */
+  public ImmutableOutputModel(String description, MetadataType type, boolean hasDynamicType, Set<ModelProperty> modelProperties) {
+    super(description, modelProperties);
+    this.type = type;
+    this.hasDynamicType = hasDynamicType;
+  }
 
-    @Override
-    public MetadataType getType()
-    {
-        return type;
-    }
+  @Override
+  public MetadataType getType() {
+    return type;
+  }
 
-    @Override
-    public boolean hasDynamicType()
-    {
-        return hasDynamicType;
-    }
+  @Override
+  public boolean hasDynamicType() {
+    return hasDynamicType;
+  }
 
 }

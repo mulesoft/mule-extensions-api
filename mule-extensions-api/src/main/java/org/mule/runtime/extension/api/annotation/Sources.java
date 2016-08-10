@@ -23,13 +23,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Sources
-{
+public @interface Sources {
 
-    /**
-     * An array of classes which extend the {@link Source} class.
-     *
-     * @return A not empty array
-     */
-    Class<? extends Source>[] value();
+  /**
+   * An array of classes which extend the {@link Source} class.
+   *
+   * @return A not empty array
+   */
+  Class<? extends Source>[] value();
 }

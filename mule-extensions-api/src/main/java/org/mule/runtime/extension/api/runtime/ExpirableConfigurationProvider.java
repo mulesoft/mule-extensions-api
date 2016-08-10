@@ -17,11 +17,10 @@ import java.util.List;
  * @param <T> the generic type for the provided configurations
  * @since 1.0
  */
-public interface ExpirableConfigurationProvider<T> extends ConfigurationProvider<T>
-{
+public interface ExpirableConfigurationProvider<T> extends ConfigurationProvider<T> {
 
-    /**
-     * @return a {@link List} which items are the expired {@link ConfigurationInstance}
-     */
-    List<ConfigurationInstance<T>> getExpired();
+  /**
+   * @return a {@link List} which items are the expired {@link ConfigurationInstance}
+   */
+  List<ConfigurationInstance<T>> getExpired();
 }

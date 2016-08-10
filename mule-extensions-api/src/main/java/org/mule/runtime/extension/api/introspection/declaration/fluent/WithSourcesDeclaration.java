@@ -15,21 +15,20 @@ import java.util.List;
  * @param <T> the generic type of the {@link BaseDeclaration} which is implementing the interface
  * @since 1.0
  */
-public interface WithSourcesDeclaration<T extends BaseDeclaration>
-{
+public interface WithSourcesDeclaration<T extends BaseDeclaration> {
 
-    /**
-     * Adds a {@link SourceDeclaration}
-     *
-     * @param sourceDeclaration the provider's declaration
-     * @return {@code this} declaration
-     */
-    T addMessageSource(SourceDeclaration sourceDeclaration);
+  /**
+   * Adds a {@link SourceDeclaration}
+   *
+   * @param sourceDeclaration the provider's declaration
+   * @return {@code this} declaration
+   */
+  T addMessageSource(SourceDeclaration sourceDeclaration);
 
-    /**
-     * @return a {@link List} with the {@link SourceDeclaration} which have been
-     * added to {@code this} declaration
-     */
-    List<SourceDeclaration> getMessageSources();
+  /**
+   * @return a {@link List} with the {@link SourceDeclaration} which have been
+   * added to {@code this} declaration
+   */
+  List<SourceDeclaration> getMessageSources();
 
 }

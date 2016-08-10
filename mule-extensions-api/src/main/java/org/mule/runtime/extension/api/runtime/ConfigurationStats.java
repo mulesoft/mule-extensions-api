@@ -13,16 +13,15 @@ package org.mule.runtime.extension.api.runtime;
  *
  * @since 1.0
  */
-public interface ConfigurationStats
-{
+public interface ConfigurationStats {
 
-    /**
-     * @return The last time in milliseconds that the referenced configuration was used or referenced
-     */
-    long getLastUsedMillis();
+  /**
+   * @return The last time in milliseconds that the referenced configuration was used or referenced
+   */
+  long getLastUsedMillis();
 
-    /**
-     * @return How many currently executing operations are making use of the referenced configuration
-     */
-    int getInflightOperations();
+  /**
+   * @return How many currently executing operations are making use of the referenced configuration
+   */
+  int getInflightOperations();
 }

@@ -21,16 +21,15 @@ import org.mule.runtime.extension.api.introspection.declaration.fluent.Extension
  *
  * @since 4.0
  */
-public interface ModelEnricher
-{
+public interface ModelEnricher {
 
-    /**
-     * Enriches the descriptor provided in the given {@code describingContext}. If this
-     * enricher requires receiving state or wants to pass information to the next enricher,
-     * then it should do it through the given {@code describingContext}
-     *
-     * @param describingContext the {@link DescribingContext} on which a {@link EnrichableModel} is being described
-     */
-    void enrich(DescribingContext describingContext);
+  /**
+   * Enriches the descriptor provided in the given {@code describingContext}. If this
+   * enricher requires receiving state or wants to pass information to the next enricher,
+   * then it should do it through the given {@code describingContext}
+   *
+   * @param describingContext the {@link DescribingContext} on which a {@link EnrichableModel} is being described
+   */
+  void enrich(DescribingContext describingContext);
 
 }

@@ -55,245 +55,206 @@ import java.util.function.Function;
  * @param <V> the generic type of the mapped values
  * @since 1.0
  */
-public class HierarchyClassMap<V> implements Map<Class<?>, V>
-{
+public class HierarchyClassMap<V> implements Map<Class<?>, V> {
 
-    private final Map<Class<?>, V> delegate;
+  private final Map<Class<?>, V> delegate;
 
-    /**
-     * Creates a new instance which behaves like a {@link HashMap}
-     */
-    public HierarchyClassMap()
-    {
-        this(new HashMap<>());
+  /**
+   * Creates a new instance which behaves like a {@link HashMap}
+   */
+  public HierarchyClassMap() {
+    this(new HashMap<>());
+  }
+
+  /**
+   * Creates a new instance which wraps the given {@code delegate},
+   * inheriting its rules.
+   *
+   * @param delegate a backing {@link Map}
+   */
+  public HierarchyClassMap(Map<Class<?>, V> delegate) {
+    this.delegate = delegate;
+  }
+
+  /**
+   * Fetches a value associated to the given {@code key}
+   * following the rules described on the class javadoc
+   *
+   * @param key the key
+   * @return the associated value or {@code null}
+   */
+  @Override
+  public V get(Object key) {
+    if (delegate.containsKey(key)) {
+      return delegate.get(key);
     }
 
-    /**
-     * Creates a new instance which wraps the given {@code delegate},
-     * inheriting its rules.
-     *
-     * @param delegate a backing {@link Map}
-     */
-    public HierarchyClassMap(Map<Class<?>, V> delegate)
-    {
-        this.delegate = delegate;
+    Class<?> searchKey = (Class<?>) key;
+    while (searchKey != null && !Object.class.equals(searchKey)) {
+      V value = searchAssignableFrom(searchKey);
+      if (value == null) {
+        searchKey = searchKey.getSuperclass();
+      } else {
+        return value;
+      }
     }
 
-    /**
-     * Fetches a value associated to the given {@code key}
-     * following the rules described on the class javadoc
-     *
-     * @param key the key
-     * @return the associated value or {@code null}
-     */
-    @Override
-    public V get(Object key)
-    {
-        if (delegate.containsKey(key))
-        {
-            return delegate.get(key);
-        }
+    return null;
+  }
 
-        Class<?> searchKey = (Class<?>) key;
-        while (searchKey != null && !Object.class.equals(searchKey))
-        {
-            V value = searchAssignableFrom(searchKey);
-            if (value == null)
-            {
-                searchKey = searchKey.getSuperclass();
-            }
-            else
-            {
-                return value;
-            }
-        }
+  private V searchAssignableFrom(Class<?> searchKey) {
+    return entrySet().stream()
+        .filter(entry -> searchKey.isAssignableFrom(entry.getKey()))
+        .map(Entry::getValue)
+        .findFirst()
+        .orElse(null);
+  }
 
-        return null;
+  @Override
+  public int size() {
+    return delegate.size();
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return delegate.isEmpty();
+  }
+
+  /**
+   * Determines if there's a matching mapping by the rules
+   * described on the class javadoc.
+   *
+   * @param key the considered key
+   * @return whether there's a mapping for this key or not
+   */
+  @Override
+  public boolean containsKey(Object key) {
+    if (delegate.containsKey(key)) {
+      return true;
     }
 
-    private V searchAssignableFrom(Class<?> searchKey)
-    {
-        return entrySet().stream()
-                .filter(entry -> searchKey.isAssignableFrom(entry.getKey()))
-                .map(Entry::getValue)
-                .findFirst()
-                .orElse(null);
+    Class<?> searchKey = (Class<?>) key;
+    while (searchKey != null && !Object.class.equals(searchKey)) {
+      final Class<?> lambdaKey = searchKey;
+      Optional<Class<?>> foundKey = delegate.keySet().stream()
+          .filter(clazz -> lambdaKey.isAssignableFrom(clazz))
+          .findFirst();
+
+      if (foundKey.isPresent()) {
+        return true;
+      } else {
+        searchKey = searchKey.getSuperclass();
+      }
     }
 
-    @Override
-    public int size()
-    {
-        return delegate.size();
-    }
+    return false;
+  }
 
-    @Override
-    public boolean isEmpty()
-    {
-        return delegate.isEmpty();
-    }
-
-    /**
-     * Determines if there's a matching mapping by the rules
-     * described on the class javadoc.
-     *
-     * @param key the considered key
-     * @return whether there's a mapping for this key or not
-     */
-    @Override
-    public boolean containsKey(Object key)
-    {
-        if (delegate.containsKey(key))
-        {
-            return true;
-        }
-
-        Class<?> searchKey = (Class<?>) key;
-        while (searchKey != null && !Object.class.equals(searchKey))
-        {
-            final Class<?> lambdaKey = searchKey;
-            Optional<Class<?>> foundKey = delegate.keySet().stream()
-                    .filter(clazz -> lambdaKey.isAssignableFrom(clazz))
-                    .findFirst();
-
-            if (foundKey.isPresent())
-            {
-                return true;
-            }
-            else
-            {
-                searchKey = searchKey.getSuperclass();
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean containsValue(Object value)
-    {
-        return delegate.containsValue(value);
-    }
+  @Override
+  public boolean containsValue(Object value) {
+    return delegate.containsValue(value);
+  }
 
 
-    @Override
-    public V put(Class<?> key, V value)
-    {
-        return delegate.put(key, value);
-    }
+  @Override
+  public V put(Class<?> key, V value) {
+    return delegate.put(key, value);
+  }
 
-    @Override
-    public V remove(Object key)
-    {
-        return delegate.remove(key);
-    }
+  @Override
+  public V remove(Object key) {
+    return delegate.remove(key);
+  }
 
-    @Override
-    public void putAll(Map<? extends Class<?>, ? extends V> m)
-    {
-        delegate.putAll(m);
-    }
+  @Override
+  public void putAll(Map<? extends Class<?>, ? extends V> m) {
+    delegate.putAll(m);
+  }
 
-    @Override
-    public void clear()
-    {
-        delegate.clear();
-    }
+  @Override
+  public void clear() {
+    delegate.clear();
+  }
 
-    @Override
-    public Set<Class<?>> keySet()
-    {
-        return delegate.keySet();
-    }
+  @Override
+  public Set<Class<?>> keySet() {
+    return delegate.keySet();
+  }
 
-    @Override
-    public Collection<V> values()
-    {
-        return delegate.values();
-    }
+  @Override
+  public Collection<V> values() {
+    return delegate.values();
+  }
 
-    @Override
-    public Set<Entry<Class<?>, V>> entrySet()
-    {
-        return delegate.entrySet();
-    }
+  @Override
+  public Set<Entry<Class<?>, V>> entrySet() {
+    return delegate.entrySet();
+  }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        return delegate.equals(o);
-    }
+  @Override
+  public boolean equals(Object o) {
+    return delegate.equals(o);
+  }
 
-    @Override
-    public int hashCode()
-    {
-        return delegate.hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return delegate.hashCode();
+  }
 
-    @Override
-    public V getOrDefault(Object key, V defaultValue)
-    {
-        return containsKey(key)
-               ? get(key)
-               : defaultValue;
-    }
+  @Override
+  public V getOrDefault(Object key, V defaultValue) {
+    return containsKey(key)
+        ? get(key)
+        : defaultValue;
+  }
 
-    @Override
-    public void forEach(BiConsumer<? super Class<?>, ? super V> action)
-    {
-        delegate.forEach(action);
-    }
+  @Override
+  public void forEach(BiConsumer<? super Class<?>, ? super V> action) {
+    delegate.forEach(action);
+  }
 
-    @Override
-    public void replaceAll(BiFunction<? super Class<?>, ? super V, ? extends V> function)
-    {
-        delegate.replaceAll(function);
-    }
+  @Override
+  public void replaceAll(BiFunction<? super Class<?>, ? super V, ? extends V> function) {
+    delegate.replaceAll(function);
+  }
 
-    @Override
-    public V putIfAbsent(Class<?> key, V value)
-    {
-        return delegate.putIfAbsent(key, value);
-    }
+  @Override
+  public V putIfAbsent(Class<?> key, V value) {
+    return delegate.putIfAbsent(key, value);
+  }
 
-    @Override
-    public boolean remove(Object key, Object value)
-    {
-        return delegate.remove(key, value);
-    }
+  @Override
+  public boolean remove(Object key, Object value) {
+    return delegate.remove(key, value);
+  }
 
-    @Override
-    public boolean replace(Class<?> key, V oldValue, V newValue)
-    {
-        return delegate.replace(key, oldValue, newValue);
-    }
+  @Override
+  public boolean replace(Class<?> key, V oldValue, V newValue) {
+    return delegate.replace(key, oldValue, newValue);
+  }
 
-    @Override
-    public V replace(Class<?> key, V value)
-    {
-        return delegate.replace(key, value);
-    }
+  @Override
+  public V replace(Class<?> key, V value) {
+    return delegate.replace(key, value);
+  }
 
-    @Override
-    public V computeIfAbsent(Class<?> key, Function<? super Class<?>, ? extends V> mappingFunction)
-    {
-        return delegate.computeIfAbsent(key, mappingFunction);
-    }
+  @Override
+  public V computeIfAbsent(Class<?> key, Function<? super Class<?>, ? extends V> mappingFunction) {
+    return delegate.computeIfAbsent(key, mappingFunction);
+  }
 
-    @Override
-    public V computeIfPresent(Class<?> key, BiFunction<? super Class<?>, ? super V, ? extends V> remappingFunction)
-    {
-        return delegate.computeIfPresent(key, remappingFunction);
-    }
+  @Override
+  public V computeIfPresent(Class<?> key, BiFunction<? super Class<?>, ? super V, ? extends V> remappingFunction) {
+    return delegate.computeIfPresent(key, remappingFunction);
+  }
 
-    @Override
-    public V compute(Class<?> key, BiFunction<? super Class<?>, ? super V, ? extends V> remappingFunction)
-    {
-        return delegate.compute(key, remappingFunction);
-    }
+  @Override
+  public V compute(Class<?> key, BiFunction<? super Class<?>, ? super V, ? extends V> remappingFunction) {
+    return delegate.compute(key, remappingFunction);
+  }
 
-    @Override
-    public V merge(Class<?> key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction)
-    {
-        return delegate.merge(key, value, remappingFunction);
-    }
+  @Override
+  public V merge(Class<?> key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    return delegate.merge(key, value, remappingFunction);
+  }
 }

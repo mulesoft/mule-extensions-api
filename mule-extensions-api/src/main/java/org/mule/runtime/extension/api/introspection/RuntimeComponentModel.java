@@ -19,7 +19,7 @@ import org.mule.runtime.extension.api.introspection.source.RuntimeSourceModel;
  * @see ComponentModel
  * @since 1.0
  */
-public interface RuntimeComponentModel extends ComponentModel, InterceptableModel, ExceptionEnrichableModel, MetadataEnrichableModel
-{
+public interface RuntimeComponentModel
+    extends ComponentModel, InterceptableModel, ExceptionEnrichableModel, MetadataEnrichableModel {
 
 }

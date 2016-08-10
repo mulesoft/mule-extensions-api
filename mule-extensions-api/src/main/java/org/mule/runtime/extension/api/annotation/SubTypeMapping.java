@@ -26,17 +26,16 @@ import java.lang.reflect.Field;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(SubTypesMapping.class)
-public @interface SubTypeMapping
-{
+public @interface SubTypeMapping {
 
-    /**
-     * @return the base {@code abstract} {@link Class} or {@code interface}
-     */
-    Class<?> baseType();
+  /**
+   * @return the base {@code abstract} {@link Class} or {@code interface}
+   */
+  Class<?> baseType();
 
-    /**
-     * @return the declared concrete implementations for the given {@code baseType}
-     */
-    Class<?>[] subTypes();
+  /**
+   * @return the declared concrete implementations for the given {@code baseType}
+   */
+  Class<?>[] subTypes();
 
 }

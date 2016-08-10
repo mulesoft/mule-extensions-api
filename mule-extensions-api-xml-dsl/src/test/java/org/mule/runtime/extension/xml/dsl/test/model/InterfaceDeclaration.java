@@ -6,8 +6,7 @@
  */
 package org.mule.runtime.extension.xml.dsl.test.model;
 
-public interface InterfaceDeclaration
-{
+public interface InterfaceDeclaration {
 
-    void myOperation();
+  void myOperation();
 }

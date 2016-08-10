@@ -14,64 +14,57 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
  *
  * @since 1.0
  */
-public class XmlHintsAnnotation implements TypeAnnotation
-{
-    public static final String NAME = "xmlHints";
-    private final boolean allowInlineDefinition;
-    private final boolean allowReferences;
+public class XmlHintsAnnotation implements TypeAnnotation {
 
-    /**
-     * Creates a new instance
-     *
-     * @param allowInlineDefinition whether the associated element should support inline definition as child element
-     * @param allowReferences       whether the associated element should support registry references
-     */
-    public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowReferences)
-    {
-        this.allowInlineDefinition = allowInlineDefinition;
-        this.allowReferences = allowReferences;
+  public static final String NAME = "xmlHints";
+  private final boolean allowInlineDefinition;
+  private final boolean allowReferences;
+
+  /**
+   * Creates a new instance
+   *
+   * @param allowInlineDefinition whether the associated element should support inline definition as child element
+   * @param allowReferences       whether the associated element should support registry references
+   */
+  public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowReferences) {
+    this.allowInlineDefinition = allowInlineDefinition;
+    this.allowReferences = allowReferences;
+  }
+
+  /**
+   * @return {@code xmlHints}
+   */
+  @Override
+  public String getName() {
+    return NAME;
+  }
+
+  /**
+   * @return whether the associated element should support inline definition as child element
+   */
+  public boolean allowsInlineDefinition() {
+    return allowInlineDefinition;
+  }
+
+  /**
+   * @return whether the associated element should support registry references
+   */
+  public boolean allowsReferences() {
+    return allowReferences;
+  }
+
+  @Override
+  public int hashCode() {
+    return reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof XmlHintsAnnotation) {
+      XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
+      return allowInlineDefinition == other.allowsInlineDefinition() && allowReferences == other.allowsReferences();
     }
 
-    /**
-     * @return {@code xmlHints}
-     */
-    @Override
-    public String getName()
-    {
-        return NAME;
-    }
-
-    /**
-     * @return whether the associated element should support inline definition as child element
-     */
-    public boolean allowsInlineDefinition()
-    {
-        return allowInlineDefinition;
-    }
-
-    /**
-     * @return whether the associated element should support registry references
-     */
-    public boolean allowsReferences()
-    {
-        return allowReferences;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return reflectionHashCode(this);
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj instanceof XmlHintsAnnotation)
-        {
-            XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
-            return allowInlineDefinition == other.allowsInlineDefinition() && allowReferences == other.allowsReferences();
-        }
-
-        return false;
-    }
+    return false;
+  }
 }

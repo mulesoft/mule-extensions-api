@@ -30,88 +30,82 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel implements RuntimeSourceModel
-{
+public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel implements RuntimeSourceModel {
 
-    private transient final SourceFactory sourceFactory;
-    private transient final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private transient final MetadataResolverFactory metadataResolverFactory;
-    private transient final List<InterceptorFactory> interceptorFactories;
+  private transient final SourceFactory sourceFactory;
+  private transient final Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+  private transient final MetadataResolverFactory metadataResolverFactory;
+  private transient final List<InterceptorFactory> interceptorFactories;
 
-    /**
-     * Creates a new instance
-     *
-     * @param name                     the source name. Cannot be blank
-     * @param description              the source description
-     * @param parameterModels          a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @param output                   an {@link OutputModel} which represents the operation's output content
-     * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output me
-     * @param sourceFactory            a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
-     * @param modelProperties          A {@link Set} of custom properties which extend this model
-     * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
-     * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
-     * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver}, {@link MetadataContentResolver} and {@link MetadataOutputResolver}
-     * @throws IllegalArgumentException if {@code name} is blank or {@code sourceFactory} is {@code null}
-     */
-    public ImmutableRuntimeSourceModel(String name,
-                                       String description,
-                                       List<ParameterModel> parameterModels,
-                                       OutputModel output,
-                                       OutputModel outputAttributes,
-                                       SourceFactory sourceFactory,
-                                       Set<ModelProperty> modelProperties,
-                                       List<InterceptorFactory> interceptorFactories,
-                                       Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
-                                       MetadataResolverFactory metadataResolverFactory)
-    {
-        super(name, description, parameterModels, output, outputAttributes, modelProperties);
-        if (sourceFactory == null)
-        {
-            throw new IllegalArgumentException(String.format("Source '%s' cannot have a null source factory", name));
-        }
-        this.sourceFactory = sourceFactory;
-        this.exceptionEnricherFactory = exceptionEnricherFactory;
-        this.metadataResolverFactory = metadataResolverFactory;
-        this.interceptorFactories = interceptorFactories != null ? Collections.unmodifiableList(interceptorFactories) : Collections.emptyList();
+  /**
+   * Creates a new instance
+   *
+   * @param name                     the source name. Cannot be blank
+   * @param description              the source description
+   * @param parameterModels          a {@link List} with the source's {@link ParameterModel parameterModels}
+   * @param output                   an {@link OutputModel} which represents the operation's output content
+   * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output me
+   * @param sourceFactory            a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
+   * @param modelProperties          A {@link Set} of custom properties which extend this model
+   * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
+   * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
+   * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver}, {@link MetadataContentResolver} and {@link MetadataOutputResolver}
+   * @throws IllegalArgumentException if {@code name} is blank or {@code sourceFactory} is {@code null}
+   */
+  public ImmutableRuntimeSourceModel(String name,
+                                     String description,
+                                     List<ParameterModel> parameterModels,
+                                     OutputModel output,
+                                     OutputModel outputAttributes,
+                                     SourceFactory sourceFactory,
+                                     Set<ModelProperty> modelProperties,
+                                     List<InterceptorFactory> interceptorFactories,
+                                     Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
+                                     MetadataResolverFactory metadataResolverFactory) {
+    super(name, description, parameterModels, output, outputAttributes, modelProperties);
+    if (sourceFactory == null) {
+      throw new IllegalArgumentException(String.format("Source '%s' cannot have a null source factory", name));
     }
+    this.sourceFactory = sourceFactory;
+    this.exceptionEnricherFactory = exceptionEnricherFactory;
+    this.metadataResolverFactory = metadataResolverFactory;
+    this.interceptorFactories =
+        interceptorFactories != null ? Collections.unmodifiableList(interceptorFactories) : Collections.emptyList();
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public SourceFactory getSourceFactory()
-    {
-        return sourceFactory;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public SourceFactory getSourceFactory() {
+    return sourceFactory;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory() {
+    return exceptionEnricherFactory;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public List<InterceptorFactory> getInterceptorFactories()
-    {
-        return interceptorFactories;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public List<InterceptorFactory> getInterceptorFactories() {
+    return interceptorFactories;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public MetadataResolverFactory getMetadataResolverFactory()
-    {
-        return metadataResolverFactory;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public MetadataResolverFactory getMetadataResolverFactory() {
+    return metadataResolverFactory;
+  }
 }

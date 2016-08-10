@@ -20,24 +20,21 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 
-abstract class BasePersistenceTestCase
-{
+abstract class BasePersistenceTestCase {
 
-    protected ClassTypeLoader typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
+  protected ClassTypeLoader typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
 
-    protected String getResourceAsString(String fileName) throws IOException
-    {
-        final InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
-        return IOUtils.toString(resourceAsStream);
-    }
+  protected String getResourceAsString(String fileName) throws IOException {
+    final InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+    return IOUtils.toString(resourceAsStream);
+  }
 
-    protected void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException
-    {
-        String resource = getResourceAsString(expectedFileName);
-        final JsonParser jsonParser = new JsonParser();
-        final JsonElement expected = jsonParser.parse(resource);
-        final JsonElement result = jsonParser.parse(serializedResult);
+  protected void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException {
+    String resource = getResourceAsString(expectedFileName);
+    final JsonParser jsonParser = new JsonParser();
+    final JsonElement expected = jsonParser.parse(resource);
+    final JsonElement result = jsonParser.parse(serializedResult);
 
-        assertThat(result, is(expected));
-    }
+    assertThat(result, is(expected));
+  }
 }

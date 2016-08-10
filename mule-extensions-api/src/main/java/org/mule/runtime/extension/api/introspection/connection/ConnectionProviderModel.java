@@ -25,11 +25,10 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel
  *
  * @since 1.0
  */
-public interface ConnectionProviderModel extends Named, Described, EnrichableModel, ParameterizedModel
-{
+public interface ConnectionProviderModel extends Named, Described, EnrichableModel, ParameterizedModel {
 
-    /**
-     * @return the type of connection management that the provider performs
-     */
-    ConnectionManagementType getConnectionManagementType();
+  /**
+   * @return the type of connection management that the provider performs
+   */
+  ConnectionManagementType getConnectionManagementType();
 }

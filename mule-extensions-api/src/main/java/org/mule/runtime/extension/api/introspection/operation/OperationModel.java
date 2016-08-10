@@ -25,20 +25,19 @@ import org.mule.runtime.extension.api.introspection.OutputModel;
  *
  * @since 1.0
  */
-public interface OperationModel extends ComponentModel
-{
+public interface OperationModel extends ComponentModel {
 
-    /**
-     * Returns a {@link MetadataType} for the value that this operation sets
-     * on the output {@link MuleMessage#getAttributes()} field.
-     * <p>
-     * If this operation does not modify that value, then a {@link NullType} instance
-     * will be returned. Notice however that this <b>does not</b> mean that the property
-     * will be set to {@code null} on the message, it means that whatever value it had
-     * before the operation was executed will be preserved after it returns.
-     *
-     * @return a {@link MetadataType} representing the attribute types for the output messages
-     */
-    @Override
-    OutputModel getOutputAttributes();
+  /**
+   * Returns a {@link MetadataType} for the value that this operation sets
+   * on the output {@link MuleMessage#getAttributes()} field.
+   * <p>
+   * If this operation does not modify that value, then a {@link NullType} instance
+   * will be returned. Notice however that this <b>does not</b> mean that the property
+   * will be set to {@code null} on the message, it means that whatever value it had
+   * before the operation was executed will be preserved after it returns.
+   *
+   * @return a {@link MetadataType} representing the attribute types for the output messages
+   */
+  @Override
+  OutputModel getOutputAttributes();
 }

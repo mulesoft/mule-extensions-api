@@ -21,31 +21,30 @@ import java.util.List;
  * @see ExtensionManifestBuilder
  * @since 1.0
  */
-public interface ExtensionManifest extends Named, Described
-{
+public interface ExtensionManifest extends Named, Described {
 
-    /**
-     * @return the extension's version
-     */
-    String getVersion();
+  /**
+   * @return the extension's version
+   */
+  String getVersion();
 
-    /**
-     * @return the extension minimum Mule Runtime version which the extension requires to work correctly
-     */
-    MuleVersion getMinMuleVersion();
+  /**
+   * @return the extension minimum Mule Runtime version which the extension requires to work correctly
+   */
+  MuleVersion getMinMuleVersion();
 
-    /**
-     * @return a {@link DescriberManifest}
-     */
-    DescriberManifest getDescriberManifest();
+  /**
+   * @return a {@link DescriberManifest}
+   */
+  DescriberManifest getDescriberManifest();
 
-    /**
-     * @return The {@link List} of java package names that the extension exposes
-     */
-    List<String> getExportedPackages();
+  /**
+   * @return The {@link List} of java package names that the extension exposes
+   */
+  List<String> getExportedPackages();
 
-    /**
-     * @return The {@link List} of resources paths that the extension exposes
-     */
-    List<String> getExportedResources();
+  /**
+   * @return The {@link List} of resources paths that the extension exposes
+   */
+  List<String> getExportedResources();
 }

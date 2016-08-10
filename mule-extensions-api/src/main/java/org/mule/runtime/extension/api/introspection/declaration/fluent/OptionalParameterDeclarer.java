@@ -12,23 +12,20 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
  *
  * @since 1.0
  */
-public class OptionalParameterDeclarer extends ParameterDeclarer<OptionalParameterDeclarer>
-{
+public class OptionalParameterDeclarer extends ParameterDeclarer<OptionalParameterDeclarer> {
 
-    OptionalParameterDeclarer(ParameterDeclaration parameter)
-    {
-        super(parameter);
-    }
+  OptionalParameterDeclarer(ParameterDeclaration parameter) {
+    super(parameter);
+  }
 
-    /**
-     * Adds a default value for the parameter
-     *
-     * @param defaultValue a default value
-     * @return this descriptor
-     */
-    public OptionalParameterDeclarer defaultingTo(Object defaultValue)
-    {
-        getDeclaration().setDefaultValue(defaultValue);
-        return this;
-    }
+  /**
+   * Adds a default value for the parameter
+   *
+   * @param defaultValue a default value
+   * @return this descriptor
+   */
+  public OptionalParameterDeclarer defaultingTo(Object defaultValue) {
+    getDeclaration().setDefaultValue(defaultValue);
+    return this;
+  }
 }

@@ -26,12 +26,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RestrictedTo
-{
+public @interface RestrictedTo {
 
-    /**
-     * A {@link Class} which can unequivocally be used to identify
-     * a certain Extension
-     */
-    Class<?> value();
+  /**
+   * A {@link Class} which can unequivocally be used to identify
+   * a certain Extension
+   */
+  Class<?> value();
 }

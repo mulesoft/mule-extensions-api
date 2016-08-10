@@ -17,132 +17,120 @@ import org.mule.runtime.extension.api.runtime.InterceptorFactory;
  * @since 1.0
  */
 public class ConfigurationDeclarer extends ParameterizedDeclarer<ConfigurationDeclaration> implements
-        HasOperationDeclarer, HasConnectionProviderDeclarer, HasSourceDeclarer,
-        HasModelProperties<ConfigurationDeclarer>, HasInterceptors<ConfigurationDeclarer>
-{
+    HasOperationDeclarer, HasConnectionProviderDeclarer, HasSourceDeclarer,
+    HasModelProperties<ConfigurationDeclarer>, HasInterceptors<ConfigurationDeclarer> {
 
-    /**
-     * Creates a new instance
-     *
-     * @param declaration the declaration object to be configured
-     */
-    ConfigurationDeclarer(ConfigurationDeclaration declaration)
-    {
-        super(declaration);
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param declaration the declaration object to be configured
+   */
+  ConfigurationDeclarer(ConfigurationDeclaration declaration) {
+    super(declaration);
+  }
 
-    /**
-     * Adds a description to the configuration
-     *
-     * @param description a description
-     * @return {@code this} declarer
-     */
-    public ConfigurationDeclarer describedAs(String description)
-    {
-        declaration.setDescription(description);
-        return this;
-    }
+  /**
+   * Adds a description to the configuration
+   *
+   * @param description a description
+   * @return {@code this} declarer
+   */
+  public ConfigurationDeclarer describedAs(String description) {
+    declaration.setDescription(description);
+    return this;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OperationDeclarer withOperation(String name)
-    {
-        OperationDeclaration operation = new OperationDeclaration(name);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public OperationDeclarer withOperation(String name) {
+    OperationDeclaration operation = new OperationDeclaration(name);
 
-        final OperationDeclarer operationDeclarer = new OperationDeclarer(operation);
-        withOperation(operationDeclarer);
+    final OperationDeclarer operationDeclarer = new OperationDeclarer(operation);
+    withOperation(operationDeclarer);
 
-        return operationDeclarer;
-    }
+    return operationDeclarer;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void withOperation(OperationDeclarer declarer)
-    {
-        declaration.addOperation(declarer.getDeclaration());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void withOperation(OperationDeclarer declarer) {
+    declaration.addOperation(declarer.getDeclaration());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConnectionProviderDeclarer withConnectionProvider(String name)
-    {
-        ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConnectionProviderDeclarer withConnectionProvider(String name) {
+    ConnectionProviderDeclaration declaration = new ConnectionProviderDeclaration(name);
 
-        final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration);
-        withConnectionProvider(connectionProviderDeclarer);
+    final ConnectionProviderDeclarer connectionProviderDeclarer = new ConnectionProviderDeclarer(declaration);
+    withConnectionProvider(connectionProviderDeclarer);
 
-        return connectionProviderDeclarer;
-    }
+    return connectionProviderDeclarer;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void withConnectionProvider(ConnectionProviderDeclarer declarer)
-    {
-        declaration.addConnectionProvider(declarer.getDeclaration());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void withConnectionProvider(ConnectionProviderDeclarer declarer) {
+    declaration.addConnectionProvider(declarer.getDeclaration());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SourceDeclarer withMessageSource(String name)
-    {
-        SourceDeclaration declaration = new SourceDeclaration(name);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SourceDeclarer withMessageSource(String name) {
+    SourceDeclaration declaration = new SourceDeclaration(name);
 
-        final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration);
-        withMessageSource(sourceDeclarer);
+    final SourceDeclarer sourceDeclarer = new SourceDeclarer(declaration);
+    withMessageSource(sourceDeclarer);
 
-        return sourceDeclarer;
-    }
+    return sourceDeclarer;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void withMessageSource(SourceDeclarer declarer)
-    {
-        declaration.addMessageSource(declarer.getDeclaration());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void withMessageSource(SourceDeclarer declarer) {
+    declaration.addMessageSource(declarer.getDeclaration());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationDeclarer withModelProperty(ModelProperty modelProperty)
-    {
-        declaration.addModelProperty(modelProperty);
-        return this;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationDeclarer withModelProperty(ModelProperty modelProperty) {
+    declaration.addModelProperty(modelProperty);
+    return this;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationDeclarer withInterceptorFrom(InterceptorFactory interceptorFactory)
-    {
-        declaration.addInterceptorFactory(interceptorFactory);
-        return this;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationDeclarer withInterceptorFrom(InterceptorFactory interceptorFactory) {
+    declaration.addInterceptorFactory(interceptorFactory);
+    return this;
+  }
 
-    /**
-     * Specifies the {@link ConfigurationFactory} to be used to
-     * create instances of objects which are compliant with the declared
-     * configuration
-     *
-     * @param configurationFactory a {@link ConfigurationFactory}
-     * @return {@code this} declarer
-     */
-    public ConfigurationDeclarer createdWith(ConfigurationFactory configurationFactory)
-    {
-        declaration.setConfigurationFactory(configurationFactory);
-        return this;
-    }
+  /**
+   * Specifies the {@link ConfigurationFactory} to be used to
+   * create instances of objects which are compliant with the declared
+   * configuration
+   *
+   * @param configurationFactory a {@link ConfigurationFactory}
+   * @return {@code this} declarer
+   */
+  public ConfigurationDeclarer createdWith(ConfigurationFactory configurationFactory) {
+    declaration.setConfigurationFactory(configurationFactory);
+    return this;
+  }
 }

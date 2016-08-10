@@ -18,59 +18,49 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-abstract class ComponentDeclaration<T extends ComponentDeclaration> extends ParameterizedInterceptableDeclaration<T>
-{
+abstract class ComponentDeclaration<T extends ComponentDeclaration> extends ParameterizedInterceptableDeclaration<T> {
 
-    private OutputDeclaration outputContent;
-    private OutputDeclaration outputAttributes;
-    private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private MetadataResolverFactory metadataResolverFactory;
+  private OutputDeclaration outputContent;
+  private OutputDeclaration outputAttributes;
+  private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+  private MetadataResolverFactory metadataResolverFactory;
 
-    /**
-     * {@inheritDoc}
-     */
-    ComponentDeclaration(String name)
-    {
-        super(name);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  ComponentDeclaration(String name) {
+    super(name);
+  }
 
-    public OutputDeclaration getOutput()
-    {
-        return outputContent;
-    }
+  public OutputDeclaration getOutput() {
+    return outputContent;
+  }
 
-    public void setOutput(OutputDeclaration content)
-    {
-        this.outputContent = content;
-    }
+  public void setOutput(OutputDeclaration content) {
+    this.outputContent = content;
+  }
 
-    public OutputDeclaration getOutputAttributes()
-    {
-        return outputAttributes;
-    }
+  public OutputDeclaration getOutputAttributes() {
+    return outputAttributes;
+  }
 
-    public void setOutputAttributes(OutputDeclaration attributes)
-    {
-        this.outputAttributes = attributes;
-    }
+  public void setOutputAttributes(OutputDeclaration attributes) {
+    this.outputAttributes = attributes;
+  }
 
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
+  public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory() {
+    return exceptionEnricherFactory;
+  }
 
-    public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory)
-    {
-        this.exceptionEnricherFactory = exceptionEnricherFactory;
-    }
+  public void setExceptionEnricherFactory(Optional<ExceptionEnricherFactory> exceptionEnricherFactory) {
+    this.exceptionEnricherFactory = exceptionEnricherFactory;
+  }
 
-    public MetadataResolverFactory getMetadataResolverFactory()
-    {
-        return metadataResolverFactory;
-    }
+  public MetadataResolverFactory getMetadataResolverFactory() {
+    return metadataResolverFactory;
+  }
 
-    public void setMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory)
-    {
-        this.metadataResolverFactory = metadataResolverFactory;
-    }
+  public void setMetadataResolverFactory(MetadataResolverFactory metadataResolverFactory) {
+    this.metadataResolverFactory = metadataResolverFactory;
+  }
 }

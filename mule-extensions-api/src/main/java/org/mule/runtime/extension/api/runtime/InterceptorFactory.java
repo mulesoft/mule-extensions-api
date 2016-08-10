@@ -16,13 +16,12 @@ import org.mule.runtime.extension.api.runtime.operation.Interceptor;
  * @since 1.0
  */
 @FunctionalInterface
-public interface InterceptorFactory
-{
+public interface InterceptorFactory {
 
-    /**
-     * Creates a new {@link Interceptor}
-     *
-     * @return a new {@link Interceptor}
-     */
-    Interceptor createInterceptor();
+  /**
+   * Creates a new {@link Interceptor}
+   *
+   * @return a new {@link Interceptor}
+   */
+  Interceptor createInterceptor();
 }

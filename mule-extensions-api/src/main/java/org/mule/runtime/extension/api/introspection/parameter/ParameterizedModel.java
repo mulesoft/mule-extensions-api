@@ -17,15 +17,14 @@ import java.util.List;
  * @see Described
  * @since 1.0
  */
-public interface ParameterizedModel extends Named, Described
-{
+public interface ParameterizedModel extends Named, Described {
 
-    /**
-     * Returns the {@link ParameterModel parameterModels}
-     * available for {@code this} model
-     *
-     * @return a immutable {@link java.util.List} with {@link ParameterModel}
-     * instances. It might be empty but it will never be {@code null}
-     */
-    List<ParameterModel> getParameterModels();
+  /**
+   * Returns the {@link ParameterModel parameterModels}
+   * available for {@code this} model
+   *
+   * @return a immutable {@link java.util.List} with {@link ParameterModel}
+   * instances. It might be empty but it will never be {@code null}
+   */
+  List<ParameterModel> getParameterModels();
 }

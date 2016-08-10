@@ -20,11 +20,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface CustomStudioEditor
-{
+public @interface CustomStudioEditor {
 
-    /**
-     * The name of the file that will be used to generate the connector UI.
-     */
-    String fileName();
+  /**
+   * The name of the file that will be used to generate the connector UI.
+   */
+  String fileName();
 }

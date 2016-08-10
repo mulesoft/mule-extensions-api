@@ -20,27 +20,25 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel
-{
+public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel {
 
-    /**
-     * Creates a new instance with the given state
-     *
-     * @param name             the operation's name. Cannot be blank
-     * @param description      the operation's descriptor
-     * @param parameterModels  a {@link List} with the operation's {@link ParameterModel parameterModels}
-     * @param output           an {@link OutputModel} which represents the operation's output content
-     * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
-     * @param modelProperties  A {@link Set} of custom properties which extend this model
-     * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
-     */
-    public ImmutableOperationModel(String name,
-                                   String description,
-                                   List<ParameterModel> parameterModels,
-                                   OutputModel output,
-                                   OutputModel outputAttributes,
-                                   Set<ModelProperty> modelProperties)
-    {
-        super(name, description, modelProperties, parameterModels, output, outputAttributes);
-    }
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name             the operation's name. Cannot be blank
+   * @param description      the operation's descriptor
+   * @param parameterModels  a {@link List} with the operation's {@link ParameterModel parameterModels}
+   * @param output           an {@link OutputModel} which represents the operation's output content
+   * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
+   * @param modelProperties  A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
+   */
+  public ImmutableOperationModel(String name,
+                                 String description,
+                                 List<ParameterModel> parameterModels,
+                                 OutputModel output,
+                                 OutputModel outputAttributes,
+                                 Set<ModelProperty> modelProperties) {
+    super(name, description, modelProperties, parameterModels, output, outputAttributes);
+  }
 }

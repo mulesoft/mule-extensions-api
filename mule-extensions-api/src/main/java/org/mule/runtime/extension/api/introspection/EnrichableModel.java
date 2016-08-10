@@ -27,27 +27,26 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public interface EnrichableModel
-{
+public interface EnrichableModel {
 
-    /**
-     * Returns a registered model property of type {@code propertyType}.
-     * <p>
-     * This search considers hierarchies. If no explicit value exists for the
-     * given {@code propertyType}, then it will look for properties which extend
-     * the given type or, in the case of an interface,  implement it.
-     *
-     * @param propertyType the {@link Class} of the {@link ModelProperty} which is being queried
-     * @param <T>          the generic type of the return value
-     * @return an {@link Optional} {@link ModelProperty}
-     * @throws IllegalArgumentException if {@code propertyType} is {@code null}
-     */
-    <T extends ModelProperty> Optional<T> getModelProperty(Class<T> propertyType);
+  /**
+   * Returns a registered model property of type {@code propertyType}.
+   * <p>
+   * This search considers hierarchies. If no explicit value exists for the
+   * given {@code propertyType}, then it will look for properties which extend
+   * the given type or, in the case of an interface,  implement it.
+   *
+   * @param propertyType the {@link Class} of the {@link ModelProperty} which is being queried
+   * @param <T>          the generic type of the return value
+   * @return an {@link Optional} {@link ModelProperty}
+   * @throws IllegalArgumentException if {@code propertyType} is {@code null}
+   */
+  <T extends ModelProperty> Optional<T> getModelProperty(Class<T> propertyType);
 
-    /**
-     * Returns all the model properties registered for this model
-     *
-     * @return an immutable {@link Set} containing all the model properties
-     */
-    Set<ModelProperty> getModelProperties();
+  /**
+   * Returns all the model properties registered for this model
+   *
+   * @return an immutable {@link Set} containing all the model properties
+   */
+  Set<ModelProperty> getModelProperties();
 }

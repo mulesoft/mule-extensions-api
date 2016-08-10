@@ -11,15 +11,14 @@ package org.mule.runtime.extension.api.runtime;
  *
  * @since 1.0
  */
-public interface Expirable
-{
+public interface Expirable {
 
-    /**
-     * Determines if {@code this} instance should be expired based on the given
-     * {@code expirationPolicy}
-     *
-     * @param expirationPolicy a {@link ExpirationPolicy}
-     * @return {@code true} if {@code this} can be expired. {@code false} otherwise
-     */
-    boolean isExpired(ExpirationPolicy expirationPolicy);
+  /**
+   * Determines if {@code this} instance should be expired based on the given
+   * {@code expirationPolicy}
+   *
+   * @param expirationPolicy a {@link ExpirationPolicy}
+   * @return {@code true} if {@code this} can be expired. {@code false} otherwise
+   */
+  boolean isExpired(ExpirationPolicy expirationPolicy);
 }

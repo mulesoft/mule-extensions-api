@@ -16,7 +16,6 @@ import org.mule.runtime.extension.api.introspection.exception.ExceptionEnrichabl
  * @see ExtensionModel
  * @since 1.0
  */
-public interface RuntimeExtensionModel extends ExtensionModel, ExceptionEnrichableModel
-{
+public interface RuntimeExtensionModel extends ExtensionModel, ExceptionEnrichableModel {
 
 }

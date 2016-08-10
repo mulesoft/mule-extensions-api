@@ -6,17 +6,15 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-public abstract class Declarer<D extends BaseDeclaration>
-{
-    protected final D declaration;
+public abstract class Declarer<D extends BaseDeclaration> {
 
-    public Declarer(D declaration)
-    {
-        this.declaration = declaration;
-    }
+  protected final D declaration;
 
-    public D getDeclaration()
-    {
-        return declaration;
-    }
+  public Declarer(D declaration) {
+    this.declaration = declaration;
+  }
+
+  public D getDeclaration() {
+    return declaration;
+  }
 }

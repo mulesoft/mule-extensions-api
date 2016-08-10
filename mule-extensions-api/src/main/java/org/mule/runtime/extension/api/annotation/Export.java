@@ -36,16 +36,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Export
-{
+public @interface Export {
 
-    /**
-     * @return The additional classes that should be exported
-     */
-    Class[] classes() default {};
+  /**
+   * @return The additional classes that should be exported
+   */
+  Class[] classes() default {};
 
-    /**
-     * @return The additional resources that should be exported
-     */
-    String[] resources() default {};
+  /**
+   * @return The additional resources that should be exported
+   */
+  String[] resources() default {};
 }

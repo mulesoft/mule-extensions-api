@@ -18,32 +18,30 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractParameterizedModel extends AbstractNamedImmutableModel implements ParameterizedModel
-{
+public abstract class AbstractParameterizedModel extends AbstractNamedImmutableModel implements ParameterizedModel {
 
-    private final List<ParameterModel> parameterModels;
+  private final List<ParameterModel> parameterModels;
 
-    /**
-     * Creates a new instance
-     *
-     * @param name            the model's name
-     * @param description     the model's description
-     * @param modelProperties A {@link Set} of custom properties which extend this model
-     * @param parameterModels a {@link List} with the source's {@link ParameterModel parameterModels}
-     * @throws IllegalArgumentException if {@code name} is blank
-     */
-    protected AbstractParameterizedModel(String name, String description, Set<ModelProperty> modelProperties, List<ParameterModel> parameterModels)
-    {
-        super(name, description, modelProperties);
-        this.parameterModels = Collections.unmodifiableList(parameterModels);
-    }
+  /**
+   * Creates a new instance
+   *
+   * @param name            the model's name
+   * @param description     the model's description
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param parameterModels a {@link List} with the source's {@link ParameterModel parameterModels}
+   * @throws IllegalArgumentException if {@code name} is blank
+   */
+  protected AbstractParameterizedModel(String name, String description, Set<ModelProperty> modelProperties,
+                                       List<ParameterModel> parameterModels) {
+    super(name, description, modelProperties);
+    this.parameterModels = Collections.unmodifiableList(parameterModels);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ParameterModel> getParameterModels()
-    {
-        return parameterModels;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<ParameterModel> getParameterModels() {
+    return parameterModels;
+  }
 }

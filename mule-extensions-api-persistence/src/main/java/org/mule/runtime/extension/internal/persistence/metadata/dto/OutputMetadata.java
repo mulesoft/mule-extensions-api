@@ -23,48 +23,46 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class OutputMetadata implements Descriptable<OutputMetadataDescriptor>
-{
-    final static String OUTPUT_PAYLOAD = "OUTPUT_PAYLOAD";
-    final static String OUTPUT_ATTRIBUTES = "OUTPUT_ATTRIBUTES";
-    final static String OUTPUT = "OUTPUT";
+public class OutputMetadata implements Descriptable<OutputMetadataDescriptor> {
 
-    private final TypeMetadata content;
-    private final TypeMetadata attributes;
+  final static String OUTPUT_PAYLOAD = "OUTPUT_PAYLOAD";
+  final static String OUTPUT_ATTRIBUTES = "OUTPUT_ATTRIBUTES";
+  final static String OUTPUT = "OUTPUT";
 
-    OutputMetadata(ImmutableComponentMetadataDescriptor result)
-    {
-        OutputMetadataDescriptor outputDescriptor = result.getOutputMetadata().get();
-        this.content = new TypeMetadata(outputDescriptor.getPayloadMetadata().get().getType(), true);
-        this.attributes = new TypeMetadata(outputDescriptor.getAttributesMetadata().get().getType(), true);
+  private final TypeMetadata content;
+  private final TypeMetadata attributes;
+
+  OutputMetadata(ImmutableComponentMetadataDescriptor result) {
+    OutputMetadataDescriptor outputDescriptor = result.getOutputMetadata().get();
+    this.content = new TypeMetadata(outputDescriptor.getPayloadMetadata().get().getType(), true);
+    this.attributes = new TypeMetadata(outputDescriptor.getAttributesMetadata().get().getType(), true);
+  }
+
+  TypeMetadata getContent() {
+    return content;
+  }
+
+  TypeMetadata getAttributes() {
+    return attributes;
+  }
+
+  @Override
+  public MetadataResult<OutputMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
+    Optional<Failure> metadataFailure = getComponentFailure(failures, OUTPUT);
+    List<Failure> attributesFailure =
+        getComponentFailure(failures, OUTPUT_ATTRIBUTES).map(Collections::singletonList).orElse(emptyList());
+    List<Failure> payloadFailure =
+        getComponentFailure(failures, OUTPUT_PAYLOAD).map(Collections::singletonList).orElse(emptyList());
+
+    ImmutableOutputMetadataDescriptor descriptor =
+        new ImmutableOutputMetadataDescriptor(content.toDescriptorResult(payloadFailure),
+                                              attributes.toDescriptorResult(attributesFailure));
+    if (metadataFailure.isPresent()) {
+      return failure(descriptor,
+                     metadataFailure.get().getMessage(),
+                     metadataFailure.get().getFailureCode(),
+                     metadataFailure.get().getReason());
     }
-
-    TypeMetadata getContent()
-    {
-        return content;
-    }
-
-    TypeMetadata getAttributes()
-    {
-        return attributes;
-    }
-
-    @Override
-    public MetadataResult<OutputMetadataDescriptor> toDescriptorResult(List<Failure> failures)
-    {
-        Optional<Failure> metadataFailure = getComponentFailure(failures, OUTPUT);
-        List<Failure> attributesFailure = getComponentFailure(failures, OUTPUT_ATTRIBUTES).map(Collections::singletonList).orElse(emptyList());
-        List<Failure> payloadFailure = getComponentFailure(failures, OUTPUT_PAYLOAD).map(Collections::singletonList).orElse(emptyList());
-
-        ImmutableOutputMetadataDescriptor descriptor = new ImmutableOutputMetadataDescriptor(content.toDescriptorResult(payloadFailure),
-                                                                                             attributes.toDescriptorResult(attributesFailure));
-        if (metadataFailure.isPresent())
-        {
-            return failure(descriptor,
-                           metadataFailure.get().getMessage(),
-                           metadataFailure.get().getFailureCode(),
-                           metadataFailure.get().getReason());
-        }
-        return success(descriptor);
-    }
+    return success(descriptor);
+  }
 }

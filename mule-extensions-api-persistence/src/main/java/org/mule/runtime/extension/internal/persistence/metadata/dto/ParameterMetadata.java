@@ -21,48 +21,42 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-class ParameterMetadata implements Descriptable<ParameterMetadataDescriptor>
-{
-    final static String CONTENT = "CONTENT";
+class ParameterMetadata implements Descriptable<ParameterMetadataDescriptor> {
 
-    private final String name;
-    private final MetadataType type;
-    private final boolean isDynamic;
+  final static String CONTENT = "CONTENT";
 
-    ParameterMetadata(String name, MetadataType type, boolean isDynamic)
-    {
-        this.isDynamic = isDynamic;
-        this.type = type;
-        this.name = name;
+  private final String name;
+  private final MetadataType type;
+  private final boolean isDynamic;
+
+  ParameterMetadata(String name, MetadataType type, boolean isDynamic) {
+    this.isDynamic = isDynamic;
+    this.type = type;
+    this.name = name;
+  }
+
+  String getName() {
+    return name;
+  }
+
+  MetadataType getType() {
+    return type;
+  }
+
+  boolean isDynamic() {
+    return isDynamic;
+  }
+
+  @Override
+  public MetadataResult<ParameterMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
+    Optional<Failure> metadataFailure = getComponentFailure(failures, isDynamic ? CONTENT : name);
+    ImmutableParameterMetadataDescriptor descriptor = new ImmutableParameterMetadataDescriptor(name, type);
+    if (metadataFailure.isPresent()) {
+      return failure(descriptor,
+                     metadataFailure.get().getMessage(),
+                     metadataFailure.get().getFailureCode(),
+                     metadataFailure.get().getReason());
     }
-
-    String getName()
-    {
-        return name;
-    }
-
-    MetadataType getType()
-    {
-        return type;
-    }
-
-    boolean isDynamic()
-    {
-        return isDynamic;
-    }
-
-    @Override
-    public MetadataResult<ParameterMetadataDescriptor> toDescriptorResult(List<Failure> failures)
-    {
-        Optional<Failure> metadataFailure = getComponentFailure(failures, isDynamic ? CONTENT : name);
-        ImmutableParameterMetadataDescriptor descriptor = new ImmutableParameterMetadataDescriptor(name, type);
-        if (metadataFailure.isPresent())
-        {
-            return failure(descriptor,
-                           metadataFailure.get().getMessage(),
-                           metadataFailure.get().getFailureCode(),
-                           metadataFailure.get().getReason());
-        }
-        return success(descriptor);
-    }
+    return success(descriptor);
+  }
 }

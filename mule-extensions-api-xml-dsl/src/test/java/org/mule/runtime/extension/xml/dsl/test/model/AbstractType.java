@@ -6,13 +6,11 @@
  */
 package org.mule.runtime.extension.xml.dsl.test.model;
 
-public abstract class AbstractType
-{
+public abstract class AbstractType {
 
-    private String superField;
+  private String superField;
 
-    public String getSuperField()
-    {
-        return superField;
-    }
+  public String getSuperField() {
+    return superField;
+  }
 }

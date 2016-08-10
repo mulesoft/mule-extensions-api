@@ -57,101 +57,98 @@ import java.util.List;
  *
  * @since 1.0
  */
-public class ExtensionModelJsonSerializer
-{
+public class ExtensionModelJsonSerializer {
 
-    private final Gson gson;
+  private final Gson gson;
 
-    /**
-     * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
-     * This serializer is capable of serializing and deserializing {@link ExtensionModel} from JSON ({@link #deserialize(String)}
-     * and to JSON ( {@link #serialize(ExtensionModel)}
-     */
-    public ExtensionModelJsonSerializer()
-    {
-        this(false);
+  /**
+   * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
+   * This serializer is capable of serializing and deserializing {@link ExtensionModel} from JSON ({@link #deserialize(String)}
+   * and to JSON ( {@link #serialize(ExtensionModel)}
+   */
+  public ExtensionModelJsonSerializer() {
+    this(false);
+  }
+
+  /**
+   * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
+   *
+   * @param prettyPrint boolean indicating if the serialization of the {@link ExtensionModel} should be printed in
+   *                    a human readable or into compact and more performable format
+   */
+  public ExtensionModelJsonSerializer(boolean prettyPrint) {
+    final DefaultImplementationTypeAdapterFactory configurationModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(ConfigurationModel.class, ImmutableConfigurationModel.class);
+    final DefaultImplementationTypeAdapterFactory connectionProviderModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(ConnectionProviderModel.class, ImmutableConnectionProviderModel.class);
+    final DefaultImplementationTypeAdapterFactory operationModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(OperationModel.class, ImmutableOperationModel.class);
+    final DefaultImplementationTypeAdapterFactory sourceModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
+    final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
+    final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
+    final ImportedTypesModelPropertyTypeAdapter importedTypesModelPropertyTypeAdapter =
+        new ImportedTypesModelPropertyTypeAdapter();
+    final SubTypesModelPropertyTypeAdapter subTypesModelPropertyTypeAdapter = new SubTypesModelPropertyTypeAdapter();
+    final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
+
+    final GsonBuilder gsonBuilder = new GsonBuilder()
+        .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
+        .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
+        .registerTypeAdapter(ImportedTypesModelProperty.class, importedTypesModelPropertyTypeAdapter)
+        .registerTypeAdapter(SubTypesModelProperty.class, subTypesModelPropertyTypeAdapter)
+        .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
+        .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(outputModelTypeAdapterFactory);
+
+    if (prettyPrint) {
+      gsonBuilder.setPrettyPrinting();
     }
 
-    /**
-     * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
-     *
-     * @param prettyPrint boolean indicating if the serialization of the {@link ExtensionModel} should be printed in
-     *                    a human readable or into compact and more performable format
-     */
-    public ExtensionModelJsonSerializer(boolean prettyPrint)
-    {
-        final DefaultImplementationTypeAdapterFactory configurationModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ConfigurationModel.class, ImmutableConfigurationModel.class);
-        final DefaultImplementationTypeAdapterFactory connectionProviderModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ConnectionProviderModel.class, ImmutableConnectionProviderModel.class);
-        final DefaultImplementationTypeAdapterFactory operationModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(OperationModel.class, ImmutableOperationModel.class);
-        final DefaultImplementationTypeAdapterFactory sourceModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
-        final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
-        final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory = new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
-        final ImportedTypesModelPropertyTypeAdapter importedTypesModelPropertyTypeAdapter = new ImportedTypesModelPropertyTypeAdapter();
-        final SubTypesModelPropertyTypeAdapter subTypesModelPropertyTypeAdapter = new SubTypesModelPropertyTypeAdapter();
-        final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
+    this.gson = gsonBuilder.create();
+  }
 
-        final GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
-                .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
-                .registerTypeAdapter(ImportedTypesModelProperty.class, importedTypesModelPropertyTypeAdapter)
-                .registerTypeAdapter(SubTypesModelProperty.class, subTypesModelPropertyTypeAdapter)
-                .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
-                .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
-                .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)
-                .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
-                .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
-                .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
-                .registerTypeAdapterFactory(outputModelTypeAdapterFactory);
+  /**
+   * Serializes an {@link ExtensionModel} into JSON
+   *
+   * @param extensionModel {@link ExtensionModel} to be serialized
+   * @return {@link String} JSON representation of the {@link ExtensionModel}
+   */
+  public String serialize(ExtensionModel extensionModel) {
+    return gson.toJson(extensionModel);
+  }
 
-        if (prettyPrint)
-        {
-            gsonBuilder.setPrettyPrinting();
-        }
+  /**
+   * @param extensionModelList List of {@link ExtensionModel} to be serialized
+   * @return {@link String} JSON representation of the {@link List} of {@link ExtensionModel}
+   */
+  public String serializeList(List<ExtensionModel> extensionModelList) {
+    return gson.toJson(extensionModelList);
+  }
 
-        this.gson = gsonBuilder.create();
-    }
+  /**
+   * Deserializes a JSON representation of an {@link ExtensionModel}, to an actual instance of it.
+   *
+   * @param extensionModel serialized {@link ExtensionModel}
+   * @return an instance of {@link ExtensionModel} based in the JSON
+   */
+  public ExtensionModel deserialize(String extensionModel) {
+    return gson.fromJson(extensionModel, ImmutableExtensionModel.class);
+  }
 
-    /**
-     * Serializes an {@link ExtensionModel} into JSON
-     *
-     * @param extensionModel {@link ExtensionModel} to be serialized
-     * @return {@link String} JSON representation of the {@link ExtensionModel}
-     */
-    public String serialize(ExtensionModel extensionModel)
-    {
-        return gson.toJson(extensionModel);
-    }
-
-    /**
-     * @param extensionModelList List of {@link ExtensionModel} to be serialized
-     * @return {@link String} JSON representation of the {@link List} of {@link ExtensionModel}
-     */
-    public String serializeList(List<ExtensionModel> extensionModelList)
-    {
-        return gson.toJson(extensionModelList);
-    }
-
-    /**
-     * Deserializes a JSON representation of an {@link ExtensionModel}, to an actual instance of it.
-     *
-     * @param extensionModel serialized {@link ExtensionModel}
-     * @return an instance of {@link ExtensionModel} based in the JSON
-     */
-    public ExtensionModel deserialize(String extensionModel)
-    {
-        return gson.fromJson(extensionModel, ImmutableExtensionModel.class);
-    }
-
-    /**
-     * Deserializes a JSON representation of a {@link List} of {@link ExtensionModel}, to an actual instance of it.
-     *
-     * @param extensionModelList serialized {@link List} {@link ExtensionModel}
-     * @return an instance of {@link ExtensionModel} based in the JSON
-     */
-    public List<ExtensionModel> deserializeList(String extensionModelList)
-    {
-        return gson.fromJson(extensionModelList, new TypeToken<List<ImmutableExtensionModel>>()
-        {
-        }.getType());
-    }
+  /**
+   * Deserializes a JSON representation of a {@link List} of {@link ExtensionModel}, to an actual instance of it.
+   *
+   * @param extensionModelList serialized {@link List} {@link ExtensionModel}
+   * @return an instance of {@link ExtensionModel} based in the JSON
+   */
+  public List<ExtensionModel> deserializeList(String extensionModelList) {
+    return gson.fromJson(extensionModelList, new TypeToken<List<ImmutableExtensionModel>>() {}.getType());
+  }
 }

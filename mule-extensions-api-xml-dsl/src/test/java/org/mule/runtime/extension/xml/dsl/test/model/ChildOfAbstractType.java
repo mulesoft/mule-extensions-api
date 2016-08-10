@@ -8,32 +8,27 @@ package org.mule.runtime.extension.xml.dsl.test.model;
 
 import org.mule.runtime.extension.api.annotation.Parameter;
 
-public class ChildOfAbstractType extends AbstractType
-{
+public class ChildOfAbstractType extends AbstractType {
 
-    @Parameter
-    private String sampleString;
+  @Parameter
+  private String sampleString;
 
-    @Parameter
-    private Integer otherNumber;
+  @Parameter
+  private Integer otherNumber;
 
-    public String getSampleString()
-    {
-        return sampleString;
-    }
+  public String getSampleString() {
+    return sampleString;
+  }
 
-    public void setSampleString(String sampleString)
-    {
-        this.sampleString = sampleString;
-    }
+  public void setSampleString(String sampleString) {
+    this.sampleString = sampleString;
+  }
 
-    public Integer getOtherNumber()
-    {
-        return otherNumber;
-    }
+  public Integer getOtherNumber() {
+    return otherNumber;
+  }
 
-    public void setOtherNumber(Integer otherNumber)
-    {
-        this.otherNumber = otherNumber;
-    }
+  public void setOtherNumber(Integer otherNumber) {
+    this.otherNumber = otherNumber;
+  }
 }

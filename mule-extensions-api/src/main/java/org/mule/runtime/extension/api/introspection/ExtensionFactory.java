@@ -19,16 +19,15 @@ import org.mule.runtime.extension.api.introspection.declaration.spi.ModelEnriche
  *
  * @since 1.0
  */
-public interface ExtensionFactory
-{
+public interface ExtensionFactory {
 
-    /**
-     * Creates a {@link RuntimeExtensionModel} from the given {@code declarer}
-     * using a specifying {@code describingContext}
-     *
-     * @param declarer          an {@link ExtensionDeclarer}. Cannot be {@code null}
-     * @param describingContext a {@link DescribingContext}, useful to specify custom settings
-     * @return an {@link RuntimeExtensionModel}
-     */
-    RuntimeExtensionModel createFrom(ExtensionDeclarer declarer, DescribingContext describingContext);
+  /**
+   * Creates a {@link RuntimeExtensionModel} from the given {@code declarer}
+   * using a specifying {@code describingContext}
+   *
+   * @param declarer          an {@link ExtensionDeclarer}. Cannot be {@code null}
+   * @param describingContext a {@link DescribingContext}, useful to specify custom settings
+   * @return an {@link RuntimeExtensionModel}
+   */
+  RuntimeExtensionModel createFrom(ExtensionDeclarer declarer, DescribingContext describingContext);
 }

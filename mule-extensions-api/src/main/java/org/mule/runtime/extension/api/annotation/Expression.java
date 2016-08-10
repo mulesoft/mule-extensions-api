@@ -24,16 +24,15 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Expression
-{
+public @interface Expression {
 
-    /**
-     * The type of expression support that parameters defined through this annotations
-     * should have.
-     * <p>
-     * Defaults to {@link ExpressionSupport#SUPPORTED}
-     *
-     * @return a {@link ExpressionSupport}
-     */
-    ExpressionSupport value() default SUPPORTED;
+  /**
+   * The type of expression support that parameters defined through this annotations
+   * should have.
+   * <p>
+   * Defaults to {@link ExpressionSupport#SUPPORTED}
+   *
+   * @return a {@link ExpressionSupport}
+   */
+  ExpressionSupport value() default SUPPORTED;
 }

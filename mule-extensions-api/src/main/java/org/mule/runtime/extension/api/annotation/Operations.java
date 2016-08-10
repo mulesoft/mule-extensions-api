@@ -23,11 +23,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Operations
-{
+public @interface Operations {
 
-    /**
-     * @return An array of classes which contain public methods annotated with {@link Operation}
-     */
-    Class<?>[] value();
+  /**
+   * @return An array of classes which contain public methods annotated with {@link Operation}
+   */
+  Class<?>[] value();
 }

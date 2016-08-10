@@ -14,22 +14,22 @@ import org.mule.runtime.api.metadata.MetadataManager;
  *
  * @since 1.0
  */
-public interface Typed
-{
-    /**
-     * Returns the {@link MetadataType} of the {@link Typed} component.
-     *
-     * @return a not {@code null} {@link MetadataType}
-     */
-    MetadataType getType();
+public interface Typed {
 
-    /**
-     * Returns {@code true} if the type of the {@link Typed Component} is
-     * of dynamic kind, and has to be discovered during design time using
-     * the {@link MetadataManager} service.
-     *
-     * @return {@code true} if {@code this} element type is of dynamic kind
-     */
-    boolean hasDynamicType();
+  /**
+   * Returns the {@link MetadataType} of the {@link Typed} component.
+   *
+   * @return a not {@code null} {@link MetadataType}
+   */
+  MetadataType getType();
+
+  /**
+   * Returns {@code true} if the type of the {@link Typed Component} is
+   * of dynamic kind, and has to be discovered during design time using
+   * the {@link MetadataManager} service.
+   *
+   * @return {@code true} if {@code this} element type is of dynamic kind
+   */
+  boolean hasDynamicType();
 
 }

@@ -30,37 +30,36 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Extension
-{
+public @interface Extension {
 
-    /**
-     * A name consistent with the definition on {@link ExtensionModel#getName()}
-     */
-    String name();
+  /**
+   * A name consistent with the definition on {@link ExtensionModel#getName()}
+   */
+  String name();
 
-    /**
-     * Short description about the extension's functionality
-     */
-    String description() default "";
+  /**
+   * Short description about the extension's functionality
+   */
+  String description() default "";
 
-    /**
-     * Name of the extension's vendor
-     */
-    String vendor() default MULESOFT;
+  /**
+   * Name of the extension's vendor
+   */
+  String vendor() default MULESOFT;
 
-    /**
-     * Extension's {@link Category}
-     */
-    Category category() default Category.COMMUNITY;
+  /**
+   * Extension's {@link Category}
+   */
+  Category category() default Category.COMMUNITY;
 
-    /**
-     * Min Mule version that the extension requires to work correctly
-     */
-    String minMuleVersion() default "4.0";
+  /**
+   * Min Mule version that the extension requires to work correctly
+   */
+  String minMuleVersion() default "4.0";
 
-    String MULESOFT = "Mulesoft";
+  String MULESOFT = "Mulesoft";
 
-    String DEFAULT_CONFIG_NAME = "config";
+  String DEFAULT_CONFIG_NAME = "config";
 
-    String DEFAULT_CONFIG_DESCRIPTION = "Default configuration";
+  String DEFAULT_CONFIG_DESCRIPTION = "Default configuration";
 }

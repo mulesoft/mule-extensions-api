@@ -12,22 +12,21 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
  *
  * @since 1.0
  */
-public interface HasOperationDeclarer
-{
+public interface HasOperationDeclarer {
 
-    /**
-     * Adds an operation of the given {@code name}
-     *
-     * @param name a non blank name
-     * @return a {@link OperationDeclarer} which allows describing the created operation
-     */
-    OperationDeclarer withOperation(String name);
+  /**
+   * Adds an operation of the given {@code name}
+   *
+   * @param name a non blank name
+   * @return a {@link OperationDeclarer} which allows describing the created operation
+   */
+  OperationDeclarer withOperation(String name);
 
-    /**
-     * Adds an {@link OperationDeclaration} by receiving
-     * a {@code declarer} which describes it
-     *
-     * @param declarer a {@link OperationDeclaration}
-     */
-    void withOperation(OperationDeclarer declarer);
+  /**
+   * Adds an {@link OperationDeclaration} by receiving
+   * a {@code declarer} which describes it
+   *
+   * @param declarer a {@link OperationDeclaration}
+   */
+  void withOperation(OperationDeclarer declarer);
 }

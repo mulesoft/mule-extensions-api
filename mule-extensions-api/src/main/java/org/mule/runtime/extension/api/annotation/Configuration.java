@@ -23,19 +23,18 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Configuration
-{
+public @interface Configuration {
 
-    /**
-     * The name of the configuration. This attribute is optional
-     * and if not provided, the configuration's name will default
-     * to &quot;config&quot;. Configuration name can't be duplicated.
-     * Only one config can use the default config name
-     */
-    String name() default "";
+  /**
+   * The name of the configuration. This attribute is optional
+   * and if not provided, the configuration's name will default
+   * to &quot;config&quot;. Configuration name can't be duplicated.
+   * Only one config can use the default config name
+   */
+  String name() default "";
 
-    /**
-     * Provides a description of the configuration.
-     */
-    String description() default "";
+  /**
+   * Provides a description of the configuration.
+   */
+  String description() default "";
 }

@@ -26,14 +26,13 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface Interceptable
-{
+public interface Interceptable {
 
-    /**
-     * Provides a list of {@link Interceptor interceptors} in a proposed
-     * order of execution
-     *
-     * @return a immutable {@link List}. Might be empty but will never be {@code null}
-     */
-    List<Interceptor> getInterceptors();
+  /**
+   * Provides a list of {@link Interceptor interceptors} in a proposed
+   * order of execution
+   *
+   * @return a immutable {@link List}. Might be empty but will never be {@code null}
+   */
+  List<Interceptor> getInterceptors();
 }

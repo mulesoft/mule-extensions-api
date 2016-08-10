@@ -25,19 +25,18 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Alias
-{
+public @interface Alias {
 
-    /**
-     * @return The alias of the annotated member
-     */
-    String value();
+  /**
+   * @return The alias of the annotated member
+   */
+  String value();
 
-    /**
-     * An optional description to further describe the annotated
-     * member
-     *
-     * @return a nullable {@link String}
-     */
-    String description() default "";
+  /**
+   * An optional description to further describe the annotated
+   * member
+   *
+   * @return a nullable {@link String}
+   */
+  String description() default "";
 }

@@ -12,22 +12,21 @@ package org.mule.runtime.extension.api.introspection.config;
  *
  * @since 1.0
  */
-public interface ConfigurationFactory
-{
+public interface ConfigurationFactory {
 
-    /**
-     * Returns a new instance of an object which is compliant
-     * with the model described by the owning {@link ConfigurationModel}.
-     *
-     * @return a new object
-     */
-    Object newInstance();
+  /**
+   * Returns a new instance of an object which is compliant
+   * with the model described by the owning {@link ConfigurationModel}.
+   *
+   * @return a new object
+   */
+  Object newInstance();
 
-    /**
-     * Returns the type of the object to be returned by this instance
-     *
-     * @return a {@link Class}
-     */
-    Class<?> getObjectType();
+  /**
+   * Returns the type of the object to be returned by this instance
+   *
+   * @return a {@link Class}
+   */
+  Class<?> getObjectType();
 
 }

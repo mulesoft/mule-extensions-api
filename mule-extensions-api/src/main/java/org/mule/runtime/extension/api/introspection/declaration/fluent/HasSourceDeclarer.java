@@ -13,22 +13,21 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
  *
  * @since 1.0
  */
-public interface HasSourceDeclarer
-{
+public interface HasSourceDeclarer {
 
-    /**
-     * Adds a message source of the given {@code name}
-     *
-     * @param name a non blank name
-     * @return a {@link SourceDeclarer} which allows describing the created provider
-     */
-    SourceDeclarer withMessageSource(String name);
+  /**
+   * Adds a message source of the given {@code name}
+   *
+   * @param name a non blank name
+   * @return a {@link SourceDeclarer} which allows describing the created provider
+   */
+  SourceDeclarer withMessageSource(String name);
 
-    /**
-     * Adds a {@link SourceDeclaration} by receiving
-     * a {@code declarer} which describes it
-     *
-     * @param declarer a {@link SourceDeclarer}
-     */
-    void withMessageSource(SourceDeclarer declarer);
+  /**
+   * Adds a {@link SourceDeclaration} by receiving
+   * a {@code declarer} which describes it
+   *
+   * @param declarer a {@link SourceDeclarer}
+   */
+  void withMessageSource(SourceDeclarer declarer);
 }

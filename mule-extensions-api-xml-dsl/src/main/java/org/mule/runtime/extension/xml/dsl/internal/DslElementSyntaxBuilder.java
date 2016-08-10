@@ -18,146 +18,132 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public final class DslElementSyntaxBuilder
-{
+public final class DslElementSyntaxBuilder {
 
-    private String attributeName;
-    private String elementName;
-    private String elementNameSpace;
-    private String nameSpaceUri;
-    private boolean isWrapped = false;
-    private boolean supportsChildDeclaration = false;
-    private boolean supportsTopLevelDeclaration = false;
-    private Map<MetadataType, DslElementSyntax> genericChilds = new HashMap<>();
-    private Map<String, DslElementSyntax> namedChilds = new HashMap<>();
+  private String attributeName;
+  private String elementName;
+  private String elementNameSpace;
+  private String nameSpaceUri;
+  private boolean isWrapped = false;
+  private boolean supportsChildDeclaration = false;
+  private boolean supportsTopLevelDeclaration = false;
+  private Map<MetadataType, DslElementSyntax> genericChilds = new HashMap<>();
+  private Map<String, DslElementSyntax> namedChilds = new HashMap<>();
 
 
-    private DslElementSyntaxBuilder()
-    {
-        attributeName = "";
-        elementName = "";
-        elementNameSpace = "";
+  private DslElementSyntaxBuilder() {
+    attributeName = "";
+    elementName = "";
+    elementNameSpace = "";
+  }
+
+  /**
+   * @return a new instance of {@link DslElementSyntaxBuilder}
+   */
+  public static DslElementSyntaxBuilder create() {
+    return new DslElementSyntaxBuilder();
+  }
+
+  /**
+   * Adds a {@code name} that describes how this element will be represented as an attribute.
+   *
+   * @return the builder instance enriched with the {@code attributeName}
+   */
+  public DslElementSyntaxBuilder withAttributeName(String attributeName) {
+    this.attributeName = attributeName;
+    return this;
+  }
+
+  /**
+   * Adds a {@code name} to the element being declared
+   *
+   * @return the builder instance enriched with the {@code elementName}
+   */
+  public DslElementSyntaxBuilder withElementName(String elementName) {
+    this.elementName = elementName;
+    return this;
+  }
+
+  /**
+   * Adds a {@code nameSpace} to the element being declared
+   *
+   * @return the builder instance enriched with the {@code nameSpace}
+   */
+  public DslElementSyntaxBuilder withNamespace(String nameSpace, String nameSpaceUri) {
+    this.elementNameSpace = nameSpace;
+    this.nameSpaceUri = nameSpaceUri;
+    return this;
+  }
+
+  /**
+   * Declares whether or not {@code this} {@link DslElementSyntax} is a wrapped element.
+   *
+   * @return the builder instance enriched with the {@code isWrapped}
+   */
+  public DslElementSyntaxBuilder asWrappedElement(boolean isWrapped) {
+    this.isWrapped = isWrapped;
+    return this;
+  }
+
+  /**
+   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as child element
+   * in the context for which it was created.
+   *
+   * @return the builder instance enriched with {@code supportsChildDeclaration}
+   */
+  public DslElementSyntaxBuilder supportsChildDeclaration(boolean supportsChild) {
+    this.supportsChildDeclaration = supportsChild;
+    return this;
+  }
+
+  /**
+   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as top level element
+   * in the context for which it was created.
+   *
+   * @return the builder instance enriched with {@code supportsTopLevelDeclaration}
+   */
+  public DslElementSyntaxBuilder supportsTopLevelDeclaration(boolean supportsTop) {
+    this.supportsTopLevelDeclaration = supportsTop;
+    return this;
+  }
+
+  /**
+   * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
+   * represents a generic type of {@code this} element.
+   *
+   * @return the builder instance enriched with the {@code typed} {@link DslElementSyntax childElement}
+   */
+  public DslElementSyntaxBuilder withGeneric(MetadataType type, DslElementSyntax child) {
+    if (child == null) {
+      throw new IllegalArgumentException("Invalid child declaration, child element should not be null");
     }
 
-    /**
-     * @return a new instance of {@link DslElementSyntaxBuilder}
-     */
-    public static DslElementSyntaxBuilder create()
-    {
-        return new DslElementSyntaxBuilder();
+    this.genericChilds.put(type, child);
+    return this;
+  }
+
+  /**
+   * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
+   * can be referenced by {@code name}
+   *
+   * @return the builder instance enriched with the {@code named} {@link DslElementSyntax childElement}
+   */
+  public DslElementSyntaxBuilder withChild(String name, DslElementSyntax child) {
+    if (child == null) {
+      throw new IllegalArgumentException("Invalid child declaration, child element should not be null");
     }
 
-    /**
-     * Adds a {@code name} that describes how this element will be represented as an attribute.
-     *
-     * @return the builder instance enriched with the {@code attributeName}
-     */
-    public DslElementSyntaxBuilder withAttributeName(String attributeName)
-    {
-        this.attributeName = attributeName;
-        return this;
-    }
+    this.namedChilds.put(name, child);
+    return this;
+  }
 
-    /**
-     * Adds a {@code name} to the element being declared
-     *
-     * @return the builder instance enriched with the {@code elementName}
-     */
-    public DslElementSyntaxBuilder withElementName(String elementName)
-    {
-        this.elementName = elementName;
-        return this;
-    }
-
-    /**
-     * Adds a {@code nameSpace} to the element being declared
-     *
-     * @return the builder instance enriched with the {@code nameSpace}
-     */
-    public DslElementSyntaxBuilder withNamespace(String nameSpace, String nameSpaceUri)
-    {
-        this.elementNameSpace = nameSpace;
-        this.nameSpaceUri = nameSpaceUri;
-        return this;
-    }
-
-    /**
-     * Declares whether or not {@code this} {@link DslElementSyntax} is a wrapped element.
-     *
-     * @return the builder instance enriched with the {@code isWrapped}
-     */
-    public DslElementSyntaxBuilder asWrappedElement(boolean isWrapped)
-    {
-        this.isWrapped = isWrapped;
-        return this;
-    }
-
-    /**
-     * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as child element
-     * in the context for which it was created.
-     *
-     * @return the builder instance enriched with {@code supportsChildDeclaration}
-     */
-    public DslElementSyntaxBuilder supportsChildDeclaration(boolean supportsChild)
-    {
-        this.supportsChildDeclaration = supportsChild;
-        return this;
-    }
-
-    /**
-     * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as top level element
-     * in the context for which it was created.
-     *
-     * @return the builder instance enriched with {@code supportsTopLevelDeclaration}
-     */
-    public DslElementSyntaxBuilder supportsTopLevelDeclaration(boolean supportsTop)
-    {
-        this.supportsTopLevelDeclaration = supportsTop;
-        return this;
-    }
-
-    /**
-     * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
-     * represents a generic type of {@code this} element.
-     *
-     * @return the builder instance enriched with the {@code typed} {@link DslElementSyntax childElement}
-     */
-    public DslElementSyntaxBuilder withGeneric(MetadataType type, DslElementSyntax child)
-    {
-        if (child == null)
-        {
-            throw new IllegalArgumentException("Invalid child declaration, child element should not be null");
-        }
-
-        this.genericChilds.put(type, child);
-        return this;
-    }
-
-    /**
-     * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
-     * can be referenced by {@code name}
-     *
-     * @return the builder instance enriched with the {@code named} {@link DslElementSyntax childElement}
-     */
-    public DslElementSyntaxBuilder withChild(String name, DslElementSyntax child)
-    {
-        if (child == null)
-        {
-            throw new IllegalArgumentException("Invalid child declaration, child element should not be null");
-        }
-
-        this.namedChilds.put(name, child);
-        return this;
-    }
-
-    /**
-     * @return a new instance of {@link DslElementSyntax}
-     */
-    public DslElementSyntax build()
-    {
-        return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
-                                    supportsChildDeclaration, supportsTopLevelDeclaration, genericChilds, namedChilds);
-    }
+  /**
+   * @return a new instance of {@link DslElementSyntax}
+   */
+  public DslElementSyntax build() {
+    return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
+                                supportsChildDeclaration, supportsTopLevelDeclaration, genericChilds, namedChilds);
+  }
 
 }
 

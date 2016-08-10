@@ -22,8 +22,7 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Ignore
-{
+public @interface Ignore {
 
 }
 

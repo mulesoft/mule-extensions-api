@@ -21,12 +21,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ImportedTypes
-{
+public @interface ImportedTypes {
 
-    /**
-     * @return all the {@link Import} declarations on the annotated element
-     */
-    Import[] value() default {};
+  /**
+   * @return all the {@link Import} declarations on the annotated element
+   */
+  Import[] value() default {};
 
 }

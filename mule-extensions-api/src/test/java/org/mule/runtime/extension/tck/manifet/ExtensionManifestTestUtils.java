@@ -26,52 +26,47 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class ExtensionManifestTestUtils
-{
+public final class ExtensionManifestTestUtils {
 
-    public static final String DESCRIBER_ID = "annotations";
-    public static final List<String> EXPORTED_PACKAGES = Arrays.asList("org.mule.foo", "org.mule.bar");
-    public static final List<String> EXPORTED_RESOURCES = Arrays.asList("/META-INF/foo", "bar");
-    public static final String DESCRIBER_PROPERTY = "type";
-    public static final String DESCRIBER_PROPERTY_VALUE = TestHttpConnectorDeclarer.class.getName();
+  public static final String DESCRIBER_ID = "annotations";
+  public static final List<String> EXPORTED_PACKAGES = Arrays.asList("org.mule.foo", "org.mule.bar");
+  public static final List<String> EXPORTED_RESOURCES = Arrays.asList("/META-INF/foo", "bar");
+  public static final String DESCRIBER_PROPERTY = "type";
+  public static final String DESCRIBER_PROPERTY_VALUE = TestHttpConnectorDeclarer.class.getName();
 
-    private ExtensionManifestTestUtils()
-    {
-    }
+  private ExtensionManifestTestUtils() {}
 
-    /**
-     * Creates a new {@link ExtensionManifestBuilder} initialised
-     * with a known test state
-     *
-     * @return a {@link ExtensionManifestBuilder}
-     */
-    public static ExtensionManifestBuilder getTestBuilder()
-    {
-        ExtensionManifestBuilder builder = new ExtensionManifestBuilder();
-        builder.setName(EXTENSION_NAME)
-                .setDescription(EXTENSION_DESCRIPTION)
-                .addExportedPackages(EXPORTED_PACKAGES)
-                .addExportedResources(EXPORTED_RESOURCES)
-                .setVersion(VERSION)
-                .setMinMuleVersion(MIN_MULE_VERSION)
-                .withDescriber()
-                .setId(DESCRIBER_ID)
-                .addProperty(DESCRIBER_PROPERTY, DESCRIBER_PROPERTY_VALUE);
+  /**
+   * Creates a new {@link ExtensionManifestBuilder} initialised
+   * with a known test state
+   *
+   * @return a {@link ExtensionManifestBuilder}
+   */
+  public static ExtensionManifestBuilder getTestBuilder() {
+    ExtensionManifestBuilder builder = new ExtensionManifestBuilder();
+    builder.setName(EXTENSION_NAME)
+        .setDescription(EXTENSION_DESCRIPTION)
+        .addExportedPackages(EXPORTED_PACKAGES)
+        .addExportedResources(EXPORTED_RESOURCES)
+        .setVersion(VERSION)
+        .setMinMuleVersion(MIN_MULE_VERSION)
+        .withDescriber()
+        .setId(DESCRIBER_ID)
+        .addProperty(DESCRIBER_PROPERTY, DESCRIBER_PROPERTY_VALUE);
 
-        return builder;
-    }
+    return builder;
+  }
 
-    /**
-     * Validates that the two lists have the same size and that
-     * all of the items in the {@code expected} {@link List} are
-     * present in the {@code actual} one
-     *
-     * @param expected a reference {@link List}
-     * @param actual   an actual {@link List} to test
-     */
-    public static void assertStringList(List<String> expected, List<String> actual)
-    {
-        assertThat(actual, hasSize(expected.size()));
-        assertThat(actual, hasItems(expected.toArray(new String[expected.size()])));
-    }
+  /**
+   * Validates that the two lists have the same size and that
+   * all of the items in the {@code expected} {@link List} are
+   * present in the {@code actual} one
+   *
+   * @param expected a reference {@link List}
+   * @param actual   an actual {@link List} to test
+   */
+  public static void assertStringList(List<String> expected, List<String> actual) {
+    assertThat(actual, hasSize(expected.size()));
+    assertThat(actual, hasItems(expected.toArray(new String[expected.size()])));
+  }
 }

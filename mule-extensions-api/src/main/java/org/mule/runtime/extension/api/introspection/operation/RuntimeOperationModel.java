@@ -18,13 +18,12 @@ import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory
  * @see OperationModel
  * @since 1.0
  */
-public interface RuntimeOperationModel extends RuntimeComponentModel, OperationModel
-{
+public interface RuntimeOperationModel extends RuntimeComponentModel, OperationModel {
 
-    /**
-     * Provides a {@link OperationExecutor} for this operation.
-     *
-     * @return a {@link OperationExecutor}
-     */
-    OperationExecutorFactory getExecutor();
+  /**
+   * Provides a {@link OperationExecutor} for this operation.
+   *
+   * @return a {@link OperationExecutor}
+   */
+  OperationExecutorFactory getExecutor();
 }

@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.xml.dsl.test.model;
 
-public class EmptyType
-{
+public class EmptyType {
 
 }

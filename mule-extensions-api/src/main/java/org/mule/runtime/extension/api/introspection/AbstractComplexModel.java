@@ -29,110 +29,96 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractComplexModel extends AbstractNamedImmutableModel implements HasConnectionProviderModels, HasSourceModels, HasOperationModels
-{
+public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
+    implements HasConnectionProviderModels, HasSourceModels, HasOperationModels {
 
-    private final Map<String, OperationModel> operations;
-    private final Map<String, ConnectionProviderModel> connectionProviders;
-    private final Map<String, SourceModel> messageSources;
+  private final Map<String, OperationModel> operations;
+  private final Map<String, ConnectionProviderModel> connectionProviders;
+  private final Map<String, SourceModel> messageSources;
 
-    public AbstractComplexModel(String name,
-                                String description,
-                                List<OperationModel> operationModels,
-                                List<ConnectionProviderModel> connectionProviders,
-                                List<SourceModel> sourceModels,
-                                Set<ModelProperty> modelProperties)
-    {
-        super(name, description, modelProperties);
-        this.operations = toMap(operationModels);
-        this.connectionProviders = toMap(connectionProviders);
-        this.messageSources = toMap(sourceModels);
+  public AbstractComplexModel(String name,
+                              String description,
+                              List<OperationModel> operationModels,
+                              List<ConnectionProviderModel> connectionProviders,
+                              List<SourceModel> sourceModels,
+                              Set<ModelProperty> modelProperties) {
+    super(name, description, modelProperties);
+    this.operations = toMap(operationModels);
+    this.connectionProviders = toMap(connectionProviders);
+    this.messageSources = toMap(sourceModels);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<OperationModel> getOperationModels() {
+    return toList(operations.values());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<SourceModel> getSourceModels() {
+    return toList(messageSources.values());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<SourceModel> getSourceModel(String name) {
+    return findModel(messageSources, name);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<ConnectionProviderModel> getConnectionProviderModel(String name) {
+    return findModel(connectionProviders, name);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<OperationModel> getOperationModel(String name) {
+    return findModel(operations, name);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<ConnectionProviderModel> getConnectionProviders() {
+    return toList(connectionProviders.values());
+  }
+
+  protected <T extends EnrichableModel> Optional<T> findModel(Map<String, T> map, String name) {
+    return Optional.ofNullable(map.get(name));
+  }
+
+  protected <T extends Described> List<T> toList(Collection<T> collection) {
+    if (collection == null || collection.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return Collections.unmodifiableList(new ArrayList<>(collection));
+  }
+
+  protected <T extends Named> Map<String, T> toMap(List<T> objects) {
+    if (objects == null || objects.isEmpty()) {
+      return Collections.emptyMap();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<OperationModel> getOperationModels()
-    {
-        return toList(operations.values());
+    Map<String, T> map = new LinkedHashMap<>(objects.size());
+    for (T object : objects) {
+      if (map.containsKey(object.getName())) {
+        throw new IllegalArgumentException(String.format("Multiple entries with the same key[%s]", object.getName()));
+      }
+      map.put(object.getName(), object);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<SourceModel> getSourceModels()
-    {
-        return toList(messageSources.values());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<SourceModel> getSourceModel(String name)
-    {
-        return findModel(messageSources, name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<ConnectionProviderModel> getConnectionProviderModel(String name)
-    {
-        return findModel(connectionProviders, name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<OperationModel> getOperationModel(String name)
-    {
-        return findModel(operations, name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ConnectionProviderModel> getConnectionProviders()
-    {
-        return toList(connectionProviders.values());
-    }
-
-    protected <T extends EnrichableModel> Optional<T> findModel(Map<String, T> map, String name)
-    {
-        return Optional.ofNullable(map.get(name));
-    }
-
-    protected <T extends Described> List<T> toList(Collection<T> collection)
-    {
-        if (collection == null || collection.isEmpty())
-        {
-            return Collections.emptyList();
-        }
-        return Collections.unmodifiableList(new ArrayList<>(collection));
-    }
-
-    protected <T extends Named> Map<String, T> toMap(List<T> objects)
-    {
-        if (objects == null || objects.isEmpty())
-        {
-            return Collections.emptyMap();
-        }
-
-        Map<String, T> map = new LinkedHashMap<>(objects.size());
-        for (T object : objects)
-        {
-            if (map.containsKey(object.getName()))
-            {
-                throw new IllegalArgumentException(String.format("Multiple entries with the same key[%s]", object.getName()));
-            }
-            map.put(object.getName(), object);
-        }
-        return Collections.unmodifiableMap(map);
-    }
+    return Collections.unmodifiableMap(map);
+  }
 }

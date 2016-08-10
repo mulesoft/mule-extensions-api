@@ -15,65 +15,55 @@ import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HierarchyClassMapTestCase
-{
+public class HierarchyClassMapTestCase {
 
-    private HierarchyClassMap<Object> map = new HierarchyClassMap<>();
-    private Class[] keys = new Class[] {Dog.class, RabidDog.class, Human.class};
+  private HierarchyClassMap<Object> map = new HierarchyClassMap<>();
+  private Class[] keys = new Class[] {Dog.class, RabidDog.class, Human.class};
 
-    @Before
-    public void before() throws Exception
-    {
-        for (Class<?> key : keys)
-        {
-            map.put(key, key.newInstance());
-        }
+  @Before
+  public void before() throws Exception {
+    for (Class<?> key : keys) {
+      map.put(key, key.newInstance());
     }
+  }
 
-    @Test
-    public void specificGet()
-    {
-        Stream.of(keys).forEach(key -> assertThat(map.get(key), is(instanceOf(key))));
-    }
+  @Test
+  public void specificGet() {
+    Stream.of(keys).forEach(key -> assertThat(map.get(key), is(instanceOf(key))));
+  }
 
-    @Test
-    public void specificContainsKey()
-    {
-        Stream.of(keys).forEach(key -> assertThat(map.containsKey(key), is(true)));
-    }
+  @Test
+  public void specificContainsKey() {
+    Stream.of(keys).forEach(key -> assertThat(map.containsKey(key), is(true)));
+  }
 
-    @Test
-    public void hierarchicalGet()
-    {
-        assertThat(map.get(RabidDog.class), is(instanceOf(RabidDog.class)));
-        map.remove(Dog.class);
+  @Test
+  public void hierarchicalGet() {
+    assertThat(map.get(RabidDog.class), is(instanceOf(RabidDog.class)));
+    map.remove(Dog.class);
 
-        assertThat(map.get(Dog.class), is(instanceOf(RabidDog.class)));
-    }
+    assertThat(map.get(Dog.class), is(instanceOf(RabidDog.class)));
+  }
 
-    @Test
-    public void hierarchicalContainsKey()
-    {
-        assertThat(map.containsKey(RabidDog.class), is(true));
-        map.remove(Dog.class);
+  @Test
+  public void hierarchicalContainsKey() {
+    assertThat(map.containsKey(RabidDog.class), is(true));
+    map.remove(Dog.class);
 
-        assertThat(map.containsKey(Dog.class), is(true));
-    }
+    assertThat(map.containsKey(Dog.class), is(true));
+  }
 
 
-    public static class Dog
-    {
+  public static class Dog {
 
-    }
+  }
 
-    public static class RabidDog extends Dog
-    {
+  public static class RabidDog extends Dog {
 
-    }
+  }
 
 
-    public static class Human
-    {
+  public static class Human {
 
-    }
+  }
 }

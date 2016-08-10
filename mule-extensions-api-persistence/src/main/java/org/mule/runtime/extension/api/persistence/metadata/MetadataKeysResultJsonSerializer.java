@@ -23,35 +23,30 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJsonSerializer
-{
+public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
 
-    public MetadataKeysResultJsonSerializer()
-    {
-        super(false);
-    }
+  public MetadataKeysResultJsonSerializer() {
+    super(false);
+  }
 
-    public MetadataKeysResultJsonSerializer(boolean prettyPrint)
-    {
-        super(prettyPrint);
-    }
+  public MetadataKeysResultJsonSerializer(boolean prettyPrint) {
+    super(prettyPrint);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String serialize(MetadataResult metadataResult)
-    {
-        return gson.toJson(new MetadataKeysResult(metadataResult));
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String serialize(MetadataResult metadataResult) {
+    return gson.toJson(new MetadataKeysResult(metadataResult));
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ImmutableMetadataResult<Set<DefaultMetadataKey>> deserialize(String metadataResult)
-    {
-        MetadataKeysResult result = gson.fromJson(metadataResult, new TypeToken<MetadataKeysResult>(){}.getType());
-        return (ImmutableMetadataResult<Set<DefaultMetadataKey>>) result.toKeysMetadataResult();
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ImmutableMetadataResult<Set<DefaultMetadataKey>> deserialize(String metadataResult) {
+    MetadataKeysResult result = gson.fromJson(metadataResult, new TypeToken<MetadataKeysResult>() {}.getType());
+    return (ImmutableMetadataResult<Set<DefaultMetadataKey>>) result.toKeysMetadataResult();
+  }
 }

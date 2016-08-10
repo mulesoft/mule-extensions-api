@@ -11,13 +11,12 @@ package org.mule.runtime.extension.api.introspection;
  *
  * @since 1.0
  */
-public interface Described
-{
+public interface Described {
 
-    /**
-     * Returns the component's description
-     *
-     * @return a non blank {@link java.lang.String}
-     */
-    String getDescription();
+  /**
+   * Returns the component's description
+   *
+   * @return a non blank {@link java.lang.String}
+   */
+  String getDescription();
 }

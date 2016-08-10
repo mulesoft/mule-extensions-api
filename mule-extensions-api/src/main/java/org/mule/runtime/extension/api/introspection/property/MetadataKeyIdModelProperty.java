@@ -20,43 +20,39 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  *
  * @since 1.0
  */
-public final class MetadataKeyIdModelProperty implements ModelProperty
-{
-    private final MetadataType type;
+public final class MetadataKeyIdModelProperty implements ModelProperty {
 
-    /**
-     * Creates a new instance.
-     *
-     * @param type of the {@link ParameterModel} annotated with {@link MetadataKeyId}.
-     */
-    public MetadataKeyIdModelProperty(MetadataType type)
-    {
-        this.type = type;
-    }
+  private final MetadataType type;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return "MetadataKeyId";
-    }
+  /**
+   * Creates a new instance.
+   *
+   * @param type of the {@link ParameterModel} annotated with {@link MetadataKeyId}.
+   */
+  public MetadataKeyIdModelProperty(MetadataType type) {
+    this.type = type;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return true;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+    return "MetadataKeyId";
+  }
 
-    /**
-     * @return the type of the {@link ParameterModel} annotated with {@link MetadataKeyId}
-     */
-    public MetadataType getType()
-    {
-        return type;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return true;
+  }
+
+  /**
+   * @return the type of the {@link ParameterModel} annotated with {@link MetadataKeyId}
+   */
+  public MetadataType getType() {
+    return type;
+  }
 }

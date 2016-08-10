@@ -48,235 +48,224 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class TestWebServiceConsumerDeclarer
-{
+public class TestWebServiceConsumerDeclarer {
 
-    public static final String CONFIG_NAME = "config";
-    public static final String CONFIG_DESCRIPTION = "Default description";
-    public static final String WS_CONSUMER = "WSConsumer";
-    public static final String WS_CONSUMER_DESCRIPTION = "Generic Consumer for SOAP Web Services";
-    public static final String VERSION = "3.6.0";
-    public static final String WSDL_LOCATION = "wsdlLocation";
-    public static final String URI_TO_FIND_THE_WSDL = "URI to find the WSDL";
-    public static final String SERVICE = "service";
-    public static final String SERVICE_NAME = "Service Name";
-    public static final String PORT = "port";
-    public static final String SERVICE_PORT = "Service Port";
-    public static final String ADDRESS = "address";
-    public static final String SERVICE_ADDRESS = "Service address";
-    public static final String CONSUMER = "consumer";
-    public static final String GO_GET_THEM_TIGER = "Go get them tiger";
-    public static final String OPERATION = "operation";
-    public static final String THE_OPERATION_TO_USE = "The operation to use";
-    public static final String MTOM_ENABLED = "mtomEnabled";
-    public static final String MTOM_DESCRIPTION = "Whether or not use MTOM for attachments";
-    public static final String BROADCAST = "broadcast";
-    public static final String BROADCAST_DESCRIPTION = "consumes many services";
-    public static final String CALLBACK = "callback";
-    public static final String CALLBACK_DESCRIPTION = "async callback";
-    public static final String HAS_NO_ARGS = "has no args";
-    public static final String ARG_LESS = "argLess";
-    public static final String USERNAME = "username";
-    public static final String USERNAME_DESCRIPTION = "Authentication username";
-    public static final String PASSWORD = "password";
-    public static final String PASSWORD_DESCRIPTION = "Authentication password";
-    public static final String MULESOFT = "MuleSoft";
-    public static final String LISTENER = "listener";
-    public static final String LISTEN_DESCRIPTION = "Listen requests";
-    public static final String URL = "url";
-    public static final String URL_DESCRIPTION = "Url to listen on";
-    public static final String PORT_DESCRIPTION = "Port to listen on";
-    public static final MuleVersion MIN_MULE_VERSION = new MuleVersion("4.0");
+  public static final String CONFIG_NAME = "config";
+  public static final String CONFIG_DESCRIPTION = "Default description";
+  public static final String WS_CONSUMER = "WSConsumer";
+  public static final String WS_CONSUMER_DESCRIPTION = "Generic Consumer for SOAP Web Services";
+  public static final String VERSION = "3.6.0";
+  public static final String WSDL_LOCATION = "wsdlLocation";
+  public static final String URI_TO_FIND_THE_WSDL = "URI to find the WSDL";
+  public static final String SERVICE = "service";
+  public static final String SERVICE_NAME = "Service Name";
+  public static final String PORT = "port";
+  public static final String SERVICE_PORT = "Service Port";
+  public static final String ADDRESS = "address";
+  public static final String SERVICE_ADDRESS = "Service address";
+  public static final String CONSUMER = "consumer";
+  public static final String GO_GET_THEM_TIGER = "Go get them tiger";
+  public static final String OPERATION = "operation";
+  public static final String THE_OPERATION_TO_USE = "The operation to use";
+  public static final String MTOM_ENABLED = "mtomEnabled";
+  public static final String MTOM_DESCRIPTION = "Whether or not use MTOM for attachments";
+  public static final String BROADCAST = "broadcast";
+  public static final String BROADCAST_DESCRIPTION = "consumes many services";
+  public static final String CALLBACK = "callback";
+  public static final String CALLBACK_DESCRIPTION = "async callback";
+  public static final String HAS_NO_ARGS = "has no args";
+  public static final String ARG_LESS = "argLess";
+  public static final String USERNAME = "username";
+  public static final String USERNAME_DESCRIPTION = "Authentication username";
+  public static final String PASSWORD = "password";
+  public static final String PASSWORD_DESCRIPTION = "Authentication password";
+  public static final String MULESOFT = "MuleSoft";
+  public static final String LISTENER = "listener";
+  public static final String LISTEN_DESCRIPTION = "Listen requests";
+  public static final String URL = "url";
+  public static final String URL_DESCRIPTION = "Url to listen on";
+  public static final String PORT_DESCRIPTION = "Port to listen on";
+  public static final MuleVersion MIN_MULE_VERSION = new MuleVersion("4.0");
 
-    public static final int DEFAULT_PORT = 8080;
+  public static final int DEFAULT_PORT = 8080;
 
-    public static final ModelProperty EXTENSION_MODEL_PROPERTY = new TestModelProperty("customExtensionModelProperty");
-    public static final ModelProperty CONFIGURATION_MODEL_PROPERTY = new TestModelProperty("customConfigurationModelProperty");
-    public static final ModelProperty OPERATION_MODEL_PROPERTY = new TestModelProperty("customOperationModelProperty");
-    public static final ModelProperty PARAMETER_MODEL_PROPERTY = new TestModelProperty("customParameterModelProperty");
-    public static final ModelProperty SOURCE_MODEL_PROPERTY = new TestModelProperty("customSourceModelProperty");
+  public static final ModelProperty EXTENSION_MODEL_PROPERTY = new TestModelProperty("customExtensionModelProperty");
+  public static final ModelProperty CONFIGURATION_MODEL_PROPERTY = new TestModelProperty("customConfigurationModelProperty");
+  public static final ModelProperty OPERATION_MODEL_PROPERTY = new TestModelProperty("customOperationModelProperty");
+  public static final ModelProperty PARAMETER_MODEL_PROPERTY = new TestModelProperty("customParameterModelProperty");
+  public static final ModelProperty SOURCE_MODEL_PROPERTY = new TestModelProperty("customSourceModelProperty");
 
-    public static final String CONNECTION_PROVIDER_NAME = "connectionProvider";
-    public static final String CONNECTION_PROVIDER_DESCRIPTION = "my connection provider";
-    public static final Class<?> CONNECTION_PROVIDER_CONNECTOR_TYPE = Integer.class;
+  public static final String CONNECTION_PROVIDER_NAME = "connectionProvider";
+  public static final String CONNECTION_PROVIDER_DESCRIPTION = "my connection provider";
+  public static final Class<?> CONNECTION_PROVIDER_CONNECTOR_TYPE = Integer.class;
 
-    private final ExtensionDeclarer extensionDeclarer;
-    private final ConfigurationFactory configurationFactory = mock(ConfigurationFactory.class);
-    private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
-    private final OperationExecutorFactory broadcastExecutorFactory = mock(OperationExecutorFactory.class);
-    private final OperationExecutorFactory argLessExecutorFactory = mock(OperationExecutorFactory.class);
-    private final Interceptor configInterceptor1 = mock(Interceptor.class);
-    private final Interceptor configInterceptor2 = mock(Interceptor.class);
-    private final Interceptor operationInterceptor1 = mock(Interceptor.class);
-    private final Interceptor operationInterceptor2 = mock(Interceptor.class);
-    private final Interceptor messageSourceInterceptor1 = mock(Interceptor.class);
-    private final Interceptor messageSourceInterceptor2 = mock(Interceptor.class);
-    private final Source<Object, Attributes> source = mock(Source.class);
-    private final ConnectionProviderFactory connectionProviderFactory = mock(ConnectionProviderFactory.class);
-    private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory = Optional.of(mock(ExceptionEnricherFactory.class));
-    private final BaseTypeBuilder<?> typeBuilder = BaseTypeBuilder.create(JavaTypeLoader.JAVA);
-    private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+  private final ExtensionDeclarer extensionDeclarer;
+  private final ConfigurationFactory configurationFactory = mock(ConfigurationFactory.class);
+  private final OperationExecutorFactory consumerExecutorFactory = mock(OperationExecutorFactory.class);
+  private final OperationExecutorFactory broadcastExecutorFactory = mock(OperationExecutorFactory.class);
+  private final OperationExecutorFactory argLessExecutorFactory = mock(OperationExecutorFactory.class);
+  private final Interceptor configInterceptor1 = mock(Interceptor.class);
+  private final Interceptor configInterceptor2 = mock(Interceptor.class);
+  private final Interceptor operationInterceptor1 = mock(Interceptor.class);
+  private final Interceptor operationInterceptor2 = mock(Interceptor.class);
+  private final Interceptor messageSourceInterceptor1 = mock(Interceptor.class);
+  private final Interceptor messageSourceInterceptor2 = mock(Interceptor.class);
+  private final Source<Object, Attributes> source = mock(Source.class);
+  private final ConnectionProviderFactory connectionProviderFactory = mock(ConnectionProviderFactory.class);
+  private final Optional<ExceptionEnricherFactory> exceptionEnricherFactory = Optional.of(mock(ExceptionEnricherFactory.class));
+  private final BaseTypeBuilder<?> typeBuilder = BaseTypeBuilder.create(JavaTypeLoader.JAVA);
+  private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
-    public TestWebServiceConsumerDeclarer()
-    {
-        extensionDeclarer = new ExtensionDeclarer();
-        extensionDeclarer.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
-                .withCategory(Category.SELECT).withMinMuleVersion(MIN_MULE_VERSION)
-                .withExceptionEnricherFactory(exceptionEnricherFactory)
-                .withModelProperty(EXTENSION_MODEL_PROPERTY);
+  public TestWebServiceConsumerDeclarer() {
+    extensionDeclarer = new ExtensionDeclarer();
+    extensionDeclarer.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
+        .withCategory(Category.SELECT).withMinMuleVersion(MIN_MULE_VERSION)
+        .withExceptionEnricherFactory(exceptionEnricherFactory)
+        .withModelProperty(EXTENSION_MODEL_PROPERTY);
 
-        ConfigurationDeclarer config = extensionDeclarer.withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
-                .withModelProperty(CONFIGURATION_MODEL_PROPERTY)
-                .withInterceptorFrom(() -> configInterceptor1)
-                .withInterceptorFrom(() -> configInterceptor2);
-        config.withRequiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(typeLoader.load(String.class));
-        config.withRequiredParameter(PORT).describedAs(SERVICE_PORT).ofType(typeLoader.load(String.class));
-        config.withRequiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(typeLoader.load(String.class));
-        config.withRequiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(typeLoader.load(String.class))
-                .withExpressionSupport(NOT_SUPPORTED)
-                .withModelProperty(PARAMETER_MODEL_PROPERTY);
+    ConfigurationDeclarer config =
+        extensionDeclarer.withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
+            .withModelProperty(CONFIGURATION_MODEL_PROPERTY)
+            .withInterceptorFrom(() -> configInterceptor1)
+            .withInterceptorFrom(() -> configInterceptor2);
+    config.withRequiredParameter(ADDRESS).describedAs(SERVICE_ADDRESS).ofType(typeLoader.load(String.class));
+    config.withRequiredParameter(PORT).describedAs(SERVICE_PORT).ofType(typeLoader.load(String.class));
+    config.withRequiredParameter(SERVICE).describedAs(SERVICE_NAME).ofType(typeLoader.load(String.class));
+    config.withRequiredParameter(WSDL_LOCATION).describedAs(URI_TO_FIND_THE_WSDL).ofType(typeLoader.load(String.class))
+        .withExpressionSupport(NOT_SUPPORTED)
+        .withModelProperty(PARAMETER_MODEL_PROPERTY);
 
-        ComponentDeclarer operation = extensionDeclarer.withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
-                .withModelProperty(OPERATION_MODEL_PROPERTY);
-        operation.withOutput().ofType(typeLoader.load(InputStream.class));
-        operation.withOutputAttributes().ofType(typeLoader.load(String.class));
+    ComponentDeclarer operation =
+        extensionDeclarer.withOperation(CONSUMER).describedAs(GO_GET_THEM_TIGER).executorsCreatedBy(consumerExecutorFactory)
+            .withModelProperty(OPERATION_MODEL_PROPERTY);
+    operation.withOutput().ofType(typeLoader.load(InputStream.class));
+    operation.withOutputAttributes().ofType(typeLoader.load(String.class));
 
-        operation.withRequiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeLoader.load(String.class));
-        operation.withOptionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(typeLoader.load(Boolean.class)).defaultingTo(true);
+    operation.withRequiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeLoader.load(String.class));
+    operation.withOptionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(typeLoader.load(Boolean.class))
+        .defaultingTo(true);
 
-        operation = extensionDeclarer.withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
-                .withExceptionEnricherFactory(exceptionEnricherFactory)
-                .withInterceptorFrom(() -> operationInterceptor1)
-                .withInterceptorFrom(() -> operationInterceptor2);
+    operation =
+        extensionDeclarer.withOperation(BROADCAST).describedAs(BROADCAST_DESCRIPTION).executorsCreatedBy(broadcastExecutorFactory)
+            .withExceptionEnricherFactory(exceptionEnricherFactory)
+            .withInterceptorFrom(() -> operationInterceptor1)
+            .withInterceptorFrom(() -> operationInterceptor2);
 
-        operation.withOutput().ofType(typeLoader.load(void.class));
-        operation.withRequiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeBuilder.arrayType()
-                                                                                                    .id(List.class.getName())
-                                                                                                    .of(typeBuilder.stringType().id(String.class.getName()))
-                                                                                                    .build());
+    operation.withOutput().ofType(typeLoader.load(void.class));
+    operation.withRequiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeBuilder.arrayType()
+        .id(List.class.getName())
+        .of(typeBuilder.stringType().id(String.class.getName()))
+        .build());
 
-        operation.withOptionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(typeLoader.load(Boolean.class)).defaultingTo(true);
-        operation.withRequiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(typeLoader.load(OperationModel.class)).withExpressionSupport(REQUIRED);
+    operation.withOptionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(typeLoader.load(Boolean.class))
+        .defaultingTo(true);
+    operation.withRequiredParameter(CALLBACK).describedAs(CALLBACK_DESCRIPTION).ofType(typeLoader.load(OperationModel.class))
+        .withExpressionSupport(REQUIRED);
 
-        extensionDeclarer.withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory).withOutput().ofType(typeLoader.load(int.class));
+    extensionDeclarer.withOperation(ARG_LESS).describedAs(HAS_NO_ARGS).executorsCreatedBy(argLessExecutorFactory).withOutput()
+        .ofType(typeLoader.load(int.class));
 
-        ConnectionProviderDeclarer connectionProvider = extensionDeclarer.withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
-                .createdWith(connectionProviderFactory)
-                .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE)
-                .withConnectionManagementType(NONE);
+    ConnectionProviderDeclarer connectionProvider =
+        extensionDeclarer.withConnectionProvider(CONNECTION_PROVIDER_NAME).describedAs(CONNECTION_PROVIDER_DESCRIPTION)
+            .createdWith(connectionProviderFactory)
+            .whichGivesConnectionsOfType(CONNECTION_PROVIDER_CONNECTOR_TYPE)
+            .withConnectionManagementType(NONE);
 
-        connectionProvider.withRequiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(typeLoader.load(String.class));
-        connectionProvider.withRequiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(typeLoader.load(String.class));
+    connectionProvider.withRequiredParameter(USERNAME).describedAs(USERNAME_DESCRIPTION).ofType(typeLoader.load(String.class));
+    connectionProvider.withRequiredParameter(PASSWORD).describedAs(PASSWORD_DESCRIPTION).ofType(typeLoader.load(String.class));
 
-        ComponentDeclarer sourceDeclarer = extensionDeclarer.withMessageSource(LISTENER).describedAs(LISTEN_DESCRIPTION).sourceCreatedBy(() -> source)
-                .withModelProperty(SOURCE_MODEL_PROPERTY)
-                .withInterceptorFrom(() -> messageSourceInterceptor1)
-                .withInterceptorFrom(() -> messageSourceInterceptor2);
+    ComponentDeclarer sourceDeclarer =
+        extensionDeclarer.withMessageSource(LISTENER).describedAs(LISTEN_DESCRIPTION).sourceCreatedBy(() -> source)
+            .withModelProperty(SOURCE_MODEL_PROPERTY)
+            .withInterceptorFrom(() -> messageSourceInterceptor1)
+            .withInterceptorFrom(() -> messageSourceInterceptor2);
 
-        sourceDeclarer.withOutput().ofType(typeLoader.load(InputStream.class));
-        sourceDeclarer.withOutputAttributes().ofType(typeLoader.load(Serializable.class));
+    sourceDeclarer.withOutput().ofType(typeLoader.load(InputStream.class));
+    sourceDeclarer.withOutputAttributes().ofType(typeLoader.load(Serializable.class));
 
-        sourceDeclarer.withRequiredParameter(URL).describedAs(URL_DESCRIPTION).ofType(typeLoader.load(String.class));
-        sourceDeclarer.withOptionalParameter(PORT).describedAs(PORT_DESCRIPTION).ofType(typeLoader.load(Integer.class)).defaultingTo(DEFAULT_PORT);
+    sourceDeclarer.withRequiredParameter(URL).describedAs(URL_DESCRIPTION).ofType(typeLoader.load(String.class));
+    sourceDeclarer.withOptionalParameter(PORT).describedAs(PORT_DESCRIPTION).ofType(typeLoader.load(Integer.class))
+        .defaultingTo(DEFAULT_PORT);
+  }
+
+  public ExtensionDeclarer getExtensionDeclarer() {
+    return extensionDeclarer;
+  }
+
+  public ConfigurationFactory getConfigurationFactory() {
+    return configurationFactory;
+  }
+
+  public OperationExecutorFactory getConsumerExecutorFactory() {
+    return consumerExecutorFactory;
+  }
+
+  public OperationExecutorFactory getBroadcastExecutorFactory() {
+    return broadcastExecutorFactory;
+  }
+
+  public OperationExecutorFactory getArgLessExecutorFactory() {
+    return argLessExecutorFactory;
+  }
+
+  public Interceptor getConfigInterceptor1() {
+    return configInterceptor1;
+  }
+
+  public Interceptor getConfigInterceptor2() {
+    return configInterceptor2;
+  }
+
+  public Interceptor getOperationInterceptor1() {
+    return operationInterceptor1;
+  }
+
+  public Interceptor getOperationInterceptor2() {
+    return operationInterceptor2;
+  }
+
+  public ConnectionProviderFactory getConnectionProviderFactory() {
+    return connectionProviderFactory;
+  }
+
+  public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory() {
+    return exceptionEnricherFactory;
+  }
+
+  public Source getSource() {
+    return source;
+  }
+
+  private static class TestModelProperty implements ModelProperty {
+
+    private final String name;
+
+    private TestModelProperty(String name) {
+      this.name = name;
     }
 
-    public ExtensionDeclarer getExtensionDeclarer()
-    {
-        return extensionDeclarer;
+    @Override
+    public String getName() {
+      return name;
     }
 
-    public ConfigurationFactory getConfigurationFactory()
-    {
-        return configurationFactory;
+    @Override
+    public boolean isExternalizable() {
+      return true;
     }
 
-    public OperationExecutorFactory getConsumerExecutorFactory()
-    {
-        return consumerExecutorFactory;
+    @Override
+    public boolean equals(Object obj) {
+      if (obj instanceof TestModelProperty) {
+        return name.equals(((TestModelProperty) obj).name);
+      }
+
+      return false;
     }
 
-    public OperationExecutorFactory getBroadcastExecutorFactory()
-    {
-        return broadcastExecutorFactory;
+    @Override
+    public int hashCode() {
+      return name.hashCode();
     }
-
-    public OperationExecutorFactory getArgLessExecutorFactory()
-    {
-        return argLessExecutorFactory;
-    }
-
-    public Interceptor getConfigInterceptor1()
-    {
-        return configInterceptor1;
-    }
-
-    public Interceptor getConfigInterceptor2()
-    {
-        return configInterceptor2;
-    }
-
-    public Interceptor getOperationInterceptor1()
-    {
-        return operationInterceptor1;
-    }
-
-    public Interceptor getOperationInterceptor2()
-    {
-        return operationInterceptor2;
-    }
-
-    public ConnectionProviderFactory getConnectionProviderFactory()
-    {
-        return connectionProviderFactory;
-    }
-
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
-
-    public Source getSource()
-    {
-        return source;
-    }
-
-    private static class TestModelProperty implements ModelProperty
-    {
-
-        private final String name;
-
-        private TestModelProperty(String name)
-        {
-            this.name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return name;
-        }
-
-        @Override
-        public boolean isExternalizable()
-        {
-            return true;
-        }
-
-        @Override
-        public boolean equals(Object obj)
-        {
-            if (obj instanceof TestModelProperty)
-            {
-                return name.equals(((TestModelProperty) obj).name);
-            }
-
-            return false;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return name.hashCode();
-        }
-    }
+  }
 }

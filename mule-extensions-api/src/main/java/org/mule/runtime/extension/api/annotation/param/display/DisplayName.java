@@ -33,12 +33,11 @@ import java.lang.annotation.Target;
 @Target({PARAMETER, FIELD, METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
-public @interface DisplayName
-{
+public @interface DisplayName {
 
-    /**
-     * The value is a short name for the annotated element.
-     * If this value is not specified it will be inferred from the annotated element name.
-     */
-    String value() default "";
+  /**
+   * The value is a short name for the annotated element.
+   * If this value is not specified it will be inferred from the annotated element name.
+   */
+  String value() default "";
 }

@@ -14,83 +14,75 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
  *
  * @since 1.0
  */
-public final class XmlModelProperty implements ModelProperty
-{
+public final class XmlModelProperty implements ModelProperty {
 
-    private final String xsdFileName;
-    private final String schemaVersion;
-    private final String namespace;
-    private final String namespaceUri;
-    private final String schemaLocation;
+  private final String xsdFileName;
+  private final String schemaVersion;
+  private final String namespace;
+  private final String namespaceUri;
+  private final String schemaLocation;
 
-    public XmlModelProperty(String schemaVersion, String namespace, String namespaceUri, String xsdFileName, String schemaLocation)
-    {
-        this.schemaVersion = schemaVersion;
-        this.namespace = namespace;
-        this.namespaceUri = namespaceUri;
-        this.xsdFileName = xsdFileName;
-        this.schemaLocation = schemaLocation;
-    }
+  public XmlModelProperty(String schemaVersion, String namespace, String namespaceUri, String xsdFileName,
+                          String schemaLocation) {
+    this.schemaVersion = schemaVersion;
+    this.namespace = namespace;
+    this.namespaceUri = namespaceUri;
+    this.xsdFileName = xsdFileName;
+    this.schemaLocation = schemaLocation;
+  }
 
-    /**
-     * @return The version of the module. Defaults to 1.0.
-     */
-    public String getSchemaVersion()
-    {
-        return schemaVersion;
-    }
+  /**
+   * @return The version of the module. Defaults to 1.0.
+   */
+  public String getSchemaVersion() {
+    return schemaVersion;
+  }
 
-    /**
-     * @return The extension's namespace
-     */
-    public String getNamespace()
-    {
-        return namespace;
-    }
+  /**
+   * @return The extension's namespace
+   */
+  public String getNamespace() {
+    return namespace;
+  }
 
-    /**
-     * @return The extension's namespace URI
-     */
-    public String getNamespaceUri()
-    {
-        return namespaceUri;
-    }
+  /**
+   * @return The extension's namespace URI
+   */
+  public String getNamespaceUri() {
+    return namespaceUri;
+  }
 
-    /**
-     * @return The name of the schema file
-     */
-    public String getXsdFileName()
-    {
-        return xsdFileName;
-    }
+  /**
+   * @return The name of the schema file
+   */
+  public String getXsdFileName() {
+    return xsdFileName;
+  }
 
-    /**
-     * @return The Schema's Location URI
-     */
-    public String getSchemaLocation()
-    {
-        return schemaLocation;
-    }
+  /**
+   * @return The Schema's Location URI
+   */
+  public String getSchemaLocation() {
+    return schemaLocation;
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code XML}
-     */
-    @Override
-    public String getName()
-    {
-        return "XML";
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code XML}
+   */
+  @Override
+  public String getName() {
+    return "XML";
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code true}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return true;
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code true}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return true;
+  }
 }

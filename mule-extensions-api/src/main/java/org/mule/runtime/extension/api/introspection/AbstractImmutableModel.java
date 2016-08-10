@@ -22,71 +22,61 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @since 1.0
  */
-public abstract class AbstractImmutableModel implements Described, EnrichableModel
-{
+public abstract class AbstractImmutableModel implements Described, EnrichableModel {
 
-    private final String description;
-    private final HierarchyClassMap<ModelProperty> modelProperties = new HierarchyClassMap<>();
+  private final String description;
+  private final HierarchyClassMap<ModelProperty> modelProperties = new HierarchyClassMap<>();
 
-    /**
-     * Creates a new instance
-     *
-     * @param description     the model's description
-     * @param modelProperties A {@link Set} of custom properties which extend this model
-     */
-    protected AbstractImmutableModel(String description, Set<ModelProperty> modelProperties)
-    {
-        this.description = description != null ? description : "";
-        loadProperties(modelProperties);
+  /**
+   * Creates a new instance
+   *
+   * @param description     the model's description
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   */
+  protected AbstractImmutableModel(String description, Set<ModelProperty> modelProperties) {
+    this.description = description != null ? description : "";
+    loadProperties(modelProperties);
+  }
+
+  protected static void checkArgument(boolean condition, String message) {
+    if (!condition) {
+      throw new IllegalArgumentException(message);
     }
+  }
 
-    protected static void checkArgument(boolean condition, String message)
-    {
-        if (!condition)
-        {
-            throw new IllegalArgumentException(message);
-        }
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final String getDescription() {
+    return description;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final String getDescription()
-    {
-        return description;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public <T extends ModelProperty> Optional<T> getModelProperty(Class<T> propertyType) {
+    checkArgument(propertyType != null, "Cannot get model properties of a null type");
+    return Optional.ofNullable((T) modelProperties.get(propertyType));
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T extends ModelProperty> Optional<T> getModelProperty(Class<T> propertyType)
-    {
-        checkArgument(propertyType != null, "Cannot get model properties of a null type");
-        return Optional.ofNullable((T) modelProperties.get(propertyType));
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<ModelProperty> getModelProperties() {
+    return Collections.unmodifiableSet(new HashSet(modelProperties.values()));
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<ModelProperty> getModelProperties()
-    {
-        return Collections.unmodifiableSet(new HashSet(modelProperties.values()));
-    }
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
 
-    @Override
-    public String toString()
-    {
-        return ToStringBuilder.reflectionToString(this);
+  private void loadProperties(Collection<ModelProperty> properties) {
+    if (properties != null) {
+      properties.forEach(property -> modelProperties.put(property.getClass(), property));
     }
-
-    private void loadProperties(Collection<ModelProperty> properties)
-    {
-        if (properties != null)
-        {
-            properties.forEach(property -> modelProperties.put(property.getClass(), property));
-        }
-    }
+  }
 }

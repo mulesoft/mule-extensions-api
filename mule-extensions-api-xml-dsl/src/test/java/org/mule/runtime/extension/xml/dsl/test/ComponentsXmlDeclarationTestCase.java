@@ -18,55 +18,50 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
-{
+public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
-    @Test
-    public void testOperationDeclaration()
-    {
-        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(operation);
+  @Test
+  public void testOperationDeclaration() {
+    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(operation);
 
-        assertThat(result.getAttributeName(), is(EMPTY));
-        assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
-        assertThat(result.getNamespace(), is(NAMESPACE));
-        assertChildElementDeclarationIs(false, result);
-        assertIsWrappedElement(false, result);
-    }
+    assertThat(result.getAttributeName(), is(EMPTY));
+    assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
+    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertChildElementDeclarationIs(false, result);
+    assertIsWrappedElement(false, result);
+  }
 
-    @Test
-    public void testSourceDeclaration()
-    {
-        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(source);
+  @Test
+  public void testSourceDeclaration() {
+    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(source);
 
-        assertThat(result.getAttributeName(), is(EMPTY));
-        assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
-        assertThat(result.getNamespace(), is(NAMESPACE));
-        assertChildElementDeclarationIs(false, result);
-        assertIsWrappedElement(false, result);
-    }
+    assertThat(result.getAttributeName(), is(EMPTY));
+    assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
+    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertChildElementDeclarationIs(false, result);
+    assertIsWrappedElement(false, result);
+  }
 
-    @Test
-    public void testConfigurationDeclaration()
-    {
-        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(configuration);
+  @Test
+  public void testConfigurationDeclaration() {
+    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(configuration);
 
-        assertThat(result.getAttributeName(), is(EMPTY));
-        assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
-        assertThat(result.getNamespace(), is(NAMESPACE));
-        assertChildElementDeclarationIs(false, result);
-        assertIsWrappedElement(false, result);
-    }
+    assertThat(result.getAttributeName(), is(EMPTY));
+    assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
+    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertChildElementDeclarationIs(false, result);
+    assertIsWrappedElement(false, result);
+  }
 
-    @Test
-    public void testConnectionProviderDeclaration()
-    {
-        DslElementSyntax result = new DslSyntaxResolver(extension).resolve(connectionProvider);
+  @Test
+  public void testConnectionProviderDeclaration() {
+    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(connectionProvider);
 
-        assertThat(result.getAttributeName(), is(EMPTY));
-        assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
-        assertThat(result.getNamespace(), is(NAMESPACE));
-        assertChildElementDeclarationIs(false, result);
-        assertIsWrappedElement(false, result);
-    }
+    assertThat(result.getAttributeName(), is(EMPTY));
+    assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
+    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertChildElementDeclarationIs(false, result);
+    assertIsWrappedElement(false, result);
+  }
 
 }

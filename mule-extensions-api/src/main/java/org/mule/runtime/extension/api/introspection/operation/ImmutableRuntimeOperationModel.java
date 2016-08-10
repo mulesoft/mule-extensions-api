@@ -30,92 +30,86 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ImmutableRuntimeOperationModel extends ImmutableOperationModel implements RuntimeOperationModel
-{
+public final class ImmutableRuntimeOperationModel extends ImmutableOperationModel implements RuntimeOperationModel {
 
-    private final transient OperationExecutorFactory executorFactory;
-    private final transient Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
-    private final transient List<InterceptorFactory> interceptorFactories;
-    private final MetadataResolverFactory metadataResolverFactory;
+  private final transient OperationExecutorFactory executorFactory;
+  private final transient Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
+  private final transient List<InterceptorFactory> interceptorFactories;
+  private final MetadataResolverFactory metadataResolverFactory;
 
-    /**
-     * Creates a new instance with the given state
-     *
-     * @param name                     the operation's name. Cannot be blank
-     * @param description              the operation's descriptor
-     * @param executorFactory          a {@link OperationExecutorFactory}. Cannot be {@code null}
-     * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
-     * @param output                   an {@link OutputModel} which represents the operation's output content
-     * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
-     * @param modelProperties          a {@link Set} of custom properties which extend this model
-     * @param interceptorFactories     a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
-     * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
-     * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver},
-     *                                 {@link MetadataContentResolver} and {@link MetadataOutputResolver}
-     * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
-     */
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name                     the operation's name. Cannot be blank
+   * @param description              the operation's descriptor
+   * @param executorFactory          a {@link OperationExecutorFactory}. Cannot be {@code null}
+   * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
+   * @param output                   an {@link OutputModel} which represents the operation's output content
+   * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
+   * @param modelProperties          a {@link Set} of custom properties which extend this model
+   * @param interceptorFactories     a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
+   * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
+   * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver},
+   *                                 {@link MetadataContentResolver} and {@link MetadataOutputResolver}
+   * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
+   */
 
-    public ImmutableRuntimeOperationModel(String name,
-                                          String description,
-                                          OperationExecutorFactory executorFactory,
-                                          List<ParameterModel> parameterModels,
-                                          OutputModel output,
-                                          OutputModel outputAttributes,
-                                          Set<ModelProperty> modelProperties,
-                                          List<InterceptorFactory> interceptorFactories,
-                                          Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
-                                          MetadataResolverFactory metadataResolverFactory)
-    {
-        super(name, description, parameterModels, output, outputAttributes, modelProperties);
-        if (executorFactory == null)
-        {
-            throw new IllegalArgumentException(String.format("Operation '%s' cannot have a null executor factory", name));
-        }
-        this.executorFactory = executorFactory;
-        this.exceptionEnricherFactory = exceptionEnricherFactory;
-        this.interceptorFactories = interceptorFactories != null ? Collections.unmodifiableList(interceptorFactories) : Collections.emptyList();
-
-        this.metadataResolverFactory = metadataResolverFactory;
+  public ImmutableRuntimeOperationModel(String name,
+                                        String description,
+                                        OperationExecutorFactory executorFactory,
+                                        List<ParameterModel> parameterModels,
+                                        OutputModel output,
+                                        OutputModel outputAttributes,
+                                        Set<ModelProperty> modelProperties,
+                                        List<InterceptorFactory> interceptorFactories,
+                                        Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
+                                        MetadataResolverFactory metadataResolverFactory) {
+    super(name, description, parameterModels, output, outputAttributes, modelProperties);
+    if (executorFactory == null) {
+      throw new IllegalArgumentException(String.format("Operation '%s' cannot have a null executor factory", name));
     }
+    this.executorFactory = executorFactory;
+    this.exceptionEnricherFactory = exceptionEnricherFactory;
+    this.interceptorFactories =
+        interceptorFactories != null ? Collections.unmodifiableList(interceptorFactories) : Collections.emptyList();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public OperationExecutorFactory getExecutor()
-    {
-        return executorFactory;
-    }
+    this.metadataResolverFactory = metadataResolverFactory;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory()
-    {
-        return exceptionEnricherFactory;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public OperationExecutorFactory getExecutor() {
+    return executorFactory;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public List<InterceptorFactory> getInterceptorFactories()
-    {
-        return interceptorFactories;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public Optional<ExceptionEnricherFactory> getExceptionEnricherFactory() {
+    return exceptionEnricherFactory;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public MetadataResolverFactory getMetadataResolverFactory()
-    {
-        return metadataResolverFactory;
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public List<InterceptorFactory> getInterceptorFactories() {
+    return interceptorFactories;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Transient
+  @Override
+  public MetadataResolverFactory getMetadataResolverFactory() {
+    return metadataResolverFactory;
+  }
 
 }

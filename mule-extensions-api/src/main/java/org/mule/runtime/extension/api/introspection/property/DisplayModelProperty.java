@@ -16,59 +16,53 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class DisplayModelProperty implements ModelProperty
-{
+public class DisplayModelProperty implements ModelProperty {
 
-    private String displayName;
-    private String summary;
+  private String displayName;
+  private String summary;
 
-    /**
-     * Instantiates a new {@link DisplayModelProperty}
-     *
-     * @param displayName nullable model display name
-     * @param summary     nullable model summary
-     */
-    public DisplayModelProperty(String displayName, String summary)
-    {
-        this.displayName = displayName;
-        this.summary = summary;
-    }
+  /**
+   * Instantiates a new {@link DisplayModelProperty}
+   *
+   * @param displayName nullable model display name
+   * @param summary     nullable model summary
+   */
+  public DisplayModelProperty(String displayName, String summary) {
+    this.displayName = displayName;
+    this.summary = summary;
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code displayModelProperty}
-     */
-    @Override
-    public String getName()
-    {
-        return "displayModelProperty";
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code displayModelProperty}
+   */
+  @Override
+  public String getName() {
+    return "displayModelProperty";
+  }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@code true}
-     */
-    @Override
-    public boolean isExternalizable()
-    {
-        return true;
-    }
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code true}
+   */
+  @Override
+  public boolean isExternalizable() {
+    return true;
+  }
 
-    /**
-     * @return the optional display name of the enriched {@link EnrichableModel}
-     */
-    public Optional<String> getDisplayName()
-    {
-        return Optional.ofNullable(displayName);
-    }
+  /**
+   * @return the optional display name of the enriched {@link EnrichableModel}
+   */
+  public Optional<String> getDisplayName() {
+    return Optional.ofNullable(displayName);
+  }
 
-    /**
-     * @return the optional summary of the enriched {@link EnrichableModel}
-     */
-    public Optional<String> getSummary()
-    {
-        return Optional.ofNullable(summary);
-    }
+  /**
+   * @return the optional summary of the enriched {@link EnrichableModel}
+   */
+  public Optional<String> getSummary() {
+    return Optional.ofNullable(summary);
+  }
 }

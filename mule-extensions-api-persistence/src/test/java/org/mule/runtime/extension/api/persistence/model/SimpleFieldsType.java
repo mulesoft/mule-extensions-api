@@ -9,33 +9,28 @@ package org.mule.runtime.extension.api.persistence.model;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 
-public class SimpleFieldsType
-{
+public class SimpleFieldsType {
 
-    @Parameter
-    @XmlHints(allowReferences = false)
-    private String sampleString;
+  @Parameter
+  @XmlHints(allowReferences = false)
+  private String sampleString;
 
-    @Parameter
-    private Integer otherNumber;
+  @Parameter
+  private Integer otherNumber;
 
-    public String getSampleString()
-    {
-        return sampleString;
-    }
+  public String getSampleString() {
+    return sampleString;
+  }
 
-    public void setSampleString(String sampleString)
-    {
-        this.sampleString = sampleString;
-    }
+  public void setSampleString(String sampleString) {
+    this.sampleString = sampleString;
+  }
 
-    public Integer getOtherNumber()
-    {
-        return otherNumber;
-    }
+  public Integer getOtherNumber() {
+    return otherNumber;
+  }
 
-    public void setOtherNumber(Integer otherNumber)
-    {
-        this.otherNumber = otherNumber;
-    }
+  public void setOtherNumber(Integer otherNumber) {
+    this.otherNumber = otherNumber;
+  }
 }

@@ -19,34 +19,30 @@ import java.util.List;
  * @param <T> the concrete type for {@code this} declaration
  * @since 1.0
  */
-public abstract class InterceptableDeclaration<T extends InterceptableDeclaration> extends NamedDeclaration<T>
-{
+public abstract class InterceptableDeclaration<T extends InterceptableDeclaration> extends NamedDeclaration<T> {
 
-    private final List<InterceptorFactory> interceptorFactories = new ArrayList<>();
+  private final List<InterceptorFactory> interceptorFactories = new ArrayList<>();
 
-    /**
-     * {@inheritDoc}
-     */
-    InterceptableDeclaration(String name)
-    {
-        super(name);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  InterceptableDeclaration(String name) {
+    super(name);
+  }
 
-    /**
-     * Adds the {@code interceptorFactory} to {@code this} declaration
-     *
-     * @param interceptorFactory a {@link InterceptorFactory}
-     */
-    public void addInterceptorFactory(InterceptorFactory interceptorFactory)
-    {
-        interceptorFactories.add(interceptorFactory);
-    }
+  /**
+   * Adds the {@code interceptorFactory} to {@code this} declaration
+   *
+   * @param interceptorFactory a {@link InterceptorFactory}
+   */
+  public void addInterceptorFactory(InterceptorFactory interceptorFactory) {
+    interceptorFactories.add(interceptorFactory);
+  }
 
-    /**
-     * @return An immutable {@link List} with all the items added through {@link #addInterceptorFactory(InterceptorFactory)}
-     */
-    public List<InterceptorFactory> getInterceptorFactories()
-    {
-        return Collections.unmodifiableList(interceptorFactories);
-    }
+  /**
+   * @return An immutable {@link List} with all the items added through {@link #addInterceptorFactory(InterceptorFactory)}
+   */
+  public List<InterceptorFactory> getInterceptorFactories() {
+    return Collections.unmodifiableList(interceptorFactories);
+  }
 }
