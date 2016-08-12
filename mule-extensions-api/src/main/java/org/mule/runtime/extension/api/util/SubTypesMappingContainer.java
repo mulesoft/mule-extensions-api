@@ -8,16 +8,15 @@ package org.mule.runtime.extension.api.util;
 
 import static com.google.common.collect.ImmutableList.copyOf;
 import static com.google.common.collect.ImmutableList.of;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.utils.MetadataTypeUtils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 /**
  * Immutable container for type mapping, storing the relation of a given type and its declared subtypes
@@ -69,38 +68,10 @@ public class SubTypesMappingContainer {
   }
 
   /**
-   * Returns the {@link MetadataType baseType} for the indicated {@link MetadataType subType} if
-   * this {@code type} has been mapped.
-   * <p>
-   * Lookup will be performed first by {@link TypeIdAnnotation typeId},
-   * defaulting to {@link MetadataType type} comparison if no {@link TypeIdAnnotation typeId} was found
-   *
-   * Type comparison will be performed first by {@link TypeIdAnnotation typeId} in the context of subTypes mapping.
-   * If a {@link TypeIdAnnotation typeId} is available for the given {@code type},
-   * the lookup will be performed by {@link TypeIdAnnotation#getValue()} disregarding {@link MetadataType} equality in its
-   * full extent, which includes type generics and interfaces implementations, and
-   * defaulting to {@link MetadataType#equals} comparison if no {@link TypeIdAnnotation typeId} was found
-   *
-   * @param type the {@link MetadataType} for which to retrieve the declared baseType
-   * @return the {@link MetadataType baseType} for the given {@code type} if one has been declared,
-   * or {@link Optional#empty} if none was declared.
+   * @return a {@link List} with all the types which extend another type, in no particular order
    */
-  public Optional<MetadataType> getBaseType(MetadataType type) {
-    Predicate<List<MetadataType>> anyMatchTypeMatcher = getTypeId(type)
-        .map(id -> (Predicate<List<MetadataType>>) subTypes -> subTypes.stream()
-            .map(MetadataTypeUtils::getTypeId)
-            .filter(Optional::isPresent)
-            .anyMatch(subTypeId -> subTypeId.get().equals(id)))
-        .orElse(subtypes -> subtypes.stream()
-            .anyMatch(subType -> subType.equals(type)));
-
-    for (Map.Entry<MetadataType, List<MetadataType>> subtypesByBase : subTypesMapping.entrySet()) {
-      if (anyMatchTypeMatcher.test(subtypesByBase.getValue())) {
-        return Optional.of(subtypesByBase.getKey());
-      }
-    }
-
-    return Optional.empty();
+  public List<MetadataType> getAllSubTypes() {
+    return subTypesMapping.values().stream().flatMap(Collection::stream).collect(toList());
   }
 
 }
