@@ -66,8 +66,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(SimpleFieldsType.class));
     DslElementSyntax result = new DslSyntaxResolver(extension).resolve(parameterModel);
     String fieldName = "sampleString";
-    DslElementSyntax childDsl =
-        result.getChild(fieldName).orElseThrow(() -> new IllegalStateException("Field should have being populated"));
+    DslElementSyntax childDsl = getChildFieldDsl(fieldName, result);
 
     assertAttributeName(fieldName, childDsl);
     assertChildElementDeclarationIs(true, result);
