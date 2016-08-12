@@ -12,6 +12,7 @@ import static org.reflections.ReflectionUtils.withAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Ignore;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
@@ -19,6 +20,8 @@ import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model
@@ -35,11 +38,28 @@ public final class TypeUtils {
    * <p>
    * The introspection also includes parent classes.
    *
-   * @param extensionType the class to introspect.
+   * @param type the class to introspect.
    * @return a {@link Collection} of {@link Field fields}. May be empty but will never be {@code null}
    */
-  public static Collection<Field> getParameterFields(Class<?> extensionType) {
-    return getAllFields(extensionType, withAnnotation(Parameter.class), not(withAnnotation(Ignore.class)));
+  public static Collection<Field> getParameterFields(Class<?> type) {
+    return getParameterFields(type, new HashSet<>());
+  }
+
+  private static Collection<Field> getParameterFields(Class<?> type, Set<Class<?>> visitedTypes) {
+    Collection<Field> fields = getAllFields(type, withAnnotation(Parameter.class), not(withAnnotation(Ignore.class)));
+    visitedTypes.add(type);
+
+    Collection<Field> parameterGroupFields =
+        getAllFields(type, withAnnotation(ParameterGroup.class), not(withAnnotation(Ignore.class)));
+
+    parameterGroupFields.forEach(field -> {
+      Class<?> groupType = field.getType();
+      if (visitedTypes.add(groupType)) {
+        fields.addAll(getParameterFields(groupType, visitedTypes));
+      }
+    });
+
+    return fields;
   }
 
   /**
