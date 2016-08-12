@@ -65,7 +65,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   public void testSimplePojoParameter() {
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(SimpleFieldsType.class));
     DslElementSyntax result = new DslSyntaxResolver(extension).resolve(parameterModel);
+    String fieldName = "sampleString";
+    DslElementSyntax childDsl = getChildFieldDsl(fieldName, result);
 
+    assertAttributeName(fieldName, childDsl);
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
   }

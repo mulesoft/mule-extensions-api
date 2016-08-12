@@ -155,6 +155,8 @@ public class DslSyntaxResolver {
                                      } else {
                                        builder.withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri());
                                      }
+
+                                     declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
                                    }
                                  }
 
@@ -345,6 +347,11 @@ public class DslSyntaxResolver {
   private MetadataTypeVisitor getObjectFieldVisitor(final DslElementSyntaxBuilder objectFieldBuilder, final String fieldName,
                                                     final String ownerNamespace, final String ownerNamespaceUri) {
     return new MetadataTypeVisitor() {
+
+      @Override
+      protected void defaultVisit(MetadataType metadataType) {
+        objectFieldBuilder.withAttributeName(fieldName);
+      }
 
       @Override
       public void visitObject(ObjectType objectType) {
