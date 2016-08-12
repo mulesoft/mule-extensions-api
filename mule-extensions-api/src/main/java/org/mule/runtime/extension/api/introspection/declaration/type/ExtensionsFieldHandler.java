@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
 import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
@@ -17,8 +18,10 @@ import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.beans.Introspector;
@@ -47,7 +50,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       return;
     }
 
-    Collection<Field> fields = TypeUtils.getParameterFields(clazz);
+    Collection<Field> fields = getParameterFields(clazz);
     if (fields.isEmpty()) {
       fallbackToBeanProperties(clazz, typeHandlerManager, context, builder);
       return;
@@ -57,10 +60,17 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       final ObjectFieldTypeBuilder<?> fieldBuilder = builder.addField();
       fieldBuilder.key(getAlias(field));
 
+      setFlattenedType(field, fieldBuilder);
       setOptionalAndDefault(field, fieldBuilder);
       setExpressionSupport(field, fieldBuilder);
       setElementStyle(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
+    }
+  }
+
+  private void setFlattenedType(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    if (field.getAnnotation(ParameterGroup.class) != null) {
+      fieldBuilder.with(new FlattenedTypeAnnotation());
     }
   }
 
