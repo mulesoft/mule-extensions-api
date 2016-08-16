@@ -77,6 +77,73 @@
               "fields": [
                 {
                   "key": {
+                    "name": "parameterGroupType"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "Object",
+                    "annotations": {
+                      "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                      "classInformation": {
+                        "hasDefaultConstructor": true,
+                        "isInterface": false,
+                        "isInstantiable": true,
+                        "isAbstract": false,
+                        "isFinal": false,
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "genericTypes": []
+                      },
+                      "typeAlias": {
+                        "value": "ParameterGroupType"
+                      }
+                    },
+                    "fields": [
+                      {
+                        "key": {
+                          "name": "groupedField"
+                        },
+                        "model": {
+                          "required": "true",
+                          "type": "String",
+                          "annotations": {
+                            "typeId": "java.lang.String"
+                          }
+                        },
+                        "annotations": {
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
+                          }
+                        }
+                      },
+                      {
+                        "key": {
+                          "name": "anotherGroupedField"
+                        },
+                        "model": {
+                          "required": "true",
+                          "type": "String",
+                          "annotations": {
+                            "typeId": "java.lang.String"
+                          }
+                        },
+                        "annotations": {
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "annotations": {
+                    "flattened": {},
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                },
+                {
+                  "key": {
                     "name": "extensibleTypeList"
                   },
                   "model": {
@@ -381,6 +448,73 @@
                 }
               },
               "fields": [
+                {
+                  "key": {
+                    "name": "parameterGroupType"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "Object",
+                    "annotations": {
+                      "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                      "classInformation": {
+                        "hasDefaultConstructor": true,
+                        "isInterface": false,
+                        "isInstantiable": true,
+                        "isAbstract": false,
+                        "isFinal": false,
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "genericTypes": []
+                      },
+                      "typeAlias": {
+                        "value": "ParameterGroupType"
+                      }
+                    },
+                    "fields": [
+                      {
+                        "key": {
+                          "name": "groupedField"
+                        },
+                        "model": {
+                          "required": "true",
+                          "type": "String",
+                          "annotations": {
+                            "typeId": "java.lang.String"
+                          }
+                        },
+                        "annotations": {
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
+                          }
+                        }
+                      },
+                      {
+                        "key": {
+                          "name": "anotherGroupedField"
+                        },
+                        "model": {
+                          "required": "true",
+                          "type": "String",
+                          "annotations": {
+                            "typeId": "java.lang.String"
+                          }
+                        },
+                        "annotations": {
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "annotations": {
+                    "flattened": {},
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                },
                 {
                   "key": {
                     "name": "extensibleTypeList"

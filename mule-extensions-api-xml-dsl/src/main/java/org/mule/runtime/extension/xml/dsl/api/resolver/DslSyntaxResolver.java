@@ -35,6 +35,7 @@ import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
@@ -402,9 +403,19 @@ public class DslSyntaxResolver {
                    field -> {
                      DslElementSyntaxBuilder fieldBuilder = DslElementSyntaxBuilder.create();
                      String childName = field.getKey().getName().getLocalPart();
-                     field.getValue().accept(getObjectFieldVisitor(fieldBuilder, childName, namespace, namespaceUri));
-                     objectBuilder.withChild(childName, fieldBuilder.build());
+                     final MetadataType fieldValue = field.getValue();
+
+                     if (isFlattened(field, fieldValue)) {
+                       declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
+                     } else {
+                       fieldValue.accept(getObjectFieldVisitor(fieldBuilder, childName, namespace, namespaceUri));
+                       objectBuilder.withChild(childName, fieldBuilder.build());
+                     }
                    });
+  }
+
+  private boolean isFlattened(ObjectFieldType field, MetadataType fieldValue) {
+    return fieldValue instanceof ObjectType && field.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
   }
 
   private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport) {

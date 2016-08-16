@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
 import static com.google.common.base.Predicates.not;
+import static com.google.common.base.Predicates.or;
 import static org.reflections.ReflectionUtils.getAllFields;
 import static org.reflections.ReflectionUtils.withAnnotation;
 import org.mule.metadata.api.model.MetadataType;
@@ -20,8 +21,6 @@ import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model
@@ -42,24 +41,8 @@ public final class TypeUtils {
    * @return a {@link Collection} of {@link Field fields}. May be empty but will never be {@code null}
    */
   public static Collection<Field> getParameterFields(Class<?> type) {
-    return getParameterFields(type, new HashSet<>());
-  }
-
-  private static Collection<Field> getParameterFields(Class<?> type, Set<Class<?>> visitedTypes) {
-    Collection<Field> fields = getAllFields(type, withAnnotation(Parameter.class), not(withAnnotation(Ignore.class)));
-    visitedTypes.add(type);
-
-    Collection<Field> parameterGroupFields =
-        getAllFields(type, withAnnotation(ParameterGroup.class), not(withAnnotation(Ignore.class)));
-
-    parameterGroupFields.forEach(field -> {
-      Class<?> groupType = field.getType();
-      if (visitedTypes.add(groupType)) {
-        fields.addAll(getParameterFields(groupType, visitedTypes));
-      }
-    });
-
-    return fields;
+    return getAllFields(type, or(withAnnotation(Parameter.class), withAnnotation(ParameterGroup.class)),
+                        not(withAnnotation(Ignore.class)));
   }
 
   /**

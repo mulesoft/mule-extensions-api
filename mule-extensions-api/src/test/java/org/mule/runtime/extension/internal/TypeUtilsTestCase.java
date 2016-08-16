@@ -27,7 +27,7 @@ public class TypeUtilsTestCase {
     assertThat(fields, hasSize(3));
 
     assertThat(fields.stream().map(Field::getName).collect(toList()),
-               containsInAnyOrder("name", "description", "groupParameter"));
+               containsInAnyOrder("name", "description", "group"));
   }
 
 

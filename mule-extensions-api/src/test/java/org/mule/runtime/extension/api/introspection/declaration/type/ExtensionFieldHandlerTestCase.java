@@ -6,13 +6,17 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import org.junit.Test;
@@ -34,6 +38,17 @@ public class ExtensionFieldHandlerTestCase {
     assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsAnnotation.class).isPresent(), is(true));
   }
 
+  @Test
+  public void flattenedField() {
+    ObjectType type = (ObjectType) typeLoader.load(HasGroup.class);
+    assertThat(type.getFields(), hasSize(1));
+    ObjectFieldType field = type.getFields().iterator().next();
+
+    assertThat(field.getAnnotation(FlattenedTypeAnnotation.class).isPresent(), is(true));
+    assertThat(field.getKey().getName().getLocalPart(), is("group"));
+    assertThat(field.getValue(), is(instanceOf(ObjectType.class)));
+  }
+
   interface HasGetter {
 
     String getSomeString();
@@ -44,5 +59,18 @@ public class ExtensionFieldHandlerTestCase {
     @Parameter
     @XmlHints(allowReferences = false)
     private Object data;
+  }
+
+  public class HasGroup {
+
+    @ParameterGroup
+    private Group group;
+
+  }
+
+  public class Group {
+
+    @Parameter
+    private String name;
   }
 }

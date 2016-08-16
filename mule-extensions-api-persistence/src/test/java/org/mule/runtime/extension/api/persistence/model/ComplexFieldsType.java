@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.persistence.model;
 
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.ParameterGroup;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class ComplexFieldsType {
 
   @Parameter
   private SimpleFieldsType simplePojo;
+
+  @ParameterGroup
+  private ParameterGroupType parameterGroupType;
 
   public List<ExtensibleType> getExtensibleTypeList() {
     return extensibleTypeList;
