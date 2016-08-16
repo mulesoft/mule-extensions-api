@@ -21,8 +21,10 @@ import org.mule.metadata.api.model.ObjectType;
  */
 public class FlattenedTypeAnnotation implements TypeAnnotation {
 
+  public static final String NAME = "flattened";
+
   @Override
   public String getName() {
-    return "flattened";
+    return NAME;
   }
 }

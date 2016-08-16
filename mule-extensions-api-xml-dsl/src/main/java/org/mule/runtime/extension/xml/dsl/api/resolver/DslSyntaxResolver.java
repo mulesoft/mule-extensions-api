@@ -405,13 +405,17 @@ public class DslSyntaxResolver {
                      String childName = field.getKey().getName().getLocalPart();
                      final MetadataType fieldValue = field.getValue();
 
-                     if (fieldValue instanceof ObjectType && field.getAnnotation(FlattenedTypeAnnotation.class).isPresent()) {
+                     if (isFlattened(field, fieldValue)) {
                        declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
                      } else {
                        fieldValue.accept(getObjectFieldVisitor(fieldBuilder, childName, namespace, namespaceUri));
                        objectBuilder.withChild(childName, fieldBuilder.build());
                      }
                    });
+  }
+
+  private boolean isFlattened(ObjectFieldType field, MetadataType fieldValue) {
+    return fieldValue instanceof ObjectType && field.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
   }
 
   private boolean shouldGenerateChildElements(MetadataType metadataType, ExpressionSupport expressionSupport) {

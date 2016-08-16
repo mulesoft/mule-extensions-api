@@ -28,6 +28,7 @@ public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry {
     return ImmutableMap.of(XmlHintsAnnotation.NAME, XmlHintsAnnotation.class,
                            TypeAliasAnnotation.NAME, TypeAliasAnnotation.class,
                            ExtensibleTypeAnnotation.NAME, ExtensibleTypeAnnotation.class,
-                           ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class);
+                           ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class,
+                           FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class);
   }
 }
