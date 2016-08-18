@@ -20,8 +20,10 @@ import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.beans.Introspector;
@@ -60,17 +62,24 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       final ObjectFieldTypeBuilder<?> fieldBuilder = builder.addField();
       fieldBuilder.key(getAlias(field));
 
-      setFlattenedType(field, fieldBuilder);
       setOptionalAndDefault(field, fieldBuilder);
-      setExpressionSupport(field, fieldBuilder);
-      setElementStyle(field, fieldBuilder);
+      processesParameterGroup(field, fieldBuilder);
+      processTextAnnotation(field, fieldBuilder);
+      processExpressionSupport(field, fieldBuilder);
+      processElementStyle(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
     }
   }
 
-  private void setFlattenedType(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processesParameterGroup(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
     if (field.getAnnotation(ParameterGroup.class) != null) {
       fieldBuilder.with(new FlattenedTypeAnnotation());
+    }
+  }
+
+  private void processTextAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    if (field.getAnnotation(Text.class) != null) {
+      fieldBuilder.with(new TextTypeAnnotation());
     }
   }
 
@@ -86,12 +95,12 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void setExpressionSupport(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processExpressionSupport(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
     Expression expression = field.getAnnotation(Expression.class);
     fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
   }
 
-  private void setElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
     final XmlHints annotation = field.getAnnotation(XmlHints.class);
     if (annotation != null) {
       fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(), annotation.allowReferences()));

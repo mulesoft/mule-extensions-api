@@ -25,10 +25,13 @@ public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry {
   @Override
   public Map<String, Class<? extends TypeAnnotation>> getRegistry() {
     //TODO MULE-10209 customize how custom type annotations are serialized
-    return ImmutableMap.of(XmlHintsAnnotation.NAME, XmlHintsAnnotation.class,
-                           TypeAliasAnnotation.NAME, TypeAliasAnnotation.class,
-                           ExtensibleTypeAnnotation.NAME, ExtensibleTypeAnnotation.class,
-                           ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class,
-                           FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class);
+    return ImmutableMap.<String, Class<? extends TypeAnnotation>>builder()
+        .put(XmlHintsAnnotation.NAME, XmlHintsAnnotation.class)
+        .put(TypeAliasAnnotation.NAME, TypeAliasAnnotation.class)
+        .put(ExtensibleTypeAnnotation.NAME, ExtensibleTypeAnnotation.class)
+        .put(ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class)
+        .put(FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class)
+        .put(TextTypeAnnotation.NAME, TextTypeAnnotation.class)
+        .build();
   }
 }
