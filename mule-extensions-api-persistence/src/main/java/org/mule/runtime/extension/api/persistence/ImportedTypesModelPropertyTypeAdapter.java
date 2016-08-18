@@ -35,12 +35,11 @@ class ImportedTypesModelPropertyTypeAdapter extends TypeAdapter<ImportedTypesMod
   @Override
   public void write(JsonWriter out, ImportedTypesModelProperty value) throws IOException {
     out.beginArray();
-    for (Map.Entry<MetadataType, MetadataType> entry : value.getImportedTypes().entrySet()) {
+    for (Map.Entry<MetadataType, String> entry : value.getImportedTypes().entrySet()) {
       out.beginObject();
       out.name(TYPE);
       typeAdapter.write(out, entry.getKey());
-      out.name(EXTENSION);
-      typeAdapter.write(out, entry.getValue());
+      out.name(EXTENSION).value(entry.getValue());
       out.endObject();
     }
     out.endArray();
@@ -48,12 +47,12 @@ class ImportedTypesModelPropertyTypeAdapter extends TypeAdapter<ImportedTypesMod
 
   @Override
   public ImportedTypesModelProperty read(JsonReader in) throws IOException {
-    final Map<MetadataType, MetadataType> importedTypesMap = new HashMap<>();
+    final Map<MetadataType, String> importedTypesMap = new HashMap<>();
     final JsonArray importedTypesArray = new JsonParser().parse(in).getAsJsonArray();
 
     importedTypesArray.iterator().forEachRemaining(importedTypeElement -> {
       final JsonObject tuple = importedTypeElement.getAsJsonObject();
-      importedTypesMap.put(typeAdapter.fromJsonTree(tuple.get(TYPE)), typeAdapter.fromJsonTree(tuple.get(EXTENSION)));
+      importedTypesMap.put(typeAdapter.fromJsonTree(tuple.get(TYPE)), tuple.get(EXTENSION).getAsString());
     });
     return new ImportedTypesModelProperty(importedTypesMap);
   }

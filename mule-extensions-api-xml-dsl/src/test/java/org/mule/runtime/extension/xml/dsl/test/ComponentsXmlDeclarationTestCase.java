@@ -11,7 +11,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
-import org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxResolver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
   @Test
   public void testOperationDeclaration() {
-    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(operation);
+    DslElementSyntax result = getSyntaxResolver().resolve(operation);
 
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
@@ -33,7 +32,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
   @Test
   public void testSourceDeclaration() {
-    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(source);
+    DslElementSyntax result = getSyntaxResolver().resolve(source);
 
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
@@ -44,7 +43,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
   @Test
   public void testConfigurationDeclaration() {
-    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(configuration);
+    DslElementSyntax result = getSyntaxResolver().resolve(configuration);
 
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
@@ -55,7 +54,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
   @Test
   public void testConnectionProviderDeclaration() {
-    DslElementSyntax result = new DslSyntaxResolver(extension).resolve(connectionProvider);
+    DslElementSyntax result = getSyntaxResolver().resolve(connectionProvider);
 
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));

@@ -16,6 +16,7 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
  */
 public final class XmlModelProperty implements ModelProperty {
 
+  public static final String NAME = "XML";
   private final String xsdFileName;
   private final String schemaVersion;
   private final String namespace;
@@ -73,7 +74,7 @@ public final class XmlModelProperty implements ModelProperty {
    */
   @Override
   public String getName() {
-    return "XML";
+    return NAME;
   }
 
   /**

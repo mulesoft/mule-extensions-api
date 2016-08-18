@@ -16,13 +16,13 @@ import java.util.Map;
 
 /**
  * An immutable model property which specifies the {@link MetadataType} used by
- * the {@link ExtensionModel} that have to be imported from a different {@link ExtensionModel}
+ * the {@link ExtensionModel} that has to be imported from a different {@link ExtensionModel}
  *
  * @since 1.0
  */
 public final class ImportedTypesModelProperty implements ModelProperty {
 
-  private final Map<MetadataType, MetadataType> importedTypes;
+  private final Map<MetadataType, String> importedTypes;
 
   /**
    * Creates a new instance containing all the imported {@link MetadataType} declarations
@@ -30,15 +30,15 @@ public final class ImportedTypesModelProperty implements ModelProperty {
    *
    * @param importedTypes
    */
-  public ImportedTypesModelProperty(Map<MetadataType, MetadataType> importedTypes) {
+  public ImportedTypesModelProperty(Map<MetadataType, String> importedTypes) {
     this.importedTypes = importedTypes;
   }
 
   /**
-   * @return a {@link Map} containing the {@link MetadataType} from where the {@code key}
+   * @return a {@link Map} containing the {@code name} of the {@link ExtensionModel} from where the {@code key}
    * {@link MetadataType} was imported from
    */
-  public Map<MetadataType, MetadataType> getImportedTypes() {
+  public Map<MetadataType, String> getImportedTypes() {
     return Collections.unmodifiableMap(importedTypes);
   }
 
