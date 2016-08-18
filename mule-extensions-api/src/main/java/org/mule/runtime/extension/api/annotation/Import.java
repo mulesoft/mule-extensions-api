@@ -35,9 +35,8 @@ public @interface Import {
   Class<?> type();
 
   /**
-   * @return the {@link Extension} annotated {@link Class} which
-   * defines the imported {@code type}
+   * @return the {@link Extension#name} of the {@link Extension} which declares the imported {@code type}
    */
-  Class<?> from();
+  String from();
 
 }

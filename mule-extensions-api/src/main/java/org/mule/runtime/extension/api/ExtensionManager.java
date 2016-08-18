@@ -41,27 +41,13 @@ public interface ExtensionManager {
   Set<RuntimeExtensionModel> getExtensions();
 
   /**
-   * Returns an immutable {@link Set} listing all the discovered
-   * {@link ExtensionModel extensionModels} which name equals {@code extensionName}.
-   * <p>
-   * Notice that this returns a {@link Set} instead of a single instance
-   * because it is allowed to have extensions with the same name as long as the
-   * {@link ExtensionModel#getVendor()} value is different.
-   *
-   * @param extensionName the name of the extensions you want.
-   * @return an immutable {@link Set}. Will not be {@code null} but might be empty
-   */
-  Set<RuntimeExtensionModel> getExtensions(String extensionName);
-
-  /**
    * Returns an {@link Optional} {@link RuntimeExtensionModel} which
-   * name and vendor equals {@code extensionName} and {@code vendor}.
+   * name equals {@code extensionName}.
    *
    * @param extensionName the name of the extensions you want.
-   * @param vendor        the vendor of the extension you want
    * @return an {@link Optional}. It will be empty if no such extension is registered
    */
-  Optional<RuntimeExtensionModel> getExtension(String extensionName, String vendor);
+  Optional<RuntimeExtensionModel> getExtension(String extensionName);
 
   /**
    * Returns a {@link ConfigurationInstance} obtained through a previously registered

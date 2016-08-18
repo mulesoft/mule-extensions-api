@@ -8,17 +8,21 @@ package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
+import static java.util.stream.Collectors.toMap;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.DISPLAY_MODEL_PROPERTY;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.IMPORTED_TYPES_MODEL_PROPERTY;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
 import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.SUB_TYPES_MODEL_PROPERTY;
-
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
+import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
@@ -39,57 +43,68 @@ public class ModelPropertyPersistenceTestCase extends BasePersistenceTestCase {
   public static final String IMPORTED_TYPES_MODEL_PROPERTY_JSON = "property/imported-types-model-property.json";
   public static final String LAYOUT_MODEL_PROPERTY_JSON = "property/layout-model-property.json";
   public static final String DISPLAY_MODEL_PROPERTY_JSON = "property/display-model-property.json";
+  public static final String OTHER_EXTENSION_NAME = "OtherExtension";
 
   private static final Type ANNOTATIONS_MAP_TYPE =
       new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>() {}.getType();
-  private final ImportedTypesModelProperty importedTypesModelProperty =
-      new ImportedTypesModelProperty(singletonMap(typeLoader.load(String.class), typeLoader.load(Integer.class)));
-  private final LayoutModelProperty layoutModelProperty = new LayoutModelProperty(true, true, 43, "Group Name", "Tab Name");
-  private final DisplayModelProperty displayModelProperty = new DisplayModelProperty("Display Name", "This is the summary");
-  private final SubTypesModelProperty subTypesModelProperty =
-      new SubTypesModelProperty(singletonMap(typeLoader.load(String.class),
-                                             asList(typeLoader.load(Integer.class), typeLoader.load(Double.class))));
+  private final ImportedTypesModelProperty importedTypes =
+      new ImportedTypesModelProperty(singletonMap(typeLoader.load(ComplexFieldsType.class), OTHER_EXTENSION_NAME));
+  private final LayoutModelProperty layout = new LayoutModelProperty(true, true, 43, "Group Name", "Tab Name");
+  private final DisplayModelProperty display = new DisplayModelProperty("Display Name", "This is the summary");
+  private final SubTypesModelProperty subTypes = new SubTypesModelProperty(singletonMap(typeLoader.load(String.class),
+                                                                                        asList(typeLoader.load(Integer.class),
+                                                                                               typeLoader.load(Double.class))));
 
   @Test
   public void verifyImportedTypesModelPropertySerializationJson() throws IOException {
     final Gson gson = getGsonWithTypeAdapter(ImportedTypesModelProperty.class, new ImportedTypesModelPropertyTypeAdapter());
-    assertSerializedJson(toJson(importedTypesModelProperty, gson), IMPORTED_TYPES_MODEL_PROPERTY_JSON);
-    ImportedTypesModelProperty deserializedModelProperty =
+    assertSerializedJson(toJson(importedTypes, gson), IMPORTED_TYPES_MODEL_PROPERTY_JSON);
+
+    final ImportedTypesModelProperty deserializedModelProperty =
         (ImportedTypesModelProperty) getDeserializedModelProperty(gson, IMPORTED_TYPES_MODEL_PROPERTY_JSON,
                                                                   IMPORTED_TYPES_MODEL_PROPERTY,
                                                                   ImportedTypesModelProperty.class);
-    assertEquals(importedTypesModelProperty.getImportedTypes(), deserializedModelProperty.getImportedTypes());
+
+    assertThat(importedTypes.getImportedTypes().size(), is(deserializedModelProperty.getImportedTypes().size()));
+
+    //FIXME MetadataType equals and hashcode are different for equals serialized type
+    Map<String, String> deserialized = deserializedModelProperty.getImportedTypes().entrySet().stream()
+        .collect(toMap(e -> getTypeId(e.getKey()).get(), Map.Entry::getValue));
+
+    importedTypes.getImportedTypes().entrySet().stream()
+        .collect(toMap(e -> getTypeId(e.getKey()).get(), Map.Entry::getValue)).entrySet()
+        .forEach(e -> assertThat(e.getValue(), is(deserialized.get(e.getKey()))));
   }
 
   @Test
   public void verifySubTypesModelPropertySerializationJson() throws IOException {
     final Gson gson = getGsonWithTypeAdapter(SubTypesModelProperty.class, new SubTypesModelPropertyTypeAdapter());
-    assertSerializedJson(toJson(subTypesModelProperty, gson), SUB_TYPES_MODEL_PROPERTY_JSON);
+    assertSerializedJson(toJson(subTypes, gson), SUB_TYPES_MODEL_PROPERTY_JSON);
     SubTypesModelProperty deserializedModelProperty =
         (SubTypesModelProperty) getDeserializedModelProperty(gson, SUB_TYPES_MODEL_PROPERTY_JSON, SUB_TYPES_MODEL_PROPERTY,
                                                              SubTypesModelProperty.class);
-    assertEquals(subTypesModelProperty.getSubTypesMapping(), deserializedModelProperty.getSubTypesMapping());
+    assertEquals(subTypes.getSubTypesMapping(), deserializedModelProperty.getSubTypesMapping());
   }
 
   @Test
   public void verifyLayoutModelPropertySerializationJson() throws IOException {
-    assertSerializedJson(toJson(layoutModelProperty, getGson()), LAYOUT_MODEL_PROPERTY_JSON);
+    assertSerializedJson(toJson(layout, getGson()), LAYOUT_MODEL_PROPERTY_JSON);
     LayoutModelProperty deserializedModelProperty =
         (LayoutModelProperty) getDeserializedModelProperty(getGson(), LAYOUT_MODEL_PROPERTY_JSON, LAYOUT_MODEL_PROPERTY,
                                                            LayoutModelProperty.class);
-    assertEquals(layoutModelProperty.getGroupName(), deserializedModelProperty.getGroupName());
-    assertEquals(layoutModelProperty.getOrder(), deserializedModelProperty.getOrder());
-    assertEquals(layoutModelProperty.getTabName(), deserializedModelProperty.getTabName());
+    assertEquals(layout.getGroupName(), deserializedModelProperty.getGroupName());
+    assertEquals(layout.getOrder(), deserializedModelProperty.getOrder());
+    assertEquals(layout.getTabName(), deserializedModelProperty.getTabName());
   }
 
   @Test
   public void verifyDisplayModelPropertySerializationJson() throws IOException {
-    assertSerializedJson(toJson(displayModelProperty, getGson()), DISPLAY_MODEL_PROPERTY_JSON);
+    assertSerializedJson(toJson(display, getGson()), DISPLAY_MODEL_PROPERTY_JSON);
     DisplayModelProperty deserializedModelProperty =
         (DisplayModelProperty) getDeserializedModelProperty(getGson(), DISPLAY_MODEL_PROPERTY_JSON, DISPLAY_MODEL_PROPERTY,
                                                             DisplayModelProperty.class);
-    assertEquals(displayModelProperty.getDisplayName().get(), deserializedModelProperty.getDisplayName().get());
-    assertEquals(displayModelProperty.getSummary().get(), deserializedModelProperty.getSummary().get());
+    assertEquals(display.getDisplayName().get(), deserializedModelProperty.getDisplayName().get());
+    assertEquals(display.getSummary().get(), deserializedModelProperty.getSummary().get());
   }
 
   private String toJson(ModelProperty modelProperty, Gson gson) {

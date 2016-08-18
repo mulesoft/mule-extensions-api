@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.xml.dsl.api;
 
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
+import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
@@ -29,6 +30,17 @@ public final class XmlModelUtils {
   private static final String XSD_EXTENSION = ".xsd";
   private static final String CURRENT_VERSION = "current";
   private static final String DEFAULT_SCHEMA_LOCATION_MASK = "http://www.mulesoft.org/schema/mule/%s";
+
+
+  public static XmlModelProperty createXmlModelProperty(Class<?> extensionType, String extensionVersion) {
+
+    Extension extension = extensionType.getAnnotation(Extension.class);
+    if (extension == null) {
+      throw new IllegalArgumentException(String.format("The provided class [%s] is not an Extension", extensionType.getName()));
+    }
+
+    return createXmlModelProperty(extensionType.getAnnotation(Xml.class), extension.name(), extensionVersion);
+  }
 
   public static XmlModelProperty createXmlModelProperty(Xml xml, String extensionName, String extensionVersion) {
 

@@ -8,6 +8,7 @@ package org.mule.runtime.extension.xml.dsl.test;
 
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -29,8 +30,9 @@ import org.mule.runtime.extension.api.introspection.property.SubTypesModelProper
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
+import org.mule.runtime.extension.xml.dsl.api.resolver.DslResolvingContext;
+import org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxResolver;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.Before;
@@ -50,9 +52,6 @@ public abstract class BaseXmlDeclarationTestCase {
   static final String SOURCE_NAME = "source";
   static final String CONFIGURATION_NAME = "configuration";
   static final String CONNECTION_PROVIDER_NAME = "connection";
-  static final String IMPORT_NAMESPACE = "importns";
-  static final String IMPORT_NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/importns";
-  static final String IMPORT_EXTENSION_NAME = "importExtension";
   static final BaseTypeBuilder<?> TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
 
   @Mock
@@ -73,6 +72,9 @@ public abstract class BaseXmlDeclarationTestCase {
   @Mock
   protected SourceModel source;
 
+  @Mock
+  protected DslResolvingContext dslContext;
+
   ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
   @Before
@@ -86,10 +88,8 @@ public abstract class BaseXmlDeclarationTestCase {
 
     when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(empty());
     when(extension.getModelProperty(ImportedTypesModelProperty.class)).thenReturn(empty());
-    when(extension.getModelProperty(XmlModelProperty.class)).thenReturn(
-                                                                        Optional.of(new XmlModelProperty(EMPTY, NAMESPACE,
-                                                                                                         NAMESPACE_URI, EMPTY,
-                                                                                                         SCHEMA_LOCATION)));
+    when(extension.getModelProperty(XmlModelProperty.class))
+        .thenReturn(of(new XmlModelProperty(EMPTY, NAMESPACE, NAMESPACE_URI, EMPTY, SCHEMA_LOCATION)));
 
     when(configuration.getOperationModels()).thenReturn(asList(operation));
     when(configuration.getSourceModels()).thenReturn(asList(source));
@@ -103,6 +103,8 @@ public abstract class BaseXmlDeclarationTestCase {
     when(operation.getName()).thenReturn(OPERATION_NAME);
     when(configuration.getName()).thenReturn(CONFIGURATION_NAME);
     when(connectionProvider.getName()).thenReturn(CONNECTION_PROVIDER_NAME);
+
+    when(dslContext.getExtension(any())).thenReturn(empty());
 
     Stream.of(configuration, operation, connectionProvider, source).forEach(
                                                                             model -> when(model.getParameterModels())
@@ -131,6 +133,10 @@ public abstract class BaseXmlDeclarationTestCase {
 
   void assertTopElementDeclarationIs(boolean expected, DslElementSyntax result) {
     assertThat("Expected the element to support Top Level definitions", result.supportsTopLevelDeclaration(), is(expected));
+  }
+
+  DslSyntaxResolver getSyntaxResolver() {
+    return new DslSyntaxResolver(extension, dslContext);
   }
 
 }
