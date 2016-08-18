@@ -67,7 +67,7 @@ public class ModelPropertyPersistenceTestCase extends BasePersistenceTestCase {
 
     assertThat(importedTypes.getImportedTypes().size(), is(deserializedModelProperty.getImportedTypes().size()));
 
-    //FIXME MetadataType equals and hashcode are different for equals serialized type
+    //TODO: MDM-20 MetadataType equals and hashcode are different for equals serialized type
     Map<String, String> deserialized = deserializedModelProperty.getImportedTypes().entrySet().stream()
         .collect(toMap(e -> getTypeId(e.getKey()).get(), Map.Entry::getValue));
 

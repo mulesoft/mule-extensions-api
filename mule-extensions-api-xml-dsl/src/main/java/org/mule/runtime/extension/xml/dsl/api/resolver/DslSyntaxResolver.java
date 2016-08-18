@@ -183,13 +183,6 @@ public class DslSyntaxResolver {
     return builder.build();
   }
 
-  /**
-   * @return the {@link DslResolvingContext} being used to resolve the {@link DslElementSyntax}
-   */
-  public DslResolvingContext getContext() {
-    return this.context;
-  }
-
   private Boolean isText(ParameterModel parameter) {
     return parameter.getModelProperty(LayoutModelProperty.class).map(LayoutModelProperty::isText).orElse(false);
   }
