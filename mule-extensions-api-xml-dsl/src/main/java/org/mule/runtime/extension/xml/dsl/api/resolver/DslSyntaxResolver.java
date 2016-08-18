@@ -33,6 +33,7 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
@@ -183,8 +184,12 @@ public class DslSyntaxResolver {
     return builder.build();
   }
 
-  private Boolean isText(ParameterModel parameter) {
+  private boolean isText(ParameterModel parameter) {
     return parameter.getModelProperty(LayoutModelProperty.class).map(LayoutModelProperty::isText).orElse(false);
+  }
+
+  private boolean isText(MetadataType type) {
+    return type.getAnnotation(TextTypeAnnotation.class).isPresent();
   }
 
   /**
@@ -349,13 +354,25 @@ public class DslSyntaxResolver {
     }
   }
 
-  private MetadataTypeVisitor getObjectFieldVisitor(final DslElementSyntaxBuilder objectFieldBuilder, final String fieldName,
-                                                    final String ownerNamespace, final String ownerNamespaceUri) {
+  private MetadataTypeVisitor getObjectFieldVisitor(final DslElementSyntaxBuilder objectFieldBuilder,
+                                                    final ObjectFieldType field,
+                                                    final String fieldName,
+                                                    final String ownerNamespace,
+                                                    final String ownerNamespaceUri) {
     return new MetadataTypeVisitor() {
 
       @Override
       protected void defaultVisit(MetadataType metadataType) {
         objectFieldBuilder.withAttributeName(fieldName);
+      }
+
+      @Override
+      public void visitString(StringType stringType) {
+        if (isText(field)) {
+          objectFieldBuilder.supportsChildDeclaration(true);
+        } else {
+          defaultVisit(stringType);
+        }
       }
 
       @Override
@@ -412,7 +429,7 @@ public class DslSyntaxResolver {
                      if (isFlattened(field, fieldValue)) {
                        declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
                      } else {
-                       fieldValue.accept(getObjectFieldVisitor(fieldBuilder, childName, namespace, namespaceUri));
+                       fieldValue.accept(getObjectFieldVisitor(fieldBuilder, field, childName, namespace, namespaceUri));
                        objectBuilder.withChild(childName, fieldBuilder.build());
                      }
                    });

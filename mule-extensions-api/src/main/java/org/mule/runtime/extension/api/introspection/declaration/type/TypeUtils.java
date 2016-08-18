@@ -15,12 +15,17 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Ignore;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
+import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model
@@ -71,6 +76,15 @@ public final class TypeUtils {
     return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
         .map(ExpressionSupportAnnotation::getExpressionSupport)
         .orElse(ExpressionSupport.SUPPORTED);
+  }
+
+  public static Set<ModelProperty> deriveModelProperties(MetadataType metadataType) {
+    Set<ModelProperty> properties = new HashSet<>();
+    if (metadataType.getAnnotation(TextTypeAnnotation.class).isPresent()) {
+      properties.add(new LayoutModelProperty(false, true, 0, "", ""));
+    }
+
+    return properties;
   }
 
   public static boolean acceptsReferences(MetadataType metadataType) {

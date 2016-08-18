@@ -13,10 +13,13 @@ import static org.junit.Assert.assertThat;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import org.junit.Test;
@@ -41,12 +44,23 @@ public class ExtensionFieldHandlerTestCase {
   @Test
   public void flattenedField() {
     ObjectType type = (ObjectType) typeLoader.load(HasGroup.class);
-    assertThat(type.getFields(), hasSize(1));
-    ObjectFieldType field = type.getFields().iterator().next();
+    assertThat(type.getFields().isEmpty(), is(false));
+    ObjectFieldType field =
+        type.getFields().stream().filter(f -> f.getKey().getName().getLocalPart().equals("group")).findFirst().get();
 
     assertThat(field.getAnnotation(FlattenedTypeAnnotation.class).isPresent(), is(true));
-    assertThat(field.getKey().getName().getLocalPart(), is("group"));
     assertThat(field.getValue(), is(instanceOf(ObjectType.class)));
+  }
+
+  @Test
+  public void textField() {
+    ObjectType type = (ObjectType) typeLoader.load(Group.class);
+    assertThat(type.getFields().isEmpty(), is(false));
+    ObjectFieldType field =
+        type.getFields().stream().filter(f -> f.getKey().getName().getLocalPart().equals("text")).findFirst().get();
+
+    assertThat(field.getAnnotation(TextTypeAnnotation.class).isPresent(), is(true));
+    assertThat(field.getValue(), is(instanceOf(StringType.class)));
   }
 
   interface HasGetter {
@@ -65,12 +79,12 @@ public class ExtensionFieldHandlerTestCase {
 
     @ParameterGroup
     private Group group;
-
   }
 
   public class Group {
 
     @Parameter
-    private String name;
+    @Text
+    private String text;
   }
 }

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.persistence.model;
 
 import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.param.display.Text;
 
 public class ParameterGroupType {
 
@@ -14,5 +15,6 @@ public class ParameterGroupType {
   private String groupedField;
 
   @Parameter
+  @Text
   private String anotherGroupedField;
 }
