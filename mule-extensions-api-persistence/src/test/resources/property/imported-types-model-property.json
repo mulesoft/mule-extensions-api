@@ -74,6 +74,7 @@
                     }
                   },
                   "annotations": {
+                    "text": {},
                     "expressionSupport": {
                       "value": "SUPPORTED"
                     }
