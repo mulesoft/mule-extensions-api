@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api;
 
+import org.mule.runtime.api.message.MuleEvent;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.RuntimeExtensionModel;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
@@ -63,11 +64,9 @@ public interface ExtensionManager {
    *
    * @param configurationProviderName the name of a previously registered {@link ConfigurationProvider}
    * @param muleEvent                 the current MuleEvent
-   * @param <C>                       the generic type of the configuration instance to be returned
    * @return a {@link ConfigurationInstance}
    */
-  //TODO: MULE-8946
-  <C> ConfigurationInstance<C> getConfiguration(String configurationProviderName, Object muleEvent);
+  ConfigurationInstance getConfiguration(String configurationProviderName, MuleEvent muleEvent);
 
 
   /**
@@ -94,10 +93,8 @@ public interface ExtensionManager {
    *
    * @param extensionModel the {@link ExtensionModel} for which a configuration is wanted
    * @param muleEvent      the current MuleEvent
-   * @param <C>            the generic type of the configuration instance to be returned
    * @return a {@link ConfigurationInstance}
    * @throws IllegalStateException if none or too many {@link ConfigurationProvider} are found to be suitable
    */
-  //TODO: MULE-8946
-  <C> ConfigurationInstance<C> getConfiguration(ExtensionModel extensionModel, Object muleEvent);
+  ConfigurationInstance getConfiguration(ExtensionModel extensionModel, MuleEvent muleEvent);
 }

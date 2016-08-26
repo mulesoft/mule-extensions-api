@@ -14,13 +14,12 @@ import java.util.List;
  * {@link ConfigurationProvider configuration providers} which implement this interface
  * when it tries to locate expired configurations which need disposal
  *
- * @param <T> the generic type for the provided configurations
  * @since 1.0
  */
-public interface ExpirableConfigurationProvider<T> extends ConfigurationProvider<T> {
+public interface ExpirableConfigurationProvider extends ConfigurationProvider {
 
   /**
    * @return a {@link List} which items are the expired {@link ConfigurationInstance}
    */
-  List<ConfigurationInstance<T>> getExpired();
+  List<ConfigurationInstance> getExpired();
 }

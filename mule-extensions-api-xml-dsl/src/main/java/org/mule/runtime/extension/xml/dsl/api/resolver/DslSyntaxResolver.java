@@ -13,6 +13,7 @@ import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
@@ -70,13 +71,13 @@ public class DslSyntaxResolver {
   private Map<MetadataType, XmlModelProperty> importedTypes;
 
   /**
-   * @param model the {@link ExtensionModel} that provides context for resolving the
-   *              component's {@link DslElementSyntax}
+   * @param model   the {@link ExtensionModel} that provides context for resolving the
+   *                component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} doesn't have an {@link XmlModelProperty},
-   * if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not present in
-   * the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have
-   * an {@link ImportedTypesModelProperty}
+   *                                  if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not present in
+   *                                  the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have
+   *                                  an {@link ImportedTypesModelProperty}
    */
   public DslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
     this.context = context;
@@ -95,6 +96,7 @@ public class DslSyntaxResolver {
     return DslElementSyntaxBuilder.create()
         .withElementName(hyphenize(component.getName()))
         .withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri())
+        .requiresConfig(requiresConfig(component))
         .build();
   }
 
@@ -557,10 +559,12 @@ public class DslSyntaxResolver {
         .ifPresent(imports -> imports
             .forEach((type, ownerExtension) -> {
               ExtensionModel extensionModel = context.getExtension(ownerExtension)
-                  .orElseThrow(() -> new IllegalArgumentException(format("The Extension [%s] is not present in the current context",
+                  .orElseThrow(
+                               () -> new IllegalArgumentException(format("The Extension [%s] is not present in the current context",
                                                                          ownerExtension)));
               XmlModelProperty xml = extensionModel.getModelProperty(XmlModelProperty.class)
-                  .orElseThrow(() -> new IllegalArgumentException(format("The Extension [%s] doesn't have the required model property [%s]",
+                  .orElseThrow(() -> new IllegalArgumentException(
+                                                                  format("The Extension [%s] doesn't have the required model property [%s]",
                                                                          ownerExtension, XmlModelProperty.NAME)));
               xmlByType.put(type, xml);
             }));

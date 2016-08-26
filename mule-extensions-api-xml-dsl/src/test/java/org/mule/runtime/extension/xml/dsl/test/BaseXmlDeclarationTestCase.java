@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
+import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
@@ -25,7 +26,10 @@ import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsT
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.extension.api.introspection.property.ConfigTypeModelProperty;
+import org.mule.runtime.extension.api.introspection.property.ConnectivityModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.property.PagedOperationModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
@@ -101,14 +105,30 @@ public abstract class BaseXmlDeclarationTestCase {
 
     when(source.getName()).thenReturn(SOURCE_NAME);
     when(operation.getName()).thenReturn(OPERATION_NAME);
+    when(operation.getModelProperty(ConfigTypeModelProperty.class)).thenReturn(empty());
     when(configuration.getName()).thenReturn(CONFIGURATION_NAME);
     when(connectionProvider.getName()).thenReturn(CONNECTION_PROVIDER_NAME);
 
+    noConfigOn(connectionProvider, operation, source, configuration);
+    noConnectionOn(connectionProvider, operation, source, configuration);
     when(dslContext.getExtension(any())).thenReturn(empty());
 
     Stream.of(configuration, operation, connectionProvider, source).forEach(
                                                                             model -> when(model.getParameterModels())
                                                                                 .thenReturn(asList(parameterModel)));
+  }
+
+  private void noConfigOn(EnrichableModel... models) {
+    for (EnrichableModel model : models) {
+      when(model.getModelProperty(ConfigTypeModelProperty.class)).thenReturn(empty());
+    }
+  }
+
+  private void noConnectionOn(EnrichableModel... models) {
+    for (EnrichableModel model : models) {
+      when(model.getModelProperty(ConnectivityModelProperty.class)).thenReturn(empty());
+      when(model.getModelProperty(PagedOperationModelProperty.class)).thenReturn(empty());
+    }
   }
 
   void assertChildElementDeclarationIs(boolean expected, DslElementSyntax result) {

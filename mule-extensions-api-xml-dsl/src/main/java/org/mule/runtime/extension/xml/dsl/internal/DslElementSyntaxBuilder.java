@@ -20,22 +20,19 @@ import java.util.Map;
  */
 public final class DslElementSyntaxBuilder {
 
-  private String attributeName;
-  private String elementName;
-  private String elementNameSpace;
+  private String attributeName = "";
+  private String elementName = "";
+  private String elementNameSpace = "";
   private String nameSpaceUri;
   private boolean isWrapped = false;
   private boolean supportsChildDeclaration = false;
   private boolean supportsTopLevelDeclaration = false;
+  private boolean requiresConfig = false;
   private Map<MetadataType, DslElementSyntax> genericChilds = new HashMap<>();
   private Map<String, DslElementSyntax> namedChilds = new HashMap<>();
 
 
-  private DslElementSyntaxBuilder() {
-    attributeName = "";
-    elementName = "";
-    elementNameSpace = "";
-  }
+  private DslElementSyntaxBuilder() {}
 
   /**
    * @return a new instance of {@link DslElementSyntaxBuilder}
@@ -47,7 +44,7 @@ public final class DslElementSyntaxBuilder {
   /**
    * Adds a {@code name} that describes how this element will be represented as an attribute.
    *
-   * @return the builder instance enriched with the {@code attributeName}
+   * @return {@code this} builder instance enriched with the {@code attributeName}
    */
   public DslElementSyntaxBuilder withAttributeName(String attributeName) {
     this.attributeName = attributeName;
@@ -57,7 +54,7 @@ public final class DslElementSyntaxBuilder {
   /**
    * Adds a {@code name} to the element being declared
    *
-   * @return the builder instance enriched with the {@code elementName}
+   * @return {@code this} builder instance enriched with the {@code elementName}
    */
   public DslElementSyntaxBuilder withElementName(String elementName) {
     this.elementName = elementName;
@@ -67,7 +64,7 @@ public final class DslElementSyntaxBuilder {
   /**
    * Adds a {@code nameSpace} to the element being declared
    *
-   * @return the builder instance enriched with the {@code nameSpace}
+   * @return {@code this} builder instance enriched with the {@code nameSpace}
    */
   public DslElementSyntaxBuilder withNamespace(String nameSpace, String nameSpaceUri) {
     this.elementNameSpace = nameSpace;
@@ -78,7 +75,7 @@ public final class DslElementSyntaxBuilder {
   /**
    * Declares whether or not {@code this} {@link DslElementSyntax} is a wrapped element.
    *
-   * @return the builder instance enriched with the {@code isWrapped}
+   * @return {@code this} builder instance enriched with the {@code isWrapped}
    */
   public DslElementSyntaxBuilder asWrappedElement(boolean isWrapped) {
     this.isWrapped = isWrapped;
@@ -89,7 +86,7 @@ public final class DslElementSyntaxBuilder {
    * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as child element
    * in the context for which it was created.
    *
-   * @return the builder instance enriched with {@code supportsChildDeclaration}
+   * @return {@code this} builder instance enriched with {@code supportsChildDeclaration}
    */
   public DslElementSyntaxBuilder supportsChildDeclaration(boolean supportsChild) {
     this.supportsChildDeclaration = supportsChild;
@@ -100,7 +97,7 @@ public final class DslElementSyntaxBuilder {
    * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as top level element
    * in the context for which it was created.
    *
-   * @return the builder instance enriched with {@code supportsTopLevelDeclaration}
+   * @return {@code this} builder instance enriched with {@code supportsTopLevelDeclaration}
    */
   public DslElementSyntaxBuilder supportsTopLevelDeclaration(boolean supportsTop) {
     this.supportsTopLevelDeclaration = supportsTop;
@@ -108,10 +105,21 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
+   * Declares whether or not {@code this} {@link DslElementSyntax} requires a parameter
+   * pointing to a config
+   *
+   * @return {@code this} builder instance enriched with {@code supportsTopLevelDeclaration}
+   */
+  public DslElementSyntaxBuilder requiresConfig(boolean requiresConfig) {
+    this.requiresConfig = requiresConfig;
+    return this;
+  }
+
+  /**
    * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
    * represents a generic type of {@code this} element.
    *
-   * @return the builder instance enriched with the {@code typed} {@link DslElementSyntax childElement}
+   * @return {@code this} builder instance enriched with the {@code typed} {@link DslElementSyntax childElement}
    */
   public DslElementSyntaxBuilder withGeneric(MetadataType type, DslElementSyntax child) {
     if (child == null) {
@@ -126,7 +134,7 @@ public final class DslElementSyntaxBuilder {
    * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
    * can be referenced by {@code name}
    *
-   * @return the builder instance enriched with the {@code named} {@link DslElementSyntax childElement}
+   * @return {@code this} builder instance enriched with the {@code named} {@link DslElementSyntax childElement}
    */
   public DslElementSyntaxBuilder withChild(String name, DslElementSyntax child) {
     if (child == null) {
@@ -142,7 +150,8 @@ public final class DslElementSyntaxBuilder {
    */
   public DslElementSyntax build() {
     return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
-                                supportsChildDeclaration, supportsTopLevelDeclaration, genericChilds, namedChilds);
+                                supportsChildDeclaration, supportsTopLevelDeclaration, requiresConfig, genericChilds,
+                                namedChilds);
   }
 
 }
