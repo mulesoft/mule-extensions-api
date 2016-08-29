@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.operation;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 import org.mule.runtime.api.message.MuleMessage;
 import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
@@ -20,7 +22,6 @@ import org.mule.runtime.extension.api.runtime.InterceptorFactory;
 import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory;
 
 import java.beans.Transient;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -70,9 +71,7 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
     }
     this.executorFactory = executorFactory;
     this.exceptionEnricherFactory = exceptionEnricherFactory;
-    this.interceptorFactories =
-        interceptorFactories != null ? Collections.unmodifiableList(interceptorFactories) : Collections.emptyList();
-
+    this.interceptorFactories = interceptorFactories != null ? unmodifiableList(interceptorFactories) : emptyList();
     this.metadataResolverFactory = metadataResolverFactory;
   }
 
@@ -111,5 +110,4 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
   public MetadataResolverFactory getMetadataResolverFactory() {
     return metadataResolverFactory;
   }
-
 }
