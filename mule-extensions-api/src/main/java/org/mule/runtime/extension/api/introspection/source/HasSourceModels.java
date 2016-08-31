@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.source;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 
@@ -26,7 +25,7 @@ public interface HasSourceModels {
    * <p>
    * Each source is guaranteed to have a unique name which will not
    * overlap with any {@link OperationModel} or {@link ConnectionProviderModel}
-   * defined in the same {@link ExtensionModel}
+   * defined at any level.
    *
    * @return an immutable {@link List} of {@link SourceModel}
    */

@@ -93,15 +93,14 @@ public interface ExtensionModel
 
   /**
    * Returns a {@link List} of {@link OperationModel}s defined at
-   * the extension
-   * level.
+   * the extension level.
    * <p>
    * When an operation is defined at this level, it means that
    * such operation does not require nor accept a configuration.
    * <p>
    * Each operation is guaranteed to have a unique name which will not
    * overlap with any {@link SourceModel} or {@link ConnectionProviderModel}
-   * defined in the same {@link ExtensionModel}
+   * defined at any level.
    *
    * @return an immutable {@link List} of {@link OperationModel}
    */
@@ -129,7 +128,7 @@ public interface ExtensionModel
    * <p>
    * Each source is guaranteed to have a unique name which will not
    * overlap with any {@link OperationModel} or {@link ConnectionProviderModel}
-   * defined in the same {@link ExtensionModel}
+   * defined at any level.
    *
    * @return an immutable {@link List} of {@link SourceModel}
    */

@@ -6,9 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.operation;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,7 @@ public interface HasOperationModels {
    *
    * Each operation is guaranteed to have a unique name which will not
    * overlap with any {@link SourceModel} or {@link ConnectionProviderModel}
-   * defined in the same {@link ExtensionModel}
+   * defined at any level.
    *
    * @return an immutable {@link List} of {@link OperationModel}
    */

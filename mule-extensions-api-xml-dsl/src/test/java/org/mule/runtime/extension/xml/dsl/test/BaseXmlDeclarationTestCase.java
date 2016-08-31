@@ -105,7 +105,6 @@ public abstract class BaseXmlDeclarationTestCase {
 
     when(source.getName()).thenReturn(SOURCE_NAME);
     when(operation.getName()).thenReturn(OPERATION_NAME);
-    when(operation.getModelProperty(ConfigTypeModelProperty.class)).thenReturn(empty());
     when(configuration.getName()).thenReturn(CONFIGURATION_NAME);
     when(connectionProvider.getName()).thenReturn(CONNECTION_PROVIDER_NAME);
 
