@@ -27,6 +27,7 @@ public class DslElementSyntax {
   private final boolean isWrapped;
   private final boolean supportsChildDeclaration;
   private final boolean supportsTopLevelDeclaration;
+  private final boolean requiresConfig;
 
   private final Map<MetadataType, DslElementSyntax> genericsDsl;
   private final Map<String, DslElementSyntax> childsByName;
@@ -40,6 +41,7 @@ public class DslElementSyntax {
    * @param isWrapped                {@code false} if the element implements the Component's type as an xml extension,
    *                                 or {@code true} if the element is a wrapper of a ref to the Component's type
    * @param supportsChildDeclaration {@code true} if this element supports to be declared as a child element of its parent
+   * @param requiresConfig           whether the element requires a parameter pointing to the config
    * @param genericsDsl              the {@link DslElementSyntax} of this element's type generics, if any is present,
    *                                 that complete the element description of container elements of generic types, like
    *                                 Collections or Maps for which the Dsl declaration is modified depending on the contained type.
@@ -52,6 +54,7 @@ public class DslElementSyntax {
                           boolean isWrapped,
                           boolean supportsChildDeclaration,
                           boolean supportsTopLevelDeclaration,
+                          boolean requiresConfig,
                           Map<MetadataType, DslElementSyntax> genericsDsl,
                           Map<String, DslElementSyntax> childsByName) {
     this.attributeName = attributeName;
@@ -61,6 +64,7 @@ public class DslElementSyntax {
     this.isWrapped = isWrapped;
     this.supportsChildDeclaration = supportsChildDeclaration;
     this.supportsTopLevelDeclaration = supportsTopLevelDeclaration;
+    this.requiresConfig = requiresConfig;
     this.genericsDsl = genericsDsl;
     this.childsByName = childsByName;
   }
@@ -131,4 +135,10 @@ public class DslElementSyntax {
     return Optional.ofNullable(childsByName.get(name));
   }
 
+  /**
+   * @return {@code true} if this element requires having an attribute which points to a config
+   */
+  public boolean requiresConfig() {
+    return requiresConfig;
+  }
 }

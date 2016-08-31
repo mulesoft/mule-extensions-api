@@ -16,10 +16,9 @@ import org.mule.runtime.extension.api.introspection.config.RuntimeConfigurationM
  * When that method is invoked, it's up to each implementation to return a brand
  * new instance or one which has already been returned before.
  *
- * @param <T> the type of configuration instances returned
  * @since 1.0
  */
-public interface ConfigurationProvider<T> {
+public interface ConfigurationProvider {
 
   /**
    * Returns a {@link ConfigurationInstance}
@@ -30,7 +29,7 @@ public interface ConfigurationProvider<T> {
    * @return a {@link ConfigurationInstance}
    */
   //TODO: MULE-8946
-  ConfigurationInstance<T> get(Object muleEvent);
+  ConfigurationInstance get(Object muleEvent);
 
   /**
    * Returns the {@link RuntimeConfigurationModel} for the instances

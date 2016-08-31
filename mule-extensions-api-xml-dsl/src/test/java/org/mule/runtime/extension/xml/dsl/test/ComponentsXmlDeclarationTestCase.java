@@ -6,10 +6,15 @@
  */
 package org.mule.runtime.extension.xml.dsl.test;
 
+import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import org.mule.runtime.extension.api.introspection.property.ConfigTypeModelProperty;
+import org.mule.runtime.extension.api.introspection.property.ConnectivityModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 
 import org.junit.Test;
@@ -26,6 +31,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(false, result);
     assertIsWrappedElement(false, result);
   }
@@ -37,6 +43,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(false, result);
     assertIsWrappedElement(false, result);
   }
@@ -48,6 +55,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(false, result);
     assertIsWrappedElement(false, result);
   }
@@ -59,8 +67,25 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getAttributeName(), is(EMPTY));
     assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(false, result);
     assertIsWrappedElement(false, result);
+  }
+
+  @Test
+  public void connectedOperation() {
+    when(operation.getModelProperty(ConnectivityModelProperty.class)).thenReturn(of(mock(ConnectivityModelProperty.class)));
+    DslElementSyntax result = getSyntaxResolver().resolve(operation);
+
+    assertThat(result.requiresConfig(), is(true));
+  }
+
+  @Test
+  public void operationWithConfig() {
+    when(operation.getModelProperty(ConfigTypeModelProperty.class)).thenReturn(of(mock(ConfigTypeModelProperty.class)));
+    DslElementSyntax result = getSyntaxResolver().resolve(operation);
+
+    assertThat(result.requiresConfig(), is(true));
   }
 
 }

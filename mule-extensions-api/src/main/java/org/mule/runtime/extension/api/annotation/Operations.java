@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * Allows to reference a list of classes from which an Extension's operations are to be
  * inferred. This annotation is to be used in classes which are also annotated with
  * {@link Extension} and {@link #value()} must reference classes which contain public
- * methods annotated with {@link Operation}
+ * methods which implement the operation
  *
  * @since 1.0
  */
@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 public @interface Operations {
 
   /**
-   * @return An array of classes which contain public methods annotated with {@link Operation}
+   * @return An array of classes which contain public methods which implement an operation
    */
   Class<?>[] value();
 }

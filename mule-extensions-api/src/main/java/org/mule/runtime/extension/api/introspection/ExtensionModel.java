@@ -92,8 +92,15 @@ public interface ExtensionModel
   Optional<ConfigurationModel> getConfigurationModel(String name);
 
   /**
-   * Returns the {@link OperationModel}s which will be available to every
-   * {@link ConfigurationModel} defined in {@code this} extension
+   * Returns a {@link List} of {@link OperationModel}s defined at
+   * the extension level.
+   * <p>
+   * When an operation is defined at this level, it means that
+   * such operation does not require nor accept a configuration.
+   * <p>
+   * Each operation is guaranteed to have a unique name which will not
+   * overlap with any {@link SourceModel} or {@link ConnectionProviderModel}
+   * defined at any level.
    *
    * @return an immutable {@link List} of {@link OperationModel}
    */
@@ -114,8 +121,14 @@ public interface ExtensionModel
   List<ConnectionProviderModel> getConnectionProviders();
 
   /**
-   * Returns the {@link SourceModel}s which will be available to every
-   * {@link ConfigurationModel} defined in {@code this} extension
+   * Returns a {@link List} of {@link SourceModel}s defined at the
+   * extension level.
+   * When a source is defined at this level, it means that such
+   * source does not require nor accept a configuration.
+   * <p>
+   * Each source is guaranteed to have a unique name which will not
+   * overlap with any {@link OperationModel} or {@link ConnectionProviderModel}
+   * defined at any level.
    *
    * @return an immutable {@link List} of {@link SourceModel}
    */

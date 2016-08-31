@@ -32,10 +32,9 @@ import java.util.Optional;
  * More specifically, if a {@link ConfigurationInstance} is stopped, then the {@link ConnectionProvider} should also
  * be stopped and all its active connections be released.
  *
- * @param <T> the generic type for the actual value
  * @since 1.0
  */
-public interface ConfigurationInstance<T> {
+public interface ConfigurationInstance {
 
   /**
    * @return the name for this instance
@@ -50,7 +49,7 @@ public interface ConfigurationInstance<T> {
   /**
    * @return the actual configuration instance to be used
    */
-  T getValue();
+  Object getValue();
 
   /**
    * @return a {@link ConfigurationStats} object with statistics about the usage of the configuration

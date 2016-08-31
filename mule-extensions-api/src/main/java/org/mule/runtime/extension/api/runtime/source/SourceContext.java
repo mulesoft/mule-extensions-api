@@ -12,6 +12,8 @@ import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 import org.mule.runtime.extension.api.runtime.MessageHandler;
 
+import java.util.Optional;
+
 /**
  * Provides configuration and collaboratos for a {@link Source}
  *
@@ -42,5 +44,5 @@ public interface SourceContext<Payload, A extends Attributes> {
   /**
    * @return the {@link ConfigurationInstance} to which the {@link Source} is associated
    */
-  ConfigurationInstance<Object> getConfigurationInstance();
+  Optional<ConfigurationInstance> getConfigurationInstance();
 }
