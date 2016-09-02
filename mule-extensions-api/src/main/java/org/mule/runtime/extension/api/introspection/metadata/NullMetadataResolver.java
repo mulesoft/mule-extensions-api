@@ -50,8 +50,8 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    * returning a {@link NullType} instead of resolving a valid {@link MetadataType} for the {@link Content} parameter
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key     {@link MetadaaKey} of the type which's structure has to be resolved
-   * @return {@link NullType}
+   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
+   * @return {@code null}
    * @throws MetadataResolvingException
    */
   @Override
@@ -66,7 +66,7 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@link NullType}
+   * @return {@code null}
    * @throws MetadataResolvingException
    */
   @Override
@@ -81,7 +81,7 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@link NullType}
+   * @return {@code null}
    * @throws MetadataResolvingException
    */
   @Override
