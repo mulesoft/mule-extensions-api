@@ -18,7 +18,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-abstract class ComponentDeclaration<T extends ComponentDeclaration> extends ParameterizedInterceptableDeclaration<T> {
+public abstract class ComponentDeclaration<T extends ComponentDeclaration> extends ParameterizedInterceptableDeclaration<T> {
 
   private OutputDeclaration outputContent;
   private OutputDeclaration outputAttributes;
