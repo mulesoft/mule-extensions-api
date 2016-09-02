@@ -6,11 +6,9 @@
  */
 package org.mule.runtime.extension.api.introspection.metadata;
 
-import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.NullType;
-import org.mule.metadata.java.api.JavaTypeLoader;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
@@ -53,12 +51,12 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@link NullType}
+   * @return {@code null}
    * @throws MetadataResolvingException
    */
   @Override
   public MetadataType getContentMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
+    return null;
   }
 
   /**
@@ -68,12 +66,12 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@link NullType}
+   * @return {@code null}
    * @throws MetadataResolvingException
    */
   @Override
   public MetadataType getOutputMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return BaseTypeBuilder.create(JavaTypeLoader.JAVA).nullType().build();
+    return null;
   }
 
   /**
@@ -83,11 +81,11 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key     {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@link NullType}
+   * @return {@code null}
    * @throws MetadataResolvingException
    */
   @Override
   public MetadataType getAttributesMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return BaseTypeBuilder.create(JavaTypeLoader.JAVA).anyType().build();
+    return null;
   }
 }
