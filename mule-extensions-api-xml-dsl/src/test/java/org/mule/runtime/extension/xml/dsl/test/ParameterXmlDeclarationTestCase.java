@@ -598,6 +598,16 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementNamespace(NAMESPACE, simplePojoDsl);
     assertChildElementDeclarationIs(true, simplePojoDsl);
     assertIsWrappedElement(false, simplePojoDsl);
+    assertTopElementDeclarationIs(true, simplePojoDsl);
+
+    String notGlobalName = "notGlobalType";
+    DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
+    assertAttributeName(notGlobalName, notGlobalDsl);
+    assertElementName(hyphenize(notGlobalName), notGlobalDsl);
+    assertElementNamespace(NAMESPACE, notGlobalDsl);
+    assertChildElementDeclarationIs(true, notGlobalDsl);
+    assertIsWrappedElement(false, notGlobalDsl);
+    assertTopElementDeclarationIs(false, notGlobalDsl);
 
     String groupedField = "groupedField";
     DslElementSyntax groupedFieldDsl = getChildFieldDsl(groupedField, topDsl);
@@ -606,6 +616,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementNamespace("", groupedFieldDsl);
     assertChildElementDeclarationIs(false, groupedFieldDsl);
     assertIsWrappedElement(false, groupedFieldDsl);
+    assertTopElementDeclarationIs(false, notGlobalDsl);
 
     String anotherGroupedField = "anotherGroupedField";
     DslElementSyntax anotherGroupedFieldDsl = getChildFieldDsl(anotherGroupedField, topDsl);

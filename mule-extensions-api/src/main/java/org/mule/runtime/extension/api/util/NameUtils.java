@@ -9,16 +9,19 @@ package org.mule.runtime.extension.api.util;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 /**
@@ -234,17 +237,25 @@ public class NameUtils {
    * @return the hypenized name for the given {@code type}
    */
   public static String getTopLevelTypeName(MetadataType metadataType) {
-    String aliasName;
-    Optional<TypeAliasAnnotation> aliasAnnotation = metadataType.getAnnotation(TypeAliasAnnotation.class);
-    if (aliasAnnotation.isPresent()) {
-      aliasName = aliasAnnotation.get().getValue();
-    } else {
-      Class<?> c = getType(metadataType);
-      Alias alias = c.getAnnotation(Alias.class);
-      aliasName = alias != null ? alias.value() : c.getSimpleName();
-    }
+    String aliasName = metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
+        .orElse(metadataType.getMetadataFormat().equals(JAVA)
+            ? getAliasName(getType(metadataType))
+            : getTypeId(metadataType).orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
 
     return hyphenize(aliasName);
+  }
+
+  public static String getAliasName(Class<?> type) {
+    return getAliasName(type.getSimpleName(), type.getAnnotation(Alias.class));
+  }
+
+  public static String getAliasName(Field field) {
+    return getAliasName(field.getName(), field.getAnnotation(Alias.class));
+  }
+
+  public static String getAliasName(String defaultName, Alias aliasAnnotation) {
+    String alias = aliasAnnotation != null ? aliasAnnotation.value() : null;
+    return isEmpty(alias) ? defaultName : alias;
   }
 
   public static String defaultNamespace(String extensionName) {

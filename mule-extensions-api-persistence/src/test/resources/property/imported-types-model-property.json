@@ -23,6 +23,60 @@
         "fields": [
           {
             "key": {
+              "name": "notGlobalType"
+            },
+            "model": {
+              "required": "true",
+              "type": "Object",
+              "annotations": {
+                "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                "classInformation": {
+                  "hasDefaultConstructor": true,
+                  "isInterface": false,
+                  "isInstantiable": true,
+                  "isAbstract": false,
+                  "isFinal": false,
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "genericTypes": []
+                },
+                "notGlobalType": {},
+                "typeAlias": {
+                  "value": "NotGlobalType"
+                }
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "sampleString"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    },
+                    "xmlHints": {
+                      "allowInlineDefinition": true,
+                      "allowReferences": false
+                    }
+                  }
+                }
+              ]
+            },
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
               "name": "parameterGroupType"
             },
             "model": {
