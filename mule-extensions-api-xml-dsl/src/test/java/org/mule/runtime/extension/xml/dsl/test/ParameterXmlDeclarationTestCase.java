@@ -102,7 +102,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void xmlStyleAtParameterLevel() {
-    XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false);
+    XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false, false);
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(String.class));
     when(parameterModel.getModelProperty(XmlHintsModelProperty.class)).thenReturn(of(styleModelProperty));
 
@@ -112,8 +112,9 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void xmlStyleAtTypeLevel() {
-    XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false)).build());
+    XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false, false);
+    when(parameterModel.getType())
+        .thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false, false)).build());
     when(parameterModel.getModelProperty(XmlHintsModelProperty.class)).thenReturn(of(styleModelProperty));
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -589,6 +590,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementName(hyphenize(recursiveChildName), recursiveChildDsl);
     assertElementNamespace(NAMESPACE, recursiveChildDsl);
     assertChildElementDeclarationIs(true, recursiveChildDsl);
+    assertTopLevelDeclarationSupportIs(true, recursiveChildDsl);
     assertIsWrappedElement(false, recursiveChildDsl);
 
     String simplePojoName = "simplePojo";
@@ -598,6 +600,15 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementNamespace(NAMESPACE, simplePojoDsl);
     assertChildElementDeclarationIs(true, simplePojoDsl);
     assertIsWrappedElement(false, simplePojoDsl);
+    assertTopElementDeclarationIs(true, simplePojoDsl);
+
+    String notGlobalName = "notGlobalType";
+    DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
+    assertAttributeName(notGlobalName, notGlobalDsl);
+    assertElementName(hyphenize(notGlobalName), notGlobalDsl);
+    assertElementNamespace(NAMESPACE, notGlobalDsl);
+    assertChildElementDeclarationIs(true, notGlobalDsl);
+    assertIsWrappedElement(false, notGlobalDsl);
 
     String groupedField = "groupedField";
     DslElementSyntax groupedFieldDsl = getChildFieldDsl(groupedField, topDsl);

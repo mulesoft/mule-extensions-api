@@ -76,6 +76,65 @@
             "fields": [
               {
                 "key": {
+                  "name": "notGlobalType"
+                },
+                "model": {
+                  "required": "true",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                    "classInformation": {
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": []
+                    },
+                    "xmlHints": {
+                      "allowInlineDefinition": true,
+                      "allowTopLevelDefinition": false,
+                      "allowReferences": true
+                    },
+                    "typeAlias": {
+                      "value": "NotGlobalType"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "sampleString"
+                      },
+                      "model": {
+                        "required": "true",
+                        "type": "String",
+                        "annotations": {
+                          "typeId": "java.lang.String"
+                        }
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        },
+                        "xmlHints": {
+                          "allowInlineDefinition": true,
+                          "allowTopLevelDefinition": true,
+                          "allowReferences": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "annotations": {
+                  "expressionSupport": {
+                    "value": "SUPPORTED"
+                  }
+                }
+              },
+              {
+                "key": {
                   "name": "parameterGroupType"
                 },
                 "model": {
@@ -267,6 +326,7 @@
                         },
                         "xmlHints": {
                           "allowInlineDefinition": true,
+                          "allowTopLevelDefinition": true,
                           "allowReferences": false
                         }
                       }

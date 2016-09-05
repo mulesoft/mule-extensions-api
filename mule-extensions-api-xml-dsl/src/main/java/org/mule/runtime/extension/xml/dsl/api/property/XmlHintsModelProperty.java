@@ -17,6 +17,7 @@ import org.mule.runtime.extension.api.introspection.ModelProperty;
 public class XmlHintsModelProperty implements ModelProperty {
 
   private final boolean allowInlineDefinition;
+  private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
 
   /**
@@ -25,17 +26,19 @@ public class XmlHintsModelProperty implements ModelProperty {
    * @param styleAnnotation a {@link XmlHints}
    */
   public XmlHintsModelProperty(XmlHints styleAnnotation) {
-    this(styleAnnotation.allowInlineDefinition(), styleAnnotation.allowReferences());
+    this(styleAnnotation.allowInlineDefinition(), styleAnnotation.allowTopLevelDefinition(), styleAnnotation.allowReferences());
   }
 
   /**
    * Creates a new instance
    *
-   * @param allowInlineDefinition whether the associated element should support inline definition as child element
-   * @param allowReferences       whether the associated element should support registry references
+   * @param allowInlineDefinition   whether the associated element should support inline definition as child element
+   * @param allowTopLevelDefinition whether the associated element should support being defined as a top level element
+   * @param allowReferences         whether the associated element should support registry references
    */
-  public XmlHintsModelProperty(boolean allowInlineDefinition, boolean allowReferences) {
+  public XmlHintsModelProperty(boolean allowInlineDefinition, boolean allowTopLevelDefinition, boolean allowReferences) {
     this.allowInlineDefinition = allowInlineDefinition;
+    this.allowTopLevelDefinition = allowTopLevelDefinition;
     this.allowReferences = allowReferences;
   }
 
@@ -60,6 +63,13 @@ public class XmlHintsModelProperty implements ModelProperty {
    */
   public boolean allowsInlineDefinition() {
     return allowInlineDefinition;
+  }
+
+  /**
+   * @return whether the associated element should support being defined as a top level definition
+   */
+  public boolean isAllowTopLevelDefinition() {
+    return allowTopLevelDefinition;
   }
 
   /**

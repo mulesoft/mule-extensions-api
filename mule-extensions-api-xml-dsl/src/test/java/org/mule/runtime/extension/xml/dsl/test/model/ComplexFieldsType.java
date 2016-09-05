@@ -22,6 +22,9 @@ public class ComplexFieldsType {
   @Parameter
   private SimpleFieldsType simplePojo;
 
+  @Parameter
+  private NotGlobalType notGlobalType;
+
   @ParameterGroup
   private ParameterGroupType parameterGroupType;
 

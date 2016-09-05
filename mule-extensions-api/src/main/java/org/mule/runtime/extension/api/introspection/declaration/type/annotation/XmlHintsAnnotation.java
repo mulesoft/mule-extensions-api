@@ -17,17 +17,21 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 public class XmlHintsAnnotation implements TypeAnnotation {
 
   public static final String NAME = "xmlHints";
+
   private final boolean allowInlineDefinition;
+  private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
 
   /**
    * Creates a new instance
    *
-   * @param allowInlineDefinition whether the associated element should support inline definition as child element
-   * @param allowReferences       whether the associated element should support registry references
+   * @param allowInlineDefinition   whether the associated element should support inline definition as child element
+   * @param allowTopLevelDefinition whether the associated element should support being defined as a top level element
+   * @param allowReferences         whether the associated element should support registry references
    */
-  public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowReferences) {
+  public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, boolean allowReferences) {
     this.allowInlineDefinition = allowInlineDefinition;
+    this.allowTopLevelDefinition = allowTopLevelDefinition;
     this.allowReferences = allowReferences;
   }
 
@@ -53,6 +57,13 @@ public class XmlHintsAnnotation implements TypeAnnotation {
     return allowReferences;
   }
 
+  /**
+   * @return whether the associated element should support being defined as a top level element
+   */
+  public boolean allowsTopLevelDefinition() {
+    return allowTopLevelDefinition;
+  }
+
   @Override
   public int hashCode() {
     return reflectionHashCode(this);
@@ -62,7 +73,9 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   public boolean equals(Object obj) {
     if (obj instanceof XmlHintsAnnotation) {
       XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
-      return allowInlineDefinition == other.allowsInlineDefinition() && allowReferences == other.allowsReferences();
+      return allowInlineDefinition == other.allowsInlineDefinition() &&
+          allowTopLevelDefinition == other.allowsTopLevelDefinition() &&
+          allowReferences == other.allowsReferences();
     }
 
     return false;
