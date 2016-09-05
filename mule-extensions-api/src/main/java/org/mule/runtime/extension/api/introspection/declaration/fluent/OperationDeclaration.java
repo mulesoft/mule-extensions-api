@@ -33,5 +33,4 @@ public class OperationDeclaration extends ComponentDeclaration<OperationDeclarat
   public void setExecutorFactory(OperationExecutorFactory executorFactory) {
     this.executorFactory = executorFactory;
   }
-
 }

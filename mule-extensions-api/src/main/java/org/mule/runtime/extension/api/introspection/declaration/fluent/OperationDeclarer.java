@@ -36,5 +36,4 @@ public class OperationDeclarer extends ComponentDeclarer<OperationDeclarer, Oper
     declaration.setExecutorFactory(executorFactory);
     return this;
   }
-
 }
