@@ -94,7 +94,11 @@
                         "parent": "",
                         "genericTypes": []
                       },
-                      "notGlobalType": {},
+                      "xmlHints": {
+                        "allowInlineDefinition": true,
+                        "allowTopLevelDefinition": false,
+                        "allowReferences": true
+                      },
                       "typeAlias": {
                         "value": "NotGlobalType"
                       }
@@ -117,6 +121,7 @@
                           },
                           "xmlHints": {
                             "allowInlineDefinition": true,
+                            "allowTopLevelDefinition": true,
                             "allowReferences": false
                           }
                         }
@@ -322,6 +327,7 @@
                           },
                           "xmlHints": {
                             "allowInlineDefinition": true,
+                            "allowTopLevelDefinition": true,
                             "allowReferences": false
                           }
                         }
@@ -522,7 +528,11 @@
                         "parent": "",
                         "genericTypes": []
                       },
-                      "notGlobalType": {},
+                      "xmlHints": {
+                        "allowInlineDefinition": true,
+                        "allowTopLevelDefinition": false,
+                        "allowReferences": true
+                      },
                       "typeAlias": {
                         "value": "NotGlobalType"
                       }
@@ -545,6 +555,7 @@
                           },
                           "xmlHints": {
                             "allowInlineDefinition": true,
+                            "allowTopLevelDefinition": true,
                             "allowReferences": false
                           }
                         }
@@ -750,6 +761,7 @@
                           },
                           "xmlHints": {
                             "allowInlineDefinition": true,
+                            "allowTopLevelDefinition": true,
                             "allowReferences": false
                           }
                         }

@@ -32,7 +32,6 @@ public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry {
         .put(ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class)
         .put(FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class)
         .put(TextTypeAnnotation.NAME, TextTypeAnnotation.class)
-        .put(NotGlobalTypeAnnotation.NAME, NotGlobalTypeAnnotation.class)
         .build();
   }
 }

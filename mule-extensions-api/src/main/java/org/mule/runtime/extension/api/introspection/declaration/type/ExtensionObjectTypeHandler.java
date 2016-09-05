@@ -15,10 +15,10 @@ import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.metadata.java.internal.handler.ObjectHandler;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
-import org.mule.runtime.extension.api.annotation.dsl.xml.NoGlobalDeclaration;
+import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NotGlobalTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -45,8 +45,11 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       objectType.with(new ExtensibleTypeAnnotation());
     }
 
-    if (clazz.isAnnotationPresent(NoGlobalDeclaration.class)) {
-      objectType.with(new NotGlobalTypeAnnotation());
+    XmlHints hints = clazz.getAnnotation(XmlHints.class);
+    if (hints != null) {
+      objectType.with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
+                                             hints.allowTopLevelDefinition(),
+                                             hints.allowReferences()));
     }
 
     Alias alias = clazz.getAnnotation(Alias.class);

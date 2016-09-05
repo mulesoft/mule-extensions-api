@@ -134,6 +134,10 @@ public abstract class BaseXmlDeclarationTestCase {
     assertThat("Expected attribute only declaration", result.supportsChildDeclaration(), is(expected));
   }
 
+  void assertTopLevelDeclarationSupportIs(boolean expected, DslElementSyntax result) {
+    assertThat("Wrong TopLevel declaration support", result.supportsTopLevelDeclaration(), is(expected));
+  }
+
   void assertIsWrappedElement(boolean expected, DslElementSyntax result) {
     assertThat("Expected no wrapping but element is wrapped", result.isWrapped(), is(expected));
   }

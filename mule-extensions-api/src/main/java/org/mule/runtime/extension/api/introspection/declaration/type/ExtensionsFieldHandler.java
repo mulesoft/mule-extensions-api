@@ -103,7 +103,9 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   private void processElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
     final XmlHints annotation = field.getAnnotation(XmlHints.class);
     if (annotation != null) {
-      fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(), annotation.allowReferences()));
+      fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(),
+                                               annotation.allowTopLevelDefinition(),
+                                               annotation.allowReferences()));
     }
   }
 

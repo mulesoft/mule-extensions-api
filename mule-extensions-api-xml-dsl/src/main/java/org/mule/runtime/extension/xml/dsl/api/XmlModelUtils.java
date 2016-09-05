@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.xml.dsl.api;
 
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
@@ -66,10 +67,18 @@ public final class XmlModelUtils {
     Optional<XmlHintsModelProperty> property = parameter.getModelProperty(XmlHintsModelProperty.class);
     if (!property.isPresent()) {
       property = parameter.getType().getAnnotation(XmlHintsAnnotation.class)
-          .map(annotation -> new XmlHintsModelProperty(annotation.allowsInlineDefinition(), annotation.allowsReferences()));
+          .map(annotation -> new XmlHintsModelProperty(annotation.allowsInlineDefinition(),
+                                                       annotation.allowsTopLevelDefinition(),
+                                                       annotation.allowsReferences()));
     }
 
     return property;
+  }
+
+  public static boolean supportsTopLevelDeclaration(MetadataType metadataType) {
+    return metadataType.getAnnotation(XmlHintsAnnotation.class)
+        .map(XmlHintsAnnotation::allowsTopLevelDefinition)
+        .orElse(true);
   }
 
   private static String calculateValue(Xml xml, Supplier<String> value, Supplier<String> fallback) {

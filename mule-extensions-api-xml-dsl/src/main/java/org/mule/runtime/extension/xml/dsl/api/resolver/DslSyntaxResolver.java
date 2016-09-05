@@ -18,6 +18,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.getHintsModelProperty;
+import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isExtensible;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isFlattened;
@@ -37,7 +38,6 @@ import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NotGlobalTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
@@ -217,6 +217,7 @@ public class DslSyntaxResolver {
         boolean requiresWrapper = typeRequiresWrapperElement(objectType);
         boolean supportsChildDeclaration = shouldGenerateChildElements(objectType, NOT_SUPPORTED);
 
+        //TODO: MULE-10468
         builder.withNamespace(namespace, namespaceUri)
             .withElementName(getTopLevelTypeName(objectType))
             .supportsTopLevelDeclaration(supportTopLevelElement(objectType, empty()))
@@ -504,9 +505,7 @@ public class DslSyntaxResolver {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        boolean supported = !metadataType.getAnnotation(NotGlobalTypeAnnotation.class).isPresent() && isValidBean(objectType);
-
-        supporstGlobalDeclaration.set(supported);
+        supporstGlobalDeclaration.set(supportsTopLevelDeclaration(objectType) && isValidBean(objectType));
       }
     });
 

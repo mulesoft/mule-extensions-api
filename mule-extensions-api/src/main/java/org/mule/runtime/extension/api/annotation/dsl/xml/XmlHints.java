@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.annotation.dsl.xml;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.runtime.extension.api.annotation.Parameter;
@@ -24,7 +25,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
-@Target({FIELD, PARAMETER})
+@Target({TYPE, FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
 public @interface XmlHints {
@@ -34,8 +35,11 @@ public @interface XmlHints {
    */
   boolean allowInlineDefinition() default true;
 
+  boolean allowTopLevelDefinition() default true;
+
   /**
    * Whether the associated element should support registry references. Defaults to {@code true}
    */
   boolean allowReferences() default true;
+
 }
