@@ -15,7 +15,7 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
  *
  * @since 1.0
  */
-public class NoGlobalTypeAnnotation implements TypeAnnotation {
+public class NotGlobalTypeAnnotation implements TypeAnnotation {
 
   public static final String NAME = "notGlobalType";
 
@@ -36,6 +36,6 @@ public class NoGlobalTypeAnnotation implements TypeAnnotation {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof NoGlobalTypeAnnotation;
+    return obj instanceof NotGlobalTypeAnnotation;
   }
 }

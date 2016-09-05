@@ -37,7 +37,7 @@ import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NoGlobalTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NotGlobalTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
@@ -504,7 +504,7 @@ public class DslSyntaxResolver {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        boolean supported = !metadataType.getAnnotation(NoGlobalTypeAnnotation.class).isPresent() && isValidBean(objectType);
+        boolean supported = !metadataType.getAnnotation(NotGlobalTypeAnnotation.class).isPresent() && isValidBean(objectType);
 
         supporstGlobalDeclaration.set(supported);
       }

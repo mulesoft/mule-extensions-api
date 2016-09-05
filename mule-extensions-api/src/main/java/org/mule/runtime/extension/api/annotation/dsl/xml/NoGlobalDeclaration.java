@@ -14,7 +14,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * //TODO
+ * Denotes that a given type can not be declared as a global DSL element.
  *
  * @since 1.0
  */

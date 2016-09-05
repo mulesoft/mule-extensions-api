@@ -17,7 +17,7 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.NoGlobalDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NoGlobalTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.NotGlobalTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.lang.reflect.Type;
@@ -46,7 +46,7 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     }
 
     if (clazz.isAnnotationPresent(NoGlobalDeclaration.class)) {
-      objectType.with(new NoGlobalTypeAnnotation());
+      objectType.with(new NotGlobalTypeAnnotation());
     }
 
     Alias alias = clazz.getAnnotation(Alias.class);
