@@ -8,6 +8,7 @@ package org.mule.runtime.extension.xml.dsl.api;
 
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
@@ -75,10 +76,18 @@ public final class XmlModelUtils {
     return property;
   }
 
+  /**
+   * @param metadataType a type
+   * @return Whether the given {@code metadataType} can be defined as a top level element
+   */
   public static boolean supportsTopLevelDeclaration(MetadataType metadataType) {
-    return metadataType.getAnnotation(XmlHintsAnnotation.class)
-        .map(XmlHintsAnnotation::allowsTopLevelDefinition)
-        .orElse(true);
+    if (metadataType instanceof ObjectType) {
+      return metadataType.getAnnotation(XmlHintsAnnotation.class)
+          .map(XmlHintsAnnotation::allowsTopLevelDefinition)
+          .orElse(true);
+    }
+
+    return false;
   }
 
   private static String calculateValue(Xml xml, Supplier<String> value, Supplier<String> fallback) {
