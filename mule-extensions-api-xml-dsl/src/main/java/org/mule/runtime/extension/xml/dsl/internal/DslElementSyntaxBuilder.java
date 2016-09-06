@@ -10,8 +10,12 @@ package org.mule.runtime.extension.xml.dsl.internal;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 /**
  * Implementation of the builder design pattern to create instances of {@link DslElementSyntax}
@@ -30,6 +34,8 @@ public final class DslElementSyntaxBuilder {
   private boolean requiresConfig = false;
   private Map<MetadataType, DslElementSyntax> genericChilds = new HashMap<>();
   private Map<String, DslElementSyntax> namedChilds = new HashMap<>();
+  private List<QName> substitutionGroups = new ArrayList<>();
+  private String abstractElementName;
 
 
   private DslElementSyntaxBuilder() {}
@@ -131,6 +137,21 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
+   * Adds a {@link QName} indicating that the element described by this builder could be placed in
+   * the given substitution group name
+   *
+   * @param substitutionGroupName {@link QName} of the substitution group
+   * @return {@code this} builder instance enriched with the {@link QName} indicating a
+   * substitution group of the {@link DslElementSyntax childElement}
+   */
+  public DslElementSyntaxBuilder ofSubstitutionGroup(QName substitutionGroupName) {
+    if (substitutionGroupName != null) {
+      substitutionGroups.add(substitutionGroupName);
+    }
+    return this;
+  }
+
+  /**
    * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
    * can be referenced by {@code name}
    *
@@ -146,12 +167,23 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
+   * Adds the abstract element name to the element being declared
+   *
+   * @param name of the abstract element
+   * @return {@code this} builder instance enriched with the {@code name}
+   */
+  public DslElementSyntaxBuilder withAbstractElementName(String name) {
+    this.abstractElementName = name;
+    return this;
+  }
+
+  /**
    * @return a new instance of {@link DslElementSyntax}
    */
   public DslElementSyntax build() {
-    return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
+    return new DslElementSyntax(attributeName, elementName, abstractElementName, elementNameSpace, nameSpaceUri, isWrapped,
                                 supportsChildDeclaration, supportsTopLevelDeclaration, requiresConfig, genericChilds,
-                                namedChilds);
+                                namedChilds, substitutionGroups);
   }
 
 }

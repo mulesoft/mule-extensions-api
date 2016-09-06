@@ -6,27 +6,6 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
-import static java.util.Optional.empty;
-import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
-import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
-import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import static org.mule.runtime.extension.api.util.NameUtils.itemize;
-import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
-import static org.mule.runtime.extension.api.util.NameUtils.singularize;
-import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.getHintsModelProperty;
-import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.getTypeKey;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isExtensible;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isFlattened;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isText;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isValidBean;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadImportedTypes;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadSubTypes;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadXmlProperties;
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.DictionaryType;
@@ -55,6 +34,31 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.xml.namespace.QName;
+
+import static java.util.Optional.empty;
+import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
+import static org.mule.runtime.extension.api.util.NameUtils.getAbstractTopLevelTypeName;
+import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
+import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import static org.mule.runtime.extension.api.util.NameUtils.itemize;
+import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
+import static org.mule.runtime.extension.api.util.NameUtils.singularize;
+import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.getHintsModelProperty;
+import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.getTypeKey;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isExtensible;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isFlattened;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isText;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isValidBean;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadImportedTypes;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadSubTypes;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadXmlProperties;
+
 /**
  * Provides the {@link DslElementSyntax} of any {@link Named Component},
  * {@link ParameterModel Parameter} or {@link MetadataType Type} within the context
@@ -66,6 +70,7 @@ public class DslSyntaxResolver {
 
   private static final String VALUE_ATTRIBUTE = "value";
   private static final String KEY_ATTRIBUTE = "key";
+  public static final String EMPTY = "";
   private final SubTypesMappingContainer subTypesMap;
   private final XmlModelProperty extensionXml;
   private final Map<String, DslElementSyntaxBuilder> resolvedTypes = new HashMap<>();
@@ -97,6 +102,7 @@ public class DslSyntaxResolver {
   public DslElementSyntax resolve(final Named component) {
     return DslElementSyntaxBuilder.create()
         .withElementName(hyphenize(component.getName()))
+        .withAbstractElementName(EMPTY)
         .withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri())
         .requiresConfig(requiresConfig(component))
         .build();
@@ -154,6 +160,7 @@ public class DslSyntaxResolver {
                                    builder.withAttributeName(parameter.getName())
                                        .withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameter.getName()))
+                                       .withAbstractElementName(EMPTY)
                                        .supportsTopLevelDeclaration(supportTopLevelElement(objectType, xmlHints));
 
                                    if (shouldGenerateChildElements(objectType, expressionSupport, xmlHints)) {
@@ -167,6 +174,12 @@ public class DslSyntaxResolver {
                                      }
 
                                      declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
+
+                                     subTypesMap.getSuperTypes(objectType)
+                                         .stream()
+                                         .map(metadataType -> resolve(metadataType))
+                                         .map(element -> toQName(element))
+                                         .forEach(builder::ofSubstitutionGroup);
                                    }
                                  }
 
@@ -220,6 +233,7 @@ public class DslSyntaxResolver {
         //TODO: MULE-10468
         builder.withNamespace(namespace, namespaceUri)
             .withElementName(getTopLevelTypeName(objectType))
+            .withAbstractElementName(getAbstractTopLevelTypeName(objectType))
             .supportsTopLevelDeclaration(supportTopLevelElement(objectType, empty()))
             .supportsChildDeclaration(requiresWrapper || supportsChildDeclaration)
             .asWrappedElement(requiresWrapper);
@@ -227,6 +241,12 @@ public class DslSyntaxResolver {
         if (supportsChildDeclaration) {
           declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
         }
+
+        subTypesMap.getSuperTypes(objectType)
+            .stream()
+            .map(metadataType -> resolve(metadataType))
+            .map(element -> toQName(element))
+            .forEach(builder::ofSubstitutionGroup);
       }
     });
 
@@ -537,4 +557,7 @@ public class DslSyntaxResolver {
     return originXml != null ? originXml.getNamespaceUri() : defaultUri;
   }
 
+  private QName toQName(DslElementSyntax elementSyntax) {
+    return new QName(elementSyntax.getNamespaceUri(), elementSyntax.getAbstractElementName(), elementSyntax.getNamespace());
+  }
 }

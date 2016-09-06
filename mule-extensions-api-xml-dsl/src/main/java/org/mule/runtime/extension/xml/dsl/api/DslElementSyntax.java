@@ -6,11 +6,17 @@
  */
 package org.mule.runtime.extension.xml.dsl.api;
 
+import com.google.common.collect.ImmutableList;
+
+import org.apache.commons.lang3.StringUtils;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.introspection.Named;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.xml.namespace.QName;
 
 /**
  * Provides a declaration of how a {@link Named Component} is represented in {@code XML}, containing
@@ -22,43 +28,58 @@ public class DslElementSyntax {
 
   private final String attributeName;
   private final String elementName;
+  private final String abstractElementName;
   private final String elementNameSpace;
   private final String nameSpaceUri;
   private final boolean isWrapped;
   private final boolean supportsChildDeclaration;
   private final boolean supportsTopLevelDeclaration;
   private final boolean requiresConfig;
-
   private final Map<MetadataType, DslElementSyntax> genericsDsl;
   private final Map<String, DslElementSyntax> childsByName;
+  private final List<QName> substitutionGroups;
+
 
   /**
    * Creates a new instance of {@link DslElementSyntax}
    *
-   * @param attributeName            the name of the attribute in the parent element that references this element
+   * @param attributeName            the name of the attribute in the parent element that
+   *                                 references this element
    * @param elementName              the name of this xml element
+   * @param abstractElementName      the name of the abstract xml element
    * @param elementNameSpace         the namespace of this xml element
-   * @param isWrapped                {@code false} if the element implements the Component's type as an xml extension,
-   *                                 or {@code true} if the element is a wrapper of a ref to the Component's type
-   * @param supportsChildDeclaration {@code true} if this element supports to be declared as a child element of its parent
-   * @param requiresConfig           whether the element requires a parameter pointing to the config
-   * @param genericsDsl              the {@link DslElementSyntax} of this element's type generics, if any is present,
-   *                                 that complete the element description of container elements of generic types, like
-   *                                 Collections or Maps for which the Dsl declaration is modified depending on the contained type.
-   * @param childsByName             the {@link DslElementSyntax} of this element's named childs. For complex types
-   *                                 with fields that are mapped as child elements of this element, the Dsl varies
-   *                                 depending on each fields definition, associating each field's child element to this
-   *                                 parent element.
+   * @param isWrapped                {@code false} if the element implements the Component's type
+   *                                 as an xml extension, or {@code true} if the element is a
+   *                                 wrapper of a ref to the Component's type
+   * @param supportsChildDeclaration {@code true} if this element supports to be declared as a
+   *                                 child element of its parent
+   * @param requiresConfig           whether the element requires a parameter pointing to the
+   *                                 config
+   * @param genericsDsl              the {@link DslElementSyntax} of this element's type generics,
+   *                                 if any is present, that complete the element description of
+   *                                 container elements of generic types, like Collections or Maps
+   *                                 for which the Dsl declaration is modified depending on the
+   *                                 contained type.
+   * @param childsByName             the {@link DslElementSyntax} of this element's named childs.
+   *                                 For complex types with fields that are mapped as child
+   *                                 elements of this element, the Dsl varies depending on each
+   *                                 fields definition, associating each field's child element to
+   *                                 this
+   * @param substitutionGroups       The list of the {@link QName} of the substitution groups that
+   *                                 the current element is acceptable
    */
-  public DslElementSyntax(String attributeName, String elementName, String elementNameSpace, String nameSpaceUri,
+  public DslElementSyntax(String attributeName, String elementName, String abstractElementName, String elementNameSpace,
+                          String nameSpaceUri,
                           boolean isWrapped,
                           boolean supportsChildDeclaration,
                           boolean supportsTopLevelDeclaration,
                           boolean requiresConfig,
                           Map<MetadataType, DslElementSyntax> genericsDsl,
-                          Map<String, DslElementSyntax> childsByName) {
+                          Map<String, DslElementSyntax> childsByName,
+                          List<QName> substitutionGroups) {
     this.attributeName = attributeName;
     this.elementName = elementName;
+    this.abstractElementName = abstractElementName;
     this.elementNameSpace = elementNameSpace;
     this.nameSpaceUri = nameSpaceUri;
     this.isWrapped = isWrapped;
@@ -67,6 +88,7 @@ public class DslElementSyntax {
     this.requiresConfig = requiresConfig;
     this.genericsDsl = genericsDsl;
     this.childsByName = childsByName;
+    this.substitutionGroups = substitutionGroups;
   }
 
   /***
@@ -91,8 +113,8 @@ public class DslElementSyntax {
   }
 
   /**
-   * @return {@code false} if the element implements the Component's type as an xml extension,
-   * or {@code true} if the element is a wrapper of a ref to the Component's type
+   * @return {@code false} if the element implements the Component's type as an xml extension, or
+   * {@code true} if the element is a wrapper of a ref to the Component's type
    */
   public boolean isWrapped() {
     return isWrapped;
@@ -120,7 +142,28 @@ public class DslElementSyntax {
   }
 
   /**
-   * @param type {@link MetadataType} of the generic for which its {@link DslElementSyntax dsl} is required
+   * @return the name of the abstract element
+   */
+  public String getAbstractElementName() {
+    return abstractElementName;
+  }
+
+  /**
+   * @return {@link List} the list of the {@link QName} of the substitution groups that this
+   * element could be placed
+   */
+  public List<QName> getSubstitutionGroups() {
+    final ImmutableList.Builder<QName> builder = ImmutableList.builder();
+    //TODO -  REVIEW IN MULE-10468
+    if (!StringUtils.isBlank(getAbstractElementName())) {
+      builder.add(new QName(this.getNamespaceUri(), this.getAbstractElementName(), this.getNamespace()));
+    }
+    return builder.addAll(substitutionGroups).build();
+  }
+
+  /**
+   * @param type {@link MetadataType} of the generic for which its {@link DslElementSyntax dsl} is
+   *             required
    * @return the {@link DslElementSyntax dsl} for the given generic's type if one is present
    */
   public Optional<DslElementSyntax> getGeneric(MetadataType type) {
