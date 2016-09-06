@@ -6,14 +6,18 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
+import static java.util.Collections.unmodifiableSet;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A declaration object for a {@link ExtensionModel}. It contains raw, unvalidated
@@ -33,6 +37,7 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
   private Optional<ExceptionEnricherFactory> exceptionEnricherFactory;
   private Category category;
   private MuleVersion minMuleVersion;
+  private Set<ObjectType> types = new LinkedHashSet<>();
 
   /**
    * Creates a new instance
@@ -132,6 +137,24 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
   }
 
   /**
+   * @return an immutable {@link Set} with all the types registered through {@link #getTypes()}
+   */
+  public Set<ObjectType> getTypes() {
+    return unmodifiableSet(types);
+  }
+
+  /**
+   * Declares that this extension defined the given {@code objectType}
+   *
+   * @param objectType an {@link ObjectType}
+   * @return {@code this} declaration
+   */
+  public ExtensionDeclaration addType(ObjectType objectType) {
+    types.add(objectType);
+    return this;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -167,19 +190,19 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
     this.exceptionEnricherFactory = exceptionEnricherFactory;
   }
 
-  public void setCategory(Category category) {
-    this.category = category;
-  }
-
   public Category getCategory() {
     return this.category;
   }
 
-  public void setMinMuleVersion(MuleVersion minMuleVersion) {
-    this.minMuleVersion = minMuleVersion;
+  public void setCategory(Category category) {
+    this.category = category;
   }
 
   public MuleVersion getMinMuleVersion() {
     return minMuleVersion;
+  }
+
+  public void setMinMuleVersion(MuleVersion minMuleVersion) {
+    this.minMuleVersion = minMuleVersion;
   }
 }

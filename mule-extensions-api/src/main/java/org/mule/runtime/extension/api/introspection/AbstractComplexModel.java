@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import static com.google.common.collect.ImmutableList.copyOf;
+import static java.lang.String.format;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.HasConnectionProviderModels;
 import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
@@ -13,14 +18,16 @@ import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A specialization of {@link AbstractComplexModel} which also implements
@@ -32,9 +39,9 @@ import java.util.Set;
 public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
     implements HasConnectionProviderModels, HasSourceModels, HasOperationModels {
 
-  private final Map<String, OperationModel> operations;
-  private final Map<String, ConnectionProviderModel> connectionProviders;
-  private final Map<String, SourceModel> messageSources;
+  private final List<OperationModel> operations;
+  private final List<ConnectionProviderModel> connectionProviders;
+  private final List<SourceModel> messageSources;
 
   public AbstractComplexModel(String name,
                               String description,
@@ -43,9 +50,9 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
                               List<SourceModel> sourceModels,
                               Set<ModelProperty> modelProperties) {
     super(name, description, modelProperties);
-    this.operations = toMap(operationModels);
-    this.connectionProviders = toMap(connectionProviders);
-    this.messageSources = toMap(sourceModels);
+    this.operations = unique(operationModels, "Operations");
+    this.connectionProviders = unique(connectionProviders, "Connection Providers");
+    this.messageSources = unique(sourceModels, "Message Sources");
   }
 
   /**
@@ -53,7 +60,7 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
    */
   @Override
   public List<OperationModel> getOperationModels() {
-    return toList(operations.values());
+    return operations;
   }
 
   /**
@@ -61,7 +68,7 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
    */
   @Override
   public List<SourceModel> getSourceModels() {
-    return toList(messageSources.values());
+    return messageSources;
   }
 
   /**
@@ -93,32 +100,53 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
    */
   @Override
   public List<ConnectionProviderModel> getConnectionProviders() {
-    return toList(connectionProviders.values());
+    return connectionProviders;
   }
 
-  protected <T extends EnrichableModel> Optional<T> findModel(Map<String, T> map, String name) {
-    return Optional.ofNullable(map.get(name));
+  /**
+   * Returns the first item in the {@code values} collection which
+   * matches the given {@code name}.
+   *
+   * @param values a {@link Collection} of {@link Named} items
+   * @param name   the matching criteria
+   * @param <T>    the generic type of the {@code values} items
+   * @return an {@link Optional} matching item
+   */
+  protected <T extends Named> Optional<T> findModel(Collection<T> values, String name) {
+    return values.stream().filter(v -> v.getName().equals(name)).findFirst();
   }
 
   protected <T extends Described> List<T> toList(Collection<T> collection) {
     if (collection == null || collection.isEmpty()) {
-      return Collections.emptyList();
+      return emptyList();
     }
-    return Collections.unmodifiableList(new ArrayList<>(collection));
+    return unmodifiableList(new ArrayList<>(collection));
   }
 
-  protected <T extends Named> Map<String, T> toMap(List<T> objects) {
-    if (objects == null || objects.isEmpty()) {
-      return Collections.emptyMap();
+  /**
+   * Returns an immutable copy of the {@code values} collection, validating
+   * that no items exist such that its name is repeated
+   *
+   * @param values     the collection to copy
+   * @param identifier human friendly identifier of the {@code values} content
+   * @param <T>        the generic type of the {@code values} items
+   * @return an immutable copy of the {@code values}
+   */
+  protected <T extends Named> List<T> unique(Collection<T> values, String identifier) {
+    Multiset<String> names = HashMultiset.create();
+    values.stream().map(Named::getName).forEach(names::add);
+
+    List<String> invalid = names.entrySet().stream()
+        .filter(entry -> entry.getCount() > 1)
+        .map(Multiset.Entry::getElement)
+        .collect(Collectors.toList());
+
+    if (!invalid.isEmpty()) {
+      throw new IllegalModelDefinitionException(format("%s [%s] were defined multiple times",
+                                                       identifier,
+                                                       Joiner.on(", ").join(invalid)));
     }
 
-    Map<String, T> map = new LinkedHashMap<>(objects.size());
-    for (T object : objects) {
-      if (map.containsKey(object.getName())) {
-        throw new IllegalArgumentException(String.format("Multiple entries with the same key[%s]", object.getName()));
-      }
-      map.put(object.getName(), object);
-    }
-    return Collections.unmodifiableMap(map);
+    return copyOf(values);
   }
 }

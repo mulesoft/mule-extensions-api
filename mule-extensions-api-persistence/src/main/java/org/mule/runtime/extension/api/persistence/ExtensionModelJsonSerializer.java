@@ -6,9 +6,12 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.runtime.api.MuleVersion;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.persistence.DefaultObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
+import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
+import org.mule.metadata.persistence.SerializationContext;
+import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
@@ -25,14 +28,16 @@ import org.mule.runtime.extension.api.introspection.operation.ImmutableRuntimeOp
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
@@ -59,7 +64,7 @@ import java.util.List;
  */
 public class ExtensionModelJsonSerializer {
 
-  private final Gson gson;
+  private final boolean prettyPrint;
 
   /**
    * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
@@ -77,6 +82,32 @@ public class ExtensionModelJsonSerializer {
    *                    a human readable or into compact and more performable format
    */
   public ExtensionModelJsonSerializer(boolean prettyPrint) {
+    this.prettyPrint = prettyPrint;
+  }
+
+  private Gson buildGson() {
+    final SerializationContext serializationContext = new SerializationContext();
+
+    Gson gsonDelegate = gsonBuilder(serializationContext, prettyPrint).create();
+
+    return gsonBuilder(serializationContext, prettyPrint)
+        .registerTypeAdapterFactory(new TypeAdapterFactory() {
+
+          @Override
+          public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (ExtensionModel.class.isAssignableFrom(type.getRawType())) {
+              return (TypeAdapter<T>) new ExtensionModelTypeAdapter(gsonDelegate, serializationContext);
+            }
+
+            return null;
+          }
+        })
+        .create();
+  }
+
+  private GsonBuilder gsonBuilder(SerializationContext serializationContext, boolean prettyPrint) {
+    final ObjectTypeReferenceHandler referenceHandler = new DefaultObjectTypeReferenceHandler(serializationContext);
+
     final DefaultImplementationTypeAdapterFactory configurationModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(ConfigurationModel.class, ImmutableConfigurationModel.class);
     final DefaultImplementationTypeAdapterFactory connectionProviderModelTypeAdapterFactory =
@@ -90,12 +121,13 @@ public class ExtensionModelJsonSerializer {
     final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final ImportedTypesModelPropertyTypeAdapter importedTypesModelPropertyTypeAdapter =
-        new ImportedTypesModelPropertyTypeAdapter();
-    final SubTypesModelPropertyTypeAdapter subTypesModelPropertyTypeAdapter = new SubTypesModelPropertyTypeAdapter();
+        new ImportedTypesModelPropertyTypeAdapter(referenceHandler);
+    final SubTypesModelPropertyTypeAdapter subTypesModelPropertyTypeAdapter =
+        new SubTypesModelPropertyTypeAdapter(referenceHandler);
     final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
-        .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
+        .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
         .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
         .registerTypeAdapter(ImportedTypesModelProperty.class, importedTypesModelPropertyTypeAdapter)
         .registerTypeAdapter(SubTypesModelProperty.class, subTypesModelPropertyTypeAdapter)
@@ -110,8 +142,7 @@ public class ExtensionModelJsonSerializer {
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();
     }
-
-    this.gson = gsonBuilder.create();
+    return gsonBuilder;
   }
 
   /**
@@ -121,7 +152,7 @@ public class ExtensionModelJsonSerializer {
    * @return {@link String} JSON representation of the {@link ExtensionModel}
    */
   public String serialize(ExtensionModel extensionModel) {
-    return gson.toJson(extensionModel);
+    return buildGson().toJson(extensionModel);
   }
 
   /**
@@ -129,7 +160,7 @@ public class ExtensionModelJsonSerializer {
    * @return {@link String} JSON representation of the {@link List} of {@link ExtensionModel}
    */
   public String serializeList(List<ExtensionModel> extensionModelList) {
-    return gson.toJson(extensionModelList);
+    return buildGson().toJson(extensionModelList);
   }
 
   /**
@@ -139,7 +170,7 @@ public class ExtensionModelJsonSerializer {
    * @return an instance of {@link ExtensionModel} based in the JSON
    */
   public ExtensionModel deserialize(String extensionModel) {
-    return gson.fromJson(extensionModel, ImmutableExtensionModel.class);
+    return buildGson().fromJson(extensionModel, ImmutableExtensionModel.class);
   }
 
   /**
@@ -149,6 +180,6 @@ public class ExtensionModelJsonSerializer {
    * @return an instance of {@link ExtensionModel} based in the JSON
    */
   public List<ExtensionModel> deserializeList(String extensionModelList) {
-    return gson.fromJson(extensionModelList, new TypeToken<List<ImmutableExtensionModel>>() {}.getType());
+    return buildGson().fromJson(extensionModelList, new TypeToken<List<ImmutableExtensionModel>>() {}.getType());
   }
 }

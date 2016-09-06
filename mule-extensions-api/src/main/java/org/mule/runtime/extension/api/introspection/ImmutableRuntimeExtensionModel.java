@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
@@ -45,6 +46,7 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
    * @param operationModels          a {@link List} with the extension's {@link OperationModel operationModels}
    * @param connectionProviders      a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
    * @param sourceModels             a {@link List} with the extension's {@link SourceModel message source models}
+   * @param types                    a {@link Set} with the custom types defined by this extension
    * @param modelProperties          A {@link Set} of custom properties which extend this model
    * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
@@ -59,10 +61,11 @@ public final class ImmutableRuntimeExtensionModel extends ImmutableExtensionMode
                                         List<OperationModel> operationModels,
                                         List<ConnectionProviderModel> connectionProviders,
                                         List<SourceModel> sourceModels,
+                                        Set<ObjectType> types,
                                         Set<ModelProperty> modelProperties,
                                         Optional<ExceptionEnricherFactory> exceptionEnricherFactory) {
     super(name, description, version, vendor, category, minMuleVersion, configurationModels, operationModels, connectionProviders,
-          sourceModels, modelProperties);
+          sourceModels, types, modelProperties);
     this.exceptionEnricherFactory = exceptionEnricherFactory;
   }
 

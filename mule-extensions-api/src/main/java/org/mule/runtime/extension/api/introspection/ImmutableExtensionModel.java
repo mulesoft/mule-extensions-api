@@ -6,6 +6,9 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import static com.google.common.collect.ImmutableSet.copyOf;
+import static com.google.common.collect.ImmutableSet.of;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
@@ -16,7 +19,6 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,7 +34,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final String version;
   private final MuleVersion minMuleVersion;
   private final Category category;
-  private final Map<String, ConfigurationModel> configurations;
+  private final List<ConfigurationModel> configurations;
+  private final Set<ObjectType> types;
 
   /**
    * Creates a new instance with the given state
@@ -47,6 +50,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param operationModels     a {@link List} with the extension's {@link OperationModel operationModels}
    * @param connectionProviders a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
    * @param sourceModels        a {@link List} with the extension's {@link SourceModel message source models}
+   * @param types               a {@link Set} with the custom types defined by this extension
    * @param modelProperties     A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
    */
@@ -60,9 +64,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  List<OperationModel> operationModels,
                                  List<ConnectionProviderModel> connectionProviders,
                                  List<SourceModel> sourceModels,
+                                 Set<ObjectType> types,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, operationModels, connectionProviders, sourceModels, modelProperties);
-    this.configurations = toMap(configurationModels);
+    this.configurations = unique(configurationModels, "Configurations");
 
     checkModelArgument(version != null && version.length() > 0, "Version cannot be blank");
     checkModelArgument(minMuleVersion != null, "Extension Minimum Mule Version cannot be null");
@@ -73,6 +78,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.category = category;
     this.version = version;
     this.vendor = vendor;
+    this.types = types != null ? copyOf(types) : of();
   }
 
   /**
@@ -80,7 +86,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    */
   @Override
   public List<ConfigurationModel> getConfigurationModels() {
-    return toList(configurations.values());
+    return configurations;
   }
 
   /**
@@ -123,6 +129,13 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     return minMuleVersion;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<ObjectType> getTypes() {
+    return types;
+  }
 
   private void checkModelArgument(boolean condition, String errorMessage) {
     if (!condition) {
