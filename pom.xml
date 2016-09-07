@@ -122,6 +122,7 @@
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <javaFormatter.plugin.version>1.8.0</javaFormatter.plugin.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
+        <skipCodeFormatting>false</skipCodeFormatting>
     </properties>
 
     <!--
@@ -216,12 +217,11 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <phase>clean</phase>
                             <goals>
                                 <goal>validate</goal>
                             </goals>
                             <configuration>
-                                <skipFormatting>false</skipFormatting>
+                                <skipFormatting>${skipCodeFormatting}</skipFormatting>
                             </configuration>
                         </execution>
                     </executions>
