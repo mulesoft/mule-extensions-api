@@ -238,9 +238,9 @@ public class NameUtils {
    */
   public static String getTopLevelTypeName(MetadataType metadataType) {
     String aliasName = metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElse(metadataType.getMetadataFormat().equals(JAVA)
+        .orElseGet(() -> getTypeId(metadataType).map(typeId -> metadataType.getMetadataFormat().equals(JAVA)
             ? getAliasName(getType(metadataType))
-            : getTypeId(metadataType).orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
+            : typeId).orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
 
     return hyphenize(aliasName);
   }
