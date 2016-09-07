@@ -18,7 +18,7 @@
 
     <properties>
         <antlrVersion>3.5</antlrVersion>
-        <formatterConfigPath>../formatter.xml</formatterConfigPath>
+        <skipCodeFormatting>true</skipCodeFormatting>
     </properties>
 
     <dependencies>
