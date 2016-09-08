@@ -171,11 +171,6 @@
                   "parent": "",
                   "genericTypes": []
                 },
-                "xmlHints": {
-                  "allowInlineDefinition": true,
-                  "allowTopLevelDefinition": false,
-                  "allowReferences": true
-                },
                 "typeAlias": {
                   "value": "NotGlobalType"
                 }
@@ -198,7 +193,7 @@
                     },
                     "xmlHints": {
                       "allowInlineDefinition": true,
-                      "allowTopLevelDefinition": true,
+                      "allowTopLevelDefinition": false,
                       "allowReferences": false
                     }
                   }
@@ -404,7 +399,7 @@
                     },
                     "xmlHints": {
                       "allowInlineDefinition": true,
-                      "allowTopLevelDefinition": true,
+                      "allowTopLevelDefinition": false,
                       "allowReferences": false
                     }
                   }
@@ -610,11 +605,6 @@
                   "parent": "",
                   "genericTypes": []
                 },
-                "xmlHints": {
-                  "allowInlineDefinition": true,
-                  "allowTopLevelDefinition": false,
-                  "allowReferences": true
-                },
                 "typeAlias": {
                   "value": "NotGlobalType"
                 }
@@ -637,7 +627,7 @@
                     },
                     "xmlHints": {
                       "allowInlineDefinition": true,
-                      "allowTopLevelDefinition": true,
+                      "allowTopLevelDefinition": false,
                       "allowReferences": false
                     }
                   }
@@ -843,7 +833,7 @@
                     },
                     "xmlHints": {
                       "allowInlineDefinition": true,
-                      "allowTopLevelDefinition": true,
+                      "allowTopLevelDefinition": false,
                       "allowReferences": false
                     }
                   }

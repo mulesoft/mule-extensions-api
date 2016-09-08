@@ -38,6 +38,7 @@ import org.mule.runtime.extension.xml.dsl.test.model.ChildOfAbstractType;
 import org.mule.runtime.extension.xml.dsl.test.model.ComplexFieldsType;
 import org.mule.runtime.extension.xml.dsl.test.model.EmptyType;
 import org.mule.runtime.extension.xml.dsl.test.model.ExtensibleType;
+import org.mule.runtime.extension.xml.dsl.test.model.GlobalType;
 import org.mule.runtime.extension.xml.dsl.test.model.InterfaceDeclaration;
 import org.mule.runtime.extension.xml.dsl.test.model.InterfaceDeclarationWithMapping;
 import org.mule.runtime.extension.xml.dsl.test.model.InterfaceImplementation;
@@ -134,6 +135,16 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
     assertChildElementDeclarationIs(false, result);
     assertIsWrappedElement(false, result);
+  }
+
+  @Test
+  public void topLevelType() {
+    when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(GlobalType.class));
+    DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
+
+    assertChildElementDeclarationIs(true, result);
+    assertIsWrappedElement(false, result);
+    assertTopElementDeclarationIs(true, result);
   }
 
   @Test
@@ -478,7 +489,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementName(getTopLevelTypeName(itemType), listItemDsl);
     assertElementNamespace(NAMESPACE, listItemDsl);
     assertChildElementDeclarationIs(true, listItemDsl);
-    assertTopElementDeclarationIs(true, listItemDsl);
+    assertTopElementDeclarationIs(false, listItemDsl);
     assertIsWrappedElement(true, listItemDsl);
   }
 
@@ -526,7 +537,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementName(getTopLevelTypeName(itemType), listItemDsl);
     assertElementNamespace(NAMESPACE, listItemDsl);
     assertChildElementDeclarationIs(true, listItemDsl);
-    assertTopElementDeclarationIs(true, listItemDsl);
+    assertTopElementDeclarationIs(false, listItemDsl);
     assertIsWrappedElement(true, listItemDsl);
   }
 
@@ -597,7 +608,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementName(getTopLevelTypeName(listItemType), listItemDsl);
     assertElementNamespace(NAMESPACE, listItemDsl);
     assertChildElementDeclarationIs(true, listItemDsl);
-    assertTopElementDeclarationIs(true, listItemDsl);
+    assertTopElementDeclarationIs(false, listItemDsl);
     assertIsWrappedElement(true, listItemDsl);
 
     String recursiveChildName = "recursiveChild";
@@ -606,7 +617,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementName(hyphenize(recursiveChildName), recursiveChildDsl);
     assertElementNamespace(NAMESPACE, recursiveChildDsl);
     assertChildElementDeclarationIs(true, recursiveChildDsl);
-    assertTopLevelDeclarationSupportIs(true, recursiveChildDsl);
+    assertTopLevelDeclarationSupportIs(false, recursiveChildDsl);
     assertIsWrappedElement(false, recursiveChildDsl);
 
     String simplePojoName = "simplePojo";
@@ -616,7 +627,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementNamespace(NAMESPACE, simplePojoDsl);
     assertChildElementDeclarationIs(true, simplePojoDsl);
     assertIsWrappedElement(false, simplePojoDsl);
-    assertTopElementDeclarationIs(true, simplePojoDsl);
+    assertTopElementDeclarationIs(false, simplePojoDsl);
 
     String notGlobalName = "notGlobalType";
     DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
