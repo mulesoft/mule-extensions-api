@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
+import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
@@ -153,6 +155,22 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration>
   @Override
   public ExtensionDeclarer withExceptionEnricherFactory(Optional<ExceptionEnricherFactory> enricherFactory) {
     declaration.setExceptionEnricherFactory(enricherFactory);
+    return this;
+  }
+
+  /**
+   * Adds the given {@code objectType} to the list of types declared
+   * by the extension being built.
+   *
+   * @param objectType an {@link ObjectType}
+   * @return {@code this} declarer
+   */
+  public ExtensionDeclarer withType(ObjectType objectType) {
+    if (getTypeId(objectType).filter(id -> Object.class.getName().equals(id)).isPresent()) {
+      return this;
+    }
+
+    declaration.addType(objectType);
     return this;
   }
 

@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @since 1.0
  */
-public interface ModelProperty extends Serializable {
+public interface ModelProperty extends Named, Serializable {
 
   /**
    * A unique name which identifies this property. No model
@@ -32,6 +32,7 @@ public interface ModelProperty extends Serializable {
    *
    * @return a unique name
    */
+  @Override
   String getName();
 
   /**

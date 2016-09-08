@@ -1,12 +1,13 @@
 [
   {
-    "vendor": "MuleSoft",
+    "name": "DummyExtension",
+    "description": "Test extension",
     "version": "4.0.0",
-    "minMuleVersion": "4.0",
+    "vendor": "MuleSoft",
     "category": "COMMUNITY",
-    "configurations": {},
-    "operations": {
-      "getCar": {
+    "configurations": [],
+    "operations": [
+      {
         "output": {
           "type": {
             "format": "java",
@@ -57,307 +58,7 @@
           {
             "type": {
               "format": "java",
-              "type": "Object",
-              "annotations": {
-                "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
-                "classInformation": {
-                  "hasDefaultConstructor": true,
-                  "isInterface": false,
-                  "isInstantiable": true,
-                  "isAbstract": false,
-                  "isFinal": false,
-                  "implementedInterfaces": [],
-                  "parent": "",
-                  "genericTypes": []
-                },
-                "typeAlias": {
-                  "value": "complex-alias"
-                }
-              },
-              "fields": [
-                {
-                  "key": {
-                    "name": "notGlobalType"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
-                      "classInformation": {
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": []
-                      },
-                      "xmlHints": {
-                        "allowInlineDefinition": true,
-                        "allowTopLevelDefinition": false,
-                        "allowReferences": true
-                      },
-                      "typeAlias": {
-                        "value": "NotGlobalType"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "sampleString"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          },
-                          "xmlHints": {
-                            "allowInlineDefinition": true,
-                            "allowTopLevelDefinition": true,
-                            "allowReferences": false
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "parameterGroupType"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
-                      "classInformation": {
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": []
-                      },
-                      "typeAlias": {
-                        "value": "ParameterGroupType"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "groupedField"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      },
-                      {
-                        "key": {
-                          "name": "anotherGroupedField"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "text": {},
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "flattened": {},
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "extensibleTypeList"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Array",
-                    "annotations": {
-                      "typeId": "java.util.List"
-                    },
-                    "item": {
-                      "type": "Object",
-                      "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
-                        "classInformation": {
-                          "hasDefaultConstructor": true,
-                          "isInterface": false,
-                          "isInstantiable": true,
-                          "isAbstract": false,
-                          "isFinal": false,
-                          "implementedInterfaces": [],
-                          "parent": "",
-                          "genericTypes": []
-                        },
-                        "extensibleType": {},
-                        "typeAlias": {
-                          "value": "aliasedExtensible"
-                        }
-                      },
-                      "fields": [
-                        {
-                          "key": {
-                            "name": "otherNumber"
-                          },
-                          "model": {
-                            "required": "true",
-                            "type": "Number",
-                            "annotations": {
-                              "typeId": "java.lang.Integer"
-                            }
-                          },
-                          "annotations": {
-                            "expressionSupport": {
-                              "value": "SUPPORTED"
-                            }
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "sampleString"
-                          },
-                          "model": {
-                            "required": "true",
-                            "type": "String",
-                            "annotations": {
-                              "typeId": "java.lang.String"
-                            }
-                          },
-                          "annotations": {
-                            "expressionSupport": {
-                              "value": "SUPPORTED"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "recursiveChild"
-                  },
-                  "model": "#..",
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "simplePojo"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
-                      "classInformation": {
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": []
-                      },
-                      "typeAlias": {
-                        "value": "SimpleFieldsType"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "sampleString"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          },
-                          "xmlHints": {
-                            "allowInlineDefinition": true,
-                            "allowTopLevelDefinition": true,
-                            "allowReferences": false
-                          }
-                        }
-                      },
-                      {
-                        "key": {
-                          "name": "otherNumber"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "Number",
-                          "annotations": {
-                            "typeId": "java.lang.Integer"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                }
-              ]
+              "type": "@ref:org.mule.runtime.extension.api.persistence.model.ComplexFieldsType"
             },
             "hasDynamicType": false,
             "required": true,
@@ -373,9 +74,9 @@
           "org.mule.runtime.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
         }
       }
-    },
-    "connectionProviders": {
-      "BasicAuth": {
+    ],
+    "connectionProviders": [
+      {
         "connectionManagementType": "NONE",
         "parameterModels": [
           {
@@ -427,20 +128,325 @@
         "description": "Basic Auth Config",
         "modelProperties": {}
       }
-    },
-    "messageSources": {},
-    "name": "DummyExtension",
-    "description": "Test extension",
-    "modelProperties": {}
+    ],
+    "messageSources": [],
+    "modelProperties": {},
+    "types": [
+      {
+        "format": "java",
+        "type": "Object",
+        "annotations": {
+          "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
+          "classInformation": {
+            "hasDefaultConstructor": true,
+            "isInterface": false,
+            "isInstantiable": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "implementedInterfaces": [],
+            "parent": "",
+            "genericTypes": []
+          },
+          "typeAlias": {
+            "value": "complex-alias"
+          }
+        },
+        "fields": [
+          {
+            "key": {
+              "name": "notGlobalType"
+            },
+            "model": {
+              "required": "true",
+              "type": "Object",
+              "annotations": {
+                "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                "classInformation": {
+                  "hasDefaultConstructor": true,
+                  "isInterface": false,
+                  "isInstantiable": true,
+                  "isAbstract": false,
+                  "isFinal": false,
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "genericTypes": []
+                },
+                "xmlHints": {
+                  "allowInlineDefinition": true,
+                  "allowTopLevelDefinition": false,
+                  "allowReferences": true
+                },
+                "typeAlias": {
+                  "value": "NotGlobalType"
+                }
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "sampleString"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    },
+                    "xmlHints": {
+                      "allowInlineDefinition": true,
+                      "allowTopLevelDefinition": true,
+                      "allowReferences": false
+                    }
+                  }
+                }
+              ]
+            },
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "parameterGroupType"
+            },
+            "model": {
+              "required": "true",
+              "type": "Object",
+              "annotations": {
+                "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                "classInformation": {
+                  "hasDefaultConstructor": true,
+                  "isInterface": false,
+                  "isInstantiable": true,
+                  "isAbstract": false,
+                  "isFinal": false,
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "genericTypes": []
+                },
+                "typeAlias": {
+                  "value": "ParameterGroupType"
+                }
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "groupedField"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                },
+                {
+                  "key": {
+                    "name": "anotherGroupedField"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "text": {},
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                }
+              ]
+            },
+            "annotations": {
+              "flattened": {},
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "extensibleTypeList"
+            },
+            "model": {
+              "required": "true",
+              "type": "Array",
+              "annotations": {
+                "typeId": "java.util.List"
+              },
+              "item": {
+                "type": "Object",
+                "annotations": {
+                  "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
+                  "classInformation": {
+                    "hasDefaultConstructor": true,
+                    "isInterface": false,
+                    "isInstantiable": true,
+                    "isAbstract": false,
+                    "isFinal": false,
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "genericTypes": []
+                  },
+                  "extensibleType": {},
+                  "typeAlias": {
+                    "value": "aliasedExtensible"
+                  }
+                },
+                "fields": [
+                  {
+                    "key": {
+                      "name": "otherNumber"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "Number",
+                      "annotations": {
+                        "typeId": "java.lang.Integer"
+                      }
+                    },
+                    "annotations": {
+                      "expressionSupport": {
+                        "value": "SUPPORTED"
+                      }
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "sampleString"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "String",
+                      "annotations": {
+                        "typeId": "java.lang.String"
+                      }
+                    },
+                    "annotations": {
+                      "expressionSupport": {
+                        "value": "SUPPORTED"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "recursiveChild"
+            },
+            "model": "#..",
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "simplePojo"
+            },
+            "model": {
+              "required": "true",
+              "type": "Object",
+              "annotations": {
+                "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
+                "classInformation": {
+                  "hasDefaultConstructor": true,
+                  "isInterface": false,
+                  "isInstantiable": true,
+                  "isAbstract": false,
+                  "isFinal": false,
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "genericTypes": []
+                },
+                "typeAlias": {
+                  "value": "SimpleFieldsType"
+                }
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "sampleString"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    },
+                    "xmlHints": {
+                      "allowInlineDefinition": true,
+                      "allowTopLevelDefinition": true,
+                      "allowReferences": false
+                    }
+                  }
+                },
+                {
+                  "key": {
+                    "name": "otherNumber"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "Number",
+                    "annotations": {
+                      "typeId": "java.lang.Integer"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                }
+              ]
+            },
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          }
+        ]
+      }
+    ]
   },
   {
-    "vendor": "MuleSoft",
+    "name": "DummyExtension",
+    "description": "Test extension",
     "version": "4.0.0",
-    "minMuleVersion": "4.0",
+    "vendor": "MuleSoft",
     "category": "COMMUNITY",
-    "configurations": {},
-    "operations": {
-      "getCar": {
+    "configurations": [],
+    "operations": [
+      {
         "output": {
           "type": {
             "format": "java",
@@ -491,307 +497,7 @@
           {
             "type": {
               "format": "java",
-              "type": "Object",
-              "annotations": {
-                "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
-                "classInformation": {
-                  "hasDefaultConstructor": true,
-                  "isInterface": false,
-                  "isInstantiable": true,
-                  "isAbstract": false,
-                  "isFinal": false,
-                  "implementedInterfaces": [],
-                  "parent": "",
-                  "genericTypes": []
-                },
-                "typeAlias": {
-                  "value": "complex-alias"
-                }
-              },
-              "fields": [
-                {
-                  "key": {
-                    "name": "notGlobalType"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
-                      "classInformation": {
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": []
-                      },
-                      "xmlHints": {
-                        "allowInlineDefinition": true,
-                        "allowTopLevelDefinition": false,
-                        "allowReferences": true
-                      },
-                      "typeAlias": {
-                        "value": "NotGlobalType"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "sampleString"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          },
-                          "xmlHints": {
-                            "allowInlineDefinition": true,
-                            "allowTopLevelDefinition": true,
-                            "allowReferences": false
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "parameterGroupType"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
-                      "classInformation": {
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": []
-                      },
-                      "typeAlias": {
-                        "value": "ParameterGroupType"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "groupedField"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      },
-                      {
-                        "key": {
-                          "name": "anotherGroupedField"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "text": {},
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "flattened": {},
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "extensibleTypeList"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Array",
-                    "annotations": {
-                      "typeId": "java.util.List"
-                    },
-                    "item": {
-                      "type": "Object",
-                      "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
-                        "classInformation": {
-                          "hasDefaultConstructor": true,
-                          "isInterface": false,
-                          "isInstantiable": true,
-                          "isAbstract": false,
-                          "isFinal": false,
-                          "implementedInterfaces": [],
-                          "parent": "",
-                          "genericTypes": []
-                        },
-                        "extensibleType": {},
-                        "typeAlias": {
-                          "value": "aliasedExtensible"
-                        }
-                      },
-                      "fields": [
-                        {
-                          "key": {
-                            "name": "otherNumber"
-                          },
-                          "model": {
-                            "required": "true",
-                            "type": "Number",
-                            "annotations": {
-                              "typeId": "java.lang.Integer"
-                            }
-                          },
-                          "annotations": {
-                            "expressionSupport": {
-                              "value": "SUPPORTED"
-                            }
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "sampleString"
-                          },
-                          "model": {
-                            "required": "true",
-                            "type": "String",
-                            "annotations": {
-                              "typeId": "java.lang.String"
-                            }
-                          },
-                          "annotations": {
-                            "expressionSupport": {
-                              "value": "SUPPORTED"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "recursiveChild"
-                  },
-                  "model": "#..",
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "simplePojo"
-                  },
-                  "model": {
-                    "required": "true",
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
-                      "classInformation": {
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": []
-                      },
-                      "typeAlias": {
-                        "value": "SimpleFieldsType"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "sampleString"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "String",
-                          "annotations": {
-                            "typeId": "java.lang.String"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          },
-                          "xmlHints": {
-                            "allowInlineDefinition": true,
-                            "allowTopLevelDefinition": true,
-                            "allowReferences": false
-                          }
-                        }
-                      },
-                      {
-                        "key": {
-                          "name": "otherNumber"
-                        },
-                        "model": {
-                          "required": "true",
-                          "type": "Number",
-                          "annotations": {
-                            "typeId": "java.lang.Integer"
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                }
-              ]
+              "type": "@ref:org.mule.runtime.extension.api.persistence.model.ComplexFieldsType"
             },
             "hasDynamicType": false,
             "required": true,
@@ -807,9 +513,9 @@
           "org.mule.runtime.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
         }
       }
-    },
-    "connectionProviders": {
-      "BasicAuth": {
+    ],
+    "connectionProviders": [
+      {
         "connectionManagementType": "NONE",
         "parameterModels": [
           {
@@ -861,10 +567,314 @@
         "description": "Basic Auth Config",
         "modelProperties": {}
       }
-    },
-    "messageSources": {},
-    "name": "DummyExtension",
-    "description": "Test extension",
-    "modelProperties": {}
+    ],
+    "messageSources": [],
+    "modelProperties": {},
+    "types": [
+      {
+        "format": "java",
+        "type": "Object",
+        "annotations": {
+          "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
+          "classInformation": {
+            "hasDefaultConstructor": true,
+            "isInterface": false,
+            "isInstantiable": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "implementedInterfaces": [],
+            "parent": "",
+            "genericTypes": []
+          },
+          "typeAlias": {
+            "value": "complex-alias"
+          }
+        },
+        "fields": [
+          {
+            "key": {
+              "name": "notGlobalType"
+            },
+            "model": {
+              "required": "true",
+              "type": "Object",
+              "annotations": {
+                "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                "classInformation": {
+                  "hasDefaultConstructor": true,
+                  "isInterface": false,
+                  "isInstantiable": true,
+                  "isAbstract": false,
+                  "isFinal": false,
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "genericTypes": []
+                },
+                "xmlHints": {
+                  "allowInlineDefinition": true,
+                  "allowTopLevelDefinition": false,
+                  "allowReferences": true
+                },
+                "typeAlias": {
+                  "value": "NotGlobalType"
+                }
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "sampleString"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    },
+                    "xmlHints": {
+                      "allowInlineDefinition": true,
+                      "allowTopLevelDefinition": true,
+                      "allowReferences": false
+                    }
+                  }
+                }
+              ]
+            },
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "parameterGroupType"
+            },
+            "model": {
+              "required": "true",
+              "type": "Object",
+              "annotations": {
+                "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                "classInformation": {
+                  "hasDefaultConstructor": true,
+                  "isInterface": false,
+                  "isInstantiable": true,
+                  "isAbstract": false,
+                  "isFinal": false,
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "genericTypes": []
+                },
+                "typeAlias": {
+                  "value": "ParameterGroupType"
+                }
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "groupedField"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                },
+                {
+                  "key": {
+                    "name": "anotherGroupedField"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "text": {},
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                }
+              ]
+            },
+            "annotations": {
+              "flattened": {},
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "extensibleTypeList"
+            },
+            "model": {
+              "required": "true",
+              "type": "Array",
+              "annotations": {
+                "typeId": "java.util.List"
+              },
+              "item": {
+                "type": "Object",
+                "annotations": {
+                  "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
+                  "classInformation": {
+                    "hasDefaultConstructor": true,
+                    "isInterface": false,
+                    "isInstantiable": true,
+                    "isAbstract": false,
+                    "isFinal": false,
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "genericTypes": []
+                  },
+                  "extensibleType": {},
+                  "typeAlias": {
+                    "value": "aliasedExtensible"
+                  }
+                },
+                "fields": [
+                  {
+                    "key": {
+                      "name": "otherNumber"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "Number",
+                      "annotations": {
+                        "typeId": "java.lang.Integer"
+                      }
+                    },
+                    "annotations": {
+                      "expressionSupport": {
+                        "value": "SUPPORTED"
+                      }
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "sampleString"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "String",
+                      "annotations": {
+                        "typeId": "java.lang.String"
+                      }
+                    },
+                    "annotations": {
+                      "expressionSupport": {
+                        "value": "SUPPORTED"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "recursiveChild"
+            },
+            "model": "#..",
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          },
+          {
+            "key": {
+              "name": "simplePojo"
+            },
+            "model": {
+              "required": "true",
+              "type": "Object",
+              "annotations": {
+                "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
+                "classInformation": {
+                  "hasDefaultConstructor": true,
+                  "isInterface": false,
+                  "isInstantiable": true,
+                  "isAbstract": false,
+                  "isFinal": false,
+                  "implementedInterfaces": [],
+                  "parent": "",
+                  "genericTypes": []
+                },
+                "typeAlias": {
+                  "value": "SimpleFieldsType"
+                }
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "sampleString"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    },
+                    "xmlHints": {
+                      "allowInlineDefinition": true,
+                      "allowTopLevelDefinition": true,
+                      "allowReferences": false
+                    }
+                  }
+                },
+                {
+                  "key": {
+                    "name": "otherNumber"
+                  },
+                  "model": {
+                    "required": "true",
+                    "type": "Number",
+                    "annotations": {
+                      "typeId": "java.lang.Integer"
+                    }
+                  },
+                  "annotations": {
+                    "expressionSupport": {
+                      "value": "SUPPORTED"
+                    }
+                  }
+                }
+              ]
+            },
+            "annotations": {
+              "expressionSupport": {
+                "value": "SUPPORTED"
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
@@ -18,6 +19,7 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * An Extension that provides packaged functionality.
@@ -134,6 +136,11 @@ public interface ExtensionModel
    */
   @Override
   List<SourceModel> getSourceModels();
+
+  /**
+   * @return an immutable {@link Set} with all the object types defined by this extension
+   */
+  Set<ObjectType> getTypes();
 
   /**
    * Returns the name of the extension's vendor

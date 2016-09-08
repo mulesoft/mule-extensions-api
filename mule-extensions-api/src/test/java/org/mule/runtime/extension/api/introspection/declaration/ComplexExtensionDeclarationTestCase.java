@@ -9,10 +9,13 @@ package org.mule.runtime.extension.api.introspection.declaration;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.ANOTHER_COMPLEX_TYPE;
+import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.COMPLEX_TYPE;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.LISTENER_CONFIG_DESCRIPTION;
@@ -29,7 +32,6 @@ import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDecl
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.STATIC_RESOURCE_OPERATION_NAME;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VENDOR;
 import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
-
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
@@ -44,6 +46,7 @@ import org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -132,5 +135,12 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     assertThat(provider.getName(), is(REQUESTER_PROVIDER));
     assertThat(provider.getFactory(), is(sameInstance(testDeclarer.getRequesterConnectionProviderFactory())));
     assertThat(provider.getConnectionType(), equalTo(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE));
+  }
+
+  @Test
+  public void types() {
+    Set<ObjectType> types = extensionDeclaration.getTypes();
+    assertThat(types, hasSize(2));
+    assertThat(types, containsInAnyOrder(COMPLEX_TYPE, ANOTHER_COMPLEX_TYPE));
   }
 }

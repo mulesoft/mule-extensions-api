@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.persistence;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
+import org.mule.metadata.persistence.NullObjectTypeReferenceHandler;
+import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 
 import com.google.gson.JsonArray;
@@ -30,7 +32,25 @@ class ImportedTypesModelPropertyTypeAdapter extends TypeAdapter<ImportedTypesMod
 
   private static final String EXTENSION = "extension";
   private static final String TYPE = "type";
-  private final MetadataTypeGsonTypeAdapter typeAdapter = new MetadataTypeGsonTypeAdapter();
+  private final MetadataTypeGsonTypeAdapter typeAdapter;
+
+  /**
+   * Creates a new instance which serializes all types explicitly without
+   * handling references
+   */
+  public ImportedTypesModelPropertyTypeAdapter() {
+    this(new NullObjectTypeReferenceHandler());
+  }
+
+  /**
+   * Creates a new instance which handles type references through the given
+   * {@code referenceHandler}
+   *
+   * @param referenceHandler an {@link ObjectTypeReferenceHandler}
+   */
+  public ImportedTypesModelPropertyTypeAdapter(ObjectTypeReferenceHandler referenceHandler) {
+    typeAdapter = new MetadataTypeGsonTypeAdapter(referenceHandler);
+  }
 
   @Override
   public void write(JsonWriter out, ImportedTypesModelProperty value) throws IOException {

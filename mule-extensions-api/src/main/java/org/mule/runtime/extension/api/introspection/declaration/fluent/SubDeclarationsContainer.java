@@ -6,7 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
-import java.util.Collections;
+import static java.util.Collections.unmodifiableList;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,21 +28,21 @@ final class SubDeclarationsContainer {
    * the available {@link OperationDeclaration}s
    */
   public List<OperationDeclaration> getOperations() {
-    return Collections.unmodifiableList(operations);
+    return unmodifiableList(operations);
   }
 
   /**
    * @return an unmodifiable {@link List} with the available {@link ConnectionProviderDeclaration}s
    */
   public List<ConnectionProviderDeclaration> getConnectionProviders() {
-    return Collections.unmodifiableList(connectionProviders);
+    return unmodifiableList(connectionProviders);
   }
 
   /**
    * @return an unmodifiable {@link List} with the available {@link SourceDeclaration}s
    */
   public List<SourceDeclaration> getMessageSources() {
-    return Collections.unmodifiableList(messageSources);
+    return unmodifiableList(messageSources);
   }
 
   /**

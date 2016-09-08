@@ -11,9 +11,11 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
 import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
@@ -36,7 +38,9 @@ import org.mule.runtime.extension.api.introspection.declaration.type.annotation.
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
@@ -58,10 +62,12 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
   private static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
   private static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON = "extension/list-of-serialized-extension-model.json";
+
   private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
   private final Set<ModelProperty> modelProperties =
       new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
+
   private final MetadataType stringType = typeLoader.load(String.class);
   private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"password\":false,\"text\":true,\"order\":0}";
   private final String GET_CAR_OPERATION_NAME = "getCar";
@@ -69,6 +75,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private final String MODEL_PROPERTIES_NODE = "modelProperties";
   private final String OPERATIONS_NODE = "operations";
   private final String PARAMETER_MODELS_NODE = "parameterModels";
+  private final String COMPLEX_PARAMETER_NAME = "complex";
 
   private ExtensionModel deserializedExtensionModel;
   private ImmutableExtensionModel originalExtensionModel;
@@ -89,11 +96,12 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "",
                                     singleton(new LayoutModelProperty(true, true, 0, null, null)));
-    final ImmutableParameterModel complexParameter = new ImmutableParameterModel("complex", "complex type to serialize",
-                                                                                 ExtensionsTypeLoaderFactory.getDefault()
-                                                                                     .createTypeLoader()
-                                                                                     .load(ComplexFieldsType.class),
-                                                                                 false, true, SUPPORTED, null, emptySet());
+    final ImmutableParameterModel complexParameter =
+        new ImmutableParameterModel(COMPLEX_PARAMETER_NAME, "complex type to serialize",
+                                    ExtensionsTypeLoaderFactory.getDefault()
+                                        .createTypeLoader()
+                                        .load(ComplexFieldsType.class),
+                                    false, true, SUPPORTED, null, emptySet());
 
     getCarOperation =
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
@@ -107,21 +115,21 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     originalExtensionModel =
         new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                            new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
-                                           singletonList(basicAuth), emptyList(), emptySet(), Optional.empty());
+                                           singletonList(basicAuth), emptyList(), emptySet(), emptySet(), Optional.empty());
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
     serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
     deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
-    operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonObject()
-        .get(GET_CAR_OPERATION_NAME).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
+    operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonArray()
+        .get(0).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
     extensionModelList = asList(deserializedExtensionModel, originalExtensionModel);
   }
 
   @Test
   public void friendlyNameIsUsedForAlreadyKnowModelProperty() {
     final JsonObject carNameParameter = serializedExtensionModel.getAsJsonObject()
-        .get(OPERATIONS_NODE).getAsJsonObject()
-        .get(GET_CAR_OPERATION_NAME).getAsJsonObject()
+        .get(OPERATIONS_NODE).getAsJsonArray()
+        .get(0).getAsJsonObject()
         .get(PARAMETER_MODELS_NODE).getAsJsonArray()
         .get(0).getAsJsonObject();
 
@@ -141,6 +149,18 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
     assertThat(operationModelProperties.has(NonExternalizableModelProperty.class.getName()), is(false));
     assertThat(operationModelProperties.entrySet().size(), is(1));
+  }
+
+  @Test
+  public void operationTypeCorrectlyDeserialized() {
+    OperationModel operation = deserializedExtensionModel.getOperationModel(GET_CAR_OPERATION_NAME).get();
+    ParameterModel complexParameter = operation.getParameterModels().stream()
+        .filter(p -> p.getName().equals(COMPLEX_PARAMETER_NAME))
+        .findFirst().get();
+
+    MetadataType type = complexParameter.getType();
+    assertThat(type, is(instanceOf(ObjectType.class)));
+    assertThat(getType(type), equalTo(ComplexFieldsType.class));
   }
 
   @Test
