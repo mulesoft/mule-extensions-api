@@ -18,7 +18,6 @@ import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
@@ -142,9 +141,9 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
         .collect(Collectors.toList());
 
     if (!invalid.isEmpty()) {
-      throw new IllegalModelDefinitionException(format("%s [%s] were defined multiple times",
+      throw new IllegalModelDefinitionException(format("%s %s were defined multiple times",
                                                        identifier,
-                                                       Joiner.on(", ").join(invalid)));
+                                                       invalid));
     }
 
     return copyOf(values);
