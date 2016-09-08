@@ -6,16 +6,10 @@
  */
 package org.mule.runtime.extension.xml.dsl.test;
 
-import static java.util.Arrays.asList;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
@@ -36,13 +30,24 @@ import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.resolver.DslResolvingContext;
 import org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.xml.dsl.test.model.SubType;
+import org.mule.runtime.extension.xml.dsl.test.model.SuperType;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseXmlDeclarationTestCase {
@@ -80,6 +85,8 @@ public abstract class BaseXmlDeclarationTestCase {
   protected DslResolvingContext dslContext;
 
   ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+  SubTypesModelProperty subTypesModelProperty =
+      new SubTypesModelProperty(singletonMap(TYPE_LOADER.load(SuperType.class), singletonList(TYPE_LOADER.load(SubType.class))));
 
   @Before
   public void before() {
@@ -90,7 +97,7 @@ public abstract class BaseXmlDeclarationTestCase {
     when(extension.getSourceModels()).thenReturn(asList(source));
     when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
-    when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(empty());
+    when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(Optional.of(subTypesModelProperty));
     when(extension.getModelProperty(ImportedTypesModelProperty.class)).thenReturn(empty());
     when(extension.getModelProperty(XmlModelProperty.class))
         .thenReturn(of(new XmlModelProperty(EMPTY, NAMESPACE, NAMESPACE_URI, EMPTY, SCHEMA_LOCATION)));

@@ -6,14 +6,6 @@
  */
 package org.mule.runtime.extension.api.util;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -22,6 +14,15 @@ import org.mule.runtime.extension.api.introspection.declaration.type.annotation.
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 
 
 /**
@@ -243,6 +244,10 @@ public class NameUtils {
             : typeId).orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
 
     return hyphenize(aliasName);
+  }
+
+  public static String getAbstractTopLevelTypeName(MetadataType metadataType) {
+    return "abstract-" + getTopLevelTypeName(metadataType);
   }
 
   public static String getAliasName(Class<?> type) {
