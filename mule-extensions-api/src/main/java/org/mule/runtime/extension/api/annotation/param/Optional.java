@@ -43,14 +43,11 @@ public @interface Optional {
    */
   String defaultValue() default NULL;
 
-  interface DefaultValues {
-
-    /**
-     * Denotes that if the parameter is not defined, the value will be taken from the message
-     * payload.
-     */
-    String PAYLOAD = "#[payload]";
-  }
+  /**
+   * Denotes that if the parameter is not defined, the value will be taken from the message
+   * payload.
+   */
+  String PAYLOAD = "#[payload]";
 
   /**
    * Because Java doesn't allow
