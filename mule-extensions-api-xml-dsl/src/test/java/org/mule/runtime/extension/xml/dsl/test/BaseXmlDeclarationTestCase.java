@@ -6,10 +6,18 @@
  */
 package org.mule.runtime.extension.xml.dsl.test;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
@@ -36,18 +44,10 @@ import org.mule.runtime.extension.xml.dsl.test.model.SuperType;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static java.util.Collections.singletonMap;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseXmlDeclarationTestCase {
@@ -56,6 +56,7 @@ public abstract class BaseXmlDeclarationTestCase {
   static final String NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/mockns";
   static final String SCHEMA_LOCATION = "http://www.mulesoft.org/schema/mule/mockns/current/mule-mockns.xsd";
   static final String PARAMETER_NAME = "myCamelCaseName";
+  static final String SINGULARIZABLE_PARAMETER_NAME = "singularizableNames";
   static final String EXTENSION_NAME = "extension";
   static final String OPERATION_NAME = "mockOperation";
   static final String SOURCE_NAME = "source";
