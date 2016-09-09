@@ -274,7 +274,7 @@ public class DslSyntaxResolver {
       public void visitArrayType(ArrayType arrayType) {
         DslElementSyntaxBuilder genericBuilder = DslElementSyntaxBuilder.create()
             .withNamespace(namespace, namespaceUri)
-            .withElementName(resolveItemizedName(parameterName, asItem));
+            .withElementName(resolveItemName(parameterName, asItem));
 
         MetadataType genericType = arrayType.getType();
         if (shouldGenerateChildElements(genericType, SUPPORTED)) {
@@ -290,7 +290,7 @@ public class DslSyntaxResolver {
         listBuilder.withGeneric(metadataType,
                                 DslElementSyntaxBuilder.create()
                                     .withNamespace(namespace, namespaceUri)
-                                    .withElementName(resolveItemizedName(parameterName, asItem))
+                                    .withElementName(resolveItemName(parameterName, asItem))
                                     .build());
       }
     };
@@ -550,7 +550,7 @@ public class DslSyntaxResolver {
     return new QName(elementSyntax.getNamespaceUri(), elementSyntax.getAbstractElementName(), elementSyntax.getNamespace());
   }
 
-  private String resolveItemizedName(String parameterName, boolean forceItemize) {
+  private String resolveItemName(String parameterName, boolean forceItemize) {
     String singularizedName = singularize(parameterName);
     return forceItemize || parameterName.equals(singularizedName) ? itemize(singularizedName)
         : hyphenize(singularizedName);
