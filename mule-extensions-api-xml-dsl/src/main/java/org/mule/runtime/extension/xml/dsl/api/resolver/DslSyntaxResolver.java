@@ -287,7 +287,6 @@ public class DslSyntaxResolver {
 
       @Override
       protected void defaultVisit(MetadataType metadataType) {
-        // TODO MULE-9686 review convention of singular/plural
         listBuilder.withGeneric(metadataType,
                                 DslElementSyntaxBuilder.create()
                                     .withNamespace(namespace, namespaceUri)
