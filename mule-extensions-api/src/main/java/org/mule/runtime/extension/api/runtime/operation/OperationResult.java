@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.runtime.operation;
 
 import org.mule.runtime.api.message.Attributes;
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
 
 import java.util.Optional;
@@ -46,12 +46,12 @@ public interface OperationResult<Output, A extends Attributes> {
    * Creates a new {@link Builder} initialises with a state that matched
    * the one of the given {@code muleMessage}
    *
-   * @param muleMessage  a reference {@link MuleMessage}
+   * @param muleMessage  a reference {@link Message}
    * @param <Output>     the generic type of the output value
    * @param <A> the generic type of the message attributes
    * @return a new {@link Builder}
    */
-  static <Output, A extends Attributes> Builder<Output, A> builder(MuleMessage muleMessage) {
+  static <Output, A extends Attributes> Builder<Output, A> builder(Message muleMessage) {
     return (Builder<Output, A>) OperationResultBuilderFactory.getDefaultFactory().create()
         .output(muleMessage.getPayload())
         .attributes(muleMessage.getAttributes())
@@ -64,7 +64,7 @@ public interface OperationResult<Output, A extends Attributes> {
   Output getOutput();
 
   /**
-   * The new value that the operation wants to set on {@link MuleMessage#getAttributes()}.
+   * The new value that the operation wants to set on {@link Message#getAttributes()}.
    * <p>
    * The operation might not be interested in changing that value, in which case
    * this method would return {@link Optional#empty()}
@@ -74,7 +74,7 @@ public interface OperationResult<Output, A extends Attributes> {
   Optional<A> getAttributes();
 
   /**
-   * The new {@link MediaType} that the operation wants to set on {@link MuleMessage#getDataType()}.
+   * The new {@link MediaType} that the operation wants to set on {@link Message#getDataType()}.
    * <p>
    * The operation might not be interested in changing that value, in which case
    * this method would return {@link Optional#empty()}

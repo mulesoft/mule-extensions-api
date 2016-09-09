@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 
 /**
  * An operation is intercepting when its return type matches this class.
@@ -54,7 +54,7 @@ public interface InterceptingCallback<T> {
    *
    * @param resultMessage the message returned by the intercepted chain
    */
-  default void onSuccess(MuleMessage resultMessage) {}
+  default void onSuccess(Message resultMessage) {}
 
   /**
    * Invoked when the intercepted chain fails to be processed

@@ -17,7 +17,7 @@
             }
           },
           "hasDynamicType": true,
-          "description": "MuleMessage.Payload",
+          "description": "Message.Payload",
           "modelProperties": {}
         },
         "outputAttributes": {
@@ -29,7 +29,7 @@
             }
           },
           "hasDynamicType": false,
-          "description": "MuleMessage.Attributes",
+          "description": "Message.Attributes",
           "modelProperties": {}
         },
         "parameterModels": [
@@ -456,7 +456,7 @@
             }
           },
           "hasDynamicType": true,
-          "description": "MuleMessage.Payload",
+          "description": "Message.Payload",
           "modelProperties": {}
         },
         "outputAttributes": {
@@ -468,7 +468,7 @@
             }
           },
           "hasDynamicType": false,
-          "description": "MuleMessage.Attributes",
+          "description": "Message.Attributes",
           "modelProperties": {}
         },
         "parameterModels": [

@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.introspection.operation;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.NullType;
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.extension.api.introspection.ComponentModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.OutputModel;
@@ -29,7 +29,7 @@ public interface OperationModel extends ComponentModel {
 
   /**
    * Returns a {@link MetadataType} for the value that this operation sets
-   * on the output {@link MuleMessage#getAttributes()} field.
+   * on the output {@link Message#getAttributes()} field.
    * <p>
    * If this operation does not modify that value, then a {@link NullType} instance
    * will be returned. Notice however that this <b>does not</b> mean that the property
