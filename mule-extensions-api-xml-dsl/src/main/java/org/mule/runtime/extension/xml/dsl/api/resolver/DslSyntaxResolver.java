@@ -371,6 +371,7 @@ public class DslSyntaxResolver {
       public void visitString(StringType stringType) {
         if (isText(field)) {
           objectFieldBuilder.supportsChildDeclaration(true);
+          objectFieldBuilder.withElementName(hyphenize(fieldName));
         } else {
           defaultVisit(stringType);
         }

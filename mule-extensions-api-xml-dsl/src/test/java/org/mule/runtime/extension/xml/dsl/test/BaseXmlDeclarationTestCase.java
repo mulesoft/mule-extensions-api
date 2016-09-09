@@ -85,7 +85,7 @@ public abstract class BaseXmlDeclarationTestCase {
   @Mock
   protected DslResolvingContext dslContext;
 
-  ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+  protected ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
   SubTypesModelProperty subTypesModelProperty =
       new SubTypesModelProperty(singletonMap(TYPE_LOADER.load(SuperType.class), singletonList(TYPE_LOADER.load(SubType.class))));
 

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.xml.dsl.test.model;
 
 import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.param.display.Text;
 
 public class SimpleFieldsType {
 
@@ -15,6 +16,10 @@ public class SimpleFieldsType {
 
   @Parameter
   private Integer otherNumber;
+
+  @Parameter
+  @Text
+  private String textField;
 
   public String getSampleString() {
     return sampleString;
@@ -30,5 +35,13 @@ public class SimpleFieldsType {
 
   public void setOtherNumber(Integer otherNumber) {
     this.otherNumber = otherNumber;
+  }
+
+  public String getTextField() {
+    return textField;
+  }
+
+  public void setTextField(String textField) {
+    this.textField = textField;
   }
 }
