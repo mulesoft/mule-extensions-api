@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.introspection.operation;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
@@ -46,7 +46,7 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
    * @param executorFactory          a {@link OperationExecutorFactory}. Cannot be {@code null}
    * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
    * @param output                   an {@link OutputModel} which represents the operation's output content
-   * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
+   * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output {@link Message}
    * @param modelProperties          a {@link Set} of custom properties which extend this model
    * @param interceptorFactories     a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
    * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance

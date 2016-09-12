@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.extension.api.introspection.parameter.AbstractParameterizedModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
@@ -32,7 +32,7 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel 
    * @param modelProperties  A {@link Set} of custom properties which extend this model
    * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
    * @param output           an {@link OutputModel} which represents the component's output content
-   * @param outputAttributes an {@link OutputModel} which represents the component's attributes on the output {@link MuleMessage}
+   * @param outputAttributes an {@link OutputModel} which represents the component's attributes on the output {@link Message}
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name, String description, Set<ModelProperty> modelProperties,

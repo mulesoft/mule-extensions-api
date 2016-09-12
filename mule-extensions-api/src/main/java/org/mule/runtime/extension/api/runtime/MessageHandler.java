@@ -9,10 +9,10 @@ package org.mule.runtime.extension.api.runtime;
 import org.mule.runtime.api.execution.CompletionHandler;
 import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.api.message.MuleEvent;
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 
 /**
- * Handles the processing of a {@link MuleMessage} and notifies the result
+ * Handles the processing of a {@link Message} and notifies the result
  * of such process using a {@link CompletionHandler}.
  * <p>
  * Although this contract does not guarantee the processing being synchronous
@@ -29,17 +29,17 @@ public interface MessageHandler<Payload, A extends Attributes> {
   /**
    * Handles the {@code message} and notifies the result using the given {@code completionHandler}
    *
-   * @param message           the {@link MuleMessage} to be handled
+   * @param message           the {@link Message} to be handled
    * @param completionHandler the {@link CompletionHandler} on which the result is to be notified
    */
   //TODO: MULE-8946: this should actually receive a messaging exception
-  void handle(MuleMessage message, CompletionHandler<MuleEvent, Exception, MuleEvent> completionHandler);
+  void handle(Message message, CompletionHandler<MuleEvent, Exception, MuleEvent> completionHandler);
 
   /**
    * Handles the {@code message} without notifying the result. Useful to implement fire and forget use cases
    *
-   * @param message the {@link MuleMessage} to be handled
+   * @param message the {@link Message} to be handled
    */
-  void handle(MuleMessage message);
+  void handle(Message message);
 
 }

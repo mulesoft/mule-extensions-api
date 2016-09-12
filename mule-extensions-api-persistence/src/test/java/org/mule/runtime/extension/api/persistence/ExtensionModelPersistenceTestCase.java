@@ -109,8 +109,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
     getCarOperation =
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
-                                    new ImmutableOutputModel("MuleMessage.Payload", stringType, true, emptySet()),
-                                    new ImmutableOutputModel("MuleMessage.Attributes", stringType, false, emptySet()),
+                                    new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
+                                    new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet()),
                                     modelProperties);
     final ImmutableRuntimeConnectionProviderModel basicAuth =
         new ImmutableRuntimeConnectionProviderModel("BasicAuth", "Basic Auth Config", Integer.class,

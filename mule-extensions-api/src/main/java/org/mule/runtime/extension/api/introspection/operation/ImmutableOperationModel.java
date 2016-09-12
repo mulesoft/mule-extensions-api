@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.operation;
 
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.extension.api.introspection.AbstractComponentModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.OutputModel;
@@ -29,7 +29,7 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
    * @param description      the operation's descriptor
    * @param parameterModels  a {@link List} with the operation's {@link ParameterModel parameterModels}
    * @param output           an {@link OutputModel} which represents the operation's output content
-   * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link MuleMessage}
+   * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link Message}
    * @param modelProperties  A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */

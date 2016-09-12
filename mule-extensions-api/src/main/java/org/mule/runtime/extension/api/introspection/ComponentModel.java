@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.introspection;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.message.MuleMessage;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
@@ -22,7 +22,7 @@ public interface ComponentModel extends Named, Described, EnrichableModel, Param
 
   /**
    * Returns a {@link MetadataType} for the value that this component sets
-   * on the output {@link MuleMessage#getPayload()} field.
+   * on the output {@link Message#getPayload()} field.
    *
    * @return a {@link MetadataType} representing the content type for the output messages
    */
@@ -30,7 +30,7 @@ public interface ComponentModel extends Named, Described, EnrichableModel, Param
 
   /**
    * Returns a {@link MetadataType} for the value that this component sets
-   * on the output {@link MuleMessage#getAttributes()} field.
+   * on the output {@link Message#getAttributes()} field.
    *
    * @return a {@link MetadataType} representing the attribute types for the output messages
    */
