@@ -53,9 +53,9 @@ public interface OperationResult<Output, A extends Attributes> {
    */
   static <Output, A extends Attributes> Builder<Output, A> builder(Message muleMessage) {
     return (Builder<Output, A>) OperationResultBuilderFactory.getDefaultFactory().create()
-        .output(muleMessage.getPayload())
+        .output(muleMessage.getPayload().getValue())
         .attributes(muleMessage.getAttributes())
-        .mediaType(muleMessage.getDataType().getMediaType());
+        .mediaType(muleMessage.getPayload().getDataType().getMediaType());
   }
 
   /**
