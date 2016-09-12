@@ -24,6 +24,7 @@ import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,9 +44,9 @@ public class ComponentMetadataResult implements Descriptable<ImmutableComponentM
   private final List<Failure> failures;
 
   public ComponentMetadataResult(MetadataResult<ImmutableComponentMetadataDescriptor> result) {
-    this.componentName = result.get().getName();
-    this.output = new OutputMetadata(result.get());
-    this.parameters = getParametersMetadata(result.get());
+    this.componentName = result.get() != null ? result.get().getName() : "";
+    this.output = result.get() != null ? new OutputMetadata(result.get()) : null;
+    this.parameters = result.get() != null ? getParametersMetadata(result.get()) : Collections.emptyList();
     this.failures = collectFailures(result);
   }
 

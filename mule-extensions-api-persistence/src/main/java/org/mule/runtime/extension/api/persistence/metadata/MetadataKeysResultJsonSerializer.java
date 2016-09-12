@@ -15,6 +15,7 @@ import org.mule.runtime.extension.internal.persistence.metadata.dto.MetadataKeys
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -45,8 +46,8 @@ public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJson
    * {@inheritDoc}
    */
   @Override
-  public ImmutableMetadataResult<Set<DefaultMetadataKey>> deserialize(String metadataResult) {
+  public ImmutableMetadataResult<Map<String, Set<DefaultMetadataKey>>> deserialize(String metadataResult) {
     MetadataKeysResult result = gson.fromJson(metadataResult, new TypeToken<MetadataKeysResult>() {}.getType());
-    return (ImmutableMetadataResult<Set<DefaultMetadataKey>>) result.toKeysMetadataResult();
+    return (ImmutableMetadataResult<Map<String, Set<DefaultMetadataKey>>>) result.toKeysMetadataResult();
   }
 }
