@@ -166,12 +166,23 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration>
    * @return {@code this} declarer
    */
   public ExtensionDeclarer withType(ObjectType objectType) {
-    if (getTypeId(objectType).filter(id -> Object.class.getName().equals(id)).isPresent()) {
-      return this;
+    if (isTypeRegistrable(objectType)) {
+      declaration.addType(objectType);
     }
 
-    declaration.addType(objectType);
     return this;
+  }
+
+  private boolean isTypeRegistrable(ObjectType objectType) {
+    String typeId = getTypeId(objectType).orElse(null);
+    if (typeId != null &&
+        (Object.class.getName().equals(typeId) ||
+            typeId.startsWith("org.mule.runtime.") ||
+            typeId.startsWith("com.mulesoft.mule.runtime."))) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
