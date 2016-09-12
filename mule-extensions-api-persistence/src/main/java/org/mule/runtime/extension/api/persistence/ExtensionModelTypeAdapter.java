@@ -6,9 +6,16 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import static java.lang.String.format;
-import static java.util.Collections.emptySet;
-import static java.util.stream.Collectors.toSet;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
@@ -24,20 +31,15 @@ import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.TypeAdapter;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import static java.lang.String.format;
+import static java.util.Collections.emptySet;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
@@ -87,7 +89,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
 
     writeExtensionLevelModelProperties(out, model);
 
-    writeTypes(out);
+    writeTypes(out, model.getTypes());
     out.endObject();
   }
 
@@ -153,10 +155,13 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     return types;
   }
 
-  private void writeTypes(JsonWriter out) throws IOException {
+  private void writeTypes(JsonWriter out, Set<ObjectType> additionalTypes) throws IOException {
     out.name(TYPES);
     out.beginArray();
-    for (ObjectType type : serializationContext.getRegisteredObjectTypes()) {
+    final Set<ObjectType> objectTypes = new LinkedHashSet<>();
+    objectTypes.addAll(serializationContext.getRegisteredObjectTypes());
+    objectTypes.addAll(additionalTypes);
+    for (ObjectType type : objectTypes) {
       typeWriter.write(type, out);
     }
     out.endArray();
