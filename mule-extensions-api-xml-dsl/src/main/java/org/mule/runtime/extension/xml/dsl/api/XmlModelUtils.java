@@ -84,7 +84,7 @@ public final class XmlModelUtils {
     if (metadataType instanceof ObjectType) {
       return metadataType.getAnnotation(XmlHintsAnnotation.class)
           .map(XmlHintsAnnotation::allowsTopLevelDefinition)
-          .orElse(true);
+          .orElse(false);
     }
 
     return false;

@@ -7,9 +7,7 @@
 package org.mule.runtime.extension.xml.dsl.test.model;
 
 import org.mule.runtime.extension.api.annotation.Parameter;
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 
-@XmlHints(allowTopLevelDefinition = false)
 public class NotGlobalType {
 
   @Parameter

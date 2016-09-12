@@ -38,9 +38,9 @@ public @interface XmlHints {
   /**
    * Whether the associated element should support being defined as a top level element.
    * This directive only makes sense when the annotation is applied on a type level, on a
-   * class which is being used as a complex parameter. Defaults to {@code true}
+   * class which is being used as a complex parameter. Defaults to {@code false}
    */
-  boolean allowTopLevelDefinition() default true;
+  boolean allowTopLevelDefinition() default false;
 
   /**
    * Whether the associated element should support registry references. Defaults to {@code true}

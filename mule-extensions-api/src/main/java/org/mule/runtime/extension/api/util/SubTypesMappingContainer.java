@@ -6,20 +6,19 @@
  */
 package org.mule.runtime.extension.api.util;
 
-import com.google.common.collect.ImmutableList;
-
-import org.mule.metadata.api.annotation.TypeIdAnnotation;
-import org.mule.metadata.api.model.MetadataType;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import static com.google.common.collect.ImmutableList.copyOf;
 import static com.google.common.collect.ImmutableList.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
+import org.mule.metadata.api.model.MetadataType;
+
+import com.google.common.collect.ImmutableList;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Immutable container for type mapping, storing the relation of a given type and its declared subtypes
@@ -101,6 +100,13 @@ public class SubTypesMappingContainer {
    */
   public List<MetadataType> getAllSubTypes() {
     return subTypesMapping.values().stream().flatMap(Collection::stream).collect(toList());
+  }
+
+  /**
+   * @return a {@link List} with all the types which are extended by another type
+   */
+  public List<MetadataType> getAllBaseTypes() {
+    return ImmutableList.copyOf(subTypesMapping.keySet());
   }
 
 }
