@@ -429,6 +429,27 @@
           }
         }
       ]
+    },
+    {
+      "format": "java",
+      "type": "Object",
+      "annotations": {
+        "typeId": "org.mule.runtime.extension.api.persistence.ExtensionModelPersistenceTestCase.ExportedClass",
+        "classInformation": {
+          "hasDefaultConstructor": false,
+          "isInterface": false,
+          "isInstantiable": false,
+          "isAbstract": false,
+          "isFinal": false,
+          "implementedInterfaces": [],
+          "parent": "",
+          "genericTypes": []
+        },
+        "typeAlias": {
+          "value": "ExportedClass"
+        }
+      },
+      "fields": []
     }
   ]
 }

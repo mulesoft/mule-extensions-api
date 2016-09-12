@@ -6,20 +6,13 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.runtime.extension.api.Category.COMMUNITY;
-import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -45,18 +38,28 @@ import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.extension.api.Category.COMMUNITY;
+import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
@@ -84,6 +87,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private JsonObject operationModelProperties;
   private List<ExtensionModel> extensionModelList;
   private ExtensionModelJsonSerializer extensionModelJsonSerializer;
+  private ObjectType exportedType = (ObjectType) typeLoader.load(ExportedClass.class);
 
   @Before
   public void setUp() {
@@ -115,7 +119,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     originalExtensionModel =
         new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                            new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
-                                           singletonList(basicAuth), emptyList(), emptySet(), emptySet(), Optional.empty());
+                                           singletonList(basicAuth), emptyList(), singleton(exportedType), emptySet(),
+                                           Optional.empty());
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
     serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
@@ -204,7 +209,24 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     ObjectType simplePojo = (ObjectType) ((ObjectType) complexType).getFieldByName("simplePojo").get().getValue();
     assertThat(simplePojo.getFieldByName("sampleString").get().getAnnotation(XmlHintsAnnotation.class).get().allowsReferences(),
                is(false));
+  }
 
+  @Test
+  public void enrichedTypesAreSerializated() throws IOException {
+    Set<String> typesSet = getExtensionTypeIds(serializedExtensionModel.getAsJsonObject());
+    assertThat(typesSet, hasItem(containsString(ExportedClass.class.getSimpleName())));
+
+    final Set<ObjectType> types = deserializedExtensionModel.getTypes();
+    assertThat(types, hasItem(exportedType));
+  }
+
+  private Set<String> getExtensionTypeIds(JsonObject jsonExtensionModel) {
+    final JsonArray typesArray = jsonExtensionModel.getAsJsonArray("types");
+    Set<String> typesSet = new HashSet<>();
+    for (JsonElement next : typesArray) {
+      typesSet.add(next.getAsJsonObject().getAsJsonObject("annotations").get("typeId").getAsString());
+    }
+    return typesSet;
   }
 
   private JsonElement getModelProperty(JsonObject object, String modelPropertyName) {
@@ -252,5 +274,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     public boolean isExternalizable() {
       return true;
     }
+  }
+
+  private class ExportedClass {
   }
 }
