@@ -95,7 +95,6 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
     assertSerializedJson(serialized, METADATA_KEYS_RESULT_FAILURE_JSON);
   }
 
-
   @Test
   public void serializeSuccessMultilevelMetadataKeyResult() throws IOException {
     Set<MetadataKey> keys = new LinkedHashSet<>();
