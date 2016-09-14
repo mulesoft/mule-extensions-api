@@ -10,6 +10,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
+import static org.mule.runtime.api.metadata.resolving.FailureCode.CONNECTION_FAILURE;
+import static org.mule.runtime.api.metadata.resolving.FailureCode.INVALID_METADATA_KEY;
 import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
@@ -25,7 +27,6 @@ import org.mule.runtime.api.metadata.descriptor.ImmutableParameterMetadataDescri
 import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
-import org.mule.runtime.api.metadata.resolving.FailureCode;
 import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
@@ -58,7 +59,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   private static final String FIRST_CHILD = "firstChild";
   private static final String SECOND_CHILD = "secondChild";
   private static final String METADATA_CONTENT_FAILURE = "Metadata Content Failure Error";
-  public static final String RESOLVER_NAME = "resolverName";
+  private static final String CATEGORY_NAME = "categoryName";
 
   private ComponentMetadataDescriptor operationMetadataDescriptor;
   private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
@@ -84,7 +85,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
     keys.add(newKey(FIRST_KEY_ID).build());
     keys.add(newKey(SECOND_KEY_ID).build());
 
-    String serialized = keysResultSerializer.serialize(success(builder.add(RESOLVER_NAME, keys).build()));
+    String serialized = keysResultSerializer.serialize(success(builder.add(CATEGORY_NAME, keys).build()));
     assertSerializedJson(serialized, METADATA_KEYS_RESULT_JSON);
   }
 
@@ -101,7 +102,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
     keys.add(newKey(FIRST_KEY_ID).withChild(newKey(FIRST_CHILD)).withChild(newKey(SECOND_CHILD)).build());
     keys.add(newKey(SECOND_KEY_ID).build());
 
-    String serialized = keysResultSerializer.serialize(success(builder.add(RESOLVER_NAME, keys).build()));
+    String serialized = keysResultSerializer.serialize(success(builder.add(CATEGORY_NAME, keys).build()));
     assertSerializedJson(serialized, METADATA_MULTILEVEL_KEYS_RESULT_JSON);
   }
 
@@ -126,14 +127,14 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
                                                                   new ImmutableParameterMetadataDescriptor("content",
                                                                                                            javaTypeLoader
                                                                                                                .load(Object.class)),
-                                                                  METADATA_CONTENT_FAILURE, FailureCode.INVALID_METADATA_KEY, "");
+                                                                  METADATA_CONTENT_FAILURE, INVALID_METADATA_KEY, "");
 
     ImmutableComponentMetadataDescriptor metadataDescriptor =
         new ImmutableComponentMetadataDescriptor("testOperationMetadataDescriptor", parameters, outputMetadataDescriptor,
                                                  content);
 
     MetadataResult metadataResultFailure =
-        failure(metadataDescriptor, METADATA_RESULT_ERROR_MESSAGE, FailureCode.CONNECTION_FAILURE, METADATA_RESULT_ERROR_MESSAGE);
+        failure(metadataDescriptor, METADATA_RESULT_ERROR_MESSAGE, CONNECTION_FAILURE, METADATA_RESULT_ERROR_MESSAGE);
     String serialized = metadataDescriptorSerializer.serialize(metadataResultFailure);
     assertSerializedJson(serialized, METADATA_RESULT_FAILURE_JSON);
   }
@@ -144,8 +145,8 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
     ImmutableMetadataResult<Map<String, Set<DefaultMetadataKey>>> metadataResult = keysResultSerializer.deserialize(resource);
 
     assertThat(metadataResult.isSuccess(), is(true));
-    assertThat(metadataResult.get().containsKey(RESOLVER_NAME), is(true));
-    Iterator<DefaultMetadataKey> iterator = metadataResult.get().get(RESOLVER_NAME).iterator();
+    assertThat(metadataResult.get().containsKey(CATEGORY_NAME), is(true));
+    Iterator<DefaultMetadataKey> iterator = metadataResult.get().get(CATEGORY_NAME).iterator();
     assertThat(iterator.next().getDisplayName(), is(FIRST_KEY_ID));
     assertThat(iterator.next().getDisplayName(), is(SECOND_KEY_ID));
   }
@@ -189,12 +190,12 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
     Optional<MetadataFailure> metadataFailures = metadataResult.getFailure();
     assertThat(metadataFailures.get().getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
     assertThat(metadataFailures.get().getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
-    assertThat(metadataFailures.get().getFailureCode().getName(), is(FailureCode.CONNECTION_FAILURE.getName()));
+    assertThat(metadataFailures.get().getFailureCode().getName(), is(CONNECTION_FAILURE.getName()));
 
     MetadataResult<ParameterMetadataDescriptor> contentMetadata = metadataResult.get().getContentMetadata().get();
     assertThat(contentMetadata.isSuccess(), is(false));
     assertThat(contentMetadata.getFailure().get().getMessage(), is(METADATA_CONTENT_FAILURE));
-    assertThat(contentMetadata.getFailure().get().getFailureCode().getName(), is(FailureCode.INVALID_METADATA_KEY.getName()));
+    assertThat(contentMetadata.getFailure().get().getFailureCode().getName(), is(INVALID_METADATA_KEY.getName()));
 
     assertThat(metadataResult.get().getOutputMetadata().isSuccess(), is(true));
   }

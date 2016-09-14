@@ -22,18 +22,27 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Null implementation of {@link MetadataContentResolver}, {@link MetadataAttributesResolver}
- * and {@link MetadataKeysResolver}, used to represent the absence of any of them when required.
+ * Null implementation of {@link MetadataContentResolver}, {@link MetadataAttributesResolver} and {@link MetadataKeysResolver},
+ * used to represent the absence of any of them when required.
  *
  * @since 1.0
  */
 public final class NullMetadataResolver implements MetadataContentResolver<Object>, MetadataKeysResolver,
     MetadataOutputResolver<Object>, MetadataAttributesResolver<Object> {
 
+  public static final String NULL_CATEGORY_NAME = "NullCategory";
+
   /**
-   * Null implementation of {@link MetadataKeysResolver}, used when no implementation
-   * is provided by the connector developer. Represents the absence of a custom {@link MetadataKeysResolver},
-   * returning an empty list of {@link MetadataKey}.
+   * {@inheritDoc}
+   */
+  @Override
+  public String getCategoryName() {
+    return NULL_CATEGORY_NAME;
+  }
+
+  /**
+   * Null implementation of {@link MetadataKeysResolver}, used when no implementation is provided by the connector developer.
+   * Represents the absence of a custom {@link MetadataKeysResolver}, returning an empty list of {@link MetadataKey}.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @return {@link Collections#emptyList()}
@@ -45,12 +54,12 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
   }
 
   /**
-   * Null implementation of {@link MetadataContentResolver}, used when no implementation
-   * is provided by the connector developer. Represents the absence of a custom {@link MetadataContentResolver},
-   * returning a {@link NullType} instead of resolving a valid {@link MetadataType} for the {@link Content} parameter
+   * Null implementation of {@link MetadataContentResolver}, used when no implementation is provided by the connector developer.
+   * Represents the absence of a custom {@link MetadataContentResolver}, returning a {@link NullType} instead of resolving a valid
+   * {@link MetadataType} for the {@link Content} parameter
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
+   * @param key {@link MetadataKey} of the type which's structure has to be resolved
    * @return {@code null}
    * @throws MetadataResolvingException
    */
@@ -60,12 +69,12 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
   }
 
   /**
-   * Null implementation of {@link MetadataOutputResolver}, used when no implementation
-   * is provided by the connector developer. Represents the absence of a custom {@link MetadataOutputResolver},
-   * returning a {@link NullType} instead of resolving a dynamic {@link MetadataType} for the component's output.
+   * Null implementation of {@link MetadataOutputResolver}, used when no implementation is provided by the connector developer.
+   * Represents the absence of a custom {@link MetadataOutputResolver}, returning a {@link NullType} instead of resolving a
+   * dynamic {@link MetadataType} for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
+   * @param key {@link MetadataKey} of the type which's structure has to be resolved
    * @return {@code null}
    * @throws MetadataResolvingException
    */
@@ -75,12 +84,12 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
   }
 
   /**
-   * Null implementation of {@link MetadataAttributesResolver}, used when no implementation
-   * is provided by the connector developer. Represents the absence of a custom {@link MetadataAttributesResolver},
-   * returning a {@link AnyType} instead of resolving a dynamic {@link MetadataType} for the component's output attributes.
+   * Null implementation of {@link MetadataAttributesResolver}, used when no implementation is provided by the connector
+   * developer. Represents the absence of a custom {@link MetadataAttributesResolver}, returning a {@link AnyType} instead of
+   * resolving a dynamic {@link MetadataType} for the component's output attributes.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
+   * @param key {@link MetadataKey} of the type which's structure has to be resolved
    * @return {@code null}
    * @throws MetadataResolvingException
    */
