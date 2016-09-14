@@ -17,8 +17,8 @@ import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.JavaTypeLoader;
-import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.MetadataKeysContainer;
 import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -142,11 +141,12 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   @Test
   public void deserializeMetadataKeysResult() throws IOException {
     String resource = getResourceAsString(METADATA_KEYS_RESULT_JSON);
-    ImmutableMetadataResult<Map<String, Set<DefaultMetadataKey>>> metadataResult = keysResultSerializer.deserialize(resource);
+    ImmutableMetadataResult<MetadataKeysContainer> metadataResult = keysResultSerializer.deserialize(resource);
 
     assertThat(metadataResult.isSuccess(), is(true));
-    assertThat(metadataResult.get().containsKey(CATEGORY_NAME), is(true));
-    Iterator<DefaultMetadataKey> iterator = metadataResult.get().get(CATEGORY_NAME).iterator();
+    MetadataKeysContainer container = metadataResult.get();
+    assertThat(container.getKeys(CATEGORY_NAME).isPresent(), is(true));
+    Iterator<MetadataKey> iterator = container.getKeys(CATEGORY_NAME).get().iterator();
     assertThat(iterator.next().getDisplayName(), is(FIRST_KEY_ID));
     assertThat(iterator.next().getDisplayName(), is(SECOND_KEY_ID));
   }
@@ -167,8 +167,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   @Test
   public void deserializeFailureKeysResult() throws IOException {
     String resource = getResourceAsString(METADATA_KEYS_RESULT_FAILURE_JSON);
-    ImmutableMetadataResult<Map<String, Set<DefaultMetadataKey>>> metadataResult = keysResultSerializer.deserialize(resource);
-
+    ImmutableMetadataResult<MetadataKeysContainer> metadataResult = keysResultSerializer.deserialize(resource);
     assertThat(metadataResult.isSuccess(), is(false));
     assertThat(metadataResult.getFailure().isPresent(), is(true));
 

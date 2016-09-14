@@ -13,6 +13,7 @@ import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeysContainer;
+import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
 import java.util.List;
@@ -40,12 +41,14 @@ public class MetadataKeysResult {
     this.keys = result.get() != null ? (Map) result.get().getKeysByCategory() : emptyMap();
   }
 
-  public MetadataResult<Map<String, Set<DefaultMetadataKey>>> toKeysMetadataResult() {
+  public MetadataResult<MetadataKeysContainer> toKeysMetadataResult() {
+    MetadataKeysContainerBuilder builder = MetadataKeysContainerBuilder.getInstance().addAll((Map) keys);
     if (!failures.isEmpty()) {
       Failure metadataFailure = failures.get(0);
-      return failure(keys, metadataFailure.getMessage(), metadataFailure.getFailureCode(), metadataFailure.getReason());
+      return failure(builder.build(), metadataFailure.getMessage(), metadataFailure.getFailureCode(),
+                     metadataFailure.getReason());
     }
 
-    return success(keys);
+    return success(builder.build());
   }
 }
