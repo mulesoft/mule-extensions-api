@@ -37,7 +37,7 @@ public class MetadataKeysResult {
     this.failures = result.isSuccess() ? emptyList()
         : singletonList(new Failure(result.getFailure().get(), KEYS));
 
-    this.keys = result.get() != null ? (Map) result.get().getKeysForAllCategories() : emptyMap();
+    this.keys = result.get() != null ? (Map) result.get().getKeysByCategory() : emptyMap();
   }
 
   public MetadataResult<Map<String, Set<DefaultMetadataKey>>> toKeysMetadataResult() {
