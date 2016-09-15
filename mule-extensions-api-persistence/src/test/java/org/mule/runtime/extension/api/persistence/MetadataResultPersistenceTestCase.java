@@ -6,51 +6,41 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
-import static org.mule.runtime.api.metadata.resolving.FailureCode.CONNECTION_FAILURE;
-import static org.mule.runtime.api.metadata.resolving.FailureCode.INVALID_METADATA_KEY;
-import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED;
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+import org.junit.Before;
+import org.junit.Test;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.JavaTypeLoader;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeysContainer;
 import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
-import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableParameterMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.*;
 import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataDescriptorResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
+import org.mule.runtime.extension.api.persistence.metadata.MetadataTypeDescriptorResultJsonSerializer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
+import static org.mule.runtime.api.metadata.resolving.FailureCode.*;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 
 public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
 
   private static final String METADATA_DESCRIPTOR_RESULT_JSON = "metadata/success-result-descriptor.json";
+  private static final String METADATA_ENTITY_RESULT_JSON = "metadata/success-result-entity.json";
   private static final String METADATA_KEYS_RESULT_JSON = "metadata/success-result-keys.json";
   private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "metadata/success-result-multilevel-keys.json";
   private static final String METADATA_RESULT_FAILURE_JSON = "metadata/failure-result.json";
   private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
+  private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "metadata/failure-entity-result.json";
 
   private static final String FIRST_KEY_ID = "firstKey";
   private static final String SECOND_KEY_ID = "secondKey";
@@ -61,14 +51,25 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   private static final String CATEGORY_NAME = "categoryName";
 
   private ComponentMetadataDescriptor operationMetadataDescriptor;
+  private TypeMetadataDescriptor typeMetadataDescriptor;
   private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
   private MetadataDescriptorResultJsonSerializer metadataDescriptorSerializer = new MetadataDescriptorResultJsonSerializer(true);
+  private final MetadataTypeDescriptorResultJsonSerializer typeDescriptorResultJsonSerializer =
+      new MetadataTypeDescriptorResultJsonSerializer(true);
   private MetadataKeysContainerBuilder builder;
 
   @Before
   public void setup() {
     operationMetadataDescriptor = buildTestOperationMetadataDescriptor();
+    typeMetadataDescriptor = buildTestTypeMetadataDescriptor();
     builder = MetadataKeysContainerBuilder.getInstance();
+  }
+
+  @Test
+  public void serializeSuccessEntityMetadataDescriptorResult() throws IOException {
+    String serialized =
+        typeDescriptorResultJsonSerializer.serialize(success((ImmutableTypeMetadataDescriptor) typeMetadataDescriptor));
+    assertSerializedJson(serialized, METADATA_ENTITY_RESULT_JSON);
   }
 
   @Test
@@ -137,6 +138,15 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
     String serialized = metadataDescriptorSerializer.serialize(metadataResultFailure);
     assertSerializedJson(serialized, METADATA_RESULT_FAILURE_JSON);
   }
+
+  @Test
+  public void serializeFailureEntityMetadataResult() throws IOException {
+    String serialized =
+        typeDescriptorResultJsonSerializer
+            .serialize(failure(null, METADATA_RESULT_ERROR_MESSAGE, CONNECTION_FAILURE, METADATA_RESULT_ERROR_MESSAGE));
+    assertSerializedJson(serialized, METADATA_ENTITY_RESULT_FAILURE_JSON);
+  }
+
 
   @Test
   public void deserializeMetadataKeysResult() throws IOException {
@@ -217,6 +227,11 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
 
     return new ImmutableComponentMetadataDescriptor("testOperationMetadataDescriptor", parameters, outputMetadataDescriptor,
                                                     content);
+  }
+
+  private TypeMetadataDescriptor buildTestTypeMetadataDescriptor() {
+    final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
+    return new ImmutableTypeMetadataDescriptor(javaTypeLoader.load(String.class));
   }
 
   private void assertOutputMetadata(MetadataResult<ImmutableComponentMetadataDescriptor> metadataResult) {
