@@ -1,19 +1,21 @@
 {
   "failures": [],
-  "keys": [
-    {
-      "id": "firstKey",
-      "displayName": "firstKey",
-      "partName": "",
-      "properties": {},
-      "childs": []
-    },
-    {
-      "id": "secondKey",
-      "displayName": "secondKey",
-      "partName": "",
-      "properties": {},
-      "childs": []
-    }
-  ]
+  "keys": {
+    "categoryName": [
+      {
+        "id": "firstKey",
+        "displayName": "firstKey",
+        "partName": "",
+        "properties": {},
+        "childs": []
+      },
+      {
+        "id": "secondKey",
+        "displayName": "secondKey",
+        "partName": "",
+        "properties": {},
+        "childs": []
+      }
+    ]
+  }
 }

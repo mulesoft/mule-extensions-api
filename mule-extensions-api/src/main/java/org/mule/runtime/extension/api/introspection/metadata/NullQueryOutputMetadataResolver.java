@@ -22,6 +22,11 @@ import org.mule.runtime.extension.api.annotation.Query;
  */
 public final class NullQueryOutputMetadataResolver implements MetadataOutputResolver<String> {
 
+  @Override
+  public String getCategoryName() {
+    return "NullQueryOutputCategory";
+  }
+
   /**
    * Null implementation of {@link MetadataOutputResolver} for {@link Query} operations, used when no implementation
    * is provided by the connector developer. Represents the absence of a custom {@link MetadataOutputResolver},
@@ -37,5 +42,4 @@ public final class NullQueryOutputMetadataResolver implements MetadataOutputReso
     // TODO: MDM-21 - replace with VoidType when available.
     return null;
   }
-
 }
