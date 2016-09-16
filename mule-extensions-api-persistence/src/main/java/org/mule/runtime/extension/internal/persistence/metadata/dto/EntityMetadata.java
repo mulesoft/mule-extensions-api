@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.persistence.metadata.dto;
 
 import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 
 /**
- * DTO that represents a {@link OutputMetadataDescriptor} into a serializable format.
+ * DTO that represents a {@link TypeMetadataDescriptor} into a serializable format.
  *
  * @since 1.0
  */
