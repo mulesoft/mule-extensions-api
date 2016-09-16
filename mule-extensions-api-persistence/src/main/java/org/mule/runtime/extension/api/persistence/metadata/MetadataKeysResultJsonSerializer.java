@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
 
+  // TODO: MULE-10583 Review MetadataService serialization API
   public MetadataKeysResultJsonSerializer() {
     super(false);
   }

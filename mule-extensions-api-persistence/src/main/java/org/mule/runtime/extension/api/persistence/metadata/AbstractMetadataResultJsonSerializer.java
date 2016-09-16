@@ -30,6 +30,7 @@ public abstract class AbstractMetadataResultJsonSerializer {
 
   protected final Gson gson;
 
+  // TODO: MULE-10583 Review MetadataService serialization API
   public AbstractMetadataResultJsonSerializer(boolean prettyPrint) {
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(ParameterMetadataDescriptor.class,

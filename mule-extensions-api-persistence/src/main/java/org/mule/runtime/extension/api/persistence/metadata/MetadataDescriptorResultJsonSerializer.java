@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
 
+  // TODO: MULE-10583 Review MetadataService serialization API
   public MetadataDescriptorResultJsonSerializer() {
     super(false);
   }
