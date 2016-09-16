@@ -320,6 +320,7 @@ public class DslSyntaxResolver {
           DslElementSyntaxBuilder builder = createBaseValueDefinition();
           addBeanDeclarationSupport(objectType, objectType.getFields(), builder, namespace, namespaceUri);
           builder.supportsChildDeclaration(true);
+          builder.asWrappedElement(requiresWrapperElement);
 
           mapBuilder.withGeneric(objectType, builder.build());
         } else {
