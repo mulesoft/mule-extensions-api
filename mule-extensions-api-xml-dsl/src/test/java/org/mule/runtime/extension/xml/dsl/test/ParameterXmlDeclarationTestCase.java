@@ -358,7 +358,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
     assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
     assertChildElementDeclarationIs(true, innerElement);
-    assertIsWrappedElement(false, innerElement);
+    assertIsWrappedElement(true, innerElement);
   }
 
   @Test
@@ -403,7 +403,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
     assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
     assertChildElementDeclarationIs(true, innerElement);
-    assertIsWrappedElement(false, innerElement);
+    assertIsWrappedElement(true, innerElement);
   }
 
   @Test
