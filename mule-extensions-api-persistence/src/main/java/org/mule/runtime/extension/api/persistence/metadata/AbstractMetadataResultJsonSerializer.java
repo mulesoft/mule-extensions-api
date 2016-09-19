@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
@@ -16,9 +18,6 @@ import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.api.persistence.RestrictiveTypeAdapterFactory;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * Abstract implementation of a serializer that can convert a {@link MetadataResult} of some payload type into

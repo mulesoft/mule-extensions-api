@@ -20,10 +20,10 @@ import com.google.gson.reflect.TypeToken;
  *
  * @since 1.0
  */
-public class MetadataTypeDescriptorResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
+public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
 
   // TODO: MULE-10583 Review MetadataService serialization API
-  public MetadataTypeDescriptorResultJsonSerializer(boolean prettyPrint) {
+  public EntityMetadataResultJsonSerializer(boolean prettyPrint) {
     super(prettyPrint);
   }
 

@@ -8,8 +8,8 @@ package org.mule.runtime.extension.api.persistence;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.java.api.JavaTypeLoader;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeysContainer;
 import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
@@ -17,9 +17,10 @@ import org.mule.runtime.api.metadata.descriptor.*;
 import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataDescriptorResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
-import org.mule.runtime.extension.api.persistence.metadata.MetadataTypeDescriptorResultJsonSerializer;
+import org.mule.runtime.extension.api.persistence.metadata.EntityMetadataResultJsonSerializer;
 
 import java.io.IOException;
 import java.util.*;
@@ -54,8 +55,8 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   private TypeMetadataDescriptor typeMetadataDescriptor;
   private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
   private MetadataDescriptorResultJsonSerializer metadataDescriptorSerializer = new MetadataDescriptorResultJsonSerializer(true);
-  private final MetadataTypeDescriptorResultJsonSerializer typeDescriptorResultJsonSerializer =
-      new MetadataTypeDescriptorResultJsonSerializer(true);
+  private final EntityMetadataResultJsonSerializer typeDescriptorResultJsonSerializer =
+      new EntityMetadataResultJsonSerializer(true);
   private MetadataKeysContainerBuilder builder;
 
   @Before
@@ -115,7 +116,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
 
   @Test
   public void serializeFailureMetadataResult() throws IOException {
-    final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
+    final ClassTypeLoader javaTypeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     final MetadataType stringType = javaTypeLoader.load(String.class);
     final MetadataType intType = javaTypeLoader.load(Integer.class);
     List<MetadataResult<ParameterMetadataDescriptor>> parameters = new ArrayList<>();
@@ -210,7 +211,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   }
 
   private ComponentMetadataDescriptor buildTestOperationMetadataDescriptor() {
-    final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
+    final ClassTypeLoader javaTypeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     final MetadataType stringType = javaTypeLoader.load(String.class);
     final MetadataType intType = javaTypeLoader.load(Integer.class);
 
@@ -230,7 +231,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   }
 
   private TypeMetadataDescriptor buildTestTypeMetadataDescriptor() {
-    final JavaTypeLoader javaTypeLoader = new JavaTypeLoader(ExtensionModelPersistenceTestCase.class.getClassLoader());
+    final ClassTypeLoader javaTypeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     return new ImmutableTypeMetadataDescriptor(javaTypeLoader.load(String.class));
   }
 

@@ -10,15 +10,12 @@ import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
-import java.util.List;
-
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 
 /**
- * DTO that represents a {@link TypeMetadataDescriptor} into a serializable format.
+ * DTO that represents a {@link TypeMetadataDescriptor} into a serializable format. Used for the serialization of the DSQL
+ * entities.
  *
  * @since 1.0
  */
@@ -26,13 +23,12 @@ public class EntityMetadata {
 
   private final static String ENTITIES = "ENTITIES";
 
-  private final List<Failure> failures;
+  private final Failure failure;
   private final TypeMetadata entity;
 
   public EntityMetadata(MetadataResult<ImmutableTypeMetadataDescriptor> result) {
     entity = result.get() != null ? new TypeMetadata(result.get().getType(), false) : null;
-    failures = result.isSuccess() ? emptyList()
-        : singletonList(new Failure(result.getFailure().get(), ENTITIES));
+    failure = result.getFailure().isPresent() ? new Failure(result.getFailure().get(), ENTITIES) : null;
   }
 
   TypeMetadata getEntity() {
@@ -41,13 +37,10 @@ public class EntityMetadata {
 
   public MetadataResult<ImmutableTypeMetadataDescriptor> toEntityMetadataResult() {
 
-    if (!failures.isEmpty()) {
-      Failure metadataFailure = failures.get(0);
-      return failure(new ImmutableTypeMetadataDescriptor(entity != null ? entity.getType() : null), metadataFailure.getMessage(),
-                     metadataFailure.getFailureCode(),
-                     metadataFailure.getReason());
-    }
-
-    return success(new ImmutableTypeMetadataDescriptor(entity.getType()));
+    return failure != null
+        ? failure(new ImmutableTypeMetadataDescriptor(entity != null ? entity.getType() : null), failure.getMessage(),
+                  failure.getFailureCode(),
+                  failure.getReason())
+        : success(new ImmutableTypeMetadataDescriptor(entity.getType()));
   }
 }
