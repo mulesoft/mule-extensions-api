@@ -68,8 +68,7 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
    *
    * @since 1.0
    */
-  private class ComponentMetadataResult implements Descriptable<ComponentMetadataDescriptor> {
-
+  private static class ComponentMetadataResult implements Descriptable<ComponentMetadataDescriptor> {
 
     private final String componentName;
     private final List<ParameterMetadata> parameters;
@@ -105,29 +104,29 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
     }
 
     private List<Failure> collectFailures(MetadataResult<ComponentMetadataDescriptor> result) {
-      ImmutableMap.Builder<String, MetadataFailure> failures = ImmutableMap.builder();
-      ComponentMetadataDescriptor descriptor = result.get();
-      if (result.isSuccess()) {
+      if (!result.getFailure().isPresent()) {
         return emptyList();
       }
 
+      ImmutableMap.Builder<String, MetadataFailure> failures = ImmutableMap.builder();
+      ComponentMetadataDescriptor descriptor = result.get();
       failures.put(COMPONENT, result.getFailure().get());
 
       if (descriptor != null) {
         Optional<MetadataResult<ParameterMetadataDescriptor>> contentMetadata = descriptor.getContentMetadata();
-        if (contentMetadata.isPresent() && !contentMetadata.get().isSuccess()) {
+        if (contentMetadata.isPresent() && contentMetadata.get().getFailure().isPresent()) {
           failures.put(CONTENT, contentMetadata.get().getFailure().get());
         }
 
         MetadataResult<OutputMetadataDescriptor> outputMetadata = descriptor.getOutputMetadata();
         if (!outputMetadata.isSuccess()) {
           MetadataResult<TypeMetadataDescriptor> payloadMetadata = outputMetadata.get().getPayloadMetadata();
-          if (!payloadMetadata.isSuccess()) {
+          if (payloadMetadata.getFailure().isPresent()) {
             failures.put(OUTPUT_PAYLOAD, payloadMetadata.getFailure().get());
           }
 
           MetadataResult<TypeMetadataDescriptor> attributesMetadata = outputMetadata.get().getAttributesMetadata();
-          if (!attributesMetadata.isSuccess()) {
+          if (attributesMetadata.getFailure().isPresent()) {
             failures.put(OUTPUT_ATTRIBUTES, attributesMetadata.getFailure().get());
           }
 
@@ -145,10 +144,10 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
     @Override
     public MetadataResult<ComponentMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
       Optional<Failure> metadataFailure = getComponentFailure(failures, COMPONENT);
-      Optional<ParameterMetadata> content = parameters.stream().filter(ParameterMetadata::isDynamic).findFirst();
+      Optional<ParameterMetadata> content = parameters.stream().filter(ParameterMetadata::isContent).findFirst();
 
       List<MetadataResult<ParameterMetadataDescriptor>> parameterDescriptors = parameters.stream()
-          .filter(p -> !p.isDynamic())
+          .filter(p -> !p.isContent())
           .map(p -> p.toDescriptorResult(failures))
           .collect(toList());
 
@@ -177,7 +176,7 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
    *
    * @since 1.0
    */
-  private class ParameterMetadata implements Descriptable<ParameterMetadataDescriptor> {
+  private static class ParameterMetadata implements Descriptable<ParameterMetadataDescriptor> {
 
     private final String name;
     private final MetadataType type;
@@ -197,7 +196,7 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
       return type;
     }
 
-    boolean isDynamic() {
+    boolean isContent() {
       return isDynamic;
     }
 
@@ -220,7 +219,7 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
    *
    * @since 1.0
    */
-  private class OutputMetadata implements Descriptable<OutputMetadataDescriptor> {
+  private static class OutputMetadata implements Descriptable<OutputMetadataDescriptor> {
 
     private final TypeMetadata content;
     private final TypeMetadata attributes;
