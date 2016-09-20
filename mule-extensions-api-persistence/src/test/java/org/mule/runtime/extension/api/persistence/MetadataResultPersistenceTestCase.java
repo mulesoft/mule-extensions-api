@@ -18,7 +18,7 @@ import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.persistence.metadata.EntityMetadataResultJsonSerializer;
-import org.mule.runtime.extension.api.persistence.metadata.MetadataDescriptorResultJsonSerializer;
+import org.mule.runtime.extension.api.persistence.metadata.ComponentResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   private ComponentMetadataDescriptor operationMetadataDescriptor;
   private TypeMetadataDescriptor typeMetadataDescriptor;
   private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
-  private MetadataDescriptorResultJsonSerializer metadataDescriptorSerializer = new MetadataDescriptorResultJsonSerializer(true);
+  private ComponentResultJsonSerializer metadataDescriptorSerializer = new ComponentResultJsonSerializer(true);
   private final EntityMetadataResultJsonSerializer typeDescriptorResultJsonSerializer =
       new EntityMetadataResultJsonSerializer(true);
   private MetadataKeysContainerBuilder builder;

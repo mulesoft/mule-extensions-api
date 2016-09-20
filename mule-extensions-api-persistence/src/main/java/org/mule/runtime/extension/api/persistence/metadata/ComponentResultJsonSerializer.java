@@ -14,7 +14,6 @@ import org.mule.runtime.api.metadata.descriptor.*;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
  *
  * @since 1.0
  */
-public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
+public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
 
   private final static String CONTENT = "CONTENT";
   private final static String COMPONENT = "COMPONENT";
@@ -37,11 +36,11 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
   private final static String OUTPUT_ATTRIBUTES = "OUTPUT_ATTRIBUTES";
   private final static String OUTPUT = "OUTPUT";
 
-  public MetadataDescriptorResultJsonSerializer() {
+  public ComponentResultJsonSerializer() {
     super(false);
   }
 
-  public MetadataDescriptorResultJsonSerializer(boolean prettyPrint) {
+  public ComponentResultJsonSerializer(boolean prettyPrint) {
     super(prettyPrint);
   }
 
@@ -241,10 +240,8 @@ public class MetadataDescriptorResultJsonSerializer extends AbstractMetadataResu
     @Override
     public MetadataResult<OutputMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
       Optional<Failure> metadataFailure = getComponentFailure(failures, OUTPUT);
-      List<Failure> attributesFailure =
-          getComponentFailure(failures, OUTPUT_ATTRIBUTES).map(Collections::singletonList).orElse(emptyList());
-      List<Failure> payloadFailure =
-          getComponentFailure(failures, OUTPUT_PAYLOAD).map(Collections::singletonList).orElse(emptyList());
+      Optional<Failure> attributesFailure = getComponentFailure(failures, OUTPUT_ATTRIBUTES);
+      Optional<Failure> payloadFailure = getComponentFailure(failures, OUTPUT_PAYLOAD);
 
       ImmutableOutputMetadataDescriptor descriptor =
           new ImmutableOutputMetadataDescriptor(content.toDescriptorResult(payloadFailure),

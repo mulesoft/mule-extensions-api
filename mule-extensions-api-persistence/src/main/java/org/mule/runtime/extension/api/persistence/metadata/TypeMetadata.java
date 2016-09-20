@@ -11,7 +11,7 @@ import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
@@ -21,12 +21,12 @@ import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
  *
  * @since 1.0
  */
-class TypeMetadata implements Descriptable<TypeMetadataDescriptor> {
+class TypeMetadata {
 
   protected final MetadataType type;
   protected final boolean isDynamic;
 
-  public TypeMetadata(MetadataType type, boolean isDynamic) {
+  TypeMetadata(MetadataType type, boolean isDynamic) {
     this.isDynamic = isDynamic;
     this.type = type;
   }
@@ -39,14 +39,13 @@ class TypeMetadata implements Descriptable<TypeMetadataDescriptor> {
     return type;
   }
 
-  @Override
-  public MetadataResult<TypeMetadataDescriptor> toDescriptorResult(List<Failure> metadataFailure) {
+  MetadataResult<TypeMetadataDescriptor> toDescriptorResult(Optional<Failure> metadataFailure) {
     ImmutableTypeMetadataDescriptor descriptor = new ImmutableTypeMetadataDescriptor(type);
-    if (metadataFailure.size() == 1) {
+    if (metadataFailure.isPresent()) {
       return failure(descriptor,
-                     metadataFailure.get(0).getMessage(),
-                     metadataFailure.get(0).getFailureCode(),
-                     metadataFailure.get(0).getReason());
+                     metadataFailure.get().getMessage(),
+                     metadataFailure.get().getFailureCode(),
+                     metadataFailure.get().getReason());
     } else {
       return success(descriptor);
     }
