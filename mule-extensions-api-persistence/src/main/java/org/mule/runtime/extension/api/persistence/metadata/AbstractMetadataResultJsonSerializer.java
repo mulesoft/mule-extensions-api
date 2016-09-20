@@ -20,8 +20,8 @@ import org.mule.runtime.extension.api.persistence.DefaultImplementationTypeAdapt
 import org.mule.runtime.extension.api.persistence.RestrictiveTypeAdapterFactory;
 
 /**
- * Abstract implementation of a serializer that can convert a {@link MetadataResult} of some payload type into
- * a readable and processable JSON representation and from a JSON {@link String} to an {@link MetadataResult} instance
+ * Abstract implementation of a serializer that can convert a {@link MetadataResult} of some payload type into a readable and
+ * processable JSON representation and from a JSON {@link String} to an {@link MetadataResult} instance
  *
  * @since 1.0
  */
@@ -29,7 +29,6 @@ public abstract class AbstractMetadataResultJsonSerializer {
 
   protected final Gson gson;
 
-  // TODO: MULE-10583 Review MetadataService serialization API
   public AbstractMetadataResultJsonSerializer(boolean prettyPrint) {
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(ParameterMetadataDescriptor.class,
