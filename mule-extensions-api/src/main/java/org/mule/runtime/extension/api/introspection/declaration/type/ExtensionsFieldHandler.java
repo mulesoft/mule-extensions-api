@@ -6,7 +6,10 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
@@ -18,9 +21,11 @@ import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
@@ -30,7 +35,9 @@ import java.beans.Introspector;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s
@@ -54,6 +61,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
     Collection<Field> fields = getParameterFields(clazz);
     if (fields.isEmpty()) {
+      validateIllegalAnnotationUse(clazz);
       fallbackToBeanProperties(clazz, typeHandlerManager, context, builder);
       return;
     }
@@ -68,6 +76,20 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       processExpressionSupport(field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
+    }
+  }
+
+  private void validateIllegalAnnotationUse(Class<?> clazz) {
+    final String annotationsPackageName = Parameter.class.getPackage().getName();
+    List<String> illegalFieldNames = getAllFields(clazz).stream()
+        .filter(field -> Stream.of(field.getAnnotations())
+            .anyMatch(a -> a.annotationType().getName().contains(annotationsPackageName)))
+        .map(Field::getName)
+        .collect(toList());
+
+    if (!illegalFieldNames.isEmpty()) {
+      throw new IllegalModelDefinitionException(format("Class '%s' has fields annotated with Extensions API annotations which are not parameters. "
+          + "Illegal fields are " + illegalFieldNames, clazz.getName()));
     }
   }
 

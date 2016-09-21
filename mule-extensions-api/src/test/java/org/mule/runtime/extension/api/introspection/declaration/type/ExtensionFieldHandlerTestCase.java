@@ -10,14 +10,18 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
+import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
@@ -63,6 +67,11 @@ public class ExtensionFieldHandlerTestCase {
     assertThat(field.getValue(), is(instanceOf(StringType.class)));
   }
 
+  @Test(expected = IllegalModelDefinitionException.class)
+  public void invalidAnnotatedFields() {
+    typeLoader.load(InvalidAnnotatedFields.class);
+  }
+
   interface HasGetter {
 
     String getSomeString();
@@ -86,5 +95,15 @@ public class ExtensionFieldHandlerTestCase {
     @Parameter
     @Text
     private String text;
+  }
+
+  public class InvalidAnnotatedFields {
+
+    @Optional
+    private String notAParameter;
+
+    @Expression(NOT_SUPPORTED)
+    private Object iSaidNotAParameterDoNotInsist;
+
   }
 }
