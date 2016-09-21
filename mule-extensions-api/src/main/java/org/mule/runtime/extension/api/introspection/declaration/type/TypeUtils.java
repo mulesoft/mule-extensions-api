@@ -6,10 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
-import static com.google.common.base.Predicates.not;
-import static com.google.common.base.Predicates.or;
-import static org.reflections.ReflectionUtils.getAllFields;
-import static org.reflections.ReflectionUtils.withAnnotation;
+import static java.util.stream.Collectors.toList;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
@@ -25,7 +22,10 @@ import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model
@@ -37,17 +37,43 @@ public final class TypeUtils {
   private TypeUtils() {}
 
   /**
-   * Returns all the {@link Field}s in the given {@code extensionType} which are annotated
+   * Returns all the {@link Field}s in the given {@code declaringType} which are annotated
    * with {@link Parameter} but also do not have the {@link Ignore} one.
    * <p>
    * The introspection also includes parent classes.
    *
-   * @param type the class to introspect.
+   * @param declaringType the class to introspect.
    * @return a {@link Collection} of {@link Field fields}. May be empty but will never be {@code null}
    */
-  public static Collection<Field> getParameterFields(Class<?> type) {
-    return getAllFields(type, or(withAnnotation(Parameter.class), withAnnotation(ParameterGroup.class)),
-                        not(withAnnotation(Ignore.class)));
+  public static Collection<Field> getParameterFields(Class<?> declaringType) {
+    return getAllFields(declaringType).stream()
+        .filter(field -> (field.getAnnotation(Parameter.class) != null || field.getAnnotation(ParameterGroup.class) != null)
+            && field.getAnnotation(Ignore.class) == null)
+        .collect(toList());
+  }
+
+  /**
+   * Returns all the {@link Field}s in the given {@code declaringType}.
+   * <p>
+   * The introspection also includes parent classes.
+   *
+   * @param declaringType the class to introspect.
+   * @return a {@link Collection} of {@link Field fields}. May be empty but will never be {@code null}
+   */
+  public static Collection<Field> getAllFields(Class<?> declaringType) {
+    return getAllSuperClasses(declaringType).stream()
+        .flatMap(type -> Stream.of(type.getDeclaredFields()))
+        .collect(toList());
+  }
+
+  public static Collection<Class<?>> getAllSuperClasses(final Class<?> type) {
+    List<Class<?>> result = new LinkedList<>();
+    if (type != null && !type.equals(Object.class)) {
+      result.add(type);
+      result.addAll(getAllSuperClasses(type.getSuperclass()));
+    }
+
+    return result;
   }
 
   /**
