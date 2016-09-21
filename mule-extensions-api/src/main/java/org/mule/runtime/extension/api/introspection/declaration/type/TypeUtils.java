@@ -6,8 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
-import static java.util.stream.Collectors.toCollection;
-import static org.reflections.ReflectionUtils.getAllSuperTypes;
+import static java.util.stream.Collectors.toList;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
@@ -23,7 +22,8 @@ import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -49,7 +49,7 @@ public final class TypeUtils {
     return getAllFields(declaringType).stream()
         .filter(field -> (field.getAnnotation(Parameter.class) != null || field.getAnnotation(ParameterGroup.class) != null)
             && field.getAnnotation(Ignore.class) == null)
-        .collect(toCollection(LinkedHashSet::new));
+        .collect(toList());
   }
 
   /**
@@ -61,9 +61,19 @@ public final class TypeUtils {
    * @return a {@link Collection} of {@link Field fields}. May be empty but will never be {@code null}
    */
   public static Collection<Field> getAllFields(Class<?> declaringType) {
-    return getAllSuperTypes(declaringType).stream()
+    return getAllSuperClasses(declaringType).stream()
         .flatMap(type -> Stream.of(type.getDeclaredFields()))
-        .collect(toCollection(LinkedHashSet::new));
+        .collect(toList());
+  }
+
+  public static Collection<Class<?>> getAllSuperClasses(final Class<?> type) {
+    List<Class<?>> result = new LinkedList<>();
+    if (type != null && !type.equals(Object.class)) {
+      result.add(type);
+      result.addAll(getAllSuperClasses(type.getSuperclass()));
+    }
+
+    return result;
   }
 
   /**
