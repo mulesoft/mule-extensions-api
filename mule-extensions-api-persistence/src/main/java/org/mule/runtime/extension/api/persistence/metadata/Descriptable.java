@@ -4,7 +4,9 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.persistence.metadata.dto;
+
+package org.mule.runtime.extension.api.persistence.metadata;
+
 
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
@@ -16,7 +18,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public interface Descriptable<T> {
+interface Descriptable<T> {
 
   MetadataResult<T> toDescriptorResult(List<Failure> failures);
 

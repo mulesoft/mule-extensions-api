@@ -6,19 +6,22 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
-import org.mule.runtime.api.metadata.MetadataKey;
-import org.mule.runtime.api.metadata.MetadataKeysContainer;
-import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
-import org.mule.runtime.api.metadata.resolving.MetadataResult;
-import org.mule.runtime.extension.internal.persistence.metadata.dto.MetadataKeysResult;
-
 import com.google.gson.reflect.TypeToken;
+import org.mule.runtime.api.metadata.DefaultMetadataKey;
+import org.mule.runtime.api.metadata.MetadataKeysContainer;
+import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
+import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static java.util.Collections.emptyMap;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 
 /**
- * Serializer that can convert a {@link MetadataResult} of a {@link List} of {@link MetadataKey} type into
- * a readable and processable JSON representation and from a JSON {@link String} to an {@link MetadataResult} instance
+ * Serializer that can convert a {@link MetadataResult} of a {@link MetadataKeysContainer} type into a readable and processable
+ * JSON representation and from a JSON {@link String} to an {@link MetadataResult} instance
  *
  * @since 1.0
  */
@@ -44,8 +47,35 @@ public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJson
    * {@inheritDoc}
    */
   @Override
-  public ImmutableMetadataResult<MetadataKeysContainer> deserialize(String metadataResult) {
+  public MetadataResult<MetadataKeysContainer> deserialize(String metadataResult) {
     MetadataKeysResult result = gson.fromJson(metadataResult, new TypeToken<MetadataKeysResult>() {}.getType());
-    return (ImmutableMetadataResult<MetadataKeysContainer>) result.toKeysMetadataResult();
+    return result.toKeysMetadataResult();
+  }
+
+  /**
+   * DTO that represents a {@link MetadataResult} of {@link MetadataKeysContainer}
+   * 
+   * @since 1.0
+   */
+  private class MetadataKeysResult {
+
+    private final static String KEYS = "KEYS";
+
+    private final Failure failure;
+    private final Map<String, Set<DefaultMetadataKey>> keys;
+
+    @SuppressWarnings("unchecked")
+    public MetadataKeysResult(MetadataResult<MetadataKeysContainer> result) {
+      this.failure = result.getFailure().isPresent() ? new Failure(result.getFailure().get(), KEYS) : null;
+      this.keys = result.get() != null ? (Map) result.get().getKeysByCategory() : emptyMap();
+    }
+
+    public MetadataResult<MetadataKeysContainer> toKeysMetadataResult() {
+      MetadataKeysContainerBuilder builder = MetadataKeysContainerBuilder.getInstance().addAll((Map) keys);
+
+      return failure != null ? failure(builder.build(), failure.getMessage(), failure.getFailureCode(),
+                                       failure.getReason())
+          : success(builder.build());
+    }
   }
 }

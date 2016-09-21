@@ -1,10 +1,9 @@
 {
   "failure":
   {
-    "failureCode": "NOT_AUTHORIZED",
+    "failureCode": "CONNECTION_FAILURE",
     "message": "Metadata Failure Error",
     "reason": "Metadata Failure Error",
-    "failureComponent": "KEYS"
-  },
-  "keys": {}
+    "failureComponent": "ENTITIES"
+  }
 }

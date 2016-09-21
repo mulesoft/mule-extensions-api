@@ -1,0 +1,12 @@
+{
+  "entity":{
+    "type":{
+      "format":"java",
+      "type":"String",
+      "annotations":{
+        "typeId":"java.lang.String"
+      }
+    },
+    "isDynamic":false
+  }
+}

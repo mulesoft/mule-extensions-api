@@ -50,6 +50,9 @@
             "implementedInterfaces": [],
             "parent": "",
             "genericTypes": []
+          },
+          "typeAlias": {
+            "value":"Object"
           }
         },
         "fields": []
