@@ -115,7 +115,7 @@ class DslSyntaxUtils {
 
   static boolean supportTopLevelElement(MetadataType metadataType) {
     return supportTopLevelElement(metadataType, metadataType.getAnnotation(XmlHintsAnnotation.class)
-      .map(XmlHintsAnnotation::allowsReferences).orElse(true));
+        .map(XmlHintsAnnotation::allowsReferences).orElse(true));
   }
 
   static boolean supportTopLevelElement(MetadataType metadataType, Optional<XmlHintsModelProperty> ownerXmlHints) {
@@ -145,7 +145,7 @@ class DslSyntaxUtils {
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport,
-                                            Optional<XmlHintsModelProperty> xmlHints) {
+                                           Optional<XmlHintsModelProperty> xmlHints) {
     final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
     if (REQUIRED == expressionSupport) {

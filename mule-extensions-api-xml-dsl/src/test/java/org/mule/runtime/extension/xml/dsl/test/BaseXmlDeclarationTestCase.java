@@ -241,7 +241,7 @@ public abstract class BaseXmlDeclarationTestCase {
   protected DslElementSyntax getGenericTypeDsl(MetadataType itemType, DslElementSyntax result) {
     Optional<DslElementSyntax> genericDsl = result.getGeneric(itemType);
     assertThat("No generic element found for type [" + getTypeId(itemType).orElse("") + "] for element ["
-                 + result.getElementName() + "]",
+        + result.getElementName() + "]",
                genericDsl.isPresent(), is(true));
 
     return genericDsl.get();

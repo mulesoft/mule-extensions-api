@@ -90,10 +90,10 @@ public class DslSyntaxResolver {
    */
   public DslElementSyntax resolve(final Named component) {
     return DslElementSyntaxBuilder.create()
-      .withElementName(hyphenize(component.getName()))
-      .withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri())
-      .requiresConfig(requiresConfig(component))
-      .build();
+        .withElementName(hyphenize(component.getName()))
+        .withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri())
+        .requiresConfig(requiresConfig(component))
+        .build();
   }
 
   /**
@@ -111,82 +111,82 @@ public class DslSyntaxResolver {
     final Optional<XmlHintsModelProperty> xmlHints = getHintsModelProperty(parameter);
 
     parameter.getType().accept(
-      new MetadataTypeVisitor() {
+                               new MetadataTypeVisitor() {
 
-        @Override
-        public void visitUnion(UnionType unionType) {
-          unionType.getTypes().forEach(type -> type.accept(this));
-        }
+                                 @Override
+                                 public void visitUnion(UnionType unionType) {
+                                   unionType.getTypes().forEach(type -> type.accept(this));
+                                 }
 
-        @Override
-        protected void defaultVisit(MetadataType metadataType) {
-          builder.withAttributeName(parameter.getName())
-            .withNamespace(namespace, namespaceUri)
-            .withElementName(hyphenize(parameter.getName()));
-        }
+                                 @Override
+                                 protected void defaultVisit(MetadataType metadataType) {
+                                   builder.withAttributeName(parameter.getName())
+                                       .withNamespace(namespace, namespaceUri)
+                                       .withElementName(hyphenize(parameter.getName()));
+                                 }
 
-        @Override
-        public void visitString(StringType stringType) {
-          defaultVisit(stringType);
-          builder.supportsChildDeclaration(isText(parameter));
-        }
+                                 @Override
+                                 public void visitString(StringType stringType) {
+                                   defaultVisit(stringType);
+                                   builder.supportsChildDeclaration(isText(parameter));
+                                 }
 
-        @Override
-        public void visitArrayType(ArrayType arrayType) {
-          defaultVisit(arrayType);
-          MetadataType genericType = arrayType.getType();
+                                 @Override
+                                 public void visitArrayType(ArrayType arrayType) {
+                                   defaultVisit(arrayType);
+                                   MetadataType genericType = arrayType.getType();
 
-          boolean supportsInline = supportsInlineDeclaration(genericType, expressionSupport, xmlHints);
-          boolean requiresWrapper = typeRequiresWrapperElement(genericType);
-          if (supportsInline || requiresWrapper) {
-            builder.supportsChildDeclaration(true);
-            genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(), namespace,
-                                                       namespaceUri, false));
-          }
-        }
+                                   boolean supportsInline = supportsInlineDeclaration(genericType, expressionSupport, xmlHints);
+                                   boolean requiresWrapper = typeRequiresWrapperElement(genericType);
+                                   if (supportsInline || requiresWrapper) {
+                                     builder.supportsChildDeclaration(true);
+                                     genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(), namespace,
+                                                                                namespaceUri, false));
+                                   }
+                                 }
 
-        @Override
-        public void visitObject(ObjectType objectType) {
-          builder.withAttributeName(parameter.getName())
-            .withNamespace(namespace, namespaceUri)
-            .withElementName(hyphenize(parameter.getName()))
-            .supportsTopLevelDeclaration(supportTopLevelElement(objectType, xmlHints));
+                                 @Override
+                                 public void visitObject(ObjectType objectType) {
+                                   builder.withAttributeName(parameter.getName())
+                                       .withNamespace(namespace, namespaceUri)
+                                       .withElementName(hyphenize(parameter.getName()))
+                                       .supportsTopLevelDeclaration(supportTopLevelElement(objectType, xmlHints));
 
-          boolean shouldGenerateChild =
-            supportsInlineDeclaration(objectType, expressionSupport, xmlHints);
-          boolean requiresWrapper = typeRequiresWrapperElement(objectType);
-          if (shouldGenerateChild || requiresWrapper) {
-            builder.supportsChildDeclaration(true);
+                                   boolean shouldGenerateChild =
+                                       supportsInlineDeclaration(objectType, expressionSupport, xmlHints);
+                                   boolean requiresWrapper = typeRequiresWrapperElement(objectType);
+                                   if (shouldGenerateChild || requiresWrapper) {
+                                     builder.supportsChildDeclaration(true);
 
-            if (requiresWrapper) {
-              builder.asWrappedElement(true)
-                .withNamespace(namespace, namespaceUri);
-            } else {
-              builder.withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri());
-            }
+                                     if (requiresWrapper) {
+                                       builder.asWrappedElement(true)
+                                           .withNamespace(namespace, namespaceUri);
+                                     } else {
+                                       builder.withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri());
+                                     }
 
-            declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
+                                     declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
 
-          }
-        }
+                                   }
+                                 }
 
-        @Override
-        public void visitDictionary(DictionaryType dictionaryType) {
-          builder.withAttributeName(parameter.getName())
-            .withNamespace(namespace, namespaceUri)
-            .withElementName(hyphenize(pluralize(parameter.getName())))
-            .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType.getKeyType(),
-                                                                expressionSupport));
+                                 @Override
+                                 public void visitDictionary(DictionaryType dictionaryType) {
+                                   builder.withAttributeName(parameter.getName())
+                                       .withNamespace(namespace, namespaceUri)
+                                       .withElementName(hyphenize(pluralize(parameter.getName())))
+                                       .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType.getKeyType(),
+                                                                                           expressionSupport));
 
-          builder.withGeneric(dictionaryType.getKeyType(),
-                              DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE).build());
+                                   builder.withGeneric(dictionaryType.getKeyType(),
+                                                       DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE).build());
 
-          dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder,
-                                                                             parameter.getName(),
-                                                                             namespace, namespaceUri,
-                                                                             xmlHints));
-        }
-      });
+                                   dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder,
+                                                                                                      parameter.getName(),
+                                                                                                      namespace, namespaceUri,
+                                                                                                      xmlHints));
+                                 }
+                               });
     return builder.build();
   }
 
@@ -207,7 +207,7 @@ public class DslSyntaxResolver {
     boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
     boolean supportTopLevelElement = supportTopLevelElement(type, empty());
 
-    if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper){
+    if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper) {
       return Optional.empty();
     }
 
@@ -223,10 +223,10 @@ public class DslSyntaxResolver {
 
     // TODO: MULE-10468
     builder.withNamespace(namespace, namespaceUri)
-      .withElementName(getTopLevelTypeName(type))
-      .supportsTopLevelDeclaration(supportTopLevelElement)
-      .supportsChildDeclaration(supportsInlineDeclaration)
-      .asWrappedElement(requiresWrapper);
+        .withElementName(getTopLevelTypeName(type))
+        .supportsTopLevelDeclaration(supportTopLevelElement)
+        .supportsChildDeclaration(supportsInlineDeclaration)
+        .asWrappedElement(requiresWrapper);
 
     if (supportTopLevelElement || supportsInlineDeclaration) {
       declareFieldsAsChilds(builder, ((ObjectType) type).getFields(), namespace, namespaceUri);
@@ -236,7 +236,7 @@ public class DslSyntaxResolver {
   }
 
   private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementSyntaxBuilder listBuilder, final String parameterName,
-                                              final String namespace, final String namespaceUri, boolean asItem) {
+                                                      final String namespace, final String namespaceUri, boolean asItem) {
     return new MetadataTypeVisitor() {
 
       @Override
@@ -245,12 +245,12 @@ public class DslSyntaxResolver {
         if (typeRequiresWrapperElement(objectType)) {
           listBuilder.withGeneric(objectType,
                                   DslElementSyntaxBuilder.create()
-                                    .withNamespace(getNamespace(objectType), getNamespaceUri(objectType))
-                                    .withElementName(getTopLevelTypeName(objectType))
-                                    .supportsChildDeclaration(supportsInlineDeclaration(objectType, NOT_SUPPORTED))
-                                    .asWrappedElement(true)
-                                    .supportsTopLevelDeclaration(supportTopLevelElement(objectType, empty()))
-                                    .build());
+                                      .withNamespace(getNamespace(objectType), getNamespaceUri(objectType))
+                                      .withElementName(getTopLevelTypeName(objectType))
+                                      .supportsChildDeclaration(supportsInlineDeclaration(objectType, NOT_SUPPORTED))
+                                      .asWrappedElement(true)
+                                      .supportsTopLevelDeclaration(supportTopLevelElement(objectType, empty()))
+                                      .build());
         } else if (isValidBean(objectType)) {
           listBuilder.withGeneric(objectType, resolve(objectType).get());
         }
@@ -259,8 +259,8 @@ public class DslSyntaxResolver {
       @Override
       public void visitArrayType(ArrayType arrayType) {
         DslElementSyntaxBuilder genericBuilder = DslElementSyntaxBuilder.create()
-          .withNamespace(namespace, namespaceUri)
-          .withElementName(resolveItemName(parameterName, asItem));
+            .withNamespace(namespace, namespaceUri)
+            .withElementName(resolveItemName(parameterName, asItem));
 
         MetadataType genericType = arrayType.getType();
 
@@ -278,16 +278,16 @@ public class DslSyntaxResolver {
       protected void defaultVisit(MetadataType metadataType) {
         listBuilder.withGeneric(metadataType,
                                 DslElementSyntaxBuilder.create()
-                                  .withNamespace(namespace, namespaceUri)
-                                  .withElementName(resolveItemName(parameterName, asItem))
-                                  .build());
+                                    .withNamespace(namespace, namespaceUri)
+                                    .withElementName(resolveItemName(parameterName, asItem))
+                                    .build());
       }
     };
   }
 
   private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName,
-                                                    final String namespace, final String namespaceUri,
-                                                    Optional<XmlHintsModelProperty> xmlHints) {
+                                                            final String namespace, final String namespaceUri,
+                                                            Optional<XmlHintsModelProperty> xmlHints) {
     return new MetadataTypeVisitor() {
 
       @Override
@@ -330,9 +330,9 @@ public class DslSyntaxResolver {
 
       private DslElementSyntaxBuilder createBaseValueDefinition() {
         return DslElementSyntaxBuilder.create()
-          .withAttributeName(VALUE_ATTRIBUTE)
-          .withNamespace(namespace, namespaceUri)
-          .withElementName(hyphenize(singularize(parameterName)));
+            .withAttributeName(VALUE_ATTRIBUTE)
+            .withNamespace(namespace, namespaceUri)
+            .withElementName(hyphenize(singularize(parameterName)));
       }
     };
   }
@@ -344,7 +344,7 @@ public class DslSyntaxResolver {
     boolean supportsTopDeclaration = supportTopLevelElement(objectType);
 
     builder.supportsChildDeclaration(supportsChildDeclaration)
-           .supportsTopLevelDeclaration(supportsTopDeclaration);
+        .supportsTopLevelDeclaration(supportsTopDeclaration);
 
     if (supportsChildDeclaration || supportsTopDeclaration) {
       declareFieldsAsChilds(builder, childFields, namespace, namespaceUri);
@@ -376,12 +376,12 @@ public class DslSyntaxResolver {
       @Override
       public void visitObject(ObjectType objectType) {
         objectFieldBuilder.withAttributeName(fieldName)
-          .withElementName(hyphenize(fieldName))
-          .withNamespace(getNamespace(objectType, ownerNamespace), getNamespaceUri(objectType, ownerNamespaceUri));
+            .withElementName(hyphenize(fieldName))
+            .withNamespace(getNamespace(objectType, ownerNamespace), getNamespaceUri(objectType, ownerNamespaceUri));
 
         List<ObjectFieldType> fields = objectType.getFields().stream()
-          .filter(f -> !f.getValue().equals(objectType))
-          .collect(toList());
+            .filter(f -> !f.getValue().equals(objectType))
+            .collect(toList());
 
         addBeanDeclarationSupport(objectType, fields, objectFieldBuilder, ownerNamespace, ownerNamespaceUri);
       }
@@ -389,8 +389,8 @@ public class DslSyntaxResolver {
       @Override
       public void visitArrayType(ArrayType arrayType) {
         objectFieldBuilder.withAttributeName(fieldName)
-          .withElementName(hyphenize(fieldName))
-          .withNamespace(ownerNamespace, ownerNamespaceUri);
+            .withElementName(hyphenize(fieldName))
+            .withNamespace(ownerNamespace, ownerNamespaceUri);
 
         MetadataType genericType = arrayType.getType();
         if (supportsInlineDeclaration(genericType, SUPPORTED)) {
@@ -402,8 +402,8 @@ public class DslSyntaxResolver {
       @Override
       public void visitDictionary(DictionaryType dictionaryType) {
         objectFieldBuilder.withAttributeName(fieldName)
-          .withElementName(hyphenize(pluralize(fieldName)))
-          .withNamespace(ownerNamespace, ownerNamespaceUri);
+            .withElementName(hyphenize(pluralize(fieldName)))
+            .withNamespace(ownerNamespace, ownerNamespaceUri);
 
         MetadataType keyType = dictionaryType.getKeyType();
         if (supportsInlineDeclaration(keyType, SUPPORTED)) {
@@ -423,18 +423,18 @@ public class DslSyntaxResolver {
   private void declareFieldsAsChilds(final DslElementSyntaxBuilder objectBuilder, Collection<ObjectFieldType> fields,
                                      final String namespace, final String namespaceUri) {
     fields.forEach(
-      field -> {
-        DslElementSyntaxBuilder fieldBuilder = DslElementSyntaxBuilder.create();
-        String childName = field.getKey().getName().getLocalPart();
-        final MetadataType fieldValue = field.getValue();
+                   field -> {
+                     DslElementSyntaxBuilder fieldBuilder = DslElementSyntaxBuilder.create();
+                     String childName = field.getKey().getName().getLocalPart();
+                     final MetadataType fieldValue = field.getValue();
 
-        if (isFlattened(field, fieldValue)) {
-          declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
-        } else {
-          fieldValue.accept(getObjectFieldVisitor(fieldBuilder, field, childName, namespace, namespaceUri));
-          objectBuilder.withChild(childName, fieldBuilder.build());
-        }
-      });
+                     if (isFlattened(field, fieldValue)) {
+                       declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
+                     } else {
+                       fieldValue.accept(getObjectFieldVisitor(fieldBuilder, field, childName, namespace, namespaceUri));
+                       objectBuilder.withChild(childName, fieldBuilder.build());
+                     }
+                   });
   }
 
   private boolean typeRequiresWrapperElement(MetadataType metadataType) {
@@ -465,6 +465,6 @@ public class DslSyntaxResolver {
   private String resolveItemName(String parameterName, boolean forceItemize) {
     String singularizedName = singularize(parameterName);
     return forceItemize || parameterName.equals(singularizedName) ? itemize(singularizedName)
-      : hyphenize(singularizedName);
+        : hyphenize(singularizedName);
   }
 }

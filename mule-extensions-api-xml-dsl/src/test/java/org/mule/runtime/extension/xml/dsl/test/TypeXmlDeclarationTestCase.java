@@ -29,7 +29,7 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
   public void textField() {
     MetadataType type = TYPE_LOADER.load(SimpleFieldsType.class);
     DslElementSyntax typeSyntax = getSyntaxResolver().resolve(type)
-      .orElseThrow(()-> new RuntimeException("No dsl declaration found for the given type"));
+        .orElseThrow(() -> new RuntimeException("No dsl declaration found for the given type"));
     DslElementSyntax textFieldSyntax = typeSyntax.getChild("textField").get();
     assertThat(textFieldSyntax.getElementName(), is("text-field"));
     assertThat(textFieldSyntax.getAttributeName(), anyOf(is(""), nullValue()));
