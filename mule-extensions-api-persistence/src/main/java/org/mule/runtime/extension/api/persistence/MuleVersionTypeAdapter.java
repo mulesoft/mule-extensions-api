@@ -23,7 +23,7 @@ class MuleVersionTypeAdapter extends TypeAdapter<MuleVersion> {
 
   @Override
   public void write(JsonWriter out, MuleVersion muleVersion) throws IOException {
-    out.value(muleVersion.toString());
+    out.value(muleVersion.toCompleteNumericVersion());
   }
 
   @Override
