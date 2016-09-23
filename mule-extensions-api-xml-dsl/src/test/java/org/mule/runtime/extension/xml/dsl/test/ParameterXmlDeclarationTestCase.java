@@ -9,13 +9,10 @@ package org.mule.runtime.extension.xml.dsl.test;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -44,14 +41,10 @@ import org.mule.runtime.extension.xml.dsl.test.model.InterfaceDeclarationWithMap
 import org.mule.runtime.extension.xml.dsl.test.model.InterfaceImplementation;
 import org.mule.runtime.extension.xml.dsl.test.model.NonDefaultConstructor;
 import org.mule.runtime.extension.xml.dsl.test.model.SimpleFieldsType;
-import org.mule.runtime.extension.xml.dsl.test.model.SubType;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
-import javax.xml.namespace.QName;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -568,110 +561,6 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementName(itemize(PARAMETER_NAME), itemDsl);
     assertChildElementDeclarationIs(false, itemDsl);
     assertIsWrappedElement(false, itemDsl);
-  }
-
-  @Test
-  public void testComplexRecursiveType() {
-    MetadataType type = TYPE_LOADER.load(ComplexFieldsType.class);
-    DslElementSyntax topDsl = getSyntaxResolver().resolve(type);
-
-    assertElementName(getTopLevelTypeName(type), topDsl);
-    assertElementNamespace(NAMESPACE, topDsl);
-    assertChildElementDeclarationIs(true, topDsl);
-    assertIsWrappedElement(false, topDsl);
-
-    assertComplexTypeDslFields(topDsl);
-  }
-
-  @Test
-  public void testSubstitutionGroupsFromType() {
-    final MetadataType subType = TYPE_LOADER.load(SubType.class);
-    final DslElementSyntax subTypeElement = getSyntaxResolver().resolve(subType);
-    final List<QName> substitutionGroups = subTypeElement.getSubstitutionGroups();
-
-    assertThat(substitutionGroups, hasSize(2));
-    assertThat(substitutionGroups, hasItem(new QName(NAMESPACE_URI, "abstract-sub-type", NAMESPACE)));
-    assertThat(substitutionGroups, hasItem(new QName(NAMESPACE_URI, "abstract-super-type", NAMESPACE)));
-  }
-
-  private void assertComplexTypeDslFields(DslElementSyntax topDsl) {
-    String extensibleTypeListName = "extensibleTypeList";
-    DslElementSyntax listDsl = getChildFieldDsl(extensibleTypeListName, topDsl);
-    assertAttributeName(extensibleTypeListName, listDsl);
-    assertElementName(hyphenize(extensibleTypeListName), listDsl);
-    assertElementNamespace(NAMESPACE, listDsl);
-    assertChildElementDeclarationIs(true, listDsl);
-    assertIsWrappedElement(false, listDsl);
-
-    MetadataType listItemType = TYPE_LOADER.load(ExtensibleType.class);
-    DslElementSyntax listItemDsl = getGenericTypeDsl(listItemType, listDsl);
-    assertElementName(getTopLevelTypeName(listItemType), listItemDsl);
-    assertElementNamespace(NAMESPACE, listItemDsl);
-    assertChildElementDeclarationIs(true, listItemDsl);
-    assertTopElementDeclarationIs(false, listItemDsl);
-    assertIsWrappedElement(true, listItemDsl);
-
-    String recursiveChildName = "recursiveChild";
-    DslElementSyntax recursiveChildDsl = getChildFieldDsl(recursiveChildName, topDsl);
-    assertAttributeName(recursiveChildName, recursiveChildDsl);
-    assertElementName(hyphenize(recursiveChildName), recursiveChildDsl);
-    assertElementNamespace(NAMESPACE, recursiveChildDsl);
-    assertChildElementDeclarationIs(true, recursiveChildDsl);
-    assertTopLevelDeclarationSupportIs(false, recursiveChildDsl);
-    assertIsWrappedElement(false, recursiveChildDsl);
-
-    String simplePojoName = "simplePojo";
-    DslElementSyntax simplePojoDsl = getChildFieldDsl(simplePojoName, topDsl);
-    assertAttributeName(simplePojoName, simplePojoDsl);
-    assertElementName(hyphenize(simplePojoName), simplePojoDsl);
-    assertElementNamespace(NAMESPACE, simplePojoDsl);
-    assertChildElementDeclarationIs(true, simplePojoDsl);
-    assertIsWrappedElement(false, simplePojoDsl);
-    assertTopElementDeclarationIs(false, simplePojoDsl);
-
-    String notGlobalName = "notGlobalType";
-    DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
-    assertAttributeName(notGlobalName, notGlobalDsl);
-    assertElementName(hyphenize(notGlobalName), notGlobalDsl);
-    assertElementNamespace(NAMESPACE, notGlobalDsl);
-    assertChildElementDeclarationIs(true, notGlobalDsl);
-    assertIsWrappedElement(false, notGlobalDsl);
-
-    String groupedField = "groupedField";
-    DslElementSyntax groupedFieldDsl = getChildFieldDsl(groupedField, topDsl);
-    assertAttributeName(groupedField, groupedFieldDsl);
-    assertElementName("", groupedFieldDsl);
-    assertElementNamespace("", groupedFieldDsl);
-    assertChildElementDeclarationIs(false, groupedFieldDsl);
-    assertIsWrappedElement(false, groupedFieldDsl);
-
-    String anotherGroupedField = "anotherGroupedField";
-    DslElementSyntax anotherGroupedFieldDsl = getChildFieldDsl(anotherGroupedField, topDsl);
-    assertAttributeName(anotherGroupedField, anotherGroupedFieldDsl);
-    assertElementName("", anotherGroupedFieldDsl);
-    assertElementNamespace("", anotherGroupedFieldDsl);
-    assertChildElementDeclarationIs(false, anotherGroupedFieldDsl);
-    assertIsWrappedElement(false, anotherGroupedFieldDsl);
-
-    String parameterGroupType = "parameterGroupType";
-    assertThat(topDsl.getChild(parameterGroupType).isPresent(), is(false));
-  }
-
-  private DslElementSyntax getGenericTypeDsl(MetadataType itemType, DslElementSyntax result) {
-    Optional<DslElementSyntax> genericDsl = result.getGeneric(itemType);
-    assertThat("No generic element found for type [" + getTypeId(itemType).orElse("") + "] for element ["
-        + result.getElementName() + "]",
-               genericDsl.isPresent(), is(true));
-
-    return genericDsl.get();
-  }
-
-  private DslElementSyntax getChildFieldDsl(String name, DslElementSyntax parent) {
-    Optional<DslElementSyntax> childDsl = parent.getChild(name);
-    assertThat("No child element found with name [" + name + "] for element [" + parent.getElementName() + "]",
-               childDsl.isPresent(), is(true));
-
-    return childDsl.get();
   }
 
   @Xml(namespace = IMPORT_NAMESPACE, namespaceLocation = IMPORT_NAMESPACE_URI)

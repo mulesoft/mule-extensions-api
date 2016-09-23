@@ -6,17 +6,11 @@
  */
 package org.mule.runtime.extension.xml.dsl.api;
 
-import com.google.common.collect.ImmutableList;
-
-import org.apache.commons.lang3.StringUtils;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.introspection.Named;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.xml.namespace.QName;
 
 /**
  * Provides a declaration of how a {@link Named Component} is represented in {@code XML}, containing
@@ -28,7 +22,6 @@ public class DslElementSyntax {
 
   private final String attributeName;
   private final String elementName;
-  private final String abstractElementName;
   private final String elementNameSpace;
   private final String nameSpaceUri;
   private final boolean isWrapped;
@@ -37,7 +30,6 @@ public class DslElementSyntax {
   private final boolean requiresConfig;
   private final Map<MetadataType, DslElementSyntax> genericsDsl;
   private final Map<String, DslElementSyntax> childsByName;
-  private final List<QName> substitutionGroups;
 
 
   /**
@@ -46,7 +38,6 @@ public class DslElementSyntax {
    * @param attributeName            the name of the attribute in the parent element that
    *                                 references this element
    * @param elementName              the name of this xml element
-   * @param abstractElementName      the name of the abstract xml element
    * @param elementNameSpace         the namespace of this xml element
    * @param isWrapped                {@code false} if the element implements the Component's type
    *                                 as an xml extension, or {@code true} if the element is a
@@ -65,21 +56,18 @@ public class DslElementSyntax {
    *                                 elements of this element, the Dsl varies depending on each
    *                                 fields definition, associating each field's child element to
    *                                 this
-   * @param substitutionGroups       The list of the {@link QName} of the substitution groups that
-   *                                 the current element is acceptable
    */
-  public DslElementSyntax(String attributeName, String elementName, String abstractElementName, String elementNameSpace,
+  public DslElementSyntax(String attributeName, String elementName,
+                          String elementNameSpace,
                           String nameSpaceUri,
                           boolean isWrapped,
                           boolean supportsChildDeclaration,
                           boolean supportsTopLevelDeclaration,
                           boolean requiresConfig,
                           Map<MetadataType, DslElementSyntax> genericsDsl,
-                          Map<String, DslElementSyntax> childsByName,
-                          List<QName> substitutionGroups) {
+                          Map<String, DslElementSyntax> childsByName) {
     this.attributeName = attributeName;
     this.elementName = elementName;
-    this.abstractElementName = abstractElementName;
     this.elementNameSpace = elementNameSpace;
     this.nameSpaceUri = nameSpaceUri;
     this.isWrapped = isWrapped;
@@ -88,7 +76,6 @@ public class DslElementSyntax {
     this.requiresConfig = requiresConfig;
     this.genericsDsl = genericsDsl;
     this.childsByName = childsByName;
-    this.substitutionGroups = substitutionGroups;
   }
 
   /***
@@ -139,26 +126,6 @@ public class DslElementSyntax {
    */
   public boolean supportsTopLevelDeclaration() {
     return supportsTopLevelDeclaration;
-  }
-
-  /**
-   * @return the name of the abstract element
-   */
-  public String getAbstractElementName() {
-    return abstractElementName;
-  }
-
-  /**
-   * @return {@link List} the list of the {@link QName} of the substitution groups that this
-   * element could be placed
-   */
-  public List<QName> getSubstitutionGroups() {
-    final ImmutableList.Builder<QName> builder = ImmutableList.builder();
-    //TODO -  REVIEW IN MULE-10468
-    if (!StringUtils.isBlank(getAbstractElementName())) {
-      builder.add(new QName(this.getNamespaceUri(), this.getAbstractElementName(), this.getNamespace()));
-    }
-    return builder.addAll(substitutionGroups).build();
   }
 
   /**
