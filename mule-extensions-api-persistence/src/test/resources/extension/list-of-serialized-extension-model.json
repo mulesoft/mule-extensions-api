@@ -5,6 +5,7 @@
     "version": "4.0.0",
     "vendor": "MuleSoft",
     "category": "COMMUNITY",
+    "minMuleVersion": "4.0.0",
     "configurations": [],
     "operations": [
       {
@@ -460,6 +461,7 @@
     "version": "4.0.0",
     "vendor": "MuleSoft",
     "category": "COMMUNITY",
+    "minMuleVersion": "4.0.0",
     "configurations": [],
     "operations": [
       {

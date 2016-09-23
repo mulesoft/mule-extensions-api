@@ -56,6 +56,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
   private static final String NAME = "name";
   private static final String DESCRIPTION = "description";
   private static final String VERSION = "version";
+  private static final String MIN_MULE_VERSION = "minMuleVersion";
   private static final String VENDOR = "vendor";
   private static final String CATEGORY = "category";
   private static final String TYPES = "types";
@@ -79,7 +80,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     out.name(VERSION).value(model.getVersion());
     out.name(VENDOR).value(model.getVendor());
     writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
-    out.name(VERSION).value(model.getVersion());
+    out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().toCompleteNumericVersion());
 
     writeWithDelegate(model.getConfigurationModels(), CONFIGURATIONS, out, new TypeToken<List<ConfigurationModel>>() {});
     writeWithDelegate(model.getOperationModels(), OPERATIONS, out, new TypeToken<List<OperationModel>>() {});
@@ -110,7 +111,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
                                        json.get(VERSION).getAsString(),
                                        json.get(VENDOR).getAsString(),
                                        gsonDelegate.fromJson(json.get(CATEGORY), Category.class),
-                                       gsonDelegate.fromJson(json.get(VERSION), MuleVersion.class),
+                                       gsonDelegate.fromJson(json.get(MIN_MULE_VERSION), MuleVersion.class),
                                        configs,
                                        operations,
                                        providers,

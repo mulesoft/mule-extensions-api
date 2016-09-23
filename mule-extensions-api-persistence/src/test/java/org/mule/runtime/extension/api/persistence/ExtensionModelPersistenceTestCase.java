@@ -220,6 +220,12 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     assertThat(types, hasItem(exportedType));
   }
 
+  @Test
+  public void minMuleVersionIsSerialized() {
+    assertThat(originalExtensionModel.getMinMuleVersion().toCompleteNumericVersion(),
+               is(deserializedExtensionModel.getMinMuleVersion().toCompleteNumericVersion()));
+  }
+
   private Set<String> getExtensionTypeIds(JsonObject jsonExtensionModel) {
     final JsonArray typesArray = jsonExtensionModel.getAsJsonArray("types");
     Set<String> typesSet = new HashSet<>();
