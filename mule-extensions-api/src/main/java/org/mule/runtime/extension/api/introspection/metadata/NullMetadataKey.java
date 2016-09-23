@@ -22,12 +22,14 @@ import java.util.Set;
  */
 public final class NullMetadataKey implements MetadataKey {
 
+  public static final String ID = "";
+
   /**
    * {@inheritDoc}
    */
   @Override
   public String getId() {
-    return "";
+    return ID;
   }
 
   /**
