@@ -40,6 +40,7 @@ import org.mule.runtime.extension.api.introspection.Named;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
@@ -109,6 +110,7 @@ public class DslSyntaxResolver {
     final String namespace = getNamespace(parameter.getType());
     final String namespaceUri = getNamespaceUri(parameter.getType());
     final Optional<XmlHintsModelProperty> xmlHints = getHintsModelProperty(parameter);
+    final boolean isContent = parameter.getModelProperty(MetadataContentModelProperty.class).isPresent();
 
     parameter.getType().accept(
                                new MetadataTypeVisitor() {
@@ -136,7 +138,8 @@ public class DslSyntaxResolver {
                                    defaultVisit(arrayType);
                                    MetadataType genericType = arrayType.getType();
 
-                                   boolean supportsInline = supportsInlineDeclaration(genericType, expressionSupport, xmlHints);
+                                   boolean supportsInline = supportsInlineDeclaration(genericType, expressionSupport,
+                                                                                      xmlHints, isContent);
                                    boolean requiresWrapper = typeRequiresWrapperElement(genericType);
                                    if (supportsInline || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
@@ -153,11 +156,10 @@ public class DslSyntaxResolver {
                                        .supportsTopLevelDeclaration(supportTopLevelElement(objectType, xmlHints));
 
                                    boolean shouldGenerateChild =
-                                       supportsInlineDeclaration(objectType, expressionSupport, xmlHints);
+                                       supportsInlineDeclaration(objectType, expressionSupport, xmlHints, isContent);
                                    boolean requiresWrapper = typeRequiresWrapperElement(objectType);
                                    if (shouldGenerateChild || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
-
                                      if (requiresWrapper) {
                                        builder.asWrappedElement(true)
                                            .withNamespace(namespace, namespaceUri);
@@ -176,7 +178,8 @@ public class DslSyntaxResolver {
                                        .withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(pluralize(parameter.getName())))
                                        .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType.getKeyType(),
-                                                                                           expressionSupport));
+                                                                                           expressionSupport,
+                                                                                           isContent));
 
                                    builder.withGeneric(dictionaryType.getKeyType(),
                                                        DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE).build());
@@ -292,7 +295,7 @@ public class DslSyntaxResolver {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        boolean supportsInlineDeclaration = supportsInlineDeclaration(objectType, SUPPORTED, xmlHints);
+        boolean supportsInlineDeclaration = supportsInlineDeclaration(objectType, SUPPORTED, xmlHints, false);
         boolean requiresWrapperElement = typeRequiresWrapperElement(objectType);
 
         if (supportsInlineDeclaration || requiresWrapperElement) {
@@ -313,7 +316,7 @@ public class DslSyntaxResolver {
         DslElementSyntaxBuilder listBuilder = createBaseValueDefinition();
 
         MetadataType genericType = arrayType.getType();
-        boolean supportsInline = supportsInlineDeclaration(genericType, SUPPORTED, xmlHints);
+        boolean supportsInline = supportsInlineDeclaration(genericType, SUPPORTED, xmlHints, false);
         boolean requiresWrapper = typeRequiresWrapperElement(genericType);
         if (supportsInline || requiresWrapper) {
           listBuilder.supportsChildDeclaration(true);

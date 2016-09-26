@@ -141,14 +141,18 @@ class DslSyntaxUtils {
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport) {
-    return supportsInlineDeclaration(metadataType, expressionSupport, empty());
+    return supportsInlineDeclaration(metadataType, expressionSupport, empty(), false);
+  }
+
+  static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport, boolean isContent) {
+    return supportsInlineDeclaration(metadataType, expressionSupport, empty(), isContent);
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport,
-                                           Optional<XmlHintsModelProperty> xmlHints) {
+                                           Optional<XmlHintsModelProperty> xmlHints, boolean isContent) {
     final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
-    if (REQUIRED == expressionSupport) {
+    if (REQUIRED == expressionSupport || isContent) {
       return false;
     }
 
