@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
+import static java.util.Collections.emptyList;
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
@@ -17,6 +18,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.getHintsModelProperty;
+import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.getId;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isExtensible;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isFlattened;
@@ -47,7 +49,9 @@ import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 import org.mule.runtime.extension.xml.dsl.internal.DslElementSyntaxBuilder;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,12 +66,12 @@ import java.util.Optional;
 public class DslSyntaxResolver {
 
   private static final String VALUE_ATTRIBUTE = "value";
-  static final String KEY_ATTRIBUTE = "key";
-  public static final String EMPTY = "";
+  private static final String KEY_ATTRIBUTE = "key";
   private final SubTypesMappingContainer subTypesMap;
   private final XmlModelProperty extensionXml;
-  private final Map<String, DslElementSyntaxBuilder> resolvedTypes = new HashMap<>();
-  private Map<MetadataType, XmlModelProperty> importedTypes;
+  private final Map<String, DslElementSyntax> resolvedTypes = new HashMap<>();
+  private final Map<MetadataType, XmlModelProperty> importedTypes;
+  private final Deque<String> typeResolvingStack = new ArrayDeque<>();
 
   /**
    * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
@@ -150,6 +154,8 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  public void visitObject(ObjectType objectType) {
+                                   typeResolvingStack.push(getId(objectType));
+
                                    builder.withAttributeName(parameter.getName())
                                        .withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameter.getName()))
@@ -170,6 +176,8 @@ public class DslSyntaxResolver {
                                      declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
 
                                    }
+
+                                   typeResolvingStack.pop();
                                  }
 
                                  @Override
@@ -214,28 +222,28 @@ public class DslSyntaxResolver {
       return Optional.empty();
     }
 
-    final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     final String namespace = getNamespace(type);
     final String namespaceUri = getNamespaceUri(type);
 
-    String key = getTypeKey(type, namespace, namespaceUri);
-    if (resolvedTypes.containsKey(key)) {
-      return Optional.of(resolvedTypes.get(key).build());
-    }
-    resolvedTypes.put(key, builder);
+    final String key = getTypeKey(type, namespace, namespaceUri);
 
-    // TODO: MULE-10468
-    builder.withNamespace(namespace, namespaceUri)
-        .withElementName(getTopLevelTypeName(type))
-        .supportsTopLevelDeclaration(supportTopLevelElement)
-        .supportsChildDeclaration(supportsInlineDeclaration)
-        .asWrappedElement(requiresWrapper);
+    return Optional.of(resolvedTypes.computeIfAbsent(key, (k) -> {
+      typeResolvingStack.push(getId(type));
 
-    if (supportTopLevelElement || supportsInlineDeclaration) {
-      declareFieldsAsChilds(builder, ((ObjectType) type).getFields(), namespace, namespaceUri);
-    }
+      final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
+      builder.withNamespace(namespace, namespaceUri)
+          .withElementName(getTopLevelTypeName(type))
+          .supportsTopLevelDeclaration(supportTopLevelElement)
+          .supportsChildDeclaration(supportsInlineDeclaration)
+          .asWrappedElement(requiresWrapper);
 
-    return Optional.of(builder.build());
+      if (supportTopLevelElement || supportsInlineDeclaration) {
+        declareFieldsAsChilds(builder, ((ObjectType) type).getFields(), namespace, namespaceUri);
+      }
+
+      typeResolvingStack.pop();
+      return builder.build();
+    }));
   }
 
   private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementSyntaxBuilder listBuilder, final String parameterName,
@@ -301,7 +309,7 @@ public class DslSyntaxResolver {
         if (supportsInlineDeclaration || requiresWrapperElement) {
 
           DslElementSyntaxBuilder builder = createBaseValueDefinition();
-          addBeanDeclarationSupport(objectType, objectType.getFields(), builder, namespace, namespaceUri);
+          addBeanDeclarationSupport(objectType, objectType.getFields(), builder, namespace, namespaceUri, true);
           builder.supportsChildDeclaration(true);
           builder.asWrappedElement(requiresWrapperElement);
 
@@ -341,15 +349,17 @@ public class DslSyntaxResolver {
   }
 
   private void addBeanDeclarationSupport(ObjectType objectType, Collection<ObjectFieldType> childFields,
-                                         DslElementSyntaxBuilder builder, String namespace, String namespaceUri) {
+                                         DslElementSyntaxBuilder builder, String namespace, String namespaceUri,
+                                         boolean introspectObjectFields) {
 
     boolean supportsChildDeclaration = supportsInlineDeclaration(objectType, SUPPORTED);
     boolean supportsTopDeclaration = supportTopLevelElement(objectType);
 
     builder.supportsChildDeclaration(supportsChildDeclaration)
-        .supportsTopLevelDeclaration(supportsTopDeclaration);
+        .supportsTopLevelDeclaration(supportsTopDeclaration)
+        .asWrappedElement(typeRequiresWrapperElement(objectType));
 
-    if (supportsChildDeclaration || supportsTopDeclaration) {
+    if (introspectObjectFields && (supportsChildDeclaration || supportsTopDeclaration)) {
       declareFieldsAsChilds(builder, childFields, namespace, namespaceUri);
     }
   }
@@ -378,15 +388,24 @@ public class DslSyntaxResolver {
 
       @Override
       public void visitObject(ObjectType objectType) {
+
         objectFieldBuilder.withAttributeName(fieldName)
             .withElementName(hyphenize(fieldName))
             .withNamespace(getNamespace(objectType, ownerNamespace), getNamespaceUri(objectType, ownerNamespaceUri));
 
-        List<ObjectFieldType> fields = objectType.getFields().stream()
-            .filter(f -> !f.getValue().equals(objectType))
-            .collect(toList());
+        if (!typeResolvingStack.contains(getId(objectType))) {
+          typeResolvingStack.push(getId(objectType));
 
-        addBeanDeclarationSupport(objectType, fields, objectFieldBuilder, ownerNamespace, ownerNamespaceUri);
+          List<ObjectFieldType> fields = objectType.getFields().stream()
+              .filter(f -> !typeResolvingStack.contains(getId(f.getValue())))
+              .collect(toList());
+
+          addBeanDeclarationSupport(objectType, fields, objectFieldBuilder, ownerNamespace, ownerNamespaceUri, true);
+
+          typeResolvingStack.pop();
+        } else {
+          addBeanDeclarationSupport(objectType, emptyList(), objectFieldBuilder, ownerNamespace, ownerNamespaceUri, false);
+        }
       }
 
       @Override

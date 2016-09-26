@@ -428,6 +428,50 @@
               "value": "SUPPORTED"
             }
           }
+        },
+        {
+          "key": {
+            "name": "complexTypeFieldGroup"
+          },
+          "model": {
+            "required": "true",
+            "type": "Object",
+            "annotations": {
+              "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexTypeFieldGroup",
+              "classInformation": {
+                "hasDefaultConstructor": true,
+                "isInterface": false,
+                "isInstantiable": true,
+                "isAbstract": false,
+                "isFinal": false,
+                "implementedInterfaces": [],
+                "parent": "",
+                "genericTypes": []
+              },
+              "typeAlias": {
+                "value": "ComplexTypeFieldGroup"
+              }
+            },
+            "fields": [
+              {
+                "key": {
+                  "name": "complexFieldsType"
+                },
+                "model": "#../..",
+                "annotations": {
+                  "expressionSupport": {
+                    "value": "SUPPORTED"
+                  }
+                }
+              }
+            ]
+          },
+          "annotations": {
+            "flattened": {},
+            "expressionSupport": {
+              "value": "SUPPORTED"
+            }
+          }
         }
       ]
     },

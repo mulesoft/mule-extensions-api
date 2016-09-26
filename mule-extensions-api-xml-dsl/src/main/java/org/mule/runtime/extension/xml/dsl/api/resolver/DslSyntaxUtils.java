@@ -57,9 +57,14 @@ class DslSyntaxUtils {
   }
 
   static String getTypeKey(MetadataType type, String namespace, String namespaceUri) {
+    return getId(type) + namespace + namespaceUri;
+  }
+
+  static String getId(MetadataType type) {
     return getTypeId(type)
-        .orElse((type.getAnnotation(ClassInformationAnnotation.class).map(ClassInformationAnnotation::getName).orElse("")))
-        + namespace + namespaceUri;
+        .orElseGet(() -> type.getAnnotation(ClassInformationAnnotation.class)
+            .map(ClassInformationAnnotation::getName)
+            .orElse(""));
   }
 
   static boolean isText(ParameterModel parameter) {
