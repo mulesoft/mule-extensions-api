@@ -8,8 +8,11 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import static java.util.Collections.unmodifiableList;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Utility class which groups operations, connection providers and sources together,
@@ -19,7 +22,8 @@ import java.util.List;
  */
 final class SubDeclarationsContainer {
 
-  private final List<OperationDeclaration> operations = new LinkedList<>();
+  // TODO: they should all be sets, but these entire piece is going to be re done from scratch in MULE-10634 so screw it
+  private final Set<OperationDeclaration> operations = new LinkedHashSet<>();
   private final List<ConnectionProviderDeclaration> connectionProviders = new LinkedList<>();
   private final List<SourceDeclaration> messageSources = new LinkedList<>();
 
@@ -28,7 +32,7 @@ final class SubDeclarationsContainer {
    * the available {@link OperationDeclaration}s
    */
   public List<OperationDeclaration> getOperations() {
-    return unmodifiableList(operations);
+    return unmodifiableList(new ArrayList<>(operations));
   }
 
   /**
