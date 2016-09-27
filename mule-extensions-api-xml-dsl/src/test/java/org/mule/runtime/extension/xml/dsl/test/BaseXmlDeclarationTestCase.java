@@ -201,6 +201,15 @@ public abstract class BaseXmlDeclarationTestCase {
     assertTopLevelDeclarationSupportIs(false, recursiveChildDsl);
     assertIsWrappedElement(false, recursiveChildDsl);
 
+    String recursiveFromGroupName = "complexFieldsType";
+    DslElementSyntax recursiveFromGroupDsl = getChildFieldDsl(recursiveFromGroupName, topDsl);
+    assertAttributeName(recursiveFromGroupName, recursiveFromGroupDsl);
+    assertElementName(hyphenize(recursiveFromGroupName), recursiveFromGroupDsl);
+    assertElementNamespace(NAMESPACE, recursiveFromGroupDsl);
+    assertChildElementDeclarationIs(true, recursiveFromGroupDsl);
+    assertTopLevelDeclarationSupportIs(false, recursiveFromGroupDsl);
+    assertIsWrappedElement(false, recursiveFromGroupDsl);
+
     String simplePojoName = "simplePojo";
     DslElementSyntax simplePojoDsl = getChildFieldDsl(simplePojoName, topDsl);
     assertAttributeName(simplePojoName, simplePojoDsl);
@@ -236,6 +245,9 @@ public abstract class BaseXmlDeclarationTestCase {
 
     String parameterGroupType = "parameterGroupType";
     assertThat(topDsl.getChild(parameterGroupType).isPresent(), is(false));
+
+    String complexTypeFieldGroup = "complexTypeFieldGroup";
+    assertThat(topDsl.getChild(complexTypeFieldGroup).isPresent(), is(false));
   }
 
   protected DslElementSyntax getGenericTypeDsl(MetadataType itemType, DslElementSyntax result) {

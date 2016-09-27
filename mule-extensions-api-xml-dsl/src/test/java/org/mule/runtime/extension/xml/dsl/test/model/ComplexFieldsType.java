@@ -28,6 +28,17 @@ public class ComplexFieldsType {
   @ParameterGroup
   private ParameterGroupType parameterGroupType;
 
+  @ParameterGroup
+  private ComplexTypeFieldGroup complexTypeFieldGroup;
+
+  public ComplexTypeFieldGroup getComplexTypeFieldGroup() {
+    return complexTypeFieldGroup;
+  }
+
+  public void setComplexTypeFieldGroup(ComplexTypeFieldGroup complexTypeFieldGroup) {
+    this.complexTypeFieldGroup = complexTypeFieldGroup;
+  }
+
   public List<ExtensibleType> getExtensibleTypeList() {
     return extensibleTypeList;
   }

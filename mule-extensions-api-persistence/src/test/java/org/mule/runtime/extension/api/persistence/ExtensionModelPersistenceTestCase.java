@@ -6,13 +6,22 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.junit.Before;
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.extension.api.Category.COMMUNITY;
+import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
+import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -38,28 +47,19 @@ import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.runtime.extension.api.Category.COMMUNITY;
-import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
