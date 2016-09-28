@@ -154,8 +154,6 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  public void visitObject(ObjectType objectType) {
-                                   typeResolvingStack.push(getId(objectType));
-
                                    builder.withAttributeName(parameter.getName())
                                        .withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameter.getName()))
@@ -176,8 +174,6 @@ public class DslSyntaxResolver {
                                      declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
 
                                    }
-
-                                   typeResolvingStack.pop();
                                  }
 
                                  @Override
@@ -227,23 +223,32 @@ public class DslSyntaxResolver {
 
     final String key = getTypeKey(type, namespace, namespaceUri);
 
-    return Optional.of(resolvedTypes.computeIfAbsent(key, (k) -> {
-      typeResolvingStack.push(getId(type));
+    if (resolvedTypes.containsKey(key)) {
+      return Optional.of(resolvedTypes.get(key));
+    }
 
-      final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
-      builder.withNamespace(namespace, namespaceUri)
-          .withElementName(getTopLevelTypeName(type))
-          .supportsTopLevelDeclaration(supportTopLevelElement)
-          .supportsChildDeclaration(supportsInlineDeclaration)
-          .asWrappedElement(requiresWrapper);
+    final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
+    builder.withNamespace(namespace, namespaceUri)
+        .withElementName(getTopLevelTypeName(type))
+        .supportsTopLevelDeclaration(supportTopLevelElement)
+        .supportsChildDeclaration(supportsInlineDeclaration)
+        .asWrappedElement(requiresWrapper);
 
+    String typeId = getId(type);
+    if (!typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
+        typeResolvingStack.push(typeId);
         declareFieldsAsChilds(builder, ((ObjectType) type).getFields(), namespace, namespaceUri);
+        typeResolvingStack.pop();
       }
 
-      typeResolvingStack.pop();
-      return builder.build();
-    }));
+      DslElementSyntax dsl = builder.build();
+      resolvedTypes.put(key, dsl);
+
+      return Optional.of(dsl);
+    }
+
+    return Optional.of(builder.build());
   }
 
   private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementSyntaxBuilder listBuilder, final String parameterName,
@@ -309,7 +314,14 @@ public class DslSyntaxResolver {
         if (supportsInlineDeclaration || requiresWrapperElement) {
 
           DslElementSyntaxBuilder builder = createBaseValueDefinition();
-          addBeanDeclarationSupport(objectType, objectType.getFields(), builder, namespace, namespaceUri, true);
+          if (!typeResolvingStack.contains(getId(objectType))) {
+            typeResolvingStack.push(getId(objectType));
+            addBeanDeclarationSupport(objectType, objectType.getFields(), builder, namespace, namespaceUri, true);
+            typeResolvingStack.pop();
+          } else {
+            addBeanDeclarationSupport(objectType, emptyList(), builder, namespace, namespaceUri, false);
+          }
+
           builder.supportsChildDeclaration(true);
           builder.asWrappedElement(requiresWrapperElement);
 

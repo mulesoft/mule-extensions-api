@@ -17,6 +17,9 @@ import org.mule.runtime.extension.xml.dsl.test.model.ComplexFieldsType;
 import org.mule.runtime.extension.xml.dsl.test.model.GlobalType;
 import org.mule.runtime.extension.xml.dsl.test.model.InterfaceDeclaration;
 import org.mule.runtime.extension.xml.dsl.test.model.NotGlobalType;
+import org.mule.runtime.extension.xml.dsl.test.model.RecursiveChainA;
+import org.mule.runtime.extension.xml.dsl.test.model.RecursiveChainB;
+import org.mule.runtime.extension.xml.dsl.test.model.RecursivePojo;
 import org.mule.runtime.extension.xml.dsl.test.model.SimpleFieldsType;
 
 import java.util.Optional;
@@ -34,6 +37,32 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     assertThat(textFieldSyntax.getElementName(), is("text-field"));
     assertThat(textFieldSyntax.getAttributeName(), anyOf(is(""), nullValue()));
   }
+
+
+  @Test
+  public void testRecursiveTypeAndChain() {
+    MetadataType type = TYPE_LOADER.load(RecursivePojo.class);
+    Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
+
+    assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
+
+    type = TYPE_LOADER.load(RecursiveChainA.class);
+    topDsl = getSyntaxResolver().resolve(type);
+
+    assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
+
+    type = TYPE_LOADER.load(RecursiveChainB.class);
+    topDsl = getSyntaxResolver().resolve(type);
+
+    assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
+    //assertElementName(getTopLevelTypeName(type), topDsl.get());
+    //assertElementNamespace(NAMESPACE, topDsl.get());
+    //assertChildElementDeclarationIs(true, topDsl.get());
+    //assertIsWrappedElement(false, topDsl.get());
+    //
+    //assertComplexTypeDslFields(topDsl.get());
+  }
+
 
   @Test
   public void testComplexRecursiveType() {
