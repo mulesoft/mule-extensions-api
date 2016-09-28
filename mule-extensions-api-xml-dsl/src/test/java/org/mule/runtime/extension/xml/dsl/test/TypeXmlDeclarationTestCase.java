@@ -55,12 +55,6 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     topDsl = getSyntaxResolver().resolve(type);
 
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
-    //assertElementName(getTopLevelTypeName(type), topDsl.get());
-    //assertElementNamespace(NAMESPACE, topDsl.get());
-    //assertChildElementDeclarationIs(true, topDsl.get());
-    //assertIsWrappedElement(false, topDsl.get());
-    //
-    //assertComplexTypeDslFields(topDsl.get());
   }
 
 
