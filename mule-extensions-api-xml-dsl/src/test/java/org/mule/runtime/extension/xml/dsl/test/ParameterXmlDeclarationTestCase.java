@@ -570,7 +570,6 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
         .ofKey(TYPE_BUILDER.stringType())
         .ofValue(TYPE_BUILDER.stringType())
         .build();
-
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName()).of(dictionary).build());
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     assertAttributeName(PARAMETER_NAME, result);
@@ -585,7 +584,6 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   private static final class ExtensionForImportsDeclaresXml {
 
   }
-
 
   @Extension(name = IMPORT_EXTENSION_NAME)
   private static final class ExtensionForImportsNoXml {
