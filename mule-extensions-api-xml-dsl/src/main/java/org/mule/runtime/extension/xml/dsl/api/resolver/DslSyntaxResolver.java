@@ -141,8 +141,7 @@ public class DslSyntaxResolver {
                                  public void visitArrayType(ArrayType arrayType) {
                                    defaultVisit(arrayType);
                                    MetadataType genericType = arrayType.getType();
-
-                                   boolean supportsInline = supportsInlineDeclaration(genericType, expressionSupport,
+                                   boolean supportsInline = supportsInlineDeclaration(arrayType, expressionSupport,
                                                                                       xmlHints, isContent);
                                    boolean requiresWrapper = typeRequiresWrapperElement(genericType);
                                    if (supportsInline || requiresWrapper) {
@@ -181,7 +180,7 @@ public class DslSyntaxResolver {
                                    builder.withAttributeName(parameter.getName())
                                        .withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(pluralize(parameter.getName())))
-                                       .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType.getKeyType(),
+                                       .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType,
                                                                                            expressionSupport,
                                                                                            isContent));
 

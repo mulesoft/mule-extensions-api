@@ -19,6 +19,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
+import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
@@ -561,6 +562,21 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertElementName(itemize(PARAMETER_NAME), itemDsl);
     assertChildElementDeclarationIs(false, itemDsl);
     assertIsWrappedElement(false, itemDsl);
+  }
+
+  @Test
+  public void testListOfMapsParameter() {
+    DictionaryType dictionary = TYPE_BUILDER.dictionaryType()
+        .ofKey(TYPE_BUILDER.stringType())
+        .ofValue(TYPE_BUILDER.stringType())
+        .build();
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName()).of(dictionary).build());
+    DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
+    assertAttributeName(PARAMETER_NAME, result);
+    assertElementName(hyphenize(PARAMETER_NAME), result);
+    assertElementNamespace(NAMESPACE, result);
+    assertChildElementDeclarationIs(false, result);
+    assertIsWrappedElement(false, result);
   }
 
   @Xml(namespace = IMPORT_NAMESPACE, namespaceLocation = IMPORT_NAMESPACE_URI)

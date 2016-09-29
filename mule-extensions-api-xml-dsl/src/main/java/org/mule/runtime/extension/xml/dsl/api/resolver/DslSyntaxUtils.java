@@ -15,8 +15,10 @@ import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
@@ -175,7 +177,19 @@ class DslSyntaxUtils {
 
       @Override
       public void visitArrayType(ArrayType arrayType) {
-        arrayType.getType().accept(this);
+        final MetadataTypeVisitor currentVisitor = this;
+        arrayType.getType().accept(new MetadataTypeVisitor() {
+
+          @Override
+          public void visitDictionary(DictionaryType dictionaryType) {
+            supportsChildDeclaration.set(false);
+          }
+
+          @Override
+          protected void defaultVisit(MetadataType metadataType) {
+            metadataType.accept(currentVisitor);
+          }
+        });
       }
 
       @Override
@@ -195,7 +209,23 @@ class DslSyntaxUtils {
 
       @Override
       public void visitDictionary(DictionaryType dictionaryType) {
-        supportsChildDeclaration.set(true);
+        dictionaryType.getKeyType().accept(new MetadataTypeVisitor() {
+
+          @Override
+          public void visitString(StringType stringType) {
+            supportsChildDeclaration.set(true);
+          }
+
+          @Override
+          public void visitNumber(NumberType numberType) {
+            supportsChildDeclaration.set(true);
+          }
+
+          @Override
+          protected void defaultVisit(MetadataType metadataType) {
+            supportsChildDeclaration.set(false);
+          }
+        });
       }
     });
 
