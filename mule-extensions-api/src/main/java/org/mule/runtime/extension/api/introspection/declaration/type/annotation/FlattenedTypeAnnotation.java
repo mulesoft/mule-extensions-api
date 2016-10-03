@@ -10,6 +10,8 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+
 /**
  * A marker {@link TypeAnnotation} meant to be applied on
  * {@link ObjectFieldType} instances which {@link ObjectFieldType#getValue()}
@@ -26,5 +28,15 @@ public class FlattenedTypeAnnotation implements TypeAnnotation {
   @Override
   public String getName() {
     return NAME;
+  }
+
+  @Override
+  public int hashCode() {
+    return reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof FlattenedTypeAnnotation;
   }
 }
