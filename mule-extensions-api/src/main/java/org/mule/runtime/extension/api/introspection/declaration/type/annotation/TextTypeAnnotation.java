@@ -28,4 +28,14 @@ public class TextTypeAnnotation implements TypeAnnotation {
     return NAME;
   }
 
+  @Override
+  public int hashCode() {
+    return NAME.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof TextTypeAnnotation;
+  }
+
 }
