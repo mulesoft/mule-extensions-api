@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
@@ -34,7 +33,7 @@ public class ExtensibleTypeAnnotation implements TypeAnnotation {
 
   @Override
   public int hashCode() {
-    return reflectionHashCode(this);
+    return NAME.hashCode();
   }
 
   @Override

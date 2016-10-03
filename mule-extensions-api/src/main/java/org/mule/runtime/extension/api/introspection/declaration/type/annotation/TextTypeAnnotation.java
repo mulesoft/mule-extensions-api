@@ -11,8 +11,6 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-
 /**
  * A marker {@link TypeAnnotation} meant to be applied on
  * {@link ObjectFieldType} instances which {@link ObjectFieldType#getValue()}
@@ -32,7 +30,7 @@ public class TextTypeAnnotation implements TypeAnnotation {
 
   @Override
   public int hashCode() {
-    return reflectionHashCode(this);
+    return NAME.hashCode();
   }
 
   @Override
