@@ -7,12 +7,16 @@
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
+import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -170,6 +174,53 @@ public class ExtensionDeclarer extends Declarer<ExtensionDeclaration>
       declaration.addType(objectType);
     }
 
+    return this;
+  }
+
+  /**
+   * Declares that the extension is importing a type from another
+   * extension
+   *
+   * @param importedType a {@link ImportedTypeModel} with the import information
+   * @return {@code this} declarer
+   */
+  public ExtensionDeclarer withImportedType(ImportedTypeModel importedType) {
+    declaration.addImportedType(importedType);
+    return this;
+  }
+
+  /**
+   * Describes the language which allows using the extension
+   *
+   * @param xmlDslModel an {@link XmlDslModel}
+   * @return {@code this} declarer
+   */
+  public ExtensionDeclarer withXmlDsl(XmlDslModel xmlDslModel) {
+    declaration.setXmlDslModel(xmlDslModel);
+    return this;
+  }
+
+  /**
+   * Registers the given {@code subType} as an implementation of the {@code baseType}
+   *
+   * @param baseType a base type
+   * @param subType  a sub type implementation
+   * @return {@code this} declarer
+   */
+  public ExtensionDeclarer withSubType(MetadataType baseType, MetadataType subType) {
+    declaration.addSubtype(baseType, subType);
+    return this;
+  }
+
+  /**
+   * Registers the given {@code subTypes} as implementations of the {@code baseType}
+   *
+   * @param baseType a base type
+   * @param subTypes a {@link Collection} of sub type implementations
+   * @return {@code this} declarer
+   */
+  public ExtensionDeclarer withSubTypes(MetadataType baseType, Collection<MetadataType> subTypes) {
+    declaration.addSubtypes(baseType, subTypes);
     return this;
   }
 

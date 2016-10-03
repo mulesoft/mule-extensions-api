@@ -21,17 +21,18 @@ import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.Category.COMMUNITY;
 import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.LAYOUT_MODEL_PROPERTY;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableOutputModel;
 import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.ImmutableRuntimeConnectionProviderModel;
@@ -39,11 +40,12 @@ import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsT
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
@@ -72,12 +74,10 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
       new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
 
   private final MetadataType stringType = typeLoader.load(String.class);
-  private final String SERIALIZED_DISPLAY_MODEL_PROPERTY = "{\"password\":false,\"text\":true,\"order\":0}";
   private final String GET_CAR_OPERATION_NAME = "getCar";
   private final String CAR_NAME_PARAMETER_NAME = "carName";
   private final String MODEL_PROPERTIES_NODE = "modelProperties";
   private final String OPERATIONS_NODE = "operations";
-  private final String PARAMETER_MODELS_NODE = "parameterModels";
   private final String COMPLEX_PARAMETER_NAME = "complex";
 
   private ExtensionModel deserializedExtensionModel;
@@ -88,39 +88,47 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private List<ExtensionModel> extensionModelList;
   private ExtensionModelJsonSerializer extensionModelJsonSerializer;
   private ObjectType exportedType = (ObjectType) typeLoader.load(ExportedClass.class);
+  private ElementDslModel defaultParameterDsl = ElementDslModel.getDefaultInstance();
+  private DisplayModel defaultDisplayModel = DisplayModel.builder().build();
+  private LayoutModel defaultLayoutModel = LayoutModel.builder().build();
 
   @Before
   public void setUp() {
     final ImmutableParameterModel carNameParameter =
         new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "",
-                                    singleton(new LayoutModelProperty(false, true, 0, null, null)));
+                                    defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "",
-                                    singleton(new LayoutModelProperty(false, true, 0, null, null)));
+                                    defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "",
-                                    singleton(new LayoutModelProperty(true, true, 0, null, null)));
+                                    defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel complexParameter =
         new ImmutableParameterModel(COMPLEX_PARAMETER_NAME, "complex type to serialize",
                                     ExtensionsTypeLoaderFactory.getDefault()
                                         .createTypeLoader()
                                         .load(ComplexFieldsType.class),
-                                    false, true, SUPPORTED, null, emptySet());
+                                    false, true, SUPPORTED, null, defaultParameterDsl,
+                                    defaultDisplayModel, defaultLayoutModel, emptySet());
 
     getCarOperation =
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
                                     new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
                                     new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet()),
-                                    modelProperties);
+                                    defaultDisplayModel, modelProperties);
     final ImmutableRuntimeConnectionProviderModel basicAuth =
         new ImmutableRuntimeConnectionProviderModel("BasicAuth", "Basic Auth Config", Integer.class,
                                                     new DefaultConnectionProviderFactory(),
-                                                    asList(usernameParameter, passwordParameter), NONE, emptySet());
+                                                    asList(usernameParameter, passwordParameter), NONE,
+                                                    defaultDisplayModel, emptySet());
     originalExtensionModel =
         new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                            new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
-                                           singletonList(basicAuth), emptyList(), singleton(exportedType), emptySet(),
+                                           singletonList(basicAuth), emptyList(),
+                                           defaultDisplayModel, XmlDslModel.builder().build(),
+                                           emptySet(), singleton(exportedType), emptySet(), emptySet(),
                                            Optional.empty());
+
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
     serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
@@ -128,23 +136,6 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonArray()
         .get(0).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
     extensionModelList = asList(deserializedExtensionModel, originalExtensionModel);
-  }
-
-  @Test
-  public void friendlyNameIsUsedForAlreadyKnowModelProperty() {
-    final JsonObject carNameParameter = serializedExtensionModel.getAsJsonObject()
-        .get(OPERATIONS_NODE).getAsJsonArray()
-        .get(0).getAsJsonObject()
-        .get(PARAMETER_MODELS_NODE).getAsJsonArray()
-        .get(0).getAsJsonObject();
-
-    assertThat(carNameParameter.get("name").getAsString(), is(CAR_NAME_PARAMETER_NAME));
-    assertThat(getModelProperty(carNameParameter, LAYOUT_MODEL_PROPERTY).toString(), is(SERIALIZED_DISPLAY_MODEL_PROPERTY));
-  }
-
-  @Test
-  public void fullQualifiedNameIsUsedForUnknownModelProperty() {
-    assertThat(operationModelProperties.has(ExternalizableModelProperty.class.getName()), is(true));
   }
 
   @Test

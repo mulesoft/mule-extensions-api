@@ -6,6 +6,16 @@
     "vendor": "MuleSoft",
     "category": "COMMUNITY",
     "minMuleVersion": "4.0.0",
+    "xmlDsl": {
+      "namespace": "",
+      "namespaceUri": "",
+      "schemaLocation": "",
+      "schemaVersion": "",
+      "xsdFileName": ""
+    },
+    "subTypes": [],
+    "importedTypes": [],
+    "displayModel": {},
     "configurations": [],
     "operations": [
       {
@@ -46,15 +56,21 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "carName",
+            "displayModel": {},
             "description": "Name of the car",
-            "modelProperties": {
-              "layout": {
-                "password": false,
-                "text": true,
-                "order": 0
-              }
-            }
+            "modelProperties": {}
           },
           {
             "type": {
@@ -64,12 +80,25 @@
             "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "complex",
+            "displayModel": {},
             "description": "complex type to serialize",
             "modelProperties": {}
           }
         ],
         "name": "getCar",
+        "displayModel": {},
         "description": "Obtains a car",
         "modelProperties": {
           "org.mule.runtime.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
@@ -92,15 +121,21 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "username",
+            "displayModel": {},
             "description": "Username",
-            "modelProperties": {
-              "layout": {
-                "password": false,
-                "text": true,
-                "order": 0
-              }
-            }
+            "modelProperties": {}
           },
           {
             "type": {
@@ -114,18 +149,25 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "password",
+            "displayModel": {},
             "description": "Password",
-            "modelProperties": {
-              "layout": {
-                "password": true,
-                "text": true,
-                "order": 0
-              }
-            }
+            "modelProperties": {}
           }
         ],
         "name": "BasicAuth",
+        "displayModel": {},
         "description": "Basic Auth Config",
         "modelProperties": {}
       }
@@ -506,6 +548,16 @@
     "vendor": "MuleSoft",
     "category": "COMMUNITY",
     "minMuleVersion": "4.0.0",
+    "xmlDsl": {
+      "namespace": "",
+      "namespaceUri": "",
+      "schemaLocation": "",
+      "schemaVersion": "",
+      "xsdFileName": ""
+    },
+    "subTypes": [],
+    "importedTypes": [],
+    "displayModel": {},
     "configurations": [],
     "operations": [
       {
@@ -546,15 +598,21 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "carName",
+            "displayModel": {},
             "description": "Name of the car",
-            "modelProperties": {
-              "layout": {
-                "password": false,
-                "text": true,
-                "order": 0
-              }
-            }
+            "modelProperties": {}
           },
           {
             "type": {
@@ -564,12 +622,25 @@
             "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "complex",
+            "displayModel": {},
             "description": "complex type to serialize",
             "modelProperties": {}
           }
         ],
         "name": "getCar",
+        "displayModel": {},
         "description": "Obtains a car",
         "modelProperties": {
           "org.mule.runtime.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
@@ -592,15 +663,21 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "username",
+            "displayModel": {},
             "description": "Username",
-            "modelProperties": {
-              "layout": {
-                "password": false,
-                "text": true,
-                "order": 0
-              }
-            }
+            "modelProperties": {}
           },
           {
             "type": {
@@ -614,18 +691,25 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
+            "dslModel": {
+              "allowsInlineDefinition": true,
+              "allowsReferences": true,
+              "allowTopLevelDefinition": false
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false,
+              "order": 0
+            },
             "name": "password",
+            "displayModel": {},
             "description": "Password",
-            "modelProperties": {
-              "layout": {
-                "password": true,
-                "text": true,
-                "order": 0
-              }
-            }
+            "modelProperties": {}
           }
         ],
         "name": "BasicAuth",
+        "displayModel": {},
         "description": "Basic Auth Config",
         "modelProperties": {}
       }

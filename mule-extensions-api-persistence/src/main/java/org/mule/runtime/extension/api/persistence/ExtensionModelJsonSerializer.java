@@ -12,8 +12,10 @@ import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.runtime.api.MuleVersion;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableOutputModel;
 import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
@@ -28,9 +30,9 @@ import org.mule.runtime.extension.api.introspection.operation.ImmutableRuntimeOp
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
-import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
+import org.mule.runtime.extension.api.introspection.SubTypesModel;
 import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
@@ -53,7 +55,7 @@ import java.util.List;
  * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that {@link ModelProperty#isExternalizable()}
  * returns {@code true}, will be serialized</li>
  * <li>Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only
- * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModelProperty}
+ * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel}
  * is going to be identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized
  * tagging it with the full qualifier name of the class.</li>
  * <li>When deserializing {@link ModelProperty}s, their full qualified name will be used, if the class is not found in the
@@ -120,17 +122,15 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
     final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
-    final ImportedTypesModelPropertyTypeAdapter importedTypesModelPropertyTypeAdapter =
-        new ImportedTypesModelPropertyTypeAdapter(referenceHandler);
-    final SubTypesModelPropertyTypeAdapter subTypesModelPropertyTypeAdapter =
-        new SubTypesModelPropertyTypeAdapter(referenceHandler);
     final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
         .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
-        .registerTypeAdapter(ImportedTypesModelProperty.class, importedTypesModelPropertyTypeAdapter)
-        .registerTypeAdapter(SubTypesModelProperty.class, subTypesModelPropertyTypeAdapter)
+        .registerTypeAdapter(ImportedTypeModel.class, new ImportedTypesModelTypeAdapter(referenceHandler))
+        .registerTypeAdapter(SubTypesModel.class, new SubTypesModelTypeAdapter(referenceHandler))
+        .registerTypeAdapter(XmlDslModel.class, new XmlDslModelTypeAdapter())
+        .registerTypeAdapter(ElementDslModel.class, new ElementDslModelTypeAdapter())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

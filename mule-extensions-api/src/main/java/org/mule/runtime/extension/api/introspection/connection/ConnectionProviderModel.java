@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.introspection.connection;
 
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.introspection.Described;
+import org.mule.runtime.extension.api.introspection.HasDisplayModel;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.Named;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
@@ -25,7 +26,7 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel
  *
  * @since 1.0
  */
-public interface ConnectionProviderModel extends Named, Described, EnrichableModel, ParameterizedModel {
+public interface ConnectionProviderModel extends Named, Described, EnrichableModel, ParameterizedModel, HasDisplayModel {
 
   /**
    * @return the type of connection management that the provider performs

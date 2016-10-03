@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import org.mule.runtime.extension.api.introspection.Described;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
 
   private final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
   private String description = "";
+  private DisplayModel displayModel;
 
   /**
    * Returns a {@link Set} with the currently added properties. Notice
@@ -88,5 +90,20 @@ public abstract class BaseDeclaration<T extends BaseDeclaration> implements Desc
    */
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  /**
+   * @return The {@link DisplayModel} for this declaration
+   */
+  public DisplayModel getDisplayModel() {
+    return displayModel;
+  }
+
+  /**
+   * Sets the {@link #displayModel} for this declaration
+   * @param displayModel a {@link DisplayModel}
+   */
+  public void setDisplayModel(DisplayModel displayModel) {
+    this.displayModel = displayModel;
   }
 }

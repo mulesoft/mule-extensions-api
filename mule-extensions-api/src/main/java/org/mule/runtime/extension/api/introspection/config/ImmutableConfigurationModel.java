@@ -8,12 +8,14 @@ package org.mule.runtime.extension.api.introspection.config;
 
 import org.mule.runtime.extension.api.introspection.AbstractComplexModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ import java.util.Set;
  */
 public class ImmutableConfigurationModel extends AbstractComplexModel implements ConfigurationModel {
 
-  private final List<ParameterModel> parameterModels;
+  private List<ParameterModel> parameterModels = new LinkedList<>();
 
   /**
    * Creates a new instance with the given state
@@ -35,6 +37,7 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
    * @param operationModels     a {@link List} with the extension's {@link OperationModel operationModels}
    * @param connectionProviders a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
    * @param sourceModels        a {@link List} with the extension's {@link SourceModel message source models}
+   * @param displayModel        a model which contains directive about how this configuration is displayed in the UI
    * @param modelProperties     a {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
    */
@@ -44,8 +47,9 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
                                      List<OperationModel> operationModels,
                                      List<ConnectionProviderModel> connectionProviders,
                                      List<SourceModel> sourceModels,
+                                     DisplayModel displayModel,
                                      Set<ModelProperty> modelProperties) {
-    super(name, description, operationModels, connectionProviders, sourceModels, modelProperties);
+    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.parameterModels = Collections.unmodifiableList(parameterModels);
   }
 

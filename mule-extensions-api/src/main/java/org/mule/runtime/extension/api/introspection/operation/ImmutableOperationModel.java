@@ -10,6 +10,7 @@ import org.mule.runtime.api.message.Message;
 import org.mule.runtime.extension.api.introspection.AbstractComponentModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.OutputModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
    * @param parameterModels  a {@link List} with the operation's {@link ParameterModel parameterModels}
    * @param output           an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link Message}
+   * @param displayModel     a model which contains directive about how this operation is displayed in the UI
    * @param modelProperties  A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
@@ -38,7 +40,8 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
                                  List<ParameterModel> parameterModels,
                                  OutputModel output,
                                  OutputModel outputAttributes,
+                                 DisplayModel displayModel,
                                  Set<ModelProperty> modelProperties) {
-    super(name, description, modelProperties, parameterModels, output, outputAttributes);
+    super(name, description, displayModel, modelProperties, parameterModels, output, outputAttributes);
   }
 }

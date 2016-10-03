@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
 import static java.util.Collections.emptyList;
-import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
@@ -17,7 +16,6 @@ import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
-import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.getHintsModelProperty;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.getId;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isExtensible;
@@ -26,7 +24,6 @@ import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isT
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isValidBean;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadImportedTypes;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadSubTypes;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadXmlProperties;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.supportsInlineDeclaration;
 import org.mule.metadata.api.model.ArrayType;
@@ -37,16 +34,16 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
+import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
 import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 import org.mule.runtime.extension.xml.dsl.internal.DslElementSyntaxBuilder;
 
 import java.util.ArrayDeque;
@@ -68,21 +65,20 @@ public class DslSyntaxResolver {
   private static final String VALUE_ATTRIBUTE = "value";
   private static final String KEY_ATTRIBUTE = "key";
   private final SubTypesMappingContainer subTypesMap;
-  private final XmlModelProperty extensionXml;
+  private final XmlDslModel languageModel;
   private final Map<String, DslElementSyntax> resolvedTypes = new HashMap<>();
-  private final Map<MetadataType, XmlModelProperty> importedTypes;
+  private final Map<MetadataType, XmlDslModel> importedTypes;
   private final Deque<String> typeResolvingStack = new ArrayDeque<>();
 
   /**
    * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
-   * @throws IllegalArgumentException if the {@link ExtensionModel} doesn't have an {@link XmlModelProperty}, if the
-   *                                  {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not present in the provided
-   *                                  {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have an
-   *                                  {@link ImportedTypesModelProperty}
+   * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel}
+   * not present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   * {@link ImportedTypeModel}
    */
   public DslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
-    this.extensionXml = loadXmlProperties(model);
+    this.languageModel = model.getXmlDslModel();
     this.subTypesMap = loadSubTypes(model);
     this.importedTypes = loadImportedTypes(model, context);
   }
@@ -96,7 +92,7 @@ public class DslSyntaxResolver {
   public DslElementSyntax resolve(final Named component) {
     return DslElementSyntaxBuilder.create()
         .withElementName(hyphenize(component.getName()))
-        .withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri())
+        .withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
         .requiresConfig(requiresConfig(component))
         .build();
   }
@@ -113,7 +109,7 @@ public class DslSyntaxResolver {
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     final String namespace = getNamespace(parameter.getType());
     final String namespaceUri = getNamespaceUri(parameter.getType());
-    final Optional<XmlHintsModelProperty> xmlHints = getHintsModelProperty(parameter);
+    final ElementDslModel dslModel = parameter.getDslModel();
     final boolean isContent = parameter.getModelProperty(MetadataContentModelProperty.class).isPresent();
 
     parameter.getType().accept(
@@ -142,7 +138,7 @@ public class DslSyntaxResolver {
                                    defaultVisit(arrayType);
                                    MetadataType genericType = arrayType.getType();
                                    boolean supportsInline = supportsInlineDeclaration(arrayType, expressionSupport,
-                                                                                      xmlHints, isContent);
+                                                                                      dslModel, isContent);
                                    boolean requiresWrapper = typeRequiresWrapperElement(genericType);
                                    if (supportsInline || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
@@ -156,10 +152,10 @@ public class DslSyntaxResolver {
                                    builder.withAttributeName(parameter.getName())
                                        .withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameter.getName()))
-                                       .supportsTopLevelDeclaration(supportTopLevelElement(objectType, xmlHints));
+                                       .supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
 
                                    boolean shouldGenerateChild =
-                                       supportsInlineDeclaration(objectType, expressionSupport, xmlHints, isContent);
+                                       supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent);
                                    boolean requiresWrapper = typeRequiresWrapperElement(objectType);
                                    if (shouldGenerateChild || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
@@ -167,7 +163,7 @@ public class DslSyntaxResolver {
                                        builder.asWrappedElement(true)
                                            .withNamespace(namespace, namespaceUri);
                                      } else {
-                                       builder.withNamespace(extensionXml.getNamespace(), extensionXml.getNamespaceUri());
+                                       builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri());
                                      }
 
                                      declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
@@ -190,7 +186,7 @@ public class DslSyntaxResolver {
                                    dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder,
                                                                                                       parameter.getName(),
                                                                                                       namespace, namespaceUri,
-                                                                                                      xmlHints));
+                                                                                                      dslModel));
                                  }
                                });
     return builder.build();
@@ -211,7 +207,7 @@ public class DslSyntaxResolver {
 
     boolean requiresWrapper = typeRequiresWrapperElement(type);
     boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
-    boolean supportTopLevelElement = supportTopLevelElement(type, empty());
+    boolean supportTopLevelElement = supportTopLevelElement(type, ElementDslModel.getDefaultInstance());
 
     if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper) {
       return Optional.empty();
@@ -264,7 +260,8 @@ public class DslSyntaxResolver {
                                       .withElementName(getTopLevelTypeName(objectType))
                                       .supportsChildDeclaration(supportsInlineDeclaration(objectType, NOT_SUPPORTED))
                                       .asWrappedElement(true)
-                                      .supportsTopLevelDeclaration(supportTopLevelElement(objectType, empty()))
+                                      .supportsTopLevelDeclaration(supportTopLevelElement(objectType,
+                                                                                          ElementDslModel.getDefaultInstance()))
                                       .build());
         } else if (isValidBean(objectType)) {
           listBuilder.withGeneric(objectType, resolve(objectType).get());
@@ -302,12 +299,12 @@ public class DslSyntaxResolver {
 
   private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName,
                                                             final String namespace, final String namespaceUri,
-                                                            Optional<XmlHintsModelProperty> xmlHints) {
+                                                            ElementDslModel dslModel) {
     return new MetadataTypeVisitor() {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        boolean supportsInlineDeclaration = supportsInlineDeclaration(objectType, SUPPORTED, xmlHints, false);
+        boolean supportsInlineDeclaration = supportsInlineDeclaration(objectType, SUPPORTED, dslModel, false);
         boolean requiresWrapperElement = typeRequiresWrapperElement(objectType);
 
         if (supportsInlineDeclaration || requiresWrapperElement) {
@@ -335,7 +332,7 @@ public class DslSyntaxResolver {
         DslElementSyntaxBuilder listBuilder = createBaseValueDefinition();
 
         MetadataType genericType = arrayType.getType();
-        boolean supportsInline = supportsInlineDeclaration(genericType, SUPPORTED, xmlHints, false);
+        boolean supportsInline = supportsInlineDeclaration(genericType, SUPPORTED, dslModel, false);
         boolean requiresWrapper = typeRequiresWrapperElement(genericType);
         if (supportsInline || requiresWrapper) {
           listBuilder.supportsChildDeclaration(true);
@@ -446,7 +443,8 @@ public class DslSyntaxResolver {
                                          DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE).build());
 
           dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(objectFieldBuilder, fieldName,
-                                                                             ownerNamespace, ownerNamespaceUri, empty()));
+                                                                             ownerNamespace, ownerNamespaceUri,
+                                                                             ElementDslModel.getDefaultInstance()));
         }
 
       }
@@ -478,20 +476,20 @@ public class DslSyntaxResolver {
   }
 
   private String getNamespace(MetadataType type) {
-    return getNamespace(type, extensionXml.getNamespace());
+    return getNamespace(type, languageModel.getNamespace());
   }
 
   private String getNamespace(MetadataType type, String defaultNamespace) {
-    XmlModelProperty originXml = importedTypes.get(type);
+    XmlDslModel originXml = importedTypes.get(type);
     return originXml != null ? originXml.getNamespace() : defaultNamespace;
   }
 
   private String getNamespaceUri(MetadataType type) {
-    return getNamespaceUri(type, extensionXml.getNamespaceUri());
+    return getNamespaceUri(type, languageModel.getNamespaceUri());
   }
 
   private String getNamespaceUri(MetadataType type, String defaultUri) {
-    XmlModelProperty originXml = importedTypes.get(type);
+    XmlDslModel originXml = importedTypes.get(type);
     return originXml != null ? originXml.getNamespaceUri() : defaultUri;
   }
 

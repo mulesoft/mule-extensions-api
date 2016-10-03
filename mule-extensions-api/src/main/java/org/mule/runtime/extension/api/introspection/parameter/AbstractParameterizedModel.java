@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.introspection.parameter;
 
 import org.mule.runtime.extension.api.introspection.AbstractNamedImmutableModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,13 +28,17 @@ public abstract class AbstractParameterizedModel extends AbstractNamedImmutableM
    *
    * @param name            the model's name
    * @param description     the model's description
+   * @param displayModel    a model which contains directive about how this component is displayed in the UI
    * @param modelProperties A {@link Set} of custom properties which extend this model
    * @param parameterModels a {@link List} with the source's {@link ParameterModel parameterModels}
    * @throws IllegalArgumentException if {@code name} is blank
    */
-  protected AbstractParameterizedModel(String name, String description, Set<ModelProperty> modelProperties,
+  protected AbstractParameterizedModel(String name,
+                                       String description,
+                                       DisplayModel displayModel,
+                                       Set<ModelProperty> modelProperties,
                                        List<ParameterModel> parameterModels) {
-    super(name, description, modelProperties);
+    super(name, description, displayModel, modelProperties);
     this.parameterModels = Collections.unmodifiableList(parameterModels);
   }
 

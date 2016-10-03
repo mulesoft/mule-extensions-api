@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection.connection;
 
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
 import java.beans.Transient;
@@ -32,6 +33,7 @@ public final class ImmutableRuntimeConnectionProviderModel extends ImmutableConn
    * @param connectionType            the {@link Class} of the provided connections
    * @param connectionProviderFactory the {@link ConnectionProviderFactory} used to create realizations of {@code this} model
    * @param parameterModels           a {@link List} with the provider's {@link ParameterModel parameterModels}
+   * @param displayModel              a model which contains directive about how this provider is displayed in the UI
    * @param modelProperties           A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType} are {@code null}
    */
@@ -41,8 +43,9 @@ public final class ImmutableRuntimeConnectionProviderModel extends ImmutableConn
                                                  ConnectionProviderFactory connectionProviderFactory,
                                                  List<ParameterModel> parameterModels,
                                                  ConnectionManagementType connectionManagementType,
+                                                 DisplayModel displayModel,
                                                  Set<ModelProperty> modelProperties) {
-    super(name, description, parameterModels, connectionManagementType, modelProperties);
+    super(name, description, parameterModels, connectionManagementType, displayModel, modelProperties);
 
     checkArgument(connectionType != null, "connectionType cannot be null");
     checkArgument(connectionProviderFactory != null, "connectionProviderFactory cannot be null");

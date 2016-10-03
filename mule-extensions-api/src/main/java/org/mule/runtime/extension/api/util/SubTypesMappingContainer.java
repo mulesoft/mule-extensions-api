@@ -11,14 +11,18 @@ import static com.google.common.collect.ImmutableList.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toSubTypesMap;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.introspection.SubTypesModel;
 
 import com.google.common.collect.ImmutableList;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Immutable container for type mapping, storing the relation of a given type and its declared subtypes
@@ -27,14 +31,14 @@ import java.util.Map;
  */
 public class SubTypesMappingContainer {
 
-  private final Map<MetadataType, List<MetadataType>> subTypesMapping;
-  private final Map<String, List<MetadataType>> subTypesById;
+  private final Map<MetadataType, Set<MetadataType>> subTypesMapping;
+  private final Map<String, Set<MetadataType>> subTypesById;
 
-  public SubTypesMappingContainer(Map<MetadataType, List<MetadataType>> subTypesMapping) {
-    this.subTypesMapping = subTypesMapping;
+  public SubTypesMappingContainer(Collection<SubTypesModel> subTypes) {
+    subTypesMapping = toSubTypesMap(subTypes);
     this.subTypesById = subTypesMapping.entrySet().stream()
         .filter(e -> getTypeId(e.getKey()).isPresent())
-        .collect(toMap(e -> getTypeId(e.getKey()).get(), Map.Entry::getValue));
+        .collect(toMap(e -> getTypeId(e.getKey()).get(), Map.Entry::getValue, (k, v) -> k, LinkedHashMap::new));
   }
 
   /**
@@ -47,8 +51,8 @@ public class SubTypesMappingContainer {
    * @param type the {@link MetadataType} for which to retrieve its declared subTypes
    * @return a {@link List} with all the declared subtypes for the indicated {@link MetadataType}
    */
-  public List<MetadataType> getSubTypes(MetadataType type) {
-    List<MetadataType> subTypes = getTypeId(type).map(subTypesById::get).orElse(subTypesMapping.get(type));
+  public Collection<MetadataType> getSubTypes(MetadataType type) {
+    Collection<MetadataType> subTypes = getTypeId(type).map(subTypesById::get).orElse(subTypesMapping.get(type));
     return subTypes != null ? copyOf(subTypes) : of();
   }
 

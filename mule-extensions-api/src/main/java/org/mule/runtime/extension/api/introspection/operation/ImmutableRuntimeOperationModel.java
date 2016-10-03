@@ -14,6 +14,7 @@ import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.OutputModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricher;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.runtime.extension.api.introspection.metadata.MetadataResolverFactory;
@@ -47,6 +48,7 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
    * @param parameterModels          a {@link List} with the operation's {@link ParameterModel parameterModels}
    * @param output                   an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output {@link Message}
+   * @param displayModel             a model which contains directive about how this operation is displayed in the UI
    * @param modelProperties          a {@link Set} of custom properties which extend this model
    * @param interceptorFactories     a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
    * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
@@ -61,11 +63,12 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
                                         List<ParameterModel> parameterModels,
                                         OutputModel output,
                                         OutputModel outputAttributes,
+                                        DisplayModel displayModel,
                                         Set<ModelProperty> modelProperties,
                                         List<InterceptorFactory> interceptorFactories,
                                         Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
                                         MetadataResolverFactory metadataResolverFactory) {
-    super(name, description, parameterModels, output, outputAttributes, modelProperties);
+    super(name, description, parameterModels, output, outputAttributes, displayModel, modelProperties);
     if (executorFactory == null) {
       throw new IllegalArgumentException(String.format("Operation '%s' cannot have a null executor factory", name));
     }

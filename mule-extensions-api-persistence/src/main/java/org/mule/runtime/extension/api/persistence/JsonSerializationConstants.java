@@ -8,15 +8,8 @@ package org.mule.runtime.extension.api.persistence;
 
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.property.DisplayModelProperty;
-import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
-import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelProperty;
 import org.mule.runtime.extension.api.introspection.property.MetadataKeyPartModelProperty;
-import org.mule.runtime.extension.api.introspection.property.StudioModelProperty;
-import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -30,32 +23,16 @@ import java.util.Map;
  */
 final class JsonSerializationConstants {
 
-  static final String DISPLAY_MODEL_PROPERTY = "display";
-  static final String LAYOUT_MODEL_PROPERTY = "layout";
-  static final String STUDIO_MODEL_PROPERTY = "studio";
-  static final String XML_MODEL_PROPERTY = "xml";
   static final String METADATA_KEY_ID_MODEL_PROPERTY = "metadataKeyId";
   static final String METADATA_KEY_PART_MODEL_PROPERTY = "metadataKeyPart";
-  static final String METADATA_CONTENT_MODEL_PROPERTY = "metadataContent";
-  static final String IMPORTED_TYPES_MODEL_PROPERTY = "importedTypes";
-  static final String SUB_TYPES_MODEL_PROPERTY = "subTypesMapping";
 
-  private JsonSerializationConstants() {
-
-  }
+  private JsonSerializationConstants() {}
 
   private static BiMap<String, Class<? extends ModelProperty>> getMapping() {
     final HashBiMap<String, Class<? extends ModelProperty>> stringClassHashMap = HashBiMap.create();
 
-    stringClassHashMap.put(LAYOUT_MODEL_PROPERTY, LayoutModelProperty.class);
-    stringClassHashMap.put(STUDIO_MODEL_PROPERTY, StudioModelProperty.class);
-    stringClassHashMap.put(XML_MODEL_PROPERTY, XmlModelProperty.class);
     stringClassHashMap.put(METADATA_KEY_ID_MODEL_PROPERTY, MetadataKeyIdModelProperty.class);
     stringClassHashMap.put(METADATA_KEY_PART_MODEL_PROPERTY, MetadataKeyPartModelProperty.class);
-    stringClassHashMap.put(METADATA_CONTENT_MODEL_PROPERTY, MetadataContentModelProperty.class);
-    stringClassHashMap.put(IMPORTED_TYPES_MODEL_PROPERTY, ImportedTypesModelProperty.class);
-    stringClassHashMap.put(SUB_TYPES_MODEL_PROPERTY, SubTypesModelProperty.class);
-    stringClassHashMap.put(DISPLAY_MODEL_PROPERTY, DisplayModelProperty.class);
 
     return stringClassHashMap;
   }

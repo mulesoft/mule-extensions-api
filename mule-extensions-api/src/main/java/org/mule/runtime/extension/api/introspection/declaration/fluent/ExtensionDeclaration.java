@@ -7,15 +7,23 @@
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import static java.util.Collections.unmodifiableSet;
+import static java.util.stream.Collectors.toCollection;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
+import org.mule.runtime.extension.api.introspection.SubTypesModel;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,6 +46,9 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
   private Category category;
   private MuleVersion minMuleVersion;
   private Set<ObjectType> types = new LinkedHashSet<>();
+  private XmlDslModel xmlDslModel;
+  private Map<MetadataType, Set<MetadataType>> subTypes = new LinkedHashMap<>();
+  private Set<ImportedTypeModel> importedTypes = new LinkedHashSet<>();
 
   /**
    * Creates a new instance
@@ -155,6 +166,49 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
   }
 
   /**
+   * Declares that the extension is importing a type from another
+   * extension
+   *
+   * @param importedType a {@link ImportedTypeModel} with the import information
+   * @return {@code this} declaration
+   */
+  public ExtensionDeclaration addImportedType(ImportedTypeModel importedType) {
+    importedTypes.add(importedType);
+    return this;
+  }
+
+  /**
+   * Registers the given {@code subType} as an implementation of the {@code baseType}
+   *
+   * @param baseType a base type
+   * @param subType  a sub type implementation
+   */
+  public void addSubtype(MetadataType baseType, MetadataType subType) {
+    Set<MetadataType> items = subTypes.computeIfAbsent(baseType, key -> new LinkedHashSet<>());
+    items.add(subType);
+  }
+
+  /**
+   * Registers the given {@code subTypes} as implementations of the {@code baseType}
+   *
+   * @param baseType a base type
+   * @param subTypes a {@link Collection} of sub type implementations
+   */
+  public void addSubtypes(MetadataType baseType, Collection<MetadataType> subTypes) {
+    Set<MetadataType> items = this.subTypes.computeIfAbsent(baseType, key -> new LinkedHashSet<>());
+    items.addAll(subTypes);
+  }
+
+  /**
+   * @return a {@link Map} with the subType mappings declared through {@link #addSubtype(MetadataType, MetadataType)}
+   * and {@link #addSubtypes(MetadataType, Collection)}
+   */
+  public Set<SubTypesModel> getSubTypes() {
+    return subTypes.entrySet().stream().map(entry -> new SubTypesModel(entry.getKey(), entry.getValue()))
+        .collect(toCollection(LinkedHashSet::new));
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -204,5 +258,17 @@ public class ExtensionDeclaration extends NamedDeclaration<ExtensionDeclaration>
 
   public void setMinMuleVersion(MuleVersion minMuleVersion) {
     this.minMuleVersion = minMuleVersion;
+  }
+
+  public XmlDslModel getXmlDslModel() {
+    return xmlDslModel;
+  }
+
+  public void setXmlDslModel(XmlDslModel xmlDslModel) {
+    this.xmlDslModel = xmlDslModel;
+  }
+
+  public Set<ImportedTypeModel> getImportedTypes() {
+    return importedTypes;
   }
 }

@@ -6,15 +6,18 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import static java.util.Collections.unmodifiableSet;
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+import org.mule.runtime.extension.api.introspection.Described;
+import org.mule.runtime.extension.api.introspection.EnrichableModel;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
 /**
@@ -24,8 +27,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public abstract class AbstractImmutableModel implements Described, EnrichableModel {
 
-  private final String description;
-  private final HierarchyClassMap<ModelProperty> modelProperties = new HierarchyClassMap<>();
+  protected String description;
+  protected final HierarchyClassMap<ModelProperty> modelProperties = new HierarchyClassMap<>();
+
+  protected static void checkArgument(boolean condition, String message) {
+    if (!condition) {
+      throw new IllegalArgumentException(message);
+    }
+  }
 
   /**
    * Creates a new instance
@@ -36,12 +45,6 @@ public abstract class AbstractImmutableModel implements Described, EnrichableMod
   protected AbstractImmutableModel(String description, Set<ModelProperty> modelProperties) {
     this.description = description != null ? description : "";
     loadProperties(modelProperties);
-  }
-
-  protected static void checkArgument(boolean condition, String message) {
-    if (!condition) {
-      throw new IllegalArgumentException(message);
-    }
   }
 
   /**
@@ -58,7 +61,7 @@ public abstract class AbstractImmutableModel implements Described, EnrichableMod
   @Override
   public <T extends ModelProperty> Optional<T> getModelProperty(Class<T> propertyType) {
     checkArgument(propertyType != null, "Cannot get model properties of a null type");
-    return Optional.ofNullable((T) modelProperties.get(propertyType));
+    return ofNullable((T) modelProperties.get(propertyType));
   }
 
   /**
@@ -66,12 +69,12 @@ public abstract class AbstractImmutableModel implements Described, EnrichableMod
    */
   @Override
   public Set<ModelProperty> getModelProperties() {
-    return Collections.unmodifiableSet(new HashSet(modelProperties.values()));
+    return unmodifiableSet(new HashSet(modelProperties.values()));
   }
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+    return reflectionToString(this);
   }
 
   private void loadProperties(Collection<ModelProperty> properties) {

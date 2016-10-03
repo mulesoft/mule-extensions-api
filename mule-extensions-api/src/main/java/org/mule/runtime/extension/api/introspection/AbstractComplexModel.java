@@ -13,6 +13,7 @@ import static java.util.Collections.unmodifiableList;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.HasConnectionProviderModels;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
@@ -47,8 +48,9 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
                               List<OperationModel> operationModels,
                               List<ConnectionProviderModel> connectionProviders,
                               List<SourceModel> sourceModels,
+                              DisplayModel displayModel,
                               Set<ModelProperty> modelProperties) {
-    super(name, description, modelProperties);
+    super(name, description, displayModel, modelProperties);
     this.operations = unique(operationModels, "Operations");
     this.connectionProviders = unique(connectionProviders, "Connection Providers");
     this.messageSources = unique(sourceModels, "Message Sources");

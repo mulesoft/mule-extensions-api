@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection.config;
 
 import org.mule.runtime.extension.api.introspection.Described;
+import org.mule.runtime.extension.api.introspection.HasDisplayModel;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
@@ -38,6 +39,6 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  * @since 1.0
  */
 public interface ConfigurationModel extends Named, Described, EnrichableModel, ParameterizedModel,
-    HasOperationModels, HasSourceModels, HasConnectionProviderModels {
+    HasOperationModels, HasSourceModels, HasConnectionProviderModels, HasDisplayModel {
 
 }

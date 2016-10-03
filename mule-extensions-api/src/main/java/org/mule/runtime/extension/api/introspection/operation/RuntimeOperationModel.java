@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection.operation;
 
 import org.mule.runtime.extension.api.introspection.RuntimeComponentModel;
+import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.runtime.operation.OperationExecutor;
 import org.mule.runtime.extension.api.runtime.operation.OperationExecutorFactory;
 

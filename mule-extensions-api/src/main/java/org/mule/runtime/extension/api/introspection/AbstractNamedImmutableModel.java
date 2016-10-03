@@ -6,8 +6,11 @@
  */
 package org.mule.runtime.extension.api.introspection;
 
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -16,23 +19,27 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel implements Named {
+public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel implements Named, HasDisplayModel {
 
   private final String name;
+  private final DisplayModel displayModel;
 
   /**
    * Creates a new instance
    *
    * @param name            the model's name
    * @param description     the model's description
+   * @param displayModel    a model containing directives about how this component is to be displayed in the UI
    * @param modelProperties A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
-  protected AbstractNamedImmutableModel(String name, String description, Set<ModelProperty> modelProperties) {
+  protected AbstractNamedImmutableModel(String name, String description, DisplayModel displayModel,
+                                        Set<ModelProperty> modelProperties) {
     super(description, modelProperties);
 
     checkArgument(name != null && name.length() > 0, "Name attribute cannot be null or blank");
     this.name = name;
+    this.displayModel = displayModel;
   }
 
   protected static void checkArgument(boolean condition, String message) {
@@ -47,6 +54,14 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
   @Override
   public final String getName() {
     return name;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<DisplayModel> getDisplayModel() {
+    return ofNullable(displayModel);
   }
 
   /**

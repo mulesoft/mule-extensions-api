@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.xml.dsl.test;
 
-import static java.util.Collections.singletonList;
+import static java.util.Collections.singleton;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,14 +23,14 @@ import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
+import org.mule.runtime.extension.api.introspection.SubTypesModel;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
-import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 import org.mule.runtime.extension.xml.dsl.test.model.AbstractType;
 import org.mule.runtime.extension.xml.dsl.test.model.ChildOfAbstractType;
 import org.mule.runtime.extension.xml.dsl.test.model.ComplexFieldsType;
@@ -43,7 +43,6 @@ import org.mule.runtime.extension.xml.dsl.test.model.InterfaceImplementation;
 import org.mule.runtime.extension.xml.dsl.test.model.NonDefaultConstructor;
 import org.mule.runtime.extension.xml.dsl.test.model.SimpleFieldsType;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -103,9 +102,13 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void xmlStyleAtParameterLevel() {
-    XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false, false);
+    ElementDslModel dslModel = ElementDslModel.builder()
+        .allowsInlineDefinition(false)
+        .allowTopLevelDefinition(false)
+        .allowsReferences(false)
+        .build();
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(String.class));
-    when(parameterModel.getModelProperty(XmlHintsModelProperty.class)).thenReturn(of(styleModelProperty));
+    when(parameterModel.getDslModel()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     assertChildElementDeclarationIs(false, result);
@@ -113,10 +116,15 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void xmlStyleAtTypeLevel() {
-    XmlHintsModelProperty styleModelProperty = new XmlHintsModelProperty(false, false, false);
+    ElementDslModel dslModel = ElementDslModel.builder()
+        .allowsInlineDefinition(false)
+        .allowTopLevelDefinition(false)
+        .allowsReferences(false)
+        .build();
+
     when(parameterModel.getType())
         .thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false, false)).build());
-    when(parameterModel.getModelProperty(XmlHintsModelProperty.class)).thenReturn(of(styleModelProperty));
+    when(parameterModel.getDslModel()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     assertChildElementDeclarationIs(false, result);
@@ -179,11 +187,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testInterfaceWithMappingParameter() {
-    Map<MetadataType, List<MetadataType>> mapping = new HashMap<>();
-    mapping.put(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
-                singletonList(TYPE_LOADER.load(InterfaceImplementation.class)));
-
-    when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(of(new SubTypesModelProperty(mapping)));
+    when(extension.getSubTypes()).thenReturn(singleton(
+                                                       new SubTypesModel(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
+                                                                         singleton(TYPE_LOADER
+                                                                             .load(InterfaceImplementation.class)))));
 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -194,11 +201,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testAbstractWithMappingParameter() {
-    Map<MetadataType, List<MetadataType>> mapping = new HashMap<>();
-    mapping.put(TYPE_LOADER.load(AbstractType.class), singletonList(TYPE_LOADER.load(ChildOfAbstractType.class)));
+    when(extension.getSubTypes()).thenReturn(singleton(
+                                                       new SubTypesModel(TYPE_LOADER.load(AbstractType.class),
+                                                                         singleton(TYPE_LOADER
+                                                                             .load(ChildOfAbstractType.class)))));
 
-    when(extension.getModelProperty(SubTypesModelProperty.class))
-        .thenReturn(of(new SubTypesModelProperty(mapping)));
 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(AbstractType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -209,18 +216,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testImportedFinalTypeWithXmlParameter() {
-    Map<MetadataType, String> imports = new HashMap<>();
-    imports.put(TYPE_LOADER.load(SimpleFieldsType.class), IMPORT_EXTENSION_NAME_WITH_XML);
-
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    when(importOriginMock.getModelProperty(XmlModelProperty.class))
-        .thenReturn(of(new XmlModelProperty(EMPTY, IMPORT_NAMESPACE, IMPORT_NAMESPACE_URI, EMPTY, IMPORT_SCHEMA_LOCATION)));
+    mockImportedTypes(IMPORT_EXTENSION_NAME_WITH_XML, SimpleFieldsType.class);
 
+    when(importOriginMock.getXmlDslModel()).thenReturn(createTestXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME_WITH_XML)).thenReturn(of(importOriginMock));
-
-    when(extension.getModelProperty(ImportedTypesModelProperty.class))
-        .thenReturn(of(new ImportedTypesModelProperty(imports)));
-
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(SimpleFieldsType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
@@ -231,18 +231,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testImportedFinalTypeWithoutXmlParameter() {
-    Map<MetadataType, String> imports = new HashMap<>();
-    imports.put(TYPE_LOADER.load(SimpleFieldsType.class), IMPORT_EXTENSION_NAME);
-
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    when(importOriginMock.getModelProperty(XmlModelProperty.class))
-        .thenReturn(of(new XmlModelProperty(EMPTY, IMPORT_NAMESPACE, IMPORT_NAMESPACE_URI, EMPTY, IMPORT_SCHEMA_LOCATION)));
+    mockImportedTypes(IMPORT_EXTENSION_NAME, SimpleFieldsType.class);
 
+    when(importOriginMock.getXmlDslModel()).thenReturn(createTestXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(importOriginMock));
-
-    when(extension.getModelProperty(ImportedTypesModelProperty.class))
-        .thenReturn(of(new ImportedTypesModelProperty(imports)));
-
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(SimpleFieldsType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
@@ -253,19 +246,18 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testExtensibleImportParameter() {
-    Map<MetadataType, String> imports = new HashMap<>();
-    imports.put(TYPE_LOADER.load(ExtensibleType.class), IMPORT_EXTENSION_NAME_WITH_XML);
-
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    when(importOriginMock.getModelProperty(XmlModelProperty.class))
-        .thenReturn(of(new XmlModelProperty(EMPTY, defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML), IMPORT_NAMESPACE_URI, EMPTY,
-                                            IMPORT_WITH_XML_SCHEMA_LOCATION)));
+    mockImportedTypes(IMPORT_EXTENSION_NAME_WITH_XML, ExtensibleType.class);
+
+    when(importOriginMock.getXmlDslModel()).thenReturn(XmlDslModel.builder()
+        .setXsdFileName(EMPTY)
+        .setNamespace(defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML))
+        .setNamespaceUri(IMPORT_NAMESPACE_URI)
+        .setXsdFileName(EMPTY)
+        .setSchemaLocation(IMPORT_WITH_XML_SCHEMA_LOCATION)
+        .build());
 
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME_WITH_XML)).thenReturn(of(importOriginMock));
-
-    when(extension.getModelProperty(ImportedTypesModelProperty.class))
-        .thenReturn(of(new ImportedTypesModelProperty(imports)));
-
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(ExtensibleType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
@@ -276,18 +268,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testExtensibleImportedTypeWithoutXmlParameter() {
-    Map<MetadataType, String> imports = new HashMap<>();
-    imports.put(TYPE_LOADER.load(ExtensibleType.class), IMPORT_EXTENSION_NAME);
-
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    when(importOriginMock.getModelProperty(XmlModelProperty.class))
-        .thenReturn(of(new XmlModelProperty(EMPTY, IMPORT_NAMESPACE, IMPORT_NAMESPACE_URI, EMPTY, IMPORT_SCHEMA_LOCATION)));
+    mockImportedTypes(IMPORT_EXTENSION_NAME, ExtensibleType.class);
 
+    when(importOriginMock.getXmlDslModel()).thenReturn(createTestXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(importOriginMock));
-
-    when(extension.getModelProperty(ImportedTypesModelProperty.class))
-        .thenReturn(of(new ImportedTypesModelProperty(imports)));
-
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(ExtensibleType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
@@ -374,11 +359,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     MetadataType keyType = TYPE_BUILDER.stringType().id(String.class.getName()).build();
     MetadataType valueType = TYPE_LOADER.load(InterfaceDeclarationWithMapping.class);
 
-    Map<MetadataType, List<MetadataType>> mapping = new HashMap<>();
-    mapping.put(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
-                singletonList(TYPE_LOADER.load(InterfaceImplementation.class)));
+    when(extension.getSubTypes()).thenReturn(singleton(new SubTypesModel(
+                                                                         TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
+                                                                         singleton(TYPE_LOADER
+                                                                             .load(InterfaceImplementation.class)))));
 
-    when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(of(new SubTypesModelProperty(mapping)));
 
 
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.dictionaryType().id(Map.class.getName())
@@ -564,6 +549,20 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertIsWrappedElement(false, itemDsl);
   }
 
+  private XmlDslModel createTestXmlDslModel() {
+    return XmlDslModel.builder()
+        .setXsdFileName(EMPTY)
+        .setNamespace(IMPORT_NAMESPACE)
+        .setNamespaceUri(IMPORT_NAMESPACE_URI)
+        .setSchemaLocation(IMPORT_SCHEMA_LOCATION)
+        .setSchemaVersion(EMPTY)
+        .build();
+  }
+
+  private void mockImportedTypes(String originExtension, Class<?> type) {
+    when(extension.getImportedTypes()).thenReturn(singleton(new ImportedTypeModel(originExtension, TYPE_LOADER.load(type))));
+  }
+
   @Test
   public void testListOfMapsParameter() {
     DictionaryType dictionary = TYPE_BUILDER.dictionaryType()
@@ -584,6 +583,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   private static final class ExtensionForImportsDeclaresXml {
 
   }
+
 
   @Extension(name = IMPORT_EXTENSION_NAME)
   private static final class ExtensionForImportsNoXml {

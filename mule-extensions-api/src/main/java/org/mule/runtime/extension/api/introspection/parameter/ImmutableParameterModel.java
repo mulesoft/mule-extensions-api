@@ -6,10 +6,15 @@
  */
 package org.mule.runtime.extension.api.introspection.parameter;
 
+import static java.util.Optional.ofNullable;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.introspection.AbstractNamedImmutableModel;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -20,10 +25,12 @@ import java.util.Set;
 public final class ImmutableParameterModel extends AbstractNamedImmutableModel implements ParameterModel {
 
   private final MetadataType type;
-  private boolean hasDynamicType;
+  private final boolean hasDynamicType;
   private final boolean required;
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
+  private final ElementDslModel dslModel;
+  private final LayoutModel layoutModel;
 
   /**
    * Creates a new instance with the given state
@@ -35,6 +42,9 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param required          whether this parameter is required or not
    * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
    * @param defaultValue      this parameter's default value
+   * @param dslModel          a model which describes the DSL semantics for this parameter
+   * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel       a model which contains directives about the parameter's layout in the UI
    * @param modelProperties   A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
    */
@@ -45,14 +55,19 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  boolean required,
                                  ExpressionSupport expressionSupport,
                                  Object defaultValue,
+                                 ElementDslModel dslModel,
+                                 DisplayModel displayModel,
+                                 LayoutModel layoutModel,
                                  Set<ModelProperty> modelProperties) {
-    super(name, description, modelProperties);
+    super(name, description, displayModel, modelProperties);
 
     this.type = type;
     this.required = required;
     this.expressionSupport = expressionSupport;
     this.defaultValue = defaultValue;
     this.hasDynamicType = hasDynamicType;
+    this.dslModel = dslModel;
+    this.layoutModel = layoutModel;
   }
 
   /**
@@ -92,4 +107,16 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     return defaultValue;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ElementDslModel getDslModel() {
+    return dslModel;
+  }
+
+  @Override
+  public Optional<LayoutModel> getLayoutModel() {
+    return ofNullable(layoutModel);
+  }
 }
