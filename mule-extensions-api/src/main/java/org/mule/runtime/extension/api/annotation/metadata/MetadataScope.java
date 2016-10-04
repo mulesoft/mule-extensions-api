@@ -9,9 +9,8 @@ package org.mule.runtime.extension.api.annotation.metadata;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
-import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.introspection.metadata.NullMetadataResolver;
 
@@ -20,8 +19,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Associates the annotated Component to a {@link TypeKeysResolver}, a {@link InputTypeResolver}
- * and a {@link OutputTypeResolver} that will be used to resolve the Component's {@link MetadataType} dynamically
+ * Associates the annotated Component to a {@link TypeKeysResolver}, and an {@link OutputTypeResolver}
+ * that will be used to resolve the Component's {@link MetadataType} dynamically
  *
  * This annotation can be used at Operation or {@link Extension} level.
  * When used at {@link Extension} level this resolvers will serve as the default, and will be used to resolve the

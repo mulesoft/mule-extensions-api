@@ -18,8 +18,6 @@ import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
  *
  * @since 1.0
  */
-
-//FIXME rename to provider
 public interface MetadataResolverFactory {
 
   /**

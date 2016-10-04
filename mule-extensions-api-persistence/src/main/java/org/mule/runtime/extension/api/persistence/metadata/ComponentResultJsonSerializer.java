@@ -272,7 +272,7 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     public MetadataResult<InputMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
       Optional<Failure> metadataFailure = getComponentFailure(failures, INPUT);
 
-      //TODO MULE- : update failure handling
+      //TODO MULE-10707: update failure handling
       Map<String, MetadataResult<ParameterMetadataDescriptor>> input =
           parameters.stream().collect(toMap(ParameterMetadata::getName,
                                             p -> success(new ImmutableParameterMetadataDescriptor(p.getName(), p.getType(),
