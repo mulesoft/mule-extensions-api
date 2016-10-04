@@ -1,8 +1,8 @@
 {
   "componentName": "testOperationMetadataDescriptor",
-  "parameters": [
+  "input": [
     {
-      "name": "stringParam1",
+      "name": "stringParam2",
       "type": {
         "format": "java",
         "type": "String",
@@ -13,7 +13,7 @@
       "isDynamic": false
     },
     {
-      "name": "stringParam2",
+      "name": "stringParam1",
       "type": {
         "format": "java",
         "type": "String",
@@ -79,7 +79,7 @@
           "typeId": "java.lang.String"
         }
       },
-      "isDynamic": true
+      "isDynamic": false
     }
   },
   "failures": []

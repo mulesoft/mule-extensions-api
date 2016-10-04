@@ -10,7 +10,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 
 /**
  * Marks one of the arguments of an Operation's method as it's main input.
- * The {@link MetadataType} of this annotated parameter can be resolved by {@link MetadataContentResolver}
+ * The {@link MetadataType} of this annotated parameter can be resolved by {@link InputTypeResolver}
  * referenced in the {@link MetadataScope} annotation at Operation or Extension level, if one is present.
  *
  * @since 1.0

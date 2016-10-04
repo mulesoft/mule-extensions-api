@@ -6,40 +6,42 @@
  */
 package org.mule.runtime.extension.api.introspection.metadata;
 
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
 
 /**
- * Provides instances of the {@link MetadataKeysResolver}, {@link MetadataKeysResolver},
- * {@link MetadataOutputResolver} and {@link QueryEntityResolver} resolving types associated to a Component
+ * Provides instances of the {@link TypeKeysResolver}, {@link TypeKeysResolver},
+ * {@link OutputTypeResolver} and {@link QueryEntityResolver} resolving types associated to a Component
  *
  * @since 1.0
  */
+
+//FIXME rename to provider
 public interface MetadataResolverFactory {
 
   /**
-   * Provides an instance of the {@link MetadataKeysResolver} type associated to the Component
+   * Provides an instance of the {@link TypeKeysResolver} type associated to the Component
    *
-   * @return an instance of the {@link MetadataKeysResolver}
+   * @return an instance of the {@link TypeKeysResolver}
    */
-  MetadataKeysResolver getKeyResolver();
+  TypeKeysResolver getKeyResolver();
 
   /**
-   * Provides an instance of the {@link MetadataContentResolver} type associated to the Component
+   * Provides an instance of the {@link InputTypeResolver} type associated to the Component
    *
-   * @return an instance of the {@link MetadataContentResolver}
+   * @return an instance of the {@link InputTypeResolver}
    */
-  <T> MetadataContentResolver<T> getContentResolver();
+  <T> InputTypeResolver<T> getInputResolver(String parameterName);
 
   /**
-   * Provides an instance of the {@link MetadataOutputResolver} type associated to the Component
+   * Provides an instance of the {@link OutputTypeResolver} type associated to the Component
    *
-   * @return an instance of the {@link MetadataOutputResolver}
+   * @return an instance of the {@link OutputTypeResolver}
    */
-  <T> MetadataOutputResolver<T> getOutputResolver();
+  <T> OutputTypeResolver<T> getOutputResolver();
 
   /**
    * Provides an instance of the {@link MetadataAttributesResolver} type associated to the Component

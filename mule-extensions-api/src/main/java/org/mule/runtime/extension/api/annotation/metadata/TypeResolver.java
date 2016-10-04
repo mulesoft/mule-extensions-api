@@ -11,17 +11,22 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.Query;
-import org.mule.runtime.extension.api.introspection.metadata.NullMetadataResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
+ *
+ *
+ * //TODO FIXME this is not the final jdoc
+ *
  * Marks one of the parameters of an Operation or Source as the key for the metadata lookup.
  * This lookup is resolved by the {@link TypeKeysResolver} referenced in the {@link MetadataScope}, at Operation, Source
  * or Extension level, which will return the list of available the {@link MetadataKey} or also, the lookup can be resolved
@@ -46,11 +51,11 @@ import java.lang.annotation.Target;
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
-public @interface MetadataKeyId {
+public @interface TypeResolver {
 
   /**
-   * @return the associated {@link TypeKeysResolver} for the annotated Component
+   * @return the associated {@link OutputTypeResolver} for the annotated Component
    */
-  Class<? extends TypeKeysResolver> value() default NullMetadataResolver.class;
+  Class<? extends InputTypeResolver> value();
 
 }

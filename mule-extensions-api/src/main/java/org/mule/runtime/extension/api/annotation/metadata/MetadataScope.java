@@ -6,24 +6,22 @@
  */
 package org.mule.runtime.extension.api.annotation.metadata;
 
-import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.introspection.metadata.NullMetadataResolver;
-import org.mule.metadata.api.model.MetadataType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Associates the annotated Component to a {@link MetadataKeysResolver}, a {@link MetadataContentResolver}
- * and a {@link MetadataOutputResolver} that will be used to resolve the Component's {@link MetadataType} dynamically
+ * Associates the annotated Component to a {@link TypeKeysResolver}, a {@link InputTypeResolver}
+ * and a {@link OutputTypeResolver} that will be used to resolve the Component's {@link MetadataType} dynamically
  *
  * This annotation can be used at Operation or {@link Extension} level.
  * When used at {@link Extension} level this resolvers will serve as the default, and will be used to resolve the
@@ -38,28 +36,19 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
-@Target({METHOD, TYPE})
+@Target({TYPE})
 @Retention(RUNTIME)
 @Documented
 public @interface MetadataScope {
 
   /**
-   * @return the associated {@link MetadataKeysResolver} for the annotated Component
+   * @return the associated {@link TypeKeysResolver} for the annotated Component
    */
-  Class<? extends MetadataKeysResolver> keysResolver() default NullMetadataResolver.class;
+  Class<? extends TypeKeysResolver> keysResolver() default NullMetadataResolver.class;
 
   /**
-   * @return the associated {@link MetadataContentResolver} for the annotated Component
+   * @return the associated {@link OutputTypeResolver} for the annotated Component
    */
-  Class<? extends MetadataContentResolver> contentResolver() default NullMetadataResolver.class;
+  Class<? extends OutputTypeResolver> outputResolver() default NullMetadataResolver.class;
 
-  /**
-   * @return the associated {@link MetadataOutputResolver} for the annotated Component
-   */
-  Class<? extends MetadataOutputResolver> outputResolver() default NullMetadataResolver.class;
-
-  /**
-   * @return the associated {@link MetadataAttributesResolver} for the annotated Component
-   */
-  Class<? extends MetadataAttributesResolver> attributesResolver() default NullMetadataResolver.class;
 }

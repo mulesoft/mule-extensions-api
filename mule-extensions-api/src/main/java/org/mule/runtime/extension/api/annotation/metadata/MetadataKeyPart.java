@@ -10,8 +10,8 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.runtime.api.metadata.MetadataKey;
-import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  * of that composed {@link MetadataKey}.
  * <p>
  * Multiple {@link MetadataKeyPart}s describe a POJO that can be annotated with {@link MetadataKeyId}
- * and also injected into a {@link MetadataContentResolver} or {@link MetadataOutputResolver}.
+ * and also injected into a {@link InputTypeResolver} or {@link OutputTypeResolver}.
  * <p>
  * {@link MetadataKeyPart} annotated fields must be of type {@link String}
  *

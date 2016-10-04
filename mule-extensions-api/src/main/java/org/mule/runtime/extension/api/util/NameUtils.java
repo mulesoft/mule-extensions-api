@@ -20,6 +20,7 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -251,6 +252,10 @@ public class NameUtils {
 
   public static String getAliasName(Field field) {
     return getAliasName(field.getName(), field.getAnnotation(Alias.class));
+  }
+
+  public static String getAliasName(Parameter parameter) {
+    return getAliasName(parameter.getName(), parameter.getAnnotation(Alias.class));
   }
 
   public static String getAliasName(String defaultName, Alias aliasAnnotation) {

@@ -1,6 +1,6 @@
 {
   "componentName": "testOperationMetadataDescriptor",
-  "parameters": [
+  "input": [
     {
       "name": "stringParam1",
       "type": {
@@ -10,7 +10,7 @@
           "typeId": "java.lang.String"
         }
       },
-      "isDynamic": false
+      "isDynamic": true
     },
     {
       "name": "content",
@@ -35,7 +35,7 @@
         },
         "fields": []
       },
-      "isDynamic": true
+      "isDynamic": false
     }
   ],
   "output": {
@@ -57,7 +57,7 @@
           "typeId": "java.lang.String"
         }
       },
-      "isDynamic": true
+      "isDynamic": false
     }
   },
   "failures": [
@@ -71,7 +71,7 @@
       "failureCode": "INVALID_METADATA_KEY",
       "message": "Metadata Content Failure Error",
       "reason": "",
-      "failureComponent": "CONTENT"
+      "failureComponent": "INPUT"
     }
   ]
 }
