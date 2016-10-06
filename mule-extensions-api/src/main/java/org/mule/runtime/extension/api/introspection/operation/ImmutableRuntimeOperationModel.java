@@ -9,9 +9,9 @@ package org.mule.runtime.extension.api.introspection.operation;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import org.mule.runtime.api.message.Message;
-import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.OutputModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricher;
@@ -50,8 +50,8 @@ public final class ImmutableRuntimeOperationModel extends ImmutableOperationMode
    * @param modelProperties          a {@link Set} of custom properties which extend this model
    * @param interceptorFactories     a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
    * @param exceptionEnricherFactory an Optional {@link ExceptionEnricherFactory} to create an {@link ExceptionEnricher} instance
-   * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link MetadataKeysResolver},
-   *                                 {@link MetadataContentResolver} and {@link MetadataOutputResolver}
+   * @param metadataResolverFactory  a {@link MetadataResolverFactory} to create the associated {@link TypeKeysResolver},
+   *                                 {@link InputTypeResolver} and {@link OutputTypeResolver}
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
 

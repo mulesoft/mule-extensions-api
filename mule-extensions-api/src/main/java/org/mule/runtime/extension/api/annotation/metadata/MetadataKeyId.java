@@ -11,10 +11,11 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.Query;
+import org.mule.runtime.extension.api.introspection.metadata.NullMetadataResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -22,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Marks one of the parameters of an Operation or Source as the key for the metadata lookup.
- * This lookup is resolved by the {@link MetadataKeysResolver} referenced in the {@link MetadataScope}, at Operation, Source
+ * This lookup is resolved by the {@link TypeKeysResolver} referenced in the {@link MetadataScope}, at Operation, Source
  * or Extension level, which will return the list of available the {@link MetadataKey} or also, the lookup can be resolved
  * by the {@link QueryEntityResolver#getEntityKeys(MetadataContext)} for {@link Query} annotated operations, this time the
  * key will represent the query (DSQL or Native) which is used to calculate the output metadata.
@@ -46,5 +47,10 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 public @interface MetadataKeyId {
+
+  /**
+   * @return the associated {@link TypeKeysResolver} for the annotated Component
+   */
+  Class<? extends TypeKeysResolver> value() default NullMetadataResolver.class;
 
 }

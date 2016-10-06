@@ -12,23 +12,23 @@ import org.mule.metadata.api.model.NullType;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.annotation.metadata.Content;
 
 import java.util.Collections;
 import java.util.Set;
 
 /**
- * Null implementation of {@link MetadataContentResolver}, {@link MetadataAttributesResolver} and {@link MetadataKeysResolver},
+ * Null implementation of {@link InputTypeResolver}, {@link MetadataAttributesResolver} and {@link TypeKeysResolver},
  * used to represent the absence of any of them when required.
  *
  * @since 1.0
  */
-public final class NullMetadataResolver implements MetadataContentResolver<Object>, MetadataKeysResolver,
-    MetadataOutputResolver<Object>, MetadataAttributesResolver<Object> {
+public final class NullMetadataResolver implements InputTypeResolver<Object>, TypeKeysResolver,
+    OutputTypeResolver<Object>, MetadataAttributesResolver<Object> {
 
   public static final String NULL_CATEGORY_NAME = "NullCategory";
 
@@ -41,21 +41,21 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
   }
 
   /**
-   * Null implementation of {@link MetadataKeysResolver}, used when no implementation is provided by the connector developer.
-   * Represents the absence of a custom {@link MetadataKeysResolver}, returning an empty list of {@link MetadataKey}.
+   * Null implementation of {@link TypeKeysResolver}, used when no implementation is provided by the connector developer.
+   * Represents the absence of a custom {@link TypeKeysResolver}, returning an empty list of {@link MetadataKey}.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @return {@link Collections#emptyList()}
    * @throws MetadataResolvingException
    */
   @Override
-  public Set<MetadataKey> getMetadataKeys(MetadataContext context) throws MetadataResolvingException {
+  public Set<MetadataKey> getKeys(MetadataContext context) throws MetadataResolvingException {
     return Collections.emptySet();
   }
 
   /**
-   * Null implementation of {@link MetadataContentResolver}, used when no implementation is provided by the connector developer.
-   * Represents the absence of a custom {@link MetadataContentResolver}, returning a {@link NullType} instead of resolving a valid
+   * Null implementation of {@link InputTypeResolver}, used when no implementation is provided by the connector developer.
+   * Represents the absence of a custom {@link InputTypeResolver}, returning a {@link NullType} instead of resolving a valid
    * {@link MetadataType} for the {@link Content} parameter
    *
    * @param context {@link MetadataContext} of the MetaData resolution
@@ -64,13 +64,13 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    * @throws MetadataResolvingException
    */
   @Override
-  public MetadataType getContentMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return null;
+  public MetadataType getInputMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
+    return context.getTypeBuilder().nullType().build();
   }
 
   /**
-   * Null implementation of {@link MetadataOutputResolver}, used when no implementation is provided by the connector developer.
-   * Represents the absence of a custom {@link MetadataOutputResolver}, returning a {@link NullType} instead of resolving a
+   * Null implementation of {@link OutputTypeResolver}, used when no implementation is provided by the connector developer.
+   * Represents the absence of a custom {@link OutputTypeResolver}, returning a {@link NullType} instead of resolving a
    * dynamic {@link MetadataType} for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
@@ -79,8 +79,8 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    * @throws MetadataResolvingException
    */
   @Override
-  public MetadataType getOutputMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return null;
+  public MetadataType getOutputType(MetadataContext context, Object key) throws MetadataResolvingException {
+    return context.getTypeBuilder().nullType().build();
   }
 
   /**
@@ -95,6 +95,6 @@ public final class NullMetadataResolver implements MetadataContentResolver<Objec
    */
   @Override
   public MetadataType getAttributesMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return null;
+    return context.getTypeBuilder().nullType().build();
   }
 }

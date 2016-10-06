@@ -17,15 +17,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks one of the arguments of an Operation's method as it's main input.
- * The {@link MetadataType} of this annotated parameter can be resolved by {@link InputTypeResolver}
- * referenced in the {@link MetadataScope} annotation at Operation or Extension level, if one is present.
+ * Associates the annotated Parameter to an {@link InputTypeResolver} that will be used
+ * to resolve the Parameter's {@link MetadataType} dynamically
  *
  * @since 1.0
  */
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
-public @interface Content {
+public @interface TypeResolver {
+
+  /**
+   * @return the associated {@link InputTypeResolver} for the annotated Parameter
+   */
+  Class<? extends InputTypeResolver> value();
 
 }

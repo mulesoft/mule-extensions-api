@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.introspection.metadata;
 
-import org.mule.runtime.api.metadata.resolving.MetadataContentResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataKeysResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 
 /**
  * Contract for models capable of providing a {@link MetadataResolverFactory}
@@ -19,7 +19,7 @@ public interface MetadataEnrichableModel {
 
   /**
    * @return the {@link MetadataResolverFactory} required to instantiate the
-   * {@link MetadataKeysResolver}, {@link MetadataContentResolver} and {@link MetadataOutputResolver}
+   * {@link TypeKeysResolver}, {@link InputTypeResolver} and {@link OutputTypeResolver}
    * associated to this component's model.
    */
   MetadataResolverFactory getMetadataResolverFactory();

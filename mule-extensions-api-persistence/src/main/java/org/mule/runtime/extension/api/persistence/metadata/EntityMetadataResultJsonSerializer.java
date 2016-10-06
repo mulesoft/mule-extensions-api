@@ -6,13 +6,13 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
-import com.google.gson.reflect.TypeToken;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Serializer that can convert a {@link MetadataResult} of {@link TypeMetadataDescriptor} type into a readable and processable
@@ -62,10 +62,10 @@ public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJs
     public MetadataResult<TypeMetadataDescriptor> toEntityMetadataResult() {
 
       return failure != null
-          ? failure(new ImmutableTypeMetadataDescriptor(entity != null ? entity.getType() : null), failure.getMessage(),
+          ? failure(new ImmutableTypeMetadataDescriptor(entity != null ? entity.getType() : null, true), failure.getMessage(),
                     failure.getFailureCode(),
                     failure.getReason())
-          : success(new ImmutableTypeMetadataDescriptor(entity.getType()));
+          : success(new ImmutableTypeMetadataDescriptor(entity.getType(), true));
     }
   }
 

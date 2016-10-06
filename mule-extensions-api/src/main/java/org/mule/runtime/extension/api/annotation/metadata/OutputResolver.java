@@ -6,26 +6,29 @@
  */
 package org.mule.runtime.extension.api.annotation.metadata;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks one of the arguments of an Operation's method as it's main input.
- * The {@link MetadataType} of this annotated parameter can be resolved by {@link InputTypeResolver}
- * referenced in the {@link MetadataScope} annotation at Operation or Extension level, if one is present.
+ * Associates the annotated Component to an {@link OutputTypeResolver} that will be used
+ * to resolve the Component's return {@link MetadataType type} dynamically
  *
  * @since 1.0
  */
-@Target({PARAMETER, FIELD})
+@Target({METHOD})
 @Retention(RUNTIME)
 @Documented
-public @interface Content {
+public @interface OutputResolver {
+
+  /**
+   * @return the associated {@link OutputTypeResolver} for the annotated Component
+   */
+  Class<? extends OutputTypeResolver> value();
 
 }

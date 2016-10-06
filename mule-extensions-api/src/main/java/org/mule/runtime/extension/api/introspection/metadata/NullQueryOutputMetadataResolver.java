@@ -11,16 +11,16 @@ import org.mule.metadata.api.model.NullType;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
-import org.mule.runtime.api.metadata.resolving.MetadataOutputResolver;
+import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.annotation.Query;
 
 /**
- * Null implementation of {@link MetadataOutputResolver} used to represent the absence of output resolver
+ * Null implementation of {@link OutputTypeResolver} used to represent the absence of output resolver
  * in a {@link Query} annotated operation.
  *
  * @since 1.0
  */
-public final class NullQueryOutputMetadataResolver implements MetadataOutputResolver<String> {
+public final class NullQueryOutputMetadataResolver implements OutputTypeResolver<String> {
 
   @Override
   public String getCategoryName() {
@@ -28,8 +28,8 @@ public final class NullQueryOutputMetadataResolver implements MetadataOutputReso
   }
 
   /**
-   * Null implementation of {@link MetadataOutputResolver} for {@link Query} operations, used when no implementation
-   * is provided by the connector developer. Represents the absence of a custom {@link MetadataOutputResolver},
+   * Null implementation of {@link OutputTypeResolver} for {@link Query} operations, used when no implementation
+   * is provided by the connector developer. Represents the absence of a custom {@link OutputTypeResolver},
    * returning a {@link NullType} instead of resolving a dynamic {@link MetadataType} from a native {@link Query}
    * for the component's output.
    *
@@ -38,8 +38,8 @@ public final class NullQueryOutputMetadataResolver implements MetadataOutputReso
    * @return a {@link NullType} instance.
    */
   @Override
-  public MetadataType getOutputMetadata(MetadataContext context, String key) throws MetadataResolvingException {
+  public MetadataType getOutputType(MetadataContext context, String key) throws MetadataResolvingException {
     // TODO: MDM-21 - replace with VoidType when available.
-    return null;
+    return context.getTypeBuilder().nullType().build();
   }
 }
