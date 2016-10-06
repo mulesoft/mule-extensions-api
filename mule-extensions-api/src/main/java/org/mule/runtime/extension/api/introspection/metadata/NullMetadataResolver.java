@@ -65,7 +65,7 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
    */
   @Override
   public MetadataType getInputMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return null;
+    return context.getTypeBuilder().nullType().build();
   }
 
   /**
@@ -80,7 +80,7 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
    */
   @Override
   public MetadataType getOutputType(MetadataContext context, Object key) throws MetadataResolvingException {
-    return null;
+    return context.getTypeBuilder().nullType().build();
   }
 
   /**
@@ -95,6 +95,6 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
    */
   @Override
   public MetadataType getAttributesMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return null;
+    return context.getTypeBuilder().nullType().build();
   }
 }

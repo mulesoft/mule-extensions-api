@@ -19,7 +19,7 @@ import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
  *
  * @since 1.0
  */
-public class ParameterDeclaration extends NamedDeclaration<ParameterDeclaration> {
+public class ParameterDeclaration extends NamedDeclaration<ParameterDeclaration> implements TypedDeclaration {
 
   private boolean required;
   private ExpressionSupport expressionSupport = SUPPORTED;
@@ -58,15 +58,27 @@ public class ParameterDeclaration extends NamedDeclaration<ParameterDeclaration>
     this.defaultValue = defaultValue;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public MetadataType getType() {
     return type;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void setType(MetadataType type, boolean isDynamic) {
     this.type = type;
     this.hasDynamicType = isDynamic;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public boolean hasDynamicType() {
     return hasDynamicType;
   }

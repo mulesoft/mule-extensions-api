@@ -40,6 +40,6 @@ public final class NullQueryOutputMetadataResolver implements OutputTypeResolver
   @Override
   public MetadataType getOutputType(MetadataContext context, String key) throws MetadataResolvingException {
     // TODO: MDM-21 - replace with VoidType when available.
-    return null;
+    return context.getTypeBuilder().nullType().build();
   }
 }

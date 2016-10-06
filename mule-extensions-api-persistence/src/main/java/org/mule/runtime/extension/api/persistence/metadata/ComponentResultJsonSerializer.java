@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
+import static com.google.common.collect.ImmutableList.copyOf;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -20,7 +21,6 @@ import org.mule.runtime.api.metadata.descriptor.ImmutableParameterMetadataDescri
 import org.mule.runtime.api.metadata.descriptor.InputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
@@ -109,24 +109,19 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
 
       if (descriptor != null) {
         MetadataResult<InputMetadataDescriptor> inputMetadata = descriptor.getInputMetadata();
-        if (inputMetadata.getFailure().isPresent()) {
-          failures.put(INPUT, inputMetadata.getFailure().get());
-        }
+        inputMetadata.getFailure().ifPresent(failure -> failures.put(INPUT, failure));
 
         MetadataResult<OutputMetadataDescriptor> outputMetadata = descriptor.getOutputMetadata();
-        if (!outputMetadata.isSuccess()) {
-          MetadataResult<TypeMetadataDescriptor> payloadMetadata = outputMetadata.get().getPayloadMetadata();
-          if (payloadMetadata.getFailure().isPresent()) {
-            failures.put(OUTPUT_PAYLOAD, payloadMetadata.getFailure().get());
-          }
+        outputMetadata.getFailure()
+            .ifPresent(outputFailure -> {
+              outputMetadata.get().getPayloadMetadata().getFailure()
+                  .ifPresent(failure -> failures.put(OUTPUT_PAYLOAD, failure));
 
-          MetadataResult<TypeMetadataDescriptor> attributesMetadata = outputMetadata.get().getAttributesMetadata();
-          if (attributesMetadata.getFailure().isPresent()) {
-            failures.put(OUTPUT_ATTRIBUTES, attributesMetadata.getFailure().get());
-          }
+              outputMetadata.get().getAttributesMetadata().getFailure()
+                  .ifPresent(failure -> failures.put(OUTPUT_ATTRIBUTES, failure));
 
-          failures.put(OUTPUT, payloadMetadata.getFailure().get());
-        }
+              failures.put(OUTPUT, outputFailure);
+            });
       }
 
       return failures.build()
@@ -246,7 +241,7 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
 
 
   /**
-   * DTO that represents a {@link OutputMetadataDescriptor} into a serializable format.
+   * DTO that represents an {@link InputMetadataDescriptor} into a serializable format.
    *
    * @since 1.0
    */
@@ -257,11 +252,14 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     InputMetadata(ComponentMetadataDescriptor result) {
       InputMetadataDescriptor intputDescriptor = result.getInputMetadata().get();
 
-      parameters = ImmutableList.<ParameterMetadata>builder()
-          .addAll(intputDescriptor.getAllParameters().values().stream()
-              .map(p -> new ParameterMetadata(p.get().getName(), p.get().getType(), p.get().isDynamic()))
-              .collect(toList()))
-          .build();
+      if (intputDescriptor == null) {
+        parameters = ImmutableList.of();
+      } else {
+        parameters = copyOf(intputDescriptor.getAllParameters().values().stream()
+            .filter(p -> p.get() != null)
+            .map(p -> new ParameterMetadata(p.get().getName(), p.get().getType(), p.get().isDynamic()))
+            .collect(toList()));
+      }
     }
 
     public InputMetadata(List<ParameterMetadata> input) {
