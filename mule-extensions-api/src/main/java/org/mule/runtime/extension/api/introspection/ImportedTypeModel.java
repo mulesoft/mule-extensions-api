@@ -10,7 +10,7 @@ package org.mule.runtime.extension.api.introspection;
 import static java.util.Objects.hash;
 import org.mule.metadata.api.model.MetadataType;
 
-import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A model which describes that an extension is importing an
@@ -24,7 +24,22 @@ public final class ImportedTypeModel {
   private final String originExtensionName;
   private final MetadataType importedType;
 
+  /**
+   * Creates a new instance
+   *
+   * @param originExtensionName the name of the extension which originally defines the type
+   * @param importedType        the type to be imported
+   * @throws IllegalArgumentException if {@code originExtensionName} is blank or {@code importedType} is {@code null}
+   */
   public ImportedTypeModel(String originExtensionName, MetadataType importedType) {
+    if (StringUtils.isBlank(originExtensionName)) {
+      throw new IllegalArgumentException("originExtensionName cannot be blank");
+    }
+
+    if (importedType == null) {
+      throw new IllegalArgumentException("importedType cannot be null");
+
+    }
     this.originExtensionName = originExtensionName;
     this.importedType = importedType;
   }
@@ -41,8 +56,7 @@ public final class ImportedTypeModel {
   public boolean equals(Object obj) {
     if (obj instanceof ImportedTypeModel) {
       ImportedTypeModel other = (ImportedTypeModel) obj;
-      return Objects.equals(getOriginExtensionName(), other.getOriginExtensionName()) &&
-          Objects.equals(getImportedType(), other.getImportedType());
+      return originExtensionName.equals(other.getOriginExtensionName()) && importedType.equals(other.getImportedType());
     }
 
     return false;
