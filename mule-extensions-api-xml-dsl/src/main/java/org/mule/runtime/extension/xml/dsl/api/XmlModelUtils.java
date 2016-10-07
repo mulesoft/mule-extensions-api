@@ -9,15 +9,11 @@ package org.mule.runtime.extension.xml.dsl.api;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,46 +30,20 @@ public final class XmlModelUtils {
   private static final String DEFAULT_SCHEMA_LOCATION_MASK = "http://www.mulesoft.org/schema/mule/%s";
 
 
-  public static XmlModelProperty createXmlModelProperty(Class<?> extensionType, String extensionVersion) {
-
-    Extension extension = extensionType.getAnnotation(Extension.class);
-    if (extension == null) {
-      throw new IllegalArgumentException(String.format("The provided class [%s] is not an Extension", extensionType.getName()));
-    }
-
-    return createXmlModelProperty(extensionType.getAnnotation(Xml.class), extension.name(), extensionVersion);
-  }
-
-  public static XmlModelProperty createXmlModelProperty(Xml xml, String extensionName, String extensionVersion) {
+  public static XmlDslModel createXmlLanguageModel(Xml xml, String extensionName, String extensionVersion) {
 
     String namespace = calculateValue(xml, () -> xml.namespace(), () -> defaultNamespace(extensionName));
     String namespaceLocation = calculateValue(xml, () -> xml.namespaceLocation(), () -> buildDefaultLocation(namespace));
     String xsdFileName = buildDefaultXsdFileName(namespace);
     String schemaLocation = buildDefaultSchemaLocation(namespaceLocation, xsdFileName);
 
-    return new XmlModelProperty(extensionVersion, namespace, namespaceLocation, xsdFileName, schemaLocation);
-  }
-
-  /**
-   * Optionally returns a {@link XmlHintsModelProperty} associated to the given {@code parameter}.
-   * <p>
-   * If the {@code parameter} doesn't contain the property itself, then it checks if the
-   * {@link ParameterModel#getType()} contains a {@link XmlHintsAnnotation} and if
-   * so, it adapts that annotation into a model property
-   *
-   * @param parameter a {@link ParameterModel}
-   * @return an {@link Optional} {@link XmlHintsModelProperty}
-   */
-  public static Optional<XmlHintsModelProperty> getHintsModelProperty(ParameterModel parameter) {
-    Optional<XmlHintsModelProperty> property = parameter.getModelProperty(XmlHintsModelProperty.class);
-    if (!property.isPresent()) {
-      property = parameter.getType().getAnnotation(XmlHintsAnnotation.class)
-          .map(annotation -> new XmlHintsModelProperty(annotation.allowsInlineDefinition(),
-                                                       annotation.allowsTopLevelDefinition(),
-                                                       annotation.allowsReferences()));
-    }
-
-    return property;
+    return XmlDslModel.builder()
+        .setSchemaVersion(extensionVersion)
+        .setNamespace(namespace)
+        .setNamespaceUri(namespaceLocation)
+        .setSchemaLocation(schemaLocation)
+        .setXsdFileName(xsdFileName)
+        .build();
   }
 
   /**

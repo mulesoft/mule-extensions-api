@@ -7,7 +7,9 @@
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
@@ -62,6 +64,28 @@ public class ParameterDeclarer<T extends ParameterDeclarer>
 
   public T withExpressionSupport(ExpressionSupport support) {
     declaration.setExpressionSupport(support);
+    return (T) this;
+  }
+
+  /**
+   * Describes the language which allows configuring this parameter
+   *
+   * @param dslModel an {@link ElementDslModel}
+   * @return {@code this} declarer
+   */
+  public T withDsl(ElementDslModel dslModel) {
+    declaration.setDslModel(dslModel);
+    return (T) this;
+  }
+
+  /**
+   * Sets the given {@code layoutModel}
+   *
+   * @param layoutModel a {@link LayoutModel}
+   * @return {@code this} declarer
+   */
+  public T withLayout(LayoutModel layoutModel) {
+    declaration.setLayoutModel(layoutModel);
     return (T) this;
   }
 

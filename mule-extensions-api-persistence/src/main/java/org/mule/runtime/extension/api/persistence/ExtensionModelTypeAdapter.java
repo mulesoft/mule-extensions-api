@@ -6,6 +6,28 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static java.lang.String.format;
+import static java.util.Collections.emptySet;
+import static java.util.stream.Collectors.toSet;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.persistence.JsonMetadataTypeLoader;
+import org.mule.metadata.persistence.JsonMetadataTypeWriter;
+import org.mule.metadata.persistence.SerializationContext;
+import org.mule.runtime.api.MuleVersion;
+import org.mule.runtime.extension.api.Category;
+import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
+import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.SubTypesModel;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
+import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
+import org.mule.runtime.extension.api.introspection.operation.OperationModel;
+import org.mule.runtime.extension.api.introspection.source.SourceModel;
+import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
+import org.mule.runtime.extension.internal.util.HierarchyClassMap;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -16,30 +38,11 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.persistence.JsonMetadataTypeLoader;
-import org.mule.metadata.persistence.JsonMetadataTypeWriter;
-import org.mule.metadata.persistence.SerializationContext;
-import org.mule.runtime.api.MuleVersion;
-import org.mule.runtime.extension.api.Category;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
-import org.mule.runtime.extension.internal.util.HierarchyClassMap;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import static java.lang.String.format;
-import static java.util.Collections.emptySet;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
@@ -60,6 +63,10 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
   private static final String VENDOR = "vendor";
   private static final String CATEGORY = "category";
   private static final String TYPES = "types";
+  private static final String XML_DSL = "xmlDsl";
+  private static final String SUB_TYPES = "subTypes";
+  private static final String DISPLAY_MODEL = "displayModel";
+  private static final String IMPORTED_TYPES = "importedTypes";
 
   private final Gson gsonDelegate;
   private final JsonMetadataTypeLoader typeLoader = new JsonMetadataTypeLoader();
@@ -81,6 +88,10 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     out.name(VENDOR).value(model.getVendor());
     writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
     out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().toCompleteNumericVersion());
+    writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {});
+    writeWithDelegate(model.getSubTypes(), SUB_TYPES, out, new TypeToken<Set<SubTypesModel>>() {});
+    writeWithDelegate(model.getImportedTypes(), IMPORTED_TYPES, out, new TypeToken<Set<ImportedTypeModel>>() {});
+    writeWithDelegate(model.getDisplayModel().orElse(null), DISPLAY_MODEL, out, new TypeToken<DisplayModel>() {});
 
     writeWithDelegate(model.getConfigurationModels(), CONFIGURATIONS, out, new TypeToken<List<ConfigurationModel>>() {});
     writeWithDelegate(model.getOperationModels(), OPERATIONS, out, new TypeToken<List<OperationModel>>() {});
@@ -99,7 +110,8 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
 
     Set<ObjectType> types = parseTypes(json);
-
+    Set<SubTypesModel> subTypes = parseWithDelegate(json, SUB_TYPES, new TypeToken<Set<SubTypesModel>>() {});
+    Set<ImportedTypeModel> importedTypes = parseWithDelegate(json, IMPORTED_TYPES, new TypeToken<Set<ImportedTypeModel>>() {});
     List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {});
     List<OperationModel> operations = parseWithDelegate(json, OPERATIONS, new TypeToken<List<OperationModel>>() {});
     List<ConnectionProviderModel> providers =
@@ -116,7 +128,11 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
                                        operations,
                                        providers,
                                        sources,
+                                       gsonDelegate.fromJson(json.get(DISPLAY_MODEL), DisplayModel.class),
+                                       gsonDelegate.fromJson(json.get(XML_DSL), XmlDslModel.class),
+                                       subTypes,
                                        types,
+                                       importedTypes,
                                        parseExtensionLevelModelProperties(json));
   }
 

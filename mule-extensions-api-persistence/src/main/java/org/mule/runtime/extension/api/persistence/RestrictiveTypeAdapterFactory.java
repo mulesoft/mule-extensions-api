@@ -12,37 +12,37 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * {@link TypeAdapterFactory} implementation, which creates {@link TypeAdapter}s that only for a class of type {@link SpecificClass},
- * fixes the serialization and deserialization to a unique class {@link ImplementationClass}.
+ * {@link TypeAdapterFactory} implementation, which creates {@link TypeAdapter}s that only for a class of type {@link S},
+ * fixes the serialization and deserialization to a unique class {@link I}.
  *
  * @since 1.0
  */
-public final class RestrictiveTypeAdapterFactory<SpecificClass, ImplementationClass extends SpecificClass>
+public final class RestrictiveTypeAdapterFactory<S, I extends S>
     implements TypeAdapterFactory {
 
-  private final Class<ImplementationClass> implementationClazz;
-  private final Class<SpecificClass> clazz;
+  private final Class<I> implementationClazz;
+  private final Class<S> clazz;
 
   /**
    * @param specificClass class to look for at serialization and deserialization time.
    * @param clazz         class to fix the serialization or deserialization
    */
-  public RestrictiveTypeAdapterFactory(Class<SpecificClass> specificClass, Class<ImplementationClass> clazz) {
+  public RestrictiveTypeAdapterFactory(Class<S> specificClass, Class<I> clazz) {
     this.implementationClazz = clazz;
     this.clazz = specificClass;
   }
 
   /**
-   * @param gson                  The actual Gson serializer
-   * @param type                  Implementation that GSON is trying to find a {@link TypeAdapter}
-   * @param <ImplementationClass> type of objects that the {@link TypeAdapter} will create
+   * @param gson The actual Gson serializer
+   * @param type Implementation that GSON is trying to find a {@link TypeAdapter}
+   * @param <T>  type of objects that the {@link TypeAdapter} will create
    * @return if {@param type} is a {@link #clazz} a {@link TypeAdapter}, that serializes and deserialize
-   * {@link ImplementationClass} instances
+   * {@link T} instances
    */
   @Override
-  public <ImplementationClass> TypeAdapter<ImplementationClass> create(Gson gson, TypeToken<ImplementationClass> type) {
+  public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
     if (clazz.equals(type.getRawType())) {
-      return gson.getDelegateAdapter(this, TypeToken.get((Class<ImplementationClass>) implementationClazz));
+      return gson.getDelegateAdapter(this, TypeToken.get((Class<T>) implementationClazz));
     }
     return null;
   }

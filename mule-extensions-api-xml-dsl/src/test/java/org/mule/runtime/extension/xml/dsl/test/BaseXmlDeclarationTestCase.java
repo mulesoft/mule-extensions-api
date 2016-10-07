@@ -7,10 +7,9 @@
 package org.mule.runtime.extension.xml.dsl.test;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static java.util.Collections.singletonMap;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,8 +23,11 @@ import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.SubTypesModel;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
@@ -34,12 +36,9 @@ import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.ConfigTypeModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ConnectivityModelProperty;
-import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.property.PagedOperationModelProperty;
-import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.resolver.DslResolvingContext;
 import org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.xml.dsl.test.model.ExtensibleType;
@@ -91,8 +90,7 @@ public abstract class BaseXmlDeclarationTestCase {
   protected DslResolvingContext dslContext;
 
   protected ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-  SubTypesModelProperty subTypesModelProperty =
-      new SubTypesModelProperty(singletonMap(TYPE_LOADER.load(SuperType.class), singletonList(TYPE_LOADER.load(SubType.class))));
+  SubTypesModel subTypesModel = new SubTypesModel(TYPE_LOADER.load(SuperType.class), singleton(TYPE_LOADER.load(SubType.class)));
 
   @Before
   public void before() {
@@ -103,10 +101,15 @@ public abstract class BaseXmlDeclarationTestCase {
     when(extension.getSourceModels()).thenReturn(asList(source));
     when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
-    when(extension.getModelProperty(SubTypesModelProperty.class)).thenReturn(Optional.of(subTypesModelProperty));
-    when(extension.getModelProperty(ImportedTypesModelProperty.class)).thenReturn(empty());
-    when(extension.getModelProperty(XmlModelProperty.class))
-        .thenReturn(of(new XmlModelProperty(EMPTY, NAMESPACE, NAMESPACE_URI, EMPTY, SCHEMA_LOCATION)));
+    when(extension.getSubTypes()).thenReturn(singleton(subTypesModel));
+    when(extension.getImportedTypes()).thenReturn(emptySet());
+    when(extension.getXmlDslModel()).thenReturn(XmlDslModel.builder()
+        .setXsdFileName(EMPTY)
+        .setNamespace(NAMESPACE)
+        .setNamespaceUri(NAMESPACE_URI)
+        .setSchemaLocation(SCHEMA_LOCATION)
+        .setSchemaVersion(EMPTY)
+        .build());
 
     when(configuration.getOperationModels()).thenReturn(asList(operation));
     when(configuration.getSourceModels()).thenReturn(asList(source));
@@ -115,6 +118,8 @@ public abstract class BaseXmlDeclarationTestCase {
     when(parameterModel.getName()).thenReturn(PARAMETER_NAME);
     when(parameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
     when(parameterModel.getModelProperty(any())).thenReturn(empty());
+    when(parameterModel.getDslModel()).thenReturn(ElementDslModel.getDefaultInstance());
+    when(parameterModel.getLayoutModel()).thenReturn(empty());
 
     when(source.getName()).thenReturn(SOURCE_NAME);
     when(operation.getName()).thenReturn(OPERATION_NAME);

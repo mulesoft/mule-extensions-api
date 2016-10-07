@@ -30,6 +30,6 @@ public final class MetadataContentModelProperty implements ModelProperty {
    */
   @Override
   public boolean isExternalizable() {
-    return true;
+    return false;
   }
 }

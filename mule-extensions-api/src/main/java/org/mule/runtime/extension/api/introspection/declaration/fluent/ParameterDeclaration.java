@@ -6,8 +6,11 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.fluent;
 
+import static org.mule.runtime.extension.api.introspection.ElementDslModel.getDefaultInstance;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
@@ -26,6 +29,8 @@ public class ParameterDeclaration extends NamedDeclaration<ParameterDeclaration>
   private MetadataType type;
   private boolean hasDynamicType;
   private Object defaultValue = null;
+  private ElementDslModel dslModel = getDefaultInstance();
+  private LayoutModel layoutModel;
 
   /**
    * {@inheritDoc}
@@ -81,5 +86,21 @@ public class ParameterDeclaration extends NamedDeclaration<ParameterDeclaration>
   @Override
   public boolean hasDynamicType() {
     return hasDynamicType;
+  }
+
+  public ElementDslModel getDslModel() {
+    return dslModel;
+  }
+
+  public void setDslModel(ElementDslModel dslModel) {
+    this.dslModel = dslModel;
+  }
+
+  public LayoutModel getLayoutModel() {
+    return layoutModel;
+  }
+
+  public void setLayoutModel(LayoutModel layoutModel) {
+    this.layoutModel = layoutModel;
   }
 }

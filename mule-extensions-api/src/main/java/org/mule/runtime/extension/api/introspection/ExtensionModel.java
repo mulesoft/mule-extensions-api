@@ -43,7 +43,8 @@ import java.util.Set;
  * @since 1.0
  */
 public interface ExtensionModel
-    extends Named, Described, EnrichableModel, HasOperationModels, HasSourceModels, HasConnectionProviderModels {
+    extends Named, Described, EnrichableModel, HasOperationModels, HasSourceModels, HasConnectionProviderModels,
+    HasDisplayModel {
 
   /**
    * A simple name for this extension. Usually one or two simple words that describes
@@ -162,6 +163,23 @@ public interface ExtensionModel
    * @see Category
    */
   Category getCategory();
+
+  /**
+   * @return the {@link XmlDslModel} which describes the language which allows using the extension
+   */
+  XmlDslModel getXmlDslModel();
+
+  /**
+   * @return A {@link Set} of {@link SubTypesModel} which describes the subtypes defined by
+   * this extension
+   */
+  Set<SubTypesModel> getSubTypes();
+
+  /**
+   * @return A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported
+   * by this extension
+   */
+  Set<ImportedTypeModel> getImportedTypes();
 
   /**
    * Returns the extension's Min {@link MuleVersion}. This {@link MuleVersion} represents the minimum version of the

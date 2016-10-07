@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.introspection.source;
 
 
 import org.mule.runtime.extension.api.introspection.ComponentModel;
+import org.mule.runtime.extension.api.introspection.HasDisplayModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 
 /**
@@ -22,6 +23,6 @@ import org.mule.runtime.extension.api.introspection.ExtensionModel;
  *
  * @since 1.0
  */
-public interface SourceModel extends ComponentModel {
+public interface SourceModel extends ComponentModel, HasDisplayModel {
 
 }

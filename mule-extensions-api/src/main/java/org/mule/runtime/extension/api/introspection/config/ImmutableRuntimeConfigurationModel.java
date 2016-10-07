@@ -7,11 +7,12 @@
 package org.mule.runtime.extension.api.introspection.config;
 
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.RuntimeExtensionModel;
+import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.RuntimeExtensionModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.runtime.InterceptorFactory;
 
 import java.beans.Transient;
@@ -41,6 +42,7 @@ public final class ImmutableRuntimeConfigurationModel extends ImmutableConfigura
    * @param operationModels      a {@link List} with the extension's {@link OperationModel operationModels}
    * @param connectionProviders  a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
    * @param sourceModels         a {@link List} with the extension's {@link SourceModel message source models}
+   * @param displayModel         a model which contains directive about how this configuration is displayed in the UI
    * @param modelProperties      a {@link Set} of custom properties which extend this model
    * @param interceptorFactories a {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
@@ -53,9 +55,10 @@ public final class ImmutableRuntimeConfigurationModel extends ImmutableConfigura
                                             List<OperationModel> operationModels,
                                             List<ConnectionProviderModel> connectionProviders,
                                             List<SourceModel> sourceModels,
+                                            DisplayModel displayModel,
                                             Set<ModelProperty> modelProperties,
                                             List<InterceptorFactory> interceptorFactories) {
-    super(name, description, parameterModels, operationModels, connectionProviders, sourceModels, modelProperties);
+    super(name, description, parameterModels, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     checkArgument(configurationFactory != null, "Configuration factory cannot be null");
 
     this.extensionModelSupplier = extensionModelSupplier;

@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
 import static java.lang.String.format;
-import static java.util.Optional.empty;
+import static java.util.stream.Collectors.toMap;
 import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
@@ -22,23 +22,19 @@ import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.ImportedTypesModelProperty;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
-import org.mule.runtime.extension.api.introspection.property.SubTypesModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlHintsModelProperty;
-import org.mule.runtime.extension.xml.dsl.api.property.XmlModelProperty;
 
-import com.google.common.collect.ImmutableMap;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -70,7 +66,7 @@ class DslSyntaxUtils {
   }
 
   static boolean isText(ParameterModel parameter) {
-    return parameter.getModelProperty(LayoutModelProperty.class).map(LayoutModelProperty::isText).orElse(false);
+    return parameter.getLayoutModel().map(LayoutModel::isText).orElse(false);
   }
 
   static boolean isText(MetadataType type) {
@@ -86,38 +82,18 @@ class DslSyntaxUtils {
     return metadataType.getAnnotation(ExtensibleTypeAnnotation.class).isPresent();
   }
 
-  static Map<MetadataType, XmlModelProperty> loadImportedTypes(ExtensionModel extension, DslResolvingContext context) {
-    final Map<MetadataType, XmlModelProperty> xmlByType = new HashMap<>();
-
-    extension.getModelProperty(ImportedTypesModelProperty.class)
-        .map(ImportedTypesModelProperty::getImportedTypes)
-        .ifPresent(imports -> imports
-            .forEach((type, ownerExtension) -> {
-              ExtensionModel extensionModel = context.getExtension(ownerExtension)
-                  .orElseThrow(
-                               () -> new IllegalArgumentException(format("The Extension [%s] is not present in the current context",
-                                                                         ownerExtension)));
-              XmlModelProperty xml = extensionModel.getModelProperty(XmlModelProperty.class)
-                  .orElseThrow(() -> new IllegalArgumentException(
-                                                                  format("The Extension [%s] doesn't have the required model property [%s]",
-                                                                         ownerExtension, XmlModelProperty.NAME)));
-              xmlByType.put(type, xml);
-            }));
-
-    return xmlByType;
+  static Map<MetadataType, XmlDslModel> loadImportedTypes(ExtensionModel extension, DslResolvingContext context) {
+    return extension.getImportedTypes().stream().collect(toMap(ImportedTypeModel::getImportedType, imported -> {
+      ExtensionModel extensionModel = context.getExtension(imported.getOriginExtensionName())
+          .orElseThrow(() -> new IllegalArgumentException(format(
+                                                                 "The Extension [%s] is not present in the current context",
+                                                                 imported.getOriginExtensionName())));
+      return extensionModel.getXmlDslModel();
+    }));
   }
 
   static SubTypesMappingContainer loadSubTypes(ExtensionModel extension) {
-    return new SubTypesMappingContainer(extension.getModelProperty(SubTypesModelProperty.class)
-        .map(SubTypesModelProperty::getSubTypesMapping)
-        .orElse(ImmutableMap.of()));
-  }
-
-  static XmlModelProperty loadXmlProperties(ExtensionModel extension) {
-    return extension.getModelProperty(XmlModelProperty.class)
-        .orElseThrow(() -> new IllegalArgumentException(
-                                                        format("The extension [%s] does not have the [%s], required for its Xml Dsl Resolution",
-                                                               extension.getName(), XmlModelProperty.class.getSimpleName())));
+    return new SubTypesMappingContainer(extension.getSubTypes());
   }
 
   static boolean supportTopLevelElement(MetadataType metadataType) {
@@ -125,12 +101,11 @@ class DslSyntaxUtils {
         .map(XmlHintsAnnotation::allowsReferences).orElse(true));
   }
 
-  static boolean supportTopLevelElement(MetadataType metadataType, Optional<XmlHintsModelProperty> ownerXmlHints) {
-    return supportTopLevelElement(metadataType, ownerXmlHints.map(XmlHintsModelProperty::allowsReferences).orElse(true));
+  static boolean supportTopLevelElement(MetadataType metadataType, ElementDslModel elementDslModel) {
+    return supportTopLevelElement(metadataType, elementDslModel.allowsReferences());
   }
 
   static boolean supportTopLevelElement(MetadataType metadataType, boolean allowsReferences) {
-
     if (!allowsReferences) {
       return false;
     }
@@ -148,15 +123,15 @@ class DslSyntaxUtils {
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport) {
-    return supportsInlineDeclaration(metadataType, expressionSupport, empty(), false);
+    return supportsInlineDeclaration(metadataType, expressionSupport, ElementDslModel.getDefaultInstance(), false);
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport, boolean isContent) {
-    return supportsInlineDeclaration(metadataType, expressionSupport, empty(), isContent);
+    return supportsInlineDeclaration(metadataType, expressionSupport, ElementDslModel.getDefaultInstance(), isContent);
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport,
-                                           Optional<XmlHintsModelProperty> xmlHints, boolean isContent) {
+                                           ElementDslModel dslModel, boolean isContent) {
     final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
     if (REQUIRED == expressionSupport || isContent) {
@@ -194,9 +169,8 @@ class DslSyntaxUtils {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (xmlHints.isPresent() && !xmlHints.get().allowsInlineDefinition()) {
+        if (!dslModel.allowsInlineDefinition()) {
           supportsChildDeclaration.set(false);
-
         } else {
           supportsChildDeclaration.set(isValidBean(objectType));
         }

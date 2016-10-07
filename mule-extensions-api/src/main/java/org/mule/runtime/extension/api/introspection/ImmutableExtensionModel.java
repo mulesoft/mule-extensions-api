@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
@@ -36,21 +37,28 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final Category category;
   private final List<ConfigurationModel> configurations;
   private final Set<ObjectType> types;
+  private final XmlDslModel xmlDslModel;
+  private final Set<SubTypesModel> subTypes;
+  private final Set<ImportedTypeModel> importedTypes;
 
   /**
    * Creates a new instance with the given state
    *
-   * @param name                the extension's name. Cannot be blank
-   * @param description         the extension's description
-   * @param version             the extension's version
-   * @param vendor              the extension's vendor name
-   * @param category            the extension's {@link Category}
-   * @param minMuleVersion      the extension's minimum {@link MuleVersion}
-   * @param configurationModels a {@link List} with the extension's {@link ConfigurationModel configurationModels}
-   * @param operationModels     a {@link List} with the extension's {@link OperationModel operationModels}
-   * @param connectionProviders a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-   * @param sourceModels        a {@link List} with the extension's {@link SourceModel message source models}
-   * @param types               a {@link Set} with the custom types defined by this extension
+   * @param name                The extension's name. Cannot be blank
+   * @param description         The extension's description
+   * @param version             The extension's version
+   * @param vendor              The extension's vendor name
+   * @param category            The extension's {@link Category}
+   * @param minMuleVersion      The extension's minimum {@link MuleVersion}
+   * @param configurationModels A {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels     A {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels        A {@link List} with the extension's {@link SourceModel message source models}
+   * @param displayModel        A model which contains directive about how the extension is displayed in the UI
+   * @param xmlDslModel         the {@link XmlDslModel} which describes the XML language
+   * @param subTypes            A {@link Set} with the sub types defined by this extension
+   * @param types               A {@link Set} with the custom types defined by this extension
+   * @param importedTypes       A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
    * @param modelProperties     A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
    */
@@ -64,21 +72,33 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  List<OperationModel> operationModels,
                                  List<ConnectionProviderModel> connectionProviders,
                                  List<SourceModel> sourceModels,
+                                 DisplayModel displayModel,
+                                 XmlDslModel xmlDslModel,
+                                 Set<SubTypesModel> subTypes,
                                  Set<ObjectType> types,
+                                 Set<ImportedTypeModel> importedTypes,
                                  Set<ModelProperty> modelProperties) {
-    super(name, description, operationModels, connectionProviders, sourceModels, modelProperties);
+    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
 
     checkModelArgument(version != null && version.length() > 0, "Version cannot be blank");
     checkModelArgument(minMuleVersion != null, "Extension Minimum Mule Version cannot be null");
     checkModelArgument(category != null, "Extension Category cannot be null");
     checkModelArgument(vendor != null, "Extension Vendor cannot be null");
+    checkModelArgument(xmlDslModel != null, "xmlDslModel cannot be null");
 
     this.minMuleVersion = minMuleVersion;
     this.category = category;
     this.version = version;
     this.vendor = vendor;
-    this.types = types != null ? copyOf(types) : of();
+    this.types = copySet(types);
+    this.importedTypes = copySet(importedTypes);
+    this.subTypes = copySet(subTypes);
+    this.xmlDslModel = xmlDslModel;
+  }
+
+  private <T> Set<T> copySet(Set<T> values) {
+    return values != null ? copyOf(values) : of();
   }
 
   /**
@@ -135,6 +155,30 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Set<ObjectType> getTypes() {
     return types;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<ImportedTypeModel> getImportedTypes() {
+    return importedTypes;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public XmlDslModel getXmlDslModel() {
+    return xmlDslModel;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<SubTypesModel> getSubTypes() {
+    return subTypes;
   }
 
   private void checkModelArgument(boolean condition, String errorMessage) {

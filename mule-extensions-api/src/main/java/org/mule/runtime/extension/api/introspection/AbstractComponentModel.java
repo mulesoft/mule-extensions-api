@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.introspection;
 
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.parameter.AbstractParameterizedModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
@@ -29,15 +30,21 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel 
    *
    * @param name             the model's name
    * @param description      the model's description
+   * @param displayModel     a model which contains directive about how this component is displayed in the UI
    * @param modelProperties  A {@link Set} of custom properties which extend this model
    * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
    * @param output           an {@link OutputModel} which represents the component's output content
    * @param outputAttributes an {@link OutputModel} which represents the component's attributes on the output {@link Message}
    * @throws IllegalArgumentException if {@code name} is blank
    */
-  protected AbstractComponentModel(String name, String description, Set<ModelProperty> modelProperties,
-                                   List<ParameterModel> parameterModels, OutputModel output, OutputModel outputAttributes) {
-    super(name, description, modelProperties, parameterModels);
+  protected AbstractComponentModel(String name,
+                                   String description,
+                                   DisplayModel displayModel,
+                                   Set<ModelProperty> modelProperties,
+                                   List<ParameterModel> parameterModels,
+                                   OutputModel output,
+                                   OutputModel outputAttributes) {
+    super(name, description, displayModel, modelProperties, parameterModels);
     this.output = output;
     this.outputAttributes = outputAttributes;
   }

@@ -11,6 +11,7 @@ import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.OutputModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricher;
 import org.mule.runtime.extension.api.introspection.exception.ExceptionEnricherFactory;
 import org.mule.runtime.extension.api.introspection.metadata.MetadataResolverFactory;
@@ -46,6 +47,7 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
    * @param output                   an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes         an {@link OutputModel} which represents the attributes on the output me
    * @param sourceFactory            a {@link SourceFactory} used to create instances of {@link Source} which are consistent with this model
+   * @param displayModel             a model which contains directive about how this source is displayed in the UI
    * @param modelProperties          A {@link Set} of custom properties which extend this model
    * @param interceptorFactories     A {@link List} with the {@link InterceptorFactory} instances that should be applied to instances built from this model
    * @param exceptionEnricherFactory an Optional @{@link ExceptionEnricherFactory} that creates a concrete {@link ExceptionEnricher} instance
@@ -58,11 +60,12 @@ public final class ImmutableRuntimeSourceModel extends ImmutableSourceModel impl
                                      OutputModel output,
                                      OutputModel outputAttributes,
                                      SourceFactory sourceFactory,
+                                     DisplayModel displayModel,
                                      Set<ModelProperty> modelProperties,
                                      List<InterceptorFactory> interceptorFactories,
                                      Optional<ExceptionEnricherFactory> exceptionEnricherFactory,
                                      MetadataResolverFactory metadataResolverFactory) {
-    super(name, description, parameterModels, output, outputAttributes, modelProperties);
+    super(name, description, parameterModels, output, outputAttributes, displayModel, modelProperties);
     if (sourceFactory == null) {
       throw new IllegalArgumentException(String.format("Source '%s' cannot have a null source factory", name));
     }

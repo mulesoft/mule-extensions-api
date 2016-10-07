@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.introspection.source;
 import org.mule.runtime.extension.api.introspection.AbstractComponentModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.OutputModel;
+import org.mule.runtime.extension.api.introspection.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
    * @param output           an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes an {@link OutputModel} which represents the attributes on the output me
+   * @param displayModel     a model which contains directive about how this source is displayed in the UI
    * @param modelProperties  A {@link Set} of custom properties which extend this model
    */
   public ImmutableSourceModel(String name,
@@ -36,8 +38,9 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
                               List<ParameterModel> parameterModels,
                               OutputModel output,
                               OutputModel outputAttributes,
+                              DisplayModel displayModel,
                               Set<ModelProperty> modelProperties) {
-    super(name, description, modelProperties, parameterModels, output, outputAttributes);
+    super(name, description, displayModel, modelProperties, parameterModels, output, outputAttributes);
   }
 
 }

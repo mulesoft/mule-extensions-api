@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.persistence;
 
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
@@ -26,7 +26,7 @@ import java.util.Optional;
  * to easily tag every object with a representative name of the class.
  * <p>
  * Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only
- * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModelProperty}
+ * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel}
  * is going to be identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized
  * tagging it with the full qualifier name of the class.
  * <p>

@@ -7,14 +7,17 @@
 package org.mule.runtime.extension.api.util;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.ExtensionWalker;
 import org.mule.runtime.extension.api.IdempotentExtensionWalker;
 import org.mule.runtime.extension.api.introspection.ComponentModel;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.ExtensionModel;
 import org.mule.runtime.extension.api.introspection.Named;
+import org.mule.runtime.extension.api.introspection.SubTypesModel;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
 import org.mule.runtime.extension.api.introspection.operation.OperationModel;
@@ -27,8 +30,11 @@ import org.mule.runtime.extension.api.introspection.property.PagedOperationModel
 import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
 import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility methods for analyzing and decomposing {@link ExtensionModel} instances
@@ -147,6 +153,10 @@ public class ExtensionModelUtils {
   public static boolean isConnected(EnrichableModel component) {
     return component.getModelProperty(ConnectivityModelProperty.class).isPresent() ||
         component.getModelProperty(PagedOperationModelProperty.class).isPresent();
+  }
+
+  public static Map<MetadataType, Set<MetadataType>> toSubTypesMap(Collection<SubTypesModel> subTypes) {
+    return subTypes.stream().collect(toMap(SubTypesModel::getBaseType, SubTypesModel::getSubTypes));
   }
 
 }

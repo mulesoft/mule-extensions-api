@@ -18,7 +18,7 @@ import org.mule.runtime.extension.api.introspection.source.SourceModel;
  *
  * @since 1.0
  */
-public interface ComponentModel extends Named, Described, EnrichableModel, ParameterizedModel {
+public interface ComponentModel extends Named, Described, EnrichableModel, ParameterizedModel, HasDisplayModel {
 
   /**
    * Returns a {@link MetadataType} for the value that this component sets

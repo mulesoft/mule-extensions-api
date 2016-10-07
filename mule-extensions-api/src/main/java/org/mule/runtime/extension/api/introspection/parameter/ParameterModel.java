@@ -6,16 +6,20 @@
  */
 package org.mule.runtime.extension.api.introspection.parameter;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.unmodifiableSet;
 import org.mule.runtime.extension.api.introspection.ComponentModel;
 import org.mule.runtime.extension.api.introspection.Described;
+import org.mule.runtime.extension.api.introspection.HasDisplayModel;
+import org.mule.runtime.extension.api.introspection.ElementDslModel;
 import org.mule.runtime.extension.api.introspection.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.Named;
 import org.mule.runtime.extension.api.introspection.Typed;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -28,9 +32,9 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public interface ParameterModel extends Named, Described, EnrichableModel, Typed {
+public interface ParameterModel extends Named, Described, EnrichableModel, Typed, HasDisplayModel {
 
-  Set<String> RESERVED_NAMES = Collections.unmodifiableSet(new HashSet<>(asList("name")));
+  Set<String> RESERVED_NAMES = unmodifiableSet(new HashSet<>(singletonList("name")));
 
   /**
    * Whether or not this parameter is required. This method is exclusive with
@@ -60,4 +64,16 @@ public interface ParameterModel extends Named, Described, EnrichableModel, Typed
    * @return the default value
    */
   Object getDefaultValue();
+
+  /**
+   * @return A {@link ElementDslModel }which describes the language which
+   * allows configuring this parameter
+   */
+  ElementDslModel getDslModel();
+
+  /**
+   * @return An {@link Optional} {@link LayoutModel} which contains directives
+   * about how this parameter should be shown in the UI
+   */
+  Optional<LayoutModel> getLayoutModel();
 }

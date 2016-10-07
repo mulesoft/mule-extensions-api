@@ -6,25 +6,25 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Ignore;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
-import org.mule.runtime.extension.api.introspection.property.LayoutModelProperty;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -66,6 +66,12 @@ public final class TypeUtils {
         .collect(toList());
   }
 
+  /**
+   * Returns all the superclasses of the given {@code type}, without including
+   * {@link Object}
+   * @param type a type
+   * @return all the type's super classes
+   */
   public static Collection<Class<?>> getAllSuperClasses(final Class<?> type) {
     List<Class<?>> result = new LinkedList<>();
     if (type != null && !type.equals(Object.class)) {
@@ -104,15 +110,22 @@ public final class TypeUtils {
         .orElse(ExpressionSupport.SUPPORTED);
   }
 
-  public static Set<ModelProperty> deriveModelProperties(MetadataType metadataType) {
-    Set<ModelProperty> properties = new HashSet<>();
+  /**
+   * @param metadataType a type model
+   * @return a {@link LayoutModel} if the {@code metadataType} contains layout information
+   */
+  public static Optional<LayoutModel> getLayoutModel(MetadataType metadataType) {
     if (metadataType.getAnnotation(TextTypeAnnotation.class).isPresent()) {
-      properties.add(new LayoutModelProperty(false, true, 0, "", ""));
+      return of(LayoutModel.builder().asText().build());
     }
 
-    return properties;
+    return empty();
   }
 
+  /**
+   * @param metadataType a type model
+   * @return whether instances of the given {@code metadataType} accept being referenced to
+   */
   public static boolean acceptsReferences(MetadataType metadataType) {
     return metadataType.getAnnotation(XmlHintsAnnotation.class)
         .map(XmlHintsAnnotation::allowsReferences)
