@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.connectivity;
 
+import org.mule.runtime.extension.api.tx.Transactional;
+
 /**
  * Connections which support transaction must implement this interface
  * in order to start or join a current transaction.

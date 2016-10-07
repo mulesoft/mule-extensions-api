@@ -9,7 +9,7 @@ package org.mule.runtime.extension.internal.manifest;
 import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-import org.mule.runtime.api.MuleVersion;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 

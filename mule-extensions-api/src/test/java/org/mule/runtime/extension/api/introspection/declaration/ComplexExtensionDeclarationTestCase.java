@@ -6,43 +6,40 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
-import static org.mule.runtime.extension.api.Category.COMMUNITY;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.ANOTHER_COMPLEX_TYPE;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.COMPLEX_TYPE;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.LISTENER_CONFIG_DESCRIPTION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.LISTENER_CONFIG_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.LISTEN_MESSAGE_SOURCE;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.PATH;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.PORT;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONFIG_DESCRIPTION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONFIG_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUESTER_PROVIDER;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.REQUEST_OPERATION_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.STATIC_RESOURCE_OPERATION_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VENDOR;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
+import static org.mule.runtime.api.meta.Category.COMMUNITY;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.ANOTHER_COMPLEX_TYPE;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.COMPLEX_TYPE;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.EXTENSION_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.LISTENER_CONFIG_DESCRIPTION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.LISTENER_CONFIG_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.LISTEN_MESSAGE_SOURCE;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.PATH;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.PORT;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.REQUESTER_CONFIG_DESCRIPTION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.REQUESTER_CONFIG_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.REQUESTER_PROVIDER;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.REQUEST_OPERATION_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.STATIC_RESOURCE_OPERATION_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.VENDOR;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.VERSION;
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ConnectionProviderDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ExtensionDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.OperationDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ParameterDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -84,7 +81,6 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
   public void listenerSource() {
     SourceDeclaration source = extensionDeclaration.getConfigurations().get(1).getMessageSources().get(0);
     assertThat(source.getName(), is(LISTEN_MESSAGE_SOURCE));
-    assertThat(source.getSourceFactory().createSource(), is(sameInstance(testDeclarer.getSource())));
     assertDataType(source.getOutput().getType(), InputStream.class, BinaryType.class);
     assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
     assertThat(source.getParameters(), hasSize(1));
@@ -133,8 +129,6 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
   public void connectionProvider() {
     ConnectionProviderDeclaration provider = extensionDeclaration.getConfigurations().get(0).getConnectionProviders().get(0);
     assertThat(provider.getName(), is(REQUESTER_PROVIDER));
-    assertThat(provider.getFactory(), is(sameInstance(testDeclarer.getRequesterConnectionProviderFactory())));
-    assertThat(provider.getConnectionType(), equalTo(REQUESTER_CONNECTION_PROVIDER_CONNECTION_TYPE));
   }
 
   @Test

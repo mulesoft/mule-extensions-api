@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;

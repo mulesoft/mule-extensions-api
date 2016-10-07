@@ -8,27 +8,27 @@ package org.mule.runtime.extension.api.util;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.REQUIRED;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.ExtensionWalker;
-import org.mule.runtime.extension.api.IdempotentExtensionWalker;
-import org.mule.runtime.extension.api.introspection.ComponentModel;
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.Named;
-import org.mule.runtime.extension.api.introspection.SubTypesModel;
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterizedModel;
+import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.EnrichableModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.SubTypesModel;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.operation.HasOperationModels;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.api.meta.model.source.HasSourceModels;
+import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.model.util.ExtensionWalker;
+import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.extension.api.introspection.property.ConfigTypeModelProperty;
 import org.mule.runtime.extension.api.introspection.property.ConnectivityModelProperty;
 import org.mule.runtime.extension.api.introspection.property.PagedOperationModelProperty;
-import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -135,7 +135,7 @@ public class ExtensionModelUtils {
    * @return Whether the given {@code component} needs to be provided with a config
    * in order to function
    */
-  public static boolean requiresConfig(Named component) {
+  public static boolean requiresConfig(NamedObject component) {
     if (component instanceof EnrichableModel) {
       EnrichableModel model = (EnrichableModel) component;
       return model.getModelProperty(ConfigTypeModelProperty.class).isPresent() ||

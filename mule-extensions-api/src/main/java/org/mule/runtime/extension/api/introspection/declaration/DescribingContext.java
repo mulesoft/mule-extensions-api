@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 
 /**
  * Used for propagating state across all the components

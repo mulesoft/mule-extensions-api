@@ -11,30 +11,28 @@ import org.mule.metadata.persistence.DefaultObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
-import org.mule.runtime.api.MuleVersion;
-import org.mule.runtime.extension.api.introspection.ElementDslModel;
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.XmlDslModel;
+import org.mule.runtime.api.meta.MuleVersion;
+import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.EnrichableModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ImportedTypeModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.SubTypesModel;
+import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableOutputModel;
-import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.OutputModel;
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
 import org.mule.runtime.extension.api.introspection.config.ImmutableConfigurationModel;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
-import org.mule.runtime.extension.api.introspection.operation.ImmutableRuntimeOperationModel;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
-import org.mule.runtime.extension.api.introspection.display.LayoutModel;
-import org.mule.runtime.extension.api.introspection.SubTypesModel;
 import org.mule.runtime.extension.api.introspection.source.ImmutableSourceModel;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,8 +48,6 @@ import java.util.List;
  * <p>
  * <b>Considerations:</b>
  * <ul>
- * <li>All Runtime models from a extension, like: {@link ImmutableRuntimeExtensionModel} or {@link ImmutableRuntimeOperationModel},
- * will be serialized and deserialized into their non runtime version, like: {@link ImmutableExtensionModel}, {@link ImmutableOperationModel}</li>
  * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that {@link ModelProperty#isExternalizable()}
  * returns {@code true}, will be serialized</li>
  * <li>Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only

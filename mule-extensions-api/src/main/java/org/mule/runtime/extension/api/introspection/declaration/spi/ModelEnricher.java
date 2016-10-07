@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.spi;
 
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
+import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.extension.api.introspection.declaration.DescribingContext;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ExtensionDeclarer;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 
 
 /**

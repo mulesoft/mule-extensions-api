@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.introspection.declaration.type.annotation
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
+import org.mule.runtime.api.meta.ExpressionSupport;
 
 /**
  * A {@link TypeAnnotation} used to enrich a {@link MetadataType} by specifying

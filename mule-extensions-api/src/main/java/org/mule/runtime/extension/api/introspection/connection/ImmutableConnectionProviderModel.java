@@ -6,10 +6,12 @@
  */
 package org.mule.runtime.extension.api.introspection.connection;
 
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.display.DisplayModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
+import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.extension.api.introspection.parameter.AbstractParameterizedModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 import java.util.List;
 import java.util.Set;

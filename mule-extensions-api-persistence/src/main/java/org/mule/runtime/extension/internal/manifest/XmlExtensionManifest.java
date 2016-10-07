@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.internal.manifest;
 
-import org.mule.runtime.api.MuleVersion;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 

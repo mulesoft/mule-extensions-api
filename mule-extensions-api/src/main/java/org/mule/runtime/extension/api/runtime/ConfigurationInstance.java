@@ -7,8 +7,7 @@
 package org.mule.runtime.extension.api.runtime;
 
 import org.mule.runtime.api.connection.ConnectionProvider;
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.config.RuntimeConfigurationModel;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 
 import java.util.Optional;
 
@@ -42,9 +41,9 @@ public interface ConfigurationInstance {
   String getName();
 
   /**
-   * @return the {@link RuntimeConfigurationModel} this instance is based on
+   * @return the {@link ConfigurationModel} this instance is based on
    */
-  RuntimeConfigurationModel getModel();
+  ConfigurationModel getModel();
 
   /**
    * @return the actual configuration instance to be used

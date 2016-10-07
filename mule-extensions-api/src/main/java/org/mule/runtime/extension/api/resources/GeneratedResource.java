@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.resources;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 
 /**
  * A resource that is generated in the context of an {@link ExtensionModel}'s

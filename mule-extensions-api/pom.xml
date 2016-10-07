@@ -34,6 +34,13 @@
             <artifactId>guava</artifactId>
             <version>18.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-api</artifactId>
+            <version>${muleApiVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

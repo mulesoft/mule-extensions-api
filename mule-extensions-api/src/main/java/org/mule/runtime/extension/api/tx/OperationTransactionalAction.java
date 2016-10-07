@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.connectivity;
+package org.mule.runtime.extension.api.tx;
 
 /**
  * The type of joining actions that operations can take regarding transactions.

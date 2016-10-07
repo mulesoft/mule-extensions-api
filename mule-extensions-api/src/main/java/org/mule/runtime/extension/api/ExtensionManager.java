@@ -7,9 +7,8 @@
 package org.mule.runtime.extension.api;
 
 import org.mule.runtime.api.message.MuleEvent;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.RuntimeExtensionModel;
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 import org.mule.runtime.extension.api.runtime.ConfigurationProvider;
@@ -39,16 +38,16 @@ public interface ExtensionManager {
    *
    * @return an immutable {@link Set}. Will not be {@code null} but might be empty
    */
-  Set<RuntimeExtensionModel> getExtensions();
+  Set<ExtensionModel> getExtensions();
 
   /**
-   * Returns an {@link Optional} {@link RuntimeExtensionModel} which
+   * Returns an {@link Optional} {@link ExtensionModel} which
    * name equals {@code extensionName}.
    *
    * @param extensionName the name of the extensions you want.
    * @return an {@link Optional}. It will be empty if no such extension is registered
    */
-  Optional<RuntimeExtensionModel> getExtension(String extensionName);
+  Optional<ExtensionModel> getExtension(String extensionName);
 
   /**
    * Returns a {@link ConfigurationInstance} obtained through a previously registered

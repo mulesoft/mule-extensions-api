@@ -6,8 +6,9 @@
  */
 package org.mule.runtime.extension.api.runtime;
 
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.config.RuntimeConfigurationModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+
 
 /**
  * A component responsible for providing instances which are realizations of a given {@link ConfigurationModel}.
@@ -25,19 +26,21 @@ public interface ConfigurationProvider {
    * <p/>
    * This method may return an instance already returned in the past or a brand new one.
    *
-   * @param muleEvent the event which processing requires the instance
+   * @param event the event which processing requires the instance
    * @return a {@link ConfigurationInstance}
    */
   //TODO: MULE-8946
-  ConfigurationInstance get(Object muleEvent);
+  ConfigurationInstance get(Object event);
 
   /**
-   * Returns the {@link RuntimeConfigurationModel} for the instances
-   * returned by {@link #get(Object)}
-   *
-   * @return a {@link RuntimeConfigurationModel}
+   * @return the {@link ExtensionModel} which owns the {@link #getConfigurationModel()}
    */
-  RuntimeConfigurationModel getModel();
+  ExtensionModel getExtensionModel();
+
+  /**
+   * @return the {@link ConfigurationModel} for the instances returned by {@link #get(Object)}
+   */
+  ConfigurationModel getConfigurationModel();
 
   /**
    * The name under which this provider has been registered

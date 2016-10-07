@@ -8,18 +8,21 @@ package org.mule.runtime.extension.api.introspection;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-import org.mule.runtime.extension.api.introspection.display.DisplayModel;
+import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.display.HasDisplayModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
 
 import java.util.Optional;
 import java.util.Set;
 
 
 /**
- * Base class for immutable implementations of {@link Named} introspection models
+ * Base class for immutable implementations of {@link NamedObject} introspection models
  *
  * @since 1.0
  */
-public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel implements Named, HasDisplayModel {
+public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel implements NamedObject, HasDisplayModel {
 
   private final String name;
   private final DisplayModel displayModel;
@@ -74,7 +77,7 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
    */
   @Override
   public boolean equals(Object obj) {
-    return getClass().isInstance(obj) && name.equals(((Named) obj).getName());
+    return getClass().isInstance(obj) && name.equals(((NamedObject) obj).getName());
 
   }
 

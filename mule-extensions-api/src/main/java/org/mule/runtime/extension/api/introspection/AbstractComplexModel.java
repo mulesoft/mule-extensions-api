@@ -10,14 +10,17 @@ import static com.google.common.collect.ImmutableList.copyOf;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
+import org.mule.runtime.api.meta.DescribedObject;
+import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
-import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.connection.HasConnectionProviderModels;
-import org.mule.runtime.extension.api.introspection.display.DisplayModel;
-import org.mule.runtime.extension.api.introspection.operation.HasOperationModels;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.source.HasSourceModels;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
+import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.operation.HasOperationModels;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.source.HasSourceModels;
+import org.mule.runtime.api.meta.model.source.SourceModel;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
@@ -108,16 +111,16 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
    * Returns the first item in the {@code values} collection which
    * matches the given {@code name}.
    *
-   * @param values a {@link Collection} of {@link Named} items
+   * @param values a {@link Collection} of {@link NamedObject} items
    * @param name   the matching criteria
    * @param <T>    the generic type of the {@code values} items
    * @return an {@link Optional} matching item
    */
-  protected <T extends Named> Optional<T> findModel(Collection<T> values, String name) {
+  protected <T extends NamedObject> Optional<T> findModel(Collection<T> values, String name) {
     return values.stream().filter(v -> v.getName().equals(name)).findFirst();
   }
 
-  protected <T extends Described> List<T> toList(Collection<T> collection) {
+  protected <T extends DescribedObject> List<T> toList(Collection<T> collection) {
     if (collection == null || collection.isEmpty()) {
       return emptyList();
     }
@@ -133,9 +136,9 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
    * @param <T>        the generic type of the {@code values} items
    * @return an immutable copy of the {@code values}
    */
-  protected <T extends Named> List<T> unique(Collection<T> values, String identifier) {
+  protected <T extends NamedObject> List<T> unique(Collection<T> values, String identifier) {
     Multiset<String> names = HashMultiset.create();
-    values.stream().map(Named::getName).forEach(names::add);
+    values.stream().map(NamedObject::getName).forEach(names::add);
 
     List<String> invalid = names.entrySet().stream()
         .filter(entry -> entry.getCount() > 1)

@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.introspection.property;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.api.meta.model.ModelProperty;
 
 import java.util.List;
 

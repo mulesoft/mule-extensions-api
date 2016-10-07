@@ -10,16 +10,17 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ConfigurationDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ConnectedDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ConnectionProviderDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ExtensionDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.OperationDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ParameterDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ParameterizedInterceptableDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.WithOperationsDeclaration;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.WithSourcesDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -64,8 +65,8 @@ public class DeclarationWalkerTestCase {
     addParameter(configuration, operation, connectionProvider, source);
   }
 
-  private void addParameter(ParameterizedInterceptableDeclaration... declarations) {
-    for (ParameterizedInterceptableDeclaration declaration : declarations) {
+  private void addParameter(ParameterizedDeclaration... declarations) {
+    for (ParameterizedDeclaration declaration : declarations) {
       when(declaration.getParameters()).thenReturn(asList(parameterModel));
     }
   }
@@ -101,7 +102,7 @@ public class DeclarationWalkerTestCase {
       }
 
       @Override
-      public void onParameter(ParameterizedInterceptableDeclaration owner, ParameterDeclaration declaration) {
+      public void onParameter(ParameterizedDeclaration owner, ParameterDeclaration declaration) {
         parameters.incrementAndGet();
       }
     }.walk(extension);

@@ -9,14 +9,13 @@ package org.mule.runtime.extension.tck.manifet;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
-
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.EXTENSION_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.VERSION;
+import org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder;
-import org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer;
 
 import java.util.Arrays;
 import java.util.List;
