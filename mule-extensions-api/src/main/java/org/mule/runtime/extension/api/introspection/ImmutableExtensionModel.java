@@ -85,6 +85,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     checkModelArgument(minMuleVersion != null, "Extension Minimum Mule Version cannot be null");
     checkModelArgument(category != null, "Extension Category cannot be null");
     checkModelArgument(vendor != null, "Extension Vendor cannot be null");
+    checkModelArgument(xmlDslModel != null, "xmlDslModel cannot be null");
 
     this.minMuleVersion = minMuleVersion;
     this.category = category;
