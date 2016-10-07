@@ -38,8 +38,8 @@ public final class ImportedTypeModel {
 
     if (importedType == null) {
       throw new IllegalArgumentException("importedType cannot be null");
-
     }
+
     this.originExtensionName = originExtensionName;
     this.importedType = importedType;
   }

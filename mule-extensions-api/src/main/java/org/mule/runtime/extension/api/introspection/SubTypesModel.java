@@ -24,7 +24,22 @@ public final class SubTypesModel {
   private final MetadataType baseType;
   private final Set<MetadataType> subTypes;
 
+  /**
+   * Creates a new instance
+   *
+   * @param baseType the type that is extended
+   * @param subTypes the extending types
+   * @throws IllegalArgumentException if baseType is {@code null} or subTypes is {@code null} or empty
+   */
   public SubTypesModel(MetadataType baseType, Set<MetadataType> subTypes) {
+    if (baseType == null) {
+      throw new IllegalArgumentException("baseType cannot be null");
+    }
+
+    if (subTypes == null || subTypes.isEmpty()) {
+      throw new IllegalArgumentException("subTypes cannot be null nor empty");
+    }
+
     this.baseType = baseType;
     this.subTypes = unmodifiableSet(subTypes);
   }
