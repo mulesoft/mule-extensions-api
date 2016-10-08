@@ -17,6 +17,7 @@ import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.Category;
 import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ComponentDeclarer;
@@ -118,10 +119,15 @@ public class TestWebServiceConsumerDeclarer {
 
   public TestWebServiceConsumerDeclarer() {
     extensionDeclarer = new ExtensionDeclarer();
-    extensionDeclarer.named(WS_CONSUMER).describedAs(WS_CONSUMER_DESCRIPTION).onVersion(VERSION).fromVendor(MULESOFT)
-        .withCategory(Category.SELECT).withMinMuleVersion(MIN_MULE_VERSION)
+    extensionDeclarer.named(WS_CONSUMER)
+        .describedAs(WS_CONSUMER_DESCRIPTION)
+        .onVersion(VERSION)
+        .fromVendor(MULESOFT)
+        .withCategory(Category.SELECT)
+        .withMinMuleVersion(MIN_MULE_VERSION)
         .withExceptionEnricherFactory(exceptionEnricherFactory)
-        .withModelProperty(EXTENSION_MODEL_PROPERTY);
+        .withModelProperty(EXTENSION_MODEL_PROPERTY)
+        .withXmlDsl(XmlDslModel.builder().build());
 
     ConfigurationDeclarer config =
         extensionDeclarer.withConfig(CONFIG_NAME).createdWith(configurationFactory).describedAs(CONFIG_DESCRIPTION)
@@ -154,7 +160,8 @@ public class TestWebServiceConsumerDeclarer {
     operation.withOutput().ofType(typeLoader.load(void.class));
     operation.withRequiredParameter(OPERATION).describedAs(THE_OPERATION_TO_USE).ofType(typeBuilder.arrayType()
         .id(List.class.getName())
-        .of(typeBuilder.stringType().id(String.class.getName()))
+        .of(typeBuilder.stringType()
+            .id(String.class.getName()))
         .build());
 
     operation.withOptionalParameter(MTOM_ENABLED).describedAs(MTOM_DESCRIPTION).ofType(typeLoader.load(Boolean.class))
