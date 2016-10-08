@@ -13,6 +13,7 @@ import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.message.Attributes;
+import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.config.ConfigurationFactory;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.runtime.extension.api.introspection.declaration.fluent.ComponentDeclarer;
@@ -66,8 +67,15 @@ public class TestHttpConnectorDeclarer {
   private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
   public TestHttpConnectorDeclarer() {
-    extensionDeclarer.named(EXTENSION_NAME).describedAs(EXTENSION_DESCRIPTION).fromVendor(VENDOR).onVersion(VERSION)
-        .withCategory(COMMUNITY).withMinMuleVersion(MIN_MULE_VERSION).withType(COMPLEX_TYPE).withType(ANOTHER_COMPLEX_TYPE);
+    extensionDeclarer.named(EXTENSION_NAME)
+        .describedAs(EXTENSION_DESCRIPTION)
+        .fromVendor(VENDOR)
+        .onVersion(VERSION)
+        .withCategory(COMMUNITY)
+        .withMinMuleVersion(MIN_MULE_VERSION)
+        .withType(COMPLEX_TYPE)
+        .withType(ANOTHER_COMPLEX_TYPE)
+        .withXmlDsl(XmlDslModel.builder().build());
     ComponentDeclarer staticResource = extensionDeclarer.withOperation(STATIC_RESOURCE_OPERATION_NAME);
     staticResource.withOutput().ofType(typeLoader.load(InputStream.class));
     staticResource.withRequiredParameter(PATH).ofType(typeLoader.load(String.class));
