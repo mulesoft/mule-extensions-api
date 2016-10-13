@@ -17,8 +17,8 @@ import org.mule.runtime.extension.api.annotation.param.Ignore;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.extension.api.introspection.display.LayoutModel;
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.ExpressionSupport;
 
 import java.lang.reflect.Field;
 import java.util.Collection;

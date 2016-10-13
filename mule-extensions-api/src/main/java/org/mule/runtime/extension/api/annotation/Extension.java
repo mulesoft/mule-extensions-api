@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.annotation;
 
-import org.mule.runtime.extension.api.Category;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.api.meta.Category;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

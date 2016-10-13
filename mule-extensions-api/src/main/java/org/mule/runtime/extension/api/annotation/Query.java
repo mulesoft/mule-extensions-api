@@ -10,7 +10,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
-import org.mule.runtime.extension.api.introspection.ComponentModel;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.extension.api.introspection.dsql.QueryTranslator;
 import org.mule.runtime.extension.api.introspection.metadata.NullQueryOutputMetadataResolver;
 

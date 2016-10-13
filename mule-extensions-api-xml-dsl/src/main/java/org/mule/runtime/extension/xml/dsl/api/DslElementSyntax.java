@@ -7,13 +7,13 @@
 package org.mule.runtime.extension.xml.dsl.api;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.introspection.Named;
+import org.mule.runtime.api.meta.NamedObject;
 
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * Provides a declaration of how a {@link Named Component} is represented in {@code XML}, containing
+ * Provides a declaration of how a {@link NamedObject Component} is represented in {@code XML}, containing
  * all the required information for the {@code XML} element creation and parsing.
  *
  * @since 1.0

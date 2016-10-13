@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.config;
 
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+
 /**
  * Creates instances of objects which are compliant
  * with the model described by the owning {@link ConfigurationModel}.

@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.resources.spi;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.resources.GeneratedResource;
 
 import java.util.Optional;

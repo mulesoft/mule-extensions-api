@@ -13,7 +13,8 @@ import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import org.mule.NonRuntimeTestType;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
 
 import com.mulesoft.mule.runtime.TestEeType;

@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.display.LayoutModel;
+import org.mule.runtime.api.meta.model.EnrichableModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import com.google.gson.Gson;

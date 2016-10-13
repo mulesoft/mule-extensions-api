@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
 
 /**
  * Creates {@link OperationExecutor} instances

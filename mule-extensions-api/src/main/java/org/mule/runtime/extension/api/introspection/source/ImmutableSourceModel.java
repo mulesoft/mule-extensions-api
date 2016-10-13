@@ -6,11 +6,12 @@
  */
 package org.mule.runtime.extension.api.introspection.source;
 
+import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.introspection.AbstractComponentModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.OutputModel;
-import org.mule.runtime.extension.api.introspection.display.DisplayModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 import java.util.List;
 import java.util.Set;

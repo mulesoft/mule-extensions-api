@@ -8,11 +8,13 @@ package org.mule.runtime.extension.api.introspection.parameter;
 
 import static java.util.Optional.ofNullable;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.AbstractNamedImmutableModel;
-import org.mule.runtime.extension.api.introspection.ElementDslModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.display.DisplayModel;
-import org.mule.runtime.extension.api.introspection.display.LayoutModel;
+import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 
 import java.util.Optional;
 import java.util.Set;

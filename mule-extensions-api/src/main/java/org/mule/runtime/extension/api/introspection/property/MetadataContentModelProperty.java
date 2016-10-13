@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.property;
 
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 /**
  * A {@link ModelProperty} for {@link ParameterModel} of Sources and Operations parameters

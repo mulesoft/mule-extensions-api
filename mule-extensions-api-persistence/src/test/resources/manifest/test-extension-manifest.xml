@@ -15,7 +15,7 @@
     <describer>
         <id>annotations</id>
         <properties>
-            <property key="type" value="org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer"/>
+            <property key="type" value="org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer"/>
         </properties>
     </describer>
 </extension-manifest>

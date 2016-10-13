@@ -8,17 +8,16 @@ package org.mule.runtime.extension.api.manifest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.EXTENSION_NAME;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
-import static org.mule.runtime.extension.tck.introspection.TestHttpConnectorDeclarer.VERSION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.EXTENSION_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
+import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.VERSION;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_ID;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_PROPERTY;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.DESCRIBER_PROPERTY_VALUE;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.EXPORTED_PACKAGES;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.EXPORTED_RESOURCES;
 import static org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils.assertStringList;
-
 import org.mule.runtime.extension.tck.manifet.ExtensionManifestTestUtils;
 
 import org.junit.Before;

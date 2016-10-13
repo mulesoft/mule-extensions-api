@@ -12,7 +12,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
+import org.mule.runtime.api.meta.model.EnrichableModel;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

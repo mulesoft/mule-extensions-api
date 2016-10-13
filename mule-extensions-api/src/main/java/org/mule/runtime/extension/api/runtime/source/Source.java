@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.runtime.source;
 
 import org.mule.runtime.api.message.Attributes;
-import org.mule.runtime.extension.api.introspection.source.SourceModel;
+import org.mule.runtime.api.meta.model.source.SourceModel;
 
 /**
  * Base class to write message sources compliant with a given {@link SourceModel}.

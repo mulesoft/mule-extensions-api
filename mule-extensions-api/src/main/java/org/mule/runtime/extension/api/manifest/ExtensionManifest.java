@@ -7,10 +7,10 @@
 package org.mule.runtime.extension.api.manifest;
 
 
-import org.mule.runtime.api.MuleVersion;
-import org.mule.runtime.extension.api.introspection.Described;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.Named;
+import org.mule.runtime.api.meta.DescribedObject;
+import org.mule.runtime.api.meta.MuleVersion;
+import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @see ExtensionManifestBuilder
  * @since 1.0
  */
-public interface ExtensionManifest extends Named, Described {
+public interface ExtensionManifest extends NamedObject, DescribedObject {
 
   /**
    * @return the extension's version

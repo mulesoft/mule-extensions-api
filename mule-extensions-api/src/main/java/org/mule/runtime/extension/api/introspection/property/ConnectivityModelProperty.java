@@ -10,8 +10,8 @@ package org.mule.runtime.extension.api.introspection.property;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.connectivity.TransactionalConnection;
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.api.meta.model.EnrichableModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
 
 /**
  * An immutable model property which specifies that the owning {@link EnrichableModel} requires a connection of a given

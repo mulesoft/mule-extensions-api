@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 
 import java.util.Optional;

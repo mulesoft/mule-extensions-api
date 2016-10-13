@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 
 /**
  * {@link RuntimeException} to indicate that a problem occurred serializing or deserializing a {@link ExtensionModel}

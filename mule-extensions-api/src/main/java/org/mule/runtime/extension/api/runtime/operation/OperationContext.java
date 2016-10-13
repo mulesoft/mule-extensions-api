@@ -6,11 +6,10 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.config.ConfigurationModel;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
-import org.mule.runtime.extension.api.introspection.operation.RuntimeOperationModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 
 import java.util.NoSuchElementException;
@@ -66,9 +65,9 @@ public interface OperationContext {
   /**
    * Returns the model associated to the operation being executed
    *
-   * @return a {@link RuntimeOperationModel}
+   * @return a {@link OperationModel}
    */
-  RuntimeOperationModel getOperationModel();
+  OperationModel getOperationModel();
 
   ExtensionModel getExtensionModel();
 }

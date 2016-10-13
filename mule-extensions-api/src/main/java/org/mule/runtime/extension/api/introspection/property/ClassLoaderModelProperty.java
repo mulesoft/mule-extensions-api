@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.introspection.property;
 
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.api.meta.model.EnrichableModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
 
 /**
  * Links an {@link EnrichableModel} with a {@link ClassLoader}.

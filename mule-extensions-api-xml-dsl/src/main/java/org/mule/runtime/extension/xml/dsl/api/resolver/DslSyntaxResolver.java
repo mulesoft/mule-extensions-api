@@ -8,8 +8,8 @@ package org.mule.runtime.extension.xml.dsl.api.resolver;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.NOT_SUPPORTED;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -34,13 +34,13 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.runtime.extension.api.introspection.ElementDslModel;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
-import org.mule.runtime.extension.api.introspection.Named;
-import org.mule.runtime.extension.api.introspection.XmlDslModel;
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
+import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ImportedTypeModel;
+import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
@@ -55,7 +55,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Provides the {@link DslElementSyntax} of any {@link Named Component}, {@link ParameterModel Parameter} or {@link MetadataType
+ * Provides the {@link DslElementSyntax} of any {@link NamedObject Component}, {@link ParameterModel Parameter} or {@link MetadataType
  * Type} within the context of the {@link ExtensionModel Extension model} where the Component was declared.
  *
  * @since 1.0
@@ -84,12 +84,12 @@ public class DslSyntaxResolver {
   }
 
   /**
-   * Resolves the {@link DslElementSyntax} for the given {@link Named component}.
+   * Resolves the {@link DslElementSyntax} for the given {@link NamedObject component}.
    *
-   * @param component the {@link Named} element to be described in the {@link DslElementSyntax}
-   * @return the {@link DslElementSyntax} for the {@link Named model}
+   * @param component the {@link NamedObject} element to be described in the {@link DslElementSyntax}
+   * @return the {@link DslElementSyntax} for the {@link NamedObject model}
    */
-  public DslElementSyntax resolve(final Named component) {
+  public DslElementSyntax resolve(final NamedObject component) {
     return DslElementSyntaxBuilder.create()
         .withElementName(hyphenize(component.getName()))
         .withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())

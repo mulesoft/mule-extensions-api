@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.runtime.extension.api.introspection.ElementDslModel;
+import org.mule.runtime.api.meta.model.ElementDslModel;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

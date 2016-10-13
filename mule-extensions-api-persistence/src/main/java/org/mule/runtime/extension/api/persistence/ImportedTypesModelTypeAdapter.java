@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.persistence;
 
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
-import org.mule.runtime.extension.api.introspection.ImportedTypeModel;
+import org.mule.runtime.api.meta.model.ImportedTypeModel;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

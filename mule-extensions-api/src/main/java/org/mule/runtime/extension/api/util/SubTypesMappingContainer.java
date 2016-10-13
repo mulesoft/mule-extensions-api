@@ -14,7 +14,7 @@ import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toSubTypesMap;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.introspection.SubTypesModel;
+import org.mule.runtime.api.meta.model.SubTypesModel;
 
 import com.google.common.collect.ImmutableList;
 

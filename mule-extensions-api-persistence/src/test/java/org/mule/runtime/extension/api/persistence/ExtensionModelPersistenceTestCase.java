@@ -18,34 +18,32 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.runtime.extension.api.Category.COMMUNITY;
-import static org.mule.runtime.extension.api.introspection.connection.ConnectionManagementType.NONE;
-import static org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.Category.COMMUNITY;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.runtime.api.MuleVersion;
 import org.mule.runtime.api.connection.ConnectionProvider;
-import org.mule.runtime.extension.api.introspection.ElementDslModel;
-import org.mule.runtime.extension.api.introspection.ExtensionModel;
+import org.mule.runtime.api.meta.MuleVersion;
+import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.introspection.ImmutableOutputModel;
-import org.mule.runtime.extension.api.introspection.ImmutableRuntimeExtensionModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
-import org.mule.runtime.extension.api.introspection.XmlDslModel;
 import org.mule.runtime.extension.api.introspection.connection.ConnectionProviderFactory;
 import org.mule.runtime.extension.api.introspection.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.introspection.connection.ImmutableRuntimeConnectionProviderModel;
 import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.extension.api.introspection.display.DisplayModel;
-import org.mule.runtime.extension.api.introspection.display.LayoutModel;
 import org.mule.runtime.extension.api.introspection.operation.ImmutableOperationModel;
-import org.mule.runtime.extension.api.introspection.operation.OperationModel;
 import org.mule.runtime.extension.api.introspection.parameter.ImmutableParameterModel;
-import org.mule.runtime.extension.api.introspection.parameter.ParameterModel;
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
@@ -57,7 +55,6 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.junit.Before;
@@ -116,18 +113,19 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
                                     new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet()),
                                     defaultDisplayModel, modelProperties);
-    final ImmutableRuntimeConnectionProviderModel basicAuth =
-        new ImmutableRuntimeConnectionProviderModel("BasicAuth", "Basic Auth Config", Integer.class,
-                                                    new DefaultConnectionProviderFactory(),
-                                                    asList(usernameParameter, passwordParameter), NONE,
-                                                    defaultDisplayModel, emptySet());
+    final ImmutableConnectionProviderModel basicAuth =
+        new ImmutableConnectionProviderModel("BasicAuth",
+                                             "Basic Auth Config",
+                                             asList(usernameParameter, passwordParameter),
+                                             NONE,
+                                             defaultDisplayModel,
+                                             emptySet());
     originalExtensionModel =
-        new ImmutableRuntimeExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
-                                           new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
-                                           singletonList(basicAuth), emptyList(),
-                                           defaultDisplayModel, XmlDslModel.builder().build(),
-                                           emptySet(), singleton(exportedType), emptySet(), emptySet(),
-                                           Optional.empty());
+        new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
+                                    new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
+                                    singletonList(basicAuth), emptyList(),
+                                    defaultDisplayModel, XmlDslModel.builder().build(),
+                                    emptySet(), singleton(exportedType), emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
@@ -161,10 +159,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
   @Test
   public void runtimeModelsAreDeserializedIntoNonRuntimeModels() {
-    assertThat(originalExtensionModel, instanceOf(ImmutableRuntimeExtensionModel.class));
     assertThat(deserializedExtensionModel, instanceOf(ImmutableExtensionModel.class));
-
-    assertThat(originalExtensionModel.getConnectionProviders().get(0), instanceOf(ImmutableRuntimeConnectionProviderModel.class));
     assertThat(deserializedExtensionModel.getConnectionProviders().get(0), instanceOf(ImmutableConnectionProviderModel.class));
   }
 

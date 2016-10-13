@@ -9,9 +9,9 @@ package org.mule.runtime.extension.api.introspection;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-import org.mule.runtime.extension.api.introspection.Described;
-import org.mule.runtime.extension.api.introspection.EnrichableModel;
-import org.mule.runtime.extension.api.introspection.ModelProperty;
+import org.mule.runtime.api.meta.DescribedObject;
+import org.mule.runtime.api.meta.model.EnrichableModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import java.util.Collection;
@@ -21,11 +21,11 @@ import java.util.Set;
 
 
 /**
- * Base class for immutable implementations of a {@link Described} {@link EnrichableModel} model
+ * Base class for immutable implementations of a {@link DescribedObject} {@link EnrichableModel} model
  *
  * @since 1.0
  */
-public abstract class AbstractImmutableModel implements Described, EnrichableModel {
+public abstract class AbstractImmutableModel implements DescribedObject, EnrichableModel {
 
   protected String description;
   protected final HierarchyClassMap<ModelProperty> modelProperties = new HierarchyClassMap<>();

@@ -12,14 +12,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.metadata.java.api.JavaTypeLoader.JAVA;
+import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.NullType;
-import org.mule.runtime.extension.api.introspection.declaration.fluent.ParameterDeclaration;
+import org.mule.metadata.api.model.VoidType;
+import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.extension.api.introspection.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.runtime.extension.api.introspection.parameter.ExpressionSupport;
 
 import java.util.Optional;
 
@@ -41,13 +43,14 @@ public abstract class BaseDeclarationTestCase {
     assertThat(parameter.getExpressionSupport(), is(expressionSupport));
     assertThat(parameter.isRequired(), is(required));
     assertThat(parameter.getDefaultValue(), equalTo(defaultValue));
-    assertThat(parameter.getType(), equalTo(type));
+    assertThat(parameter.getType().getClass(), equalTo(type.getClass()));
+    assertThat(getTypeId(parameter.getType()).get(), equalTo(getTypeId(type).get()));
   }
 
   protected void assertDataType(MetadataType type, Class<?> expectedRawType, Class<? extends MetadataType> typeQualifier) {
     assertThat(type, is(instanceOf(typeQualifier)));
 
-    if (type instanceof NullType) {
+    if (type instanceof NullType || type instanceof VoidType) {
       return;
     }
 
