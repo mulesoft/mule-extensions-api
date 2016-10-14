@@ -6,16 +6,16 @@
  */
 package org.mule.runtime.extension.api.introspection.metadata;
 
-import org.mule.metadata.api.model.AnyType;
+import static java.util.Collections.emptySet;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.NullType;
+import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
-import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.extension.api.annotation.metadata.Content;
 
 import java.util.Collections;
@@ -50,51 +50,51 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
    */
   @Override
   public Set<MetadataKey> getKeys(MetadataContext context) throws MetadataResolvingException {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   /**
    * Null implementation of {@link InputTypeResolver}, used when no implementation is provided by the connector developer.
-   * Represents the absence of a custom {@link InputTypeResolver}, returning a {@link NullType} instead of resolving a valid
+   * Represents the absence of a custom {@link InputTypeResolver}, returning a {@link VoidType} instead of resolving a valid
    * {@link MetadataType} for the {@link Content} parameter
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@code null}
+   * @return a {@link VoidType}
    * @throws MetadataResolvingException
    */
   @Override
   public MetadataType getInputMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return context.getTypeBuilder().nullType().build();
+    return context.getTypeBuilder().voidType().build();
   }
 
   /**
    * Null implementation of {@link OutputTypeResolver}, used when no implementation is provided by the connector developer.
-   * Represents the absence of a custom {@link OutputTypeResolver}, returning a {@link NullType} instead of resolving a
+   * Represents the absence of a custom {@link OutputTypeResolver}, returning a {@link VoidType} instead of resolving a
    * dynamic {@link MetadataType} for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@code null}
+   * @return a {@link VoidType}
    * @throws MetadataResolvingException
    */
   @Override
   public MetadataType getOutputType(MetadataContext context, Object key) throws MetadataResolvingException {
-    return context.getTypeBuilder().nullType().build();
+    return context.getTypeBuilder().voidType().build();
   }
 
   /**
    * Null implementation of {@link MetadataAttributesResolver}, used when no implementation is provided by the connector
-   * developer. Represents the absence of a custom {@link MetadataAttributesResolver}, returning a {@link AnyType} instead of
+   * developer. Represents the absence of a custom {@link MetadataAttributesResolver}, returning a {@link VoidType} instead of
    * resolving a dynamic {@link MetadataType} for the component's output attributes.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key {@link MetadataKey} of the type which's structure has to be resolved
-   * @return {@code null}
+   * @return a {@link VoidType}
    * @throws MetadataResolvingException
    */
   @Override
   public MetadataType getAttributesMetadata(MetadataContext context, Object key) throws MetadataResolvingException {
-    return context.getTypeBuilder().nullType().build();
+    return context.getTypeBuilder().voidType().build();
   }
 }

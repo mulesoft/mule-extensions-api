@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.introspection.metadata;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.NullType;
+import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
@@ -30,16 +30,15 @@ public final class NullQueryOutputMetadataResolver implements OutputTypeResolver
   /**
    * Null implementation of {@link OutputTypeResolver} for {@link Query} operations, used when no implementation
    * is provided by the connector developer. Represents the absence of a custom {@link OutputTypeResolver},
-   * returning a {@link NullType} instead of resolving a dynamic {@link MetadataType} from a native {@link Query}
+   * returning a {@link VoidType} instead of resolving a dynamic {@link MetadataType} from a native {@link Query}
    * for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key     {@link MetadataKey} of string type, representing the native query created by the user.
-   * @return a {@link NullType} instance.
+   * @return a {@link VoidType} instance.
    */
   @Override
   public MetadataType getOutputType(MetadataContext context, String key) throws MetadataResolvingException {
-    // TODO: MDM-21 - replace with VoidType when available.
-    return context.getTypeBuilder().nullType().build();
+    return context.getTypeBuilder().voidType().build();
   }
 }
