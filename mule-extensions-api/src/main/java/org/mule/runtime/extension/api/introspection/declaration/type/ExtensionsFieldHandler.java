@@ -6,12 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
-import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -20,14 +14,19 @@ import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
+import org.mule.runtime.extension.api.annotation.Query;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.display.Password;
+import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
@@ -39,13 +38,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
+
 /**
- * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s
- * by looking for, and following the rules, of the Extensions API annotations.
+ * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s by looking for, and following the
+ * rules, of the Extensions API annotations.
  * <p>
- * If the introspected class does not contain such annotations, then {@link Introspector#getBeanInfo(Class)}
- * is used to obtain the class properties. Those properties will be managed as optional parameters, without
- * a default value
+ * If the introspected class does not contain such annotations, then {@link Introspector#getBeanInfo(Class)} is used to obtain the
+ * class properties. Those properties will be managed as optional parameters, without a default value
  *
  * @since 1.0
  */
@@ -54,7 +59,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   @Override
   public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
                            ObjectTypeBuilder builder) {
-    //TODO: MULE-9454
+    // TODO: MULE-9454
     if (clazz.getName().equals("org.mule.runtime.core.api.NestedProcessor")) {
       return;
     }
@@ -75,6 +80,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       processTextAnnotation(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
+      processLayoutAnnotation(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
     }
   }
@@ -103,6 +109,28 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     if (field.getAnnotation(Text.class) != null) {
       fieldBuilder.with(new TextTypeAnnotation());
     }
+  }
+
+  private void processLayoutAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    LayoutModel.LayoutModelBuilder builder = LayoutModel.builder();
+    Placement placement = field.getAnnotation(Placement.class);
+    if (placement != null) {
+      builder.groupName(placement.group()).tabName(placement.tab()).order(placement.order());
+    }
+
+    if (field.getAnnotation(Password.class) != null) {
+      builder.asPassword();
+    }
+
+    if (field.getAnnotation(Text.class) != null) {
+      builder.asText();
+    }
+
+    if (field.getAnnotation(Query.class) != null) {
+      builder.asQuery();
+    }
+
+    fieldBuilder.with(new LayoutTypeAnnotation(builder.build()));
   }
 
   private void setFieldType(TypeHandlerManager typeHandlerManager, ParsingContext context, Field field,

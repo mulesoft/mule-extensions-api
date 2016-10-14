@@ -15,8 +15,8 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 /**
- * Contributes to the {@link AnnotationsRegistry} service to provide a friendly name
- * for the custom annotations used by the {@link ExtensionObjectTypeHandler}
+ * Contributes to the {@link AnnotationsRegistry} service to provide a friendly name for the custom annotations used by the
+ * {@link ExtensionObjectTypeHandler}
  *
  * @since 1.0
  */
@@ -24,7 +24,7 @@ public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry {
 
   @Override
   public Map<String, Class<? extends TypeAnnotation>> getRegistry() {
-    //TODO MULE-10209 customize how custom type annotations are serialized
+    // TODO MULE-10209 customize how custom type annotations are serialized
     return ImmutableMap.<String, Class<? extends TypeAnnotation>>builder()
         .put(XmlHintsAnnotation.NAME, XmlHintsAnnotation.class)
         .put(TypeAliasAnnotation.NAME, TypeAliasAnnotation.class)
@@ -32,6 +32,7 @@ public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry {
         .put(ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class)
         .put(FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class)
         .put(TextTypeAnnotation.NAME, TextTypeAnnotation.class)
+        .put(LayoutTypeAnnotation.NAME, LayoutTypeAnnotation.class)
         .build();
   }
 }
