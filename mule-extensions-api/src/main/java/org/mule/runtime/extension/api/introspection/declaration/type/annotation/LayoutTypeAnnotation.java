@@ -7,11 +7,16 @@
 package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
-import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.extension.api.annotation.param.display.Password;
+import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.param.display.Text;
 
 /**
- * Used to specify the alias name of the annotated {@link MetadataType}
+ * A {@link TypeAnnotation} meant to be applied on
+ * {@link ObjectFieldType} instances which has information on how the field should be rendered in the UI.
+ * That information is informed through the {@link Text}, {@link Password} and {@link Placement} annotations.
  *
  * @since 1.0
  */
@@ -52,6 +57,10 @@ public class LayoutTypeAnnotation implements TypeAnnotation {
 
   public String getTabName() {
     return layoutModel.getTabName();
+  }
+
+  public LayoutModel getLayoutModel() {
+    return layoutModel;
   }
 
   @Override

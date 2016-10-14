@@ -6,11 +6,6 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toMap;
-import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
-import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
-import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.DictionaryType;
@@ -22,22 +17,28 @@ import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toMap;
+import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
 
 /**
  * Utils class with helper methods for the {@link DslSyntaxResolver}
@@ -70,7 +71,8 @@ class DslSyntaxUtils {
   }
 
   static boolean isText(MetadataType type) {
-    return type.getAnnotation(TextTypeAnnotation.class).isPresent();
+    return type.getAnnotation(LayoutTypeAnnotation.class).map(layoutTypeAnnotation -> layoutTypeAnnotation.isText())
+        .orElse(false);
   }
 
   static boolean isInstantiable(MetadataType metadataType) {

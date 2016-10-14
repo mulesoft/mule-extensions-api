@@ -14,20 +14,23 @@ import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.Query;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.LayoutTypeAnnotation;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.beans.Introspector;
@@ -77,10 +80,10 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
       setOptionalAndDefault(field, fieldBuilder);
       processesParameterGroup(field, fieldBuilder);
-      processTextAnnotation(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
       processLayoutAnnotation(field, fieldBuilder);
+      processDisplayAnnotation(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
     }
   }
@@ -88,14 +91,14 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   private void validateIllegalAnnotationUse(Class<?> clazz) {
     final String annotationsPackageName = Parameter.class.getPackage().getName();
     List<String> illegalFieldNames = getAllFields(clazz).stream()
-        .filter(field -> Stream.of(field.getAnnotations())
-            .anyMatch(a -> a.annotationType().getName().contains(annotationsPackageName)))
-        .map(Field::getName)
-        .collect(toList());
+            .filter(field -> Stream.of(field.getAnnotations())
+                    .anyMatch(a -> a.annotationType().getName().contains(annotationsPackageName)))
+            .map(Field::getName)
+            .collect(toList());
 
     if (!illegalFieldNames.isEmpty()) {
       throw new IllegalModelDefinitionException(format("Class '%s' has fields annotated with Extensions API annotations which are not parameters. "
-          + "Illegal fields are " + illegalFieldNames, clazz.getName()));
+              + "Illegal fields are " + illegalFieldNames, clazz.getName()));
     }
   }
 
@@ -105,32 +108,52 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void processTextAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
-    if (field.getAnnotation(Text.class) != null) {
-      fieldBuilder.with(new TextTypeAnnotation());
+  private void processDisplayAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    DisplayModel.DisplayModelBuilder builder = DisplayModel.builder();
+    boolean shouldAddTypeAnnotation = false;
+
+    if (field.getAnnotation(DisplayName.class) != null) {
+      builder.displayName(field.getAnnotation(DisplayName.class).value());
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (field.getAnnotation(Summary.class) != null) {
+      builder.summary(field.getAnnotation(Summary.class).value());
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (shouldAddTypeAnnotation) {
+      fieldBuilder.with(new DisplayTypeAnnotation(builder.build()));
     }
   }
 
   private void processLayoutAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
     LayoutModel.LayoutModelBuilder builder = LayoutModel.builder();
+    boolean shouldAddTypeAnnotation = false;
     Placement placement = field.getAnnotation(Placement.class);
     if (placement != null) {
       builder.groupName(placement.group()).tabName(placement.tab()).order(placement.order());
+      shouldAddTypeAnnotation = true;
     }
 
     if (field.getAnnotation(Password.class) != null) {
       builder.asPassword();
+      shouldAddTypeAnnotation = true;
     }
 
     if (field.getAnnotation(Text.class) != null) {
       builder.asText();
+      shouldAddTypeAnnotation = true;
     }
 
     if (field.getAnnotation(Query.class) != null) {
       builder.asQuery();
+      shouldAddTypeAnnotation = true;
     }
 
-    fieldBuilder.with(new LayoutTypeAnnotation(builder.build()));
+    if (shouldAddTypeAnnotation) {
+      fieldBuilder.with(new LayoutTypeAnnotation(builder.build()));
+    }
   }
 
   private void setFieldType(TypeHandlerManager typeHandlerManager, ParsingContext context, Field field,
@@ -154,14 +177,14 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     final XmlHints annotation = field.getAnnotation(XmlHints.class);
     if (annotation != null) {
       fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(),
-                                               annotation.allowTopLevelDefinition(),
-                                               annotation.allowReferences()));
+              annotation.allowTopLevelDefinition(),
+              annotation.allowReferences()));
     }
   }
 
   private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
     org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
-        field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
+            field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
     if (optionalAnnotation != null) {
       fieldBuilder.required(false);
       if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL)) {
