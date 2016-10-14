@@ -91,14 +91,14 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   private void validateIllegalAnnotationUse(Class<?> clazz) {
     final String annotationsPackageName = Parameter.class.getPackage().getName();
     List<String> illegalFieldNames = getAllFields(clazz).stream()
-            .filter(field -> Stream.of(field.getAnnotations())
-                    .anyMatch(a -> a.annotationType().getName().contains(annotationsPackageName)))
-            .map(Field::getName)
-            .collect(toList());
+        .filter(field -> Stream.of(field.getAnnotations())
+            .anyMatch(a -> a.annotationType().getName().contains(annotationsPackageName)))
+        .map(Field::getName)
+        .collect(toList());
 
     if (!illegalFieldNames.isEmpty()) {
       throw new IllegalModelDefinitionException(format("Class '%s' has fields annotated with Extensions API annotations which are not parameters. "
-              + "Illegal fields are " + illegalFieldNames, clazz.getName()));
+          + "Illegal fields are " + illegalFieldNames, clazz.getName()));
     }
   }
 
@@ -177,14 +177,14 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     final XmlHints annotation = field.getAnnotation(XmlHints.class);
     if (annotation != null) {
       fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(),
-              annotation.allowTopLevelDefinition(),
-              annotation.allowReferences()));
+                                               annotation.allowTopLevelDefinition(),
+                                               annotation.allowReferences()));
     }
   }
 
   private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
     org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
-            field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
+        field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
     if (optionalAnnotation != null) {
       fieldBuilder.required(false);
       if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL)) {
