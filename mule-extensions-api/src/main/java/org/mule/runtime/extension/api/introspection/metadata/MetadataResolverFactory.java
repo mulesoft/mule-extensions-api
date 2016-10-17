@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.introspection.metadata;
 
 import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
-import org.mule.runtime.api.metadata.resolving.MetadataAttributesResolver;
+import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
@@ -42,11 +42,11 @@ public interface MetadataResolverFactory {
   <T> OutputTypeResolver<T> getOutputResolver();
 
   /**
-   * Provides an instance of the {@link MetadataAttributesResolver} type associated to the Component
+   * Provides an instance of the {@link AttributesTypeResolver} type associated to the Component
    *
-   * @return an instance of the {@link MetadataAttributesResolver}
+   * @return an instance of the {@link AttributesTypeResolver}
    */
-  <T> MetadataAttributesResolver<T> getOutputAttributesResolver();
+  <T> AttributesTypeResolver<T> getOutputAttributesResolver();
 
   /**
    * Provides an instance of the {@link QueryEntityResolver} type associated to a query operation.
