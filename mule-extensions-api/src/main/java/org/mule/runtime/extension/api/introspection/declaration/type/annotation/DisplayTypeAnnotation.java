@@ -45,7 +45,6 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
   }
 
   /**
-   *
    * @return the name which should be use to render this model.
    */
   public String getDisplayName() {
@@ -53,19 +52,24 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
   }
 
   /**
-   *
    * @return a brief overview about this model.
    */
   public String getSummary() {
     return displayModel.getSummary();
   }
 
+  /**
+   * @return the underlying {@link DisplayModel}
+   */
+  public DisplayModel getDisplayModel() {
+    return displayModel;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof DisplayTypeAnnotation) {
-      DisplayTypeAnnotation displayTypeAnnotation = ((DisplayTypeAnnotation) obj);
-      return Objects.equals(displayTypeAnnotation.getDisplayName(), this.getDisplayName()) &&
-          Objects.equals(displayTypeAnnotation.getSummary(), this.getSummary());
+      DisplayTypeAnnotation other = ((DisplayTypeAnnotation) obj);
+      return Objects.equals(other.getDisplayModel(), this.getDisplayModel());
     }
 
     return false;
