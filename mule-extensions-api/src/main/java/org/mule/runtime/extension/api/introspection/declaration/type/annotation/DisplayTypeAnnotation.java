@@ -11,6 +11,8 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 
+import java.util.Objects;
+
 /**
  * A {@link TypeAnnotation} that contains information about the name and summary that should be rendered in the UI for a
  * particular model.
@@ -62,8 +64,8 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
   public boolean equals(Object obj) {
     if (obj instanceof DisplayTypeAnnotation) {
       DisplayTypeAnnotation displayTypeAnnotation = ((DisplayTypeAnnotation) obj);
-      return displayTypeAnnotation.getDisplayName().equals(this.getDisplayName())
-          && displayTypeAnnotation.getSummary().equals(this.getSummary());
+      return Objects.equals(displayTypeAnnotation.getDisplayName(), this.getDisplayName()) &&
+          Objects.equals(displayTypeAnnotation.getSummary(), this.getSummary());
     }
 
     return false;

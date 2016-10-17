@@ -13,6 +13,8 @@ import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 
+import java.util.Objects;
+
 /**
  * A {@link TypeAnnotation} meant to be applied on {@link ObjectFieldType} instances and it contains information on how the field
  * should be rendered in the UI. That information is obtained through the {@link Text}, {@link Password} and {@link Placement}
@@ -95,11 +97,8 @@ public class LayoutTypeAnnotation implements TypeAnnotation {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof LayoutTypeAnnotation) {
-      LayoutTypeAnnotation layoutTypeAnnotation = ((LayoutTypeAnnotation) obj);
-      return layoutTypeAnnotation.isPassword() == this.isPassword() && layoutTypeAnnotation.isText() == this.isText()
-          && layoutTypeAnnotation.isQuery() == this.isQuery() && layoutTypeAnnotation.getOrder() == this.getOrder()
-          && layoutTypeAnnotation.getGroupName().equals(this.getGroupName())
-          && layoutTypeAnnotation.getTabName().equals(this.getTabName());
+      LayoutTypeAnnotation other = ((LayoutTypeAnnotation) obj);
+      return Objects.equals(other.getLayoutModel(), this.getLayoutModel());
     }
 
     return false;
