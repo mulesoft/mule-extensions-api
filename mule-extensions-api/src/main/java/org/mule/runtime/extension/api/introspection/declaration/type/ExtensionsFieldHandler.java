@@ -6,12 +6,6 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
-import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -20,15 +14,23 @@ import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
+import org.mule.runtime.extension.api.annotation.Query;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
+import org.mule.runtime.extension.api.annotation.param.display.Password;
+import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.FlattenedTypeAnnotation;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.beans.Introspector;
@@ -39,13 +41,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
+
 /**
- * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s
- * by looking for, and following the rules, of the Extensions API annotations.
+ * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s by looking for, and following the
+ * rules, of the Extensions API annotations.
  * <p>
- * If the introspected class does not contain such annotations, then {@link Introspector#getBeanInfo(Class)}
- * is used to obtain the class properties. Those properties will be managed as optional parameters, without
- * a default value
+ * If the introspected class does not contain such annotations, then {@link Introspector#getBeanInfo(Class)} is used to obtain the
+ * class properties. Those properties will be managed as optional parameters, without a default value
  *
  * @since 1.0
  */
@@ -54,7 +62,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   @Override
   public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
                            ObjectTypeBuilder builder) {
-    //TODO: MULE-9454
+    // TODO: MULE-9454
     if (clazz.getName().equals("org.mule.runtime.core.api.NestedProcessor")) {
       return;
     }
@@ -72,9 +80,10 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
       setOptionalAndDefault(field, fieldBuilder);
       processesParameterGroup(field, fieldBuilder);
-      processTextAnnotation(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
+      processLayoutAnnotation(field, fieldBuilder);
+      processDisplayAnnotation(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
     }
   }
@@ -99,9 +108,51 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void processTextAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processDisplayAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    DisplayModel.DisplayModelBuilder builder = DisplayModel.builder();
+    boolean shouldAddTypeAnnotation = false;
+
+    if (field.getAnnotation(DisplayName.class) != null) {
+      builder.displayName(field.getAnnotation(DisplayName.class).value());
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (field.getAnnotation(Summary.class) != null) {
+      builder.summary(field.getAnnotation(Summary.class).value());
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (shouldAddTypeAnnotation) {
+      fieldBuilder.with(new DisplayTypeAnnotation(builder.build()));
+    }
+  }
+
+  private void processLayoutAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+    LayoutModel.LayoutModelBuilder builder = LayoutModel.builder();
+    boolean shouldAddTypeAnnotation = false;
+    Placement placement = field.getAnnotation(Placement.class);
+    if (placement != null) {
+      builder.groupName(placement.group()).tabName(placement.tab()).order(placement.order());
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (field.getAnnotation(Password.class) != null) {
+      builder.asPassword();
+      shouldAddTypeAnnotation = true;
+    }
+
     if (field.getAnnotation(Text.class) != null) {
-      fieldBuilder.with(new TextTypeAnnotation());
+      builder.asText();
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (field.getAnnotation(Query.class) != null) {
+      builder.asQuery();
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (shouldAddTypeAnnotation) {
+      fieldBuilder.with(new LayoutTypeAnnotation(builder.build()));
     }
   }
 

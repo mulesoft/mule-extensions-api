@@ -457,9 +457,16 @@
                     }
                   },
                   "annotations": {
-                    "text": {},
                     "expressionSupport": {
                       "value": "SUPPORTED"
+                    },
+                    "layout": {
+                      "layoutModel": {
+                        "password": false,
+                        "text": true,
+                        "query": false,
+                        "order": 0
+                      }
                     }
                   }
                 }
@@ -999,9 +1006,16 @@
                     }
                   },
                   "annotations": {
-                    "text": {},
                     "expressionSupport": {
                       "value": "SUPPORTED"
+                    },
+                    "layout": {
+                      "layoutModel": {
+                        "password": false,
+                        "text": true,
+                        "query": false,
+                        "order": 0
+                      }
                     }
                   }
                 }

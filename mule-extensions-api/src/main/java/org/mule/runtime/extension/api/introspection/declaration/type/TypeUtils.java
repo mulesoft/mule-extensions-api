@@ -6,19 +6,16 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static java.util.stream.Collectors.toList;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Ignore;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.ExpressionSupportAnnotation;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TextTypeAnnotation;
+import org.mule.runtime.extension.api.introspection.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.introspection.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.api.meta.ExpressionSupport;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -26,6 +23,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model
@@ -115,8 +116,9 @@ public final class TypeUtils {
    * @return a {@link LayoutModel} if the {@code metadataType} contains layout information
    */
   public static Optional<LayoutModel> getLayoutModel(MetadataType metadataType) {
-    if (metadataType.getAnnotation(TextTypeAnnotation.class).isPresent()) {
-      return of(LayoutModel.builder().asText().build());
+    if (metadataType.getAnnotation(LayoutTypeAnnotation.class).isPresent()) {
+      LayoutTypeAnnotation layoutTypeAnnotation = metadataType.getAnnotation(LayoutTypeAnnotation.class).get();
+      return of(layoutTypeAnnotation.getLayoutModel());
     }
 
     return empty();
