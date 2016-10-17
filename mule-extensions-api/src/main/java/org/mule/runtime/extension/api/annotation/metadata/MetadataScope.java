@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.annotation.metadata;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.extension.api.annotation.Extension;
@@ -49,5 +50,10 @@ public @interface MetadataScope {
    * @return the associated {@link OutputTypeResolver} for the annotated Component
    */
   Class<? extends OutputTypeResolver> outputResolver() default NullMetadataResolver.class;
+
+  /**
+   * @return the associated {@link AttributesTypeResolver} for the annotated Component
+   */
+  Class<? extends AttributesTypeResolver> attributesResolver() default NullMetadataResolver.class;
 
 }
