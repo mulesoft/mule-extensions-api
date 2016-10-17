@@ -58,18 +58,12 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
     return displayModel.getSummary();
   }
 
-  /**
-   * @return the underlying {@link DisplayModel}
-   */
-  public DisplayModel getDisplayModel() {
-    return displayModel;
-  }
 
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof DisplayTypeAnnotation) {
       DisplayTypeAnnotation other = ((DisplayTypeAnnotation) obj);
-      return Objects.equals(other.getDisplayModel(), this.getDisplayModel());
+      return Objects.equals(other.displayModel, this.displayModel);
     }
 
     return false;
