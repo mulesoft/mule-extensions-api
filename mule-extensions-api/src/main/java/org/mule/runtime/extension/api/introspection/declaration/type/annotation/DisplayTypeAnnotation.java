@@ -7,12 +7,16 @@
 package org.mule.runtime.extension.api.introspection.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
-import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 
 /**
- * Used to specify the alias name of the annotated {@link MetadataType}
- *
+ * A {@link TypeAnnotation} that contains information about the name and summary that should be rendered in the UI for a
+ * particular model.
+ * 
+ * That information is obtained through the {@link DisplayName} and {@link Summary} annotations.
+ * 
  * @since 1.0
  */
 public class DisplayTypeAnnotation implements TypeAnnotation {
@@ -21,29 +25,52 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
 
   private final DisplayModel displayModel;
 
+  /**
+   * Creates a new instance
+   *
+   * @param displayModel a {@link DisplayModel}
+   */
   public DisplayTypeAnnotation(DisplayModel displayModel) {
     this.displayModel = displayModel;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getName() {
     return NAME;
   }
 
+  /**
+   *
+   * @return the name which should be use to render this model.
+   */
   public String getDisplayName() {
     return displayModel.getDisplayName();
   }
 
+  /**
+   *
+   * @return a brief overview about this model.
+   */
   public String getSummary() {
     return displayModel.getSummary();
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof DisplayTypeAnnotation))
-      return false;
-    DisplayTypeAnnotation displayTypeAnnotation = ((DisplayTypeAnnotation) obj);
-    return displayTypeAnnotation.getDisplayName().equals(this.getDisplayName())
-        && displayTypeAnnotation.getSummary().equals(this.getSummary());
+    if (obj instanceof DisplayTypeAnnotation) {
+      DisplayTypeAnnotation displayTypeAnnotation = ((DisplayTypeAnnotation) obj);
+      return displayTypeAnnotation.getDisplayName().equals(this.getDisplayName())
+          && displayTypeAnnotation.getSummary().equals(this.getSummary());
+    }
+
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return displayModel.hashCode();
   }
 }
