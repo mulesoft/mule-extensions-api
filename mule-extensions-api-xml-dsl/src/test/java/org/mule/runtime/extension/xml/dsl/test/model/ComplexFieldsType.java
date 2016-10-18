@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.xml.dsl.test.model;
 
-import org.mule.runtime.extension.api.annotation.Parameter;
-import org.mule.runtime.extension.api.annotation.ParameterGroup;
+import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 
 import java.util.List;
 

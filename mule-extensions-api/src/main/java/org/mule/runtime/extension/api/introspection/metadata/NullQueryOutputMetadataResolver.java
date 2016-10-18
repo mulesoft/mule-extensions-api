@@ -12,7 +12,7 @@ import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
-import org.mule.runtime.extension.api.annotation.Query;
+import org.mule.runtime.extension.api.annotation.param.Query;
 
 /**
  * Null implementation of {@link OutputTypeResolver} used to represent the absence of output resolver

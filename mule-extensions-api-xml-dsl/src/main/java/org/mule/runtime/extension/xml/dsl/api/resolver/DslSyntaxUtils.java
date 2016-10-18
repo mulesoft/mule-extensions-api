@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toMap;
+import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.DictionaryType;
@@ -33,12 +38,6 @@ import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toMap;
-import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
-import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
-import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
 
 /**
  * Utils class with helper methods for the {@link DslSyntaxResolver}

@@ -4,9 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.annotation;
-
-import org.mule.runtime.extension.api.annotation.param.Optional;
+package org.mule.runtime.extension.api.annotation.param;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

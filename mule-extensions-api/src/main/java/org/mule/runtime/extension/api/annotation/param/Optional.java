@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.api.annotation.param;
 
-import org.mule.runtime.extension.api.annotation.Parameter;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

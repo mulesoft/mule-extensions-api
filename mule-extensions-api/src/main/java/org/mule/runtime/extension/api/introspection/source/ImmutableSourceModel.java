@@ -23,11 +23,14 @@ import java.util.Set;
  */
 public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel {
 
+  private final boolean hasResponse;
+
   /**
    * Creates a new instance
    *
    * @param name             the source name. Cannot be blank
    * @param description      the source description
+   * @param hasResponse      Whether the source emits a response
    * @param parameterModels  a {@link List} with the source's {@link ParameterModel parameterModels}
    * @param output           an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes an {@link OutputModel} which represents the attributes on the output me
@@ -36,12 +39,21 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    */
   public ImmutableSourceModel(String name,
                               String description,
+                              boolean hasResponse,
                               List<ParameterModel> parameterModels,
                               OutputModel output,
                               OutputModel outputAttributes,
                               DisplayModel displayModel,
                               Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties, parameterModels, output, outputAttributes);
+    this.hasResponse = hasResponse;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean hasResponse() {
+    return hasResponse;
+  }
 }

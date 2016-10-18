@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
+import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 import org.mule.runtime.extension.api.runtime.RetryRequest;
 
@@ -26,14 +27,14 @@ public interface Interceptor {
    * Executes before the operation is executed.
    * <p/>
    * If this method fails, the exception will be  bubbled up right away.
-   * No other method in this interceptor will be executed (not even the {@link #after(OperationContext, Object)},
+   * No other method in this interceptor will be executed (not even the {@link #after(ExecutionContext, Object)},
    * nor any other of the interceptors in line will be executed either. Because of this, no implementation
    * should rely on the execution of any other method in this or other interceptor
    *
-   * @param operationContext the {@link OperationContext} for the operation to be executed
+   * @param executionContext the {@link ExecutionContext} for the operation to be executed
    * @throws Exception in case of error
    */
-  default void before(OperationContext operationContext) throws Exception {
+  default void before(ExecutionContext<OperationModel> executionContext) throws Exception {
 
   }
 
@@ -43,13 +44,13 @@ public interface Interceptor {
    * Implementations of this method should not fail. If they do throw any exception, it will
    * be logged and ignored.
    * <p/>
-   * The {@link #after(OperationContext, Object)} method is guaranteed to be executed regardless
+   * The {@link #after(ExecutionContext, Object)} method is guaranteed to be executed regardless
    * of this method's outcome in {@code this} or other involved instances
    *
-   * @param operationContext the {@link OperationContext} that was used to execute the operation
+   * @param executionContext the {@link ExecutionContext} that was used to execute the operation
    * @param result           the result of the operation. Can be {@code null} if the operation itself returned that.
    */
-  default void onSuccess(OperationContext operationContext, Object result) {}
+  default void onSuccess(ExecutionContext<OperationModel> executionContext, Object result) {}
 
   /**
    * Executes when the execution of an operation threw exception.
@@ -68,45 +69,45 @@ public interface Interceptor {
    * Some interceptors might deal with the concept of retries. For example, an operation failing because of
    * stale connection might attempt to reconnect and try again. For such interceptors, a {@code retryRequest}
    * is provided so that a retry can be requested. The runtime is not obligated to grant such request and might
-   * decide to ignore it. Notice that the {@link #onError(OperationContext, RetryRequest, Throwable)} and
-   * {@link #after(OperationContext, Object)} method in all the other interceptors in line will be executed before the
+   * decide to ignore it. Notice that the {@link #onError(ExecutionContext, RetryRequest, Throwable)} and
+   * {@link #after(ExecutionContext, Object)} method in all the other interceptors in line will be executed before the
    * runtime decides to ignore/grant the retry request. If the petition is granted, then not only the operation will be
-   * re-executed. The whole interceptor chain (including the {@link #before(OperationContext)} will also be executed again.
+   * re-executed. The whole interceptor chain (including the {@link #before(ExecutionContext)} will also be executed again.
    * <p/>
    * Implementations of this method should not fail. If they do throw any exception, it will
    * be logged and ignored.
    * <p/>
-   * The {@link #after(OperationContext, Object)} method is guaranteed to be executed regardless
+   * The {@link #after(ExecutionContext, Object)} method is guaranteed to be executed regardless
    * of this method's outcome in {@code this} or other involved instances
    *
-   * @param operationContext the {@link OperationContext} that was used to execute the operation
+   * @param executionContext the {@link ExecutionContext} that was used to execute the operation
    * @param retryRequest     a {@link RetryRequest} in case that the operation should be retried
    * @param exception        the {@link Exception} that was thrown by the failing operation
    * @return the {@link Exception} that should be propagated forward
    */
-  default Throwable onError(OperationContext operationContext, RetryRequest retryRequest, Throwable exception) {
+  default Throwable onError(ExecutionContext<OperationModel> executionContext, RetryRequest retryRequest, Throwable exception) {
     return exception;
   }
 
   /**
    * Executes after the execution of an operation is finished, regardless of it being successful or not.
    * <p/>
-   * In practical terms, it executes after the {@link #onSuccess(OperationContext, Object)} or
-   * {@link #onError(OperationContext, RetryRequest, Throwable)} but it doesn't execute if
-   * {@link #before(OperationContext)} threw exception.
+   * In practical terms, it executes after the {@link #onSuccess(ExecutionContext, Object)} or
+   * {@link #onError(ExecutionContext, RetryRequest, Throwable)} but it doesn't execute if
+   * {@link #before(ExecutionContext)} threw exception.
    * <p/>
    * The {@code result} argument holds the return value of the operation. Because this method is invoked
    * even if the operation failed, then the {@code result} will be a {@code null} in such a case. However,
    * notice that testing {@code result} for being {@code null} is not an indicator of the operation having
    * failed or not, since the operation might have successfully returned {@code null}. This method should
    * be used for actions that should take place &quot;no matter what&quot;. Actions that should depend on
-   * the operation's outcome are to be implemented using {@link #onSuccess(OperationContext, Object)} or
-   * {@link #onError(OperationContext, RetryRequest, Throwable)}
+   * the operation's outcome are to be implemented using {@link #onSuccess(ExecutionContext, Object)} or
+   * {@link #onError(ExecutionContext, RetryRequest, Throwable)}
    *
-   * @param operationContext the {@link OperationContext} that was used to execute the operation
+   * @param executionContext the {@link ExecutionContext} that was used to execute the operation
    * @param result           the result of the operation. Can be {@code null} if the operation itself returned that or failed.
    */
-  default void after(OperationContext operationContext, Object result) {
+  default void after(ExecutionContext<OperationModel> executionContext, Object result) {
 
   }
 

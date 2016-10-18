@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+
 /**
  * A facade interface which hides the details of how an
  * operation is actually executed. It aims to decouple
@@ -18,13 +20,13 @@ package org.mule.runtime.extension.api.runtime.operation;
 public interface OperationExecutor {
 
   /**
-   * Executes the owning operation using the given {@code operationContext}.
+   * Executes the owning operation using the given {@code executionContext}.
    * It returns a future to allow implementations on top of non-blocking execution engines.
    * This doesn't mean that it has to be executed in a non-blocking manner. Synchronous environments
    * can always return an immediate future.
    *
-   * @param operationContext a {@link OperationContext} with information about the execution
+   * @param executionContext a {@link ExecutionContext} with information about the execution
    * @return the operations return value
    */
-  <T> T execute(OperationContext operationContext) throws Exception;
+  Object execute(ExecutionContext<OperationModel> executionContext) throws Exception;
 }
