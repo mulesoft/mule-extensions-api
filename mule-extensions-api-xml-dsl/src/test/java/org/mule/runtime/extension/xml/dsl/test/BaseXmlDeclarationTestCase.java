@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.metadata.api.ClassTypeLoader;

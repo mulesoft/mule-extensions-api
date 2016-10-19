@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.metadata.java.api.JavaTypeLoader.JAVA;
-import static org.mule.metadata.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
