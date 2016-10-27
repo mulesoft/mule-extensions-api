@@ -23,14 +23,16 @@ import org.mule.runtime.api.meta.model.source.SourceModel;
 public final class MetadataKeyIdModelProperty implements ModelProperty {
 
   private final MetadataType type;
+  private final String parameterName;
 
   /**
    * Creates a new instance.
    *
    * @param type of the {@link ParameterModel} annotated with {@link MetadataKeyId}.
    */
-  public MetadataKeyIdModelProperty(MetadataType type) {
+  public MetadataKeyIdModelProperty(MetadataType type, String parameterName) {
     this.type = type;
+    this.parameterName = parameterName;
   }
 
   /**
@@ -54,5 +56,12 @@ public final class MetadataKeyIdModelProperty implements ModelProperty {
    */
   public MetadataType getType() {
     return type;
+  }
+
+  /**
+   * @return the parameter name that is considered as the {@link MetadataKeyId}
+   */
+  public String getParameterName() {
+    return parameterName;
   }
 }
