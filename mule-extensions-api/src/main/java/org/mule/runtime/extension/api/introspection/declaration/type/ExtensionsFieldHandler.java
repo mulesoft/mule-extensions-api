@@ -6,6 +6,12 @@
  */
 package org.mule.runtime.extension.api.introspection.declaration.type;
 
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
+import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -41,13 +47,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAlias;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getAllFields;
-import static org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils.getParameterFields;
-
 /**
  * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s by looking for, and following the
  * rules, of the Extensions API annotations.
@@ -75,7 +74,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
 
     for (Field field : fields) {
-      final ObjectFieldTypeBuilder<?> fieldBuilder = builder.addField();
+      final ObjectFieldTypeBuilder fieldBuilder = builder.addField();
       fieldBuilder.key(getAlias(field));
 
       setOptionalAndDefault(field, fieldBuilder);
@@ -102,13 +101,13 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void processesParameterGroup(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processesParameterGroup(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     if (field.getAnnotation(ParameterGroup.class) != null) {
       fieldBuilder.with(new FlattenedTypeAnnotation());
     }
   }
 
-  private void processDisplayAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processDisplayAnnotation(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     DisplayModel.DisplayModelBuilder builder = DisplayModel.builder();
     boolean shouldAddTypeAnnotation = false;
 
@@ -127,7 +126,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void processLayoutAnnotation(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processLayoutAnnotation(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     LayoutModel.LayoutModelBuilder builder = LayoutModel.builder();
     boolean shouldAddTypeAnnotation = false;
     Placement placement = field.getAnnotation(Placement.class);
@@ -157,7 +156,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   }
 
   private void setFieldType(TypeHandlerManager typeHandlerManager, ParsingContext context, Field field,
-                            ObjectFieldTypeBuilder<?> fieldBuilder) {
+                            ObjectFieldTypeBuilder fieldBuilder) {
     final Type fieldType = field.getGenericType();
     final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(fieldType);
 
@@ -168,12 +167,12 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void processExpressionSupport(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processExpressionSupport(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     Expression expression = field.getAnnotation(Expression.class);
     fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
   }
 
-  private void processElementStyle(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void processElementStyle(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     final XmlHints annotation = field.getAnnotation(XmlHints.class);
     if (annotation != null) {
       fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(),
@@ -182,7 +181,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder<?> fieldBuilder) {
+  private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
         field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
     if (optionalAnnotation != null) {
