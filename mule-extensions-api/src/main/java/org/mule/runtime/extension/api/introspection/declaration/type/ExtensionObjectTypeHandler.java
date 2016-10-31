@@ -37,9 +37,9 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
 
   @Override
   public TypeBuilder<?> handleClass(Class<?> clazz, List<Type> genericTypes, TypeHandlerManager typeHandlerManager,
-                                    ParsingContext context, BaseTypeBuilder<?> typeBuilder) {
-    final ObjectTypeBuilder<?> objectType = (ObjectTypeBuilder<?>) super.handleClass(clazz, genericTypes,
-                                                                                     typeHandlerManager, context, typeBuilder);
+                                    ParsingContext context, BaseTypeBuilder typeBuilder) {
+    final ObjectTypeBuilder objectType = (ObjectTypeBuilder) super.handleClass(clazz, genericTypes,
+                                                                               typeHandlerManager, context, typeBuilder);
 
     if (clazz.isAnnotationPresent(Extensible.class)) {
       objectType.with(new ExtensibleTypeAnnotation());

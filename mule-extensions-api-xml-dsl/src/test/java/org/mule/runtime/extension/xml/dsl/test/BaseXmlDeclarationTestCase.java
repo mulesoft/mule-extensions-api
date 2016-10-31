@@ -66,7 +66,7 @@ public abstract class BaseXmlDeclarationTestCase {
   static final String SOURCE_NAME = "source";
   static final String CONFIGURATION_NAME = "configuration";
   static final String CONNECTION_PROVIDER_NAME = "connection";
-  static final BaseTypeBuilder<?> TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
+  static final BaseTypeBuilder TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
 
   @Mock
   protected ExtensionModel extension;
