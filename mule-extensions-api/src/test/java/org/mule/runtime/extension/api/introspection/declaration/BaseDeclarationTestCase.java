@@ -27,7 +27,7 @@ import java.util.Optional;
 
 public abstract class BaseDeclarationTestCase {
 
-  protected final BaseTypeBuilder<?> typeBuilder = BaseTypeBuilder.create(JAVA);
+  protected final BaseTypeBuilder typeBuilder = BaseTypeBuilder.create(JAVA);
   protected final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
   protected void assertParameter(ParameterDeclaration parameter,
