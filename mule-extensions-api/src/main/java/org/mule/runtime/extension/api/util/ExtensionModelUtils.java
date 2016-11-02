@@ -26,9 +26,9 @@ import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
-import org.mule.runtime.extension.api.introspection.property.ConfigTypeModelProperty;
-import org.mule.runtime.extension.api.introspection.property.ConnectivityModelProperty;
-import org.mule.runtime.extension.api.introspection.property.PagedOperationModelProperty;
+import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
+import org.mule.runtime.extension.api.model.property.ConnectivityModelProperty;
+import org.mule.runtime.extension.api.model.property.PagedOperationModelProperty;
 
 import java.util.Collection;
 import java.util.LinkedList;

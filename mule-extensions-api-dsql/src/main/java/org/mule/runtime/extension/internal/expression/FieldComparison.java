@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.internal.expression;
 
-import org.mule.runtime.extension.api.introspection.dsql.Field;
-import org.mule.runtime.extension.api.introspection.dsql.QueryTranslator;
-import org.mule.runtime.extension.api.introspection.dsql.Value;
+import org.mule.runtime.extension.api.dsql.Field;
+import org.mule.runtime.extension.api.dsql.QueryTranslator;
+import org.mule.runtime.extension.api.dsql.Value;
 import org.mule.runtime.extension.internal.operator.BinaryOperator;
 
 /**

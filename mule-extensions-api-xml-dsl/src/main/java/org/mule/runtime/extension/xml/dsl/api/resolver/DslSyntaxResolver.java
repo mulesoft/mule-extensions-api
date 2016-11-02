@@ -41,7 +41,7 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.extension.api.introspection.property.MetadataContentModelProperty;
+import org.mule.runtime.extension.api.model.property.ContentParameterModelProperty;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.internal.DslElementSyntaxBuilder;
@@ -110,7 +110,7 @@ public class DslSyntaxResolver {
     final String namespace = getNamespace(parameter.getType());
     final String namespaceUri = getNamespaceUri(parameter.getType());
     final ElementDslModel dslModel = parameter.getDslModel();
-    final boolean isContent = parameter.getModelProperty(MetadataContentModelProperty.class).isPresent();
+    final boolean isContent = parameter.getModelProperty(ContentParameterModelProperty.class).isPresent();
 
     parameter.getType().accept(
                                new MetadataTypeVisitor() {

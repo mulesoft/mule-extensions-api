@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.internal.value;
 
-import org.mule.runtime.extension.api.introspection.dsql.Value;
+import org.mule.runtime.extension.api.dsql.Value;
 
 /**
  * {@link Value} implementation, that represents an integer.

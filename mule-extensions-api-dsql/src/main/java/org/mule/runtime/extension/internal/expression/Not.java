@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.expression;
 
 
-import org.mule.runtime.extension.api.introspection.dsql.QueryTranslator;
+import org.mule.runtime.extension.api.dsql.QueryTranslator;
 
 /**
  * Represents the NOT expression

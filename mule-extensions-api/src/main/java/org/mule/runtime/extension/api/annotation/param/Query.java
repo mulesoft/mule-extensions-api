@@ -11,8 +11,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
 import org.mule.runtime.api.meta.model.ComponentModel;
-import org.mule.runtime.extension.api.introspection.dsql.QueryTranslator;
-import org.mule.runtime.extension.api.introspection.metadata.NullQueryOutputMetadataResolver;
+import org.mule.runtime.extension.api.dsql.QueryTranslator;
+import org.mule.runtime.extension.api.metadata.NullQueryOutputMetadataResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

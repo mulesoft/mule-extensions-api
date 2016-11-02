@@ -7,10 +7,6 @@
 package org.mule.runtime.extension.api.dsql;
 
 import static java.util.Collections.unmodifiableList;
-import org.mule.runtime.extension.api.introspection.dsql.Direction;
-import org.mule.runtime.extension.api.introspection.dsql.EntityType;
-import org.mule.runtime.extension.api.introspection.dsql.Field;
-import org.mule.runtime.extension.api.introspection.dsql.QueryTranslator;
 import org.mule.runtime.extension.internal.expression.EmptyExpression;
 import org.mule.runtime.extension.internal.expression.Expression;
 
