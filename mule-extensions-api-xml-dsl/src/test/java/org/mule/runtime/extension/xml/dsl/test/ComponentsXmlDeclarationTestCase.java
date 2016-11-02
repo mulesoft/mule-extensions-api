@@ -13,16 +13,21 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
 import org.mule.runtime.extension.api.model.property.ConnectivityModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.runners.Parameterized;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Parameterized.class)
 public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
+
+  public ComponentsXmlDeclarationTestCase(ParameterRole role) {
+    super(role);
+  }
 
   @Test
   public void testOperationDeclaration() {

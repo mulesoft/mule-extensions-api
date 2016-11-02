@@ -6,16 +6,23 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PARAMETERIZATION;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
-import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -23,10 +30,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model
@@ -109,6 +112,16 @@ public final class TypeUtils {
     return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
         .map(ExpressionSupportAnnotation::getExpressionSupport)
         .orElse(ExpressionSupport.SUPPORTED);
+  }
+
+  public static ParameterRole getParameterRole(MetadataType metadataType) {
+    return metadataType.getAnnotation(ParameterRoleAnnotation.class)
+        .map(ParameterRoleAnnotation::getRole)
+        .orElse(PARAMETERIZATION);
+  }
+
+  public static boolean isContent(MetadataType type) {
+    return ExtensionModelUtils.isContent(getParameterRole(type));
   }
 
   /**

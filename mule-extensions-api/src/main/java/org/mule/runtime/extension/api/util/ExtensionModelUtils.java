@@ -10,6 +10,10 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PARAMETERIZATION;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
+import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
@@ -21,11 +25,13 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
+import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
 import org.mule.runtime.extension.api.model.property.ConnectivityModelProperty;
 import org.mule.runtime.extension.api.model.property.PagedOperationModelProperty;
@@ -34,6 +40,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -153,6 +160,19 @@ public class ExtensionModelUtils {
   public static boolean isConnected(EnrichableModel component) {
     return component.getModelProperty(ConnectivityModelProperty.class).isPresent() ||
         component.getModelProperty(PagedOperationModelProperty.class).isPresent();
+  }
+
+  public static boolean isContent(ParameterModel parameterModel) {
+    return isContent(parameterModel.getRole());
+  }
+
+  public static boolean isContent(ParameterRole purpose) {
+    checkArgument(purpose != null, "cannot evaluate null purpose");
+    return purpose != PARAMETERIZATION;
+  }
+
+  public static ParameterRole roleOf(Optional<Content> content) {
+    return content.map(c -> c.primary() ? PRIMARY_CONTENT : CONTENT).orElse(PARAMETERIZATION);
   }
 
   public static Map<MetadataType, Set<MetadataType>> toSubTypesMap(Collection<SubTypesModel> subTypes) {

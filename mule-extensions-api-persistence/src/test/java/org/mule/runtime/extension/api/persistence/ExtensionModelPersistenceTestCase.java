@@ -21,6 +21,7 @@ import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PARAMETERIZATION;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -34,18 +35,18 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
-import org.mule.runtime.extension.api.model.ImmutableOutputModel;
-import org.mule.runtime.extension.api.runtime.connectivity.ConnectionProviderFactory;
-import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
+import org.mule.runtime.extension.api.model.ImmutableOutputModel;
+import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
+import org.mule.runtime.extension.api.runtime.connectivity.ConnectionProviderFactory;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -93,19 +94,19 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   public void setUp() {
     final ImmutableParameterModel carNameParameter =
         new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "",
-                                    defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
+                                    PARAMETERIZATION, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "",
-                                    defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
+                                    PARAMETERIZATION, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "",
-                                    defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
+                                    PARAMETERIZATION, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel complexParameter =
         new ImmutableParameterModel(COMPLEX_PARAMETER_NAME, "complex type to serialize",
                                     ExtensionsTypeLoaderFactory.getDefault()
                                         .createTypeLoader()
                                         .load(ComplexFieldsType.class),
-                                    false, true, SUPPORTED, null, defaultParameterDsl,
+                                    false, true, SUPPORTED, null, PARAMETERIZATION, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
     getCarOperation =

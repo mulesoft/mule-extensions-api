@@ -9,9 +9,11 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -23,21 +25,23 @@ import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Query;
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
-import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -182,15 +186,24 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   }
 
   private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
-        field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
-    if (optionalAnnotation != null) {
+    Optional<Content> content = Optional.ofNullable(field.getAnnotation(Content.class));
+    if (content.isPresent()) {
+      fieldBuilder.with(new ParameterRoleAnnotation(roleOf(content)));
       fieldBuilder.required(false);
-      if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL)) {
-        fieldBuilder.with(new DefaultValueAnnotation(optionalAnnotation.defaultValue()));
+      if (content.get().primary()) {
+        fieldBuilder.with(new DefaultValueAnnotation(PAYLOAD));
       }
     } else {
-      fieldBuilder.required(true);
+      org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
+          field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
+      if (optionalAnnotation != null) {
+        fieldBuilder.required(false);
+        if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL)) {
+          fieldBuilder.with(new DefaultValueAnnotation(optionalAnnotation.defaultValue()));
+        }
+      } else {
+        fieldBuilder.required(true);
+      }
     }
   }
 
