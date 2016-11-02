@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.internal.operator;
 
-import org.mule.runtime.extension.api.introspection.dsql.OperatorTranslator;
+import org.mule.runtime.extension.api.dsql.OperatorTranslator;
 
 /**
  * Represents a greater operator

@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.dsql;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import org.mule.runtime.extension.api.introspection.dsql.Direction;
 import org.mule.runtime.extension.internal.operator.EqualsOperator;
 import org.mule.runtime.extension.internal.expression.FieldComparison;
 import org.mule.runtime.extension.internal.operator.LessOperator;

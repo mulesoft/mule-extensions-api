@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.grammar;
 
 
-import org.mule.runtime.extension.api.introspection.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.Direction;
 
 import java.util.HashMap;
 

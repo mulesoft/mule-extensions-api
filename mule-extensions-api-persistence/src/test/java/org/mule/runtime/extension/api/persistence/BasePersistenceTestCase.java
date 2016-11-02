@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.mule.metadata.api.ClassTypeLoader;
-import org.mule.runtime.extension.api.introspection.declaration.type.DefaultExtensionsTypeLoaderFactory;
+import org.mule.runtime.extension.api.declaration.type.DefaultExtensionsTypeLoaderFactory;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;

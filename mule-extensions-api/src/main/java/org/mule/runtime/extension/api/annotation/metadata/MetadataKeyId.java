@@ -15,7 +15,7 @@ import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.Query;
-import org.mule.runtime.extension.api.introspection.metadata.NullMetadataResolver;
+import org.mule.runtime.extension.api.metadata.NullMetadataResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -27,9 +27,6 @@ import java.lang.annotation.Target;
  * or Extension level, which will return the list of available the {@link MetadataKey} or also, the lookup can be resolved
  * by the {@link QueryEntityResolver#getEntityKeys(MetadataContext)} for {@link Query} annotated operations, this time the
  * key will represent the query (DSQL or Native) which is used to calculate the output metadata.
- * <br/>
- * At design time, the selected {@link MetadataKey} of the annotated parameter will be taken as the key to provide metadata
- * for the parameter annotated with {@link Content} in a Operation and/or for output metadata of an Operation or Source.
  * <p>
  * <b>Annotation Usage:</b>
  * <ul>

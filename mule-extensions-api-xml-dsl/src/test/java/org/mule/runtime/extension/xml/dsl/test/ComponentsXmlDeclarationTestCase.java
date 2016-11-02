@@ -13,8 +13,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import org.mule.runtime.extension.api.introspection.property.ConfigTypeModelProperty;
-import org.mule.runtime.extension.api.introspection.property.ConnectivityModelProperty;
+import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
+import org.mule.runtime.extension.api.model.property.ConnectivityModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 
 import org.junit.Test;

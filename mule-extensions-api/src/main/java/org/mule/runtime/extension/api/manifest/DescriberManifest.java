@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.manifest;
 
-import org.mule.runtime.extension.api.introspection.declaration.spi.Describer;
+import org.mule.runtime.extension.api.declaration.spi.Describer;
 import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder.DescriberManifestBuilder;
 
 import java.util.Map;

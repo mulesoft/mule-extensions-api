@@ -8,9 +8,6 @@ package org.mule.runtime.extension.api.dsql;
 
 import static org.junit.Assert.assertEquals;
 import static org.mule.runtime.extension.internal.value.IdentifierValue.fromLiteral;
-import org.mule.runtime.extension.api.introspection.dsql.Direction;
-import org.mule.runtime.extension.api.introspection.dsql.EntityType;
-import org.mule.runtime.extension.api.introspection.dsql.Field;
 import org.mule.runtime.extension.internal.expression.And;
 import org.mule.runtime.extension.internal.operator.EqualsOperator;
 import org.mule.runtime.extension.internal.expression.Expression;

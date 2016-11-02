@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.dsql;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertThat;
-import org.mule.runtime.extension.api.introspection.dsql.Direction;
 import org.mule.runtime.extension.internal.MuleDsqlLexer;
 import org.mule.runtime.extension.internal.MuleDsqlParser;
 import org.mule.runtime.extension.internal.exception.DsqlParsingException;

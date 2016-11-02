@@ -21,7 +21,7 @@ import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.extension.api.annotation.Alias;
-import org.mule.runtime.extension.api.introspection.declaration.type.annotation.TypeAliasAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 import org.junit.Before;
 import org.junit.Test;

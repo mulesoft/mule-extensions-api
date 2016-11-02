@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.operator;
 
 
-import org.mule.runtime.extension.api.introspection.dsql.DefaultOperatorTranslator;
+import org.mule.runtime.extension.api.dsql.DefaultOperatorTranslator;
 
 /**
  * Base contract for all binary operators.

@@ -8,8 +8,8 @@ package org.mule.runtime.extension.api.persistence;
 
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.extension.api.introspection.property.MetadataKeyIdModelProperty;
-import org.mule.runtime.extension.api.introspection.property.MetadataKeyPartModelProperty;
+import org.mule.runtime.extension.api.model.property.MetadataKeyIdModelProperty;
+import org.mule.runtime.extension.api.model.property.MetadataKeyPartModelProperty;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;

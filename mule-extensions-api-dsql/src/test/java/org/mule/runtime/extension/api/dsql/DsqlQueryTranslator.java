@@ -6,14 +6,6 @@
  */
 package org.mule.runtime.extension.api.dsql;
 
-import org.mule.runtime.extension.api.introspection.dsql.DefaultOperatorTranslator;
-import org.mule.runtime.extension.api.introspection.dsql.Direction;
-import org.mule.runtime.extension.api.introspection.dsql.EntityType;
-import org.mule.runtime.extension.api.introspection.dsql.Field;
-import org.mule.runtime.extension.api.introspection.dsql.OperatorTranslator;
-import org.mule.runtime.extension.api.introspection.dsql.QueryTranslator;
-import org.mule.runtime.extension.api.introspection.dsql.Value;
-
 import java.util.Iterator;
 import java.util.List;
 

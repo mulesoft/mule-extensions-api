@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
-import org.mule.runtime.extension.api.introspection.declaration.type.TypeUtils;
+import org.mule.runtime.extension.api.declaration.type.TypeUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
