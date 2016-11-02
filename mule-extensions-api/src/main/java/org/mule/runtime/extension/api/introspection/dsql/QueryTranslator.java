@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.introspection.dsql;
 
-import org.mule.runtime.extension.api.annotation.Query;
+import org.mule.runtime.extension.api.annotation.param.Query;
 
 import java.util.List;
 

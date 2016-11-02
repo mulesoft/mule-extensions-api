@@ -13,16 +13,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Ignores a field or method inside a complex type. Only usable in complex types.
- * The purpose is to signal that a given field or setter should not be used
- * when building instances of a class
+ * Marks a field inside a mule extension as being a parameter that the user can set.
+ * It can either be applied
+ * to a class defining a configuration, or to a class in which operations are implemented.
+ * <p>
+ * If applied to an operation class, then the parameter will be added to all the operations defined in that
+ * class.
+ * <p>
+ * The field must be a Java bean property (ie it needs to have setters and getters matching the field name).
  *
  * @since 1.0
  */
-@Target(value = {ElementType.FIELD, ElementType.METHOD})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Ignore {
+public @interface Parameter {
 
 }
-

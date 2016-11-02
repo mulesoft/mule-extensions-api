@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
-import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 
@@ -16,16 +16,17 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
- * Provides context information about the execution of an operation
+ * Provides context information about the execution of a modeled component
  *
+ * @param <M> the generic type of of the model which represents the component beign executed
  * @since 1.0
  */
-public interface OperationContext {
+public interface ExecutionContext<M extends ComponentModel> {
 
   /**
    * Returns whether parameter of name {@code parameterName} has a value associated to it.
    *
-   * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
+   * @param parameterName the name of a {@link ParameterModel} of the {@link ComponentModel} being executed
    * @return {@code true} if the parameter is present.
    */
   boolean hasParameter(String parameterName);
@@ -33,10 +34,10 @@ public interface OperationContext {
   /**
    * Returns the value associated to a parameter of name {@code parameterName}
    *
-   * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
+   * @param parameterName the name of a {@link ParameterModel} of the {@link ComponentModel} being executed
    * @param <T>           the returned value's generic type
    * @return the parameter's value or {@code null}. Notice that {@code null} means that the parameter has been
-   *         resolved to that value.
+   * resolved to that value.
    * @throws NoSuchElementException if the parameter is not present.
    */
   <T> T getParameter(String parameterName);
@@ -45,12 +46,12 @@ public interface OperationContext {
    * Same as {@link #getParameter(String)} with the added restriction that the returned value is expected to be either
    * an instance of {@code expectedType} or {@code null}
    *
-   * @param parameterName the name of a {@link ParameterModel} of the {@link OperationModel} being executed
+   * @param parameterName the name of a {@link ParameterModel} of the {@link ComponentModel} being executed
    * @param expectedType  a {@link Class} of which the returned value is expected to be an instance of
    * @param <T>           the returned value's expected type
    * @return the parameter's value or {@code null}. Notice that {@code null} means that the parameter has been
-   *         resolved to that value.
-   * @throws NoSuchElementException if the parameter is not present.
+   * resolved to that value.
+   * @throws NoSuchElementException   if the parameter is not present.
    * @throws IllegalArgumentException if the returned value is not an instance of {@code expectedType}
    */
   <T> T getTypeSafeParameter(String parameterName, Class<? extends T> expectedType);
@@ -63,11 +64,12 @@ public interface OperationContext {
   Optional<ConfigurationInstance> getConfiguration();
 
   /**
-   * Returns the model associated to the operation being executed
-   *
-   * @return a {@link OperationModel}
+   * @return the {@link ExtensionModel} which owns the {@link #getComponentModel()}
    */
-  OperationModel getOperationModel();
-
   ExtensionModel getExtensionModel();
+
+  /**
+   * @return the model for the component being executed
+   */
+  M getComponentModel();
 }

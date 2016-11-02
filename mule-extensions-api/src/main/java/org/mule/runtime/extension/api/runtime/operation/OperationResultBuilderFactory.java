@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Factory for creating instances of {@link OperationResult.Builder}
+ * Factory for creating instances of {@link Result.Builder}
  * <p>
  * {@link #getDefaultFactory()} method can be used to obtain a default implementation
  * provided by the runtime
@@ -57,12 +57,12 @@ public abstract class OperationResultBuilderFactory {
   }
 
   /**
-   * Creates a new {@link OperationResult.Builder}
+   * Creates a new {@link Result.Builder}
    *
    * @param <Output>     the generic type of the output value
    * @param <A> the generic type of the message attributes
-   * @return a new {@link OperationResult.Builder}
+   * @return a new {@link Result.Builder}
    */
-  public abstract <Output, A extends Attributes> OperationResult.Builder<Output, A> create();
+  public abstract <Output, A extends Attributes> Result.Builder<Output, A> create();
 
 }
