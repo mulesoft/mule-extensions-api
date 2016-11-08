@@ -15,6 +15,11 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 
 import java.util.Map;
 
+/**
+ * Default {@link ImportTypesStrategy} implementation that fails if an extension could not be located in the current context.
+ * 
+ * @since 1.0
+ */
 public class DefaultImportTypesStrategy implements ImportTypesStrategy {
 
   private final ExtensionModel extensionModel;

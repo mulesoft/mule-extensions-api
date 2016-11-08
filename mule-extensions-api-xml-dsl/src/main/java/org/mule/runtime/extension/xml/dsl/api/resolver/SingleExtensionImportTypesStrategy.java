@@ -12,6 +12,13 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * {@link ImportTypesStrategy} implementation that permits the {@link DslSyntaxResolver} to work without any imported type. Useful
+ * for situations in which the imported types are not relevant to the context in which the {@link DslSyntaxResolver} is being
+ * used.
+ *
+ * @since 1.0
+ */
 public class SingleExtensionImportTypesStrategy implements ImportTypesStrategy {
 
   @Override
