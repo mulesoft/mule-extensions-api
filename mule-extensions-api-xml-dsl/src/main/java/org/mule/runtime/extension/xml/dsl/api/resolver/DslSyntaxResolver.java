@@ -22,7 +22,6 @@ import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isE
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isFlattened;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isText;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.isValidBean;
-import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadImportedTypes;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.loadSubTypes;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.xml.dsl.api.resolver.DslSyntaxUtils.supportsInlineDeclaration;
@@ -55,8 +54,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Provides the {@link DslElementSyntax} of any {@link NamedObject Component}, {@link ParameterModel Parameter} or {@link MetadataType
- * Type} within the context of the {@link ExtensionModel Extension model} where the Component was declared.
+ * Provides the {@link DslElementSyntax} of any {@link NamedObject Component}, {@link ParameterModel Parameter} or
+ * {@link MetadataType Type} within the context of the {@link ExtensionModel Extension model} where the Component was declared.
  *
  * @since 1.0
  */
@@ -71,16 +70,20 @@ public class DslSyntaxResolver {
   private final Deque<String> typeResolvingStack = new ArrayDeque<>();
 
   /**
-   * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
-   * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel}
-   * not present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   * {@link ImportedTypeModel}
+   * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
+   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *         {@link ImportedTypeModel}
    */
   public DslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
+    this(model, new DefaultImportTypesStrategy(model, context));
+  }
+
+  public DslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
     this.languageModel = model.getXmlDslModel();
     this.subTypesMap = loadSubTypes(model);
-    this.importedTypes = loadImportedTypes(model, context);
+    this.importedTypes = importTypesStrategy.getImportedTypes();
   }
 
   /**
@@ -196,8 +199,8 @@ public class DslSyntaxResolver {
    * Resolves the {@link DslElementSyntax} for the standalone xml element for the given {@link MetadataType}
    *
    * @param type the {@link MetadataType} to be described in the {@link DslElementSyntax}
-   * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType}
-   * or {@link Optional#empty} if the {@code type} is not supported as an standalone element
+   * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType} or
+   *         {@link Optional#empty} if the {@code type} is not supported as an standalone element
    */
   public Optional<DslElementSyntax> resolve(MetadataType type) {
     return type instanceof ObjectType ? resolvePojoDsl(type) : Optional.empty();
