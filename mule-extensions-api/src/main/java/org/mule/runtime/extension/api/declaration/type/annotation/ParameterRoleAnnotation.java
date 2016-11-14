@@ -7,23 +7,44 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
+import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectFieldType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 
+/**
+ * Allows to link the annotated {@link MetadataType} with a {@link ParameterRole}.
+ *
+ * Examples uses of this is an {@link ObjectType} which contains an {@link ObjectFieldType}
+ * which has a non default {@link ParameterRole}
+ *
+ * @since 1.0
+ */
 public class ParameterRoleAnnotation implements TypeAnnotation {
 
   public static final String NAME = "parameterPurpose";
 
-  private ParameterRole role;
+  private final ParameterRole role;
 
+  /**
+   * Creates a new instance
+   * @param role the assigned {@link ParameterRole}
+   */
   public ParameterRoleAnnotation(ParameterRole role) {
     this.role = role;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getName() {
     return NAME;
   }
 
+  /**
+   * @return a {@link ParameterRole}
+   */
   public ParameterRole getRole() {
     return role;
   }
