@@ -16,8 +16,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -33,6 +38,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
@@ -45,11 +51,14 @@ import org.mule.runtime.extension.xml.dsl.test.model.ExtensibleType;
 import org.mule.runtime.extension.xml.dsl.test.model.SubType;
 import org.mule.runtime.extension.xml.dsl.test.model.SuperType;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -67,6 +76,14 @@ public abstract class BaseXmlDeclarationTestCase {
   static final String CONFIGURATION_NAME = "configuration";
   static final String CONNECTION_PROVIDER_NAME = "connection";
   static final BaseTypeBuilder TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
+  static final String EXTENSIBLE_TYPE_LIST_NAME = "extensibleTypeList";
+
+  @Parameterized.Parameters(name = "{0}")
+  public static Collection<Object[]> data() {
+    return Arrays.asList(new Object[][] {
+        {BEHAVIOUR}, {CONTENT}, {PRIMARY_CONTENT}
+    });
+  }
 
   @Mock
   protected ExtensionModel extension;
@@ -89,11 +106,19 @@ public abstract class BaseXmlDeclarationTestCase {
   @Mock
   protected DslResolvingContext dslContext;
 
+
+  protected final ParameterRole role;
   protected ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-  SubTypesModel subTypesModel = new SubTypesModel(TYPE_LOADER.load(SuperType.class), singleton(TYPE_LOADER.load(SubType.class)));
+  protected SubTypesModel subTypesModel =
+      new SubTypesModel(TYPE_LOADER.load(SuperType.class), singleton(TYPE_LOADER.load(SubType.class)));
+
+  public BaseXmlDeclarationTestCase(ParameterRole role) {
+    this.role = role;
+  }
 
   @Before
   public void before() {
+    initMocks(this);
     when(extension.getName()).thenReturn(EXTENSION_NAME);
     when(extension.getConfigurationModels()).thenReturn(asList(configuration));
     when(extension.getConfigurationModels()).thenReturn(asList(configuration));
@@ -120,6 +145,7 @@ public abstract class BaseXmlDeclarationTestCase {
     when(parameterModel.getModelProperty(any())).thenReturn(empty());
     when(parameterModel.getDslModel()).thenReturn(ElementDslModel.getDefaultInstance());
     when(parameterModel.getLayoutModel()).thenReturn(empty());
+    when(parameterModel.getRole()).thenReturn(role);
 
     when(source.getName()).thenReturn(SOURCE_NAME);
     when(operation.getName()).thenReturn(OPERATION_NAME);
@@ -146,6 +172,14 @@ public abstract class BaseXmlDeclarationTestCase {
       when(model.getModelProperty(ConnectivityModelProperty.class)).thenReturn(empty());
       when(model.getModelProperty(PagedOperationModelProperty.class)).thenReturn(empty());
     }
+  }
+
+  void assertParameterChildElementDeclaration(boolean expected, DslElementSyntax result) {
+    if (isContent(parameterModel)) {
+      expected = true;
+    }
+
+    assertChildElementDeclarationIs(expected, result);
   }
 
   void assertChildElementDeclarationIs(boolean expected, DslElementSyntax result) {
@@ -181,10 +215,9 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   protected void assertComplexTypeDslFields(DslElementSyntax topDsl) {
-    String extensibleTypeListName = "extensibleTypeList";
-    DslElementSyntax listDsl = getChildFieldDsl(extensibleTypeListName, topDsl);
-    assertAttributeName(extensibleTypeListName, listDsl);
-    assertElementName(hyphenize(extensibleTypeListName), listDsl);
+    DslElementSyntax listDsl = getChildFieldDsl(EXTENSIBLE_TYPE_LIST_NAME, topDsl);
+    assertAttributeName(EXTENSIBLE_TYPE_LIST_NAME, listDsl);
+    assertElementName(hyphenize(EXTENSIBLE_TYPE_LIST_NAME), listDsl);
     assertElementNamespace(NAMESPACE, listDsl);
     assertChildElementDeclarationIs(true, listDsl);
     assertIsWrappedElement(false, listDsl);

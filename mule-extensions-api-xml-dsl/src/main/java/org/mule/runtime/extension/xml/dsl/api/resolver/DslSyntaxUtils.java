@@ -135,7 +135,9 @@ class DslSyntaxUtils {
                                            ElementDslModel dslModel, boolean isContent) {
     final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
-    if (REQUIRED == expressionSupport || isContent) {
+    if (isContent) {
+      return true;
+    } else if (REQUIRED == expressionSupport) {
       return false;
     }
 

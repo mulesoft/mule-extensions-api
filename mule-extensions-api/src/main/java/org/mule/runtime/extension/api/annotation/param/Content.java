@@ -23,4 +23,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Content {
 
+  boolean primary() default false;
 }

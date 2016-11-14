@@ -12,6 +12,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.test.model.ComplexFieldsType;
 import org.mule.runtime.extension.xml.dsl.test.model.GlobalType;
@@ -25,8 +26,15 @@ import org.mule.runtime.extension.xml.dsl.test.model.SimpleFieldsType;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+@RunWith(Parameterized.class)
 public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
+
+  public TypeXmlDeclarationTestCase(ParameterRole role) {
+    super(role);
+  }
 
   @Test
   public void textField() {

@@ -13,6 +13,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -21,15 +22,16 @@ import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.annotation.Extension;
-import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.extension.api.annotation.Extension;
+import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
+import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.test.model.AbstractType;
 import org.mule.runtime.extension.xml.dsl.test.model.ChildOfAbstractType;
@@ -48,9 +50,9 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.runners.Parameterized;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Parameterized.class)
 public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
   private static final String IMPORT_NAMESPACE = "importns";
@@ -61,6 +63,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   private static final String IMPORT_EXTENSION_NAME = "importExtension";
   private static final String IMPORT_EXTENSION_NAME_WITH_XML = "importExtensionWithXml";
+
+  public ParameterXmlDeclarationTestCase(ParameterRole role) {
+    super(role);
+  }
 
   @Test
   public void testSimpleTypeParameter() {
@@ -79,11 +85,14 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(SimpleFieldsType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     String fieldName = "sampleString";
-    DslElementSyntax childDsl = getChildFieldDsl(fieldName, result);
 
-    assertAttributeName(fieldName, childDsl);
-    assertChildElementDeclarationIs(true, result);
-    assertIsWrappedElement(false, result);
+    ifContentParameter(() -> assertThat(result.getChild(fieldName).isPresent(), is(false)),
+                       () -> {
+                         DslElementSyntax childDsl = getChildFieldDsl(fieldName, result);
+                         assertAttributeName(fieldName, childDsl);
+                         assertParameterChildElementDeclaration(true, result);
+                         assertIsWrappedElement(false, result);
+                       });
   }
 
   @Test
@@ -94,10 +103,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(PARAMETER_NAME), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
 
-    assertComplexTypeDslFields(result);
+    ifContentParameter(() -> assertThat(result.getChild(EXTENSIBLE_TYPE_LIST_NAME).isPresent(), is(false)),
+                       () -> assertComplexTypeDslFields(result));;
   }
 
   @Test
@@ -135,7 +145,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(EmptyType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(false, result);
+    assertParameterChildElementDeclaration(false, result);
     assertIsWrappedElement(false, result);
   }
 
@@ -144,7 +154,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(GlobalType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
     assertTopElementDeclarationIs(true, result);
   }
@@ -154,7 +164,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(ExtensibleType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(true, result);
   }
 
@@ -163,7 +173,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(InterfaceDeclaration.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(false, result);
+    assertParameterChildElementDeclaration(false, result);
     assertIsWrappedElement(false, result);
   }
 
@@ -172,7 +182,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(AbstractType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(false, result);
+    assertParameterChildElementDeclaration(false, result);
     assertIsWrappedElement(false, result);
   }
 
@@ -181,7 +191,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(NonDefaultConstructor.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(false, result);
+    assertParameterChildElementDeclaration(false, result);
     assertIsWrappedElement(false, result);
   }
 
@@ -195,7 +205,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(true, result);
   }
 
@@ -210,7 +220,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(AbstractType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(true, result);
   }
 
@@ -225,7 +235,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
   }
 
@@ -240,7 +250,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
   }
 
@@ -262,22 +272,22 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
     assertElementNamespace(defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML), result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(true, result);
   }
 
   @Test
   public void testExtensibleImportedTypeWithoutXmlParameter() {
-    ExtensionModel importOriginMock = mock(ExtensionModel.class);
+    extension = mock(ExtensionModel.class);
     mockImportedTypes(IMPORT_EXTENSION_NAME, ExtensibleType.class);
 
-    when(importOriginMock.getXmlDslModel()).thenReturn(createTestXmlDslModel());
-    when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(importOriginMock));
+    when(extension.getXmlDslModel()).thenReturn(createTestXmlDslModel());
+    when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(extension));
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(ExtensibleType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
     assertElementNamespace(IMPORT_NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(true, result);
   }
 
@@ -290,8 +300,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
         .ofKey(keyType)
         .ofValue(valueType)
         .build());
-    assertCollectionDslElementSyntax(valueType, parameterModel, PARAMETER_NAME, hyphenize(pluralize(PARAMETER_NAME)),
-                                     hyphenize(singularize(PARAMETER_NAME)));
+    ifContentParameter(() -> assertNoGeneric(getSyntaxResolver().resolve(parameterModel), valueType),
+                       () -> assertCollectionDslElementSyntax(valueType, parameterModel, PARAMETER_NAME,
+                                                              hyphenize(pluralize(PARAMETER_NAME)),
+                                                              hyphenize(singularize(PARAMETER_NAME))));
   }
 
   @Test
@@ -308,13 +320,16 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
 
-    DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
-    assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
-    assertChildElementDeclarationIs(true, innerElement);
-    assertIsWrappedElement(false, innerElement);
+    ifContentParameter(() -> assertNoGeneric(result, valueType),
+                       () -> {
+                         DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
+                         assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
+                         assertParameterChildElementDeclaration(true, innerElement);
+                         assertIsWrappedElement(false, innerElement);
+                       });
   }
 
   @Test
@@ -331,13 +346,16 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
 
-    DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
-    assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
-    assertChildElementDeclarationIs(true, innerElement);
-    assertIsWrappedElement(true, innerElement);
+    ifContentParameter(() -> assertNoGeneric(result, valueType),
+                       () -> {
+                         DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
+                         assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
+                         assertParameterChildElementDeclaration(true, innerElement);
+                         assertIsWrappedElement(true, innerElement);
+                       });
   }
 
   @Test
@@ -349,9 +367,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
         .ofKey(keyType)
         .ofValue(valueType)
         .build());
-
-    assertCollectionDslElementSyntax(valueType, parameterModel, PARAMETER_NAME, hyphenize(pluralize(PARAMETER_NAME)),
-                                     hyphenize(PARAMETER_NAME));
+    ifContentParameter(() -> assertNoGeneric(getSyntaxResolver().resolve(parameterModel), valueType),
+                       () -> assertCollectionDslElementSyntax(valueType, parameterModel, PARAMETER_NAME,
+                                                              hyphenize(pluralize(PARAMETER_NAME)),
+                                                              hyphenize(PARAMETER_NAME)));
   }
 
   @Test
@@ -376,13 +395,16 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
 
-    DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
-    assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
-    assertChildElementDeclarationIs(true, innerElement);
-    assertIsWrappedElement(true, innerElement);
+    ifContentParameter(() -> assertNoGeneric(result, valueType),
+                       () -> {
+                         DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
+                         assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
+                         assertParameterChildElementDeclaration(true, innerElement);
+                         assertIsWrappedElement(true, innerElement);
+                       });
   }
 
   @Test
@@ -393,9 +415,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
         .of(itemType)
         .build());
 
-    assertCollectionDslElementSyntax(itemType, parameterModel, SINGULARIZABLE_PARAMETER_NAME,
-                                     hyphenize(SINGULARIZABLE_PARAMETER_NAME),
-                                     hyphenize(singularize(SINGULARIZABLE_PARAMETER_NAME)));
+    ifContentParameter(() -> assertNoGeneric(getSyntaxResolver().resolve(parameterModel), itemType),
+                       () -> assertCollectionDslElementSyntax(itemType, parameterModel, SINGULARIZABLE_PARAMETER_NAME,
+                                                              hyphenize(SINGULARIZABLE_PARAMETER_NAME),
+                                                              hyphenize(singularize(SINGULARIZABLE_PARAMETER_NAME))));
   }
 
   @Test
@@ -405,9 +428,13 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName())
         .of(itemType)
         .build());
-
-    assertCollectionDslElementSyntax(itemType, parameterModel, PARAMETER_NAME, hyphenize(PARAMETER_NAME),
-                                     itemize(PARAMETER_NAME));
+    ifContentParameter(() -> {
+      DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
+      assertNoGeneric(result, itemType);
+    },
+                       () -> assertCollectionDslElementSyntax(itemType, parameterModel, PARAMETER_NAME,
+                                                              hyphenize(PARAMETER_NAME),
+                                                              itemize(PARAMETER_NAME)));
   }
 
   private void assertCollectionDslElementSyntax(MetadataType itemType, ParameterModel parameterModel, String parameterName,
@@ -417,12 +444,12 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(parameterName, result);
     assertElementName(elementName, result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
 
     DslElementSyntax innerElement = getGenericTypeDsl(itemType, result);
     assertElementName(childElementName, innerElement);
-    assertChildElementDeclarationIs(false, innerElement);
+    assertParameterChildElementDeclaration(false, innerElement);
     assertIsWrappedElement(false, innerElement);
   }
 
@@ -439,14 +466,28 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(PARAMETER_NAME), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
 
-    DslElementSyntax innerElement = getGenericTypeDsl(itemType, result);
-    assertElementName(getTopLevelTypeName(itemType), innerElement);
-    assertElementNamespace(NAMESPACE, innerElement);
-    assertChildElementDeclarationIs(true, innerElement);
-    assertIsWrappedElement(false, innerElement);
+    ifContentParameter(() -> assertNoGeneric(result, itemType),
+                       () -> {
+                         DslElementSyntax innerElement = getGenericTypeDsl(itemType, result);
+                         assertElementName(getTopLevelTypeName(itemType), innerElement);
+                         assertElementNamespace(NAMESPACE, innerElement);
+                         assertParameterChildElementDeclaration(true, innerElement);
+                       });
+  }
+
+  private void ifContentParameter(Runnable test, Runnable orElse) {
+    if (isContent(parameterModel)) {
+      test.run();
+    } else {
+      orElse.run();
+    }
+  }
+
+  private void assertNoGeneric(DslElementSyntax syntax, MetadataType genericType) {
+    assertThat(syntax.getGeneric(genericType).isPresent(), is(false));
   }
 
   @Test
@@ -461,15 +502,18 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(PARAMETER_NAME), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(true, result);
+    assertParameterChildElementDeclaration(true, result);
     assertIsWrappedElement(false, result);
 
-    DslElementSyntax listItemDsl = getGenericTypeDsl(itemType, result);
-    assertElementName(getTopLevelTypeName(itemType), listItemDsl);
-    assertElementNamespace(NAMESPACE, listItemDsl);
-    assertChildElementDeclarationIs(true, listItemDsl);
-    assertTopElementDeclarationIs(false, listItemDsl);
-    assertIsWrappedElement(true, listItemDsl);
+    ifContentParameter(() -> assertNoGeneric(result, itemType),
+                       () -> {
+                         DslElementSyntax listItemDsl = getGenericTypeDsl(itemType, result);
+                         assertElementName(getTopLevelTypeName(itemType), listItemDsl);
+                         assertElementNamespace(NAMESPACE, listItemDsl);
+                         assertParameterChildElementDeclaration(true, listItemDsl);
+                         assertTopElementDeclarationIs(false, listItemDsl);
+                         assertIsWrappedElement(true, listItemDsl);
+                       });
   }
 
   @Test
@@ -483,7 +527,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(PARAMETER_NAME), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(false, result);
+    assertParameterChildElementDeclaration(false, result);
     assertIsWrappedElement(false, result);
 
     assertThat(result.getGeneric(itemType).isPresent(), is(false));
@@ -504,20 +548,23 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, mapDsl);
     assertElementName(hyphenize(pluralize(PARAMETER_NAME)), mapDsl);
     assertElementNamespace(NAMESPACE, mapDsl);
-    assertChildElementDeclarationIs(true, mapDsl);
+    assertParameterChildElementDeclaration(true, mapDsl);
     assertIsWrappedElement(false, mapDsl);
 
-    DslElementSyntax listDsl = getGenericTypeDsl(valueType, mapDsl);
-    assertElementName(hyphenize(singularize(PARAMETER_NAME)), listDsl);
-    assertChildElementDeclarationIs(true, listDsl);
-    assertIsWrappedElement(false, listDsl);
+    ifContentParameter(() -> assertNoGeneric(mapDsl, valueType),
+                       () -> {
+                         DslElementSyntax listDsl = getGenericTypeDsl(valueType, mapDsl);
+                         assertElementName(hyphenize(singularize(PARAMETER_NAME)), listDsl);
+                         assertParameterChildElementDeclaration(true, listDsl);
+                         assertIsWrappedElement(false, listDsl);
 
-    DslElementSyntax listItemDsl = getGenericTypeDsl(itemType, listDsl);
-    assertElementName(getTopLevelTypeName(itemType), listItemDsl);
-    assertElementNamespace(NAMESPACE, listItemDsl);
-    assertChildElementDeclarationIs(true, listItemDsl);
-    assertTopElementDeclarationIs(false, listItemDsl);
-    assertIsWrappedElement(true, listItemDsl);
+                         DslElementSyntax listItemDsl = getGenericTypeDsl(itemType, listDsl);
+                         assertElementName(getTopLevelTypeName(itemType), listItemDsl);
+                         assertElementNamespace(NAMESPACE, listItemDsl);
+                         assertParameterChildElementDeclaration(true, listItemDsl);
+                         assertTopElementDeclarationIs(false, listItemDsl);
+                         assertIsWrappedElement(true, listItemDsl);
+                       });
   }
 
   @Test
@@ -535,18 +582,21 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, mapDsl);
     assertElementName(hyphenize(pluralize(PARAMETER_NAME)), mapDsl);
     assertElementNamespace(NAMESPACE, mapDsl);
-    assertChildElementDeclarationIs(true, mapDsl);
+    assertParameterChildElementDeclaration(true, mapDsl);
     assertIsWrappedElement(false, mapDsl);
 
-    DslElementSyntax listDsl = getGenericTypeDsl(valueType, mapDsl);
-    assertElementName(hyphenize(singularize(PARAMETER_NAME)), listDsl);
-    assertChildElementDeclarationIs(true, listDsl);
-    assertIsWrappedElement(false, listDsl);
+    ifContentParameter(() -> assertNoGeneric(mapDsl, valueType),
+                       () -> {
+                         DslElementSyntax listDsl = getGenericTypeDsl(valueType, mapDsl);
+                         assertElementName(hyphenize(singularize(PARAMETER_NAME)), listDsl);
+                         assertParameterChildElementDeclaration(true, listDsl);
+                         assertIsWrappedElement(false, listDsl);
 
-    DslElementSyntax itemDsl = getGenericTypeDsl(itemType, listDsl);
-    assertElementName(itemize(PARAMETER_NAME), itemDsl);
-    assertChildElementDeclarationIs(false, itemDsl);
-    assertIsWrappedElement(false, itemDsl);
+                         DslElementSyntax itemDsl = getGenericTypeDsl(itemType, listDsl);
+                         assertElementName(itemize(PARAMETER_NAME), itemDsl);
+                         assertParameterChildElementDeclaration(false, itemDsl);
+                         assertIsWrappedElement(false, itemDsl);
+                       });
   }
 
   private XmlDslModel createTestXmlDslModel() {
@@ -574,7 +624,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     assertAttributeName(PARAMETER_NAME, result);
     assertElementName(hyphenize(PARAMETER_NAME), result);
     assertElementNamespace(NAMESPACE, result);
-    assertChildElementDeclarationIs(false, result);
+    assertParameterChildElementDeclaration(false, result);
     assertIsWrappedElement(false, result);
   }
 

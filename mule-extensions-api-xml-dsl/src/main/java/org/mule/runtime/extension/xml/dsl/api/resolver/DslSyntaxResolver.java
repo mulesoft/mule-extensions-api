@@ -10,6 +10,7 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -40,7 +41,7 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.extension.api.model.property.ContentParameterModelProperty;
+import org.mule.runtime.extension.api.declaration.type.TypeUtils;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.internal.DslElementSyntaxBuilder;
@@ -113,7 +114,7 @@ public class DslSyntaxResolver {
     final String namespace = getNamespace(parameter.getType());
     final String namespaceUri = getNamespaceUri(parameter.getType());
     final ElementDslModel dslModel = parameter.getDslModel();
-    final boolean isContent = parameter.getModelProperty(ContentParameterModelProperty.class).isPresent();
+    final boolean isContent = isContent(parameter);
 
     parameter.getType().accept(
                                new MetadataTypeVisitor() {
@@ -145,8 +146,10 @@ public class DslSyntaxResolver {
                                    boolean requiresWrapper = typeRequiresWrapperElement(genericType);
                                    if (supportsInline || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
-                                     genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(), namespace,
-                                                                                namespaceUri, false));
+                                     if (!isContent) {
+                                       genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(), namespace,
+                                                                                  namespaceUri, false));
+                                     }
                                    }
                                  }
 
@@ -169,8 +172,9 @@ public class DslSyntaxResolver {
                                        builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri());
                                      }
 
-                                     declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
-
+                                     if (!isContent) {
+                                       declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
+                                     }
                                    }
                                  }
 
@@ -182,14 +186,16 @@ public class DslSyntaxResolver {
                                        .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType,
                                                                                            expressionSupport,
                                                                                            isContent));
+                                   if (!isContent) {
+                                     builder.withGeneric(dictionaryType.getKeyType(),
+                                                         DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE)
+                                                             .build());
 
-                                   builder.withGeneric(dictionaryType.getKeyType(),
-                                                       DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE).build());
-
-                                   dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder,
-                                                                                                      parameter.getName(),
-                                                                                                      namespace, namespaceUri,
-                                                                                                      dslModel));
+                                     dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder,
+                                                                                                        parameter.getName(),
+                                                                                                        namespace, namespaceUri,
+                                                                                                        dslModel));
+                                   }
                                  }
                                });
     return builder.build();
@@ -465,7 +471,13 @@ public class DslSyntaxResolver {
                      if (isFlattened(field, fieldValue)) {
                        declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
                      } else {
-                       fieldValue.accept(getObjectFieldVisitor(fieldBuilder, field, childName, namespace, namespaceUri));
+                       if (TypeUtils.isContent(field)) {
+                         fieldBuilder.supportsChildDeclaration(true);
+                         fieldBuilder.withElementName(hyphenize(childName));
+                       } else {
+                         fieldValue.accept(getObjectFieldVisitor(fieldBuilder, field, childName, namespace, namespaceUri));
+                       }
+
                        objectBuilder.withChild(childName, fieldBuilder.build());
                      }
                    });

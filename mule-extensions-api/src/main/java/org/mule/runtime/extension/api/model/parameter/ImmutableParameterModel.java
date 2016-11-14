@@ -9,12 +9,13 @@ package org.mule.runtime.extension.api.model.parameter;
 import static java.util.Optional.ofNullable;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
 
 import java.util.Optional;
 import java.util.Set;
@@ -31,6 +32,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final boolean required;
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
+  private final ParameterRole role;
   private final ElementDslModel dslModel;
   private final LayoutModel layoutModel;
 
@@ -44,6 +46,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param required          whether this parameter is required or not
    * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
    * @param defaultValue      this parameter's default value
+   * @param role           this parameter's purpose
    * @param dslModel          a model which describes the DSL semantics for this parameter
    * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
    * @param layoutModel       a model which contains directives about the parameter's layout in the UI
@@ -57,6 +60,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  boolean required,
                                  ExpressionSupport expressionSupport,
                                  Object defaultValue,
+                                 ParameterRole role,
                                  ElementDslModel dslModel,
                                  DisplayModel displayModel,
                                  LayoutModel layoutModel,
@@ -67,6 +71,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.required = required;
     this.expressionSupport = expressionSupport;
     this.defaultValue = defaultValue;
+    this.role = role;
     this.hasDynamicType = hasDynamicType;
     this.dslModel = dslModel;
     this.layoutModel = layoutModel;
@@ -115,6 +120,14 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   @Override
   public ElementDslModel getDslModel() {
     return dslModel;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ParameterRole getRole() {
+    return role;
   }
 
   @Override

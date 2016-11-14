@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.xml.dsl.api;
 
+import static java.util.Optional.ofNullable;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.NamedObject;
 
@@ -134,7 +135,7 @@ public class DslElementSyntax {
    * @return the {@link DslElementSyntax dsl} for the given generic's type if one is present
    */
   public Optional<DslElementSyntax> getGeneric(MetadataType type) {
-    return Optional.ofNullable(genericsDsl.get(type));
+    return ofNullable(genericsDsl.get(type));
   }
 
   /**
@@ -142,7 +143,7 @@ public class DslElementSyntax {
    * @return the {@link DslElementSyntax dsl} of the child if one is present
    */
   public Optional<DslElementSyntax> getChild(String name) {
-    return Optional.ofNullable(childsByName.get(name));
+    return ofNullable(childsByName.get(name));
   }
 
   /**

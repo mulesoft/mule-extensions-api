@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.getClassNameMapping;
+import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.getNameClassMapping;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -37,10 +39,8 @@ import java.util.Optional;
  */
 final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<ModelProperty>> {
 
-  private static final Map<Class<? extends ModelProperty>, String> classNameMapping =
-      JsonSerializationConstants.getClassNameMapping();
-  private static final Map<String, Class<? extends ModelProperty>> nameClassMapping =
-      JsonSerializationConstants.getNameClassMapping();
+  private static final Map<Class<? extends ModelProperty>, String> classNameMapping = getClassNameMapping();
+  private static final Map<String, Class<? extends ModelProperty>> nameClassMapping = getNameClassMapping();
 
   private final Gson gson;
 
