@@ -39,7 +39,8 @@
         <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
-            <version>2.9.1</version>
+            <version>${xercesVersion}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--Test dependencies-->
