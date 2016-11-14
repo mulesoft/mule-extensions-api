@@ -56,7 +56,7 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,
@@ -81,7 +81,7 @@
             "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,
@@ -123,7 +123,7 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,
@@ -152,7 +152,7 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,
@@ -609,7 +609,7 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,
@@ -634,7 +634,7 @@
             "hasDynamicType": false,
             "required": true,
             "expressionSupport": "SUPPORTED",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,
@@ -676,7 +676,7 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,
@@ -705,7 +705,7 @@
             "required": true,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
-            "role": "PARAMETERIZATION",
+            "role": "BEHAVIOUR",
             "dslModel": {
               "allowsInlineDefinition": true,
               "allowsReferences": true,

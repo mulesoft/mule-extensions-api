@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toMap;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PARAMETERIZATION;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.metadata.api.model.MetadataType;
@@ -168,11 +168,11 @@ public class ExtensionModelUtils {
 
   public static boolean isContent(ParameterRole purpose) {
     checkArgument(purpose != null, "cannot evaluate null purpose");
-    return purpose != PARAMETERIZATION;
+    return purpose != BEHAVIOUR;
   }
 
   public static ParameterRole roleOf(Optional<Content> content) {
-    return content.map(c -> c.primary() ? PRIMARY_CONTENT : CONTENT).orElse(PARAMETERIZATION);
+    return content.map(c -> c.primary() ? PRIMARY_CONTENT : CONTENT).orElse(BEHAVIOUR);
   }
 
   public static Map<MetadataType, Set<MetadataType>> toSubTypesMap(Collection<SubTypesModel> subTypes) {

@@ -21,7 +21,7 @@ import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PARAMETERIZATION;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -94,19 +94,19 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   public void setUp() {
     final ImmutableParameterModel carNameParameter =
         new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "",
-                                    PARAMETERIZATION, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
+                                    BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "",
-                                    PARAMETERIZATION, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
+                                    BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, SUPPORTED, "",
-                                    PARAMETERIZATION, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
+                                    BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel complexParameter =
         new ImmutableParameterModel(COMPLEX_PARAMETER_NAME, "complex type to serialize",
                                     ExtensionsTypeLoaderFactory.getDefault()
                                         .createTypeLoader()
                                         .load(ComplexFieldsType.class),
-                                    false, true, SUPPORTED, null, PARAMETERIZATION, defaultParameterDsl,
+                                    false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
     getCarOperation =

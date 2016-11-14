@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PARAMETERIZATION;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -117,7 +117,7 @@ public final class TypeUtils {
   public static ParameterRole getParameterRole(MetadataType metadataType) {
     return metadataType.getAnnotation(ParameterRoleAnnotation.class)
         .map(ParameterRoleAnnotation::getRole)
-        .orElse(PARAMETERIZATION);
+        .orElse(BEHAVIOUR);
   }
 
   public static boolean isContent(MetadataType type) {
