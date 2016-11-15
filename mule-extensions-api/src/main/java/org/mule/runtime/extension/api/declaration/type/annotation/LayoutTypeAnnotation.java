@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A {@link TypeAnnotation} meant to be applied on {@link ObjectFieldType} instances and it contains information on how the field
@@ -69,21 +70,21 @@ public class LayoutTypeAnnotation implements TypeAnnotation {
   /**
    * @return The order of the model within its group.
    */
-  public int getOrder() {
+  public Optional<Integer> getOrder() {
     return layoutModel.getOrder();
   }
 
   /**
    * @return The group element name where the model is going to be located.
    */
-  public String getGroupName() {
+  public Optional<String> getGroupName() {
     return layoutModel.getGroupName();
   }
 
   /**
    * @return The tab element name where the model and its group it's going to be located.
    */
-  public String getTabName() {
+  public Optional<String> getTabName() {
     return layoutModel.getTabName();
   }
 

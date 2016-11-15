@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.annotation.param.display;
 
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
 import java.lang.annotation.Documented;
@@ -27,7 +28,7 @@ public @interface Placement {
   /**
    * Parameter's default order. Indicates that the order is not specified by the extension developer.
    */
-  int DEFAULT_ORDER = -1;
+  int DEFAULT_ORDER = LayoutModel.DEFAULT_ORDER;
 
   /**
    * Group or Tab name for parameters that are considered for general purposes.

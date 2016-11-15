@@ -6,33 +6,33 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.extension.api.annotation.Expression;
-import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.Optional;
+import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
-import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
-import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import org.junit.Test;
 
 public class ExtensionFieldHandlerTestCase {
 
@@ -79,9 +79,9 @@ public class ExtensionFieldHandlerTestCase {
 
     field = getField(type, "placement");
     assertThat(field.getAnnotation(LayoutTypeAnnotation.class).isPresent(), is(true));
-    assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getTabName(), is("tab"));
-    assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getOrder(), is(5));
-    assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getGroupName(), is("group"));
+    assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getTabName().get(), is("tab"));
+    assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getOrder().get(), is(5));
+    assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getGroupName().get(), is("group"));
     assertThat(field.getValue(), is(instanceOf(NumberType.class)));
   }
 
