@@ -126,6 +126,9 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  protected void defaultVisit(MetadataType metadataType) {
+                                   if (isContent) {
+                                     return;
+                                   }
                                    builder.withAttributeName(parameter.getName())
                                        .withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameter.getName()));
