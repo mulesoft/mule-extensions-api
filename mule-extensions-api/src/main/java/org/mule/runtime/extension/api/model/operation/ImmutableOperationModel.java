@@ -7,12 +7,12 @@
 package org.mule.runtime.extension.api.model.operation;
 
 import org.mule.runtime.api.message.Message;
-import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.extension.api.model.AbstractComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
 import java.util.Set;
@@ -27,22 +27,22 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
   /**
    * Creates a new instance with the given state
    *
-   * @param name             the operation's name. Cannot be blank
-   * @param description      the operation's descriptor
-   * @param parameterModels  a {@link List} with the operation's {@link ParameterModel parameterModels}
-   * @param output           an {@link OutputModel} which represents the operation's output content
-   * @param outputAttributes an {@link OutputModel} which represents the attributes on the output {@link Message}
-   * @param displayModel     a model which contains directive about how this operation is displayed in the UI
-   * @param modelProperties  A {@link Set} of custom properties which extend this model
+   * @param name                 the operation's name. Cannot be blank
+   * @param description          the operation's descriptor
+   * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
+   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output {@link Message}
+   * @param displayModel         a model which contains directive about how this operation is displayed in the UI
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableOperationModel(String name,
                                  String description,
-                                 List<ParameterModel> parameterModels,
+                                 List<ParameterGroupModel> parameterGroupModels,
                                  OutputModel output,
                                  OutputModel outputAttributes,
                                  DisplayModel displayModel,
                                  Set<ModelProperty> modelProperties) {
-    super(name, description, displayModel, modelProperties, parameterModels, output, outputAttributes);
+    super(name, description, displayModel, modelProperties, parameterGroupModels, output, outputAttributes);
   }
 }

@@ -31,19 +31,15 @@ public @interface Placement {
   int DEFAULT_ORDER = LayoutModel.DEFAULT_ORDER;
 
   /**
-   * Group or Tab name for parameters that are considered for general purposes.
+   * Tab name for parameters that are considered for advanced usage.
    */
-  String GENERAL = "General";
-
+  String ADVANCED_TAB = "Advanced";
   /**
-   * Group or Tab name for parameters that are considered for advanced usage.
+   * Tab name for parameters that are considered to be part of a connection configuration.
    */
-  String ADVANCED = "Advanced";
+  String CONNECTION_TAB = "Connection";
 
-  /**
-   * Group or Tab name for parameters that are considered to be part of a connection configuration.
-   */
-  String CONNECTION = "Connection";
+  String DEFAULT_TAB = "General";
 
   /**
    * Gives the annotated element a relative order within its group. The value provided may be repeated
@@ -54,21 +50,13 @@ public @interface Placement {
   int order() default DEFAULT_ORDER;
 
   /**
-   * A group is a logical way to display one or more variables together. If no group is specified then a
-   * default group is assumed.
-   * <p>
-   * To place more than one element in the same group, use the exact same values for this attribute
-   */
-  String group() default "";
-
-  /**
    * A tab is a logical way to groups together. This attributes specifies the name of the tab in which the
    * annotated element should be displayed. If no tab is specified then a default tab is assumed.
    * <p>
    * To display more than one parameter or field in the same the tab then this value should be exactly the same for
    * all of them.
    * <p>
-   * By default the value is {@link #GENERAL}
+   * By default the value is {@link #DEFAULT_TAB}
    */
-  String tab() default GENERAL;
+  String tab() default DEFAULT_TAB;
 }

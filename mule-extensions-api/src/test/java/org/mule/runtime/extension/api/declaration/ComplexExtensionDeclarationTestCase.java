@@ -83,9 +83,9 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     assertThat(source.getName(), is(LISTEN_MESSAGE_SOURCE));
     assertDataType(source.getOutput().getType(), InputStream.class, BinaryType.class);
     assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
-    assertThat(source.getParameters(), hasSize(1));
+    assertThat(source.getAllParameters(), hasSize(1));
 
-    ParameterDeclaration parameter = source.getParameters().get(0);
+    ParameterDeclaration parameter = source.getAllParameters().get(0);
     assertThat(parameter.getName(), is(PORT));
     assertThat(parameter.isRequired(), is(false));
     assertDataType(parameter.getType(), Integer.class, NumberType.class);
@@ -106,9 +106,9 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     OperationDeclaration operation = extensionDeclaration.getConfigurations().get(0).getOperations().get(0);
     assertThat(operation.getName(), is(REQUEST_OPERATION_NAME));
     assertDataType(operation.getOutput().getType(), InputStream.class, BinaryType.class);
-    assertThat(operation.getParameters(), hasSize(1));
+    assertThat(operation.getAllParameters(), hasSize(1));
 
-    ParameterDeclaration parameter = operation.getParameters().get(0);
+    ParameterDeclaration parameter = operation.getAllParameters().get(0);
     assertThat(parameter.getName(), is(PATH));
     assertDataType(parameter.getType(), String.class, StringType.class);
   }
@@ -119,8 +119,8 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     assertThat(operation.getName(), is(STATIC_RESOURCE_OPERATION_NAME));
     assertDataType(operation.getOutput().getType(), InputStream.class, BinaryType.class);
 
-    assertThat(operation.getParameters(), hasSize(1));
-    ParameterDeclaration parameter = operation.getParameters().get(0);
+    assertThat(operation.getAllParameters(), hasSize(1));
+    ParameterDeclaration parameter = operation.getAllParameters().get(0);
     assertThat(parameter.getName(), is(PATH));
     assertDataType(parameter.getType(), String.class, StringType.class);
   }

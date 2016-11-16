@@ -75,13 +75,6 @@ public class LayoutTypeAnnotation implements TypeAnnotation {
   }
 
   /**
-   * @return The group element name where the model is going to be located.
-   */
-  public Optional<String> getGroupName() {
-    return layoutModel.getGroupName();
-  }
-
-  /**
    * @return The tab element name where the model and its group it's going to be located.
    */
   public Optional<String> getTabName() {

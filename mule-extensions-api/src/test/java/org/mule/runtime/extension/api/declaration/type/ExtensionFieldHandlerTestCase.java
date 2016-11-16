@@ -81,7 +81,6 @@ public class ExtensionFieldHandlerTestCase {
     assertThat(field.getAnnotation(LayoutTypeAnnotation.class).isPresent(), is(true));
     assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getTabName().get(), is("tab"));
     assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getOrder().get(), is(5));
-    assertThat(field.getAnnotation(LayoutTypeAnnotation.class).get().getGroupName().get(), is("group"));
     assertThat(field.getValue(), is(instanceOf(NumberType.class)));
   }
 
@@ -123,7 +122,7 @@ public class ExtensionFieldHandlerTestCase {
 
   public class HasGroup {
 
-    @ParameterGroup
+    @ParameterGroup("group")
     private Group group;
   }
 
@@ -149,7 +148,7 @@ public class ExtensionFieldHandlerTestCase {
     private String password;
 
     @Parameter
-    @Placement(group = "group", tab = "tab", order = 5)
+    @Placement(tab = "tab", order = 5)
     private Integer placement;
   }
 

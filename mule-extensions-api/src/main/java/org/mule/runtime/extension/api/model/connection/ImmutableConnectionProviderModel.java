@@ -10,8 +10,8 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 import java.util.List;
 import java.util.Set;
@@ -30,7 +30,7 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
    *
    * @param name                     the provider's name
    * @param description              the provider's description
-   * @param parameterModels          a {@link List} with the provider's {@link ParameterModel parameterModels}
+   * @param parameterGroupModels     a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
    * @param connectionManagementType the type of connection management that the provider performs
    * @param displayModel             a model which contains directive about how this provider is displayed in the UI
    * @param modelProperties          A {@link Set} of custom properties which extend this model
@@ -38,11 +38,11 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
    */
   public ImmutableConnectionProviderModel(String name,
                                           String description,
-                                          List<ParameterModel> parameterModels,
+                                          List<ParameterGroupModel> parameterGroupModels,
                                           ConnectionManagementType connectionManagementType,
                                           DisplayModel displayModel,
                                           Set<ModelProperty> modelProperties) {
-    super(name, description, displayModel, modelProperties, parameterModels);
+    super(name, description, displayModel, modelProperties, parameterGroupModels);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
   }

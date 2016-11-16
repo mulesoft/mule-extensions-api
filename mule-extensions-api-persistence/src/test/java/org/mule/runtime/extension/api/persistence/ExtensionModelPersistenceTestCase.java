@@ -22,6 +22,7 @@ import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
+import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
@@ -38,6 +39,7 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
@@ -47,10 +49,11 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
-import org.mule.runtime.extension.api.runtime.connectivity.ConnectionProviderFactory;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -132,14 +135,14 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
     getCarOperation =
-        new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
+        new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asParameterGroup(carNameParameter, complexParameter),
                                     new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
                                     new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet()),
                                     defaultDisplayModel, modelProperties);
     final ImmutableConnectionProviderModel basicAuth =
         new ImmutableConnectionProviderModel("BasicAuth",
                                              "Basic Auth Config",
-                                             asList(usernameParameter, passwordParameter, objectMap),
+                                             asParameterGroup(usernameParameter, passwordParameter, objectMap),
                                              NONE,
                                              defaultDisplayModel,
                                              emptySet());
@@ -174,7 +177,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   @Test
   public void operationTypeCorrectlyDeserialized() {
     OperationModel operation = deserializedExtensionModel.getOperationModel(GET_CAR_OPERATION_NAME).get();
-    ParameterModel complexParameter = operation.getParameterModels().stream()
+    ParameterModel complexParameter = operation.getAllParameterModels().stream()
         .filter(p -> p.getName().equals(COMPLEX_PARAMETER_NAME))
         .findFirst().get();
 
@@ -209,7 +212,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
   @Test
   public void validateCustomTypeAnnotations() throws IOException {
-    MetadataType complexType = deserializedExtensionModel.getOperationModels().get(0).getParameterModels().get(1).getType();
+    MetadataType complexType = deserializedExtensionModel.getOperationModels().get(0).getAllParameterModels().get(1).getType();
     assertThat(complexType, instanceOf(ObjectType.class));
     assertThat(complexType.getAnnotation(TypeAliasAnnotation.class).isPresent(), is(true));
     assertThat(complexType.getAnnotation(TypeAliasAnnotation.class).get().getValue(), is(ComplexFieldsType.ALIAS));
@@ -248,25 +251,14 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     return typesSet;
   }
 
-  private JsonElement getModelProperty(JsonObject object, String modelPropertyName) {
-    final JsonObject modelProperties = object.get(MODEL_PROPERTIES_NODE).getAsJsonObject();
-    if (modelProperties.has(modelPropertyName)) {
-      return modelProperties.get(modelPropertyName);
-    }
-    return null;
-  }
-
-  private class DefaultConnectionProviderFactory implements ConnectionProviderFactory {
-
-    @Override
-    public ConnectionProvider newInstance() {
-      return null;
-    }
-
-    @Override
-    public Class<? extends ConnectionProvider> getObjectType() {
-      return null;
-    }
+  private List<ParameterGroupModel> asParameterGroup(ParameterModel... parameters) {
+    return asList(new ImmutableParameterGroupModel(DEFAULT_GROUP_NAME,
+                                                   "",
+                                                   asList(parameters),
+                                                   asList(new ImmutableExclusiveParametersModel(emptySet(), false)),
+                                                   null,
+                                                   null,
+                                                   emptySet()));
   }
 
   private class NonExternalizableModelProperty implements ModelProperty {

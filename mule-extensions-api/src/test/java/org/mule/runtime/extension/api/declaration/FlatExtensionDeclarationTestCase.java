@@ -26,8 +26,10 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIGURATION_MODEL_PROPERTY;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIG_DESCRIPTION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIG_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIG_PARAMETER_GROUP;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_DESCRIPTION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_PARAMETER_GROUP;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.DEFAULT_PORT;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTENSION_MODEL_PROPERTY;
@@ -41,6 +43,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.MULESOFT;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.OPERATION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.OPERATION_MODEL_PROPERTY;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.OPERATION_PARAMETER_GROUP;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PARAMETER_MODEL_PROPERTY;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PASSWORD;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PASSWORD_DESCRIPTION;
@@ -50,6 +53,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SERVICE_ADDRESS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SERVICE_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SERVICE_PORT;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SOURCE_PARAMETER_GROUP;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.THE_OPERATION_TO_USE;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.URI_TO_FIND_THE_WSDL;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.URL;
@@ -72,6 +76,8 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
@@ -126,7 +132,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(configuration.getDescription(), is(CONFIG_DESCRIPTION));
     assertModelProperties(configuration, CONFIGURATION_MODEL_PROPERTY);
 
-    List<ParameterDeclaration> parameters = configuration.getParameters();
+    List<ParameterDeclaration> parameters = assertGroupAndGetParameters(configuration, CONFIG_PARAMETER_GROUP);
     assertThat(parameters, hasSize(4));
     assertParameter(parameters.get(0), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, typeLoader.load(String.class), null);
     assertParameter(parameters.get(1), PORT, SERVICE_PORT, SUPPORTED, true, typeLoader.load(String.class), null);
@@ -156,7 +162,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(connectionProvider.getName(), is(CONNECTION_PROVIDER_NAME));
     assertThat(connectionProvider.getDescription(), is(CONNECTION_PROVIDER_DESCRIPTION));
 
-    List<ParameterDeclaration> parameters = connectionProvider.getParameters();
+    List<ParameterDeclaration> parameters = assertGroupAndGetParameters(connectionProvider, CONNECTION_PROVIDER_PARAMETER_GROUP);
     assertThat(parameters, hasSize(2));
     assertParameter(parameters.get(0), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), null);
     assertParameter(parameters.get(1), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), null);
@@ -174,7 +180,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertDataType(source.getOutput().getType(), InputStream.class, BinaryType.class);
     assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
 
-    List<ParameterDeclaration> parameters = source.getParameters();
+    List<ParameterDeclaration> parameters = assertGroupAndGetParameters(source, SOURCE_PARAMETER_GROUP);
     assertThat(parameters, hasSize(2));
     assertParameter(parameters.get(0), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), null);
     assertParameter(parameters.get(1), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), DEFAULT_PORT);
@@ -188,7 +194,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertDataType(operation.getOutputAttributes().getType(), String.class, StringType.class);
     assertModelProperties(operation, OPERATION_MODEL_PROPERTY);
 
-    List<ParameterDeclaration> parameters = operation.getParameters();
+    List<ParameterDeclaration> parameters = assertGroupAndGetParameters(operation, OPERATION_PARAMETER_GROUP);
     assertThat(parameters, hasSize(2));
     assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class), null);
     assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class), true);
@@ -201,7 +207,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(operation.getDescription(), is(BROADCAST_DESCRIPTION));
     assertDataType(operation.getOutput().getType(), void.class, VoidType.class);
 
-    List<ParameterDeclaration> parameters = operation.getParameters();
+    List<ParameterDeclaration> parameters = assertGroupAndGetParameters(operation, OPERATION_PARAMETER_GROUP);
     assertThat(parameters, hasSize(3));
     assertParameter(parameters.get(0), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeBuilder.arrayType()
         .id(List.class.getName())
@@ -219,7 +225,11 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(operation.getDescription(), is(HAS_NO_ARGS));
     assertDataType(operation.getOutput().getType(), Integer.class, NumberType.class);
 
-    List<ParameterDeclaration> parameters = operation.getParameters();
+    List<ParameterGroupDeclaration> parameterGroups = operation.getParameterGroups();
+    assertThat(parameterGroups, is(notNullValue()));
+    assertThat(parameterGroups.isEmpty(), is(true));
+
+    List<ParameterDeclaration> parameters = operation.getAllParameters();
     assertThat(parameters, is(notNullValue()));
     assertThat(parameters.isEmpty(), is(true));
   }
@@ -233,5 +243,14 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
       assertThat(properties.contains(mp), is(true));
       assertThat(declaration.getModelProperty(mp.getClass()).get(), is(sameInstance(mp)));
     });
+  }
+
+  private List<ParameterDeclaration> assertGroupAndGetParameters(ParameterizedDeclaration declaration, String groupName) {
+    List<ParameterGroupDeclaration> groupDeclarations = declaration.getParameterGroups();
+    assertThat(groupDeclarations, hasSize(1));
+    ParameterGroupDeclaration groupDeclaration = groupDeclarations.get(0);
+    assertThat(groupDeclaration.getName(), is(groupName));
+
+    return groupDeclaration.getParameters();
   }
 }

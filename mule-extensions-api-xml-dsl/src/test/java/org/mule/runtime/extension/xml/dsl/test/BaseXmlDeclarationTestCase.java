@@ -157,7 +157,7 @@ public abstract class BaseXmlDeclarationTestCase {
     when(dslContext.getExtension(any())).thenReturn(empty());
 
     Stream.of(configuration, operation, connectionProvider, source).forEach(
-                                                                            model -> when(model.getParameterModels())
+                                                                            model -> when(model.getAllParameterModels())
                                                                                 .thenReturn(asList(parameterModel)));
   }
 
