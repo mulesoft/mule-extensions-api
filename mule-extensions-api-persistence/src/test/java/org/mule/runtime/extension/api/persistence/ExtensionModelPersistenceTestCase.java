@@ -14,6 +14,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
@@ -22,9 +23,12 @@ import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
+import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ElementDslModel;
@@ -54,6 +58,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -66,6 +71,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
   private static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON = "extension/list-of-serialized-extension-model.json";
 
+  private final BaseTypeBuilder typeBuilder = BaseTypeBuilder.create(MetadataFormat.JAVA);
   private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
   private final Set<ModelProperty> modelProperties =
@@ -77,6 +83,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private final String MODEL_PROPERTIES_NODE = "modelProperties";
   private final String OPERATIONS_NODE = "operations";
   private final String COMPLEX_PARAMETER_NAME = "complex";
+  private final String OBJECT_MAP_NAME = "map";
 
   private ExtensionModel deserializedExtensionModel;
   private ImmutableExtensionModel originalExtensionModel;
@@ -85,7 +92,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private JsonObject operationModelProperties;
   private List<ExtensionModel> extensionModelList;
   private ExtensionModelJsonSerializer extensionModelJsonSerializer;
-  private ObjectType exportedType = (ObjectType) typeLoader.load(ExportedClass.class);
+  private ObjectType exportedType;
   private ElementDslModel defaultParameterDsl = ElementDslModel.getDefaultInstance();
   private DisplayModel defaultDisplayModel = DisplayModel.builder().build();
   private LayoutModel defaultLayoutModel = LayoutModel.builder().build();
@@ -109,6 +116,21 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
+    exportedType = typeBuilder.objectType().id("test.package.ExportedClass")
+        .with(new ClassInformationAnnotation(ExportedClass.class, emptyList()))
+        .with(new TypeAliasAnnotation(ExportedClass.class.getSimpleName())).build();
+
+    final ImmutableParameterModel objectMap =
+        new ImmutableParameterModel(OBJECT_MAP_NAME, "object map",
+                                    typeBuilder.dictionaryType()
+                                        .id(HashMap.class.getName())
+                                        .ofKey(ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(String.class))
+                                        .ofValue(exportedType)
+                                        .build(),
+
+                                    false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    defaultDisplayModel, defaultLayoutModel, emptySet());
+
     getCarOperation =
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asList(carNameParameter, complexParameter),
                                     new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
@@ -117,10 +139,12 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     final ImmutableConnectionProviderModel basicAuth =
         new ImmutableConnectionProviderModel("BasicAuth",
                                              "Basic Auth Config",
-                                             asList(usernameParameter, passwordParameter),
+                                             asList(usernameParameter, passwordParameter, objectMap),
                                              NONE,
                                              defaultDisplayModel,
                                              emptySet());
+
+
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                     new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
@@ -129,7 +153,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     emptySet(), singleton(exportedType), emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
-    final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
+    final String serializedExtensionModelString =
+        extensionModelJsonSerializer.serialize(originalExtensionModel);
     serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
     deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
     operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonArray()
@@ -202,7 +227,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   public void enrichedTypesAreSerializated() throws IOException {
     Set<String> typesSet = getExtensionTypeIds(serializedExtensionModel.getAsJsonObject());
     assertThat(typesSet, hasItem(containsString(ExportedClass.class.getSimpleName())));
-
+    assertThat(typesSet, not(hasItem(containsString(Object.class.getSimpleName()))));
+    assertThat(typesSet, not(hasItem(containsString(ComplexFieldsType.class.getSimpleName()))));
     final Set<ObjectType> types = deserializedExtensionModel.getTypes();
     assertThat(types, hasItem(exportedType));
   }
