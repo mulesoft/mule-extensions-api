@@ -31,6 +31,7 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Query;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
+import org.mule.runtime.extension.api.annotation.param.display.Example;
 import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
@@ -122,6 +123,11 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
     if (field.getAnnotation(Summary.class) != null) {
       builder.summary(field.getAnnotation(Summary.class).value());
+      shouldAddTypeAnnotation = true;
+    }
+
+    if (field.getAnnotation(Example.class) != null) {
+      builder.example(field.getAnnotation(Example.class).value());
       shouldAddTypeAnnotation = true;
     }
 

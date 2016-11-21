@@ -58,6 +58,13 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
     return displayModel.getSummary();
   }
 
+  /**
+   * @return a brief example about a possible value for this model.
+   */
+  public String getExample() {
+    return displayModel.getExample();
+  }
+
 
   @Override
   public boolean equals(Object obj) {
