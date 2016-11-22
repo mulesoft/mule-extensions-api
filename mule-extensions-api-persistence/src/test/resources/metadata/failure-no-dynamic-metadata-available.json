@@ -1,0 +1,11 @@
+{
+  "componentName": "",
+  "failures": [
+    {
+      "failureCode": "NO_DYNAMIC_METADATA_AVAILABLE",
+      "message": "Metadata Failure Error",
+      "reason": "Metadata Failure Error",
+      "failureComponent": "COMPONENT"
+    }
+  ]
+}

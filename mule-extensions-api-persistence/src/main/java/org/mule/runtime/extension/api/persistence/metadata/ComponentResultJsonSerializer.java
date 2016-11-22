@@ -134,11 +134,10 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     @Override
     public MetadataResult<ComponentMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
       Optional<Failure> metadataFailure = getComponentFailure(failures, COMPONENT);
-
+      MetadataResult outputResult = output != null ? output.toDescriptorResult(failures) : MetadataResult.success(null);
       ImmutableComponentMetadataDescriptor descriptor =
           new ImmutableComponentMetadataDescriptor(componentName,
-                                                   new InputMetadata(input).toDescriptorResult(failures),
-                                                   output.toDescriptorResult(failures));
+                                                   new InputMetadata(input).toDescriptorResult(failures), outputResult);
       if (metadataFailure.isPresent()) {
         return failure(descriptor,
                        metadataFailure.get().getMessage(),
@@ -263,14 +262,14 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     }
 
     public InputMetadata(List<ParameterMetadata> input) {
-      parameters = input;
+      parameters = input != null ? input : ImmutableList.of();
     }
 
     @Override
     public MetadataResult<InputMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
       Optional<Failure> metadataFailure = getComponentFailure(failures, INPUT);
 
-      //TODO MULE-10707: update failure handling
+      // TODO MULE-10707: update failure handling
       Map<String, MetadataResult<ParameterMetadataDescriptor>> input =
           parameters.stream().collect(toMap(ParameterMetadata::getName,
                                             p -> success(new ImmutableParameterMetadataDescriptor(p.getName(), p.getType(),
