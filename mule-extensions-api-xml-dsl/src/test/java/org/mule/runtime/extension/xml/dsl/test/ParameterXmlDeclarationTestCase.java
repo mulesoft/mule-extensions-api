@@ -36,7 +36,6 @@ import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 import org.mule.runtime.extension.xml.dsl.test.model.AbstractType;
 import org.mule.runtime.extension.xml.dsl.test.model.ChildOfAbstractType;
 import org.mule.runtime.extension.xml.dsl.test.model.ComplexFieldsType;
-import org.mule.runtime.extension.xml.dsl.test.model.EmptyType;
 import org.mule.runtime.extension.xml.dsl.test.model.ExtensibleType;
 import org.mule.runtime.extension.xml.dsl.test.model.GlobalType;
 import org.mule.runtime.extension.xml.dsl.test.model.InterfaceDeclaration;
@@ -140,15 +139,6 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     assertChildElementDeclarationIs(false, result);
-  }
-
-  @Test
-  public void testEmptyTypeParameter() {
-    when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(EmptyType.class));
-    DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
-
-    assertParameterChildElementDeclaration(false, result);
-    assertIsWrappedElement(false, result);
   }
 
   @Test
