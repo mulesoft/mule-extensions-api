@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.persistence.metadata;
 
 import static com.google.common.collect.ImmutableList.copyOf;
+import static com.google.common.collect.ImmutableList.of;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -24,7 +25,6 @@ import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.reflect.TypeToken;
 
@@ -134,7 +134,7 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     @Override
     public MetadataResult<ComponentMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
       Optional<Failure> metadataFailure = getComponentFailure(failures, COMPONENT);
-      MetadataResult outputResult = output != null ? output.toDescriptorResult(failures) : MetadataResult.success(null);
+      MetadataResult outputResult = output != null ? output.toDescriptorResult(failures) : success(null);
       ImmutableComponentMetadataDescriptor descriptor =
           new ImmutableComponentMetadataDescriptor(componentName,
                                                    new InputMetadata(input).toDescriptorResult(failures), outputResult);
@@ -252,7 +252,7 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
       InputMetadataDescriptor intputDescriptor = result.getInputMetadata().get();
 
       if (intputDescriptor == null) {
-        parameters = ImmutableList.of();
+        parameters = of();
       } else {
         parameters = copyOf(intputDescriptor.getAllParameters().values().stream()
             .filter(p -> p.get() != null)
@@ -262,7 +262,7 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     }
 
     public InputMetadata(List<ParameterMetadata> input) {
-      parameters = input != null ? input : ImmutableList.of();
+      parameters = input != null ? input : of();
     }
 
     @Override
