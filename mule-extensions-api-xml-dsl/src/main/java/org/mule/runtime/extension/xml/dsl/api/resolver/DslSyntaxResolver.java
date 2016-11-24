@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
@@ -129,10 +127,7 @@ public class DslSyntaxResolver {
                                  @Override
                                  protected void defaultVisit(MetadataType metadataType) {
                                    builder.withNamespace(namespace, namespaceUri).withElementName(hyphenize(parameter.getName()));
-
-                                   if (!isContent) {
-                                     builder.withAttributeName(parameter.getName());
-                                   }
+                                   addAttributeName(isContent, builder, parameter);
 
                                  }
 
@@ -144,7 +139,6 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  public void visitArrayType(ArrayType arrayType) {
-                                   validateParameterNameIsPlural(parameter.getName());
                                    defaultVisit(arrayType);
                                    MetadataType genericType = arrayType.getType();
                                    boolean supportsInline = supportsInlineDeclaration(arrayType, expressionSupport,
@@ -162,9 +156,7 @@ public class DslSyntaxResolver {
                                  @Override
                                  public void visitObject(ObjectType objectType) {
 
-                                   if (!isContent) {
-                                     builder.withAttributeName(parameter.getName());
-                                   }
+                                   addAttributeName(isContent, builder, parameter);
 
                                    builder.withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameter.getName()))
@@ -191,6 +183,7 @@ public class DslSyntaxResolver {
                                  @Override
                                  public void visitDictionary(DictionaryType dictionaryType) {
                                    String parameterName = isContent ? parameter.getName() : pluralize(parameter.getName());
+                                   addAttributeName(isContent, builder, parameter);
 
                                    builder.withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameterName))
@@ -198,10 +191,9 @@ public class DslSyntaxResolver {
                                                                                            expressionSupport,
                                                                                            isContent));
                                    if (!isContent) {
-                                     builder.withAttributeName(parameter.getName())
-                                         .withGeneric(dictionaryType.getKeyType(),
-                                                      DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE)
-                                                          .build());
+                                     builder.withGeneric(dictionaryType.getKeyType(),
+                                                         DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE)
+                                                             .build());
 
                                      dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder,
                                                                                                         parameter.getName(),
@@ -213,9 +205,10 @@ public class DslSyntaxResolver {
     return builder.build();
   }
 
-  private void validateParameterNameIsPlural(String name) {
-    checkArgument(!name.equals(singularize(name)),
-                  format("Parameter '%s' represents a collection and should be a plural name", name));
+  private void addAttributeName(boolean isContent, DslElementSyntaxBuilder builder, ParameterModel parameter) {
+    if (!isContent) {
+      builder.withAttributeName(parameter.getName());
+    }
   }
 
   /**

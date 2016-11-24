@@ -437,14 +437,20 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
                                                               hyphenize(singularize(SINGULARIZABLE_PARAMETER_NAME))));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testCollectionWithSameSingularizedChildName() {
     MetadataType itemType = TYPE_BUILDER.stringType().id(String.class.getName()).build();
     when(parameterModel.getName()).thenReturn(PARAMETER_NAME);
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName())
         .of(itemType)
         .build());
-    getSyntaxResolver().resolve(parameterModel);
+    ifContentParameter(() -> {
+      DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
+      assertNoGeneric(result, itemType);
+    },
+                       () -> assertCollectionDslElementSyntax(itemType, parameterModel, PARAMETER_NAME,
+                                                              hyphenize(PARAMETER_NAME),
+                                                              itemize(PARAMETER_NAME)));
   }
 
   private void assertCollectionDslElementSyntax(MetadataType itemType, ParameterModel parameterModel, String parameterName,
