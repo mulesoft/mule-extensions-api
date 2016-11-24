@@ -7,24 +7,20 @@
 package org.mule.runtime.extension.api.loader;
 
 
-import org.mule.runtime.api.deployment.meta.MulePluginLoaderDescriptor;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 
 import java.util.Map;
 
 /**
- * Loader for {@link ExtensionModel} for a Mule plugin artifact from a set of attributes read by the {@link MulePluginModel}.
- * <p/>
- * The parametrization of {@link #loadExtensionModel(ClassLoader, Map)} method should become from the {@link MulePluginLoaderDescriptor#getAttributes()}
- * method, where that descriptor comes from a {@link MulePluginModel#getExtensionModelLoaderDescriptor()}.
+ * Loader of an {@link ExtensionModel} for a Mule plugin artifact from a set of attributes read by the {@link MulePluginModel}.
  *
  * @since 1.0
  */
 public interface ExtensionModelLoader {
 
   /**
-   * @return an identifier to be compared with a {@link MulePluginLoaderDescriptor#getId()). Non null neither blank.
+   * @return an identifier of this {@link ExtensionModelLoader}. Non null neither blank.
    * <p/>
    * The ID must be unique among all {@link ExtensionModelLoader }.
    */
@@ -40,7 +36,7 @@ public interface ExtensionModelLoader {
    *
    * @param pluginClassLoader context {@link ClassLoader} that holds all the needed classes and resources to properly generate
    *                          an {@link ExtensionModel}.
-   * @param attributes a set of attributes to work with in each concrete implementation of {@link org.mule.runtime.api.deployment.loader.ExtensionModelLoader}, which will
+   * @param attributes a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader}, which will
    *                   be responsible of extracting the mandatory parameters (while casting, if needed).
    * @return an {@link ExtensionModel} that represents the plugin being described
    * @throws IllegalArgumentException if there are missing entries in {@code attributes} or the type of any of them does not apply
