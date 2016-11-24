@@ -13,8 +13,8 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
 import org.mule.metadata.persistence.SerializationContext;
-import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.Category;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -176,7 +176,6 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     out.name(TYPES);
     out.beginArray();
     final Set<ObjectType> objectTypes = new LinkedHashSet<>();
-    objectTypes.addAll(serializationContext.getRegisteredObjectTypes());
     objectTypes.addAll(additionalTypes);
     for (ObjectType type : objectTypes) {
       typeWriter.write(type, out);
