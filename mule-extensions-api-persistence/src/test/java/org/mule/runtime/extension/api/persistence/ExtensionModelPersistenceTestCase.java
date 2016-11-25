@@ -33,6 +33,7 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.XmlDslModel;
@@ -48,6 +49,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnota
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.model.error.ErrorModelBuilder;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
@@ -74,6 +76,10 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
   private static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
   private static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON = "extension/list-of-serialized-extension-model.json";
+  private static final ErrorModel PARENT_ERROR_MODEL =
+      ErrorModelBuilder.newError("PARENT_ERROR_MODEL", "ERROR_NAMESPACE").build();
+  private static final ErrorModel ERROR_MODEL =
+      ErrorModelBuilder.newError("SOME_ERROR", "ERROR_NAMESPACE").withParent(PARENT_ERROR_MODEL).build();
 
   private final BaseTypeBuilder typeBuilder = BaseTypeBuilder.create(MetadataFormat.JAVA);
   private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
@@ -139,7 +145,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asParameterGroup(carNameParameter, complexParameter),
                                     new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
                                     new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet()),
-                                    defaultDisplayModel, modelProperties);
+                                    defaultDisplayModel, modelProperties, singleton(ERROR_MODEL));
     final ImmutableConnectionProviderModel basicAuth =
         new ImmutableConnectionProviderModel("BasicAuth",
                                              "Basic Auth Config",
@@ -154,7 +160,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
                                     singletonList(basicAuth), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), singleton(exportedType), emptySet(), emptySet());
+                                    emptySet(), singleton(exportedType), emptySet(), emptySet(), singleton(ERROR_MODEL));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

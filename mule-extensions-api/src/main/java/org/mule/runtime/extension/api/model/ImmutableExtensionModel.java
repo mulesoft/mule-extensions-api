@@ -10,6 +10,7 @@ import static com.google.common.collect.ImmutableSet.copyOf;
 import static com.google.common.collect.ImmutableSet.of;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.MuleVersion;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -41,6 +42,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final MuleVersion minMuleVersion;
   private final Category category;
   private final List<ConfigurationModel> configurations;
+  private final Set<ErrorModel> errorTypes;
   private final Set<ObjectType> types;
   private final XmlDslModel xmlDslModel;
   private final Set<SubTypesModel> subTypes;
@@ -82,7 +84,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<SubTypesModel> subTypes,
                                  Set<ObjectType> types,
                                  Set<ImportedTypeModel> importedTypes,
-                                 Set<ModelProperty> modelProperties) {
+                                 Set<ModelProperty> modelProperties,
+                                 Set<ErrorModel> errorTypes) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
 
@@ -102,6 +105,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.importedTypes = copy(importedTypes);
     this.subTypes = copy(subTypes);
     this.xmlDslModel = xmlDslModel;
+    this.errorTypes = errorTypes;
   }
 
   /**
@@ -182,6 +186,14 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Set<SubTypesModel> getSubTypes() {
     return subTypes;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<ErrorModel> getErrorModels() {
+    return errorTypes;
   }
 
   private void checkModelArgument(boolean condition, String errorMessage) {

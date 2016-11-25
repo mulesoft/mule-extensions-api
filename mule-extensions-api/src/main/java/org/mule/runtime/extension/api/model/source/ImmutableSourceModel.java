@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.api.model.source;
 
+import static java.util.Collections.emptySet;
+
+import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.extension.api.model.AbstractComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -13,6 +18,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -55,5 +61,10 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
   @Override
   public boolean hasResponse() {
     return hasResponse;
+  }
+
+  @Override
+  public Set<ErrorModel> getErrorTypes() {
+    return emptySet();
   }
 }

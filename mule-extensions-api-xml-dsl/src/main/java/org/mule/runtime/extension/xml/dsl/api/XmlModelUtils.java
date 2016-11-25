@@ -81,5 +81,4 @@ public final class XmlModelUtils {
   private static String buildDefaultSchemaLocation(String namespaceLocation, String xsdFileName) {
     return String.format("%s/%s/%s", namespaceLocation, CURRENT_VERSION, xsdFileName);
   }
-
 }

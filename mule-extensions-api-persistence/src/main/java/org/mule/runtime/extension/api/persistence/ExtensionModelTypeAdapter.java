@@ -9,6 +9,15 @@ package org.mule.runtime.extension.api.persistence;
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
@@ -23,20 +32,12 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
+import org.mule.runtime.extension.api.model.error.DefaultErrorModel;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.TypeAdapter;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -98,6 +99,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     writeWithDelegate(model.getConnectionProviders(), CONNECTION_PROVIDERS, out,
                       new TypeToken<List<ConnectionProviderModel>>() {});
     writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {});
+    writeWithDelegate(model.getErrorModels(), "errorTypes", out, new TypeToken<Set<ErrorModel>>() {});
 
     writeExtensionLevelModelProperties(out, model);
 
@@ -133,7 +135,9 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
                                        subTypes,
                                        types,
                                        importedTypes,
-                                       parseExtensionLevelModelProperties(json));
+                                       parseExtensionLevelModelProperties(json),
+                                       gsonDelegate.fromJson(json.get("errorTypes"),
+                                                             new TypeToken<Set<DefaultErrorModel>>() {}.getType()));
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {

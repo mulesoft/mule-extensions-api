@@ -10,6 +10,7 @@ import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
@@ -24,6 +25,8 @@ import java.util.Set;
  */
 public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel {
 
+  private final Set<ErrorModel> errorTypes;
+
   /**
    * Creates a new instance with the given state
    *
@@ -33,7 +36,9 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
    * @param output               an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output {@link Message}
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
+   * @param errorTypes           A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
    * @param modelProperties      A {@link Set} of custom properties which extend this model
+   *                             the operation
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableOperationModel(String name,
@@ -42,7 +47,16 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
                                  OutputModel output,
                                  OutputModel outputAttributes,
                                  DisplayModel displayModel,
+                                 Set<ErrorModel> errorTypes,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties, parameterGroupModels, output, outputAttributes);
+    this.errorTypes = errorTypes;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Set<ErrorModel> getErrorTypes() {
+    return errorTypes;
   }
 }
