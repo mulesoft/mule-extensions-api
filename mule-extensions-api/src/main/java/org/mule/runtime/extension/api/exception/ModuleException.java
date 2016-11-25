@@ -17,29 +17,29 @@ import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
  *
  * @since 1.0
  */
-public class ExtensionTypedException extends RuntimeException {
+public class ModuleException extends RuntimeException {
 
   private ErrorTypeDefinition type;
 
   /**
-   * @param exception           The {@link ExtensionTypedException#getCause()} of this new exception.
+   * @param exception           The {@link ModuleException#getCause()} of this new exception.
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
-  public <T extends Enum<T>> ExtensionTypedException(Exception exception, ErrorTypeDefinition<T> errorTypeDefinition) {
+  public <T extends Enum<T>> ModuleException(Exception exception, ErrorTypeDefinition<T> errorTypeDefinition) {
     super(exception);
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
   }
 
   /**
-   * @param exception           The {@link ExtensionTypedException#getCause()} of this new exception.
+   * @param exception           The {@link ModuleException#getCause()} of this new exception.
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    * @param message             to override the one from the original exception
    * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
-  public <T extends Enum<T>> ExtensionTypedException(Exception exception, ErrorTypeDefinition<T> errorTypeDefinition,
-                                                     String message) {
+  public <T extends Enum<T>> ModuleException(Exception exception, ErrorTypeDefinition<T> errorTypeDefinition,
+                                             String message) {
     super(message, exception);
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
