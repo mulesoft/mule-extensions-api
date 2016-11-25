@@ -11,6 +11,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,7 +31,6 @@ import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
-import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -65,6 +65,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -103,7 +104,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   @Before
   public void setUp() {
     final ImmutableParameterModel carNameParameter =
-        new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, true, SUPPORTED, "",
+        new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, SUPPORTED, "",
@@ -252,10 +253,15 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   }
 
   private List<ParameterGroupModel> asParameterGroup(ParameterModel... parameters) {
+    Set<String> exclusiveParamNames = Stream.of(parameters)
+        .filter(p -> !p.isRequired())
+        .map(ParameterModel::getName)
+        .collect(toSet());
+
     return asList(new ImmutableParameterGroupModel(DEFAULT_GROUP_NAME,
                                                    "",
                                                    asList(parameters),
-                                                   asList(new ImmutableExclusiveParametersModel(emptySet(), false)),
+                                                   asList(new ImmutableExclusiveParametersModel(exclusiveParamNames, false)),
                                                    null,
                                                    null,
                                                    emptySet()));

@@ -54,7 +54,7 @@
                 }
               },
               "hasDynamicType": false,
-              "required": true,
+              "required": false,
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
               "role": "BEHAVIOUR",
@@ -445,7 +445,9 @@
           ],
           "exclusiveParametersModels": [
             {
-              "exclusiveParameterNames": [],
+              "exclusiveParameterNames": [
+                "carName"
+              ],
               "isOneRequired": false
             }
           ],
