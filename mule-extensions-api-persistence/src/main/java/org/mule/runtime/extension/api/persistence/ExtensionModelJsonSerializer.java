@@ -35,7 +35,7 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.model.error.DefaultErrorModel;
+import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
@@ -140,8 +140,8 @@ public class ExtensionModelJsonSerializer {
     final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
-    final DefaultImplementationTypeAdapterFactory<ErrorModel, DefaultErrorModel> errorModelTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, DefaultErrorModel.class);
+    final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))

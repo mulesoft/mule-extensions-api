@@ -36,7 +36,7 @@ import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
-import org.mule.runtime.extension.api.model.error.DefaultErrorModel;
+import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import java.io.IOException;
@@ -99,7 +99,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     writeWithDelegate(model.getConnectionProviders(), CONNECTION_PROVIDERS, out,
                       new TypeToken<List<ConnectionProviderModel>>() {});
     writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {});
-    writeWithDelegate(model.getErrorModels(), "errorTypes", out, new TypeToken<Set<ErrorModel>>() {});
+    writeWithDelegate(model.getErrorModels(), "errors", out, new TypeToken<Set<ErrorModel>>() {});
 
     writeExtensionLevelModelProperties(out, model);
 
@@ -135,9 +135,9 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
                                        subTypes,
                                        types,
                                        importedTypes,
-                                       parseExtensionLevelModelProperties(json),
-                                       gsonDelegate.fromJson(json.get("errorTypes"),
-                                                             new TypeToken<Set<DefaultErrorModel>>() {}.getType()));
+                                       gsonDelegate.fromJson(json.get("errors"),
+                                                             new TypeToken<Set<ImmutableErrorModel>>() {}.getType()),
+                                       parseExtensionLevelModelProperties(json));
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {

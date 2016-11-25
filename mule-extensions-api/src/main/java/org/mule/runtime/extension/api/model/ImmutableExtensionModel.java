@@ -42,7 +42,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final MuleVersion minMuleVersion;
   private final Category category;
   private final List<ConfigurationModel> configurations;
-  private final Set<ErrorModel> errorTypes;
+  private final Set<ErrorModel> errors;
   private final Set<ObjectType> types;
   private final XmlDslModel xmlDslModel;
   private final Set<SubTypesModel> subTypes;
@@ -66,6 +66,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param subTypes            A {@link Set} with the sub types defined by this extension
    * @param types               A {@link Set} with the custom types defined by this extension
    * @param importedTypes       A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
+   * @param errors              A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param modelProperties     A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
    */
@@ -84,8 +85,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<SubTypesModel> subTypes,
                                  Set<ObjectType> types,
                                  Set<ImportedTypeModel> importedTypes,
-                                 Set<ModelProperty> modelProperties,
-                                 Set<ErrorModel> errorTypes) {
+                                 Set<ErrorModel> errors,
+                                 Set<ModelProperty> modelProperties) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
 
@@ -105,7 +106,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.importedTypes = copy(importedTypes);
     this.subTypes = copy(subTypes);
     this.xmlDslModel = xmlDslModel;
-    this.errorTypes = errorTypes;
+    this.errors = errors;
   }
 
   /**
@@ -193,7 +194,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    */
   @Override
   public Set<ErrorModel> getErrorModels() {
-    return errorTypes;
+    return errors;
   }
 
   private void checkModelArgument(boolean condition, String errorMessage) {

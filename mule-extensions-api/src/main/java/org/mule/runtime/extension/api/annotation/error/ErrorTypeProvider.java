@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.annotation.error;
 
-import org.mule.runtime.extension.api.ErrorTypeDefinition;
+import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
 import java.util.Set;
 

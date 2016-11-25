@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.exception;
 
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.runtime.api.message.Error;
-import org.mule.runtime.extension.api.ErrorTypeDefinition;
+import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
 /**
  * {@link RuntimeException} implementation to throw {@link Exception}s that indicates explicitly
@@ -20,7 +20,6 @@ import org.mule.runtime.extension.api.ErrorTypeDefinition;
 public class ExtensionTypedException extends RuntimeException {
 
   private ErrorTypeDefinition type;
-  private String detailedMessage;
 
   /**
    * @param exception           The {@link ExtensionTypedException#getCause()} of this new exception.
@@ -37,17 +36,13 @@ public class ExtensionTypedException extends RuntimeException {
    * @param exception           The {@link ExtensionTypedException#getCause()} of this new exception.
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    * @param message             to override the one from the original exception
-   * @param detailedMessage     detailed error message to be able to describe with more detail the error that
-   *                            occurred
    * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
   public <T extends Enum<T>> ExtensionTypedException(Exception exception, ErrorTypeDefinition<T> errorTypeDefinition,
-                                                     String message,
-                                                     String detailedMessage) {
+                                                     String message) {
     super(message, exception);
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
-    this.detailedMessage = detailedMessage;
   }
 
   /**
@@ -55,12 +50,5 @@ public class ExtensionTypedException extends RuntimeException {
    */
   public ErrorTypeDefinition getType() {
     return type;
-  }
-
-  /**
-   * @return The detailed message of the thrown exception
-   */
-  public String getDetailedMessage() {
-    return detailedMessage;
   }
 }

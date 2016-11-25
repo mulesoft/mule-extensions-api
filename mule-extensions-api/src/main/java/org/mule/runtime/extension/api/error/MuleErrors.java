@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api;
+package org.mule.runtime.extension.api.error;
 
 import static java.util.Optional.empty;
 
@@ -17,7 +17,7 @@ import java.util.Optional;
  * @since 1.0
  */
 public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
-  CONNECTIVITY, TRANSFORMATION, EXPRESSION, REDELIVERY_EXHAUSTED, RETRY_EXHAUSTED, ROUTING, SECURITY, ANY {
+  CONNECTIVITY, TRANSFORMATION, EXPRESSION, REDELIVERY_EXHAUSTED, RETRY_EXHAUSTED, ROUTING, SECURITY, OVERLOAD, ANY {
 
     @Override
     public Optional<ErrorTypeDefinition<?>> getParent() {

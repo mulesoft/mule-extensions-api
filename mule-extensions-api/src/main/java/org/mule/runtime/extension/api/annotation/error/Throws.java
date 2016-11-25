@@ -7,18 +7,16 @@
 package org.mule.runtime.extension.api.annotation.error;
 
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import org.mule.runtime.extension.api.ErrorTypeDefinition;
-import org.mule.runtime.extension.api.annotation.Extension;
+import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declares an array of {@link Class}es of an {@link ErrorTypeProvider}, to communicate and declare
+ * Declares an array of {@link Class classes} of an {@link ErrorTypeProvider}, to communicate and declare
  * which {@link ErrorTypeDefinition} the operation could throw.
  *
  * @since 1.0

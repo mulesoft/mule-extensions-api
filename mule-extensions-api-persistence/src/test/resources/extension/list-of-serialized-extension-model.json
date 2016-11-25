@@ -19,6 +19,16 @@
     "configurations": [],
     "operations": [
       {
+        "errors": [
+          {
+            "type": "SOME_ERROR",
+            "namespace": "ERROR_NAMESPACE",
+            "parent": {
+              "type": "PARENT_ERROR_MODEL",
+              "namespace": "ERROR_NAMESPACE"
+            }
+          }
+        ],
         "output": {
           "type": {
             "format": "java",
@@ -582,6 +592,16 @@
       }
     ],
     "messageSources": [],
+    "errors": [
+      {
+        "type": "SOME_ERROR",
+        "namespace": "ERROR_NAMESPACE",
+        "parent": {
+          "type": "PARENT_ERROR_MODEL",
+          "namespace": "ERROR_NAMESPACE"
+        }
+      }
+    ],
     "modelProperties": {},
     "types": [
       {
@@ -627,6 +647,16 @@
     "configurations": [],
     "operations": [
       {
+        "errors": [
+          {
+            "type": "SOME_ERROR",
+            "namespace": "ERROR_NAMESPACE",
+            "parent": {
+              "type": "PARENT_ERROR_MODEL",
+              "namespace": "ERROR_NAMESPACE"
+            }
+          }
+        ],
         "output": {
           "type": {
             "format": "java",
@@ -1190,6 +1220,16 @@
       }
     ],
     "messageSources": [],
+    "errors": [
+      {
+        "type": "SOME_ERROR",
+        "namespace": "ERROR_NAMESPACE",
+        "parent": {
+          "type": "PARENT_ERROR_MODEL",
+          "namespace": "ERROR_NAMESPACE"
+        }
+      }
+    ],
     "modelProperties": {},
     "types": [
       {

@@ -25,7 +25,7 @@ import java.util.Set;
  */
 public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel {
 
-  private final Set<ErrorModel> errorTypes;
+  private final Set<ErrorModel> errors;
 
   /**
    * Creates a new instance with the given state
@@ -36,9 +36,9 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
    * @param output               an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output {@link Message}
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
-   * @param errorTypes           A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
-   * @param modelProperties      A {@link Set} of custom properties which extend this model
-   *                             the operation
+   * @param errors           A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
+   *                         the operation
+   * @param modelProperties  A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableOperationModel(String name,
@@ -47,16 +47,16 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
                                  OutputModel output,
                                  OutputModel outputAttributes,
                                  DisplayModel displayModel,
-                                 Set<ErrorModel> errorTypes,
+                                 Set<ErrorModel> errors,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties, parameterGroupModels, output, outputAttributes);
-    this.errorTypes = errorTypes;
+    this.errors = errors;
   }
 
   /**
    * {@inheritDoc}
    */
-  public Set<ErrorModel> getErrorTypes() {
-    return errorTypes;
+  public Set<ErrorModel> getErrorModels() {
+    return errors;
   }
 }

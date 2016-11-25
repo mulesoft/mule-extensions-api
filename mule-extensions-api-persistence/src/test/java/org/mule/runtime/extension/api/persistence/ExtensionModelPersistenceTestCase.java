@@ -49,7 +49,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnota
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.model.error.ErrorModelBuilder;
+import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
@@ -145,7 +145,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asParameterGroup(carNameParameter, complexParameter),
                                     new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
                                     new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet()),
-                                    defaultDisplayModel, modelProperties, singleton(ERROR_MODEL));
+                                    defaultDisplayModel, singleton(ERROR_MODEL), modelProperties);
     final ImmutableConnectionProviderModel basicAuth =
         new ImmutableConnectionProviderModel("BasicAuth",
                                              "Basic Auth Config",
@@ -160,7 +160,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
                                     singletonList(basicAuth), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), singleton(exportedType), emptySet(), emptySet(), singleton(ERROR_MODEL));
+                                    emptySet(), singleton(exportedType), emptySet(), singleton(ERROR_MODEL), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

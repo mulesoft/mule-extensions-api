@@ -4,7 +4,9 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api;
+package org.mule.runtime.extension.api.error;
+
+import static java.util.Optional.empty;
 
 import java.util.Optional;
 
@@ -37,6 +39,6 @@ public interface ErrorTypeDefinition<E extends Enum<E>> {
    * @return The {@link Optional} parent of the current error type definition
    */
   default Optional<ErrorTypeDefinition<? extends Enum<?>>> getParent() {
-    return Optional.empty();
+    return empty();
   }
 }
