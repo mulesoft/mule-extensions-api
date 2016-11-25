@@ -39,7 +39,7 @@ public class TypeUtilsTestCase {
     @Parameter
     private String description;
 
-    @ParameterGroup
+    @ParameterGroup("group")
     private TestParameterGroup group;
   }
 
@@ -48,8 +48,5 @@ public class TypeUtilsTestCase {
 
     @Parameter
     private String groupParameter;
-
-    @ParameterGroup
-    private TestParameterGroup nestedGroup;
   }
 }

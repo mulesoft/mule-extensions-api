@@ -6,8 +6,10 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static java.util.Collections.emptySet;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.persistence.DefaultObjectTypeReferenceHandler;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.internal.utils.MetadataTypeUtils;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
@@ -24,6 +26,8 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
@@ -31,6 +35,8 @@ import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 
@@ -41,6 +47,9 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Serializer that can convert a {@link ExtensionModel} into a readable and processable JSON representation and from a JSON
@@ -48,12 +57,12 @@ import java.util.List;
  * <p>
  * <b>Considerations:</b>
  * <ul>
- * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that {@link ModelProperty#isExternalizable()}
- * returns {@code true}, will be serialized</li>
- * <li>Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only
- * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel}
- * is going to be identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized
- * tagging it with the full qualifier name of the class.</li>
+ * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that
+ * {@link ModelProperty#isExternalizable()} returns {@code true}, will be serialized</li>
+ * <li>Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only the
+ * already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel} is going to be
+ * identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized tagging it with the full
+ * qualifier name of the class.</li>
  * <li>When deserializing {@link ModelProperty}s, their full qualified name will be used, if the class is not found in the
  * ClassLoader the {@link ModelProperty} object will be discarded</li>
  * </ul>
@@ -63,11 +72,11 @@ import java.util.List;
 public class ExtensionModelJsonSerializer {
 
   private final boolean prettyPrint;
+  private Set<ObjectType> registeredTypes = emptySet();
 
   /**
-   * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
-   * This serializer is capable of serializing and deserializing {@link ExtensionModel} from JSON ({@link #deserialize(String)}
-   * and to JSON ( {@link #serialize(ExtensionModel)}
+   * Creates a new instance of the {@link ExtensionModelJsonSerializer}. This serializer is capable of serializing and
+   * deserializing {@link ExtensionModel} from JSON ({@link #deserialize(String)} and to JSON ( {@link #serialize(ExtensionModel)}
    */
   public ExtensionModelJsonSerializer() {
     this(false);
@@ -76,8 +85,8 @@ public class ExtensionModelJsonSerializer {
   /**
    * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
    *
-   * @param prettyPrint boolean indicating if the serialization of the {@link ExtensionModel} should be printed in
-   *                    a human readable or into compact and more performable format
+   * @param prettyPrint boolean indicating if the serialization of the {@link ExtensionModel} should be printed in a human
+   *        readable or into compact and more performable format
    */
   public ExtensionModelJsonSerializer(boolean prettyPrint) {
     this.prettyPrint = prettyPrint;
@@ -104,7 +113,13 @@ public class ExtensionModelJsonSerializer {
   }
 
   private GsonBuilder gsonBuilder(SerializationContext serializationContext, boolean prettyPrint) {
-    final ObjectTypeReferenceHandler referenceHandler = new DefaultObjectTypeReferenceHandler(serializationContext);
+    Set<String> registeredTypeIds = registeredTypes.stream()
+        .map(MetadataTypeUtils::getTypeId)
+        .filter(Optional::isPresent)
+        .map(Optional::get).collect(Collectors.toSet());
+
+    final ObjectTypeReferenceHandler referenceHandler =
+        new RestrictedTypesObjectTypeReferenceHandler(serializationContext, registeredTypeIds);
 
     final DefaultImplementationTypeAdapterFactory configurationModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(ConfigurationModel.class, ImmutableConfigurationModel.class);
@@ -116,6 +131,10 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
     final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
+    final DefaultImplementationTypeAdapterFactory parameterGroupModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(ParameterGroupModel.class, ImmutableParameterGroupModel.class);
+    final DefaultImplementationTypeAdapterFactory exclusiveParametersTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(ExclusiveParametersModel.class, ImmutableExclusiveParametersModel.class);
     final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
@@ -130,6 +149,8 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(parameterGroupModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(exclusiveParametersTypeAdapterFactory)
         .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
         .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
         .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
@@ -148,6 +169,7 @@ public class ExtensionModelJsonSerializer {
    * @return {@link String} JSON representation of the {@link ExtensionModel}
    */
   public String serialize(ExtensionModel extensionModel) {
+    registeredTypes = extensionModel.getTypes();
     return buildGson().toJson(extensionModel);
   }
 

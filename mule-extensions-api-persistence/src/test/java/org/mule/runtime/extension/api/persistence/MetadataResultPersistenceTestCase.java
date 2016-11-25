@@ -13,6 +13,7 @@ import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
 import static org.mule.runtime.api.metadata.resolving.FailureCode.CONNECTION_FAILURE;
 import static org.mule.runtime.api.metadata.resolving.FailureCode.INVALID_METADATA_KEY;
 import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED;
+import static org.mule.runtime.api.metadata.resolving.FailureCode.NO_DYNAMIC_METADATA_AVAILABLE;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.mergeResults;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
@@ -58,6 +59,7 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
   private static final String METADATA_RESULT_FAILURE_JSON = "metadata/failure-result.json";
   private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
   private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "metadata/failure-entity-result.json";
+  private static final String METADATA_WITHOUT_INPUT_FAILURE_JSON = "metadata/failure-no-dynamic-metadata-available.json";
 
   private static final String FIRST_KEY_ID = "firstKey";
   private static final String SECOND_KEY_ID = "secondKey";
@@ -207,6 +209,19 @@ public class MetadataResultPersistenceTestCase extends BasePersistenceTestCase {
     assertThat(metadataFailures.get().getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
     assertThat(metadataFailures.get().getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
     assertThat(metadataFailures.get().getFailureCode().getName(), is(NOT_AUTHORIZED.getName()));
+  }
+
+  @Test
+  public void deserializeNoDynamicMetadataAvailable() throws IOException {
+    String resource = getResourceAsString(METADATA_WITHOUT_INPUT_FAILURE_JSON);
+    MetadataResult<ComponentMetadataDescriptor> metadataResult = metadataDescriptorSerializer.deserialize(resource);
+    assertThat(metadataResult.isSuccess(), is(false));
+    assertThat(metadataResult.getFailure().isPresent(), is(true));
+
+    Optional<MetadataFailure> metadataFailures = metadataResult.getFailure();
+    assertThat(metadataFailures.get().getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
+    assertThat(metadataFailures.get().getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
+    assertThat(metadataFailures.get().getFailureCode().getName(), is(NO_DYNAMIC_METADATA_AVAILABLE.getName()));
   }
 
   @Test

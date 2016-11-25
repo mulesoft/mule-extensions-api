@@ -6,23 +6,31 @@
  */
 package org.mule.runtime.extension.api.annotation.param;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+
 import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a field inside a mule extension as being a set of parameters that the user can set.
- * This annotation is intended to be applied into fields which type is a POJO which properties
- * are to be processed as attributes. For example:
- * <p/>
+ * Allows to define a group of parameters which share some kind of special relationship and thus makes
+ * sense for them to belong to the same group. This grouping is done by placing these parameters as
+ * fields of the same Java class, and then use that class alongside this annotation.
+ * <p>
+ * Unlike a regular pojo, the parameters defined in this class will be flattened and the owning
+ * {@link ParameterizedModel} will not contain any reference to the defining class.
+ * <p>
+ * For example:
  * <pre>
  *     {@code
  *     @Extension
  *     public class MyExtension {
  *
- *         @ParameterGroup
+ *         @ParameterGroup("some group name")
  *         private Options options;
  *     }
  *
@@ -44,24 +52,7 @@ import java.lang.annotation.Target;
  * The configuration has no attribute called options. If the Options class were to have another field also annotated with
  * {@link ParameterGroup}, then such fields will be ignored.
  * <p/>
- * It can also be used to define a hierarchy of nested parameter classes:
- * <pre>
- *     {@code
- *
- *     public class Options {
- *
- *          @Parameter
- *          private String color;
- *
- *          @Parameter
- *          @Optional
- *          private String mode;
- *
- *          @ParameterGroup
- *          private MoreOptions moreOptions;
- *     }
- *     }
- * </pre>
+ * <p>
  * In this other example, the configuration that is augmented with this extra parameters
  * will have the sum of Options and MoreOptions parameters. Those parameters will be flattened, meaning
  * that the model will contain no reference to the fact that the MoreOptions parameters were nested inside
@@ -92,9 +83,22 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
-@Target({ElementType.FIELD, ElementType.PARAMETER})
-@Retention(RetentionPolicy.RUNTIME)
+@Target({FIELD, PARAMETER})
+@Retention(RUNTIME)
 @Documented
 public @interface ParameterGroup {
 
+  /**
+   * Group name for parameters that are considered for advanced usage.
+   */
+  String ADVANCED = ParameterGroupModel.ADVANCED;
+  /**
+   * Group name for parameters that are considered to be part of a connection configuration.
+   */
+  String CONNECTION = ParameterGroupModel.CONNECTION;
+
+  /**
+   * The name of the group being defined. This name cannot be equivalent to {@link ParameterGroupModel#DEFAULT_GROUP_NAME}
+   */
+  String value();
 }

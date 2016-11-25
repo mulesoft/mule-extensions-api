@@ -59,7 +59,7 @@ public class ExtensionModelUtils {
    * @return a {@link List} of {@link ParameterModel}. Can be empty but will never be {@code null}
    */
   public static List<ParameterModel> getDynamicParameters(ParameterizedModel model) {
-    return model.getParameterModels().stream().filter(parameter -> acceptsExpressions(parameter.getExpressionSupport()))
+    return model.getAllParameterModels().stream().filter(parameter -> acceptsExpressions(parameter.getExpressionSupport()))
         .collect(toList());
   }
 

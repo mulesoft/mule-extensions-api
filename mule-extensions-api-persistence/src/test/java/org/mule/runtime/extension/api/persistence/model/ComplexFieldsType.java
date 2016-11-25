@@ -29,10 +29,10 @@ public class ComplexFieldsType {
   @Parameter
   private NotGlobalType notGlobalType;
 
-  @ParameterGroup
+  @ParameterGroup("ParameterGroupType")
   private ParameterGroupType parameterGroupType;
 
-  @ParameterGroup
+  @ParameterGroup("Complex Type Field Group")
   private ComplexTypeFieldGroup complexTypeFieldGroup;
 
   public ComplexTypeFieldGroup getComplexTypeFieldGroup() {

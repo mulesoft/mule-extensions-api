@@ -6,17 +6,17 @@
  */
 package org.mule.runtime.extension.api.model.config;
 
-import org.mule.runtime.api.meta.model.config.ConfigurationModel;
-import org.mule.runtime.extension.api.model.AbstractComplexModel;
+import static java.util.Collections.unmodifiableList;
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.extension.api.model.AbstractComplexModel;
 
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,38 +27,38 @@ import java.util.Set;
  */
 public class ImmutableConfigurationModel extends AbstractComplexModel implements ConfigurationModel {
 
-  private List<ParameterModel> parameterModels = new LinkedList<>();
+  private final List<ParameterGroupModel> parameterGroupModels;
 
   /**
    * Creates a new instance with the given state
    *
-   * @param name                the configuration's name
-   * @param description         the configuration's description
-   * @param parameterModels     a {@link List} with the configuration's {@link ParameterModel parameterModels}
-   * @param operationModels     a {@link List} with the extension's {@link OperationModel operationModels}
-   * @param connectionProviders a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-   * @param sourceModels        a {@link List} with the extension's {@link SourceModel message source models}
-   * @param displayModel        a model which contains directive about how this configuration is displayed in the UI
-   * @param modelProperties     a {@link Set} of custom properties which extend this model
+   * @param name                 the configuration's name
+   * @param description          the configuration's description
+   * @param parameterGroupModels a {@link List} with the configuration's {@link ParameterGroupModel parameter group models}
+   * @param operationModels      a {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders  a {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels         a {@link List} with the extension's {@link SourceModel message source models}
+   * @param displayModel         a model which contains directive about how this configuration is displayed in the UI
+   * @param modelProperties      a {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
    */
   public ImmutableConfigurationModel(String name,
                                      String description,
-                                     List<ParameterModel> parameterModels,
+                                     List<ParameterGroupModel> parameterGroupModels,
                                      List<OperationModel> operationModels,
                                      List<ConnectionProviderModel> connectionProviders,
                                      List<SourceModel> sourceModels,
                                      DisplayModel displayModel,
                                      Set<ModelProperty> modelProperties) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
-    this.parameterModels = Collections.unmodifiableList(parameterModels);
+    this.parameterGroupModels = unmodifiableList(new ArrayList<>(parameterGroupModels));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public List<ParameterModel> getParameterModels() {
-    return parameterModels;
+  public List<ParameterGroupModel> getParameterGroupModels() {
+    return parameterGroupModels;
   }
 }

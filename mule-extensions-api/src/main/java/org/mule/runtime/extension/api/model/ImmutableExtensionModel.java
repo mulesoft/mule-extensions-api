@@ -98,14 +98,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.category = category;
     this.version = version;
     this.vendor = vendor;
-    this.types = copySet(types);
-    this.importedTypes = copySet(importedTypes);
-    this.subTypes = copySet(subTypes);
+    this.types = copy(types);
+    this.importedTypes = copy(importedTypes);
+    this.subTypes = copy(subTypes);
     this.xmlDslModel = xmlDslModel;
-  }
-
-  private <T> Set<T> copySet(Set<T> values) {
-    return values != null ? copyOf(values) : of();
   }
 
   /**
