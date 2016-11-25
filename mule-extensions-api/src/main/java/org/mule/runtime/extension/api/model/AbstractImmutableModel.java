@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.model;
 
+import static com.google.common.collect.ImmutableSet.copyOf;
+import static com.google.common.collect.ImmutableSet.of;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
@@ -14,8 +16,11 @@ import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -75,6 +80,14 @@ public abstract class AbstractImmutableModel implements DescribedObject, Enricha
   @Override
   public String toString() {
     return reflectionToString(this);
+  }
+
+  protected <T> Set<T> copy(Set<T> values) {
+    return values != null ? copyOf(values) : of();
+  }
+
+  protected <T> List<T> copy(List<T> values) {
+    return values != null ? ImmutableList.copyOf(values) : ImmutableList.of();
   }
 
   private void loadProperties(Collection<ModelProperty> properties) {

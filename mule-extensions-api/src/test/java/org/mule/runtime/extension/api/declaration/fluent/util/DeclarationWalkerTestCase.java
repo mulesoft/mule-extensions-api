@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.declaration.fluent.util;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
@@ -16,6 +17,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
@@ -46,7 +48,10 @@ public class DeclarationWalkerTestCase {
   private ConnectionProviderDeclaration connectionProvider;
 
   @Mock
-  private ParameterDeclaration parameterModel;
+  private ParameterGroupDeclaration parameterGroup;
+
+  @Mock
+  private ParameterDeclaration parameter;
 
   @Mock
   private SourceDeclaration source;
@@ -61,13 +66,14 @@ public class DeclarationWalkerTestCase {
     when(configuration.getOperations()).thenReturn(asList(operation));
     when(configuration.getMessageSources()).thenReturn(asList(source));
     when(configuration.getConnectionProviders()).thenReturn(asList(connectionProvider));
+    when(parameterGroup.getParameters()).thenReturn(asList(parameter));
 
     addParameter(configuration, operation, connectionProvider, source);
   }
 
   private void addParameter(ParameterizedDeclaration... declarations) {
     for (ParameterizedDeclaration declaration : declarations) {
-      when(declaration.getParameters()).thenReturn(asList(parameterModel));
+      when(declaration.getParameterGroups()).thenReturn(asList(parameterGroup));
     }
   }
 
@@ -76,6 +82,7 @@ public class DeclarationWalkerTestCase {
     AtomicInteger configs = new AtomicInteger(0);
     AtomicInteger operations = new AtomicInteger(0);
     AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
     AtomicInteger parameters = new AtomicInteger(0);
     AtomicInteger providers = new AtomicInteger(0);
 
@@ -102,7 +109,14 @@ public class DeclarationWalkerTestCase {
       }
 
       @Override
-      public void onParameter(ParameterizedDeclaration owner, ParameterDeclaration declaration) {
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
         parameters.incrementAndGet();
       }
     }.walk(extension);
@@ -111,6 +125,7 @@ public class DeclarationWalkerTestCase {
     assertCount(operations, 2);
     assertCount(sources, 2);
     assertCount(providers, 2);
+    assertCount(parameterGroups, 7);
     assertCount(parameters, 7);
   }
 

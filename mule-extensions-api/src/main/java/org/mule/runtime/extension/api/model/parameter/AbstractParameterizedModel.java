@@ -6,13 +6,14 @@
  */
 package org.mule.runtime.extension.api.model.parameter;
 
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
-import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
+import static java.util.Collections.unmodifiableList;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ import java.util.Set;
  */
 public abstract class AbstractParameterizedModel extends AbstractNamedImmutableModel implements ParameterizedModel {
 
-  private final List<ParameterModel> parameterModels;
+  private final List<ParameterGroupModel> parameterGroupModels;
 
   /**
    * Creates a new instance
@@ -32,23 +33,20 @@ public abstract class AbstractParameterizedModel extends AbstractNamedImmutableM
    * @param description     the model's description
    * @param displayModel    a model which contains directive about how this component is displayed in the UI
    * @param modelProperties A {@link Set} of custom properties which extend this model
-   * @param parameterModels a {@link List} with the source's {@link ParameterModel parameterModels}
+   * @param parameterGroupModels a {@link List} with the component's {@link ParameterGroupModel parameter group models}
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractParameterizedModel(String name,
                                        String description,
                                        DisplayModel displayModel,
                                        Set<ModelProperty> modelProperties,
-                                       List<ParameterModel> parameterModels) {
+                                       List<ParameterGroupModel> parameterGroupModels) {
     super(name, description, displayModel, modelProperties);
-    this.parameterModels = Collections.unmodifiableList(parameterModels);
+    this.parameterGroupModels = unmodifiableList(new ArrayList<>(parameterGroupModels));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  public List<ParameterModel> getParameterModels() {
-    return parameterModels;
+  public List<ParameterGroupModel> getParameterGroupModels() {
+    return parameterGroupModels;
   }
 }

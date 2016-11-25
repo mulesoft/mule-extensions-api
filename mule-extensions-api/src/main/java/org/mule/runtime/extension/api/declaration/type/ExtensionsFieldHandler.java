@@ -141,7 +141,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     boolean shouldAddTypeAnnotation = false;
     Placement placement = field.getAnnotation(Placement.class);
     if (placement != null) {
-      builder.groupName(placement.group()).tabName(placement.tab()).order(placement.order());
+      builder.tabName(placement.tab()).order(placement.order());
       shouldAddTypeAnnotation = true;
     }
 
