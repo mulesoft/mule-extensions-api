@@ -13,14 +13,15 @@ import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
@@ -69,6 +70,7 @@ public abstract class BaseXmlDeclarationTestCase {
   static final String NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/mockns";
   static final String SCHEMA_LOCATION = "http://www.mulesoft.org/schema/mule/mockns/current/mule-mockns.xsd";
   static final String PARAMETER_NAME = "myCamelCaseName";
+  static final String COLLECTION_NAME = "myCamelCaseNames";
   static final String SINGULARIZABLE_PARAMETER_NAME = "singularizableNames";
   static final String EXTENSION_NAME = "extension";
   static final String OPERATION_NAME = "mockOperation";
@@ -196,6 +198,10 @@ public abstract class BaseXmlDeclarationTestCase {
 
   void assertAttributeName(String expected, DslElementSyntax result) {
     assertThat(result.getAttributeName(), equalTo(expected));
+  }
+
+  void assertEmptyAttributeName(DslElementSyntax result) {
+    assertThat(result.getAttributeName(), isEmptyString());
   }
 
   void assertElementName(String expected, DslElementSyntax result) {

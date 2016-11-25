@@ -127,10 +127,7 @@ public class DslSyntaxResolver {
                                  @Override
                                  protected void defaultVisit(MetadataType metadataType) {
                                    builder.withNamespace(namespace, namespaceUri).withElementName(hyphenize(parameter.getName()));
-
-                                   if (!isContent) {
-                                     builder.withAttributeName(parameter.getName());
-                                   }
+                                   addAttributeName(isContent, builder, parameter);
 
                                  }
 
@@ -158,8 +155,10 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  public void visitObject(ObjectType objectType) {
-                                   builder.withAttributeName(parameter.getName())
-                                       .withNamespace(namespace, namespaceUri)
+
+                                   addAttributeName(isContent, builder, parameter);
+
+                                   builder.withNamespace(namespace, namespaceUri)
                                        .withElementName(hyphenize(parameter.getName()))
                                        .supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
 
@@ -183,9 +182,11 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  public void visitDictionary(DictionaryType dictionaryType) {
-                                   builder.withAttributeName(parameter.getName())
-                                       .withNamespace(namespace, namespaceUri)
-                                       .withElementName(hyphenize(pluralize(parameter.getName())))
+                                   String parameterName = isContent ? parameter.getName() : pluralize(parameter.getName());
+                                   addAttributeName(isContent, builder, parameter);
+
+                                   builder.withNamespace(namespace, namespaceUri)
+                                       .withElementName(hyphenize(parameterName))
                                        .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType,
                                                                                            expressionSupport,
                                                                                            isContent));
@@ -202,6 +203,12 @@ public class DslSyntaxResolver {
                                  }
                                });
     return builder.build();
+  }
+
+  private void addAttributeName(boolean isContent, DslElementSyntaxBuilder builder, ParameterModel parameter) {
+    if (!isContent) {
+      builder.withAttributeName(parameter.getName());
+    }
   }
 
   /**
