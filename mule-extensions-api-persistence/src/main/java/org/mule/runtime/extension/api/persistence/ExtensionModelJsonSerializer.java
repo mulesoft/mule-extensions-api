@@ -16,6 +16,7 @@ import org.mule.metadata.persistence.SerializationContext;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.EnrichableModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -34,6 +35,7 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
@@ -138,6 +140,8 @@ public class ExtensionModelJsonSerializer {
     final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
+    final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
@@ -154,7 +158,8 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
         .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
         .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
-        .registerTypeAdapterFactory(outputModelTypeAdapterFactory);
+        .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(errorModelTypeAdapter);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();
