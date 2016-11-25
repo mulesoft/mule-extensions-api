@@ -39,6 +39,8 @@ public @interface Placement {
    */
   String CONNECTION_TAB = "Connection";
 
+  String SECURITY_TAB = "Security";
+
   String DEFAULT_TAB = "General";
 
   /**
