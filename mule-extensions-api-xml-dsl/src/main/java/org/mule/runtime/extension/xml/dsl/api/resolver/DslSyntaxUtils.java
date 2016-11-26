@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.xml.dsl.api.resolver;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toMap;
 import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.xml.dsl.api.XmlModelUtils.supportsTopLevelDeclaration;
@@ -25,8 +23,6 @@ import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
-import org.mule.runtime.api.meta.model.ImportedTypeModel;
-import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
@@ -35,7 +31,6 @@ import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnno
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -81,16 +76,6 @@ class DslSyntaxUtils {
 
   static boolean isExtensible(MetadataType metadataType) {
     return metadataType.getAnnotation(ExtensibleTypeAnnotation.class).isPresent();
-  }
-
-  static Map<MetadataType, XmlDslModel> loadImportedTypes(ExtensionModel extension, DslResolvingContext context) {
-    return extension.getImportedTypes().stream().collect(toMap(ImportedTypeModel::getImportedType, imported -> {
-      ExtensionModel extensionModel = context.getExtension(imported.getOriginExtensionName())
-          .orElseThrow(() -> new IllegalArgumentException(format(
-                                                                 "The Extension [%s] is not present in the current context",
-                                                                 imported.getOriginExtensionName())));
-      return extensionModel.getXmlDslModel();
-    }));
   }
 
   static SubTypesMappingContainer loadSubTypes(ExtensionModel extension) {

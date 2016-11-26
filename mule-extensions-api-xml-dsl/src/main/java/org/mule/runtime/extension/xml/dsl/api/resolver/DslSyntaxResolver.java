@@ -228,7 +228,8 @@ public class DslSyntaxResolver {
     boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
     boolean supportTopLevelElement = supportTopLevelElement(type, ElementDslModel.getDefaultInstance());
 
-    if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper) {
+    if (!supportsInlineDeclaration && !supportTopLevelElement
+        && !requiresWrapper && subTypesMap.getSuperTypes(type).isEmpty()) {
       return Optional.empty();
     }
 

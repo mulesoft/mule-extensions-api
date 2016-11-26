@@ -30,8 +30,10 @@ import java.util.Map;
  * This behaviour is implemented slightly different depending on the parameter type:
  * <ul>
  * <li>{@link Collection} and {@link Map}: an empty collection/map is created</li>
- * <li>A generic Pojo: A default instance is created (default constructor required). Any
- * {@link Optional} {@link Parameter} fields with a default value will be assigned
+ * <li>A generic Pojo: A default instance is created (default constructor required)</li>
+ * <li>An non-instantiable type: A default instance is created using the type provided
+ *  as parameter in {@code defaultImplementingType}.</li>
+ * Any {@link Optional} {@link Parameter} fields with a default value will be assigned
  * to such default. E.g.:
  * <pre>
  *      public class HelloWorld {
@@ -56,4 +58,11 @@ import java.util.Map;
 @Documented
 public @interface NullSafe {
 
+  /**
+   * Declares the default {@code Type} that will be instantiated if the {@code NullSafe}
+   * mechanism is triggered on a non-instantiable type
+   *
+   * @return the default {@code Type} to be used when creating the default instance
+   */
+  Class<?> defaultImplementingType() default Object.class;
 }
