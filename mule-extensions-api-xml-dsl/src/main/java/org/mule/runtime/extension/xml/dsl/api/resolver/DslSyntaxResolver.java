@@ -111,8 +111,6 @@ public class DslSyntaxResolver {
   public DslElementSyntax resolve(final ParameterModel parameter) {
     final ExpressionSupport expressionSupport = parameter.getExpressionSupport();
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
-    final String namespace = getNamespace(parameter.getType());
-    final String namespaceUri = getNamespaceUri(parameter.getType());
     final ElementDslModel dslModel = parameter.getDslModel();
     final boolean isContent = isContent(parameter);
 
@@ -126,15 +124,20 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  protected void defaultVisit(MetadataType metadataType) {
-                                   builder.withNamespace(namespace, namespaceUri).withElementName(hyphenize(parameter.getName()));
-                                   addAttributeName(isContent, builder, parameter);
+                                   builder.withNamespace(languageModel.getNamespace(),
+                                                         languageModel.getNamespaceUri())
+                                       .withElementName(hyphenize(parameter.getName()));
+                                   addAttributeName(builder, parameter, isContent, dslModel);
 
                                  }
 
                                  @Override
                                  public void visitString(StringType stringType) {
                                    defaultVisit(stringType);
-                                   builder.supportsChildDeclaration(isText(parameter));
+                                   boolean isTextString = isText(parameter);
+                                   // For Text parameters, we don't allow the attribute to be set
+                                   builder.supportsChildDeclaration(isTextString)
+                                       .supportsAttributeDeclaration(!isTextString);
                                  }
 
                                  @Override
@@ -147,8 +150,10 @@ public class DslSyntaxResolver {
                                    if (supportsInline || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
                                      if (!isContent) {
-                                       genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(), namespace,
-                                                                                  namespaceUri, false));
+                                       genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(),
+                                                                                  languageModel.getNamespace(),
+                                                                                  languageModel.getNamespaceUri(),
+                                                                                  false));
                                      }
                                    }
                                  }
@@ -156,9 +161,9 @@ public class DslSyntaxResolver {
                                  @Override
                                  public void visitObject(ObjectType objectType) {
 
-                                   addAttributeName(isContent, builder, parameter);
+                                   addAttributeName(builder, parameter, isContent, dslModel);
 
-                                   builder.withNamespace(namespace, namespaceUri)
+                                   builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
                                        .withElementName(hyphenize(parameter.getName()))
                                        .supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
 
@@ -168,24 +173,22 @@ public class DslSyntaxResolver {
                                    if (shouldGenerateChild || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
                                      if (requiresWrapper) {
-                                       builder.asWrappedElement(true)
-                                           .withNamespace(namespace, namespaceUri);
+                                       builder.asWrappedElement(true);
                                      } else {
-                                       builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri());
-                                     }
-
-                                     if (!isContent) {
-                                       declareFieldsAsChilds(builder, objectType.getFields(), namespace, namespaceUri);
+                                       if (!isContent) {
+                                         declareFieldsAsChilds(builder, objectType.getFields(),
+                                                               languageModel.getNamespace(), languageModel.getNamespaceUri());
+                                       }
                                      }
                                    }
                                  }
 
                                  @Override
                                  public void visitDictionary(DictionaryType dictionaryType) {
-                                   String parameterName = isContent ? parameter.getName() : pluralize(parameter.getName());
-                                   addAttributeName(isContent, builder, parameter);
+                                   addAttributeName(builder, parameter, isContent, dslModel);
 
-                                   builder.withNamespace(namespace, namespaceUri)
+                                   final String parameterName = isContent ? parameter.getName() : pluralize(parameter.getName());
+                                   builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
                                        .withElementName(hyphenize(parameterName))
                                        .supportsChildDeclaration(supportsInlineDeclaration(dictionaryType,
                                                                                            expressionSupport,
@@ -197,7 +200,10 @@ public class DslSyntaxResolver {
 
                                      dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(builder,
                                                                                                         parameter.getName(),
-                                                                                                        namespace, namespaceUri,
+                                                                                                        languageModel
+                                                                                                            .getNamespace(),
+                                                                                                        languageModel
+                                                                                                            .getNamespaceUri(),
                                                                                                         dslModel));
                                    }
                                  }
@@ -205,10 +211,19 @@ public class DslSyntaxResolver {
     return builder.build();
   }
 
-  private void addAttributeName(boolean isContent, DslElementSyntaxBuilder builder, ParameterModel parameter) {
-    if (!isContent) {
+  private void addAttributeName(DslElementSyntaxBuilder builder, ParameterModel parameter,
+                                boolean isContent, ElementDslModel dslModel) {
+
+    if (supportsAttributeDeclaration(parameter, isContent, dslModel)) {
       builder.withAttributeName(parameter.getName());
+    } else {
+      // For Content parameters, we don't allow the attribute to be set
+      builder.supportsAttributeDeclaration(false);
     }
+  }
+
+  private boolean supportsAttributeDeclaration(ParameterModel parameter, boolean isContent, ElementDslModel dslModel) {
+    return !isContent && (dslModel.allowsReferences() || !NOT_SUPPORTED.equals(parameter.getExpressionSupport()));
   }
 
   /**

@@ -26,6 +26,7 @@ public class DslElementSyntax {
   private final String elementNameSpace;
   private final String nameSpaceUri;
   private final boolean isWrapped;
+  private final boolean supportsAttributeDeclaration;
   private final boolean supportsChildDeclaration;
   private final boolean supportsTopLevelDeclaration;
   private final boolean requiresConfig;
@@ -36,33 +37,34 @@ public class DslElementSyntax {
   /**
    * Creates a new instance of {@link DslElementSyntax}
    *
-   * @param attributeName            the name of the attribute in the parent element that
-   *                                 references this element
-   * @param elementName              the name of this xml element
-   * @param elementNameSpace         the namespace of this xml element
-   * @param isWrapped                {@code false} if the element implements the Component's type
-   *                                 as an xml extension, or {@code true} if the element is a
-   *                                 wrapper of a ref to the Component's type
-   * @param supportsChildDeclaration {@code true} if this element supports to be declared as a
-   *                                 child element of its parent
-   * @param requiresConfig           whether the element requires a parameter pointing to the
-   *                                 config
-   * @param genericsDsl              the {@link DslElementSyntax} of this element's type generics,
-   *                                 if any is present, that complete the element description of
-   *                                 container elements of generic types, like Collections or Maps
-   *                                 for which the Dsl declaration is modified depending on the
-   *                                 contained type.
-   * @param childsByName             the {@link DslElementSyntax} of this element's named childs.
-   *                                 For complex types with fields that are mapped as child
-   *                                 elements of this element, the Dsl varies depending on each
-   *                                 fields definition, associating each field's child element to
-   *                                 this
+   * @param attributeName                the name of the attribute in the parent element that
+   *                                     references this element
+   * @param elementName                  the name of this xml element
+   * @param elementNameSpace             the namespace of this xml element
+   * @param isWrapped                    {@code false} if the element implements the Component's type
+   *                                     as an xml extension, or {@code true} if the element is a
+   *                                     wrapper of a ref to the Component's type
+   * @param supportsAttributeDeclaration {@code true} if this element supports to be declared as an
+   *                                     attribute in the parent element
+   * @param supportsChildDeclaration     {@code true} if this element supports to be declared as a
+   *                                     child element of its parent
+   * @param requiresConfig               whether the element requires a parameter pointing to the
+   *                                     config
+   * @param genericsDsl                  the {@link DslElementSyntax} of this element's type generics,
+   *                                     if any is present, that complete the element description of
+   *                                     container elements of generic types, like Collections or Maps
+   *                                     for which the Dsl declaration is modified depending on the
+   *                                     contained type.
+   * @param childsByName                 the {@link DslElementSyntax} of this element's named childs.
+   *                                     For complex types with fields that are mapped as child
+   *                                     elements of this element, the Dsl varies depending on each
+   *                                     fields definition, associating each field's child element to
    */
   public DslElementSyntax(String attributeName, String elementName,
                           String elementNameSpace,
                           String nameSpaceUri,
                           boolean isWrapped,
-                          boolean supportsChildDeclaration,
+                          boolean supportsAttributeDeclaration, boolean supportsChildDeclaration,
                           boolean supportsTopLevelDeclaration,
                           boolean requiresConfig,
                           Map<MetadataType, DslElementSyntax> genericsDsl,
@@ -72,6 +74,7 @@ public class DslElementSyntax {
     this.elementNameSpace = elementNameSpace;
     this.nameSpaceUri = nameSpaceUri;
     this.isWrapped = isWrapped;
+    this.supportsAttributeDeclaration = supportsAttributeDeclaration;
     this.supportsChildDeclaration = supportsChildDeclaration;
     this.supportsTopLevelDeclaration = supportsTopLevelDeclaration;
     this.requiresConfig = requiresConfig;
@@ -113,6 +116,13 @@ public class DslElementSyntax {
    */
   public String getAttributeName() {
     return attributeName;
+  }
+
+  /**
+   * @return {@code true} if this element supports to be declared as an attribute of its parent
+   */
+  public boolean supportsAttributeDeclaration() {
+    return supportsAttributeDeclaration;
   }
 
   /**
