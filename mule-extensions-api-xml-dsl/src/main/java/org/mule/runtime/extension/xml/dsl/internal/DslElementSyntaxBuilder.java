@@ -29,6 +29,7 @@ public final class DslElementSyntaxBuilder {
   private String elementNameSpace = "";
   private String nameSpaceUri;
   private boolean isWrapped = false;
+  private boolean supportsAttributeDeclaration = true;
   private boolean supportsChildDeclaration = false;
   private boolean supportsTopLevelDeclaration = false;
   private boolean requiresConfig = false;
@@ -85,6 +86,17 @@ public final class DslElementSyntaxBuilder {
    */
   public DslElementSyntaxBuilder asWrappedElement(boolean isWrapped) {
     this.isWrapped = isWrapped;
+    return this;
+  }
+
+  /**
+   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as
+   * an attribute in the context for which it was created.
+   *
+   * @return {@code this} builder instance enriched with {@code supportsAttributeDeclaration}
+   */
+  public DslElementSyntaxBuilder supportsAttributeDeclaration(boolean supportsAttribute) {
+    this.supportsAttributeDeclaration = supportsAttribute;
     return this;
   }
 
@@ -156,7 +168,8 @@ public final class DslElementSyntaxBuilder {
    */
   public DslElementSyntax build() {
     return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
-                                supportsChildDeclaration, supportsTopLevelDeclaration, requiresConfig, genericChilds,
+                                supportsAttributeDeclaration, supportsChildDeclaration, supportsTopLevelDeclaration,
+                                requiresConfig, genericChilds,
                                 namedChilds);
   }
 

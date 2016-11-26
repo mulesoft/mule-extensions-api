@@ -196,6 +196,10 @@ public abstract class BaseXmlDeclarationTestCase {
     assertThat("Expected no wrapping but element is wrapped", result.isWrapped(), is(expected));
   }
 
+  void assertAttributeDeclaration(boolean expected, DslElementSyntax result) {
+    assertThat(result.supportsAttributeDeclaration(), is(expected));
+  }
+
   void assertAttributeName(String expected, DslElementSyntax result) {
     assertThat(result.getAttributeName(), equalTo(expected));
   }
