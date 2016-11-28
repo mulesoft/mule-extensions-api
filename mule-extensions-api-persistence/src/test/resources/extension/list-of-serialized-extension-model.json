@@ -265,7 +265,6 @@
                         "name": "notGlobalType"
                       },
                       "model": {
-                        "required": "true",
                         "type": "Object",
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
@@ -893,7 +892,6 @@
                         "name": "notGlobalType"
                       },
                       "model": {
-                        "required": "true",
                         "type": "Object",
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",

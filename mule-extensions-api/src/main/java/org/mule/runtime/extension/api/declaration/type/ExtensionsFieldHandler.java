@@ -230,14 +230,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       type = nullSafe.defaultImplementingType();
     }
 
-    MetadataType nullSafeType;
-    Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(type);
-    if (typeBuilder.isPresent()) {
-      nullSafeType = typeBuilder.get().build();
-    } else {
-      nullSafeType = fallbackTypeLoader.load(type.getTypeName()).get();
-    }
-
+    MetadataType nullSafeType = fallbackTypeLoader.load(type.getTypeName()).get();
     nullSafeType.accept(new BasicTypeMetadataVisitor() {
 
       @Override
