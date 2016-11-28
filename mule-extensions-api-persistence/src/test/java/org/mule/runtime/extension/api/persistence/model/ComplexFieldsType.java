@@ -7,6 +7,8 @@
 package org.mule.runtime.extension.api.persistence.model;
 
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.param.NullSafe;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 
@@ -21,12 +23,16 @@ public class ComplexFieldsType {
   private List<ExtensibleType> extensibleTypeList;
 
   @Parameter
+  @Optional
+  @NullSafe
   private ComplexFieldsType recursiveChild;
 
   @Parameter
   private SimpleFieldsType simplePojo;
 
   @Parameter
+  @Optional
+  @NullSafe
   private NotGlobalType notGlobalType;
 
   @ParameterGroup("ParameterGroupType")
