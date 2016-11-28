@@ -22,6 +22,17 @@ import org.mule.metadata.java.api.handler.TypeHandlerManagerFactory;
  */
 public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerManagerFactory {
 
+  private final ClassLoader classLoader;
+
+  /**
+   * Creates a new instance
+   *
+   * @param classLoader the {@link ClassLoader} to use
+   */
+  public ExtensionsTypeHandlerManagerFactory(ClassLoader classLoader) {
+    this.classLoader = classLoader;
+  }
+
   /**
    * Creates a {@link TypeHandlerManager} which uses a {@link ExtensionsFieldHandler}
    *
@@ -29,6 +40,6 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
    */
   @Override
   public TypeHandlerManager createTypeHandlerManager() {
-    return TypeHandlerManager.create(new ExtensionObjectTypeHandler(new ExtensionsFieldHandler()));
+    return TypeHandlerManager.create(new ExtensionObjectTypeHandler(new ExtensionsFieldHandler(classLoader)));
   }
 }

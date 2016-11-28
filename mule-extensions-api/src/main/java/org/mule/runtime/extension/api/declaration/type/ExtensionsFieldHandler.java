@@ -14,10 +14,17 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
+import org.mule.metadata.api.TypeLoader;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
+import org.mule.metadata.api.model.ArrayType;
+import org.mule.metadata.api.model.DictionaryType;
+import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
+import org.mule.metadata.java.api.JavaTypeLoader;
 import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
@@ -27,6 +34,7 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.Content;
+import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Query;
@@ -40,9 +48,11 @@ import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnn
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.NullSafeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
+import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -62,6 +72,14 @@ import java.util.stream.Stream;
  * @since 1.0
  */
 final class ExtensionsFieldHandler implements ObjectFieldHandler {
+
+  private final ClassLoader classLoader;
+  private final TypeLoader fallbackTypeLoader;
+
+  public ExtensionsFieldHandler(ClassLoader classLoader) {
+    this.classLoader = classLoader;
+    fallbackTypeLoader = new JavaTypeLoader(classLoader);
+  }
 
   @Override
   public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
@@ -85,6 +103,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       setOptionalAndDefault(field, fieldBuilder);
       processesParameterGroup(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
+      processNullSafe(clazz, field, fieldBuilder, context);
       processElementStyle(field, fieldBuilder);
       processLayoutAnnotation(field, fieldBuilder);
       processDisplayAnnotation(field, fieldBuilder);
@@ -101,8 +120,9 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
         .collect(toList());
 
     if (!illegalFieldNames.isEmpty()) {
-      throw new IllegalModelDefinitionException(format("Class '%s' has fields annotated with Extensions API annotations which are not parameters. "
-          + "Illegal fields are " + illegalFieldNames, clazz.getName()));
+      throw new IllegalModelDefinitionException(
+                                                format("Class '%s' has fields annotated with Extensions API annotations which are not parameters. "
+                                                    + "Illegal fields are " + illegalFieldNames, clazz.getName()));
     }
   }
 
@@ -180,6 +200,119 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   private void processExpressionSupport(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     Expression expression = field.getAnnotation(Expression.class);
     fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
+  }
+
+  private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder,
+                               ParsingContext context) {
+    NullSafe nullSafe = field.getAnnotation(NullSafe.class);
+    if (nullSafe == null) {
+      return;
+    }
+
+    final boolean isOptional = field.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class);
+    final boolean isParameterGroup = field.isAnnotationPresent(ParameterGroup.class);
+
+    if (!isOptional && !isParameterGroup) {
+      throw new IllegalParameterModelDefinitionException(format(
+                                                                "Field '%s' in class '%s' is required but annotated with '@%s', which is redundant",
+                                                                field.getName(), declaringClass.getName(),
+                                                                NullSafe.class.getSimpleName()));
+    }
+
+    final boolean hasDefaultOverride;
+    final Type type;
+
+    if (nullSafe.defaultImplementingType().equals(Object.class)) {
+      hasDefaultOverride = false;
+      type = field.getType();
+    } else {
+      hasDefaultOverride = true;
+      type = nullSafe.defaultImplementingType();
+    }
+
+    MetadataType nullSafeType;
+    Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(type);
+    if (typeBuilder.isPresent()) {
+      nullSafeType = typeBuilder.get().build();
+    } else {
+      nullSafeType = fallbackTypeLoader.load(type.getTypeName()).get();
+    }
+
+    nullSafeType.accept(new BasicTypeMetadataVisitor() {
+
+      @Override
+      protected void visitBasicType(MetadataType metadataType) {
+        throw new IllegalParameterModelDefinitionException(
+                                                           format("Field '%s' in class '%s' is annotated with '@%s' but is of type '%s'. That annotation can only be "
+                                                               + "used with complex types (Pojos, Lists, Maps)",
+                                                                  field.getName(), declaringClass.getName(),
+                                                                  NullSafe.class.getSimpleName(),
+                                                                  field.getType().getName()));
+      }
+
+      @Override
+      public void visitArrayType(ArrayType arrayType) {
+        if (hasDefaultOverride) {
+          throw new IllegalParameterModelDefinitionException(format("Field '%s' in class '%s' is annotated with '@%s' is of type '%s'"
+              + " but a 'defaultImplementingType' was provided."
+              + " Type override is not allowed for Collections",
+                                                                    field.getName(),
+                                                                    declaringClass.getName(),
+                                                                    NullSafe.class.getSimpleName(),
+                                                                    field.getType().getName()));
+        }
+      }
+
+      @Override
+      public void visitObject(ObjectType objectType) {
+        // TODO: Reenable these checks when MULE-10679 brings introspectionUtils to a visible scope
+        //if (hasDefaultOverride && isInstantiable(parameter.getDeclaration().getType())) {
+        //  throw new IllegalParameterModelDefinitionException(
+        //      format("Field '%s' in class '%s' is annotated with '@%s' is of concrete type '%s',"
+        //                 + " but a 'defaultImplementingType' was provided."
+        //                 + " Type override is not allowed for concrete types",
+        //             field.getName(),
+        //             declaringClass.getName(),
+        //             NullSafe.class.getSimpleName(),
+        //             field.getType().getName()));
+        //}
+        //
+        //if (!isInstantiable(nullSafeType)) {
+        //  throw new IllegalParameterModelDefinitionException(
+        //      format("Parameter '%s' is annotated with '@%s' but is of type '%s'. That annotation can only be "
+        //                 + "used with complex instantiable types (Pojos, Lists, Maps)",
+        //             extensionParameter.getName(),
+        //             NullSafe.class.getSimpleName(),
+        //             extensionParameter.getType().getName()));
+        //}
+
+        if (hasDefaultOverride && !field.getType().isAssignableFrom((Class) type)) {
+          throw new IllegalParameterModelDefinitionException(
+                                                             format("Field '%s' in class '%s' is annotated with '@%s' of type '%s', but provided type '%s"
+                                                                 + " is not a subtype of the parameter's type",
+                                                                    field.getName(),
+                                                                    declaringClass.getName(),
+                                                                    NullSafe.class.getSimpleName(),
+                                                                    field.getType().getName(),
+                                                                    type.getTypeName()));
+        }
+      }
+
+      @Override
+      public void visitDictionary(DictionaryType dictionaryType) {
+        if (hasDefaultOverride) {
+          throw new IllegalParameterModelDefinitionException(format("Field '%s' in class '%s' is annotated with '@%s' is of type '%s'"
+              + " but a 'defaultImplementingType' was provided."
+              + " Type override is not allowed for Maps",
+                                                                    field.getName(),
+                                                                    declaringClass.getName(),
+                                                                    NullSafe.class.getSimpleName(),
+                                                                    field.getType().getName()));
+        }
+      }
+    });
+
+    fieldBuilder.with(new NullSafeTypeAnnotation(nullSafeType));
   }
 
   private void processElementStyle(Field field, ObjectFieldTypeBuilder fieldBuilder) {
