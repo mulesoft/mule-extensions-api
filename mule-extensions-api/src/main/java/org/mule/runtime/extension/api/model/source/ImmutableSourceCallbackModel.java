@@ -36,6 +36,6 @@ public class ImmutableSourceCallbackModel extends AbstractParameterizedModel imp
                                       List<ParameterGroupModel> parameterGroupModels,
                                       DisplayModel displayModel,
                                       Set<ModelProperty> modelProperties) {
-    super(name, description, displayModel, modelProperties, parameterGroupModels);
+    super(name, description, parameterGroupModels, displayModel, modelProperties);
   }
 }

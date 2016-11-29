@@ -7,9 +7,7 @@
 package org.mule.runtime.extension.api.model.property;
 
 
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.connectivity.TransactionalConnection;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 
@@ -22,7 +20,6 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 public class ConnectivityModelProperty implements ModelProperty {
 
   private final MetadataType connectionType;
-  private final boolean supportsTransactions;
 
   /**
    * Creates a new instance for the given {@code connectionType}
@@ -31,7 +28,6 @@ public class ConnectivityModelProperty implements ModelProperty {
    */
   public ConnectivityModelProperty(MetadataType connectionType) {
     this.connectionType = connectionType;
-    this.supportsTransactions = TransactionalConnection.class.isAssignableFrom(getType(connectionType));
   }
 
   /**
@@ -39,13 +35,6 @@ public class ConnectivityModelProperty implements ModelProperty {
    */
   public MetadataType getConnectionType() {
     return connectionType;
-  }
-
-  /**
-   * @return whether this connection supports transactions
-   */
-  public boolean supportsTransactions() {
-    return supportsTransactions;
   }
 
   /**

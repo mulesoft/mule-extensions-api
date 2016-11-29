@@ -19,6 +19,8 @@
     "configurations": [],
     "operations": [
       {
+        "blocking": true,
+        "executionType": "CPU_LITE",
         "errors": [
           {
             "type": "SOME_ERROR",
@@ -53,6 +55,8 @@
           "description": "Message.Attributes",
           "modelProperties": {}
         },
+        "transactional": false,
+        "requiresConnection": false,
         "parameterGroupModels": [
           {
             "parameters": [
@@ -1090,6 +1094,8 @@
           "description": "Message.Attributes",
           "modelProperties": {}
         },
+        "transactional": false,
+        "requiresConnection": false,
         "parameterGroupModels": [
           {
             "parameters": [
@@ -1196,6 +1202,8 @@
     "configurations": [],
     "operations": [
       {
+        "blocking": true,
+        "executionType": "CPU_LITE",
         "errors": [
           {
             "type": "SOME_ERROR",
@@ -1230,6 +1238,8 @@
           "description": "Message.Attributes",
           "modelProperties": {}
         },
+        "transactional": false,
+        "requiresConnection": false,
         "parameterGroupModels": [
           {
             "parameters": [
@@ -2267,6 +2277,8 @@
           "description": "Message.Attributes",
           "modelProperties": {}
         },
+        "transactional": false,
+        "requiresConnection": false,
         "parameterGroupModels": [
           {
             "parameters": [

@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
-import org.mule.runtime.extension.api.model.property.ConnectivityModelProperty;
 import org.mule.runtime.extension.xml.dsl.api.DslElementSyntax;
 
 import org.junit.Test;
@@ -79,7 +78,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
   @Test
   public void connectedOperation() {
-    when(operation.getModelProperty(ConnectivityModelProperty.class)).thenReturn(of(mock(ConnectivityModelProperty.class)));
+    when(operation.requiresConnection()).thenReturn(true);
     DslElementSyntax result = getSyntaxResolver().resolve(operation);
 
     assertThat(result.requiresConfig(), is(true));

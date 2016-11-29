@@ -29,7 +29,7 @@ public interface InterceptingCallback<T> {
    * @return the value returned by the intercepting operation
    * @throws Exception in case of error
    */
-  T getResult() throws Exception; //TODO: MULE-8946 should be a MessagingException
+  T getResult() throws Exception;
 
   /**
    * Defaults to {@code true}
