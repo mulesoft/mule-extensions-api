@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
@@ -326,6 +327,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
         fieldBuilder.with(new DefaultValueAnnotation(PAYLOAD));
       }
     } else {
+      fieldBuilder.with(new ParameterRoleAnnotation(BEHAVIOUR));
       org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
           field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
       if (optionalAnnotation != null) {
