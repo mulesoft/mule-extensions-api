@@ -33,12 +33,13 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ElementDslModel;
-import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -49,11 +50,12 @@ import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnota
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
+import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
@@ -66,6 +68,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -141,10 +144,14 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
+    final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());
+    final ImmutableOutputModel outputAttributesModel =
+        new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet());
+
     getCarOperation =
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asParameterGroup(carNameParameter, complexParameter),
-                                    new ImmutableOutputModel("Message.Payload", stringType, true, emptySet()),
-                                    new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet()),
+                                    outputModel,
+                                    outputAttributesModel,
                                     defaultDisplayModel, singleton(ERROR_MODEL), modelProperties);
     final ImmutableConnectionProviderModel basicAuth =
         new ImmutableConnectionProviderModel("BasicAuth",
@@ -154,11 +161,23 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                              defaultDisplayModel,
                                              emptySet());
 
+    final ImmutableSourceModel sourceModel = new ImmutableSourceModel("Source", "A Message Source", true,
+                                                                      asParameterGroup(carNameParameter),
+                                                                      outputModel, outputAttributesModel,
+                                                                      Optional.of(new ImmutableSourceCallbackModel("onSuccess", "",
+                                                                                                                   asParameterGroup(complexParameter),
+                                                                                                                   DisplayModel
+                                                                                                                       .builder()
+                                                                                                                       .build(),
+                                                                                                                   emptySet())),
+                                                                      Optional.empty(), DisplayModel.builder().build(),
+                                                                      emptySet());
+
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                     new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
-                                    singletonList(basicAuth), emptyList(),
+                                    singletonList(basicAuth), singletonList(sourceModel),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), singleton(exportedType), emptySet(), singleton(ERROR_MODEL), emptySet());
 
@@ -286,6 +305,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     }
   }
 
+
   private class ExternalizableModelProperty implements ModelProperty {
 
     @Override
@@ -299,6 +319,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     }
   }
 
+
   private class ExportedClass {
+
   }
 }

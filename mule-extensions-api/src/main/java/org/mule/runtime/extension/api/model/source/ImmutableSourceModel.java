@@ -7,16 +7,17 @@
 package org.mule.runtime.extension.api.model.source;
 
 import static java.util.Collections.emptySet;
-
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -27,6 +28,8 @@ import java.util.Set;
 public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel {
 
   private final boolean hasResponse;
+  private final Optional<SourceCallbackModel> successCallback;
+  private final Optional<SourceCallbackModel> errorCallback;
 
   /**
    * Creates a new instance
@@ -37,6 +40,8 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
    * @param output               an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output me
+   * @param successCallbackModel an optional model for the source success callback
+   * @param errorCallbackModel   an optional model for the source error callback
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    */
@@ -46,10 +51,14 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
                               List<ParameterGroupModel> parameterGroupModels,
                               OutputModel output,
                               OutputModel outputAttributes,
+                              Optional<SourceCallbackModel> successCallbackModel,
+                              Optional<SourceCallbackModel> errorCallbackModel,
                               DisplayModel displayModel,
                               Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties, parameterGroupModels, output, outputAttributes);
     this.hasResponse = hasResponse;
+    this.successCallback = successCallbackModel;
+    this.errorCallback = errorCallbackModel;
   }
 
   /**
@@ -60,6 +69,25 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
     return hasResponse;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<SourceCallbackModel> getSuccessCallback() {
+    return successCallback;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<SourceCallbackModel> getErrorCallback() {
+    return errorCallback;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Set<ErrorModel> getErrorModels() {
     return emptySet();

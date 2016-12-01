@@ -13,10 +13,10 @@ import org.mule.metadata.internal.utils.MetadataTypeUtils;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
+import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.EnrichableModel;
-import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -26,20 +26,23 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 
 import com.google.gson.Gson;
@@ -131,6 +134,8 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(OperationModel.class, ImmutableOperationModel.class);
     final DefaultImplementationTypeAdapterFactory sourceModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
+    final DefaultImplementationTypeAdapterFactory sourceCallbackModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(SourceCallbackModel.class, ImmutableSourceCallbackModel.class);
     final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
     final DefaultImplementationTypeAdapterFactory parameterGroupModelTypeAdapterFactory =
@@ -144,6 +149,7 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
+        .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
         .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
         .registerTypeAdapter(ImportedTypeModel.class, new ImportedTypesModelTypeAdapter(referenceHandler))
@@ -152,6 +158,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapter(ElementDslModel.class, new ElementDslModelTypeAdapter())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterGroupModelTypeAdapterFactory)
         .registerTypeAdapterFactory(exclusiveParametersTypeAdapterFactory)
