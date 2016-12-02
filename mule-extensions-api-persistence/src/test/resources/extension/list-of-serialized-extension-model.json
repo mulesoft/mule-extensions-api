@@ -1061,7 +1061,7 @@
               "modelProperties": {}
             }
           ],
-          "name": "onSucess",
+          "name": "onSuccess",
           "displayModel": {},
           "description": "",
           "modelProperties": {}
@@ -2238,7 +2238,7 @@
               "modelProperties": {}
             }
           ],
-          "name": "onSucess",
+          "name": "onSuccess",
           "displayModel": {},
           "description": "",
           "modelProperties": {}

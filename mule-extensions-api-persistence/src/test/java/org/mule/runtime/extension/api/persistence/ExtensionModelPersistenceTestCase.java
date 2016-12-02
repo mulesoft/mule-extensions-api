@@ -164,12 +164,13 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     final ImmutableSourceModel sourceModel = new ImmutableSourceModel("Source", "A Message Source", true,
                                                                       asParameterGroup(carNameParameter),
                                                                       outputModel, outputAttributesModel,
-                                                                      Optional.of(new ImmutableSourceCallbackModel("onSuccess", "",
-                                                                                                                   asParameterGroup(complexParameter),
-                                                                                                                   DisplayModel
-                                                                                                                       .builder()
-                                                                                                                       .build(),
-                                                                                                                   emptySet())),
+                                                                      Optional
+                                                                          .of(new ImmutableSourceCallbackModel("onSuccess", "",
+                                                                                                               asParameterGroup(complexParameter),
+                                                                                                               DisplayModel
+                                                                                                                   .builder()
+                                                                                                                   .build(),
+                                                                                                               emptySet())),
                                                                       Optional.empty(), DisplayModel.builder().build(),
                                                                       emptySet());
 
