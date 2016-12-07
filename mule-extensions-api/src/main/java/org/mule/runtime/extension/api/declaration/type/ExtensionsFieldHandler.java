@@ -68,9 +68,6 @@ import java.util.stream.Stream;
  */
 final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
-
-  public ExtensionsFieldHandler(ClassLoader classLoader) {}
-
   @Override
   public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
                            ObjectTypeBuilder builder) {
