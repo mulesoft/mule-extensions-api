@@ -7,31 +7,37 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
-import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 
 /**
- * A {@link TypeAnnotation} meant to be applied on {@link ObjectFieldType} instances.
- * It marks such field as {@link NullSafe} and contains the {@link #type} of the value
- * which should be created if such field is not provided
+ * A {@link TypeAnnotation} meant to be applied on {@link ObjectFieldType} instances. It marks such field as {@link NullSafe} and
+ * contains the {@link #type} of the value which should be created if such field is not provided
  *
  * @since 1.0
  */
 public class NullSafeTypeAnnotation implements TypeAnnotation {
 
-  private final MetadataType type;
+  private final Class<?> type;
+  private boolean defaultOverride;
 
   /**
    * Creates a new instance
+   * 
    * @param type the type of the default value to be created
+   * @param defaultOverride whether the default implementing class has been overriden or not
    */
-  public NullSafeTypeAnnotation(MetadataType type) {
+  public NullSafeTypeAnnotation(Class<?> type, boolean defaultOverride) {
     this.type = type;
+    this.defaultOverride = defaultOverride;
   }
 
-  public MetadataType getType() {
+  public Class<?> getType() {
     return type;
+  }
+
+  public boolean hasDefaultOverride() {
+    return defaultOverride;
   }
 
   @Override
@@ -41,6 +47,7 @@ public class NullSafeTypeAnnotation implements TypeAnnotation {
 
   /**
    * {@inheritDoc}
+   * 
    * @return {@code false}
    */
   @Override
