@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.declaration.type;
 
 import static java.lang.String.format;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
@@ -15,17 +16,10 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
-import org.mule.metadata.api.TypeLoader;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
-import org.mule.metadata.api.model.ArrayType;
-import org.mule.metadata.api.model.DictionaryType;
-import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
-import org.mule.metadata.java.api.JavaTypeLoader;
 import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
@@ -74,14 +68,6 @@ import java.util.stream.Stream;
  */
 final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
-  private final ClassLoader classLoader;
-  private final TypeLoader fallbackTypeLoader;
-
-  public ExtensionsFieldHandler(ClassLoader classLoader) {
-    this.classLoader = classLoader;
-    fallbackTypeLoader = new JavaTypeLoader(classLoader);
-  }
-
   @Override
   public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
                            ObjectTypeBuilder builder) {
@@ -104,7 +90,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       setOptionalAndDefault(field, fieldBuilder);
       processesParameterGroup(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
-      processNullSafe(clazz, field, fieldBuilder, context);
+      processNullSafe(clazz, field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
       processLayoutAnnotation(field, fieldBuilder);
       processDisplayAnnotation(field, fieldBuilder);
@@ -203,8 +189,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
   }
 
-  private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder,
-                               ParsingContext context) {
+  private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder) {
     NullSafe nullSafe = field.getAnnotation(NullSafe.class);
     if (nullSafe == null) {
       return;
@@ -220,93 +205,11 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
                                                                 NullSafe.class.getSimpleName()));
     }
 
-    final boolean hasDefaultOverride;
-    final Type type;
-
     if (nullSafe.defaultImplementingType().equals(Object.class)) {
-      hasDefaultOverride = false;
-      type = field.getType();
+      fieldBuilder.with(new NullSafeTypeAnnotation(field.getType(), false));
     } else {
-      hasDefaultOverride = true;
-      type = nullSafe.defaultImplementingType();
+      fieldBuilder.with(new NullSafeTypeAnnotation(nullSafe.defaultImplementingType(), true));
     }
-
-    MetadataType nullSafeType = fallbackTypeLoader.load(type.getTypeName()).get();
-    nullSafeType.accept(new BasicTypeMetadataVisitor() {
-
-      @Override
-      protected void visitBasicType(MetadataType metadataType) {
-        throw new IllegalParameterModelDefinitionException(
-                                                           format("Field '%s' in class '%s' is annotated with '@%s' but is of type '%s'. That annotation can only be "
-                                                               + "used with complex types (Pojos, Lists, Maps)",
-                                                                  field.getName(), declaringClass.getName(),
-                                                                  NullSafe.class.getSimpleName(),
-                                                                  field.getType().getName()));
-      }
-
-      @Override
-      public void visitArrayType(ArrayType arrayType) {
-        if (hasDefaultOverride) {
-          throw new IllegalParameterModelDefinitionException(format("Field '%s' in class '%s' is annotated with '@%s' is of type '%s'"
-              + " but a 'defaultImplementingType' was provided."
-              + " Type override is not allowed for Collections",
-                                                                    field.getName(),
-                                                                    declaringClass.getName(),
-                                                                    NullSafe.class.getSimpleName(),
-                                                                    field.getType().getName()));
-        }
-      }
-
-      @Override
-      public void visitObject(ObjectType objectType) {
-        // TODO: Reenable these checks when MULE-10679 brings introspectionUtils to a visible scope
-        //if (hasDefaultOverride && isInstantiable(parameter.getDeclaration().getType())) {
-        //  throw new IllegalParameterModelDefinitionException(
-        //      format("Field '%s' in class '%s' is annotated with '@%s' is of concrete type '%s',"
-        //                 + " but a 'defaultImplementingType' was provided."
-        //                 + " Type override is not allowed for concrete types",
-        //             field.getName(),
-        //             declaringClass.getName(),
-        //             NullSafe.class.getSimpleName(),
-        //             field.getType().getName()));
-        //}
-        //
-        //if (!isInstantiable(nullSafeType)) {
-        //  throw new IllegalParameterModelDefinitionException(
-        //      format("Parameter '%s' is annotated with '@%s' but is of type '%s'. That annotation can only be "
-        //                 + "used with complex instantiable types (Pojos, Lists, Maps)",
-        //             extensionParameter.getName(),
-        //             NullSafe.class.getSimpleName(),
-        //             extensionParameter.getType().getName()));
-        //}
-
-        if (hasDefaultOverride && !field.getType().isAssignableFrom((Class) type)) {
-          throw new IllegalParameterModelDefinitionException(
-                                                             format("Field '%s' in class '%s' is annotated with '@%s' of type '%s', but provided type '%s"
-                                                                 + " is not a subtype of the parameter's type",
-                                                                    field.getName(),
-                                                                    declaringClass.getName(),
-                                                                    NullSafe.class.getSimpleName(),
-                                                                    field.getType().getName(),
-                                                                    type.getTypeName()));
-        }
-      }
-
-      @Override
-      public void visitDictionary(DictionaryType dictionaryType) {
-        if (hasDefaultOverride) {
-          throw new IllegalParameterModelDefinitionException(format("Field '%s' in class '%s' is annotated with '@%s' is of type '%s'"
-              + " but a 'defaultImplementingType' was provided."
-              + " Type override is not allowed for Maps",
-                                                                    field.getName(),
-                                                                    declaringClass.getName(),
-                                                                    NullSafe.class.getSimpleName(),
-                                                                    field.getType().getName()));
-        }
-      }
-    });
-
-    fieldBuilder.with(new NullSafeTypeAnnotation(nullSafeType));
   }
 
   private void processElementStyle(Field field, ObjectFieldTypeBuilder fieldBuilder) {
@@ -319,7 +222,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
   }
 
   private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    Optional<Content> content = Optional.ofNullable(field.getAnnotation(Content.class));
+    Optional<Content> content = ofNullable(field.getAnnotation(Content.class));
     if (content.isPresent()) {
       fieldBuilder.with(new ParameterRoleAnnotation(roleOf(content)));
       fieldBuilder.required(false);

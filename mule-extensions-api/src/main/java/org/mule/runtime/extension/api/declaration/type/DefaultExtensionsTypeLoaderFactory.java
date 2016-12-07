@@ -35,6 +35,6 @@ public class DefaultExtensionsTypeLoaderFactory implements ExtensionsTypeLoaderF
    */
   @Override
   public ClassTypeLoader createTypeLoader(ClassLoader classLoader) {
-    return new JavaTypeLoader(classLoader, new ExtensionsTypeHandlerManagerFactory(classLoader));
+    return new JavaTypeLoader(classLoader, new ExtensionsTypeHandlerManagerFactory());
   }
 }
