@@ -22,7 +22,7 @@ import java.util.Map;
  * a {@code null} value, even though such value is a valid assignment
  * on the mule DSL.
  * <p>
- * This annotation is intended to be used along side {@link Optional}
+ * This annotation is intended to be used alongside {@link Optional}
  * (the concept itself doesn't make sense for required parameters). When
  * the annotated parameter is resolved to a {@code null} value, the runtime
  * will create a default instance of such parameter to prevent a null variable.
