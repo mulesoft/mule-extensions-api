@@ -249,6 +249,15 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
   private void processDefaultEncoding(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     if (field.getAnnotation(DefaultEncoding.class) != null) {
+      if (field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class) == null) {
+        throw new IllegalParameterModelDefinitionException(format(
+                                                                  "@%s must be applied alongside with @%s. Affected parameter is [%s].",
+                                                                  DefaultEncoding.class
+                                                                      .getSimpleName(),
+                                                                  org.mule.runtime.extension.api.annotation.param.Optional.class
+                                                                      .getSimpleName(),
+                                                                  field.getName()));
+      }
       fieldBuilder.with(new DefaultEncodingAnnotation());
     }
   }
