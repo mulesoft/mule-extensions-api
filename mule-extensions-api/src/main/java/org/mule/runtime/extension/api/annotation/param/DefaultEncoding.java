@@ -15,8 +15,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks that the annotated field or argument should be populated with Mule's default encoding value if no value was given. This
- * annotation is intended to be used alongside {@link Optional}.
+ * Marks that if there were no value provided for the annotated element (which must be of type {@link String}), Mule's default
+ * encoding should be used. This annotation also implies the optionality of the annotated element (just as if it were annotated with
+ * {@link Optional}).
  *
  * @since 1.0
  */
