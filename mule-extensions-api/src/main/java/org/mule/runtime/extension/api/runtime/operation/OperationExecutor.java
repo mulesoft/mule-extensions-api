@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.runtime.operation;
 
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 
+import org.reactivestreams.Publisher;
+
 /**
  * A facade interface which hides the details of how an
  * operation is actually executed. It aims to decouple
@@ -28,5 +30,5 @@ public interface OperationExecutor {
    * @param executionContext a {@link ExecutionContext} with information about the execution
    * @return the operations return value
    */
-  Object execute(ExecutionContext<OperationModel> executionContext) throws Exception;
+  Publisher<Object> execute(ExecutionContext<OperationModel> executionContext);
 }

@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.runtime.operation;
 
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
-import org.mule.runtime.extension.api.runtime.RetryRequest;
 
 /**
  * Taps into different phases of the execution of an extension's operation
@@ -66,14 +65,6 @@ public interface Interceptor {
    * </li>
    * </ul>
    * <p/>
-   * Some interceptors might deal with the concept of retries. For example, an operation failing because of
-   * stale connection might attempt to reconnect and try again. For such interceptors, a {@code retryRequest}
-   * is provided so that a retry can be requested. The runtime is not obligated to grant such request and might
-   * decide to ignore it. Notice that the {@link #onError(ExecutionContext, RetryRequest, Throwable)} and
-   * {@link #after(ExecutionContext, Object)} method in all the other interceptors in line will be executed before the
-   * runtime decides to ignore/grant the retry request. If the petition is granted, then not only the operation will be
-   * re-executed. The whole interceptor chain (including the {@link #before(ExecutionContext)} will also be executed again.
-   * <p/>
    * Implementations of this method should not fail. If they do throw any exception, it will
    * be logged and ignored.
    * <p/>
@@ -81,11 +72,10 @@ public interface Interceptor {
    * of this method's outcome in {@code this} or other involved instances
    *
    * @param executionContext the {@link ExecutionContext} that was used to execute the operation
-   * @param retryRequest     a {@link RetryRequest} in case that the operation should be retried
    * @param exception        the {@link Exception} that was thrown by the failing operation
    * @return the {@link Exception} that should be propagated forward
    */
-  default Throwable onError(ExecutionContext<OperationModel> executionContext, RetryRequest retryRequest, Throwable exception) {
+  default Throwable onError(ExecutionContext<OperationModel> executionContext, Throwable exception) {
     return exception;
   }
 
@@ -93,7 +83,7 @@ public interface Interceptor {
    * Executes after the execution of an operation is finished, regardless of it being successful or not.
    * <p/>
    * In practical terms, it executes after the {@link #onSuccess(ExecutionContext, Object)} or
-   * {@link #onError(ExecutionContext, RetryRequest, Throwable)} but it doesn't execute if
+   * {@link #onError(ExecutionContext, Throwable)} but it doesn't execute if
    * {@link #before(ExecutionContext)} threw exception.
    * <p/>
    * The {@code result} argument holds the return value of the operation. Because this method is invoked
@@ -102,7 +92,7 @@ public interface Interceptor {
    * failed or not, since the operation might have successfully returned {@code null}. This method should
    * be used for actions that should take place &quot;no matter what&quot;. Actions that should depend on
    * the operation's outcome are to be implemented using {@link #onSuccess(ExecutionContext, Object)} or
-   * {@link #onError(ExecutionContext, RetryRequest, Throwable)}
+   * {@link #onError(ExecutionContext, Throwable)}
    *
    * @param executionContext the {@link ExecutionContext} that was used to execute the operation
    * @param result           the result of the operation. Can be {@code null} if the operation itself returned that or failed.
