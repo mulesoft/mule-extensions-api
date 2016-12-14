@@ -84,14 +84,14 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
       ErrorModelBuilder.newError("PARENT_ERROR_MODEL", "ERROR_NAMESPACE").build();
   private static final ErrorModel ERROR_MODEL =
       ErrorModelBuilder.newError("SOME_ERROR", "ERROR_NAMESPACE").withParent(PARENT_ERROR_MODEL).build();
-  private final BaseTypeBuilder typeBuilder = BaseTypeBuilder.create(MetadataFormat.JAVA);
 
+  private final BaseTypeBuilder typeBuilder = BaseTypeBuilder.create(MetadataFormat.JAVA);
   private final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   private final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
   private final Set<ModelProperty> modelProperties =
       new HashSet<>(asList(nonExternalizableModelProperty, externalizableModelProperty));
-  private final MetadataType stringType = typeLoader.load(String.class);
 
+  private final MetadataType stringType = typeLoader.load(String.class);
   private final String GET_CAR_OPERATION_NAME = "getCar";
   private final String CAR_NAME_PARAMETER_NAME = "carName";
   private final String MODEL_PROPERTIES_NODE = "modelProperties";
