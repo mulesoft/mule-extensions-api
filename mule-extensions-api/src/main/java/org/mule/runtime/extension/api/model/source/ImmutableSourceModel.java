@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.model.source;
 
 import static java.util.Collections.emptySet;
+import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -28,8 +29,8 @@ import java.util.Set;
 public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel {
 
   private final boolean hasResponse;
-  private final Optional<SourceCallbackModel> successCallback;
-  private final Optional<SourceCallbackModel> errorCallback;
+  private final SourceCallbackModel successCallback;
+  private final SourceCallbackModel errorCallback;
 
   /**
    * Creates a new instance
@@ -57,8 +58,8 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
                               Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties, parameterGroupModels, output, outputAttributes);
     this.hasResponse = hasResponse;
-    this.successCallback = successCallbackModel;
-    this.errorCallback = errorCallbackModel;
+    this.successCallback = successCallbackModel.orElse(null);
+    this.errorCallback = errorCallbackModel.orElse(null);
   }
 
   /**
@@ -74,7 +75,7 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    */
   @Override
   public Optional<SourceCallbackModel> getSuccessCallback() {
-    return successCallback;
+    return ofNullable(successCallback);
   }
 
   /**
@@ -82,7 +83,7 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    */
   @Override
   public Optional<SourceCallbackModel> getErrorCallback() {
-    return errorCallback;
+    return ofNullable(errorCallback);
   }
 
   /**
