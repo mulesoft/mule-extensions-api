@@ -216,11 +216,15 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   @Test
   public void messageSourceCorrectlyDeserialized() {
     SourceModel sourceModel = deserializedExtensionModel.getSourceModel(SOURCE_NAME).get();
+    assertThat(sourceModel.getAllParameterModels().size(), is(2));
+
     ParameterModel complexParameter = sourceModel.getAllParameterModels().stream()
         .filter(p -> p.getName().equals(COMPLEX_PARAMETER_NAME))
         .findFirst().get();
 
     assertComplexParameter(complexParameter);
+    assertThat(sourceModel.getSuccessCallback().isPresent(), is(true));
+    assertThat(sourceModel.getErrorCallback().isPresent(), is(false));
   }
 
   @Test
