@@ -43,6 +43,7 @@ import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
@@ -97,6 +98,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private final String OPERATIONS_NODE = "operations";
   private final String COMPLEX_PARAMETER_NAME = "complex";
   private final String OBJECT_MAP_NAME = "map";
+  private final String SOURCE_NAME = "Source";
 
   private ExtensionModel deserializedExtensionModel;
   private ImmutableExtensionModel originalExtensionModel;
@@ -161,7 +163,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                              defaultDisplayModel,
                                              emptySet());
 
-    final ImmutableSourceModel sourceModel = new ImmutableSourceModel("Source", "A Message Source", true,
+    final ImmutableSourceModel sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true,
                                                                       asParameterGroup(carNameParameter),
                                                                       outputModel, outputAttributesModel,
                                                                       Optional
@@ -208,9 +210,21 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
         .filter(p -> p.getName().equals(COMPLEX_PARAMETER_NAME))
         .findFirst().get();
 
-    MetadataType type = complexParameter.getType();
-    assertThat(type, is(instanceOf(ObjectType.class)));
-    assertThat(getType(type), equalTo(ComplexFieldsType.class));
+    assertComplexParameter(complexParameter);
+  }
+
+  @Test
+  public void messageSourceCorrectlyDeserialized() {
+    SourceModel sourceModel = deserializedExtensionModel.getSourceModel(SOURCE_NAME).get();
+    assertThat(sourceModel.getAllParameterModels().size(), is(2));
+
+    ParameterModel complexParameter = sourceModel.getAllParameterModels().stream()
+        .filter(p -> p.getName().equals(COMPLEX_PARAMETER_NAME))
+        .findFirst().get();
+
+    assertComplexParameter(complexParameter);
+    assertThat(sourceModel.getSuccessCallback().isPresent(), is(true));
+    assertThat(sourceModel.getErrorCallback().isPresent(), is(false));
   }
 
   @Test
@@ -291,6 +305,12 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                                    null,
                                                    null,
                                                    emptySet()));
+  }
+
+  private void assertComplexParameter(ParameterModel complexParameter) {
+    MetadataType type = complexParameter.getType();
+    assertThat(type, is(instanceOf(ObjectType.class)));
+    assertThat(getType(type), equalTo(ComplexFieldsType.class));
   }
 
   private class NonExternalizableModelProperty implements ModelProperty {
