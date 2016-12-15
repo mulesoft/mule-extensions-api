@@ -24,7 +24,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * types.
  * <p>
  * When the non blocking operation has finished, it has to notify the result either by
- * invoking the {@link #onComplete(Result)} or {@link #onException(Exception)} methods.
+ * invoking the {@link #success(Result)} or {@link #error(Exception)} methods.
  * Only then will the operation be considered as completed and the next processor in the
  * pipeline will be executed.
  * <p>
@@ -62,13 +62,13 @@ public interface NonBlockingCallback<T, A extends Attributes> {
    *
    * @param result the operation's result
    */
-  void onComplete(Result<T, A> result);
+  void success(Result<T, A> result);
 
   /**
    * This method is not be invoked when the operation failed to execute.
    *
    * @param e the exception found
    */
-  void onException(Exception e);
+  void error(Exception e);
 
 }
