@@ -16,6 +16,7 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
+import org.mule.runtime.extension.api.declaration.type.annotation.DefaultEncodingAnnotation;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -29,6 +30,7 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.Content;
+import org.mule.runtime.extension.api.annotation.param.DefaultEncoding;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
@@ -91,6 +93,7 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       processesParameterGroup(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
       processNullSafe(clazz, field, fieldBuilder);
+      processDefaultEncoding(field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
       processLayoutAnnotation(field, fieldBuilder);
       processDisplayAnnotation(field, fieldBuilder);
@@ -241,6 +244,13 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
       } else {
         fieldBuilder.required(true);
       }
+    }
+  }
+
+  private void processDefaultEncoding(Field field, ObjectFieldTypeBuilder fieldBuilder) {
+    if (field.getAnnotation(DefaultEncoding.class) != null) {
+      fieldBuilder.required(false);
+      fieldBuilder.with(new DefaultEncodingAnnotation());
     }
   }
 
