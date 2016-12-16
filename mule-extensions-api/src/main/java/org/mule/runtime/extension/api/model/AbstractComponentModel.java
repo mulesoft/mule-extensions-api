@@ -27,29 +27,37 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel 
 
   private final OutputModel output;
   private final OutputModel outputAttributes;
+  private final boolean transactional;
+  private final boolean requiresConnection;
 
   /**
    * Creates a new instance
    *
    * @param name                 the model's name
    * @param description          the model's description
-   * @param displayModel         a model which contains directive about how this component is displayed in the UI
-   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
    * @param output               an {@link OutputModel} which represents the component's output content
    * @param outputAttributes     an {@link OutputModel} which represents the component's attributes on the output {@link Message}
+   * @param requiresConnection   whether this component requires connectivity
+   * @param transactional        whether this component supports transactions
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,
                                    String description,
-                                   DisplayModel displayModel,
-                                   Set<ModelProperty> modelProperties,
                                    List<ParameterGroupModel> parameterGroupModels,
                                    OutputModel output,
-                                   OutputModel outputAttributes) {
-    super(name, description, displayModel, modelProperties, parameterGroupModels);
+                                   OutputModel outputAttributes,
+                                   boolean requiresConnection,
+                                   boolean transactional,
+                                   DisplayModel displayModel,
+                                   Set<ModelProperty> modelProperties) {
+    super(name, description, parameterGroupModels, displayModel, modelProperties);
     this.output = output;
     this.outputAttributes = outputAttributes;
+    this.requiresConnection = requiresConnection;
+    this.transactional = transactional;
   }
 
   /**
@@ -65,5 +73,21 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel 
   @Override
   public OutputModel getOutputAttributes() {
     return outputAttributes;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isTransactional() {
+    return transactional;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean requiresConnection() {
+    return requiresConnection;
   }
 }

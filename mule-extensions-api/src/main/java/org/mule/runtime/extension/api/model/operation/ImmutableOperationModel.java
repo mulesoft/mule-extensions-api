@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.model.operation;
 
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.meta.model.ExecutionType;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -25,6 +26,8 @@ import java.util.Set;
  */
 public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel {
 
+  private final boolean blocking;
+  private final ExecutionType executionType;
   private final Set<ErrorModel> errors;
 
   /**
@@ -35,10 +38,14 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
    * @param output               an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output {@link Message}
+   * @param blocking             whether this operation executes in a blocking manner
+   * @param executionType        describes the type of processing this operation performs
+   * @param requiresConnection   whether this component requires connectivity
+   * @param transactional        whether this component supports transactions
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
-   * @param errors           A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
-   *                         the operation
-   * @param modelProperties  A {@link Set} of custom properties which extend this model
+   * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
+   *                             the operation
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableOperationModel(String name,
@@ -46,10 +53,17 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
                                  List<ParameterGroupModel> parameterGroupModels,
                                  OutputModel output,
                                  OutputModel outputAttributes,
+                                 boolean blocking,
+                                 ExecutionType executionType,
+                                 boolean requiresConnection,
+                                 boolean transactional,
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  Set<ModelProperty> modelProperties) {
-    super(name, description, displayModel, modelProperties, parameterGroupModels, output, outputAttributes);
+    super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, displayModel,
+          modelProperties);
+    this.blocking = blocking;
+    this.executionType = executionType;
     this.errors = errors;
   }
 
@@ -58,5 +72,20 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
    */
   public Set<ErrorModel> getErrorModels() {
     return errors;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isBlocking() {
+    return blocking;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public ExecutionType getExecutionType() {
+    return executionType;
   }
 }

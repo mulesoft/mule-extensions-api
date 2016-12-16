@@ -31,16 +31,16 @@ public abstract class AbstractParameterizedModel extends AbstractNamedImmutableM
    *
    * @param name            the model's name
    * @param description     the model's description
+   * @param parameterGroupModels a {@link List} with the component's {@link ParameterGroupModel parameter group models}
    * @param displayModel    a model which contains directive about how this component is displayed in the UI
    * @param modelProperties A {@link Set} of custom properties which extend this model
-   * @param parameterGroupModels a {@link List} with the component's {@link ParameterGroupModel parameter group models}
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractParameterizedModel(String name,
                                        String description,
+                                       List<ParameterGroupModel> parameterGroupModels,
                                        DisplayModel displayModel,
-                                       Set<ModelProperty> modelProperties,
-                                       List<ParameterGroupModel> parameterGroupModels) {
+                                       Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
     this.parameterGroupModels = unmodifiableList(new ArrayList<>(parameterGroupModels));
   }

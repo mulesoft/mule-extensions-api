@@ -22,6 +22,7 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
@@ -154,7 +155,9 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asParameterGroup(carNameParameter, complexParameter),
                                     outputModel,
                                     outputAttributesModel,
-                                    defaultDisplayModel, singleton(ERROR_MODEL), modelProperties);
+                                    true, CPU_LITE, false, false, defaultDisplayModel,
+                                    singleton(ERROR_MODEL), modelProperties);
+
     final ImmutableConnectionProviderModel basicAuth =
         new ImmutableConnectionProviderModel("BasicAuth",
                                              "Basic Auth Config",
@@ -173,7 +176,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                                                                                                    .builder()
                                                                                                                    .build(),
                                                                                                                emptySet())),
-                                                                      Optional.empty(), DisplayModel.builder().build(),
+                                                                      Optional.empty(), false, false,
+                                                                      DisplayModel.builder().build(),
                                                                       emptySet());
 
 

@@ -10,15 +10,14 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
-import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -33,8 +32,6 @@ import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
-import org.mule.runtime.extension.api.model.property.ConnectivityModelProperty;
-import org.mule.runtime.extension.api.model.property.PagedOperationModelProperty;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -92,9 +89,9 @@ public class ExtensionModelUtils {
         collect(model);
       }
 
-      private void collect(EnrichableModel model) {
-        if (isConnected(model)) {
-          connectedModels.add((ComponentModel) model);
+      private void collect(ComponentModel model) {
+        if (model.requiresConnection()) {
+          connectedModels.add(model);
         }
       }
     }.walk(extensionModel);
@@ -127,9 +124,9 @@ public class ExtensionModelUtils {
         collect(owner, model);
       }
 
-      private void collect(Object owner, EnrichableModel model) {
-        if (owner == configurationModel && isConnected(model)) {
-          connectedModels.add((ComponentModel) model);
+      private void collect(Object owner, ComponentModel model) {
+        if (owner == configurationModel && model.requiresConnection()) {
+          connectedModels.add(model);
         }
       }
     }.walk(extensionModel);
@@ -143,23 +140,12 @@ public class ExtensionModelUtils {
    * in order to function
    */
   public static boolean requiresConfig(NamedObject component) {
-    if (component instanceof EnrichableModel) {
-      EnrichableModel model = (EnrichableModel) component;
-      return model.getModelProperty(ConfigTypeModelProperty.class).isPresent() ||
-          isConnected(model);
+    if (component instanceof ComponentModel) {
+      ComponentModel model = (ComponentModel) component;
+      return model.requiresConnection() || model.getModelProperty(ConfigTypeModelProperty.class).isPresent();
     }
 
     return false;
-  }
-
-  /**
-   * @param component an {@link EnrichableModel}
-   * @return Whether the given {@code component} requires a connection
-   * in order to function
-   */
-  public static boolean isConnected(EnrichableModel component) {
-    return component.getModelProperty(ConnectivityModelProperty.class).isPresent() ||
-        component.getModelProperty(PagedOperationModelProperty.class).isPresent();
   }
 
   public static boolean isContent(ParameterModel parameterModel) {

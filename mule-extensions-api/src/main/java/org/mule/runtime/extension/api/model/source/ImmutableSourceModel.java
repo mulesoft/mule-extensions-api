@@ -43,6 +43,8 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output me
    * @param successCallbackModel an optional model for the source success callback
    * @param errorCallbackModel   an optional model for the source error callback
+   * @param requiresConnection   whether this component requires connectivity
+   * @param transactional        whether this component supports transactions
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    */
@@ -54,9 +56,12 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
                               OutputModel outputAttributes,
                               Optional<SourceCallbackModel> successCallbackModel,
                               Optional<SourceCallbackModel> errorCallbackModel,
+                              boolean requiresConnection,
+                              boolean transactional,
                               DisplayModel displayModel,
                               Set<ModelProperty> modelProperties) {
-    super(name, description, displayModel, modelProperties, parameterGroupModels, output, outputAttributes);
+    super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, displayModel,
+          modelProperties);
     this.hasResponse = hasResponse;
     this.successCallback = successCallbackModel.orElse(null);
     this.errorCallback = errorCallbackModel.orElse(null);

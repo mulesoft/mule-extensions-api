@@ -42,7 +42,7 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
                                           ConnectionManagementType connectionManagementType,
                                           DisplayModel displayModel,
                                           Set<ModelProperty> modelProperties) {
-    super(name, description, displayModel, modelProperties, parameterGroupModels);
+    super(name, description, parameterGroupModels, displayModel, modelProperties);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
   }
