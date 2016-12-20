@@ -6,6 +6,9 @@
  */
 package org.mule.runtime.extension.api.util;
 
+import static java.lang.String.format;
+import static java.util.Collections.sort;
+import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -16,6 +19,16 @@ import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
+import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
+import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
@@ -28,9 +41,15 @@ import java.util.List;
 /**
  * Utilities for manipulating names of supported by the DSL. Mostly for validating the configuration content.
  *
- * @since 4.0
+ * @since 1.0
  */
 public class NameUtils {
+
+  private static final String CONFIGURATION = "configuration";
+  private static final String OPERATION = "operation";
+  private static final String CONNECTION_PROVIDER = "connection provider";
+  private static final String SOURCE = "source";
+  private static final String SOURCE_CALLBACK = "source callback";
 
   private static final List<Inflection> plural = new ArrayList<>();
   private static final List<Inflection> singular = new ArrayList<>();
@@ -273,6 +292,62 @@ public class NameUtils {
     namespace = removeEndIgnoreCase(namespace, "connector");
     namespace = removeEndIgnoreCase(namespace, "module");
     return hyphenize(isBlank(namespace) ? extensionName : namespace);
+  }
+
+  public static String getComponentModelTypeName(Object component) {
+    if (component instanceof OperationModel) {
+      return OPERATION;
+    } else if (component instanceof ConfigurationModel) {
+      return CONFIGURATION;
+    } else if (component instanceof ConnectionProviderModel) {
+      return CONNECTION_PROVIDER;
+    } else if (component instanceof SourceModel) {
+      return SOURCE;
+    } else if (component instanceof SourceCallbackModel) {
+      return SOURCE_CALLBACK;
+    }
+
+    throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s]",
+                                              component.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
+  }
+
+  public static String getComponentDeclarationTypeName(Object component) {
+    if (component instanceof OperationDeclaration) {
+      return OPERATION;
+    } else if (component instanceof ConfigurationDeclaration) {
+      return CONFIGURATION;
+    } else if (component instanceof ConnectionProviderDeclaration) {
+      return CONNECTION_PROVIDER;
+    } else if (component instanceof SourceDeclaration) {
+      return SOURCE;
+    }
+
+    throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s]",
+                                              component.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
+  }
+
+  public static String getModelName(Object model) {
+    if (model instanceof NamedObject) {
+      return ((NamedObject) model).getName();
+    }
+
+    throw new IllegalArgumentException(format("Model '%s' is not a named type"));
+  }
+
+  /**
+   * Sorts the given {@code list} in ascending alphabetic order, using {@link NamedObject#getName()} as the sorting criteria
+   *
+   * @param list a {@link List} with instances of {@link NamedObject}
+   * @param <T>  the generic type of the items in the {@code list}
+   * @return the sorted {@code list}
+   */
+  public static <T extends NamedObject> List<T> alphaSortDescribedList(List<T> list) {
+    if (list == null || list.isEmpty()) {
+      return list;
+    }
+
+    sort(list, comparing(NamedObject::getName));
+    return list;
   }
 
   /**

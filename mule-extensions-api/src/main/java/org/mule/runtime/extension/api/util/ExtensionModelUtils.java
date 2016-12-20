@@ -30,8 +30,8 @@ import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
+import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
-import org.mule.runtime.extension.api.model.property.ConfigTypeModelProperty;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -135,17 +135,42 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * @param component a component
+   * @param extensionModel the model which owns the {@code component}
+   * @param component      a component
    * @return Whether the given {@code component} needs to be provided with a config
    * in order to function
    */
-  public static boolean requiresConfig(NamedObject component) {
-    if (component instanceof ComponentModel) {
-      ComponentModel model = (ComponentModel) component;
-      return model.requiresConnection() || model.getModelProperty(ConfigTypeModelProperty.class).isPresent();
+  public static boolean requiresConfig(ExtensionModel extensionModel, NamedObject component) {
+    if (!(component instanceof ComponentModel)) {
+      return false;
     }
 
-    return false;
+    ComponentModel model = (ComponentModel) component;
+    if (model.requiresConnection()) {
+      return true;
+    }
+
+    Reference<Boolean> result = new Reference<>(false);
+    new ExtensionWalker() {
+
+      @Override
+      public void onOperation(HasOperationModels owner, OperationModel model) {
+        resolve(model, owner);
+      }
+
+      @Override
+      public void onSource(HasSourceModels owner, SourceModel model) {
+        resolve(model, owner);
+      }
+
+      private void resolve(ComponentModel model, Object owner) {
+        if (owner != null && model == component) {
+          result.set(true);
+        }
+      }
+    }.walk(extensionModel);
+
+    return result.get();
   }
 
   public static boolean isContent(ParameterModel parameterModel) {

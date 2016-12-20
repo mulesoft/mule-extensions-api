@@ -186,7 +186,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
                                     singletonList(basicAuth), singletonList(sourceModel),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), singleton(exportedType), emptySet(), singleton(ERROR_MODEL), emptySet());
+                                    emptySet(), singleton(exportedType), emptySet(), emptySet(), singleton(ERROR_MODEL),
+                                    emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =
@@ -325,7 +326,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     }
 
     @Override
-    public boolean isExternalizable() {
+    public boolean isPublic() {
       return false;
     }
   }
@@ -339,7 +340,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     }
 
     @Override
-    public boolean isExternalizable() {
+    public boolean isPublic() {
       return true;
     }
   }

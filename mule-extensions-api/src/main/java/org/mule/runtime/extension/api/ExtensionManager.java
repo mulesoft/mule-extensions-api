@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api;
 import org.mule.runtime.api.message.MuleEvent;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
-import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
 import org.mule.runtime.extension.api.runtime.ConfigurationProvider;
 import org.mule.runtime.extension.api.runtime.ConfigurationStats;
@@ -24,13 +23,18 @@ import java.util.Set;
  * of the extensions in use.
  *
  * For an extension to be usable, it has to be registered in this manager through the
- * {@link #registerExtension(ExtensionManifest, ClassLoader)} method
+ * {@link #registerExtension(ExtensionModel)} method
  *
  * @since 1.0
  */
 public interface ExtensionManager {
 
-  void registerExtension(ExtensionManifest manifest, ClassLoader classLoader);
+  /**
+   * Registers the given {@link ExtensionModel}.
+   *
+   * @param extensionModel the {@link ExtensionModel} to be registered. Cannot be {@code null}
+   */
+  void registerExtension(ExtensionModel extensionModel);
 
   /**
    * Returns an immutable {@link Set} listing all the discovered
