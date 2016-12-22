@@ -10,9 +10,12 @@ import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
+import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
 import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 /**
  * Serializer that can convert a {@link MetadataResult} of {@link TypeMetadataDescriptor} type into a readable and processable
@@ -28,13 +31,13 @@ public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJs
 
   @Override
   public String serialize(MetadataResult result) {
-    return gson.toJson(new EntityMetadata(result));
+    return gson.toJson(new EntityMetadataResult(result));
   }
 
   @Override
   public MetadataResult<TypeMetadataDescriptor> deserialize(String result) {
-    EntityMetadata metadata = gson.fromJson(result, new TypeToken<EntityMetadata>() {}.getType());
-    return metadata.toEntityMetadataResult();
+    EntityMetadataResult entityMetadataResult = gson.fromJson(result, new TypeToken<EntityMetadataResult>() {}.getType());
+    return entityMetadataResult.toEntityMetadataResult();
   }
 
   /**
@@ -43,29 +46,25 @@ public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJs
    *
    * @since 1.0
    */
-  private class EntityMetadata {
+  private class EntityMetadataResult {
 
     private final static String ENTITIES = "ENTITIES";
 
-    private final Failure failure;
     private final TypeMetadata entity;
+    private final List<MetadataFailure> failures;
 
-    public EntityMetadata(MetadataResult<TypeMetadataDescriptor> result) {
+    EntityMetadataResult(MetadataResult<TypeMetadataDescriptor> result) {
       entity = result.get() != null ? new TypeMetadata(result.get().getType(), false) : null;
-      failure = result.getFailure().isPresent() ? new Failure(result.getFailure().get(), ENTITIES) : null;
+      failures = result.getFailures();
     }
 
     TypeMetadata getEntity() {
       return entity;
     }
 
-    public MetadataResult<TypeMetadataDescriptor> toEntityMetadataResult() {
-
-      return failure != null
-          ? failure(new ImmutableTypeMetadataDescriptor(entity != null ? entity.getType() : null, true), failure.getMessage(),
-                    failure.getFailureCode(),
-                    failure.getReason())
-          : success(new ImmutableTypeMetadataDescriptor(entity.getType(), true));
+    MetadataResult<TypeMetadataDescriptor> toEntityMetadataResult() {
+      TypeMetadataDescriptor result = new ImmutableTypeMetadataDescriptor(entity != null ? entity.getType() : null, true);
+      return failures.isEmpty() ? success(result) : failure(result, failures);
     }
   }
 

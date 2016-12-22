@@ -6,18 +6,20 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
-import com.google.gson.reflect.TypeToken;
-import org.mule.runtime.api.metadata.DefaultMetadataKey;
-import org.mule.runtime.api.metadata.MetadataKeysContainer;
-import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
-import org.mule.runtime.api.metadata.resolving.MetadataResult;
-
-import java.util.Map;
-import java.util.Set;
-
 import static java.util.Collections.emptyMap;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+import org.mule.runtime.api.metadata.DefaultMetadataKey;
+import org.mule.runtime.api.metadata.MetadataKeysContainer;
+import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
+import org.mule.runtime.api.metadata.resolving.MetadataFailure;
+import org.mule.runtime.api.metadata.resolving.MetadataResult;
+
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Serializer that can convert a {@link MetadataResult} of a {@link MetadataKeysContainer} type into a readable and processable
@@ -54,28 +56,23 @@ public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJson
 
   /**
    * DTO that represents a {@link MetadataResult} of {@link MetadataKeysContainer}
-   * 
+   *
    * @since 1.0
    */
   private class MetadataKeysResult {
 
-    private final static String KEYS = "KEYS";
-
-    private final Failure failure;
     private final Map<String, Set<DefaultMetadataKey>> keys;
+    private final List<MetadataFailure> failures;
 
     @SuppressWarnings("unchecked")
-    public MetadataKeysResult(MetadataResult<MetadataKeysContainer> result) {
-      this.failure = result.getFailure().isPresent() ? new Failure(result.getFailure().get(), KEYS) : null;
+    MetadataKeysResult(MetadataResult<MetadataKeysContainer> result) {
+      this.failures = result.getFailures();
       this.keys = result.get() != null ? (Map) result.get().getKeysByCategory() : emptyMap();
     }
 
-    public MetadataResult<MetadataKeysContainer> toKeysMetadataResult() {
-      MetadataKeysContainerBuilder builder = MetadataKeysContainerBuilder.getInstance().addAll((Map) keys);
-
-      return failure != null ? failure(builder.build(), failure.getMessage(), failure.getFailureCode(),
-                                       failure.getReason())
-          : success(builder.build());
+    MetadataResult<MetadataKeysContainer> toKeysMetadataResult() {
+      MetadataKeysContainerBuilder builder = MetadataKeysContainerBuilder.getInstance();
+      return failures.isEmpty() ? success(builder.addAll((Map) keys).build()) : failure(builder.build(), failures);
     }
   }
 }

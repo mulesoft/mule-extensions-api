@@ -6,18 +6,18 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.runtime.api.metadata.descriptor.ImmutableOutputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
-import org.mule.runtime.api.metadata.resolving.ImmutableMetadataResult;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.api.persistence.RestrictiveTypeAdapterFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Abstract implementation of a serializer that can convert a {@link MetadataResult} of some payload type into a readable and
@@ -35,7 +35,8 @@ public abstract class AbstractMetadataResultJsonSerializer {
                                                                         ParameterMetadataDescriptor.class))
         .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(TypeMetadataDescriptor.class,
                                                                         ParameterMetadataDescriptor.class))
-        .registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(MetadataResult.class, ImmutableMetadataResult.class))
+        //.registerTypeAdapterFactory(new RestrictiveTypeAdapterFactory<>(MetadataResult.class, MetadataResult.class))
+        .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
         .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(OutputMetadataDescriptor.class,
                                                                                   ImmutableOutputMetadataDescriptor.class))
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter());

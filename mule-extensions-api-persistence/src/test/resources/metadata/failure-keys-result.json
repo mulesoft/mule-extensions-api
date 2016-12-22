@@ -1,10 +1,13 @@
 {
-  "failure":
-  {
-    "failureCode": "NOT_AUTHORIZED",
-    "message": "Metadata Failure Error",
-    "reason": "Metadata Failure Error",
-    "failureComponent": "KEYS"
-  },
-  "keys": {}
+  "failures":[
+    {
+      "failingComponent":"KEYS",
+      "message":"Metadata Failure Error",
+      "reason":"Metadata Failure Error",
+      "failureCode": "NOT_AUTHORIZED"
+    }
+  ],
+  "keys":{
+
+  }
 }

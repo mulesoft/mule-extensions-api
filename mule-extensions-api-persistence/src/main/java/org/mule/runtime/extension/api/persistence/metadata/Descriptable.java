@@ -8,11 +8,6 @@
 package org.mule.runtime.extension.api.persistence.metadata;
 
 
-import org.mule.runtime.api.metadata.resolving.MetadataResult;
-
-import java.util.List;
-import java.util.Optional;
-
 /**
  * Contract for all data transfer objects that represent any metadata descriptor.
  *
@@ -20,9 +15,6 @@ import java.util.Optional;
  */
 interface Descriptable<T> {
 
-  MetadataResult<T> toDescriptorResult(List<Failure> failures);
+  T toDescriptor();
 
-  default Optional<Failure> getComponentFailure(List<Failure> failures, String component) {
-    return failures.stream().filter(f -> f.getFailureComponent().equals(component)).findFirst();
-  }
 }

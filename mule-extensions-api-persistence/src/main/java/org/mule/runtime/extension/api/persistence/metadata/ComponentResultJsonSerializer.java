@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.persistence.metadata;
 
 import static com.google.common.collect.ImmutableList.copyOf;
-import static com.google.common.collect.ImmutableList.of;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -22,15 +21,14 @@ import org.mule.runtime.api.metadata.descriptor.ImmutableParameterMetadataDescri
 import org.mule.runtime.api.metadata.descriptor.InputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * Serializer that can convert a {@link MetadataResult} of a {@link ComponentMetadataDescriptor} type into a readable and
@@ -39,12 +37,6 @@ import java.util.Optional;
  * @since 1.0
  */
 public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
-
-  private final static String COMPONENT = "COMPONENT";
-  private final static String OUTPUT_PAYLOAD = "OUTPUT_PAYLOAD";
-  private final static String OUTPUT_ATTRIBUTES = "OUTPUT_ATTRIBUTES";
-  private final static String OUTPUT = "OUTPUT";
-  private final static String INPUT = "INPUT";
 
   public ComponentResultJsonSerializer() {
     super(false);
@@ -70,7 +62,7 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     ComponentMetadataResult result = gson.fromJson(metadataResult, new TypeToken<ComponentMetadataResult>() {
 
     }.getType());
-    return result.toComponentMetadataResult();
+    return result.toDescriptor();
   }
 
   /**
@@ -79,73 +71,27 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
    *
    * @since 1.0
    */
-  private static class ComponentMetadataResult implements Descriptable<ComponentMetadataDescriptor> {
+  private static class ComponentMetadataResult implements Descriptable<MetadataResult<ComponentMetadataDescriptor>> {
 
     private final String componentName;
     private final List<ParameterMetadata> input;
     private final OutputMetadata output;
-    private final List<Failure> failures;
+    private final List<MetadataFailure> failures;
 
     ComponentMetadataResult(MetadataResult<ComponentMetadataDescriptor> result) {
-      this.componentName = result.get() != null ? result.get().getName() : "";
-      this.output = result.get() != null ? new OutputMetadata(result.get()) : null;
-      this.input = result.get() != null ? new InputMetadata(result.get()).getParameters() : null;
-      this.failures = collectFailures(result);
-    }
-
-
-    public MetadataResult<ComponentMetadataDescriptor> toComponentMetadataResult() {
-      return toDescriptorResult(failures);
-    }
-
-    private List<Failure> collectFailures(MetadataResult<ComponentMetadataDescriptor> result) {
-      if (!result.getFailure().isPresent()) {
-        return emptyList();
-      }
-
-      ImmutableMap.Builder<String, MetadataFailure> failures = ImmutableMap.builder();
       ComponentMetadataDescriptor descriptor = result.get();
-      failures.put(COMPONENT, result.getFailure().get());
-
-      if (descriptor != null) {
-        MetadataResult<InputMetadataDescriptor> inputMetadata = descriptor.getInputMetadata();
-        inputMetadata.getFailure().ifPresent(failure -> failures.put(INPUT, failure));
-
-        MetadataResult<OutputMetadataDescriptor> outputMetadata = descriptor.getOutputMetadata();
-        outputMetadata.getFailure()
-            .ifPresent(outputFailure -> {
-              outputMetadata.get().getPayloadMetadata().getFailure()
-                  .ifPresent(failure -> failures.put(OUTPUT_PAYLOAD, failure));
-
-              outputMetadata.get().getAttributesMetadata().getFailure()
-                  .ifPresent(failure -> failures.put(OUTPUT_ATTRIBUTES, failure));
-
-              failures.put(OUTPUT, outputFailure);
-            });
-      }
-
-      return failures.build()
-          .entrySet()
-          .stream()
-          .map(e -> new Failure(e.getValue(), e.getKey()))
-          .collect(toList());
+      this.componentName = descriptor != null ? descriptor.getName() : "";
+      this.output = descriptor != null ? new OutputMetadata(descriptor.getOutputMetadata()) : null;
+      this.input = descriptor != null ? new InputMetadata(descriptor.getInputMetadata()).getParameters() : null;
+      this.failures = result.getFailures();
     }
 
     @Override
-    public MetadataResult<ComponentMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
-      Optional<Failure> metadataFailure = getComponentFailure(failures, COMPONENT);
-      MetadataResult outputResult = output != null ? output.toDescriptorResult(failures) : success(null);
-      ImmutableComponentMetadataDescriptor descriptor =
-          new ImmutableComponentMetadataDescriptor(componentName,
-                                                   new InputMetadata(input).toDescriptorResult(failures), outputResult);
-      if (metadataFailure.isPresent()) {
-        return failure(descriptor,
-                       metadataFailure.get().getMessage(),
-                       metadataFailure.get().getFailureCode(),
-                       metadataFailure.get().getReason());
-      }
-
-      return success(descriptor);
+    public MetadataResult<ComponentMetadataDescriptor> toDescriptor() {
+      InputMetadataDescriptor inputDesc = input != null ? new InputMetadata(input).toDescriptor() : null;
+      OutputMetadataDescriptor outputDesc = output != null ? output.toDescriptor() : null;
+      ComponentMetadataDescriptor descriptor = new ImmutableComponentMetadataDescriptor(componentName, inputDesc, outputDesc);
+      return failures.isEmpty() ? success(descriptor) : failure(descriptor, failures);
     }
   }
 
@@ -180,16 +126,8 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     }
 
     @Override
-    public MetadataResult<ParameterMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
-      Optional<Failure> metadataFailure = getComponentFailure(failures, name);
-      ImmutableParameterMetadataDescriptor descriptor = new ImmutableParameterMetadataDescriptor(name, type, isDynamic);
-      if (metadataFailure.isPresent()) {
-        return failure(descriptor,
-                       metadataFailure.get().getMessage(),
-                       metadataFailure.get().getFailureCode(),
-                       metadataFailure.get().getReason());
-      }
-      return success(descriptor);
+    public ParameterMetadataDescriptor toDescriptor() {
+      return new ImmutableParameterMetadataDescriptor(name, type, isDynamic);
     }
   }
 
@@ -204,11 +142,11 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
     private final TypeMetadata content;
     private final TypeMetadata attributes;
 
-    OutputMetadata(ComponentMetadataDescriptor result) {
-      OutputMetadataDescriptor outputDescriptor = result.getOutputMetadata().get();
-      this.content = new TypeMetadata(outputDescriptor.getPayloadMetadata().get().getType(),
-                                      outputDescriptor.getPayloadMetadata().get().isDynamic());
-      this.attributes = new TypeMetadata(outputDescriptor.getAttributesMetadata().get().getType(), false);
+    OutputMetadata(OutputMetadataDescriptor output) {
+      TypeMetadataDescriptor payload = output.getPayloadMetadata();
+      TypeMetadataDescriptor attributes = output.getAttributesMetadata();
+      this.content = new TypeMetadata(payload.getType(), payload.isDynamic());
+      this.attributes = new TypeMetadata(attributes.getType(), attributes.isDynamic());
     }
 
     TypeMetadata getContent() {
@@ -219,22 +157,8 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
       return attributes;
     }
 
-    @Override
-    public MetadataResult<OutputMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
-      Optional<Failure> metadataFailure = getComponentFailure(failures, OUTPUT);
-      Optional<Failure> attributesFailure = getComponentFailure(failures, OUTPUT_ATTRIBUTES);
-      Optional<Failure> payloadFailure = getComponentFailure(failures, OUTPUT_PAYLOAD);
-
-      ImmutableOutputMetadataDescriptor descriptor =
-          new ImmutableOutputMetadataDescriptor(content.toDescriptorResult(payloadFailure),
-                                                attributes.toDescriptorResult(attributesFailure));
-      if (metadataFailure.isPresent()) {
-        return failure(descriptor,
-                       metadataFailure.get().getMessage(),
-                       metadataFailure.get().getFailureCode(),
-                       metadataFailure.get().getReason());
-      }
-      return success(descriptor);
+    public OutputMetadataDescriptor toDescriptor() {
+      return new ImmutableOutputMetadataDescriptor(content.toDescriptor(), attributes.toDescriptor());
     }
   }
 
@@ -248,45 +172,29 @@ public class ComponentResultJsonSerializer extends AbstractMetadataResultJsonSer
 
     private final List<ParameterMetadata> parameters;
 
-    InputMetadata(ComponentMetadataDescriptor result) {
-      InputMetadataDescriptor intputDescriptor = result.getInputMetadata().get();
-
-      if (intputDescriptor == null) {
-        parameters = of();
+    InputMetadata(InputMetadataDescriptor input) {
+      if (input == null) {
+        parameters = emptyList();
       } else {
-        parameters = copyOf(intputDescriptor.getAllParameters().values().stream()
-            .filter(p -> p.get() != null)
-            .map(p -> new ParameterMetadata(p.get().getName(), p.get().getType(), p.get().isDynamic()))
+        parameters = copyOf(input.getAllParameters().values().stream()
+            .filter(Objects::nonNull)
+            .map(p -> new ParameterMetadata(p.getName(), p.getType(), p.isDynamic()))
             .collect(toList()));
       }
     }
 
-    public InputMetadata(List<ParameterMetadata> input) {
-      parameters = input != null ? input : of();
-    }
-
-    @Override
-    public MetadataResult<InputMetadataDescriptor> toDescriptorResult(List<Failure> failures) {
-      Optional<Failure> metadataFailure = getComponentFailure(failures, INPUT);
-
-      // TODO MULE-10707: update failure handling
-      Map<String, MetadataResult<ParameterMetadataDescriptor>> input =
-          parameters.stream().collect(toMap(ParameterMetadata::getName,
-                                            p -> success(new ImmutableParameterMetadataDescriptor(p.getName(), p.getType(),
-                                                                                                  p.isDynamic()))));
-
-      ImmutableInputMetadataDescriptor descriptor = new ImmutableInputMetadataDescriptor(input);
-      if (metadataFailure.isPresent()) {
-        return failure(descriptor,
-                       metadataFailure.get().getMessage(),
-                       metadataFailure.get().getFailureCode(),
-                       metadataFailure.get().getReason());
-      }
-      return success(descriptor);
+    InputMetadata(List<ParameterMetadata> input) {
+      parameters = input != null ? input : emptyList();
     }
 
     public List<ParameterMetadata> getParameters() {
       return parameters;
+    }
+
+    @Override
+    public InputMetadataDescriptor toDescriptor() {
+      return new ImmutableInputMetadataDescriptor(parameters.stream().collect(toMap(ParameterMetadata::getName,
+                                                                                    ParameterMetadata::toDescriptor)));
     }
   }
 }

@@ -6,14 +6,9 @@
  */
 package org.mule.runtime.extension.api.persistence.metadata;
 
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
-import org.mule.runtime.api.metadata.resolving.MetadataResult;
-
-import java.util.Optional;
 
 /**
  * DTO that represents a {@link TypeMetadataDescriptor} into a serializable format.
@@ -38,16 +33,8 @@ class TypeMetadata {
     return type;
   }
 
-  MetadataResult<TypeMetadataDescriptor> toDescriptorResult(Optional<Failure> metadataFailure) {
-    ImmutableTypeMetadataDescriptor descriptor = new ImmutableTypeMetadataDescriptor(type, isDynamic);
-    if (metadataFailure.isPresent()) {
-      return failure(descriptor,
-                     metadataFailure.get().getMessage(),
-                     metadataFailure.get().getFailureCode(),
-                     metadataFailure.get().getReason());
-    } else {
-      return success(descriptor);
-    }
+  TypeMetadataDescriptor toDescriptor() {
+    return new ImmutableTypeMetadataDescriptor(type, isDynamic);
   }
 
 }
