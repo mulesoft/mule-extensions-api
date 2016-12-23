@@ -52,7 +52,6 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
   private TestHttpConnectorDeclarer testDeclarer = new TestHttpConnectorDeclarer();
   private ExtensionDeclaration extensionDeclaration = testDeclarer.getExtensionDeclarer().getDeclaration();
 
-
   @Test
   public void assertDeclaration() {
     assertThat(extensionDeclaration.getName(), is(EXTENSION_NAME));

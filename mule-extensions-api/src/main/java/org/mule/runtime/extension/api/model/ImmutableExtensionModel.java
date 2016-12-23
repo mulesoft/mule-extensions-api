@@ -6,24 +6,22 @@
  */
 package org.mule.runtime.extension.api.model;
 
-import static com.google.common.collect.ImmutableSet.copyOf;
-import static com.google.common.collect.ImmutableSet.of;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.MuleVersion;
-import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
-import org.mule.runtime.api.meta.Category;
-import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +42,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final List<ConfigurationModel> configurations;
   private final Set<ErrorModel> errors;
   private final Set<ObjectType> types;
+  private final Set<String> resources;
   private final XmlDslModel xmlDslModel;
   private final Set<SubTypesModel> subTypes;
   private final Set<ImportedTypeModel> importedTypes;
@@ -65,6 +64,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param xmlDslModel         the {@link XmlDslModel} which describes the XML language
    * @param subTypes            A {@link Set} with the sub types defined by this extension
    * @param types               A {@link Set} with the custom types defined by this extension
+   * @param resources           A {@link Set} with the paths to all the resources exposed by this extension
    * @param importedTypes       A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
    * @param errors              A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param modelProperties     A {@link Set} of custom properties which extend this model
@@ -84,6 +84,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  XmlDslModel xmlDslModel,
                                  Set<SubTypesModel> subTypes,
                                  Set<ObjectType> types,
+                                 Set<String> resources,
                                  Set<ImportedTypeModel> importedTypes,
                                  Set<ErrorModel> errors,
                                  Set<ModelProperty> modelProperties) {
@@ -103,6 +104,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.version = version;
     this.vendor = vendor;
     this.types = copy(types);
+    this.resources = copy(resources);
     this.importedTypes = copy(importedTypes);
     this.subTypes = copy(subTypes);
     this.xmlDslModel = xmlDslModel;
@@ -163,6 +165,14 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Set<ObjectType> getTypes() {
     return types;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<String> getResources() {
+    return resources;
   }
 
   /**

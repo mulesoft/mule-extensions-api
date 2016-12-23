@@ -9,15 +9,6 @@ package org.mule.runtime.extension.api.persistence;
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.TypeAdapter;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
@@ -33,11 +24,21 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
-import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -64,6 +65,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
   private static final String VENDOR = "vendor";
   private static final String CATEGORY = "category";
   private static final String TYPES = "types";
+  private static final String RESOURCES = "resources";
   private static final String XML_DSL = "xmlDsl";
   private static final String SUB_TYPES = "subTypes";
   private static final String DISPLAY_MODEL = "displayModel";
@@ -90,6 +92,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
     out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().toCompleteNumericVersion());
     writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {});
+    writeWithDelegate(model.getResources(), RESOURCES, out, new TypeToken<Set<String>>() {});
     writeWithDelegate(model.getSubTypes(), SUB_TYPES, out, new TypeToken<Set<SubTypesModel>>() {});
     writeWithDelegate(model.getImportedTypes(), IMPORTED_TYPES, out, new TypeToken<Set<ImportedTypeModel>>() {});
     writeWithDelegate(model.getDisplayModel().orElse(null), DISPLAY_MODEL, out, new TypeToken<DisplayModel>() {});
@@ -112,6 +115,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
 
     Set<ObjectType> types = parseTypes(json);
+    Set<String> resources = parseWithDelegate(json, RESOURCES, new TypeToken<Set<String>>() {});
     Set<SubTypesModel> subTypes = parseWithDelegate(json, SUB_TYPES, new TypeToken<Set<SubTypesModel>>() {});
     Set<ImportedTypeModel> importedTypes = parseWithDelegate(json, IMPORTED_TYPES, new TypeToken<Set<ImportedTypeModel>>() {});
     List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {});
@@ -134,6 +138,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
                                        gsonDelegate.fromJson(json.get(XML_DSL), XmlDslModel.class),
                                        subTypes,
                                        types,
+                                       resources,
                                        importedTypes,
                                        gsonDelegate.fromJson(json.get("errors"),
                                                              new TypeToken<Set<ImmutableErrorModel>>() {}.getType()),

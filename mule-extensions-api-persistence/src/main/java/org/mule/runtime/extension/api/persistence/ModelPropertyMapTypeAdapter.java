@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.getClassNameMapping;
-import static org.mule.runtime.extension.api.persistence.JsonSerializationConstants.getNameClassMapping;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -20,7 +18,6 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * {@link TypeAdapter} implementation that knows how to serialize and deserialize {@code Map<Class<? extends ModelProperty>, ModelProperty>}.
@@ -39,9 +36,6 @@ import java.util.Optional;
  */
 final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<ModelProperty>> {
 
-  private static final Map<Class<? extends ModelProperty>, String> classNameMapping = getClassNameMapping();
-  private static final Map<String, Class<? extends ModelProperty>> nameClassMapping = getNameClassMapping();
-
   private final Gson gson;
 
   ModelPropertyMapTypeAdapter(Gson gson) {
@@ -55,8 +49,8 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<Mo
       final ModelProperty modelProperty = entry.getValue();
       final Class<?> modelPropertyClass = entry.getKey();
 
-      if (modelProperty.isExternalizable()) {
-        out.name(getSerializableModelPropertyName(modelPropertyClass));
+      if (modelProperty.isPublic()) {
+        out.name(modelPropertyClass.getName());
         final TypeAdapter adapter = gson.getAdapter(modelPropertyClass);
         adapter.write(out, modelProperty);
       }
@@ -71,37 +65,23 @@ final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<Mo
 
     in.beginObject();
     while (in.hasNext()) {
-      final Optional<Class<? extends ModelProperty>> modelPropertyClass = getClassForModelProperty(in.nextName());
-
-      if (modelPropertyClass.isPresent()) {
-        final Class<? extends ModelProperty> type = modelPropertyClass.get();
-        final TypeAdapter<?> adapter = gson.getAdapter(type);
-        final ModelProperty read = (ModelProperty) adapter.read(in);
-        modelPropertyHashMap.put(type, read);
-      }
+      final Class<? extends ModelProperty> type = getClassForModelProperty(in.nextName());
+      final TypeAdapter<?> adapter = gson.getAdapter(type);
+      final ModelProperty read = (ModelProperty) adapter.read(in);
+      modelPropertyHashMap.put(type, read);
     }
     in.endObject();
     return modelPropertyHashMap;
   }
 
-  private Optional<Class<? extends ModelProperty>> getClassForModelProperty(String modelPropertyName) {
-    Class<? extends ModelProperty> modelPropertyClass = null;
-    if (nameClassMapping.containsKey(modelPropertyName)) {
-      modelPropertyClass = nameClassMapping.get(modelPropertyName);
-    } else {
-      try {
-        modelPropertyClass = (Class<? extends ModelProperty>) Class.forName(modelPropertyName);
-      } catch (ClassNotFoundException e) {
-        throw new ExtensionModelSerializationException(String
-            .format("Error loading [%s] ModelProperty. Class not found in the current classloader", modelPropertyName), e);
-      }
+  private Class<? extends ModelProperty> getClassForModelProperty(String modelPropertyName) {
+    try {
+      return (Class<? extends ModelProperty>) Class.forName(modelPropertyName);
+    } catch (ClassNotFoundException e) {
+      throw new ExtensionModelSerializationException(String
+          .format(
+                  "Error loading [%s] ModelProperty. Class not found in the current classloader",
+                  modelPropertyName), e);
     }
-
-    return Optional.ofNullable(modelPropertyClass);
-  }
-
-
-  private String getSerializableModelPropertyName(Class<?> modelPropertyClass) {
-    return classNameMapping.getOrDefault(modelPropertyClass, modelPropertyClass.getName());
   }
 }

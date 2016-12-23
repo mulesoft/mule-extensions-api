@@ -6,13 +6,12 @@
  */
 package org.mule.runtime.extension.api.manifest;
 
-import org.mule.runtime.extension.api.declaration.spi.Describer;
 import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder.DescriberManifestBuilder;
 
 import java.util.Map;
 
 /**
- * Manifest that enunciates the main properties of a {@link Describer}
+ * Manifest that enunciates the main properties of a describer
  * to be instantiated by the Mule Runtime.
  *
  * @see DescriberManifestBuilder
@@ -26,7 +25,7 @@ public interface DescriberManifest {
   String getId();
 
   /**
-   * Providers properties which parameterize the {@link Describer}
+   * Providers properties which parameterize the describer
    *
    * @return a {@link Map} of {@link String strings}. Could be empty but will never be {@code null}
    */

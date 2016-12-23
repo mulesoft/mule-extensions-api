@@ -27,7 +27,7 @@ import java.util.Set;
 /**
  * Immutable container for type mapping, storing the relation of a given type and its declared subtypes
  *
- * @since 4.0
+ * @since 1.0
  */
 public class SubTypesMappingContainer {
 

@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
  * <b>Considerations:</b>
  * <ul>
  * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that
- * {@link ModelProperty#isExternalizable()} returns {@code true}, will be serialized</li>
+ * {@link ModelProperty#isPublic()} returns {@code true}, will be serialized</li>
  * <li>Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only the
  * already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel} is going to be
  * identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized tagging it with the full
