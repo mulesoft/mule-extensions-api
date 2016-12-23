@@ -62,16 +62,16 @@
   },
   "failures": [
     {
-      "failureCode": "CONNECTION_FAILURE",
-      "message": "Metadata Failure Error",
+      "failingComponent": "COMPONENT",
+      "message": "FIRST_ERROR",
       "reason": "Metadata Failure Error",
-      "failureComponent": "COMPONENT"
+      "failureCode": "CONNECTION_FAILURE"
     },
     {
-      "failureCode": "INVALID_METADATA_KEY",
-      "message": "Metadata Content Failure Error",
-      "reason": "",
-      "failureComponent": "INPUT"
+      "failingComponent": "COMPONENT",
+      "message": "SECOND_ERROR",
+      "reason": "Metadata Failure Error",
+      "failureCode": "INVALID_METADATA_KEY"
     }
   ]
 }

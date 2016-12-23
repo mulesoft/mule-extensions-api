@@ -1,9 +1,10 @@
 {
-  "failure":
-  {
-    "failureCode": "CONNECTION_FAILURE",
-    "message": "Metadata Failure Error",
-    "reason": "Metadata Failure Error",
-    "failureComponent": "ENTITIES"
-  }
+  "failures": [
+    {
+      "failingComponent": "COMPONENT",
+      "message": "Metadata Failure Error",
+      "reason": "Metadata Failure Error",
+      "failureCode": "CONNECTION_FAILURE"
+    }
+  ]
 }

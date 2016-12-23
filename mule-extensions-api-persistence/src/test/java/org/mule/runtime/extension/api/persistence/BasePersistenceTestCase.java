@@ -8,10 +8,11 @@ package org.mule.runtime.extension.api.persistence;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.extension.api.declaration.type.DefaultExtensionsTypeLoaderFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -29,11 +30,16 @@ abstract class BasePersistenceTestCase {
     return IOUtils.toString(resourceAsStream);
   }
 
-  protected void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException {
+  void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     String resource = getResourceAsString(expectedFileName);
     final JsonParser jsonParser = new JsonParser();
-    final JsonElement expected = jsonParser.parse(resource);
-    final JsonElement result = jsonParser.parse(serializedResult);
+    JsonElement expected = jsonParser.parse(resource);
+    JsonElement result = jsonParser.parse(serializedResult);
+    if (!result.equals(expected)) {
+      System.out.println("Expected: \n " + gson.toJson(expected));
+      System.out.println("\n\nBut Got: \n " + gson.toJson(result));
+    }
 
     assertThat(result, is(expected));
   }
