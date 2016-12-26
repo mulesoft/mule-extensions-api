@@ -30,6 +30,15 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
     OutputTypeResolver<Object>, AttributesTypeResolver<Object> {
 
   public static final String NULL_CATEGORY_NAME = "NullCategory";
+  public static final String NULL_RESOLVER_NAME = "NullResolver";
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getResolverName() {
+    return NULL_RESOLVER_NAME;
+  }
 
   /**
    * {@inheritDoc}
