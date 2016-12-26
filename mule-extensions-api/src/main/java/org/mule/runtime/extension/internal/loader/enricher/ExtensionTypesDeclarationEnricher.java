@@ -34,7 +34,7 @@ import java.util.Collection;
  *
  * @since 1.0
  */
-public class ExtensionTypesDeclarationEnricher implements DeclarationEnricher {
+public final class ExtensionTypesDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {

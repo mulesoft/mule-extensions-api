@@ -25,10 +25,12 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
   /**
    * Creates a {@link TypeHandlerManager} which uses a {@link ExtensionsFieldHandler}
    *
-   * @return a {@Link TypeHandlerManager}
+   * @return a {@link TypeHandlerManager}
    */
   @Override
   public TypeHandlerManager createTypeHandlerManager() {
-    return TypeHandlerManager.create(new ExtensionObjectTypeHandler(new ExtensionsFieldHandler()));
+    return TypeHandlerManager.create(
+                                     new TlsContextClassHandler(),
+                                     new ExtensionObjectTypeHandler(new ExtensionsFieldHandler()));
   }
 }

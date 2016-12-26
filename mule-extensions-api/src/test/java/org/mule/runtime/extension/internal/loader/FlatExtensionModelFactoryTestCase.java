@@ -58,7 +58,12 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
-import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_ATTRIBUTE;
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
@@ -67,6 +72,7 @@ import org.mule.metadata.api.model.BooleanType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
+import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.message.NullAttributes;
 import org.mule.runtime.api.meta.MuleVersion;
@@ -80,6 +86,8 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
+import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
+import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 
@@ -241,7 +249,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     declare(declarer -> {
       declarer = declareBase(declarer);
       OperationDeclarer operation = declarer.withOperation("invalidOperation").describedAs("");
-      operation.onDefaultParameterGroup().withOptionalParameter(TARGET_ATTRIBUTE).ofType(typeLoader.load(String.class));
+      operation.onDefaultParameterGroup().withOptionalParameter(TARGET_PARAMETER_NAME).ofType(typeLoader.load(String.class));
       operation.withOutput().ofType(typeLoader.load(String.class));
       operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
     });
@@ -313,9 +321,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(connectionProvider.getDescription(), is(CONNECTION_PROVIDER_DESCRIPTION));
 
     List<ParameterModel> parameters = connectionProvider.getAllParameterModels();
-    assertParameter(parameters.get(0), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameters.get(0), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+                    NOT_SUPPORTED,
+                    false, new ReconnectionStrategyTypeBuilder().builReconnectionStrategyType(), UnionType.class, null);
+    assertParameter(parameters.get(1), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
                     StringType.class, null);
-    assertParameter(parameters.get(1), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameters.get(2), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
                     StringType.class, null);
   }
 
@@ -330,10 +341,15 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(getType(sourceModel.getOutputAttributes().getType()), is(equalTo(Serializable.class)));
 
     List<ParameterModel> parameters = sourceModel.getAllParameterModels();
-    assertParameter(parameters.get(0), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
+    assertParameter(parameters.get(0), REDELIVERY_POLICY_PARAMETER_NAME, REDELIVERY_POLICY_PARAMETER_DESCRIPTION, NOT_SUPPORTED,
+                    false, new RedeliveryPolicyTypeBuilder().buildRetryPolicyType(), ObjectType.class, null);
+    assertParameter(parameters.get(1), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
                     null);
-    assertParameter(parameters.get(1), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
+    assertParameter(parameters.get(2), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
                     DEFAULT_PORT);
+    assertParameter(parameters.get(3), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+                    NOT_SUPPORTED,
+                    false, new ReconnectionStrategyTypeBuilder().builReconnectionStrategyType(), UnionType.class, null);
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {
@@ -345,10 +361,11 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(GO_GET_THEM_TIGER));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(2));
-    assertParameter(parameterModels.get(0), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
+    assertThat(parameterModels, hasSize(3));
+    assertTargetParameter(parameterModels.get(0));
+    assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
                     StringType.class, null);
-    assertParameter(parameterModels.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
+    assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
                     BooleanType.class, true);
   }
 
@@ -376,6 +393,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
                     ObjectType.class, null);
   }
 
+  private void assertTargetParameter(ParameterModel parameterModel) {
+    assertParameter(parameterModel, TARGET_PARAMETER_NAME, TARGET_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
+                    typeLoader.load(String.class),
+                    StringType.class, null);
+  }
+
   private void assertArglessOperation(List<OperationModel> operationModels) {
     OperationModel operationModel = operationModels.get(0);
     assertThat(operationModel, is(sameInstance(extensionModel.getOperationModel(ARG_LESS).get())));
@@ -385,7 +408,8 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(HAS_NO_ARGS));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels.isEmpty(), is(true));
+    assertThat(parameterModels, hasSize(1));
+    assertTargetParameter(parameterModels.get(0));
   }
 
   private ExtensionDeclarer declareBase(ExtensionDeclarer extensionDeclarer) {

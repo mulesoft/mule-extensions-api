@@ -22,6 +22,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
+import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -62,8 +63,11 @@ public abstract class BaseExtensionModelFactoryTestCase {
     assertThat(parameterModel.getDescription(), equalTo(description));
     assertThat(parameterModel.getExpressionSupport(), is(expressionSupport));
     assertThat(parameterModel.isRequired(), is(required));
-    assertThat(getType(parameterModel.getType()), equalTo(getType(metadataType)));
     assertThat(parameterModel.getType(), is(instanceOf(qualifier)));
+
+    if (!parameterModel.getModelProperty(InfrastructureParameterModelProperty.class).isPresent()) {
+      assertThat(getType(parameterModel.getType()), equalTo(getType(metadataType)));
+    }
 
     if (defaultValue != null) {
       assertThat(parameterModel.getDefaultValue(), equalTo(defaultValue));

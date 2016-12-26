@@ -58,9 +58,12 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.SourceDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
@@ -70,6 +73,7 @@ import org.mule.runtime.extension.internal.loader.validator.NameClashModelValida
 import org.mule.runtime.extension.internal.loader.validator.OperationParametersModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
+import org.mule.runtime.extension.internal.util.ParameterModelComparator;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -111,6 +115,9 @@ public final class ExtensionModelFactory {
                                                     new ExecutionTypeDeclarationEnricher(),
                                                     new ExtensionTypesDeclarationEnricher(),
                                                     new XmlDeclarationEnricher(),
+                                                    new TargetParameterDeclarationEnricher(),
+                                                    new ConnectionProviderDeclarationEnricher(),
+                                                    new SourceDeclarationEnricher(),
                                                     new TransactionalDeclarationEnricher())));
 
     extensionModelValidators = unmodifiableList(asList(
@@ -364,7 +371,10 @@ public final class ExtensionModelFactory {
         return ImmutableList.of();
       }
 
-      return unmodifiableList(declarations.stream().map(this::toParameter).collect(toList()));
+      return unmodifiableList(declarations.stream()
+          .map(this::toParameter)
+          .sorted(new ParameterModelComparator(false))
+          .collect(toList()));
     }
 
     private ParameterModel toParameter(ParameterDeclaration parameter) {
