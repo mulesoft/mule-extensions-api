@@ -65,11 +65,10 @@ public abstract class ExtensionModelLoader {
     currentThread().setContextClassLoader(pluginClassLoader);
     try {
       declareExtension(ctx);
+      return factory.create(ctx);
     } finally {
       currentThread().setContextClassLoader(currentClassLoader);
     }
-
-    return factory.create(ctx);
   }
 
   /**

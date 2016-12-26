@@ -83,9 +83,31 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
    * {@inheritDoc}
    */
   @Override
+  public ExtensionLoadingContext addCustomValidator(ExtensionModelValidator extensionModelValidator) {
+    checkArgument(extensionModelValidator != null, "custom validator cannot be null");
+    customValidators.add(extensionModelValidator);
+
+    return this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public ExtensionLoadingContext addCustomValidators(Collection<ExtensionModelValidator> extensionModelValidators) {
     checkArgument(extensionModelValidators != null, "custom validators cannot be null");
     customValidators.addAll(extensionModelValidators);
+
+    return this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ExtensionLoadingContext addCustomDeclarationEnricher(DeclarationEnricher enricher) {
+    checkArgument(enricher != null, "custom enricher cannot be null");
+    customDeclarationEnrichers.add(enricher);
 
     return this;
   }

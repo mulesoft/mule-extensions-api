@@ -35,6 +35,7 @@ import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
+import org.mule.runtime.extension.api.util.XmlModelUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -139,7 +140,8 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                                 format("Parameter '%s' in the %s '%s' doesn't specify a return type",
                                        parameterModel.getName(), ownerModelType, ownerName)));
     } else {
-      if (supportsGlobalReferences(parameterModel) || supportsInlineDefinition(parameterModel)) {
+      if ((supportsGlobalReferences(parameterModel) && XmlModelUtils.supportsTopLevelDeclaration(parameterModel.getType())) ||
+          supportsInlineDefinition(parameterModel)) {
         parameterModel.getType().accept(visitor);
         validateParameterIsPlural(parameterModel, ownerModelType, ownerName, problemsReporter);
       }
