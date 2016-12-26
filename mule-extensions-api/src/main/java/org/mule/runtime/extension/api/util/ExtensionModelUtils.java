@@ -164,7 +164,7 @@ public class ExtensionModelUtils {
       }
 
       private void resolve(ComponentModel model, Object owner) {
-        if (owner != null && model == component) {
+        if (!(owner instanceof ExtensionModel) && model == component) {
           result.set(true);
         }
       }
