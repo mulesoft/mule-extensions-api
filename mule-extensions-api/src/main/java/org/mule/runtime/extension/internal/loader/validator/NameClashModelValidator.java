@@ -10,6 +10,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
@@ -28,6 +29,7 @@ import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
@@ -139,7 +141,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         }
 
         private void validateCallbackNames(Optional<SourceCallbackModel> sourceCallback, SourceModel model) {
-          sourceCallback.ifPresent(cb -> validateParameterNames(cb.getAllParameterModels(),
+          sourceCallback.ifPresent(cb -> validateParameterNames(filterContentParameters(cb.getAllParameterModels()),
                                                                 getComponentModelTypeName(model),
                                                                 model.getName()));
         }
@@ -170,7 +172,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     }
 
     private void validateParameterNames(ParameterizedModel model) {
-      validateParameterNames(model.getAllParameterModels(), getComponentModelTypeName(model), model.getName());
+      validateParameterNames(filterContentParameters(model.getAllParameterModels()), getComponentModelTypeName(model),
+                             model.getName());
     }
 
     private void validateParameterNames(List<ParameterModel> parameterizedModel, String modelTypeName, String modelName) {
@@ -310,7 +313,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     }
 
     private void validateSingularizedNameClash(ParameterizedModel model, String modelElementName) {
-      List<ParameterModel> parameters = model.getAllParameterModels();
+      List<ParameterModel> parameters = filterContentParameters(model.getAllParameterModels());
       parameters.forEach(
                          parameter -> {
                            parameter.getType().accept(new MetadataTypeVisitor() {
@@ -448,6 +451,10 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     public int hashCode() {
       return super.hashCode();
     }
+  }
+
+  private List<ParameterModel> filterContentParameters(List<ParameterModel> parameters) {
+    return parameters.stream().filter(p -> p.getRole() == ParameterRole.BEHAVIOUR).collect(toList());
   }
 
 
