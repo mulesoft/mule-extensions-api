@@ -46,6 +46,17 @@ public class ModuleException extends RuntimeException {
   }
 
   /**
+   * @param message to override the one from the original exception
+   * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
+   * @param <T> Type of the {@link ErrorTypeDefinition}
+   */
+  protected <T extends Enum<T>> ModuleException(String message, ErrorTypeDefinition<T> errorTypeDefinition) {
+    super(message);
+    checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
+    this.type = errorTypeDefinition;
+  }
+
+  /**
    * @return The {@link ErrorTypeDefinition} of the thrown exception
    */
   public ErrorTypeDefinition getType() {
