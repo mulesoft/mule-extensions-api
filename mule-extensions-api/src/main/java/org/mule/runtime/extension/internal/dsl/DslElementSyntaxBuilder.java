@@ -160,10 +160,6 @@ public final class DslElementSyntaxBuilder {
    * @return a new instance of {@link DslElementSyntax}
    */
   public DslElementSyntax build() {
-    //ElementTag tag = null;
-    //if (elementName != null  && elementNameSpace != null &&  nameSpaceUri != null){
-    //  tag = new ElementTag();
-    //}
     return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
                                 supportsAttributeDeclaration, supportsChildDeclaration, supportsTopLevelDeclaration,
                                 requiresConfig, genericChilds, containedElements);
