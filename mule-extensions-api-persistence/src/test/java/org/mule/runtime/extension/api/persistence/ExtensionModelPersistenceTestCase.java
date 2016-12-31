@@ -49,6 +49,8 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
@@ -58,8 +60,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
-import org.mule.runtime.extension.api.persistence.model.ComplexFieldsType;
-import org.mule.runtime.extension.api.persistence.model.ExtensibleType;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -307,6 +307,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                                    "",
                                                    asList(parameters),
                                                    asList(new ImmutableExclusiveParametersModel(exclusiveParamNames, false)),
+                                                   false,
                                                    null,
                                                    null,
                                                    emptySet()));

@@ -6,17 +6,30 @@
  */
 package org.mule.runtime.extension.api.dsl.model;
 
+import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
+import java.util.List;
+
 @Extensible
+@Alias("aliasedExtensible")
 public class ExtensibleType {
+
+  public static final String ALIAS = "aliasedExtensible";
 
   @Parameter
   private String sampleString;
 
   @Parameter
   private Integer otherNumber;
+
+  @Parameter
+  private List<Integer> childNumbers;
+
+  public List<Integer> getChildNumbers() {
+    return childNumbers;
+  }
 
   public String getSampleString() {
     return sampleString;

@@ -122,7 +122,7 @@ public class ExtensionFieldHandlerTestCase {
 
   public class HasGroup {
 
-    @ParameterGroup("group")
+    @ParameterGroup(name = "group")
     private Group group;
   }
 

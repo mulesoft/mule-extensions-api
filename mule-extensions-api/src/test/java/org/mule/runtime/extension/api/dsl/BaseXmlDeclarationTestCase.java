@@ -6,15 +6,14 @@
  */
 package org.mule.runtime.extension.api.dsl;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Matchers.any;
@@ -28,20 +27,25 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CO
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.extension.api.annotation.Extension;
+import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.SubType;
@@ -76,6 +80,14 @@ public abstract class BaseXmlDeclarationTestCase {
   static final String CONNECTION_PROVIDER_NAME = "connection";
   static final BaseTypeBuilder TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
   static final String EXTENSIBLE_TYPE_LIST_NAME = "extensibleTypeList";
+  static final String IMPORT_NAMESPACE = "importns";
+  static final String IMPORT_NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/importns";
+  static final String IMPORT_SCHEMA_LOCATION = "http://www.mulesoft.org/schema/mule/importns/current/mule-importns.xsd";
+  static final String IMPORT_WITH_XML_SCHEMA_LOCATION =
+      "http://www.mulesoft.org/schema/mule/importns/current/mule-import-extension-with-xml.xsd";
+
+  static final String IMPORT_EXTENSION_NAME = "importExtension";
+  static final String IMPORT_EXTENSION_NAME_WITH_XML = "importExtensionWithXml";
 
   @Parameterized.Parameters(name = "{0}")
   public static Collection<Object[]> data() {
@@ -98,6 +110,9 @@ public abstract class BaseXmlDeclarationTestCase {
 
   @Mock
   protected ParameterModel parameterModel;
+
+  @Mock
+  protected ParameterGroupModel parameterGroupModel;
 
   @Mock(answer = RETURNS_DEEP_STUBS)
   protected SourceModel source;
@@ -146,13 +161,23 @@ public abstract class BaseXmlDeclarationTestCase {
     when(parameterModel.getLayoutModel()).thenReturn(empty());
     when(parameterModel.getRole()).thenReturn(role);
 
+    when(parameterGroupModel.getName()).thenReturn("GENERAL");
+    when(parameterGroupModel.isShowInline()).thenReturn(false);
+    when(parameterGroupModel.getParameterModels()).thenReturn(asList(parameterModel));
+
     when(source.getName()).thenReturn(SOURCE_NAME);
-    when(source.getParameterGroupModels()).thenReturn(emptyList());
+    when(source.getParameterGroupModels()).thenReturn(asList(parameterGroupModel));
     when(source.getSuccessCallback()).thenReturn(empty());
     when(source.getErrorCallback()).thenReturn(empty());
+
     when(operation.getName()).thenReturn(OPERATION_NAME);
+    when(operation.getParameterGroupModels()).thenReturn(asList(parameterGroupModel));
+
     when(configuration.getName()).thenReturn(CONFIGURATION_NAME);
+    when(configuration.getParameterGroupModels()).thenReturn(asList(parameterGroupModel));
+
     when(connectionProvider.getName()).thenReturn(CONNECTION_PROVIDER_NAME);
+    when(connectionProvider.getParameterGroupModels()).thenReturn(asList(parameterGroupModel));
 
     when(dslContext.getExtension(any())).thenReturn(empty());
 
@@ -170,27 +195,31 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   void assertChildElementDeclarationIs(boolean expected, DslElementSyntax result) {
-    assertThat("Expected attribute only declaration", result.supportsChildDeclaration(), is(expected));
+    assertThat(format("Expected 'supportsChildDeclaration' declaration to be %s", expected), result.supportsChildDeclaration(),
+               is(expected));
   }
 
   void assertTopLevelDeclarationSupportIs(boolean expected, DslElementSyntax result) {
-    assertThat("Wrong TopLevel declaration support", result.supportsTopLevelDeclaration(), is(expected));
+    assertThat(format("Expected 'supportsTopLevelDeclaration' declaration to be %s", expected),
+               result.supportsTopLevelDeclaration(), is(expected));
   }
 
   void assertIsWrappedElement(boolean expected, DslElementSyntax result) {
-    assertThat("Expected no wrapping but element is wrapped", result.isWrapped(), is(expected));
+    assertThat(format("Expected 'isWrapped' declaration to be %s", expected), result.isWrapped(), is(expected));
   }
 
   void assertAttributeDeclaration(boolean expected, DslElementSyntax result) {
-    assertThat(result.supportsAttributeDeclaration(), is(expected));
+    assertThat(format("Expected 'supportsAttributeDeclaration' declaration to be %s", expected),
+               result.supportsAttributeDeclaration(), is(expected));
   }
 
   void assertAttributeName(String expected, DslElementSyntax result) {
-    assertThat(result.getAttributeName(), equalTo(expected));
+    assertAttributeDeclaration(true, result);
+    assertThat(result.getAttributeName().get(), equalTo(expected));
   }
 
   void assertEmptyAttributeName(DslElementSyntax result) {
-    assertThat(result.getAttributeName(), isEmptyString());
+    assertThat(result.getAttributeName().isPresent(), is(false));
   }
 
   void assertElementName(String expected, DslElementSyntax result) {
@@ -210,8 +239,143 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   protected void assertComplexTypeDslFields(DslElementSyntax topDsl) {
+
+    assertExtensibleListParameter(topDsl);
+
+    assertRecursiveChildParameter(topDsl);
+
+    assertComplexTypeFromGroupRecursion(topDsl);
+
+    assertSimplePojoField(topDsl);
+
+    assertNonGlobalTypePojo(topDsl);
+
+    assertGroupedTextField(topDsl);
+
+    assertContentInsideGroup(topDsl);
+
+    assertSkippedGroupFields(topDsl);
+  }
+
+  private void assertContentInsideGroup(DslElementSyntax topDsl) {
+    String groupedFieldAsContent = "anotherGroupedFieldAsContent";
+    DslElementSyntax anotherGroupedFieldDsl = getChildFieldDsl(groupedFieldAsContent, topDsl);
+    assertThat(topDsl.getAttribute(groupedFieldAsContent).isPresent(), is(false));
+    assertElementName(hyphenize(groupedFieldAsContent), anotherGroupedFieldDsl);
+    assertElementNamespace(NAMESPACE, anotherGroupedFieldDsl);
+    assertChildElementDeclarationIs(true, anotherGroupedFieldDsl);
+    assertIsWrappedElement(false, anotherGroupedFieldDsl);
+    assertNoAttributes(anotherGroupedFieldDsl);
+    assertNoChilds(anotherGroupedFieldDsl);
+  }
+
+  private void assertSkippedGroupFields(DslElementSyntax topDsl) {
+    String parameterGroupType = "parameterGroupType";
+    assertThat(topDsl.getChild(parameterGroupType).isPresent(), is(false));
+    assertThat(topDsl.getAttribute(parameterGroupType).isPresent(), is(false));
+
+    String complexTypeFieldGroup = "complexTypeFieldGroup";
+    assertThat(topDsl.getChild(complexTypeFieldGroup).isPresent(), is(false));
+    assertThat(topDsl.getAttribute(complexTypeFieldGroup).isPresent(), is(false));
+  }
+
+  private void assertGroupedTextField(DslElementSyntax topDsl) {
+    String groupedField = "groupedField";
+    assertThat(topDsl.getAttribute(groupedField).isPresent(), is(false));
+    DslElementSyntax groupedFieldDsl = getChildFieldDsl(groupedField, topDsl);
+    assertElementName(hyphenize(groupedField), groupedFieldDsl);
+    assertElementNamespace(NAMESPACE, groupedFieldDsl);
+    assertChildElementDeclarationIs(true, groupedFieldDsl);
+    assertIsWrappedElement(false, groupedFieldDsl);
+  }
+
+  private void assertNonGlobalTypePojo(DslElementSyntax topDsl) {
+    String notGlobalName = "notGlobalType";
+    DslElementSyntax notGlobalAttrDsl = getAttributeDsl(notGlobalName, topDsl);
+    assertAttributeDeclaration(true, notGlobalAttrDsl);
+    assertAttributeName(notGlobalName, notGlobalAttrDsl);
+
+    DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
+    assertElementName(hyphenize(notGlobalName), notGlobalDsl);
+    assertElementNamespace(NAMESPACE, notGlobalDsl);
+    assertChildElementDeclarationIs(true, notGlobalDsl);
+    assertIsWrappedElement(false, notGlobalDsl);
+  }
+
+  private void assertSimplePojoField(DslElementSyntax topDsl) {
+
+    String simplePojoName = "simplePojo";
+    DslElementSyntax simplePojoAttrDsl = getAttributeDsl(simplePojoName, topDsl);
+    assertAttributeDeclaration(true, simplePojoAttrDsl);
+    assertAttributeName(simplePojoName, simplePojoAttrDsl);
+
+    DslElementSyntax simplePojoDsl = getChildFieldDsl(simplePojoName, topDsl);
+    assertElementName(hyphenize(simplePojoName), simplePojoDsl);
+    assertElementNamespace(NAMESPACE, simplePojoDsl);
+    assertChildElementDeclarationIs(true, simplePojoDsl);
+    assertIsWrappedElement(false, simplePojoDsl);
+    assertTopElementDeclarationIs(false, simplePojoDsl);
+
+    // Verify contained elements
+    String sampleStringName = "sampleString";
+    assertThat(topDsl.getChild(sampleStringName).isPresent(), is(false));
+    DslElementSyntax sampleStringAttrDsl = getAttributeDsl(sampleStringName, simplePojoDsl);
+    assertAttributeName(sampleStringName, sampleStringAttrDsl);
+    assertElementName("", sampleStringAttrDsl);
+    assertElementNamespace("", sampleStringAttrDsl);
+    assertChildElementDeclarationIs(false, sampleStringAttrDsl);
+    assertIsWrappedElement(false, sampleStringAttrDsl);
+    assertNoAttributes(sampleStringAttrDsl);
+    assertNoChilds(sampleStringAttrDsl);
+
+    String otherNumberName = "otherNumber";
+    assertThat(topDsl.getChild(otherNumberName).isPresent(), is(false));
+    DslElementSyntax otherNumberAttrDsl = getAttributeDsl(otherNumberName, simplePojoDsl);
+    assertAttributeName(otherNumberName, otherNumberAttrDsl);
+    assertElementName("", otherNumberAttrDsl);
+    assertElementNamespace("", otherNumberAttrDsl);
+    assertChildElementDeclarationIs(false, otherNumberAttrDsl);
+    assertIsWrappedElement(false, otherNumberAttrDsl);
+    assertNoAttributes(otherNumberAttrDsl);
+    assertNoChilds(otherNumberAttrDsl);
+
+    String textFieldName = "textField";
+    assertThat(topDsl.getAttribute(textFieldName).isPresent(), is(false));
+    DslElementSyntax textFieldDsl = getChildFieldDsl(textFieldName, simplePojoDsl);
+    assertAttributeDeclaration(false, textFieldDsl);
+    assertElementName(hyphenize(textFieldName), textFieldDsl);
+    assertElementNamespace(NAMESPACE, textFieldDsl);
+    assertChildElementDeclarationIs(true, textFieldDsl);
+    assertIsWrappedElement(false, textFieldDsl);
+    assertTopElementDeclarationIs(false, textFieldDsl);
+    assertNoAttributes(textFieldDsl);
+    assertNoChilds(textFieldDsl);
+  }
+
+  protected void assertNoChilds(DslElementSyntax textFieldDsl) {
+    assertThat(textFieldDsl.getChilds().isEmpty(), is(true));
+  }
+
+  private void assertComplexTypeFromGroupRecursion(DslElementSyntax topDsl) {
+    String recursiveFromGroupName = "complexFieldsType";
+    DslElementSyntax recursiveFromGroupAttrDsl = getAttributeDsl(recursiveFromGroupName, topDsl);
+    assertAttributeDeclaration(true, recursiveFromGroupAttrDsl);
+    assertAttributeName(recursiveFromGroupName, recursiveFromGroupAttrDsl);
+
+    DslElementSyntax recursiveFromGroupDsl = getChildFieldDsl(recursiveFromGroupName, topDsl);
+    assertElementName(hyphenize(recursiveFromGroupName), recursiveFromGroupDsl);
+    assertElementNamespace(NAMESPACE, recursiveFromGroupDsl);
+    assertChildElementDeclarationIs(true, recursiveFromGroupDsl);
+    assertTopLevelDeclarationSupportIs(false, recursiveFromGroupDsl);
+    assertIsWrappedElement(false, recursiveFromGroupDsl);
+  }
+
+  private void assertExtensibleListParameter(DslElementSyntax topDsl) {
+    DslElementSyntax listAttrDsl = getAttributeDsl(EXTENSIBLE_TYPE_LIST_NAME, topDsl);
+    assertAttributeDeclaration(true, listAttrDsl);
+    assertAttributeName(EXTENSIBLE_TYPE_LIST_NAME, listAttrDsl);
+
     DslElementSyntax listDsl = getChildFieldDsl(EXTENSIBLE_TYPE_LIST_NAME, topDsl);
-    assertAttributeName(EXTENSIBLE_TYPE_LIST_NAME, listDsl);
     assertElementName(hyphenize(EXTENSIBLE_TYPE_LIST_NAME), listDsl);
     assertElementNamespace(NAMESPACE, listDsl);
     assertChildElementDeclarationIs(true, listDsl);
@@ -224,63 +388,77 @@ public abstract class BaseXmlDeclarationTestCase {
     assertChildElementDeclarationIs(true, listItemDsl);
     assertTopElementDeclarationIs(false, listItemDsl);
     assertIsWrappedElement(true, listItemDsl);
+    assertNoAttributes(listItemDsl);
+    assertNoChilds(listItemDsl);
+  }
 
+  protected void assertExtensibleTypeDslStructure(DslElementSyntax extensibleTypeDsl) {
+    MetadataType type = TYPE_LOADER.load(ExtensibleType.class);
+    assertElementName(getTopLevelTypeName(type), extensibleTypeDsl);
+    assertChildElementDeclarationIs(true, extensibleTypeDsl);
+    assertTopElementDeclarationIs(false, extensibleTypeDsl);
+    assertIsWrappedElement(true, extensibleTypeDsl);
+
+    String sampleStringName = "sampleString";
+    assertThat(extensibleTypeDsl.getChild(sampleStringName).isPresent(), is(false));
+    DslElementSyntax sampleStringAttrDsl = getAttributeDsl(sampleStringName, extensibleTypeDsl);
+    assertAttributeName(sampleStringName, sampleStringAttrDsl);
+    assertElementName("", sampleStringAttrDsl);
+    assertElementNamespace("", sampleStringAttrDsl);
+    assertChildElementDeclarationIs(false, sampleStringAttrDsl);
+    assertIsWrappedElement(false, sampleStringAttrDsl);
+    assertThat(sampleStringAttrDsl.getAttributes().isEmpty(), is(true));
+    assertThat(sampleStringAttrDsl.getChilds().isEmpty(), is(true));
+
+    String otherNumberName = "otherNumber";
+    assertThat(extensibleTypeDsl.getChild(otherNumberName).isPresent(), is(false));
+    DslElementSyntax otherNumberAttrDsl = getAttributeDsl(otherNumberName, extensibleTypeDsl);
+    assertAttributeName(otherNumberName, otherNumberAttrDsl);
+    assertElementName("", otherNumberAttrDsl);
+    assertElementNamespace("", otherNumberAttrDsl);
+    assertChildElementDeclarationIs(false, otherNumberAttrDsl);
+    assertIsWrappedElement(false, otherNumberAttrDsl);
+    assertThat(otherNumberAttrDsl.getAttributes().isEmpty(), is(true));
+    assertThat(otherNumberAttrDsl.getChilds().isEmpty(), is(true));
+
+    String childNumbersName = "childNumbers";
+    DslElementSyntax childNumbersAttrDsl = getAttributeDsl(childNumbersName, extensibleTypeDsl);
+    assertAttributeName(childNumbersName, childNumbersAttrDsl);
+
+    DslElementSyntax childNumbersListDsl = getChildFieldDsl(childNumbersName, extensibleTypeDsl);
+    assertElementName(hyphenize(childNumbersName), childNumbersListDsl);
+    assertChildElementDeclarationIs(true, childNumbersListDsl);
+    assertIsWrappedElement(false, childNumbersListDsl);
+    assertNoAttributes(childNumbersListDsl);
+    assertNoChilds(childNumbersListDsl);
+
+    MetadataType listItemType = TYPE_LOADER.load(Integer.class);
+    DslElementSyntax listItemDsl = getGenericTypeDsl(listItemType, childNumbersListDsl);
+    assertElementName(hyphenize(singularize(childNumbersName)), listItemDsl);
+    assertAttributeDeclaration(false, listItemDsl);
+    assertChildElementDeclarationIs(true, listItemDsl);
+    assertIsWrappedElement(false, listItemDsl);
+    assertNoAttributes(listItemDsl);
+    assertNoChilds(listItemDsl);
+
+  }
+
+  protected void assertNoAttributes(DslElementSyntax otherNumberListDsl) {
+    assertThat(otherNumberListDsl.getAttributes().isEmpty(), is(true));
+  }
+
+  private void assertRecursiveChildParameter(DslElementSyntax topDsl) {
     String recursiveChildName = "recursiveChild";
+    DslElementSyntax recursiveAttrChildDsl = getAttributeDsl(recursiveChildName, topDsl);
+    assertAttributeDeclaration(true, recursiveAttrChildDsl);
+    assertAttributeName(recursiveChildName, recursiveAttrChildDsl);
+
     DslElementSyntax recursiveChildDsl = getChildFieldDsl(recursiveChildName, topDsl);
-    assertAttributeName(recursiveChildName, recursiveChildDsl);
     assertElementName(hyphenize(recursiveChildName), recursiveChildDsl);
     assertElementNamespace(NAMESPACE, recursiveChildDsl);
     assertChildElementDeclarationIs(true, recursiveChildDsl);
     assertTopLevelDeclarationSupportIs(false, recursiveChildDsl);
     assertIsWrappedElement(false, recursiveChildDsl);
-
-    String recursiveFromGroupName = "complexFieldsType";
-    DslElementSyntax recursiveFromGroupDsl = getChildFieldDsl(recursiveFromGroupName, topDsl);
-    assertAttributeName(recursiveFromGroupName, recursiveFromGroupDsl);
-    assertElementName(hyphenize(recursiveFromGroupName), recursiveFromGroupDsl);
-    assertElementNamespace(NAMESPACE, recursiveFromGroupDsl);
-    assertChildElementDeclarationIs(true, recursiveFromGroupDsl);
-    assertTopLevelDeclarationSupportIs(false, recursiveFromGroupDsl);
-    assertIsWrappedElement(false, recursiveFromGroupDsl);
-
-    String simplePojoName = "simplePojo";
-    DslElementSyntax simplePojoDsl = getChildFieldDsl(simplePojoName, topDsl);
-    assertAttributeName(simplePojoName, simplePojoDsl);
-    assertElementName(hyphenize(simplePojoName), simplePojoDsl);
-    assertElementNamespace(NAMESPACE, simplePojoDsl);
-    assertChildElementDeclarationIs(true, simplePojoDsl);
-    assertIsWrappedElement(false, simplePojoDsl);
-    assertTopElementDeclarationIs(false, simplePojoDsl);
-
-    String notGlobalName = "notGlobalType";
-    DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
-    assertAttributeName(notGlobalName, notGlobalDsl);
-    assertElementName(hyphenize(notGlobalName), notGlobalDsl);
-    assertElementNamespace(NAMESPACE, notGlobalDsl);
-    assertChildElementDeclarationIs(true, notGlobalDsl);
-    assertIsWrappedElement(false, notGlobalDsl);
-
-    String groupedField = "groupedField";
-    DslElementSyntax groupedFieldDsl = getChildFieldDsl(groupedField, topDsl);
-    assertAttributeName(groupedField, groupedFieldDsl);
-    assertElementName("", groupedFieldDsl);
-    assertElementNamespace("", groupedFieldDsl);
-    assertChildElementDeclarationIs(false, groupedFieldDsl);
-    assertIsWrappedElement(false, groupedFieldDsl);
-
-    String anotherGroupedField = "anotherGroupedField";
-    DslElementSyntax anotherGroupedFieldDsl = getChildFieldDsl(anotherGroupedField, topDsl);
-    assertAttributeName(anotherGroupedField, anotherGroupedFieldDsl);
-    assertElementName("", anotherGroupedFieldDsl);
-    assertElementNamespace("", anotherGroupedFieldDsl);
-    assertChildElementDeclarationIs(false, anotherGroupedFieldDsl);
-    assertIsWrappedElement(false, anotherGroupedFieldDsl);
-
-    String parameterGroupType = "parameterGroupType";
-    assertThat(topDsl.getChild(parameterGroupType).isPresent(), is(false));
-
-    String complexTypeFieldGroup = "complexTypeFieldGroup";
-    assertThat(topDsl.getChild(complexTypeFieldGroup).isPresent(), is(false));
   }
 
   protected DslElementSyntax getGenericTypeDsl(MetadataType itemType, DslElementSyntax result) {
@@ -292,6 +470,14 @@ public abstract class BaseXmlDeclarationTestCase {
     return genericDsl.get();
   }
 
+  protected DslElementSyntax getAttributeDsl(String name, DslElementSyntax parent) {
+    Optional<DslElementSyntax> childDsl = parent.getAttribute(name);
+    assertThat("No attribute element found with name [" + name + "] for element [" + parent.getElementName() + "]",
+               childDsl.isPresent(), is(true));
+
+    return childDsl.get();
+  }
+
   protected DslElementSyntax getChildFieldDsl(String name, DslElementSyntax parent) {
     Optional<DslElementSyntax> childDsl = parent.getChild(name);
     assertThat("No child element found with name [" + name + "] for element [" + parent.getElementName() + "]",
@@ -300,4 +486,28 @@ public abstract class BaseXmlDeclarationTestCase {
     return childDsl.get();
   }
 
+  protected void mockImportedTypes(String originExtension, Class<?> type) {
+    when(extension.getImportedTypes()).thenReturn(singleton(new ImportedTypeModel(originExtension, TYPE_LOADER.load(type))));
+  }
+
+  protected void ifContentParameter(Runnable test, Runnable orElse) {
+    if (isContent(parameterModel)) {
+      test.run();
+    } else {
+      orElse.run();
+    }
+  }
+
+
+  @Xml(namespace = IMPORT_NAMESPACE, namespaceLocation = IMPORT_NAMESPACE_URI)
+  @Extension(name = IMPORT_EXTENSION_NAME_WITH_XML)
+  protected static final class ExtensionForImportsDeclaresXml {
+
+  }
+
+
+  @Extension(name = IMPORT_EXTENSION_NAME)
+  protected static final class ExtensionForImportsNoXml {
+
+  }
 }

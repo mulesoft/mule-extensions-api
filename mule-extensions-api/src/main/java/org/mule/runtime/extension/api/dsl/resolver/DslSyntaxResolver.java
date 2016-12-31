@@ -10,6 +10,7 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isContent;
 import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.getId;
 import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.isExtensible;
@@ -25,6 +26,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
+import static org.mule.runtime.extension.api.util.NameUtils.sanitizeName;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.DictionaryType;
@@ -40,8 +42,9 @@ import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.extension.api.declaration.type.TypeUtils;
+import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.extension.api.dsl.DslElementSyntax;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.internal.dsl.DslElementSyntaxBuilder;
@@ -96,11 +99,44 @@ public class DslSyntaxResolver {
    * @return the {@link DslElementSyntax} for the {@link NamedObject model}
    */
   public DslElementSyntax resolve(final NamedObject component) {
-    return DslElementSyntaxBuilder.create()
-        .withElementName(hyphenize(component.getName()))
+    DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
+        .withElementName(hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", ""))
         .withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
-        .requiresConfig(requiresConfig(extensionModel, component))
-        .build();
+        .supportsTopLevelDeclaration(true)
+        .supportsAttributeDeclaration(false)
+        .requiresConfig(requiresConfig(extensionModel, component));
+
+    if (component instanceof ParameterizedModel) {
+      resolveGroupsDsl((ParameterizedModel) component, dsl);
+    }
+
+    return dsl.build();
+  }
+
+  private void resolveGroupsDsl(ParameterizedModel component, DslElementSyntaxBuilder dsl) {
+    List<ParameterModel> inlineGroupedParameters = component.getParameterGroupModels().stream()
+        .filter(ParameterGroupModel::isShowInline)
+        .peek(group -> dsl.containing(group.getName(), resolveInlineGroupDsl(group)))
+        .flatMap(g -> g.getParameterModels().stream())
+        .collect(toList());
+
+    component.getAllParameterModels().stream()
+        .filter(p -> !inlineGroupedParameters.contains(p))
+        .forEach(parameter -> dsl.containing(parameter.getName(), resolve(parameter)));
+  }
+
+  public DslElementSyntax resolveInlineGroupDsl(ParameterGroupModel group) {
+
+    final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
+    builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
+        .withElementName(hyphenize(sanitizeName(group.getName())).replaceAll("\\s+", ""))
+        .supportsAttributeDeclaration(false)
+        .supportsChildDeclaration(true)
+        .supportsTopLevelDeclaration(false);
+
+    group.getParameterModels().forEach(parameter -> builder.containing(parameter.getName(), resolve(parameter)));
+
+    return builder.build();
   }
 
   /**
@@ -126,25 +162,30 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  protected void defaultVisit(MetadataType metadataType) {
-                                   builder.withNamespace(languageModel.getNamespace(),
-                                                         languageModel.getNamespaceUri())
-                                       .withElementName(hyphenize(parameter.getName()));
                                    addAttributeName(builder, parameter, isContent, dslModel);
-
                                  }
 
                                  @Override
                                  public void visitString(StringType stringType) {
-                                   defaultVisit(stringType);
-                                   boolean isTextString = isText(parameter);
                                    // For Text parameters, we don't allow the attribute to be set
-                                   builder.supportsChildDeclaration(isTextString)
-                                       .supportsAttributeDeclaration(!isTextString);
+                                   if (isText(parameter)) {
+                                     builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
+                                         .withElementName(hyphenize(parameter.getName()))
+                                         .supportsChildDeclaration(true)
+                                         .supportsAttributeDeclaration(false);
+                                   } else {
+                                     builder.supportsAttributeDeclaration(true)
+                                         .supportsChildDeclaration(false)
+                                         .withAttributeName(parameter.getName());
+                                   }
                                  }
 
                                  @Override
                                  public void visitArrayType(ArrayType arrayType) {
                                    defaultVisit(arrayType);
+                                   builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
+                                       .withElementName(hyphenize(parameter.getName()));
+
                                    MetadataType genericType = arrayType.getType();
                                    boolean supportsInline = supportsInlineDeclaration(arrayType, expressionSupport,
                                                                                       dslModel, isContent);
@@ -162,27 +203,9 @@ public class DslSyntaxResolver {
 
                                  @Override
                                  public void visitObject(ObjectType objectType) {
-
                                    addAttributeName(builder, parameter, isContent, dslModel);
-
-                                   builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
-                                       .withElementName(hyphenize(parameter.getName()))
-                                       .supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
-
-                                   boolean shouldGenerateChild =
-                                       supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent);
-                                   boolean requiresWrapper = typeRequiresWrapperElement(objectType);
-                                   if (shouldGenerateChild || requiresWrapper) {
-                                     builder.supportsChildDeclaration(true);
-                                     if (requiresWrapper) {
-                                       builder.asWrappedElement(true);
-                                     } else {
-                                       if (!isContent) {
-                                         declareFieldsAsChilds(builder, objectType.getFields(),
-                                                               languageModel.getNamespace(), languageModel.getNamespaceUri());
-                                       }
-                                     }
-                                   }
+                                   resolveObjectDsl(objectType, builder, parameter.getName(), isContent, dslModel,
+                                                    expressionSupport);
                                  }
 
                                  @Override
@@ -211,6 +234,28 @@ public class DslSyntaxResolver {
                                  }
                                });
     return builder.build();
+  }
+
+  private void resolveObjectDsl(ObjectType objectType, DslElementSyntaxBuilder builder, String name,
+                                boolean isContent, ElementDslModel dslModel, ExpressionSupport expressionSupport) {
+
+    builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
+        .withElementName(hyphenize(name))
+        .supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
+
+    boolean shouldGenerateChild = supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent);
+    boolean requiresWrapper = typeRequiresWrapperElement(objectType);
+    if (shouldGenerateChild || requiresWrapper) {
+      builder.supportsChildDeclaration(true);
+      if (requiresWrapper) {
+        builder.asWrappedElement(true);
+      } else {
+        if (!isContent) {
+          declareFieldsAsChilds(builder, objectType.getFields(),
+                                languageModel.getNamespace(), languageModel.getNamespaceUri());
+        }
+      }
+    }
   }
 
   private void addAttributeName(DslElementSyntaxBuilder builder, ParameterModel parameter,
@@ -295,6 +340,7 @@ public class DslSyntaxResolver {
                                   DslElementSyntaxBuilder.create()
                                       .withNamespace(getNamespace(objectType), getNamespaceUri(objectType))
                                       .withElementName(getTopLevelTypeName(objectType))
+                                      .supportsAttributeDeclaration(false)
                                       .supportsChildDeclaration(supportsInlineDeclaration(objectType, NOT_SUPPORTED))
                                       .asWrappedElement(true)
                                       .supportsTopLevelDeclaration(supportTopLevelElement(objectType,
@@ -309,7 +355,8 @@ public class DslSyntaxResolver {
       public void visitArrayType(ArrayType arrayType) {
         DslElementSyntaxBuilder genericBuilder = DslElementSyntaxBuilder.create()
             .withNamespace(namespace, namespaceUri)
-            .withElementName(resolveItemName(parameterName, asItem));
+            .withElementName(resolveItemName(parameterName, asItem))
+            .supportsAttributeDeclaration(false);
 
         MetadataType genericType = arrayType.getType();
 
@@ -329,6 +376,8 @@ public class DslSyntaxResolver {
                                 DslElementSyntaxBuilder.create()
                                     .withNamespace(namespace, namespaceUri)
                                     .withElementName(resolveItemName(parameterName, asItem))
+                                    .supportsAttributeDeclaration(false)
+                                    .supportsChildDeclaration(true)
                                     .build());
       }
     };
@@ -388,7 +437,8 @@ public class DslSyntaxResolver {
         return DslElementSyntaxBuilder.create()
             .withAttributeName(VALUE_ATTRIBUTE)
             .withNamespace(namespace, namespaceUri)
-            .withElementName(hyphenize(singularize(parameterName)));
+            .withElementName(hyphenize(singularize(parameterName)))
+            .supportsAttributeDeclaration(true);
       }
     };
   }
@@ -410,7 +460,7 @@ public class DslSyntaxResolver {
   }
 
   private MetadataTypeVisitor getObjectFieldVisitor(final DslElementSyntaxBuilder objectFieldBuilder,
-                                                    final ObjectFieldType field,
+                                                    final boolean isText,
                                                     final String fieldName,
                                                     final String ownerNamespace,
                                                     final String ownerNamespaceUri) {
@@ -423,9 +473,12 @@ public class DslSyntaxResolver {
 
       @Override
       public void visitString(StringType stringType) {
-        if (isText(field)) {
-          objectFieldBuilder.supportsChildDeclaration(true);
-          objectFieldBuilder.withElementName(hyphenize(fieldName));
+        if (isText) {
+          objectFieldBuilder
+              .supportsAttributeDeclaration(false)
+              .supportsChildDeclaration(true)
+              .withElementName(hyphenize(fieldName))
+              .withNamespace(ownerNamespace, ownerNamespaceUri);
         } else {
           defaultVisit(stringType);
         }
@@ -499,14 +552,18 @@ public class DslSyntaxResolver {
                      if (isFlattened(field, fieldValue)) {
                        declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
                      } else {
-                       if (TypeUtils.isContent(field)) {
-                         fieldBuilder.supportsChildDeclaration(true);
-                         fieldBuilder.withElementName(hyphenize(childName));
+                       if (isContent(field)) {
+                         fieldBuilder
+                             .supportsAttributeDeclaration(false)
+                             .supportsChildDeclaration(true)
+                             .withElementName(hyphenize(childName))
+                             .withNamespace(namespace, namespaceUri);
                        } else {
-                         fieldValue.accept(getObjectFieldVisitor(fieldBuilder, field, childName, namespace, namespaceUri));
+                         fieldValue
+                             .accept(getObjectFieldVisitor(fieldBuilder, isText(field), childName, namespace, namespaceUri));
                        }
 
-                       objectBuilder.withChild(childName, fieldBuilder.build());
+                       objectBuilder.containing(childName, fieldBuilder.build());
                      }
                    });
   }

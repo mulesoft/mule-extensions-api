@@ -100,5 +100,11 @@ public @interface ParameterGroup {
   /**
    * The name of the group being defined. This name cannot be equivalent to {@link ParameterGroupModel#DEFAULT_GROUP_NAME}
    */
-  String value();
+  String name();
+
+  /**
+   * If {@code true}, the Group will be shown as an inline element of the DSL
+   */
+  boolean showInline() default false;
+
 }
