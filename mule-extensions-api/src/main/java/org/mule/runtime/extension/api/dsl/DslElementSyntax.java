@@ -123,8 +123,8 @@ public class DslElementSyntax {
   /**
    * @return the name of the attribute in the parent element that references this element
    */
-  public Optional<String> getAttributeName() {
-    return ofNullable(attributeName);
+  public String getAttributeName() {
+    return attributeName;
   }
 
   /**

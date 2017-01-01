@@ -215,11 +215,11 @@ public abstract class BaseXmlDeclarationTestCase {
 
   void assertAttributeName(String expected, DslElementSyntax result) {
     assertAttributeDeclaration(true, result);
-    assertThat(result.getAttributeName().get(), equalTo(expected));
+    assertThat(result.getAttributeName(), equalTo(expected));
   }
 
   void assertEmptyAttributeName(DslElementSyntax result) {
-    assertThat(result.getAttributeName().isPresent(), is(false));
+    assertThat(result.getAttributeName(), is(""));
   }
 
   void assertElementName(String expected, DslElementSyntax result) {

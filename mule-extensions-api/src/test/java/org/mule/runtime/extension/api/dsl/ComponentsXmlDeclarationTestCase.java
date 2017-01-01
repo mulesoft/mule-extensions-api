@@ -119,7 +119,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   public void testSourceDeclaration() {
     DslElementSyntax result = getSyntaxResolver().resolve(source);
 
-    assertThat(result.getAttributeName().isPresent(), is(false));
+    assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
     assertThat(result.requiresConfig(), is(true));
@@ -135,7 +135,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   public void testConfigurationDeclaration() {
     DslElementSyntax result = getSyntaxResolver().resolve(configuration);
 
-    assertThat(result.getAttributeName().isPresent(), is(false));
+    assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
     assertThat(result.requiresConfig(), is(false));
@@ -151,7 +151,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   public void testConnectionProviderDeclaration() {
     DslElementSyntax result = getSyntaxResolver().resolve(connectionProvider);
 
-    assertThat(result.getAttributeName().isPresent(), is(false));
+    assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
     assertThat(result.requiresConfig(), is(false));

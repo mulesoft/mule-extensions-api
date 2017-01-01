@@ -48,7 +48,7 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
         .orElseThrow(() -> new RuntimeException("No dsl declaration found for the given type"));
     DslElementSyntax textFieldSyntax = typeSyntax.getChild("textField").get();
     assertThat(textFieldSyntax.getElementName(), is("text-field"));
-    assertThat(textFieldSyntax.getAttributeName().isPresent(), is(false));
+    assertThat(textFieldSyntax.getAttributeName(), is(""));
   }
 
 

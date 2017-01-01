@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public final class DslElementSyntaxBuilder {
 
-  private String attributeName;
+  private String attributeName = "";
   private String elementName = "";
   private String elementNameSpace = "";
   private String nameSpaceUri = "";
