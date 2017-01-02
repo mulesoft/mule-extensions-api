@@ -625,7 +625,7 @@
                 "isOneRequired": false
               }
             ],
-            "showInline": false,
+            "showInDsl": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -744,7 +744,7 @@
                 "isOneRequired": false
               }
             ],
-            "showInline": false,
+            "showInDsl": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -1297,7 +1297,7 @@
                   "isOneRequired": false
                 }
               ],
-              "showInline": false,
+              "showInDsl": false,
               "name": "General",
               "description": "",
               "modelProperties": {}
@@ -1374,7 +1374,7 @@
                 "isOneRequired": false
               }
             ],
-            "showInline": false,
+            "showInDsl": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -2047,7 +2047,7 @@
                 "isOneRequired": false
               }
             ],
-            "showInline": false,
+            "showInDsl": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -2166,7 +2166,7 @@
                 "isOneRequired": false
               }
             ],
-            "showInline": false,
+            "showInDsl": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -2719,7 +2719,7 @@
                   "isOneRequired": false
                 }
               ],
-              "showInline": false,
+              "showInDsl": false,
               "name": "General",
               "description": "",
               "modelProperties": {}
@@ -2796,7 +2796,7 @@
                 "isOneRequired": false
               }
             ],
-            "showInline": false,
+            "showInDsl": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
