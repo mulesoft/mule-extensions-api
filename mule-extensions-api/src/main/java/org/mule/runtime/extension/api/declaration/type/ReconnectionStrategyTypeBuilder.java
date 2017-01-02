@@ -26,12 +26,13 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   /**
    * @return a {@link MetadataType} representation of a retry policy
    */
-  public MetadataType builReconnectionStrategyType() {
+  public MetadataType buildReconnectionStrategyType() {
     BaseTypeBuilder typeBuilder = create(JAVA);
 
     return create(JAVA).unionType()
         .of(getSimpleRetryType(typeBuilder))
         .of(getForeverRetryType(typeBuilder))
+        .with(new TypeAliasAnnotation("ReconnectionStrategy"))
         .build();
   }
 

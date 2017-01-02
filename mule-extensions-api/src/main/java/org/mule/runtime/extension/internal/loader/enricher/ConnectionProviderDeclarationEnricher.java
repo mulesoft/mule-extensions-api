@@ -19,6 +19,7 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_POOLING_PROFILE_TYPE_QNAME;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.api.config.PoolingProfile;
+import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
@@ -75,6 +76,11 @@ public class ConnectionProviderDeclarationEnricher extends InfrastructureDeclara
     parameter.setParameterRole(BEHAVIOUR);
     parameter.setType(new PoolingProfileTypeBuilder().buildPoolingProfileType(), false);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+    parameter.setDslModel(ElementDslModel.builder()
+        .allowsInlineDefinition(true)
+        .allowsReferences(false)
+        .allowTopLevelDefinition(false)
+        .build());
     parameter.addModelProperty(new QNameModelProperty(MULE_POOLING_PROFILE_TYPE_QNAME));
     markAsInfrastructure(parameter);
 

@@ -323,7 +323,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     List<ParameterModel> parameters = connectionProvider.getAllParameterModels();
     assertParameter(parameters.get(0), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
-                    false, new ReconnectionStrategyTypeBuilder().builReconnectionStrategyType(), UnionType.class, null);
+                    false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
     assertParameter(parameters.get(1), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
                     StringType.class, null);
     assertParameter(parameters.get(2), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
@@ -342,14 +342,14 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     List<ParameterModel> parameters = sourceModel.getAllParameterModels();
     assertParameter(parameters.get(0), REDELIVERY_POLICY_PARAMETER_NAME, REDELIVERY_POLICY_PARAMETER_DESCRIPTION, NOT_SUPPORTED,
-                    false, new RedeliveryPolicyTypeBuilder().buildRetryPolicyType(), ObjectType.class, null);
+                    false, new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), ObjectType.class, null);
     assertParameter(parameters.get(1), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
                     null);
     assertParameter(parameters.get(2), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
                     DEFAULT_PORT);
     assertParameter(parameters.get(3), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
-                    false, new ReconnectionStrategyTypeBuilder().builReconnectionStrategyType(), UnionType.class, null);
+                    false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {

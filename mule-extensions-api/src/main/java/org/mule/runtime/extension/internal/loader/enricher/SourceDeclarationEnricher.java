@@ -13,6 +13,7 @@ import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLIC
 import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_REDELIVERY_POLICY_QNAME;
+import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
@@ -53,8 +54,13 @@ public final class SourceDeclarationEnricher extends InfrastructureDeclarationEn
     parameter.setExpressionSupport(NOT_SUPPORTED);
     parameter.setRequired(false);
     parameter.setParameterRole(BEHAVIOUR);
-    parameter.setType(new RedeliveryPolicyTypeBuilder().buildRetryPolicyType(), false);
+    parameter.setType(new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), false);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+    parameter.setDslModel(ElementDslModel.builder()
+        .allowsInlineDefinition(true)
+        .allowsReferences(false)
+        .allowTopLevelDefinition(false)
+        .build());
     parameter.addModelProperty(new QNameModelProperty(MULE_ABSTRACT_REDELIVERY_POLICY_QNAME));
     parameter.addModelProperty(new InfrastructureParameterModelProperty());
     markAsInfrastructure(parameter);
