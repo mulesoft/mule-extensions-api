@@ -162,7 +162,7 @@ public abstract class BaseXmlDeclarationTestCase {
     when(parameterModel.getRole()).thenReturn(role);
 
     when(parameterGroupModel.getName()).thenReturn("GENERAL");
-    when(parameterGroupModel.isShowInline()).thenReturn(false);
+    when(parameterGroupModel.isShowInDsl()).thenReturn(false);
     when(parameterGroupModel.getParameterModels()).thenReturn(asList(parameterModel));
 
     when(source.getName()).thenReturn(SOURCE_NAME);

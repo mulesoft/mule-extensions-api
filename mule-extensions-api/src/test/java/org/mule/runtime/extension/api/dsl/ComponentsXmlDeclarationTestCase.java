@@ -77,7 +77,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
     ParameterGroupModel inlineGroupModel = mock(ParameterGroupModel.class);
     when(inlineGroupModel.getName()).thenReturn(INLINE_GROUP);
-    when(inlineGroupModel.isShowInline()).thenReturn(true);
+    when(inlineGroupModel.isShowInDsl()).thenReturn(true);
     when(inlineGroupModel.getParameterModels()).thenReturn(asList(simpleParameterModel, groupedComplexParameterModel));
 
     when(source.getParameterGroupModels()).thenReturn(asList(parameterGroupModel, inlineGroupModel));

@@ -41,7 +41,7 @@ public class ComplexFieldsType {
   @ParameterGroup(name = "Complex Type Field Group")
   private ComplexTypeFieldGroup complexTypeFieldGroup;
 
-  @ParameterGroup(name = "Group With Inline Declaration", showInline = true)
+  @ParameterGroup(name = "Group With Inline Declaration", showInDsl = true)
   private ComplexTypeFieldGroup inlineGroup;
 
   public ComplexTypeFieldGroup getInlineGroup() {

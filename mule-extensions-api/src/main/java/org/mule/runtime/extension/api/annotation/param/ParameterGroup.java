@@ -105,6 +105,6 @@ public @interface ParameterGroup {
   /**
    * If {@code true}, the Group will be shown as an inline element of the DSL
    */
-  boolean showInline() default false;
+  boolean showInDsl() default false;
 
 }

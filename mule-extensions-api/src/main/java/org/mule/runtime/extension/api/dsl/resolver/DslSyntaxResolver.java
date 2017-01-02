@@ -115,7 +115,7 @@ public class DslSyntaxResolver {
 
   private void resolveGroupsDsl(ParameterizedModel component, DslElementSyntaxBuilder dsl) {
     List<ParameterModel> inlineGroupedParameters = component.getParameterGroupModels().stream()
-        .filter(ParameterGroupModel::isShowInline)
+        .filter(ParameterGroupModel::isShowInDsl)
         .peek(group -> dsl.containing(group.getName(), resolveInlineGroupDsl(group)))
         .flatMap(g -> g.getParameterModels().stream())
         .collect(toList());

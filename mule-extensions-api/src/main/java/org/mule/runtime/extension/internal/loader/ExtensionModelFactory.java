@@ -346,7 +346,7 @@ public final class ExtensionModelFactory {
                                               declaration.getDescription(),
                                               toParameters(declaration.getParameters()),
                                               toExclusiveParametersModels(declaration),
-                                              declaration.isShowInline(),
+                                              declaration.isShowInDsl(),
                                               declaration.getDisplayModel(),
                                               declaration.getLayoutModel(),
                                               declaration.getModelProperties());
