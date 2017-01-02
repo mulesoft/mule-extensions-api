@@ -32,6 +32,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
     return create(JAVA).unionType()
         .of(getSimpleRetryType(typeBuilder))
         .of(getForeverRetryType(typeBuilder))
+        .id(Map.class.getName())
         .with(new TypeAliasAnnotation("ReconnectionStrategy"))
         .build();
   }
@@ -54,7 +55,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
 
   private TypeBuilder getForeverRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
-        .id("org.mule.runtime.core.retry.policies.RetryForeverPolicyTemplate")
+        .id(Map.class.getName())
         .with(new TypeAliasAnnotation("reconnect-forever"));
     addFrequencyField(retryType, typeBuilder);
 
