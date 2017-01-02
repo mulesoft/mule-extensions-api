@@ -21,7 +21,34 @@ public final class ExtensionConstants {
    * runtime to place the resulting {@link Message} on a flowVar pointed by this parameter instead of replacing the message
    * flowing through the pipeline
    */
-  public static final String TARGET_ATTRIBUTE = "target";
+  public static final String TARGET_PARAMETER_NAME = "target";
+
+  /**
+   * Human friendly description for {@link ExtensionConstants#TARGET_PARAMETER_NAME}
+   */
+  public static final String TARGET_PARAMETER_DESCRIPTION =
+      "The name of a variable on which the operation's output will be placed";
+
+  /**
+   * The name of the parameter for configuring reconnection strategy parameter
+   */
+  public static final String RECONNECTION_STRATEGY_PARAMETER_NAME = "reconnectionStrategy";
+
+  /**
+   * The description of the parameter for configuring reconnection strategy parameter
+   */
+  public static final String RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION = "A retry strategy in case of connectivity errors";
+
+  /**
+   * The name of the parameter for configuring reconnection strategy parameter
+   */
+  public static final String REDELIVERY_POLICY_PARAMETER_NAME = "redeliveryPolicy";
+
+  /**
+   * The description of the parameter for configuring reconnection strategy parameter
+   */
+  public static final String REDELIVERY_POLICY_PARAMETER_DESCRIPTION =
+      "Defines a policy for processing the redelivery of the same message";
 
   /**
    * The name of an attribute which allows referencing a {@link TlsContextFactory}
@@ -43,6 +70,26 @@ public final class ExtensionConstants {
    */
   public static final String TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION =
       "The type of joining action that operations can take regarding transactions.";
+
+  /**
+   * The name of the parameter which disables connection validation
+   */
+  public static final String DISABLE_CONNECTION_VALIDATION_PARAMETER_NAME = "disableValidation";
+
+  /**
+   * The description of the parameter which disables connection validation
+   */
+  public static final String DISABLE_CONNECTION_VALIDATION_PARAMETER_DESCRIPTION = "Disables connection validation";
+
+  /**
+   * The name of the parameter which configures pooling
+   */
+  public static final String POOLING_PROFILE_PARAMETER_NAME = "poolingProfile";
+
+  /**
+   * The description of the parameter which disables connection validation
+   */
+  public static final String POOLING_PROFILE_PARAMETER_DESCRIPTION = "Characteristics of the connection pool";
 
   private ExtensionConstants() {}
 }

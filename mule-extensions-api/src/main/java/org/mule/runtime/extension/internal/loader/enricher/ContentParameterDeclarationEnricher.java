@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public class ContentParameterDeclarationEnricher implements DeclarationEnricher {
+public final class ContentParameterDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {

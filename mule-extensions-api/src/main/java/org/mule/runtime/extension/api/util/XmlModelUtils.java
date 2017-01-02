@@ -10,12 +10,15 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.util.function.Supplier;
+
+import javax.xml.namespace.QName;
 
 /**
  * Utils class for parsing and generation of Xml related values of an {@link ExtensionModel extension}.
@@ -28,7 +31,39 @@ public final class XmlModelUtils {
 
   private static final String XSD_EXTENSION = ".xsd";
   private static final String CURRENT_VERSION = "current";
-  private static final String DEFAULT_SCHEMA_LOCATION_MASK = "http://www.mulesoft.org/schema/mule/%s";
+
+  /**
+   * Format mask for the default location of a schema
+   */
+  public static final String DEFAULT_SCHEMA_LOCATION_MASK = "http://www.mulesoft.org/schema/mule/%s";
+
+  /**
+   * Location of Mule's core schema
+   */
+  public static final String MULE_NAMESPACE_SCHEMA_LOCATION = String.format(DEFAULT_SCHEMA_LOCATION_MASK, "core");
+
+  /**
+   * Prefix for mule's core schema
+   */
+  public static final String MULE_PREFIX = "mule";
+
+  /**
+   * {@link QName} for an abstract redelivery policy
+   */
+  public static final QName MULE_ABSTRACT_REDELIVERY_POLICY_QNAME =
+      new QName(MULE_NAMESPACE_SCHEMA_LOCATION, "abstract-redelivery-policy", MULE_PREFIX);
+
+  /**
+   * {@link QName} for a {@link PoolingProfile}
+   */
+  public static final QName MULE_POOLING_PROFILE_TYPE_QNAME =
+      new QName(MULE_NAMESPACE_SCHEMA_LOCATION, "pooling-profile", MULE_PREFIX);
+
+  /**
+   * {@link QName} for a reconnection strategy
+   */
+  public static final QName MULE_ABSTRACT_RECONNECTION_STRATEGY_QNAME =
+      new QName(MULE_NAMESPACE_SCHEMA_LOCATION, "abstract-reconnection-strategy", MULE_PREFIX);
 
 
   public static XmlDslModel createXmlLanguageModel(Xml xml, String extensionName, String extensionVersion) {

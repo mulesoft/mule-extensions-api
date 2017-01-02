@@ -29,7 +29,7 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
  *
  * @since 1.0
  */
-public class ExecutionTypeDeclarationEnricher implements DeclarationEnricher {
+public final class ExecutionTypeDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
