@@ -44,28 +44,28 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
   }
 
   @Override
-  public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+  protected void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
     doOnce(sources, declaration, this::onSource);
   }
 
   @Override
-  public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+  protected void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
     doOnce(parameterGroups, declaration, this::onParameterGroup);
   }
 
   @Override
-  public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
-                          ParameterDeclaration declaration) {
+  protected void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                             ParameterDeclaration declaration) {
     doOnce(parameters, declaration, p -> onParameter(parameterGroup, declaration));
   }
 
   @Override
-  public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+  protected void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
     doOnce(operations, declaration, this::onOperation);
   }
 
   @Override
-  public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+  protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
     doOnce(connectionProviders, declaration, this::onConnectionProvider);
   }
 

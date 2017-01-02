@@ -129,6 +129,324 @@ public class DeclarationWalkerTestCase {
     assertCount(parameters, 7);
   }
 
+  @Test
+  public void stopOnConfig() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
+
+    new DeclarationWalker() {
+
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+        stop();
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+      }
+
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+      }
+
+      @Override
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
+
+    assertCount(configs, 1);
+    assertCount(operations, 0);
+    assertCount(sources, 0);
+    assertCount(providers, 0);
+    assertCount(parameterGroups, 0);
+    assertCount(parameters, 0);
+  }
+
+  @Test
+  public void stopOnOperation() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
+
+    new DeclarationWalker() {
+
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+        stop();
+      }
+
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+      }
+
+      @Override
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
+
+    assertCount(configs, 1);
+    assertCount(operations, 1);
+    assertCount(sources, 1);
+    assertCount(providers, 1);
+    assertCount(parameterGroups, 3);
+    assertCount(parameters, 3);
+  }
+
+  @Test
+  public void stopOnProvider() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
+
+    new DeclarationWalker() {
+
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+      }
+
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+        stop();
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+      }
+
+      @Override
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
+
+    assertCount(configs, 1);
+    assertCount(operations, 0);
+    assertCount(sources, 0);
+    assertCount(providers, 1);
+    assertCount(parameterGroups, 0);
+    assertCount(parameters, 0);
+  }
+
+  @Test
+  public void stopOnSource() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
+
+    new DeclarationWalker() {
+
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+      }
+
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+        stop();
+      }
+
+      @Override
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
+
+    assertCount(configs, 1);
+    assertCount(operations, 0);
+    assertCount(sources, 1);
+    assertCount(providers, 1);
+    assertCount(parameterGroups, 2);
+    assertCount(parameters, 2);
+  }
+
+  @Test
+  public void stopOnGroup() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
+
+    new DeclarationWalker() {
+
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+      }
+
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+      }
+
+      @Override
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+        stop();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
+
+    assertCount(configs, 1);
+    assertCount(operations, 0);
+    assertCount(sources, 0);
+    assertCount(providers, 1);
+    assertCount(parameterGroups, 1);
+    assertCount(parameters, 0);
+  }
+
+  @Test
+  public void stopOnParameter() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
+
+    new DeclarationWalker() {
+
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+      }
+
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+      }
+
+      @Override
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
+        parameters.incrementAndGet();
+        stop();
+      }
+    }.walk(extension);
+
+    assertCount(configs, 1);
+    assertCount(operations, 0);
+    assertCount(sources, 0);
+    assertCount(providers, 1);
+    assertCount(parameterGroups, 1);
+    assertCount(parameters, 1);
+  }
+
   private void assertCount(AtomicInteger actual, int expected) {
     assertThat(actual.get(), is(expected));
   }
