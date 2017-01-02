@@ -30,12 +30,14 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.dsl.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.resolver.SingleExtensionImportTypesStrategy;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
-import org.mule.runtime.extension.api.util.XmlModelUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -60,45 +62,12 @@ import java.util.Set;
 public final class ParameterModelValidator implements ExtensionModelValidator {
 
   private SubTypesMappingContainer subTypesMapping;
+  private DslSyntaxResolver dsl;
 
   @Override
   public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
     subTypesMapping = loadSubtypesMapping(extensionModel);
-
-    MetadataTypeVisitor visitor = new MetadataTypeVisitor() {
-
-      private Set<MetadataType> visitedTypes = new HashSet<>();
-
-      @Override
-      public void visitDictionary(DictionaryType dictionaryType) {
-        dictionaryType.getKeyType().accept(this);
-        dictionaryType.getValueType().accept(this);
-      }
-
-      @Override
-      public void visitArrayType(ArrayType arrayType) {
-        arrayType.getType().accept(this);
-      }
-
-      @Override
-      public void visitObject(ObjectType objectType) {
-        if (visitedTypes.add(objectType)) {
-          for (ObjectFieldType field : objectType.getFields()) {
-
-            String fieldName = field.getKey().getName().getLocalPart();
-            if (RESERVED_NAMES.contains(fieldName)) {
-              throw new IllegalParameterModelDefinitionException(
-                                                                 format("The field named '%s' [%s] from class [%s] cannot have that name since it is a reserved one",
-                                                                        fieldName, getId(field.getValue()), getId(objectType)));
-            }
-
-            if (supportsGlobalReferences(field)) {
-              field.getValue().accept(this);
-            }
-          }
-        }
-      }
-    };
+    dsl = new DslSyntaxResolver(extensionModel, new SingleExtensionImportTypesStrategy());
 
     new ExtensionWalker() {
 
@@ -106,7 +75,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
       public void onParameter(ParameterizedModel owner, ParameterGroupModel groupModel, ParameterModel model) {
         String ownerName = owner.getName();
         String ownerModelType = getComponentModelTypeName(owner);
-        validateParameter(model, visitor, ownerName, ownerModelType, problemsReporter);
+        validateParameter(model, ownerName, ownerModelType, problemsReporter);
         validateNameCollisionWithTypes(model, ownerName, ownerModelType,
                                        owner.getAllParameterModels().stream().map(p -> hyphenize(p.getName())).collect(toList()),
                                        problemsReporter);
@@ -114,7 +83,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
     }.walk(extensionModel);
   }
 
-  private void validateParameter(ParameterModel parameterModel, MetadataTypeVisitor visitor, String ownerName,
+  private void validateParameter(ParameterModel parameterModel, String ownerName,
                                  String ownerModelType, ProblemsReporter problemsReporter) {
     if (RESERVED_NAMES.contains(parameterModel.getName())) {
       problemsReporter.addError(new Problem(parameterModel, format("Parameter '%s' in the %s '%s' is named after a reserved one",
@@ -140,11 +109,44 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                                 format("Parameter '%s' in the %s '%s' doesn't specify a return type",
                                        parameterModel.getName(), ownerModelType, ownerName)));
     } else {
-      if ((supportsGlobalReferences(parameterModel) && XmlModelUtils.supportsTopLevelDeclaration(parameterModel.getType())) ||
-          supportsInlineDefinition(parameterModel)) {
-        parameterModel.getType().accept(visitor);
-        validateParameterIsPlural(parameterModel, ownerModelType, ownerName, problemsReporter);
-      }
+
+      parameterModel.getType().accept(new MetadataTypeVisitor() {
+
+        private Set<MetadataType> visitedTypes = new HashSet<>();
+
+        @Override
+        public void visitDictionary(DictionaryType dictionaryType) {
+          dictionaryType.getKeyType().accept(this);
+          dictionaryType.getValueType().accept(this);
+        }
+
+        @Override
+        public void visitArrayType(ArrayType arrayType) {
+          arrayType.getType().accept(this);
+        }
+
+        @Override
+        public void visitObject(ObjectType objectType) {
+          DslElementSyntax paramDsl = dsl.resolve(parameterModel);
+          if ((paramDsl.supportsTopLevelDeclaration() || paramDsl.supportsChildDeclaration()) && visitedTypes.add(objectType)) {
+            for (ObjectFieldType field : objectType.getFields()) {
+
+              String fieldName = field.getKey().getName().getLocalPart();
+              if (RESERVED_NAMES.contains(fieldName)) {
+                throw new IllegalParameterModelDefinitionException(
+                                                                   format("The field named '%s' [%s] from class [%s] cannot have that name since it is a reserved one",
+                                                                          fieldName, getId(field.getValue()), getId(objectType)));
+              }
+
+              if (supportsGlobalReferences(field)) {
+                field.getValue().accept(this);
+              }
+            }
+          }
+        }
+      });
+
+      validateParameterIsPlural(parameterModel, ownerModelType, ownerName, problemsReporter);
     }
   }
 
@@ -183,14 +185,9 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
   }
 
   private boolean supportsGlobalReferences(ObjectFieldType field) {
-    return field.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::allowsReferences).orElse(true);
+    return dsl.resolve(field.getValue()).map(DslElementSyntax::supportsTopLevelDeclaration)
+        .orElseGet(() -> field.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::allowsReferences)
+            .orElse(true));
   }
 
-  private boolean supportsGlobalReferences(ParameterModel parameter) {
-    return parameter.getDslModel().allowsReferences();
-  }
-
-  private boolean supportsInlineDefinition(ParameterModel parameter) {
-    return parameter.getDslModel().allowsInlineDefinition();
-  }
 }

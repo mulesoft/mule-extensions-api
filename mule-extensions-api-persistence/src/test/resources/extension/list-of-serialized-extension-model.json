@@ -94,7 +94,7 @@
                   "format": "java",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                     "classInformation": {
                       "hasDefaultConstructor": true,
                       "isInterface": false,
@@ -123,7 +123,7 @@
                         "item": {
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -179,6 +179,32 @@
                                   "value": "SUPPORTED"
                                 }
                               }
+                            },
+                            {
+                              "key": {
+                                "name": "childNumbers"
+                              },
+                              "model": {
+                                "required": "true",
+                                "type": "Array",
+                                "annotations": {
+                                  "typeId": "java.util.List"
+                                },
+                                "item": {
+                                  "type": "Number",
+                                  "annotations": {
+                                    "typeId": "java.lang.Integer"
+                                  }
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
+                                }
+                              }
                             }
                           ]
                         }
@@ -214,7 +240,7 @@
                         "required": "true",
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -274,6 +300,33 @@
                                 "value": "SUPPORTED"
                               }
                             }
+                          },
+                          {
+                            "key": {
+                              "name": "textField"
+                            },
+                            "model": {
+                              "required": "true",
+                              "type": "String",
+                              "annotations": {
+                                "typeId": "java.lang.String"
+                              }
+                            },
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "BEHAVIOUR"
+                              },
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
+                              },
+                              "layout": {
+                                "layoutModel": {
+                                  "password": false,
+                                  "text": true,
+                                  "query": false
+                                }
+                              }
+                            }
                           }
                         ]
                       },
@@ -293,7 +346,7 @@
                       "model": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -326,11 +379,26 @@
                               },
                               "expressionSupport": {
                                 "value": "SUPPORTED"
+                              }
+                            }
+                          },
+                          {
+                            "key": {
+                              "name": "otherNumber"
+                            },
+                            "model": {
+                              "required": "true",
+                              "type": "Number",
+                              "annotations": {
+                                "typeId": "java.lang.Integer"
+                              }
+                            },
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "BEHAVIOUR"
                               },
-                              "xmlHints": {
-                                "allowInlineDefinition": true,
-                                "allowTopLevelDefinition": false,
-                                "allowReferences": false
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
                               }
                             }
                           }
@@ -353,7 +421,7 @@
                         "required": "true",
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -386,26 +454,6 @@
                               },
                               "expressionSupport": {
                                 "value": "SUPPORTED"
-                              }
-                            }
-                          },
-                          {
-                            "key": {
-                              "name": "anotherGroupedField"
-                            },
-                            "model": {
-                              "required": "true",
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
-                            },
-                            "annotations": {
-                              "parameterPurpose": {
-                                "role": "BEHAVIOUR"
-                              },
-                              "expressionSupport": {
-                                "value": "SUPPORTED"
                               },
                               "layout": {
                                 "layoutModel": {
@@ -413,6 +461,25 @@
                                   "text": true,
                                   "query": false
                                 }
+                              }
+                            }
+                          },
+                          {
+                            "key": {
+                              "name": "anotherGroupedFieldAsContent"
+                            },
+                            "model": {
+                              "type": "String",
+                              "annotations": {
+                                "typeId": "java.lang.String"
+                              }
+                            },
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "CONTENT"
+                              },
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
                               }
                             }
                           }
@@ -436,7 +503,57 @@
                         "required": "true",
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexTypeFieldGroup",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                          "classInformation": {
+                            "hasDefaultConstructor": true,
+                            "isInterface": false,
+                            "isInstantiable": true,
+                            "isAbstract": false,
+                            "isFinal": false,
+                            "implementedInterfaces": [],
+                            "parent": "",
+                            "genericTypes": []
+                          },
+                          "typeAlias": {
+                            "value": "ComplexTypeFieldGroup"
+                          }
+                        },
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "complexFieldsType"
+                            },
+                            "model": "#../..",
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "BEHAVIOUR"
+                              },
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "annotations": {
+                        "parameterPurpose": {
+                          "role": "BEHAVIOUR"
+                        },
+                        "flattened": {},
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "inlineGroup"
+                      },
+                      "model": {
+                        "required": "true",
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -508,6 +625,7 @@
                 "isOneRequired": false
               }
             ],
+            "showInline": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -626,6 +744,7 @@
                 "isOneRequired": false
               }
             ],
+            "showInline": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -649,7 +768,7 @@
                     "format": "java",
                     "type": "Object",
                     "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
+                      "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                       "classInformation": {
                         "hasDefaultConstructor": true,
                         "isInterface": false,
@@ -678,7 +797,7 @@
                           "item": {
                             "type": "Object",
                             "annotations": {
-                              "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
+                              "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                               "classInformation": {
                                 "hasDefaultConstructor": true,
                                 "isInterface": false,
@@ -734,6 +853,32 @@
                                     "value": "SUPPORTED"
                                   }
                                 }
+                              },
+                              {
+                                "key": {
+                                  "name": "childNumbers"
+                                },
+                                "model": {
+                                  "required": "true",
+                                  "type": "Array",
+                                  "annotations": {
+                                    "typeId": "java.util.List"
+                                  },
+                                  "item": {
+                                    "type": "Number",
+                                    "annotations": {
+                                      "typeId": "java.lang.Integer"
+                                    }
+                                  }
+                                },
+                                "annotations": {
+                                  "parameterPurpose": {
+                                    "role": "BEHAVIOUR"
+                                  },
+                                  "expressionSupport": {
+                                    "value": "SUPPORTED"
+                                  }
+                                }
                               }
                             ]
                           }
@@ -769,7 +914,7 @@
                           "required": "true",
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -829,6 +974,33 @@
                                   "value": "SUPPORTED"
                                 }
                               }
+                            },
+                            {
+                              "key": {
+                                "name": "textField"
+                              },
+                              "model": {
+                                "required": "true",
+                                "type": "String",
+                                "annotations": {
+                                  "typeId": "java.lang.String"
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
+                                },
+                                "layout": {
+                                  "layoutModel": {
+                                    "password": false,
+                                    "text": true,
+                                    "query": false
+                                  }
+                                }
+                              }
                             }
                           ]
                         },
@@ -848,7 +1020,7 @@
                         "model": {
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -881,11 +1053,26 @@
                                 },
                                 "expressionSupport": {
                                   "value": "SUPPORTED"
+                                }
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "otherNumber"
+                              },
+                              "model": {
+                                "required": "true",
+                                "type": "Number",
+                                "annotations": {
+                                  "typeId": "java.lang.Integer"
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
                                 },
-                                "xmlHints": {
-                                  "allowInlineDefinition": true,
-                                  "allowTopLevelDefinition": false,
-                                  "allowReferences": false
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
                                 }
                               }
                             }
@@ -908,7 +1095,7 @@
                           "required": "true",
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -941,26 +1128,6 @@
                                 },
                                 "expressionSupport": {
                                   "value": "SUPPORTED"
-                                }
-                              }
-                            },
-                            {
-                              "key": {
-                                "name": "anotherGroupedField"
-                              },
-                              "model": {
-                                "required": "true",
-                                "type": "String",
-                                "annotations": {
-                                  "typeId": "java.lang.String"
-                                }
-                              },
-                              "annotations": {
-                                "parameterPurpose": {
-                                  "role": "BEHAVIOUR"
-                                },
-                                "expressionSupport": {
-                                  "value": "SUPPORTED"
                                 },
                                 "layout": {
                                   "layoutModel": {
@@ -968,6 +1135,25 @@
                                     "text": true,
                                     "query": false
                                   }
+                                }
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "anotherGroupedFieldAsContent"
+                              },
+                              "model": {
+                                "type": "String",
+                                "annotations": {
+                                  "typeId": "java.lang.String"
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "CONTENT"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
                                 }
                               }
                             }
@@ -991,7 +1177,57 @@
                           "required": "true",
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexTypeFieldGroup",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                            "classInformation": {
+                              "hasDefaultConstructor": true,
+                              "isInterface": false,
+                              "isInstantiable": true,
+                              "isAbstract": false,
+                              "isFinal": false,
+                              "implementedInterfaces": [],
+                              "parent": "",
+                              "genericTypes": []
+                            },
+                            "typeAlias": {
+                              "value": "ComplexTypeFieldGroup"
+                            }
+                          },
+                          "fields": [
+                            {
+                              "key": {
+                                "name": "complexFieldsType"
+                              },
+                              "model": "#../..",
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "annotations": {
+                          "parameterPurpose": {
+                            "role": "BEHAVIOUR"
+                          },
+                          "flattened": {},
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
+                          }
+                        }
+                      },
+                      {
+                        "key": {
+                          "name": "inlineGroup"
+                        },
+                        "model": {
+                          "required": "true",
+                          "type": "Object",
+                          "annotations": {
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -1061,6 +1297,7 @@
                   "isOneRequired": false
                 }
               ],
+              "showInline": false,
               "name": "General",
               "description": "",
               "modelProperties": {}
@@ -1137,6 +1374,7 @@
                 "isOneRequired": false
               }
             ],
+            "showInline": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -1278,7 +1516,7 @@
                   "format": "java",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                     "classInformation": {
                       "hasDefaultConstructor": true,
                       "isInterface": false,
@@ -1307,7 +1545,7 @@
                         "item": {
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -1363,6 +1601,32 @@
                                   "value": "SUPPORTED"
                                 }
                               }
+                            },
+                            {
+                              "key": {
+                                "name": "childNumbers"
+                              },
+                              "model": {
+                                "required": "true",
+                                "type": "Array",
+                                "annotations": {
+                                  "typeId": "java.util.List"
+                                },
+                                "item": {
+                                  "type": "Number",
+                                  "annotations": {
+                                    "typeId": "java.lang.Integer"
+                                  }
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
+                                }
+                              }
                             }
                           ]
                         }
@@ -1398,7 +1662,7 @@
                         "required": "true",
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -1458,6 +1722,33 @@
                                 "value": "SUPPORTED"
                               }
                             }
+                          },
+                          {
+                            "key": {
+                              "name": "textField"
+                            },
+                            "model": {
+                              "required": "true",
+                              "type": "String",
+                              "annotations": {
+                                "typeId": "java.lang.String"
+                              }
+                            },
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "BEHAVIOUR"
+                              },
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
+                              },
+                              "layout": {
+                                "layoutModel": {
+                                  "password": false,
+                                  "text": true,
+                                  "query": false
+                                }
+                              }
+                            }
                           }
                         ]
                       },
@@ -1477,7 +1768,7 @@
                       "model": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -1510,11 +1801,26 @@
                               },
                               "expressionSupport": {
                                 "value": "SUPPORTED"
+                              }
+                            }
+                          },
+                          {
+                            "key": {
+                              "name": "otherNumber"
+                            },
+                            "model": {
+                              "required": "true",
+                              "type": "Number",
+                              "annotations": {
+                                "typeId": "java.lang.Integer"
+                              }
+                            },
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "BEHAVIOUR"
                               },
-                              "xmlHints": {
-                                "allowInlineDefinition": true,
-                                "allowTopLevelDefinition": false,
-                                "allowReferences": false
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
                               }
                             }
                           }
@@ -1537,7 +1843,7 @@
                         "required": "true",
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -1570,26 +1876,6 @@
                               },
                               "expressionSupport": {
                                 "value": "SUPPORTED"
-                              }
-                            }
-                          },
-                          {
-                            "key": {
-                              "name": "anotherGroupedField"
-                            },
-                            "model": {
-                              "required": "true",
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
-                            },
-                            "annotations": {
-                              "parameterPurpose": {
-                                "role": "BEHAVIOUR"
-                              },
-                              "expressionSupport": {
-                                "value": "SUPPORTED"
                               },
                               "layout": {
                                 "layoutModel": {
@@ -1597,6 +1883,25 @@
                                   "text": true,
                                   "query": false
                                 }
+                              }
+                            }
+                          },
+                          {
+                            "key": {
+                              "name": "anotherGroupedFieldAsContent"
+                            },
+                            "model": {
+                              "type": "String",
+                              "annotations": {
+                                "typeId": "java.lang.String"
+                              }
+                            },
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "CONTENT"
+                              },
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
                               }
                             }
                           }
@@ -1620,7 +1925,57 @@
                         "required": "true",
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexTypeFieldGroup",
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                          "classInformation": {
+                            "hasDefaultConstructor": true,
+                            "isInterface": false,
+                            "isInstantiable": true,
+                            "isAbstract": false,
+                            "isFinal": false,
+                            "implementedInterfaces": [],
+                            "parent": "",
+                            "genericTypes": []
+                          },
+                          "typeAlias": {
+                            "value": "ComplexTypeFieldGroup"
+                          }
+                        },
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "complexFieldsType"
+                            },
+                            "model": "#../..",
+                            "annotations": {
+                              "parameterPurpose": {
+                                "role": "BEHAVIOUR"
+                              },
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "annotations": {
+                        "parameterPurpose": {
+                          "role": "BEHAVIOUR"
+                        },
+                        "flattened": {},
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "inlineGroup"
+                      },
+                      "model": {
+                        "required": "true",
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                           "classInformation": {
                             "hasDefaultConstructor": true,
                             "isInterface": false,
@@ -1692,6 +2047,7 @@
                 "isOneRequired": false
               }
             ],
+            "showInline": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -1810,6 +2166,7 @@
                 "isOneRequired": false
               }
             ],
+            "showInline": false,
             "name": "General",
             "description": "",
             "modelProperties": {}
@@ -1833,7 +2190,7 @@
                     "format": "java",
                     "type": "Object",
                     "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
+                      "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                       "classInformation": {
                         "hasDefaultConstructor": true,
                         "isInterface": false,
@@ -1862,7 +2219,7 @@
                           "item": {
                             "type": "Object",
                             "annotations": {
-                              "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
+                              "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                               "classInformation": {
                                 "hasDefaultConstructor": true,
                                 "isInterface": false,
@@ -1918,6 +2275,32 @@
                                     "value": "SUPPORTED"
                                   }
                                 }
+                              },
+                              {
+                                "key": {
+                                  "name": "childNumbers"
+                                },
+                                "model": {
+                                  "required": "true",
+                                  "type": "Array",
+                                  "annotations": {
+                                    "typeId": "java.util.List"
+                                  },
+                                  "item": {
+                                    "type": "Number",
+                                    "annotations": {
+                                      "typeId": "java.lang.Integer"
+                                    }
+                                  }
+                                },
+                                "annotations": {
+                                  "parameterPurpose": {
+                                    "role": "BEHAVIOUR"
+                                  },
+                                  "expressionSupport": {
+                                    "value": "SUPPORTED"
+                                  }
+                                }
                               }
                             ]
                           }
@@ -1953,7 +2336,7 @@
                           "required": "true",
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -2013,6 +2396,33 @@
                                   "value": "SUPPORTED"
                                 }
                               }
+                            },
+                            {
+                              "key": {
+                                "name": "textField"
+                              },
+                              "model": {
+                                "required": "true",
+                                "type": "String",
+                                "annotations": {
+                                  "typeId": "java.lang.String"
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
+                                },
+                                "layout": {
+                                  "layoutModel": {
+                                    "password": false,
+                                    "text": true,
+                                    "query": false
+                                  }
+                                }
+                              }
                             }
                           ]
                         },
@@ -2032,7 +2442,7 @@
                         "model": {
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -2065,11 +2475,26 @@
                                 },
                                 "expressionSupport": {
                                   "value": "SUPPORTED"
+                                }
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "otherNumber"
+                              },
+                              "model": {
+                                "required": "true",
+                                "type": "Number",
+                                "annotations": {
+                                  "typeId": "java.lang.Integer"
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
                                 },
-                                "xmlHints": {
-                                  "allowInlineDefinition": true,
-                                  "allowTopLevelDefinition": false,
-                                  "allowReferences": false
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
                                 }
                               }
                             }
@@ -2092,7 +2517,7 @@
                           "required": "true",
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -2125,26 +2550,6 @@
                                 },
                                 "expressionSupport": {
                                   "value": "SUPPORTED"
-                                }
-                              }
-                            },
-                            {
-                              "key": {
-                                "name": "anotherGroupedField"
-                              },
-                              "model": {
-                                "required": "true",
-                                "type": "String",
-                                "annotations": {
-                                  "typeId": "java.lang.String"
-                                }
-                              },
-                              "annotations": {
-                                "parameterPurpose": {
-                                  "role": "BEHAVIOUR"
-                                },
-                                "expressionSupport": {
-                                  "value": "SUPPORTED"
                                 },
                                 "layout": {
                                   "layoutModel": {
@@ -2152,6 +2557,25 @@
                                     "text": true,
                                     "query": false
                                   }
+                                }
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "anotherGroupedFieldAsContent"
+                              },
+                              "model": {
+                                "type": "String",
+                                "annotations": {
+                                  "typeId": "java.lang.String"
+                                }
+                              },
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "CONTENT"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
                                 }
                               }
                             }
@@ -2175,7 +2599,57 @@
                           "required": "true",
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexTypeFieldGroup",
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                            "classInformation": {
+                              "hasDefaultConstructor": true,
+                              "isInterface": false,
+                              "isInstantiable": true,
+                              "isAbstract": false,
+                              "isFinal": false,
+                              "implementedInterfaces": [],
+                              "parent": "",
+                              "genericTypes": []
+                            },
+                            "typeAlias": {
+                              "value": "ComplexTypeFieldGroup"
+                            }
+                          },
+                          "fields": [
+                            {
+                              "key": {
+                                "name": "complexFieldsType"
+                              },
+                              "model": "#../..",
+                              "annotations": {
+                                "parameterPurpose": {
+                                  "role": "BEHAVIOUR"
+                                },
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "annotations": {
+                          "parameterPurpose": {
+                            "role": "BEHAVIOUR"
+                          },
+                          "flattened": {},
+                          "expressionSupport": {
+                            "value": "SUPPORTED"
+                          }
+                        }
+                      },
+                      {
+                        "key": {
+                          "name": "inlineGroup"
+                        },
+                        "model": {
+                          "required": "true",
+                          "type": "Object",
+                          "annotations": {
+                            "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                             "classInformation": {
                               "hasDefaultConstructor": true,
                               "isInterface": false,
@@ -2245,6 +2719,7 @@
                   "isOneRequired": false
                 }
               ],
+              "showInline": false,
               "name": "General",
               "description": "",
               "modelProperties": {}
@@ -2321,6 +2796,7 @@
                 "isOneRequired": false
               }
             ],
+            "showInline": false,
             "name": "General",
             "description": "",
             "modelProperties": {}

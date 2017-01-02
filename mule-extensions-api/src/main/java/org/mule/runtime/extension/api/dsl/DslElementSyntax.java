@@ -6,10 +6,13 @@
  */
 package org.mule.runtime.extension.api.dsl;
 
+import static com.google.common.collect.ImmutableList.copyOf;
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toMap;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.NamedObject;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,8 +34,9 @@ public class DslElementSyntax {
   private final boolean supportsTopLevelDeclaration;
   private final boolean requiresConfig;
   private final Map<MetadataType, DslElementSyntax> genericsDsl;
-  private final Map<String, DslElementSyntax> childsByName;
-
+  private final Map<String, DslElementSyntax> childs;
+  private final Map<String, DslElementSyntax> attributes;
+  private final Map<String, DslElementSyntax> containedElements;
 
   /**
    * Creates a new instance of {@link DslElementSyntax}
@@ -55,12 +59,9 @@ public class DslElementSyntax {
    *                                     container elements of generic types, like Collections or Maps
    *                                     for which the Dsl declaration is modified depending on the
    *                                     contained type.
-   * @param childsByName                 the {@link DslElementSyntax} of this element's named childs.
-   *                                     For complex types with fields that are mapped as child
-   *                                     elements of this element, the Dsl varies depending on each
-   *                                     fields definition, associating each field's child element to
    */
-  public DslElementSyntax(String attributeName, String elementName,
+  public DslElementSyntax(String attributeName,
+                          String elementName,
                           String elementNameSpace,
                           String nameSpaceUri,
                           boolean isWrapped,
@@ -68,7 +69,7 @@ public class DslElementSyntax {
                           boolean supportsTopLevelDeclaration,
                           boolean requiresConfig,
                           Map<MetadataType, DslElementSyntax> genericsDsl,
-                          Map<String, DslElementSyntax> childsByName) {
+                          Map<String, DslElementSyntax> containedElements) {
     this.attributeName = attributeName;
     this.elementName = elementName;
     this.elementNameSpace = elementNameSpace;
@@ -79,7 +80,15 @@ public class DslElementSyntax {
     this.supportsTopLevelDeclaration = supportsTopLevelDeclaration;
     this.requiresConfig = requiresConfig;
     this.genericsDsl = genericsDsl;
-    this.childsByName = childsByName;
+
+    this.containedElements = containedElements;
+
+    this.childs =
+        containedElements.entrySet().stream().filter(e -> e.getValue().supportsChildDeclaration())
+            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    this.attributes =
+        containedElements.entrySet().stream().filter(e -> e.getValue().supportsAttributeDeclaration())
+            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   /***
@@ -140,6 +149,13 @@ public class DslElementSyntax {
   }
 
   /**
+   * @return {@code true} if this element requires having an attribute which points to a config
+   */
+  public boolean requiresConfig() {
+    return requiresConfig;
+  }
+
+  /**
    * @param type {@link MetadataType} of the generic for which its {@link DslElementSyntax dsl} is
    *             required
    * @return the {@link DslElementSyntax dsl} for the given generic's type if one is present
@@ -153,13 +169,45 @@ public class DslElementSyntax {
    * @return the {@link DslElementSyntax dsl} of the child if one is present
    */
   public Optional<DslElementSyntax> getChild(String name) {
-    return ofNullable(childsByName.get(name));
+    return ofNullable(childs.get(name));
   }
 
   /**
-   * @return {@code true} if this element requires having an attribute which points to a config
+   * @return the {@link DslElementSyntax dsl} of the childs of this element
    */
-  public boolean requiresConfig() {
-    return requiresConfig;
+  public List<DslElementSyntax> getChilds() {
+    return copyOf(containedElements.values());
   }
+
+  /**
+   * @param name name of the attribute element for which its {@link DslElementSyntax dsl} is required
+   * @return the {@link DslElementSyntax dsl} of the attribute if one is present
+   */
+  public Optional<DslElementSyntax> getAttribute(String name) {
+    return ofNullable(attributes.get(name));
+
+  }
+
+  /**
+   * @return the {@link DslElementSyntax dsl} of the attributes of this element
+   */
+  public List<DslElementSyntax> getAttributes() {
+    return copyOf(attributes.values());
+  }
+
+  /**
+   * @param name name of the element for which its {@link DslElementSyntax dsl} is required
+   * @return the {@link DslElementSyntax dsl} of the element if one is present
+   */
+  public Optional<DslElementSyntax> getContainedElement(String name) {
+    return ofNullable(containedElements.get(name));
+  }
+
+  /**
+   * @return the {@link DslElementSyntax dsl} of all the contained elements of this element
+   */
+  public List<DslElementSyntax> getContainedElements() {
+    return copyOf(containedElements.values());
+  }
+
 }

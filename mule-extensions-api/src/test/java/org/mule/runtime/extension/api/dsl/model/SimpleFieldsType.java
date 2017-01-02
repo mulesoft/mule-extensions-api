@@ -6,12 +6,14 @@
  */
 package org.mule.runtime.extension.api.dsl.model;
 
+import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 
 public class SimpleFieldsType {
 
   @Parameter
+  @XmlHints(allowReferences = false)
   private String sampleString;
 
   @Parameter

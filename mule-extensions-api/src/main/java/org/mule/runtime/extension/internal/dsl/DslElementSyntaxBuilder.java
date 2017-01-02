@@ -23,14 +23,14 @@ public final class DslElementSyntaxBuilder {
   private String attributeName = "";
   private String elementName = "";
   private String elementNameSpace = "";
-  private String nameSpaceUri;
+  private String nameSpaceUri = "";
   private boolean isWrapped = false;
   private boolean supportsAttributeDeclaration = true;
   private boolean supportsChildDeclaration = false;
   private boolean supportsTopLevelDeclaration = false;
   private boolean requiresConfig = false;
   private Map<MetadataType, DslElementSyntax> genericChilds = new HashMap<>();
-  private Map<String, DslElementSyntax> namedChilds = new HashMap<>();
+  private Map<String, DslElementSyntax> containedElements = new HashMap<>();
 
   private DslElementSyntaxBuilder() {}
 
@@ -147,12 +147,12 @@ public final class DslElementSyntaxBuilder {
    *
    * @return {@code this} builder instance enriched with the {@code named} {@link DslElementSyntax childElement}
    */
-  public DslElementSyntaxBuilder withChild(String name, DslElementSyntax child) {
+  public DslElementSyntaxBuilder containing(String name, DslElementSyntax child) {
     if (child == null) {
       throw new IllegalArgumentException("Invalid child declaration, child element should not be null");
     }
 
-    this.namedChilds.put(name, child);
+    this.containedElements.put(name, child);
     return this;
   }
 
@@ -162,8 +162,7 @@ public final class DslElementSyntaxBuilder {
   public DslElementSyntax build() {
     return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
                                 supportsAttributeDeclaration, supportsChildDeclaration, supportsTopLevelDeclaration,
-                                requiresConfig, genericChilds,
-                                namedChilds);
+                                requiresConfig, genericChilds, containedElements);
   }
 
 }

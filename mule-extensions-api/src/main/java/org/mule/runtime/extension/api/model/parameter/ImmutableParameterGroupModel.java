@@ -29,14 +29,15 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
   private final List<ParameterModel> parameters;
   private final List<ExclusiveParametersModel> exclusiveParametersModels;
   private final LayoutModel layoutModel;
+  private final boolean showInDsl;
 
   /**
    * Creates a new intance
-   *
-   * @param name                      the operation's name. Cannot be blank
+   *  @param name                      the operation's name. Cannot be blank
    * @param description               the operation's descriptor
    * @param parameters                the parameters contained in this group
    * @param exclusiveParametersModels a list with the applying {@link ExclusiveParametersModel}
+   * @param showInDsl                if {@code true}, {@code this} Group will be shown as an inline element of the DSL
    * @param displayModel              a model which contains directive about how the parameter is displayed in the UI
    * @param layoutModel               a model which contains directives about the parameter's layout in the UI
    * @param modelProperties           A {@link Set} of custom properties which extend this model
@@ -45,6 +46,7 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
                                       String description,
                                       List<ParameterModel> parameters,
                                       List<ExclusiveParametersModel> exclusiveParametersModels,
+                                      boolean showInDsl,
                                       DisplayModel displayModel,
                                       LayoutModel layoutModel,
                                       Set<ModelProperty> modelProperties) {
@@ -52,6 +54,7 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
     this.parameters = copy(parameters);
     this.exclusiveParametersModels = copy(exclusiveParametersModels);
     this.layoutModel = layoutModel;
+    this.showInDsl = showInDsl;
   }
 
   /**
@@ -77,4 +80,12 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
   public Optional<LayoutModel> getLayoutModel() {
     return ofNullable(layoutModel);
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isShowInDsl() {
+    return showInDsl;
+  }
+
 }

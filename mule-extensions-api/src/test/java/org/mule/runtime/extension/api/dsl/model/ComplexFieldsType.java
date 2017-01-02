@@ -6,30 +6,47 @@
  */
 package org.mule.runtime.extension.api.dsl.model;
 
+import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.param.NullSafe;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 
 import java.util.List;
 
+@Alias("complex-alias")
 public class ComplexFieldsType {
+
+  public static final String ALIAS = "complex-alias";
 
   @Parameter
   private List<ExtensibleType> extensibleTypeList;
 
   @Parameter
+  @Optional
+  @NullSafe
   private ComplexFieldsType recursiveChild;
 
   @Parameter
   private SimpleFieldsType simplePojo;
 
   @Parameter
+  @Optional
+  @NullSafe
   private NotGlobalType notGlobalType;
 
-  @ParameterGroup("Parameter Group Type")
+  @ParameterGroup(name = "ParameterGroupType")
   private ParameterGroupType parameterGroupType;
 
-  @ParameterGroup("Complex Type Field Group")
+  @ParameterGroup(name = "Complex Type Field Group")
   private ComplexTypeFieldGroup complexTypeFieldGroup;
+
+  @ParameterGroup(name = "Group With Inline Declaration", showInDsl = true)
+  private ComplexTypeFieldGroup inlineGroup;
+
+  public ComplexTypeFieldGroup getInlineGroup() {
+    return inlineGroup;
+  }
 
   public ComplexTypeFieldGroup getComplexTypeFieldGroup() {
     return complexTypeFieldGroup;

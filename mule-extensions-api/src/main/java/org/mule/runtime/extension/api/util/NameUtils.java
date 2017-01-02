@@ -257,12 +257,14 @@ public class NameUtils {
    * @return the hypenized name for the given {@code type}
    */
   public static String getTopLevelTypeName(MetadataType metadataType) {
-    String aliasName = metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
+    return hyphenize(getAliasName(metadataType));
+  }
+
+  public static String getAliasName(MetadataType metadataType) {
+    return metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
         .orElseGet(() -> getTypeId(metadataType).map(typeId -> metadataType.getMetadataFormat().equals(JAVA)
             ? getAliasName(getType(metadataType))
             : typeId).orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
-
-    return hyphenize(aliasName);
   }
 
   public static String getAliasName(Class<?> type) {

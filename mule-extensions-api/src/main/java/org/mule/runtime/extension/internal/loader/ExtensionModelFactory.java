@@ -131,10 +131,14 @@ public final class ExtensionModelFactory {
    * @return an {@link ExtensionModel}
    */
   public ExtensionModel create(ExtensionLoadingContext extensionLoadingContext) {
+
     enrichModel(extensionLoadingContext);
+
     ExtensionModel extensionModel =
         new FactoryDelegate().toExtension(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+
     ProblemsReporter problemsReporter = new ProblemsReporter(extensionModel);
+
     validate(extensionModel, problemsReporter, extensionLoadingContext);
 
     if (problemsReporter.hasErrors()) {
@@ -342,6 +346,7 @@ public final class ExtensionModelFactory {
                                               declaration.getDescription(),
                                               toParameters(declaration.getParameters()),
                                               toExclusiveParametersModels(declaration),
+                                              declaration.isShowInDsl(),
                                               declaration.getDisplayModel(),
                                               declaration.getLayoutModel(),
                                               declaration.getModelProperties());
