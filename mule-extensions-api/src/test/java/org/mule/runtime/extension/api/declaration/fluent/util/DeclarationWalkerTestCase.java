@@ -19,11 +19,13 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Before;
@@ -56,8 +58,14 @@ public class DeclarationWalkerTestCase {
   @Mock
   private SourceDeclaration source;
 
+  @Mock
+  private SourceCallbackDeclaration sourceCallback;
+
   @Before
   public void before() {
+    when(source.getSuccessCallback()).thenReturn(Optional.of(sourceCallback));
+    when(source.getErrorCallback()).thenReturn(Optional.empty());
+
     when(extension.getConfigurations()).thenReturn(asList(configuration));
     when(extension.getOperations()).thenReturn(asList(operation));
     when(extension.getMessageSources()).thenReturn(asList(source));
@@ -68,7 +76,7 @@ public class DeclarationWalkerTestCase {
     when(configuration.getConnectionProviders()).thenReturn(asList(connectionProvider));
     when(parameterGroup.getParameters()).thenReturn(asList(parameter));
 
-    addParameter(configuration, operation, connectionProvider, source);
+    addParameter(configuration, operation, connectionProvider, source, sourceCallback);
   }
 
   private void addParameter(ParameterizedDeclaration... declarations) {
@@ -125,8 +133,8 @@ public class DeclarationWalkerTestCase {
     assertCount(operations, 2);
     assertCount(sources, 2);
     assertCount(providers, 2);
-    assertCount(parameterGroups, 7);
-    assertCount(parameters, 7);
+    assertCount(parameterGroups, 9);
+    assertCount(parameters, 9);
   }
 
   @Test
@@ -231,8 +239,8 @@ public class DeclarationWalkerTestCase {
     assertCount(operations, 1);
     assertCount(sources, 1);
     assertCount(providers, 1);
-    assertCount(parameterGroups, 3);
-    assertCount(parameters, 3);
+    assertCount(parameterGroups, 4);
+    assertCount(parameters, 4);
   }
 
   @Test
