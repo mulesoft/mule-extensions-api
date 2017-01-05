@@ -50,8 +50,9 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.SubType;
 import org.mule.runtime.extension.api.dsl.model.SuperType;
-import org.mule.runtime.extension.api.dsl.resolver.DslResolvingContext;
-import org.mule.runtime.extension.api.dsl.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslResolvingContext;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -235,7 +236,7 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   DslSyntaxResolver getSyntaxResolver() {
-    return new DslSyntaxResolver(extension, dslContext);
+    return DslSyntaxResolver.getDefault(extension, dslContext);
   }
 
   protected void assertComplexTypeDslFields(DslElementSyntax topDsl) {

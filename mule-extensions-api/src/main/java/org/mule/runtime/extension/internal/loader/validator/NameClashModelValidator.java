@@ -36,9 +36,9 @@ import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.util.Reference;
-import org.mule.runtime.extension.api.dsl.DslElementSyntax;
-import org.mule.runtime.extension.api.dsl.resolver.DslSyntaxResolver;
-import org.mule.runtime.extension.api.dsl.resolver.SingleExtensionImportTypesStrategy;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
@@ -94,8 +94,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     public ValidationDelegate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
       this.extensionModel = extensionModel;
       this.problemsReporter = problemsReporter;
-      this.dslSyntaxResolver = new DslSyntaxResolver(extensionModel,
-                                                     new SingleExtensionImportTypesStrategy());
+      this.dslSyntaxResolver = DslSyntaxResolver.getDefault(extensionModel,
+                                                            new SingleExtensionImportTypesStrategy());
     }
 
     private void validate() {

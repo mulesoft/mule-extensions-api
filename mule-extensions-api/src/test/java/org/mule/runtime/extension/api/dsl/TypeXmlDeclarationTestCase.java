@@ -27,6 +27,7 @@ import org.mule.runtime.extension.api.dsl.model.RecursiveChainA;
 import org.mule.runtime.extension.api.dsl.model.RecursiveChainB;
 import org.mule.runtime.extension.api.dsl.model.RecursivePojo;
 import org.mule.runtime.extension.api.dsl.model.SimpleFieldsType;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
 import java.util.Optional;
 

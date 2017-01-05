@@ -38,6 +38,7 @@ import org.mule.runtime.extension.api.dsl.model.InterfaceDeclarationWithMapping;
 import org.mule.runtime.extension.api.dsl.model.InterfaceImplementation;
 import org.mule.runtime.extension.api.dsl.model.NonDefaultConstructor;
 import org.mule.runtime.extension.api.dsl.model.SimpleFieldsType;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
 import java.util.List;
 import java.util.Map;
