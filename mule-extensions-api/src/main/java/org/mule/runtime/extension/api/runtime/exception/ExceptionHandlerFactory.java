@@ -7,14 +7,14 @@
 package org.mule.runtime.extension.api.runtime.exception;
 
 /**
- * Creates an instance of an {@link ExceptionEnricher}
+ * Creates an instance of an {@link ExceptionHandler}
  */
-public interface ExceptionEnricherFactory {
+public interface ExceptionHandlerFactory {
 
   /**
-   * Creates a new instance of a {@link ExceptionEnricher}
+   * Creates a new instance of a {@link ExceptionHandler}
    *
-   * @return a new {@link ExceptionEnricher}
+   * @return a new {@link ExceptionHandler}
    */
-  ExceptionEnricher createEnricher();
+  ExceptionHandler createHandler();
 }
