@@ -21,7 +21,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
@@ -38,6 +38,7 @@ import org.mule.runtime.extension.api.dsl.model.InterfaceDeclarationWithMapping;
 import org.mule.runtime.extension.api.dsl.model.InterfaceImplementation;
 import org.mule.runtime.extension.api.dsl.model.NonDefaultConstructor;
 import org.mule.runtime.extension.api.dsl.model.SimpleFieldsType;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
 import java.util.List;
 import java.util.Map;
@@ -102,13 +103,13 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void xmlStyleAtParameterLevel() {
-    ElementDslModel dslModel = ElementDslModel.builder()
+    ParameterDslConfiguration dslModel = ParameterDslConfiguration.builder()
         .allowsInlineDefinition(false)
         .allowTopLevelDefinition(false)
         .allowsReferences(false)
         .build();
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(String.class));
-    when(parameterModel.getDslModel()).thenReturn(dslModel);
+    when(parameterModel.getDslConfiguration()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     assertChildElementDeclarationIs(false, result);
@@ -116,7 +117,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void xmlStyleAtTypeLevel() {
-    ElementDslModel dslModel = ElementDslModel.builder()
+    ParameterDslConfiguration dslModel = ParameterDslConfiguration.builder()
         .allowsInlineDefinition(false)
         .allowTopLevelDefinition(false)
         .allowsReferences(false)
@@ -124,7 +125,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
     when(parameterModel.getType())
         .thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false, false)).build());
-    when(parameterModel.getDslModel()).thenReturn(dslModel);
+    when(parameterModel.getDslConfiguration()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     assertChildElementDeclarationIs(false, result);

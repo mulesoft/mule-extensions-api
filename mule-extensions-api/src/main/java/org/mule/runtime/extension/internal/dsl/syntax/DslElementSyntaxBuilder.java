@@ -5,10 +5,10 @@
  * LICENSE.txt file.
  */
 
-package org.mule.runtime.extension.internal.dsl;
+package org.mule.runtime.extension.internal.dsl.syntax;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.extension.api.dsl.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -73,7 +73,7 @@
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
               "role": "BEHAVIOUR",
-              "dslModel": {
+              "dslConfiguration": {
                 "allowsInlineDefinition": true,
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false
@@ -600,7 +600,7 @@
               "required": true,
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
-              "dslModel": {
+              "dslConfiguration": {
                 "allowsInlineDefinition": true,
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false
@@ -657,7 +657,7 @@
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
               "role": "BEHAVIOUR",
-              "dslModel": {
+              "dslConfiguration": {
                 "allowsInlineDefinition": true,
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false
@@ -685,7 +685,7 @@
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
               "role": "BEHAVIOUR",
-              "dslModel": {
+              "dslConfiguration": {
                 "allowsInlineDefinition": true,
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false
@@ -721,7 +721,7 @@
               "required": true,
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
-              "dslModel": {
+              "dslConfiguration": {
                 "allowsInlineDefinition": true,
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false
@@ -1274,7 +1274,7 @@
                 "required": true,
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
-                "dslModel": {
+                "dslConfiguration": {
                   "allowsInlineDefinition": true,
                   "allowsReferences": true,
                   "allowTopLevelDefinition": false
@@ -1349,7 +1349,7 @@
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
               "role": "BEHAVIOUR",
-              "dslModel": {
+              "dslConfiguration": {
                 "allowsInlineDefinition": true,
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false

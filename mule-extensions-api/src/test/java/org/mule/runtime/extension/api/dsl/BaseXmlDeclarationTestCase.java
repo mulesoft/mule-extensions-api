@@ -32,7 +32,7 @@ import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
@@ -50,8 +50,9 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.SubType;
 import org.mule.runtime.extension.api.dsl.model.SuperType;
-import org.mule.runtime.extension.api.dsl.resolver.DslResolvingContext;
-import org.mule.runtime.extension.api.dsl.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslResolvingContext;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -157,7 +158,7 @@ public abstract class BaseXmlDeclarationTestCase {
     when(parameterModel.getName()).thenReturn(PARAMETER_NAME);
     when(parameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
     when(parameterModel.getModelProperty(any())).thenReturn(empty());
-    when(parameterModel.getDslModel()).thenReturn(ElementDslModel.getDefaultInstance());
+    when(parameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
     when(parameterModel.getLayoutModel()).thenReturn(empty());
     when(parameterModel.getRole()).thenReturn(role);
 
@@ -235,7 +236,7 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   DslSyntaxResolver getSyntaxResolver() {
-    return new DslSyntaxResolver(extension, dslContext);
+    return DslSyntaxResolver.getDefault(extension, dslContext);
   }
 
   protected void assertComplexTypeDslFields(DslElementSyntax topDsl) {

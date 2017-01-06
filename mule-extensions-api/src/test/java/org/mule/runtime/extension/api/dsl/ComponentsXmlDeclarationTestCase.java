@@ -16,11 +16,12 @@ import static org.mockito.Mockito.when;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
 import java.util.stream.Stream;
 
@@ -49,7 +50,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     when(complexParameterModel.getName()).thenReturn(COMPLEX_PARAMETER);
     when(complexParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
     when(complexParameterModel.getModelProperty(any())).thenReturn(empty());
-    when(complexParameterModel.getDslModel()).thenReturn(ElementDslModel.getDefaultInstance());
+    when(complexParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
     when(complexParameterModel.getLayoutModel()).thenReturn(empty());
     when(complexParameterModel.getRole()).thenReturn(BEHAVIOUR);
     when(complexParameterModel.getType()).thenReturn(TYPE_LOADER.load(ComplexFieldsType.class));
@@ -61,7 +62,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     when(simpleParameterModel.getName()).thenReturn(SIMPLE_PARAMETER);
     when(simpleParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
     when(simpleParameterModel.getModelProperty(any())).thenReturn(empty());
-    when(simpleParameterModel.getDslModel()).thenReturn(ElementDslModel.getDefaultInstance());
+    when(simpleParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
     when(simpleParameterModel.getLayoutModel()).thenReturn(empty());
     when(simpleParameterModel.getRole()).thenReturn(BEHAVIOUR);
     when(simpleParameterModel.getType()).thenReturn(TYPE_LOADER.load(Integer.class));
@@ -70,7 +71,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     when(groupedComplexParameterModel.getName()).thenReturn(GROUPED_COMPLEX_PARAMETER);
     when(groupedComplexParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
     when(groupedComplexParameterModel.getModelProperty(any())).thenReturn(empty());
-    when(groupedComplexParameterModel.getDslModel()).thenReturn(ElementDslModel.getDefaultInstance());
+    when(groupedComplexParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
     when(groupedComplexParameterModel.getLayoutModel()).thenReturn(empty());
     when(groupedComplexParameterModel.getRole()).thenReturn(BEHAVIOUR);
     when(groupedComplexParameterModel.getType()).thenReturn(TYPE_LOADER.load(ComplexFieldsType.class));

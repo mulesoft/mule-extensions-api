@@ -15,7 +15,7 @@ import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
 import org.mule.runtime.api.meta.MuleVersion;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -155,7 +155,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapter(ImportedTypeModel.class, new ImportedTypesModelTypeAdapter(referenceHandler))
         .registerTypeAdapter(SubTypesModel.class, new SubTypesModelTypeAdapter(referenceHandler))
         .registerTypeAdapter(XmlDslModel.class, new XmlDslModelTypeAdapter())
-        .registerTypeAdapter(ElementDslModel.class, new ElementDslModelTypeAdapter())
+        .registerTypeAdapter(ParameterDslConfiguration.class, new ElementDslModelTypeAdapter())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)

@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.model.parameter;
 import static java.util.Optional.ofNullable;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -33,7 +33,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
   private final ParameterRole role;
-  private final ElementDslModel dslModel;
+  private final ParameterDslConfiguration dslConfiguration;
   private final LayoutModel layoutModel;
 
   /**
@@ -47,7 +47,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
    * @param defaultValue      this parameter's default value
    * @param role           this parameter's purpose
-   * @param dslModel          a model which describes the DSL semantics for this parameter
+   * @param dslConfiguration          a model which describes the DSL semantics for this parameter
    * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
    * @param layoutModel       a model which contains directives about the parameter's layout in the UI
    * @param modelProperties   A {@link Set} of custom properties which extend this model
@@ -61,7 +61,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  ExpressionSupport expressionSupport,
                                  Object defaultValue,
                                  ParameterRole role,
-                                 ElementDslModel dslModel,
+                                 ParameterDslConfiguration dslConfiguration,
                                  DisplayModel displayModel,
                                  LayoutModel layoutModel,
                                  Set<ModelProperty> modelProperties) {
@@ -73,7 +73,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.defaultValue = defaultValue;
     this.role = role;
     this.hasDynamicType = hasDynamicType;
-    this.dslModel = dslModel;
+    this.dslConfiguration = dslConfiguration;
     this.layoutModel = layoutModel;
   }
 
@@ -118,8 +118,8 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * {@inheritDoc}
    */
   @Override
-  public ElementDslModel getDslModel() {
-    return dslModel;
+  public ParameterDslConfiguration getDslConfiguration() {
+    return dslConfiguration;
   }
 
   /**

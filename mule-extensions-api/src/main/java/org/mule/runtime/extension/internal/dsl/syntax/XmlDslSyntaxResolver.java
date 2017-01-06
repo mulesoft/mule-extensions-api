@@ -4,22 +4,13 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.dsl.resolver;
+package org.mule.runtime.extension.internal.dsl.syntax;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isContent;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.getId;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.getTypeKey;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.isExtensible;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.isFlattened;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.isText;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.isValidBean;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.loadSubTypes;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.supportTopLevelElement;
-import static org.mule.runtime.extension.api.dsl.resolver.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
@@ -28,6 +19,15 @@ import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.sanitizeName;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getId;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getTypeKey;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isExtensible;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isFlattened;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isText;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isValidBean;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.loadSubTypes;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
@@ -38,16 +38,20 @@ import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
-import org.mule.runtime.extension.api.dsl.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslResolvingContext;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
-import org.mule.runtime.extension.internal.dsl.DslElementSyntaxBuilder;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -58,12 +62,14 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * Default implementation of a {@link DslSyntaxResolver} based on XML.
+ *
  * Provides the {@link DslElementSyntax} of any {@link NamedObject Component}, {@link ParameterModel Parameter} or
  * {@link MetadataType Type} within the context of the {@link ExtensionModel Extension model} where the Component was declared.
  *
  * @since 1.0
  */
-public class DslSyntaxResolver {
+public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private static final String VALUE_ATTRIBUTE = "value";
   private static final String KEY_ATTRIBUTE = "key";
@@ -75,17 +81,29 @@ public class DslSyntaxResolver {
   private final Deque<String> typeResolvingStack = new ArrayDeque<>();
 
   /**
+   * Creates an instance using the default implementation
+   *
    * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
    *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
    *         {@link ImportedTypeModel}
    */
-  public DslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
+  public XmlDslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
     this(model, new DefaultImportTypesStrategy(model, context));
   }
 
-  public DslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
+  /**
+   * Creates an instance using the default implementation
+   *
+   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param importTypesStrategy the {@link ImportTypesStrategy} used for external types resolution
+   * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
+   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *         {@link ImportedTypeModel}
+   * @return the default implementation of a {@link DslSyntaxResolver}
+   */
+  public XmlDslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
     extensionModel = model;
     this.languageModel = model.getXmlDslModel();
     this.subTypesMap = loadSubTypes(model);
@@ -110,33 +128,12 @@ public class DslSyntaxResolver {
       resolveGroupsDsl((ParameterizedModel) component, dsl);
     }
 
+    if (component instanceof HasConnectionProviderModels) {
+      ((HasConnectionProviderModels) component).getConnectionProviders()
+          .forEach(c -> dsl.containing(c.getName(), resolve(c)));
+    }
+
     return dsl.build();
-  }
-
-  private void resolveGroupsDsl(ParameterizedModel component, DslElementSyntaxBuilder dsl) {
-    List<ParameterModel> inlineGroupedParameters = component.getParameterGroupModels().stream()
-        .filter(ParameterGroupModel::isShowInDsl)
-        .peek(group -> dsl.containing(group.getName(), resolveInlineGroupDsl(group)))
-        .flatMap(g -> g.getParameterModels().stream())
-        .collect(toList());
-
-    component.getAllParameterModels().stream()
-        .filter(p -> !inlineGroupedParameters.contains(p))
-        .forEach(parameter -> dsl.containing(parameter.getName(), resolve(parameter)));
-  }
-
-  public DslElementSyntax resolveInlineGroupDsl(ParameterGroupModel group) {
-
-    final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
-    builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
-        .withElementName(hyphenize(sanitizeName(group.getName())).replaceAll("\\s+", ""))
-        .supportsAttributeDeclaration(false)
-        .supportsChildDeclaration(true)
-        .supportsTopLevelDeclaration(false);
-
-    group.getParameterModels().forEach(parameter -> builder.containing(parameter.getName(), resolve(parameter)));
-
-    return builder.build();
   }
 
   /**
@@ -149,7 +146,7 @@ public class DslSyntaxResolver {
   public DslElementSyntax resolve(final ParameterModel parameter) {
     final ExpressionSupport expressionSupport = parameter.getExpressionSupport();
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
-    final ElementDslModel dslModel = parameter.getDslModel();
+    final ParameterDslConfiguration dslModel = parameter.getDslConfiguration();
     final boolean isContent = isContent(parameter);
 
     parameter.getType().accept(
@@ -236,41 +233,25 @@ public class DslSyntaxResolver {
     return builder.build();
   }
 
-  private void resolveObjectDsl(ObjectType objectType, DslElementSyntaxBuilder builder, String name,
-                                boolean isContent, ElementDslModel dslModel, ExpressionSupport expressionSupport) {
+  /**
+   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has
+   * to be shown as an inline element of the DSL
+   *
+   * @param group the {@link ParameterGroupModel} to be described in the {@link DslElementSyntax}
+   * @return the {@link DslElementSyntax} for the {@link ParameterGroupModel group}
+   */
+  public DslElementSyntax resolveInline(ParameterGroupModel group) {
 
+    final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
-        .withElementName(hyphenize(name))
-        .supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
+        .withElementName(hyphenize(sanitizeName(group.getName())).replaceAll("\\s+", ""))
+        .supportsAttributeDeclaration(false)
+        .supportsChildDeclaration(true)
+        .supportsTopLevelDeclaration(false);
 
-    boolean shouldGenerateChild = supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent);
-    boolean requiresWrapper = typeRequiresWrapperElement(objectType);
-    if (shouldGenerateChild || requiresWrapper) {
-      builder.supportsChildDeclaration(true);
-      if (requiresWrapper) {
-        builder.asWrappedElement(true);
-      } else {
-        if (!isContent) {
-          declareFieldsAsChilds(builder, objectType.getFields(),
-                                languageModel.getNamespace(), languageModel.getNamespaceUri());
-        }
-      }
-    }
-  }
+    group.getParameterModels().forEach(parameter -> builder.containing(parameter.getName(), resolve(parameter)));
 
-  private void addAttributeName(DslElementSyntaxBuilder builder, ParameterModel parameter,
-                                boolean isContent, ElementDslModel dslModel) {
-
-    if (supportsAttributeDeclaration(parameter, isContent, dslModel)) {
-      builder.withAttributeName(parameter.getName());
-    } else {
-      // For Content parameters, we don't allow the attribute to be set
-      builder.supportsAttributeDeclaration(false);
-    }
-  }
-
-  private boolean supportsAttributeDeclaration(ParameterModel parameter, boolean isContent, ElementDslModel dslModel) {
-    return !isContent && (dslModel.allowsReferences() || !NOT_SUPPORTED.equals(parameter.getExpressionSupport()));
+    return builder.build();
   }
 
   /**
@@ -288,7 +269,7 @@ public class DslSyntaxResolver {
 
     boolean requiresWrapper = typeRequiresWrapperElement(type);
     boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
-    boolean supportTopLevelElement = supportTopLevelElement(type, ElementDslModel.getDefaultInstance());
+    boolean supportTopLevelElement = supportTopLevelElement(type);
 
     if (!supportsInlineDeclaration && !supportTopLevelElement
         && !requiresWrapper && subTypesMap.getSuperTypes(type).isEmpty()) {
@@ -309,6 +290,7 @@ public class DslSyntaxResolver {
         .withElementName(getTopLevelTypeName(type))
         .supportsTopLevelDeclaration(supportTopLevelElement)
         .supportsChildDeclaration(supportsInlineDeclaration)
+        .supportsAttributeDeclaration(false)
         .asWrappedElement(requiresWrapper);
 
     String typeId = getId(type);
@@ -328,6 +310,55 @@ public class DslSyntaxResolver {
     return Optional.of(builder.build());
   }
 
+  private void resolveObjectDsl(ObjectType objectType, DslElementSyntaxBuilder builder, String name,
+                                boolean isContent, ParameterDslConfiguration dslModel, ExpressionSupport expressionSupport) {
+
+    builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
+        .withElementName(hyphenize(name))
+        .supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
+
+    boolean shouldGenerateChild = supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent);
+    boolean requiresWrapper = typeRequiresWrapperElement(objectType);
+    if (shouldGenerateChild || requiresWrapper) {
+      builder.supportsChildDeclaration(true);
+      if (requiresWrapper) {
+        builder.asWrappedElement(true);
+      } else {
+        if (!isContent) {
+          declareFieldsAsChilds(builder, objectType.getFields(),
+                                languageModel.getNamespace(), languageModel.getNamespaceUri());
+        }
+      }
+    }
+  }
+
+  private void resolveGroupsDsl(ParameterizedModel component, DslElementSyntaxBuilder dsl) {
+    List<ParameterModel> inlineGroupedParameters = component.getParameterGroupModels().stream()
+        .filter(ParameterGroupModel::isShowInDsl)
+        .peek(group -> dsl.containing(group.getName(), resolveInline(group)))
+        .flatMap(g -> g.getParameterModels().stream())
+        .collect(toList());
+
+    component.getAllParameterModels().stream()
+        .filter(p -> !inlineGroupedParameters.contains(p))
+        .forEach(parameter -> dsl.containing(parameter.getName(), resolve(parameter)));
+  }
+
+  private void addAttributeName(DslElementSyntaxBuilder builder, ParameterModel parameter,
+                                boolean isContent, ParameterDslConfiguration dslModel) {
+
+    if (supportsAttributeDeclaration(parameter, isContent, dslModel)) {
+      builder.withAttributeName(parameter.getName());
+    } else {
+      // For Content parameters, we don't allow the attribute to be set
+      builder.supportsAttributeDeclaration(false);
+    }
+  }
+
+  private boolean supportsAttributeDeclaration(ParameterModel parameter, boolean isContent, ParameterDslConfiguration dslModel) {
+    return !isContent && (dslModel.allowsReferences() || !NOT_SUPPORTED.equals(parameter.getExpressionSupport()));
+  }
+
   private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementSyntaxBuilder listBuilder, final String parameterName,
                                                       final String namespace, final String namespaceUri, boolean asItem) {
     return new MetadataTypeVisitor() {
@@ -344,7 +375,8 @@ public class DslSyntaxResolver {
                                       .supportsChildDeclaration(supportsInlineDeclaration(objectType, NOT_SUPPORTED))
                                       .asWrappedElement(true)
                                       .supportsTopLevelDeclaration(supportTopLevelElement(objectType,
-                                                                                          ElementDslModel.getDefaultInstance()))
+                                                                                          ParameterDslConfiguration
+                                                                                              .getDefaultInstance()))
                                       .build());
         } else if (isValidBean(objectType)) {
           listBuilder.withGeneric(objectType, resolve(objectType).get());
@@ -385,7 +417,7 @@ public class DslSyntaxResolver {
 
   private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName,
                                                             final String namespace, final String namespaceUri,
-                                                            ElementDslModel dslModel) {
+                                                            ParameterDslConfiguration dslModel) {
     return new MetadataTypeVisitor() {
 
       @Override
@@ -534,7 +566,7 @@ public class DslSyntaxResolver {
 
           dictionaryType.getValueType().accept(getDictionaryValueTypeVisitor(objectFieldBuilder, fieldName,
                                                                              ownerNamespace, ownerNamespaceUri,
-                                                                             ElementDslModel.getDefaultInstance()));
+                                                                             ParameterDslConfiguration.getDefaultInstance()));
         }
 
       }

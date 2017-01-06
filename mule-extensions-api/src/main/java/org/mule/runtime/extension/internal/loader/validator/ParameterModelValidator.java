@@ -30,9 +30,9 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.extension.api.dsl.DslElementSyntax;
-import org.mule.runtime.extension.api.dsl.resolver.DslSyntaxResolver;
-import org.mule.runtime.extension.api.dsl.resolver.SingleExtensionImportTypesStrategy;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
@@ -67,7 +67,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
   @Override
   public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
     subTypesMapping = loadSubtypesMapping(extensionModel);
-    dsl = new DslSyntaxResolver(extensionModel, new SingleExtensionImportTypesStrategy());
+    dsl = DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy());
 
     new ExtensionWalker() {
 

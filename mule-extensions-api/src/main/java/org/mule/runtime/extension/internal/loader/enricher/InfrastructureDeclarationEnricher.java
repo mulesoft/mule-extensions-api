@@ -13,7 +13,7 @@ import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STR
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_RECONNECTION_STRATEGY_QNAME;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -37,7 +37,7 @@ abstract class InfrastructureDeclarationEnricher implements DeclarationEnricher 
     parameter.setParameterRole(BEHAVIOUR);
     parameter.setType(new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), false);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-    parameter.setDslModel(ElementDslModel.builder()
+    parameter.setDslModel(ParameterDslConfiguration.builder()
         .allowsInlineDefinition(true)
         .allowsReferences(false)
         .allowTopLevelDefinition(false)
