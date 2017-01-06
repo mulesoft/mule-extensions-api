@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.internal.loader.validator;
 
-import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.getModelName;
 import org.mule.metadata.api.model.MetadataType;
@@ -14,14 +13,12 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.SimpleType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -53,18 +50,14 @@ public final class ExclusiveParameterModelValidator implements ExtensionModelVal
                         model.getName())));
           }
 
-          List<ParameterModel> optionalParameters = model.getParameterModels().stream()
-              .filter(p -> exclusiveParameterNames.contains(p.getName()))
-              .collect(toList());
-
-          if (optionalParameters.size() < 2) {
+          if (exclusiveParameterNames.size() < 2) {
             problemsReporter.addError(new Problem(owner, String
                 .format("In %s '%s', parameter group '%s' defines exclusive optional parameters, and thus should contain more than one "
                     + "parameter marked as optional but %d was/were found",
                         getComponentModelTypeName(owner),
                         getModelName(owner),
                         model.getName(),
-                        optionalParameters.size())));
+                        exclusiveParameterNames.size())));
           }
         });
       }
