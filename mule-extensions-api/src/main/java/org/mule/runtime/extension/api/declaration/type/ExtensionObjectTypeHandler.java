@@ -6,27 +6,19 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static java.lang.String.format;
-import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
-import org.mule.metadata.api.builder.WithAnnotation;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.metadata.java.internal.handler.ObjectHandler;
-import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.extension.api.runtime.operation.ParameterResolver;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -39,9 +31,6 @@ import java.util.List;
  */
 public class ExtensionObjectTypeHandler extends ObjectHandler {
 
-  private final ParameterResolverTypeAnnotation parameterResolverTypeAnnotation = new ParameterResolverTypeAnnotation();
-  private final TypedValueTypeAnnotation typedValueTypeAnnotation = new TypedValueTypeAnnotation();
-
   public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler) {
     super(fieldHandler);
   }
@@ -49,51 +38,23 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
   @Override
   public TypeBuilder<?> handleClass(Class<?> clazz, List<Type> genericTypes, TypeHandlerManager typeHandlerManager,
                                     ParsingContext context, BaseTypeBuilder typeBuilder) {
-    WithAnnotation annotableType = null;
-    Class<?> currentClass = clazz;
+    final ObjectTypeBuilder objectType = (ObjectTypeBuilder) super.handleClass(clazz, genericTypes,
+                                                                               typeHandlerManager, context, typeBuilder);
 
-    if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context, typeBuilder, parameterResolverTypeAnnotation);
-      currentClass = getGenericClass(genericTypes, 0);
-    } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context, typeBuilder, typedValueTypeAnnotation);
-      currentClass = getGenericClass(genericTypes, 0);
-    } else {
-      annotableType = (ObjectTypeBuilder) super.handleClass(currentClass, genericTypes,
-                                                            typeHandlerManager, context, typeBuilder);
+    if (clazz.isAnnotationPresent(Extensible.class)) {
+      objectType.with(new ExtensibleTypeAnnotation());
     }
 
-    if (annotableType != null) {
-      if (currentClass.isAnnotationPresent(Extensible.class)) {
-        annotableType.with(new ExtensibleTypeAnnotation());
-      }
-
-      XmlHints hints = currentClass.getAnnotation(XmlHints.class);
-      if (hints != null) {
-        annotableType.with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
-                                                  hints.allowTopLevelDefinition(),
-                                                  hints.allowReferences()));
-      }
-
-      Alias alias = currentClass.getAnnotation(Alias.class);
-      annotableType.with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
-
+    XmlHints hints = clazz.getAnnotation(XmlHints.class);
+    if (hints != null) {
+      objectType.with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
+                                             hints.allowTopLevelDefinition(),
+                                             hints.allowReferences()));
     }
-    return typeBuilder;
-  }
 
-  private Class<?> getGenericClass(List<Type> genericTypes, int position) {
-    Type type = genericTypes.get(position);
-    return type instanceof Class ? (Class<?>) type : Object.class;
-  }
+    Alias alias = clazz.getAnnotation(Alias.class);
+    objectType.with(new TypeAliasAnnotation(alias != null ? alias.value() : clazz.getSimpleName()));
 
-  private void handleGenericType(Class<?> clazz, List<Type> genericTypes, TypeHandlerManager typeHandlerManager,
-                                 ParsingContext context,
-                                 BaseTypeBuilder typeBuilder, TypeAnnotation annotation) {
-    checkArgument(!genericTypes.isEmpty(), format("Type %s doesn't have the required generic type", clazz));
-    TypeBuilder handle = typeHandlerManager.handle(genericTypes.get(0), context, typeBuilder);
-    if (handle instanceof WithAnnotation) {
-      ((WithAnnotation) handle).with(annotation);
-    }
+    return objectType;
   }
 }
