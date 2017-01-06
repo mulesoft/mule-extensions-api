@@ -77,7 +77,7 @@ public final class ContentParameterDeclarationEnricher implements DeclarationEnr
   }
 
   private void configureDsl(ParameterDeclaration p) {
-    p.setDslModel(ParameterDslConfiguration.builder(p.getDslModel())
+    p.setDslConfiguration(ParameterDslConfiguration.builder(p.getDslConfiguration())
         .allowsReferences(false)
         .allowsInlineDefinition(true)
         .build());

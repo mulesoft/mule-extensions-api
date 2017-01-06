@@ -56,7 +56,7 @@ public final class SourceDeclarationEnricher extends InfrastructureDeclarationEn
     parameter.setParameterRole(BEHAVIOUR);
     parameter.setType(new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), false);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-    parameter.setDslModel(ParameterDslConfiguration.builder()
+    parameter.setDslConfiguration(ParameterDslConfiguration.builder()
         .allowsInlineDefinition(true)
         .allowsReferences(false)
         .allowTopLevelDefinition(false)
