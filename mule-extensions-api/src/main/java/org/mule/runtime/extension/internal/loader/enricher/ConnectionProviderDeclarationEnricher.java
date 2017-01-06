@@ -76,7 +76,7 @@ public class ConnectionProviderDeclarationEnricher extends InfrastructureDeclara
     parameter.setParameterRole(BEHAVIOUR);
     parameter.setType(new PoolingProfileTypeBuilder().buildPoolingProfileType(), false);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-    parameter.setDslModel(ParameterDslConfiguration.builder()
+    parameter.setDslConfiguration(ParameterDslConfiguration.builder()
         .allowsInlineDefinition(true)
         .allowsReferences(false)
         .allowTopLevelDefinition(false)

@@ -400,7 +400,7 @@ public final class ExtensionModelFactory {
                                          parameter.getExpressionSupport(),
                                          parameter.getDefaultValue(),
                                          parameter.getRole(),
-                                         parameter.getDslModel(),
+                                         parameter.getDslConfiguration(),
                                          parameter.getDisplayModel(),
                                          parameter.getLayoutModel(),
                                          parameter.getModelProperties());
