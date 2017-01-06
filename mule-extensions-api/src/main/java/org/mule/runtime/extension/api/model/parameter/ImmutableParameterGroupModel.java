@@ -32,8 +32,9 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
   private final boolean showInDsl;
 
   /**
-   * Creates a new intance
-   *  @param name                      the operation's name. Cannot be blank
+   * Creates a new instance
+   *
+   * @param name                      the operation's name. Cannot be blank
    * @param description               the operation's descriptor
    * @param parameters                the parameters contained in this group
    * @param exclusiveParametersModels a list with the applying {@link ExclusiveParametersModel}

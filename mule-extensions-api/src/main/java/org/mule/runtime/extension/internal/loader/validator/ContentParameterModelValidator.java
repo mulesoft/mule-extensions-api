@@ -111,7 +111,7 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
 
   private void validateDsl(ParameterizedModel model, List<ParameterModel> contentParameters, ProblemsReporter problemsReporter) {
     List<ParameterModel> offending = contentParameters.stream()
-        .filter(p -> p.getDslModel().allowsReferences())
+        .filter(p -> p.getDslConfiguration().allowsReferences())
         .collect(toList());
 
     if (!offending.isEmpty()) {

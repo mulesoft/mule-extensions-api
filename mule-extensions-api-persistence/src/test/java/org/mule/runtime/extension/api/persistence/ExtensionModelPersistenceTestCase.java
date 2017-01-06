@@ -33,9 +33,9 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.MuleVersion;
-import org.mule.runtime.api.meta.model.ElementDslModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -109,7 +109,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   private List<ExtensionModel> extensionModelList;
   private ExtensionModelJsonSerializer extensionModelJsonSerializer;
   private ObjectType exportedType;
-  private ElementDslModel defaultParameterDsl = ElementDslModel.getDefaultInstance();
+  private ParameterDslConfiguration defaultParameterDsl = ParameterDslConfiguration.getDefaultInstance();
   private DisplayModel defaultDisplayModel = DisplayModel.builder().build();
   private LayoutModel defaultLayoutModel = LayoutModel.builder().build();
 
@@ -171,7 +171,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                                                       outputModel, outputAttributesModel,
                                                                       Optional
                                                                           .of(new ImmutableSourceCallbackModel("onSuccess", "",
-                                                                                                               asParameterGroup(complexParameter),
+                                                                                                               asParameterGroup(
+                                                                                                                                complexParameter),
                                                                                                                DisplayModel
                                                                                                                    .builder()
                                                                                                                    .build(),

@@ -21,7 +21,7 @@ import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -88,8 +88,8 @@ class DslSyntaxUtils {
         .map(XmlHintsAnnotation::allowsReferences).orElse(true));
   }
 
-  static boolean supportTopLevelElement(MetadataType metadataType, ElementDslModel elementDslModel) {
-    return supportTopLevelElement(metadataType, elementDslModel.allowsReferences());
+  static boolean supportTopLevelElement(MetadataType metadataType, ParameterDslConfiguration dslConfiguration) {
+    return supportTopLevelElement(metadataType, dslConfiguration.allowsReferences());
   }
 
   static boolean supportTopLevelElement(MetadataType metadataType, boolean allowsReferences) {
@@ -110,15 +110,15 @@ class DslSyntaxUtils {
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport) {
-    return supportsInlineDeclaration(metadataType, expressionSupport, ElementDslModel.getDefaultInstance(), false);
+    return supportsInlineDeclaration(metadataType, expressionSupport, ParameterDslConfiguration.getDefaultInstance(), false);
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport, boolean isContent) {
-    return supportsInlineDeclaration(metadataType, expressionSupport, ElementDslModel.getDefaultInstance(), isContent);
+    return supportsInlineDeclaration(metadataType, expressionSupport, ParameterDslConfiguration.getDefaultInstance(), isContent);
   }
 
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport,
-                                           ElementDslModel dslModel, boolean isContent) {
+                                           ParameterDslConfiguration dslModel, boolean isContent) {
     final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
     if (isContent) {

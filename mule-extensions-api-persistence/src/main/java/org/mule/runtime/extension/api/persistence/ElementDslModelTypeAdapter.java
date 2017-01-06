@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import org.mule.runtime.api.meta.model.ElementDslModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,18 +17,18 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
 /**
- * A {@link TypeAdapter} for serializing instances of {@link ElementDslModel}
+ * A {@link TypeAdapter} for serializing instances of {@link ParameterDslConfiguration}
  *
  * @since 1.0
  */
-class ElementDslModelTypeAdapter extends TypeAdapter<ElementDslModel> {
+class ElementDslModelTypeAdapter extends TypeAdapter<ParameterDslConfiguration> {
 
   private static final String ALLOW_TOP_LEVEL_DEFINITION = "allowTopLevelDefinition";
   private static final String ALLOWS_REFERENCES = "allowsReferences";
   private static final String ALLOWS_INLINE_DEFINITION = "allowsInlineDefinition";
 
   @Override
-  public void write(JsonWriter out, ElementDslModel value) throws IOException {
+  public void write(JsonWriter out, ParameterDslConfiguration value) throws IOException {
     out.beginObject();
     out.name(ALLOWS_INLINE_DEFINITION).value(value.allowsInlineDefinition());
     out.name(ALLOWS_REFERENCES).value(value.allowsReferences());
@@ -37,9 +37,9 @@ class ElementDslModelTypeAdapter extends TypeAdapter<ElementDslModel> {
   }
 
   @Override
-  public ElementDslModel read(JsonReader in) throws IOException {
+  public ParameterDslConfiguration read(JsonReader in) throws IOException {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
-    return ElementDslModel.builder()
+    return ParameterDslConfiguration.builder()
         .allowsInlineDefinition(read(json, ALLOWS_INLINE_DEFINITION))
         .allowsReferences(read(json, ALLOWS_REFERENCES))
         .allowTopLevelDefinition(read(json, ALLOW_TOP_LEVEL_DEFINITION))

@@ -38,7 +38,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * //TODO
+ * Default implementation of a {@link DslElementModelResolver}
+ *
+ * @since 1.0
  */
 public class DefaultElementModelResolver implements DslElementModelResolver {
 
@@ -53,14 +55,16 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
                                                        DslSyntaxResolver.getDefault(extensionModel, s -> of(extByName.get(s)))));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public <T> Optional<DslElementModel<T>> resolve(ApplicationElement applicationElement) {
-
     return Optional.ofNullable(createIdentifiedElement(applicationElement));
   }
 
   private DslElementModel createIdentifiedElement(ApplicationElement applicationElement) {
 
-    ApplicationElementIdentifier identifier = applicationElement.getIdentifier();
+    final ApplicationElementIdentifier identifier = applicationElement.getIdentifier();
 
     Optional<Map.Entry<ExtensionModel, DslSyntaxResolver>> entry =
         resolvers.entrySet().stream()
@@ -71,8 +75,8 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
       return null;
     }
 
-    ExtensionModel extension = entry.get().getKey();
-    DslSyntaxResolver dsl = entry.get().getValue();
+    final ExtensionModel extension = entry.get().getKey();
+    final DslSyntaxResolver dsl = entry.get().getValue();
 
     AtomicReference<DslElementModel> elementModel = new AtomicReference<>();
     new ExtensionWalker() {
@@ -96,8 +100,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         final DslElementSyntax elementDsl = dsl.resolve(model);
         getIdentifier(elementDsl).ifPresent(elementId -> {
           if (elementId.equals(identifier)) {
-            DslElementModel.Builder<OperationModel> element = createElementModel(model, elementDsl, applicationElement);
-            elementModel.set(element.build());
+            elementModel.set(createElementModel(model, elementDsl, applicationElement).build());
             stop();
           }
         });
@@ -108,8 +111,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         final DslElementSyntax elementDsl = dsl.resolve(model);
         getIdentifier(elementDsl).ifPresent(elementId -> {
           if (elementId.equals(identifier)) {
-            DslElementModel.Builder<SourceModel> element = createElementModel(model, elementDsl, applicationElement);
-            elementModel.set(element.build());
+            elementModel.set(createElementModel(model, elementDsl, applicationElement).build());
             stop();
           }
         });
@@ -118,7 +120,8 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
     }.walk(extension);
 
     if (elementModel.get() == null) {
-      resolveBasedOnTypes(extension, dsl, identifier).ifPresent(elementModel::set);
+      resolveBasedOnTypes(extension, dsl, identifier)
+          .ifPresent(elementModel::set);
     }
 
     return elementModel.get();
@@ -132,7 +135,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
           if (typeDsl.isPresent()) {
             Optional<ApplicationElementIdentifier> elementIdentifier = getIdentifier(typeDsl.get());
             if (elementIdentifier.isPresent() && elementIdentifier.get().equals(identifier)) {
-              return DslElementModel.Builder.<ObjectType>getInstance()
+              return DslElementModel.<ObjectType>builder()
                   .withModel(type)
                   .withDsl(typeDsl.get())
                   .build();
@@ -165,9 +168,10 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
 
   private <T extends ParameterizedModel> DslElementModel.Builder<T> createElementModel(T model, DslElementSyntax elementDsl,
                                                                                        ApplicationElement applicationElement) {
-    DslElementModel.Builder<T> builder = DslElementModel.Builder.getInstance();
+    DslElementModel.Builder<T> builder = DslElementModel.builder();
     builder.withModel(model)
-        .withDsl(elementDsl);
+        .withDsl(elementDsl)
+        .withElement(applicationElement);
 
     populateParameterizedElements(model, elementDsl, builder, applicationElement);
     return builder;
@@ -199,7 +203,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
           ApplicationElement groupComponent = getIdentifier(groupDsl).map(innerComponents::get).orElse(null);
 
           if (groupComponent != null) {
-            DslElementModel.Builder<ParameterGroupModel> groupElementBuilder = DslElementModel.Builder.getInstance();
+            DslElementModel.Builder<ParameterGroupModel> groupElementBuilder = DslElementModel.builder();
             groupElementBuilder.withModel(group).withDsl(groupDsl);
 
             group.getParameterModels()
@@ -214,14 +218,13 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
                                    ParameterModel p) {
     groupDsl.getContainedElement(p.getName())
         .ifPresent(pDsl -> {
-          // TODO Handle different namespace elements for wrapped childs
           ApplicationElement paramComponent = getIdentifier(pDsl).map(innerComponents::get).orElse(null);
 
           if (!pDsl.isWrapped()) {
             String paramValue = pDsl.supportsAttributeDeclaration() ? parameters.get(pDsl.getAttributeName()) : null;
             if (paramComponent != null || paramValue != null) {
               DslElementModel.Builder<ParameterModel> paramElement =
-                  DslElementModel.Builder.<ParameterModel>getInstance().withModel(p).withDsl(pDsl);
+                  DslElementModel.<ParameterModel>builder().withModel(p).withDsl(pDsl);
 
               if (paramComponent != null && paramComponent.getInnerComponents().size() > 0) {
                 paramComponent.getInnerComponents().forEach(c -> this.resolve(c).ifPresent(paramElement::containing));
@@ -240,7 +243,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
                                      DslElementSyntax pDsl, ApplicationElement paramComponent) {
     if (paramComponent != null) {
       DslElementModel.Builder<ParameterModel> paramElement =
-          DslElementModel.Builder.<ParameterModel>getInstance().withModel(p).withDsl(pDsl);
+          DslElementModel.<ParameterModel>builder().withModel(p).withDsl(pDsl);
 
       if (paramComponent.getInnerComponents().size() > 0) {
         ApplicationElement wrappedComponent = paramComponent.getInnerComponents().get(0);
@@ -253,7 +256,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
 
   private Optional<ApplicationElementIdentifier> getIdentifier(DslElementSyntax dsl) {
     if (dsl.supportsTopLevelDeclaration() || dsl.supportsChildDeclaration()) {
-      return Optional.of(ApplicationElementIdentifier.Builder.getInstance()
+      return Optional.of(ApplicationElementIdentifier.builder()
           .withName(dsl.getElementName())
           .withNamespace(dsl.getNamespaceUri())
           .build());
