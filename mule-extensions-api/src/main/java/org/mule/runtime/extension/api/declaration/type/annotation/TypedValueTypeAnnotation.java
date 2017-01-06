@@ -25,19 +25,8 @@ public class TypedValueTypeAnnotation implements TypeAnnotation {
     return "typedValue";
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean equals(Object obj) {
     return obj instanceof TypedValueTypeAnnotation;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int hashCode() {
-    return 4127887;
   }
 }

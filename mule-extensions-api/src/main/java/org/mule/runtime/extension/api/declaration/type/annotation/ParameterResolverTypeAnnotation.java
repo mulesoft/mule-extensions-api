@@ -25,19 +25,8 @@ public class ParameterResolverTypeAnnotation implements TypeAnnotation {
     return "parameterResolver";
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean equals(Object obj) {
     return obj instanceof ParameterResolverTypeAnnotation;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int hashCode() {
-    return 1681352;
   }
 }
