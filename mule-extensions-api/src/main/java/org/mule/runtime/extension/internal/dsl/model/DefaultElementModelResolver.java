@@ -24,6 +24,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
+import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.dsl.model.DslElementModel;
 import org.mule.runtime.extension.api.dsl.model.DslElementModelResolver;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
@@ -35,7 +36,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Default implementation of a {@link DslElementModelResolver}
@@ -58,6 +58,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
   /**
    * {@inheritDoc}
    */
+  @Override
   public <T> Optional<DslElementModel<T>> resolve(ApplicationElement applicationElement) {
     return Optional.ofNullable(createIdentifiedElement(applicationElement));
   }
@@ -78,7 +79,8 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
     final ExtensionModel extension = entry.get().getKey();
     final DslSyntaxResolver dsl = entry.get().getValue();
 
-    AtomicReference<DslElementModel> elementModel = new AtomicReference<>();
+
+    Reference<DslElementModel> elementModel = new Reference<>();
     new ExtensionWalker() {
 
       @Override
