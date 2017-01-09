@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.annotation;
 
-import org.mule.runtime.extension.api.runtime.exception.ExceptionEnricher;
+import org.mule.runtime.extension.api.runtime.exception.ExceptionHandler;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 public @interface OnException {
 
   /**
-   * A {@link Class} which implements the {@link ExceptionEnricher} interface.
+   * A {@link Class} which implements the {@link ExceptionHandler} interface.
    */
-  Class<? extends ExceptionEnricher> value();
+  Class<? extends ExceptionHandler> value();
 }
