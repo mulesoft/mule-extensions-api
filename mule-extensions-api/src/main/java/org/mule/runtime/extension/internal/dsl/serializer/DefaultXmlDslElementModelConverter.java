@@ -46,7 +46,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * //TODO
+ * Default implementation of {@link XmlDslElementModelConverter}
+ *
+ * @since 1.0
  */
 public class DefaultXmlDslElementModelConverter implements XmlDslElementModelConverter {
 
