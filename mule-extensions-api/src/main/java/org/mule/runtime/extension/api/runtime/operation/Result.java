@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
+import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
@@ -29,7 +30,60 @@ import java.util.Optional;
  * @param <A> the generic type of the message attributes
  * @since 1.0
  */
-public interface Result<T, A extends Attributes> {
+public class Result<T, A extends Attributes> {
+
+  /**
+   * Builds instances of {@link Result}
+   *
+   * @param <T> the generic type of the output value
+   * @param <A> the generic type of the message attributes
+   */
+  public static final class Builder<T, A extends Attributes> {
+
+    private final Result<T, A> product = new Result<>();
+
+    private Builder() {}
+
+    /**
+     * Sets the output value
+     *
+     * @param output the new output value
+     * @return {@code this} builder
+     */
+    public Builder<T, A> output(T output) {
+      product.output = output;
+      return this;
+    }
+
+    /**
+     * Sets the output attributes value
+     *
+     * @param attributes the new attributes value
+     * @return {@code this} builder
+     */
+    public Builder<T, A> attributes(A attributes) {
+      product.attributes = attributes;
+      return this;
+    }
+
+    /**
+     * Sets the output {@link MediaType}
+     *
+     * @param mediaType the new {@link MediaType}
+     * @return {@code this} builder
+     */
+    public Builder<T, A> mediaType(MediaType mediaType) {
+      product.mediaType = mediaType;
+      return this;
+    }
+
+    /**
+     * @return the build {@link Result}
+     */
+    public Result<T, A> build() {
+      return product;
+    }
+  }
 
   /**
    * Creates a new {@link Builder}
@@ -38,8 +92,8 @@ public interface Result<T, A extends Attributes> {
    * @param <A> the generic type of the message attributes
    * @return a new {@link Builder}
    */
-  static <T, A extends Attributes> Builder<T, A> builder() {
-    return OperationResultBuilderFactory.getDefaultFactory().create();
+  public static <T, A extends Attributes> Builder<T, A> builder() {
+    return new Builder<>();
   }
 
   /**
@@ -51,17 +105,41 @@ public interface Result<T, A extends Attributes> {
    * @param <A>         the generic type of the message attributes
    * @return a new {@link Builder}
    */
-  static <T, A extends Attributes> Builder<T, A> builder(Message muleMessage) {
-    return (Builder<T, A>) OperationResultBuilderFactory.getDefaultFactory().create()
-        .output(muleMessage.getPayload().getValue())
-        .attributes(muleMessage.getAttributes())
+  public static <T, A extends Attributes> Builder<T, A> builder(Message muleMessage) {
+    return new Builder<T, A>()
+        .output((T) muleMessage.getPayload().getValue())
+        .attributes((A) muleMessage.getAttributes())
         .mediaType(muleMessage.getPayload().getDataType().getMediaType());
   }
 
   /**
+   * Creates a new {@link Builder} initialises with a state that matched
+   * the one of the given {@code prototypeResult}
+   *
+   * @param prototypeResult a prototype {@link Result}
+   * @param <T>             the generic type of the output value
+   * @param <A>             the generic type of the message attributes
+   * @return a new {@link Builder}
+   */
+  public static <T, A extends Attributes> Builder<T, A> builder(Result<T, A> prototypeResult) {
+    return new Builder<T, A>()
+        .output(prototypeResult.getOutput())
+        .attributes(prototypeResult.getAttributes().orElse(null))
+        .mediaType(prototypeResult.getMediaType().orElse(null));
+  }
+
+  private T output;
+  private A attributes = null;
+  private MediaType mediaType = null;
+
+  private Result() {}
+
+  /**
    * @return The operation's output
    */
-  T getOutput();
+  public T getOutput() {
+    return output;
+  }
 
   /**
    * The new value that the operation wants to set on {@link Message#getAttributes()}.
@@ -71,54 +149,19 @@ public interface Result<T, A extends Attributes> {
    *
    * @return an {@link Optional} {@code Attributes} value
    */
-  Optional<A> getAttributes();
+  public Optional<A> getAttributes() {
+    return ofNullable(attributes);
+  }
 
   /**
-   * The new {@link MediaType} that the operation wants to set on {@link Message#getDataType()}.
+   * The new {@link MediaType} that the operation wants to set on {@link Message}.
    * <p>
    * The operation might not be interested in changing that value, in which case
    * this method would return {@link Optional#empty()}
    *
    * @return an {@link Optional} {@link MediaType} value
    */
-  Optional<MediaType> getMediaType();
-
-  /**
-   * Builds instances of {@link Result}
-   *
-   * @param <T> the generic type of the output value
-   * @param <A> the generic type of the message attributes
-   */
-  interface Builder<T, A extends Attributes> {
-
-    /**
-     * Sets the output value
-     *
-     * @param output the new output value
-     * @return {@code this} builder
-     */
-    Builder<T, A> output(T output);
-
-    /**
-     * Sets the output attributes value
-     *
-     * @param attributes the new attributes value
-     * @return {@code this} builder
-     */
-    Builder<T, A> attributes(A attributes);
-
-    /**
-     * Sets the output {@link MediaType}
-     *
-     * @param mediaType the new {@link MediaType}
-     * @return {@code this} builder
-     */
-    Builder<T, A> mediaType(MediaType mediaType);
-
-    /**
-     * @return the build {@link Result}
-     */
-    Result<T, A> build();
+  public Optional<MediaType> getMediaType() {
+    return ofNullable(mediaType);
   }
-
 }
