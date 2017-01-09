@@ -179,10 +179,9 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testInterfaceWithMappingParameter() {
-    when(extension.getSubTypes()).thenReturn(singleton(
-                                                       new SubTypesModel(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
-                                                                         singleton(TYPE_LOADER
-                                                                             .load(InterfaceImplementation.class)))));
+    when(extension.getSubTypes())
+        .thenReturn(singleton(new SubTypesModel(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
+                                                singleton(TYPE_LOADER.load(InterfaceImplementation.class)))));
 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -211,7 +210,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
     mockImportedTypes(IMPORT_EXTENSION_NAME_WITH_XML, SimpleFieldsType.class);
 
-    when(importOriginMock.getXmlDslModel()).thenReturn(createTestXmlDslModel());
+    when(importOriginMock.getXmlDslModel()).thenReturn(createImportedXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME_WITH_XML)).thenReturn(of(importOriginMock));
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(SimpleFieldsType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -226,7 +225,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
     mockImportedTypes(IMPORT_EXTENSION_NAME, SimpleFieldsType.class);
 
-    when(importOriginMock.getXmlDslModel()).thenReturn(createTestXmlDslModel());
+    when(importOriginMock.getXmlDslModel()).thenReturn(createImportedXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(importOriginMock));
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(SimpleFieldsType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -272,7 +271,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     extension = mock(ExtensionModel.class);
     mockImportedTypes(IMPORT_EXTENSION_NAME, ExtensibleType.class);
 
-    when(extension.getXmlDslModel()).thenReturn(createTestXmlDslModel());
+    when(extension.getXmlDslModel()).thenReturn(createImportedXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(extension));
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(ExtensibleType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -634,16 +633,6 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
       assertParameterChildElementDeclaration(true, itemDsl);
       assertIsWrappedElement(false, itemDsl);
     });
-  }
-
-  private XmlDslModel createTestXmlDslModel() {
-    return XmlDslModel.builder()
-        .setXsdFileName(EMPTY)
-        .setNamespace(IMPORT_NAMESPACE)
-        .setNamespaceUri(IMPORT_NAMESPACE_URI)
-        .setSchemaLocation(IMPORT_SCHEMA_LOCATION)
-        .setSchemaVersion(EMPTY)
-        .build();
   }
 
   @Test

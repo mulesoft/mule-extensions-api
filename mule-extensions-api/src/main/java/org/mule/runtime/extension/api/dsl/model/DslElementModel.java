@@ -8,8 +8,8 @@ package org.mule.runtime.extension.api.dsl.model;
 
 import static com.google.common.collect.ImmutableList.copyOf;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.dsl.model.ApplicationElement;
-import org.mule.runtime.api.dsl.model.ApplicationElementIdentifier;
+import org.mule.runtime.api.dsl.config.ComponentIdentifier;
+import org.mule.runtime.api.dsl.config.ComponentConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
@@ -23,9 +23,9 @@ import java.util.function.Function;
  * Provides a declaration of how a given {@code model} of type {@code T} is related to its
  * {@link DslElementSyntax DSL} representation.
  * <p>
- * This {@link DslElementModel} can be related to an {@link ApplicationElement} of a configuration file
- * by using the {@link #findElement} lookup with the required {@link ApplicationElementIdentifier}, and
- * thus providing a way to relate an {@link ApplicationElement} to the {@link ExtensionModel} component
+ * This {@link DslElementModel} can be related to an {@link ComponentConfiguration} of a configuration file
+ * by using the {@link #findElement} lookup with the required {@link ComponentIdentifier}, and
+ * thus providing a way to relate an {@link ComponentConfiguration} to the {@link ExtensionModel} component
  * or {@link MetadataType} it represents.
  *
  * @since 1.0
@@ -34,15 +34,16 @@ public class DslElementModel<T> {
 
   private final T model;
   private final DslElementSyntax dsl;
-  private final Set<DslElementModel> innerElements;
-  private final ApplicationElement appElement;
-  private final ApplicationElementIdentifier identifier;
+  private final Set<DslElementModel> containedElements;
+  private final ComponentConfiguration configuration;
+  private final ComponentIdentifier identifier;
 
-  private DslElementModel(T model, DslElementSyntax dsl, Set<DslElementModel> innerElements, ApplicationElement appElement) {
+  private DslElementModel(T model, DslElementSyntax dsl, Set<DslElementModel> containedElements,
+                          ComponentConfiguration configuration) {
     this.dsl = dsl;
     this.model = model;
-    this.innerElements = innerElements;
-    this.appElement = appElement;
+    this.containedElements = containedElements;
+    this.configuration = configuration;
     this.identifier = createIdentifier();
   }
 
@@ -63,37 +64,37 @@ public class DslElementModel<T> {
   /**
    * @return a {@link List} with all the child {@link DslElementModel elements}
    */
-  public List<DslElementModel> getInnerElements() {
-    return copyOf(innerElements);
+  public List<DslElementModel> getContainedElements() {
+    return copyOf(containedElements);
   }
 
   /**
-   * @return the {@link ApplicationElementIdentifier identifier} associated to
+   * @return the {@link ComponentIdentifier identifier} associated to
    * {@code this} {@link DslElementModel element}, if one was provided.
    */
-  public Optional<ApplicationElementIdentifier> getIdentifier() {
+  public Optional<ComponentIdentifier> getIdentifier() {
     return Optional.ofNullable(identifier);
   }
 
   /**
-   * @return the {@link ApplicationElement} associated to {@code this}
+   * @return the {@link ComponentConfiguration} associated to {@code this}
    * {@link DslElementModel element}, if one was provided.
    */
-  public Optional<ApplicationElement> getApplicationElement() {
-    return Optional.ofNullable(appElement);
+  public Optional<ComponentConfiguration> getConfiguration() {
+    return Optional.ofNullable(configuration);
   }
 
   /**
    * Lookup method for finding a given {@link DslElementModel} based on its
-   * {@link ApplicationElementIdentifier identifier} from {@code this} element as root.
+   * {@link ComponentIdentifier identifier} from {@code this} element as root.
    * If {@code this} {@link DslElementModel} doesn't match with the given identifier,
-   * then a DFS lookup is performed for each of its {@link #getInnerElements inner elements}.
+   * then a DFS lookup is performed for each of its {@link #getContainedElements inner elements}.
    *
-   * @param identifier the {@link ApplicationElementIdentifier} used for matching
+   * @param identifier the {@link ComponentIdentifier} used for matching
    * @return the {@link DslElementModel} associated to the given {@code identifier},
    * if one was found.
    */
-  public <E> Optional<DslElementModel<E>> findElement(ApplicationElementIdentifier identifier) {
+  public <E> Optional<DslElementModel<E>> findElement(ComponentIdentifier identifier) {
     if (this.identifier != null && this.identifier.equals(identifier)) {
       return Optional.of((DslElementModel<E>) this);
     }
@@ -105,10 +106,10 @@ public class DslElementModel<T> {
    * Lookup method for finding a given {@link DslElementModel} based on its
    * {@code parameterName} from {@code this} element as root.
    * If {@code this} {@link DslElementModel} name doesn't match with the given parameterName,
-   * then a DFS lookup is performed for each of its {@link #getInnerElements inner elements}.
+   * then a DFS lookup is performed for each of its {@link #getContainedElements inner elements}.
    * Since not all the elements may in an application may have an
    * {@link DslElementSyntax::getElementName} this lookup method may produce different results
-   * than the lookup by {@link ApplicationElementIdentifier identifier}
+   * than the lookup by {@link ComponentIdentifier identifier}
    *
    * @param parameterName the {@code parameterName} used for matching
    * @return the {@link DslElementModel} associated to the given {@code identifier},
@@ -122,23 +123,23 @@ public class DslElementModel<T> {
     return find(e -> e.findElement(parameterName));
   }
 
-  private ApplicationElementIdentifier createIdentifier() {
-    if (appElement != null) {
-      return appElement.getIdentifier();
+  private ComponentIdentifier createIdentifier() {
+    if (configuration != null) {
+      return configuration.getIdentifier();
     }
 
     if (!dsl.supportsTopLevelDeclaration() && !dsl.supportsChildDeclaration()) {
       return null;
     }
 
-    return ApplicationElementIdentifier.builder()
+    return ComponentIdentifier.builder()
         .withName(dsl.getElementName())
         .withNamespace(dsl.getNamespaceUri())
         .build();
   }
 
   private <E> Optional<DslElementModel<E>> find(Function<DslElementModel, Optional<DslElementModel>> finder) {
-    return innerElements.stream()
+    return containedElements.stream()
         .map(finder)
         .filter(Optional::isPresent)
         .map(Optional::get)
@@ -150,11 +151,11 @@ public class DslElementModel<T> {
 
     private M model;
     private DslElementSyntax dsl;
-    private Set<DslElementModel> innerElements;
-    private ApplicationElement appElement;
+    private Set<DslElementModel> contained;
+    private ComponentConfiguration configuration;
 
     private Builder() {
-      this.innerElements = new LinkedHashSet<>();
+      this.contained = new LinkedHashSet<>();
     }
 
     public Builder<M> withModel(M model) {
@@ -167,18 +168,18 @@ public class DslElementModel<T> {
       return this;
     }
 
-    public Builder<M> containing(DslElementModel inner) {
-      this.innerElements.add(inner);
+    public Builder<M> containing(DslElementModel element) {
+      this.contained.add(element);
       return this;
     }
 
-    public Builder<M> withElement(ApplicationElement element) {
-      this.appElement = element;
+    public Builder<M> withConfig(ComponentConfiguration element) {
+      this.configuration = element;
       return this;
     }
 
     public DslElementModel<M> build() {
-      return new DslElementModel<>(model, dsl, innerElements, appElement);
+      return new DslElementModel<>(model, dsl, contained, configuration);
     }
 
   }

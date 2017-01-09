@@ -7,16 +7,11 @@
 package org.mule.runtime.extension.api.dsl;
 
 import static java.util.Arrays.asList;
-import static java.util.Optional.empty;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
@@ -46,35 +41,17 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   public void enrichParameters() {
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(String.class));
 
-    ParameterModel complexParameterModel = mock(ParameterModel.class);
-    when(complexParameterModel.getName()).thenReturn(COMPLEX_PARAMETER);
-    when(complexParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
-    when(complexParameterModel.getModelProperty(any())).thenReturn(empty());
-    when(complexParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
-    when(complexParameterModel.getLayoutModel()).thenReturn(empty());
-    when(complexParameterModel.getRole()).thenReturn(BEHAVIOUR);
-    when(complexParameterModel.getType()).thenReturn(TYPE_LOADER.load(ComplexFieldsType.class));
+    ParameterModel complexParameterModel =
+        mockBehaviourParam(COMPLEX_PARAMETER, ComplexFieldsType.class);
 
     when(parameterGroupModel.getParameterModels()).thenReturn(asList(parameterModel, complexParameterModel));
 
     // Setup inline group
-    ParameterModel simpleParameterModel = mock(ParameterModel.class);
-    when(simpleParameterModel.getName()).thenReturn(SIMPLE_PARAMETER);
-    when(simpleParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
-    when(simpleParameterModel.getModelProperty(any())).thenReturn(empty());
-    when(simpleParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
-    when(simpleParameterModel.getLayoutModel()).thenReturn(empty());
-    when(simpleParameterModel.getRole()).thenReturn(BEHAVIOUR);
-    when(simpleParameterModel.getType()).thenReturn(TYPE_LOADER.load(Integer.class));
+    ParameterModel simpleParameterModel =
+        mockBehaviourParam(SIMPLE_PARAMETER, Integer.class);
 
-    ParameterModel groupedComplexParameterModel = mock(ParameterModel.class);
-    when(groupedComplexParameterModel.getName()).thenReturn(GROUPED_COMPLEX_PARAMETER);
-    when(groupedComplexParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
-    when(groupedComplexParameterModel.getModelProperty(any())).thenReturn(empty());
-    when(groupedComplexParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
-    when(groupedComplexParameterModel.getLayoutModel()).thenReturn(empty());
-    when(groupedComplexParameterModel.getRole()).thenReturn(BEHAVIOUR);
-    when(groupedComplexParameterModel.getType()).thenReturn(TYPE_LOADER.load(ComplexFieldsType.class));
+    ParameterModel groupedComplexParameterModel =
+        mockBehaviourParam(GROUPED_COMPLEX_PARAMETER, ComplexFieldsType.class);
 
     ParameterGroupModel inlineGroupModel = mock(ParameterGroupModel.class);
     when(inlineGroupModel.getName()).thenReturn(INLINE_GROUP);
@@ -107,7 +84,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getNamespace(), is(NAMESPACE));
     assertThat(result.requiresConfig(), is(true));
     assertTopElementDeclarationIs(true, result);
-    assertChildElementDeclarationIs(false, result);
+    assertChildElementDeclarationIs(true, result);
     assertAttributeDeclaration(false, result);
     assertIsWrappedElement(false, result);
 
@@ -124,7 +101,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
     assertThat(result.requiresConfig(), is(true));
-    assertChildElementDeclarationIs(false, result);
+    assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
 
     assertSimpleTypeComponentParameter(result);
@@ -140,7 +117,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
     assertThat(result.requiresConfig(), is(false));
-    assertChildElementDeclarationIs(false, result);
+    assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
 
     assertSimpleTypeComponentParameter(result);
@@ -156,7 +133,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
     assertThat(result.getNamespace(), is(NAMESPACE));
     assertThat(result.requiresConfig(), is(false));
-    assertChildElementDeclarationIs(false, result);
+    assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
 
     assertSimpleTypeComponentParameter(result);
@@ -178,8 +155,8 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
                        () -> {
                          DslElementSyntax childDsl = getAttributeDsl(PARAMETER_NAME, result);
                          assertAttributeName(PARAMETER_NAME, childDsl);
-                         assertParameterChildElementDeclaration(false, result);
-                         assertIsWrappedElement(false, result);
+                         assertParameterChildElementDeclaration(false, childDsl);
+                         assertIsWrappedElement(false, childDsl);
                        });
   }
 
