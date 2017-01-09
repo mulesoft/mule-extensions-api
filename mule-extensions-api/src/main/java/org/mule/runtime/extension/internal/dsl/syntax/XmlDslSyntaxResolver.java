@@ -246,38 +246,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     return builder.build();
   }
 
-  //private void declareInfrastructureParameter(ParameterModel parameter, DslElementSyntaxBuilder builder,
-  //                                            ParameterDslConfiguration dslConfig) {
-  //  Optional<QName> qName = parameter.getModelProperty(QNameModelProperty.class).map(QNameModelProperty::getValue);
-  //  if (!qName.isPresent()){
-  //    builder.withAttributeName(parameter.getName());
-  //    return;
-  //  }
-  //
-  //  builder.withElementName(qName.get().getLocalPart())
-  //         .withNamespace(qName.get().getPrefix(), qName.get().getNamespaceURI());
-  //
-  //  if (dslConfig.allowsReferences()){
-  //    builder.withAttributeName(parameter.getName());
-  //  } else {
-  //    builder.supportsAttributeDeclaration(false);
-  //  }
-  //
-  //  if (dslConfig.allowsInlineDefinition() || dslConfig.allowTopLevelDefinition()){
-  //    builder.supportsChildDeclaration(dslConfig.allowsInlineDefinition())
-  //      .supportsTopLevelDeclaration(dslConfig.allowTopLevelDefinition());
-  //
-  //    parameter.getType().accept(new MetadataTypeVisitor() {
-  //
-  //      @Override
-  //      public void visitObject(ObjectType objectType) {
-  //        declareFieldsAsChilds(builder, objectType.getFields(),
-  //                              qName.get().getPrefix(), qName.get().getNamespaceURI());
-  //      }
-  //    });
-  //  }
-  //}
-
   /**
    * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has
    * to be shown as an inline element of the DSL

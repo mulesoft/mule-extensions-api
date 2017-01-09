@@ -43,7 +43,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @since 1.0
  */
-public class DslSyntaxUtils {
+public final class DslSyntaxUtils {
+
+  private DslSyntaxUtils() {}
 
   public static Optional<ComponentIdentifier> getIdentifier(DslElementSyntax dsl) {
     if (dsl.supportsTopLevelDeclaration() || dsl.supportsChildDeclaration()) {
