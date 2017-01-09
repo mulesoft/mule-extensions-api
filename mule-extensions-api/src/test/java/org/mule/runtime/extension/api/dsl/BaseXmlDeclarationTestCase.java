@@ -17,6 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
@@ -135,6 +136,7 @@ public abstract class BaseXmlDeclarationTestCase {
   public void before() {
     initMocks(this);
     when(extension.getName()).thenReturn(EXTENSION_NAME);
+    when(extension.getXmlDslModel()).thenReturn(createXmlDslModel());
     when(extension.getConfigurationModels()).thenReturn(asList(configuration));
     when(extension.getConfigurationModels()).thenReturn(asList(configuration));
     when(extension.getOperationModels()).thenReturn(asList(operation));
@@ -497,6 +499,38 @@ public abstract class BaseXmlDeclarationTestCase {
     } else {
       orElse.run();
     }
+  }
+
+  protected XmlDslModel createXmlDslModel() {
+    return XmlDslModel.builder()
+        .setXsdFileName("mule-mockns.xsd")
+        .setNamespace(NAMESPACE)
+        .setNamespaceUri(NAMESPACE_URI)
+        .setSchemaLocation(SCHEMA_LOCATION)
+        .setSchemaVersion("4.0")
+        .build();
+  }
+
+  protected XmlDslModel createImportedXmlDslModel() {
+    return XmlDslModel.builder()
+        .setXsdFileName("mule-importns.xsd")
+        .setNamespace(IMPORT_NAMESPACE)
+        .setNamespaceUri(IMPORT_NAMESPACE_URI)
+        .setSchemaLocation(IMPORT_SCHEMA_LOCATION)
+        .setSchemaVersion("4.0")
+        .build();
+  }
+
+  protected ParameterModel mockBehaviourParam(String name, Class<?> clazz) {
+    ParameterModel model = mock(ParameterModel.class);
+    when(model.getName()).thenReturn(name);
+    when(model.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
+    when(model.getModelProperty(any())).thenReturn(empty());
+    when(model.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
+    when(model.getLayoutModel()).thenReturn(empty());
+    when(model.getRole()).thenReturn(BEHAVIOUR);
+    when(model.getType()).thenReturn(TYPE_LOADER.load(clazz));
+    return model;
   }
 
 

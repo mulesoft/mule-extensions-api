@@ -164,6 +164,10 @@ public class DslElementSyntax {
     return ofNullable(genericsDsl.get(type));
   }
 
+  public Map<MetadataType, DslElementSyntax> getGenerics() {
+    return genericsDsl;
+  }
+
   /**
    * @param name name of the child element for which its {@link DslElementSyntax dsl} is required
    * @return the {@link DslElementSyntax dsl} of the child if one is present
@@ -176,7 +180,7 @@ public class DslElementSyntax {
    * @return the {@link DslElementSyntax dsl} of the childs of this element
    */
   public List<DslElementSyntax> getChilds() {
-    return copyOf(containedElements.values());
+    return copyOf(childs.values());
   }
 
   /**

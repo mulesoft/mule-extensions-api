@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.dsl.syntax;
 
+import static java.util.Optional.empty;
 import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.supportsTopLevelDeclaration;
@@ -20,15 +21,17 @@ import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.runtime.api.dsl.config.ComponentIdentifier;
 import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 
@@ -40,7 +43,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @since 1.0
  */
-class DslSyntaxUtils {
+public final class DslSyntaxUtils {
+
+  private DslSyntaxUtils() {}
+
+  public static Optional<ComponentIdentifier> getIdentifier(DslElementSyntax dsl) {
+    if (dsl.supportsTopLevelDeclaration() || dsl.supportsChildDeclaration()) {
+      return Optional.of(ComponentIdentifier.builder()
+          .withName(dsl.getElementName())
+          .withNamespace(dsl.getNamespaceUri())
+          .build());
+    }
+
+    return empty();
+  }
 
   static boolean isValidBean(ObjectType objectType) {
     return isInstantiable(objectType) && !objectType.getFields().isEmpty();

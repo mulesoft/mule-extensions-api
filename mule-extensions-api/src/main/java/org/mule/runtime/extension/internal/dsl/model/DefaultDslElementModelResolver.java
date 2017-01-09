@@ -6,16 +6,16 @@
  */
 package org.mule.runtime.extension.internal.dsl.model;
 
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Stream.concat;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getIdentifier;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.runtime.api.dsl.model.ApplicationElement;
-import org.mule.runtime.api.dsl.model.ApplicationElementIdentifier;
+import org.mule.runtime.api.dsl.config.ComponentConfiguration;
+import org.mule.runtime.api.dsl.config.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
-import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -42,11 +42,11 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class DefaultElementModelResolver implements DslElementModelResolver {
+public class DefaultDslElementModelResolver implements DslElementModelResolver {
 
   private Map<ExtensionModel, DslSyntaxResolver> resolvers = new HashMap<>();
 
-  public DefaultElementModelResolver(Set<ExtensionModel> extensions) {
+  public DefaultDslElementModelResolver(Set<ExtensionModel> extensions) {
 
     final Map<String, ExtensionModel> extByName = extensions.stream()
         .collect(toMap(ExtensionModel::getName, e -> e));
@@ -59,13 +59,13 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
    * {@inheritDoc}
    */
   @Override
-  public <T> Optional<DslElementModel<T>> resolve(ApplicationElement applicationElement) {
-    return Optional.ofNullable(createIdentifiedElement(applicationElement));
+  public <T> Optional<DslElementModel<T>> resolve(ComponentConfiguration configuration) {
+    return Optional.ofNullable(createIdentifiedElement(configuration));
   }
 
-  private DslElementModel createIdentifiedElement(ApplicationElement applicationElement) {
+  private DslElementModel createIdentifiedElement(ComponentConfiguration configuration) {
 
-    final ApplicationElementIdentifier identifier = applicationElement.getIdentifier();
+    final ComponentIdentifier identifier = configuration.getIdentifier();
 
     Optional<Map.Entry<ExtensionModel, DslSyntaxResolver>> entry =
         resolvers.entrySet().stream()
@@ -88,8 +88,8 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         final DslElementSyntax elementDsl = dsl.resolve(model);
         getIdentifier(elementDsl).ifPresent(elementId -> {
           if (elementId.equals(identifier)) {
-            DslElementModel.Builder<ConfigurationModel> element = createElementModel(model, elementDsl, applicationElement);
-            addConnectionProviders(dsl, model, element, applicationElement);
+            DslElementModel.Builder<ConfigurationModel> element = createElementModel(model, elementDsl, configuration);
+            addConnectionProvider(extension, model, dsl, element, configuration);
             elementModel.set(element.build());
             stop();
           }
@@ -102,7 +102,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         final DslElementSyntax elementDsl = dsl.resolve(model);
         getIdentifier(elementDsl).ifPresent(elementId -> {
           if (elementId.equals(identifier)) {
-            elementModel.set(createElementModel(model, elementDsl, applicationElement).build());
+            elementModel.set(createElementModel(model, elementDsl, configuration).build());
             stop();
           }
         });
@@ -113,7 +113,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         final DslElementSyntax elementDsl = dsl.resolve(model);
         getIdentifier(elementDsl).ifPresent(elementId -> {
           if (elementId.equals(identifier)) {
-            elementModel.set(createElementModel(model, elementDsl, applicationElement).build());
+            elementModel.set(createElementModel(model, elementDsl, configuration).build());
             stop();
           }
         });
@@ -122,7 +122,7 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
     }.walk(extension);
 
     if (elementModel.get() == null) {
-      resolveBasedOnTypes(extension, dsl, identifier)
+      resolveBasedOnTypes(extension, dsl, configuration)
           .ifPresent(elementModel::set);
     }
 
@@ -130,16 +130,17 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
   }
 
   private Optional<DslElementModel<ObjectType>> resolveBasedOnTypes(ExtensionModel extension, DslSyntaxResolver dsl,
-                                                                    ApplicationElementIdentifier identifier) {
+                                                                    ComponentConfiguration configuration) {
     return extension.getTypes().stream()
         .map(type -> {
           Optional<DslElementSyntax> typeDsl = dsl.resolve(type);
           if (typeDsl.isPresent()) {
-            Optional<ApplicationElementIdentifier> elementIdentifier = getIdentifier(typeDsl.get());
-            if (elementIdentifier.isPresent() && elementIdentifier.get().equals(identifier)) {
+            Optional<ComponentIdentifier> elementIdentifier = getIdentifier(typeDsl.get());
+            if (elementIdentifier.isPresent() && elementIdentifier.get().equals(configuration.getIdentifier())) {
               return DslElementModel.<ObjectType>builder()
                   .withModel(type)
                   .withDsl(typeDsl.get())
+                  .withConfig(configuration)
                   .build();
             }
           }
@@ -148,44 +149,47 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         .findFirst();
   }
 
-  private DslElementModel.Builder<ConfigurationModel> addConnectionProviders(DslSyntaxResolver dsl, ConfigurationModel model,
-                                                                             DslElementModel.Builder<ConfigurationModel> element,
-                                                                             ApplicationElement applicationElement) {
-    for (ConnectionProviderModel provider : model.getConnectionProviders()) {
-      DslElementSyntax providerDsl = dsl.resolve(provider);
-      ApplicationElementIdentifier identifier = getIdentifier(providerDsl).orElse(null);
-      Optional<ApplicationElement> providerComponent =
-          applicationElement.getInnerComponents().stream()
-              .filter(c -> c.getIdentifier().equals(identifier))
-              .findFirst();
+  private DslElementModel.Builder<ConfigurationModel> addConnectionProvider(ExtensionModel extension,
+                                                                            ConfigurationModel model,
+                                                                            DslSyntaxResolver dsl,
+                                                                            DslElementModel.Builder<ConfigurationModel> element,
+                                                                            ComponentConfiguration configuration) {
 
-      if (providerComponent.isPresent()) {
-        element.containing(createElementModel(provider, providerDsl, providerComponent.get()).build());
-        break;
-      }
-    }
+    concat(model.getConnectionProviders().stream(), extension.getConnectionProviders()
+        .stream())
+            .map(provider -> {
+              DslElementSyntax providerDsl = dsl.resolve(provider);
+              ComponentIdentifier identifier = getIdentifier(providerDsl).orElse(null);
+              return configuration.getNestedComponents().stream()
+                  .filter(c -> c.getIdentifier().equals(identifier))
+                  .findFirst()
+                  .map(providerConfig -> element.containing(createElementModel(provider, providerDsl, providerConfig).build()))
+                  .orElse(null);
+            })
+            .filter(Objects::nonNull)
+            .findFirst();
 
     return element;
   }
 
   private <T extends ParameterizedModel> DslElementModel.Builder<T> createElementModel(T model, DslElementSyntax elementDsl,
-                                                                                       ApplicationElement applicationElement) {
+                                                                                       ComponentConfiguration configuration) {
     DslElementModel.Builder<T> builder = DslElementModel.builder();
     builder.withModel(model)
         .withDsl(elementDsl)
-        .withElement(applicationElement);
+        .withConfig(configuration);
 
-    populateParameterizedElements(model, elementDsl, builder, applicationElement);
+    populateParameterizedElements(model, elementDsl, builder, configuration);
     return builder;
   }
 
   private void populateParameterizedElements(ParameterizedModel model, DslElementSyntax elementDsl,
-                                             DslElementModel.Builder builder, ApplicationElement applicationElement) {
+                                             DslElementModel.Builder builder, ComponentConfiguration configuration) {
 
-    Map<ApplicationElementIdentifier, ApplicationElement> innerComponents = applicationElement.getInnerComponents().stream()
-        .collect(toMap(ApplicationElement::getIdentifier, e -> e));
+    Map<ComponentIdentifier, ComponentConfiguration> innerComponents = configuration.getNestedComponents().stream()
+        .collect(toMap(ComponentConfiguration::getIdentifier, e -> e));
 
-    Map<String, String> parameters = applicationElement.getParameters();
+    Map<String, String> parameters = configuration.getParameters();
 
     List<ParameterModel> inlineGroupedParameters = model.getParameterGroupModels().stream()
         .filter(ParameterGroupModel::isShowInDsl)
@@ -198,15 +202,17 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         .forEach(p -> addElementParameter(innerComponents, parameters, elementDsl, builder, p));
   }
 
-  private void addInlineGroup(DslElementSyntax elementDsl, Map<ApplicationElementIdentifier, ApplicationElement> innerComponents,
+  private void addInlineGroup(DslElementSyntax elementDsl, Map<ComponentIdentifier, ComponentConfiguration> innerComponents,
                               Map<String, String> parameters, ParameterGroupModel group) {
     elementDsl.getChild(group.getName())
         .ifPresent(groupDsl -> {
-          ApplicationElement groupComponent = getIdentifier(groupDsl).map(innerComponents::get).orElse(null);
+          ComponentConfiguration groupComponent = getIdentifier(groupDsl).map(innerComponents::get).orElse(null);
 
           if (groupComponent != null) {
-            DslElementModel.Builder<ParameterGroupModel> groupElementBuilder = DslElementModel.builder();
-            groupElementBuilder.withModel(group).withDsl(groupDsl);
+            DslElementModel.Builder<ParameterGroupModel> groupElementBuilder = DslElementModel.<ParameterGroupModel>builder()
+                .withModel(group)
+                .withDsl(groupDsl)
+                .withConfig(groupComponent);
 
             group.getParameterModels()
                 .forEach(p -> addElementParameter(innerComponents, parameters, groupDsl, groupElementBuilder, p));
@@ -214,13 +220,14 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
         });
   }
 
-  private void addElementParameter(Map<ApplicationElementIdentifier, ApplicationElement> innerComponents,
+  private void addElementParameter(Map<ComponentIdentifier, ComponentConfiguration> innerComponents,
                                    Map<String, String> parameters,
                                    DslElementSyntax groupDsl, DslElementModel.Builder<ParameterGroupModel> groupElementBuilder,
                                    ParameterModel p) {
+
     groupDsl.getContainedElement(p.getName())
         .ifPresent(pDsl -> {
-          ApplicationElement paramComponent = getIdentifier(pDsl).map(innerComponents::get).orElse(null);
+          ComponentConfiguration paramComponent = getIdentifier(pDsl).map(innerComponents::get).orElse(null);
 
           if (!pDsl.isWrapped()) {
             String paramValue = pDsl.supportsAttributeDeclaration() ? parameters.get(pDsl.getAttributeName()) : null;
@@ -228,8 +235,12 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
               DslElementModel.Builder<ParameterModel> paramElement =
                   DslElementModel.<ParameterModel>builder().withModel(p).withDsl(pDsl);
 
-              if (paramComponent != null && paramComponent.getInnerComponents().size() > 0) {
-                paramComponent.getInnerComponents().forEach(c -> this.resolve(c).ifPresent(paramElement::containing));
+              if (paramComponent != null) {
+                paramElement.withConfig(paramComponent);
+
+                if (paramComponent.getNestedComponents().size() > 0) {
+                  paramComponent.getNestedComponents().forEach(c -> this.resolve(c).ifPresent(paramElement::containing));
+                }
               }
 
               groupElementBuilder.containing(paramElement.build());
@@ -242,13 +253,13 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
   }
 
   private void resolveWrappedElement(DslElementModel.Builder<ParameterGroupModel> groupElementBuilder, ParameterModel p,
-                                     DslElementSyntax pDsl, ApplicationElement paramComponent) {
+                                     DslElementSyntax pDsl, ComponentConfiguration paramComponent) {
     if (paramComponent != null) {
       DslElementModel.Builder<ParameterModel> paramElement =
-          DslElementModel.<ParameterModel>builder().withModel(p).withDsl(pDsl);
+          DslElementModel.<ParameterModel>builder().withModel(p).withDsl(pDsl).withConfig(paramComponent);
 
-      if (paramComponent.getInnerComponents().size() > 0) {
-        ApplicationElement wrappedComponent = paramComponent.getInnerComponents().get(0);
+      if (paramComponent.getNestedComponents().size() > 0) {
+        ComponentConfiguration wrappedComponent = paramComponent.getNestedComponents().get(0);
         this.resolve(wrappedComponent).ifPresent(paramElement::containing);
       }
 
@@ -256,14 +267,4 @@ public class DefaultElementModelResolver implements DslElementModelResolver {
     }
   }
 
-  private Optional<ApplicationElementIdentifier> getIdentifier(DslElementSyntax dsl) {
-    if (dsl.supportsTopLevelDeclaration() || dsl.supportsChildDeclaration()) {
-      return Optional.of(ApplicationElementIdentifier.builder()
-          .withName(dsl.getElementName())
-          .withNamespace(dsl.getNamespaceUri())
-          .build());
-    }
-
-    return empty();
-  }
 }
