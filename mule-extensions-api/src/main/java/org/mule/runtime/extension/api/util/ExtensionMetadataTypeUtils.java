@@ -11,14 +11,12 @@ import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.lang.reflect.Modifier;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Set of utility operations to handle {@link MetadataType}
@@ -66,19 +64,6 @@ public final class ExtensionMetadataTypeUtils {
     } catch (Exception e) {
       return "";
     }
-  }
-
-  public static boolean isBasic(MetadataType type) {
-    AtomicReference<Boolean> basic = new AtomicReference<>(false);
-    type.accept(new BasicTypeMetadataVisitor() {
-
-      @Override
-      protected void visitBasicType(MetadataType metadataType) {
-        basic.set(true);
-      }
-    });
-
-    return basic.get();
   }
 
   /**
