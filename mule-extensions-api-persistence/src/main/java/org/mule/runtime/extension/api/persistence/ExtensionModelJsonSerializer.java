@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.persistence;
 import static java.util.Collections.emptySet;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.internal.utils.MetadataTypeUtils;
+import org.mule.metadata.api.utils.MetadataTypeUtils;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;

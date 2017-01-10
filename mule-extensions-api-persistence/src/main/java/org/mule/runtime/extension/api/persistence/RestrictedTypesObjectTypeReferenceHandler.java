@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Optional.empty;
-import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
