@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.dsl.syntax;
 
 import static java.util.Optional.empty;
-import static org.mule.metadata.internal.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.supportsTopLevelDeclaration;
 import org.mule.metadata.api.model.AnyType;
