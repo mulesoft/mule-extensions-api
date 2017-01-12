@@ -23,14 +23,14 @@ import java.util.List;
  *
  * @since 1.0
  */
-public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJsonSerializer {
+public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJsonSerializer<TypeMetadataDescriptor> {
 
   public EntityMetadataResultJsonSerializer(boolean prettyPrint) {
     super(prettyPrint);
   }
 
   @Override
-  public String serialize(MetadataResult result) {
+  public String serialize(MetadataResult<TypeMetadataDescriptor> result) {
     return gson.toJson(new EntityMetadataResult(result));
   }
 

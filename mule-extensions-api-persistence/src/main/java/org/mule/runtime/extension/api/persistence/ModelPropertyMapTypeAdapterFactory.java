@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
-final class ModelPropertyMapTypeAdapterFactory implements TypeAdapterFactory {
+public final class ModelPropertyMapTypeAdapterFactory implements TypeAdapterFactory {
 
   private final Type mapType = new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>() {}.getType();
   private final Type hierarchyClassMapType = new TypeToken<HierarchyClassMap<ModelProperty>>() {}.getType();

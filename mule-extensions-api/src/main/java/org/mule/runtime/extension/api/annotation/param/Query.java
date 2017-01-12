@@ -8,11 +8,11 @@ package org.mule.runtime.extension.api.annotation.param;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
-import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.extension.api.dsql.QueryTranslator;
-import org.mule.runtime.extension.api.metadata.NullQueryOutputMetadataResolver;
+import org.mule.runtime.extension.api.metadata.NullQueryMetadataResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -48,8 +48,8 @@ public @interface Query {
    * the Native Query Language. This way the developer can resolved metadata for complex cases when DSQL is
    * not used.
    * <p>
-   * For default the {@link NullQueryOutputMetadataResolver} implementation is used, returning an empty set of entities
-   * and null metadata type as the entity structure.
+   * For default the {@link NullQueryMetadataResolver} implementation is used, returning an empty set of entities
+   * and a void metadata type as the entity structure.
    */
-  Class<? extends OutputTypeResolver<String>> nativeOutputResolver() default NullQueryOutputMetadataResolver.class;
+  Class<? extends OutputTypeResolver<String>> nativeOutputResolver() default NullQueryMetadataResolver.class;
 }
