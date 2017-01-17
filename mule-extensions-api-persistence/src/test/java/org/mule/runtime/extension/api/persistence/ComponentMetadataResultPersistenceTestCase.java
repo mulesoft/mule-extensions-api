@@ -15,7 +15,6 @@ import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.ne
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.metadata.ComponentResultJsonSerializer;
@@ -46,7 +45,7 @@ public class ComponentMetadataResultPersistenceTestCase extends AbstractMetadata
   public void serializeFailureMetadataResult() throws IOException {
 
     MetadataResult<ComponentMetadataDescriptor<ComponentModel>> failureResult =
-        failure(new ImmutableComponentMetadataDescriptor<>(null, attributes), newFailure()
+        failure(ComponentMetadataDescriptor.builder(null).withAttributes(attributes).build(), newFailure()
             .withMessage(FIRST_ERROR_MESSAGE)
             .withFailureCode(CONNECTION_FAILURE)
             .withReason(METADATA_RESULT_ERROR_MESSAGE)

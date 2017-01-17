@@ -19,9 +19,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.metadata.DefaultMetadataKey;
-import org.mule.runtime.api.metadata.MetadataAttributes;
 import org.mule.runtime.api.metadata.MetadataKey;
-import org.mule.runtime.api.metadata.descriptor.ImmutableMetadataAttributes;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
@@ -42,7 +40,7 @@ import com.google.gson.GsonBuilder;
  *
  * @since 1.0
  */
-public abstract class AbstractMetadataResultJsonSerializer<T> {
+abstract class AbstractMetadataResultJsonSerializer<T> {
 
   protected final Gson gson;
 
@@ -66,8 +64,6 @@ public abstract class AbstractMetadataResultJsonSerializer<T> {
         new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
     final DefaultImplementationTypeAdapterFactory<MetadataKey, DefaultMetadataKey> metadataKeyTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(MetadataKey.class, DefaultMetadataKey.class);
-    final DefaultImplementationTypeAdapterFactory<MetadataAttributes, ImmutableMetadataAttributes> metadataAttributesTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(MetadataAttributes.class, ImmutableMetadataAttributes.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
@@ -76,7 +72,6 @@ public abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentResultTypeAdapterFactory())
         .registerTypeAdapterFactory(metadataKeyTypeAdapter)
-        .registerTypeAdapterFactory(metadataAttributesTypeAdapter)
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

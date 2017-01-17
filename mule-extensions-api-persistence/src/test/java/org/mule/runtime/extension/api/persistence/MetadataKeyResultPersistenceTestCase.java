@@ -15,17 +15,14 @@ import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED
 import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.newFailure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
-import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeyBuilder;
 import org.mule.runtime.api.metadata.MetadataKeysContainer;
 import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
-import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.api.metadata.resolving.NamedTypeResolver;
-import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.persistence.metadata.EntityMetadataResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
 
@@ -43,7 +40,6 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "metadata/success-result-multilevel-keys.json";
   private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
   private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "metadata/failure-entity-result.json";
-  private static final String METADATA_WITHOUT_INPUT_FAILURE_JSON = "metadata/failure-no-dynamic-metadata-available.json";
 
   private static final String FIRST_KEY_ID = "firstKey";
   private static final String SECOND_KEY_ID = "secondKey";
@@ -51,7 +47,6 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   private static final String FIRST_CHILD = "firstChild";
   private static final String SECOND_CHILD = "secondChild";
 
-  private TypeMetadataDescriptor typeMetadataDescriptor;
   private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
   private final EntityMetadataResultJsonSerializer typeDescriptorResultJsonSerializer =
       new EntityMetadataResultJsonSerializer(true);
@@ -62,7 +57,6 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   @Before
   public void setup() {
     super.setUp();
-    typeMetadataDescriptor = buildTestTypeMetadataDescriptor();
     builder = MetadataKeysContainerBuilder.getInstance();
   }
 
@@ -142,10 +136,5 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     assertThat(metadataFailure.getReason(), is(METADATA_RESULT_ERROR_MESSAGE));
     assertThat(metadataFailure.getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
     assertThat(metadataFailure.getFailureCode().getName(), is(NOT_AUTHORIZED.getName()));
-  }
-
-  private TypeMetadataDescriptor buildTestTypeMetadataDescriptor() {
-    final ClassTypeLoader javaTypeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-    return new ImmutableTypeMetadataDescriptor(javaTypeLoader.load(String.class), false);
   }
 }

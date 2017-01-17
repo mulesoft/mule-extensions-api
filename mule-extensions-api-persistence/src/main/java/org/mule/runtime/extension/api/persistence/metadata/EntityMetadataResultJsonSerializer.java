@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.persistence.metadata;
 
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
-import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
@@ -48,8 +47,6 @@ public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJs
    */
   private class EntityMetadataResult {
 
-    private final static String ENTITIES = "ENTITIES";
-
     private final TypeMetadata entity;
     private final List<MetadataFailure> failures;
 
@@ -63,7 +60,11 @@ public class EntityMetadataResultJsonSerializer extends AbstractMetadataResultJs
     }
 
     MetadataResult<TypeMetadataDescriptor> toEntityMetadataResult() {
-      TypeMetadataDescriptor result = new ImmutableTypeMetadataDescriptor(entity != null ? entity.getType() : null, true);
+      if (entity == null) {
+        return failure(failures);
+      }
+
+      TypeMetadataDescriptor result = TypeMetadataDescriptor.builder().withType(entity.getType()).build();
       return failures.isEmpty() ? success(result) : failure(result, failures);
     }
   }

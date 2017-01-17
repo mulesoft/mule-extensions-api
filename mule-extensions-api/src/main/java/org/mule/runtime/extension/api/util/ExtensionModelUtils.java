@@ -25,19 +25,28 @@ import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.HasSourceModels;
+import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
+import org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
+import org.mule.runtime.extension.api.model.ImmutableOutputModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -224,6 +233,49 @@ public class ExtensionModelUtils {
 
   public static Map<ObjectType, Set<ObjectType>> toSubTypesMap(Collection<SubTypesModel> subTypes) {
     return subTypes.stream().collect(toMap(SubTypesModel::getBaseType, SubTypesModel::getSubTypes));
+  }
+
+  public static OutputModel resolveOutputModelType(OutputModel untypedModel, TypeMetadataDescriptor typeMetadataDescriptor) {
+    return new ImmutableOutputModel(untypedModel.getDescription(), typeMetadataDescriptor.getType(),
+                                    typeMetadataDescriptor.isDynamic(), untypedModel.getModelProperties());
+  }
+
+  public static List<ParameterGroupModel> resolveParameterGroupModelType(List<ParameterGroupModel> untypedParameterGroups,
+                                                                         Map<String, ParameterMetadataDescriptor> inputTypeDescriptors) {
+    List<ParameterGroupModel> parameterGroups = new LinkedList<>();
+    untypedParameterGroups.stream().forEach(parameterGroup -> {
+      List<ParameterModel> parameters = new LinkedList<>();
+      parameterGroup.getParameterModels().forEach(parameterModel -> {
+        ParameterMetadataDescriptor parameterMetadataDescriptor = inputTypeDescriptors.get(parameterModel.getName());
+        ParameterModel typedParameterModel =
+            new ImmutableParameterModel(parameterModel.getName(), parameterModel.getDescription(),
+                                        parameterMetadataDescriptor.getType(),
+                                        parameterMetadataDescriptor.isDynamic(), parameterModel.isRequired(),
+                                        parameterModel.getExpressionSupport(),
+                                        parameterModel.getDefaultValue(), parameterModel.getRole(),
+                                        parameterModel.getDslConfiguration(), parameterModel.getDisplayModel().orElse(null),
+                                        parameterModel.getLayoutModel().orElse(null), parameterModel.getModelProperties());
+        parameters.add(typedParameterModel);
+      });
+
+      parameterGroups
+          .add(new ImmutableParameterGroupModel(parameterGroup.getName(), parameterGroup.getDescription(), parameters,
+                                                parameterGroup.getExclusiveParametersModels(),
+                                                parameterGroup.isShowInDsl(), parameterGroup.getDisplayModel().orElse(null),
+                                                parameterGroup.getLayoutModel().orElse(null),
+                                                parameterGroup.getModelProperties()));
+    });
+    return parameterGroups;
+  }
+
+  public static Optional<SourceCallbackModel> resolveSourceCallbackType(Optional<SourceCallbackModel> sourceCallbackModel,
+                                                                        Map<String, ParameterMetadataDescriptor> inputTypeDescriptors) {
+    return sourceCallbackModel.map(cb -> new ImmutableSourceCallbackModel(cb.getName(), cb.getDescription(),
+                                                                          resolveParameterGroupModelType(cb
+                                                                              .getParameterGroupModels(),
+                                                                                                         inputTypeDescriptors),
+                                                                          cb.getDisplayModel().orElse(null),
+                                                                          cb.getModelProperties()));
   }
 
 }

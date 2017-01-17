@@ -16,9 +16,8 @@ import com.google.gson.reflect.TypeToken;
  * 
  * @since 1.0
  */
-public final class ComponentResultTypeAdapterFactory
+final class ComponentResultTypeAdapterFactory
     implements TypeAdapterFactory {
-
 
   @Override
   public <C> TypeAdapter<C> create(Gson gson, TypeToken<C> type) {

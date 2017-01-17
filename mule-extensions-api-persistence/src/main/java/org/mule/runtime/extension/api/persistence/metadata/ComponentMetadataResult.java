@@ -13,14 +13,13 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.metadata.MetadataAttributes;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
 import java.util.List;
 import java.util.Objects;
 
-public class ComponentMetadataResult<T extends ComponentModel>
+class ComponentMetadataResult<T extends ComponentModel>
     implements Descriptable<MetadataResult<ComponentMetadataDescriptor<T>>> {
 
   static final String TYPE = "type";
@@ -75,7 +74,8 @@ public class ComponentMetadataResult<T extends ComponentModel>
 
   @Override
   public MetadataResult<ComponentMetadataDescriptor<T>> toDescriptor() {
-    ComponentMetadataDescriptor<T> descriptor = new ImmutableComponentMetadataDescriptor<>(model, metadataAttributes);
+    ComponentMetadataDescriptor<T> descriptor =
+        ComponentMetadataDescriptor.builder(model).withAttributes(metadataAttributes).build();
     return failures.isEmpty() ? success(descriptor) : failure(descriptor, failures);
   }
 }

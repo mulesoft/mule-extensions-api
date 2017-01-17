@@ -36,6 +36,11 @@ public interface MetadataResolverFactory {
    */
   <T> InputTypeResolver<T> getInputResolver(String parameterName);
 
+  /**
+   * Provides all the {@link InputTypeResolver} associated to the parameters of the Component.
+   * 
+   * @return a {@link Collection} of {@link InputTypeResolver}
+   */
   Collection<InputTypeResolver> getInputResolvers();
 
   /**

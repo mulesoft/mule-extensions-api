@@ -17,7 +17,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-public class FailureCodeTypeAdapterFactory implements TypeAdapterFactory {
+class FailureCodeTypeAdapterFactory implements TypeAdapterFactory {
 
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {

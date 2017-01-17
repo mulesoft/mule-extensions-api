@@ -14,8 +14,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class MetadataResolverUtils {
+/**
+ * Helper methods for the {@link MetadataResolverFactory}
+ * 
+ * @since 1.0
+ */
+public abstract class MetadataResolverUtils {
 
+  private MetadataResolverUtils() {}
+
+  /**
+   * Returns the first not blank category name from declared resolvers
+   */
   public static Optional<String> getCategoryName(MetadataResolverFactory metadataResolverFactory) {
     return getDeclaredResolvers(metadataResolverFactory).stream()
         .map(NamedTypeResolver::getCategoryName)
@@ -24,6 +34,9 @@ public class MetadataResolverUtils {
 
   }
 
+  /**
+   * Returns all the resolvers from the factory
+   */
   public static List<NamedTypeResolver> getAllResolvers(MetadataResolverFactory metadataResolverFactory) {
     List<NamedTypeResolver> resolvers = new LinkedList<>();
     resolvers.add(metadataResolverFactory.getKeyResolver());
@@ -35,12 +48,18 @@ public class MetadataResolverUtils {
     return resolvers;
   }
 
+  /**
+   * Returns a list of all the factory resolvers which are not {@link MetadataResolverUtils#isNullResolver(NamedTypeResolver)}
+   */
   public static List<NamedTypeResolver> getDeclaredResolvers(MetadataResolverFactory metadataResolverFactory) {
     return getAllResolvers(metadataResolverFactory).stream()
         .filter(r -> !isNullResolver(r))
         .collect(toList());
   }
 
+  /**
+   * Determines whether a resolver is a null resolver implementation or not.
+   */
   public static boolean isNullResolver(NamedTypeResolver resolver) {
     return resolver.getClass().equals(NullMetadataResolver.class)
         || resolver.getClass().equals(NullQueryMetadataResolver.class);

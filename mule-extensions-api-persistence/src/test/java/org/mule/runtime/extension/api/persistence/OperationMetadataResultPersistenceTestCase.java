@@ -11,7 +11,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.metadata.ComponentResultJsonSerializer;
 
@@ -52,6 +51,6 @@ public class OperationMetadataResultPersistenceTestCase extends AbstractMetadata
   }
 
   private ComponentMetadataDescriptor<OperationModel> buildTestOperationMetadataDescriptor() {
-    return new ImmutableComponentMetadataDescriptor<>(getCarOperation, attributes);
+    return ComponentMetadataDescriptor.builder(getCarOperation).withAttributes(attributes).build();
   }
 }

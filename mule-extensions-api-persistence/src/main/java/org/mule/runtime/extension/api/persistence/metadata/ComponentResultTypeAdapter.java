@@ -17,8 +17,6 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.metadata.MetadataAttributes;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableComponentMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.ImmutableMetadataAttributes;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 
 import com.google.gson.Gson;
@@ -41,11 +39,11 @@ import java.util.List;
  */
 class ComponentResultTypeAdapter extends TypeAdapter<ComponentMetadataResult> {
 
-  public static final String METADATA_ATTRIBUTES = "metadataAttributes";
-  public static final String FAILURES = "failures";
+  private static final String METADATA_ATTRIBUTES = "metadataAttributes";
+  private static final String FAILURES = "failures";
   private final Gson gson;
 
-  public ComponentResultTypeAdapter(Gson gson) {
+  ComponentResultTypeAdapter(Gson gson) {
     this.gson = gson;
   }
 
@@ -59,7 +57,7 @@ class ComponentResultTypeAdapter extends TypeAdapter<ComponentMetadataResult> {
     out.endArray();
 
     out.name(METADATA_ATTRIBUTES);
-    gson.toJson(result.getMetadataAttributes(), new TypeToken<ImmutableMetadataAttributes>() {}.getType(), out);
+    gson.toJson(result.getMetadataAttributes(), new TypeToken<MetadataAttributes>() {}.getType(), out);
 
     if (result.isOperation()) {
       out.name(TYPE).value(OPERATION);
@@ -101,8 +99,9 @@ class ComponentResultTypeAdapter extends TypeAdapter<ComponentMetadataResult> {
     }
 
     MetadataAttributes attributes = gson.fromJson(json.get(METADATA_ATTRIBUTES).getAsJsonObject(),
-                                                  new TypeToken<ImmutableMetadataAttributes>() {}.getType());
+                                                  new TypeToken<MetadataAttributes>() {}.getType());
 
-    return new ComponentMetadataResult(success(new ImmutableComponentMetadataDescriptor<>(model, attributes)));
+
+    return new ComponentMetadataResult(success(ComponentMetadataDescriptor.builder(model).withAttributes(attributes).build()));
   }
 }

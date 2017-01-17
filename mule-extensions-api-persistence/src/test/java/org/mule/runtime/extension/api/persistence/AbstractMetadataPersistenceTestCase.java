@@ -11,12 +11,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
-import static org.mule.runtime.api.metadata.MetadataKeysContainerBuilder.*;
-import static org.mule.runtime.api.metadata.descriptor.builder.MetadataDescriptorBuilder.attributesBuilder;
-import org.mule.runtime.api.metadata.MetadataAttributes;
+import static org.mule.runtime.api.metadata.MetadataKeysContainerBuilder.getInstance;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
-import org.mule.runtime.api.metadata.descriptor.builder.MetadataAttributesBuilder;
+import org.mule.runtime.api.metadata.MetadataAttributes;
 import org.mule.runtime.api.metadata.resolving.NamedTypeResolver;
 
 import org.junit.Before;
@@ -45,14 +43,13 @@ public class AbstractMetadataPersistenceTestCase extends BasePersistenceTestCase
 
 
   protected MetadataAttributes getMetadataAttributes() {
-    MetadataAttributesBuilder metadataAttributesBuilder = attributesBuilder()
+    return MetadataAttributes.builder()
         .withParameterResolver(CAR_NAME_PARAMETER_NAME, RESOLVER_NAME)
         .withCategoryName(CATEGORY_NAME)
         .withKey(key)
         .withOutputResolver(OUTPUT_RESOLVER_NAME)
-        .withOutputAttributesResolver(OUTPUT_RESOLVER_NAME);
-
-    return metadataAttributesBuilder.build();
+        .withOutputAttributesResolver(OUTPUT_RESOLVER_NAME)
+        .build();
   }
 
   protected void assertMetadataAttributes(MetadataAttributes metadataAttributes, MetadataAttributes expectedAttributes) {

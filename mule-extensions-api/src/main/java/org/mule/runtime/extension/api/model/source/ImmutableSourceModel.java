@@ -8,6 +8,9 @@ package org.mule.runtime.extension.api.model.source;
 
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveOutputModelType;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveParameterGroupModelType;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveSourceCallbackType;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -15,6 +18,8 @@ import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.metadata.descriptor.InputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
@@ -26,7 +31,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel {
+public class ImmutableSourceModel extends AbstractComponentModel<SourceModel> implements SourceModel {
 
   private final boolean hasResponse;
   private final SourceCallbackModel successCallback;
@@ -97,5 +102,28 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
   @Override
   public Set<ErrorModel> getErrorModels() {
     return emptySet();
+  }
+
+  @Override
+  public SourceModel getTypedModel(InputMetadataDescriptor inputMetadataDescriptor,
+                                   OutputMetadataDescriptor outputMetadataDescriptor) {
+    OutputModel typedOutputModel = resolveOutputModelType(getOutput(), outputMetadataDescriptor.getPayloadMetadata());
+    OutputModel typedAttributesModel =
+        resolveOutputModelType(getOutputAttributes(), outputMetadataDescriptor.getAttributesMetadata());
+
+    return new ImmutableSourceModel(getName(), getDescription(), hasResponse(),
+                                    resolveParameterGroupModelType(getParameterGroupModels(),
+                                                                   inputMetadataDescriptor
+                                                                       .getAllParameters()),
+                                    typedOutputModel, typedAttributesModel,
+                                    resolveSourceCallbackType(getSuccessCallback(),
+                                                              inputMetadataDescriptor.getAllParameters()),
+                                    resolveSourceCallbackType(getErrorCallback(),
+                                                              inputMetadataDescriptor.getAllParameters()),
+                                    requiresConnection(),
+                                    isTransactional(),
+                                    getDisplayModel().orElse(null),
+                                    getModelProperties());
+
   }
 }

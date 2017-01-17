@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.persistence.metadata;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.metadata.descriptor.ImmutableTypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 
 /**
@@ -34,7 +33,7 @@ class TypeMetadata {
   }
 
   TypeMetadataDescriptor toDescriptor() {
-    return new ImmutableTypeMetadataDescriptor(type, isDynamic);
+    return TypeMetadataDescriptor.builder().withType(type).dynamic(isDynamic).build();
   }
 
 }

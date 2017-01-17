@@ -13,9 +13,9 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
  *
  * @since 1.0
  */
-public class ExtensionModelSerializationException extends RuntimeException {
+class ExtensionModelSerializationException extends RuntimeException {
 
-  public ExtensionModelSerializationException(String message, Exception cause) {
+  ExtensionModelSerializationException(String message, Exception cause) {
     super(message, cause);
   }
 }
