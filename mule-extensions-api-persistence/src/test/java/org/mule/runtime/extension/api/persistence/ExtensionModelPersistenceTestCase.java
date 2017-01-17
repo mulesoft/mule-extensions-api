@@ -26,6 +26,7 @@ import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataFormat;
@@ -34,6 +35,7 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
@@ -163,6 +165,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                              "Basic Auth Config",
                                              asParameterGroup(usernameParameter, passwordParameter, objectMap),
                                              NONE,
+                                             externalLibrarySet(),
                                              defaultDisplayModel,
                                              emptySet());
 
@@ -188,7 +191,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
                                     singletonList(basicAuth), singletonList(sourceModel),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), singleton(exportedType), emptySet(), emptySet(), singleton(ERROR_MODEL),
-                                    emptySet());
+                                    externalLibrarySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =
@@ -296,6 +299,13 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
       typesSet.add(next.getAsJsonObject().getAsJsonObject("annotations").get("typeId").getAsString());
     }
     return typesSet;
+  }
+
+  private Set<ExternalLibraryModel> externalLibrarySet() {
+    Set<ExternalLibraryModel> externalLibraryModels = new HashSet<>();
+    externalLibraryModels.add(EXTERNAL_LIBRARY_MODEL);
+
+    return externalLibraryModels;
   }
 
   private List<ParameterGroupModel> asParameterGroup(ParameterModel... parameters) {
