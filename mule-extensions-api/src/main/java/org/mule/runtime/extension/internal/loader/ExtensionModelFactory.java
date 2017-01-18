@@ -216,6 +216,7 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getResources(),
                                       extensionDeclaration.getImportedTypes(),
                                       extensionDeclaration.getErrorModels(),
+                                      extensionDeclaration.getExternalLibraryModels(),
                                       extensionDeclaration.getModelProperties());
 
       return extensionModel;
@@ -256,6 +257,7 @@ public final class ExtensionModelFactory {
                                                              toOperations(declaration.getOperations()),
                                                              toConnectionProviders(declaration.getConnectionProviders()),
                                                              toMessageSources(declaration.getMessageSources()),
+                                                             declaration.getExternalLibraryModels(),
                                                              declaration.getDisplayModel(),
                                                              declaration.getModelProperties()));
     }
@@ -324,6 +326,7 @@ public final class ExtensionModelFactory {
                                                                   declaration.getDescription(),
                                                                   toParameterGroups(declaration.getParameterGroups()),
                                                                   declaration.getConnectionManagementType(),
+                                                                  declaration.getExternalLibraryModels(),
                                                                   declaration.getDisplayModel(),
                                                                   declaration.getModelProperties()));
     }

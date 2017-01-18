@@ -34,6 +34,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.DEFAULT_PORT;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTENSION_MODEL_PROPERTY;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.GO_GET_THEM_TIGER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.HAS_NO_ARGS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.LISTENER;
@@ -70,6 +71,7 @@ import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.VoidType;
+import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
@@ -121,6 +123,8 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(extensionDeclaration.getVendor(), is(MULESOFT));
     assertThat(extensionDeclaration.getMinMuleVersion(), is(MIN_MULE_VERSION));
     assertThat(extensionDeclaration.getCategory(), is(SELECT));
+
+    assertExternalLibraries(extensionDeclaration.getExternalLibraryModels());
     assertModelProperties(extensionDeclaration, EXTENSION_MODEL_PROPERTY);
   }
 
@@ -141,6 +145,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertParameter(parameters.get(3), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true, typeLoader.load(String.class),
                     null);
 
+    assertExternalLibraries(configuration.getExternalLibraryModels());
     assertModelProperties(parameters.get(3), PARAMETER_MODEL_PROPERTY);
   }
 
@@ -162,6 +167,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(connectionProvider, is(notNullValue()));
     assertThat(connectionProvider.getName(), is(CONNECTION_PROVIDER_NAME));
     assertThat(connectionProvider.getDescription(), is(CONNECTION_PROVIDER_DESCRIPTION));
+    assertExternalLibraries(connectionProvider.getExternalLibraryModels());
 
     List<ParameterDeclaration> parameters = assertGroupAndGetParameters(connectionProvider, CONNECTION_PROVIDER_PARAMETER_GROUP);
     assertThat(parameters, hasSize(2));
@@ -253,5 +259,11 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(groupDeclaration.getName(), is(groupName));
 
     return groupDeclaration.getParameters();
+  }
+
+  private void assertExternalLibraries(Set<ExternalLibraryModel> externalLibraryModels) {
+    assertThat(externalLibraryModels, is(notNullValue()));
+    assertThat(externalLibraryModels, hasSize(1));
+    assertThat(externalLibraryModels.iterator().next(), is(EXTERNAL_LIBRARY_MODEL));
   }
 }

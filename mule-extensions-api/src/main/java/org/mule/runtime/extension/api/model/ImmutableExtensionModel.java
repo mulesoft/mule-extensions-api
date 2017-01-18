@@ -6,10 +6,12 @@
  */
 package org.mule.runtime.extension.api.model;
 
+import static java.util.Collections.unmodifiableSet;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.SubTypesModel;
@@ -46,28 +48,30 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final XmlDslModel xmlDslModel;
   private final Set<SubTypesModel> subTypes;
   private final Set<ImportedTypeModel> importedTypes;
+  private final Set<ExternalLibraryModel> externalLibraries;
 
   /**
    * Creates a new instance with the given state
    *
-   * @param name                The extension's name. Cannot be blank
-   * @param description         The extension's description
-   * @param version             The extension's version
-   * @param vendor              The extension's vendor name
-   * @param category            The extension's {@link Category}
-   * @param minMuleVersion      The extension's minimum {@link MuleVersion}
-   * @param configurationModels A {@link List} with the extension's {@link ConfigurationModel configurationModels}
-   * @param operationModels     A {@link List} with the extension's {@link OperationModel operationModels}
-   * @param connectionProviders A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-   * @param sourceModels        A {@link List} with the extension's {@link SourceModel message source models}
-   * @param displayModel        A model which contains directive about how the extension is displayed in the UI
-   * @param xmlDslModel         the {@link XmlDslModel} which describes the XML language
-   * @param subTypes            A {@link Set} with the sub types defined by this extension
-   * @param types               A {@link Set} with the custom types defined by this extension
-   * @param resources           A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes       A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
-   * @param errors              A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
-   * @param modelProperties     A {@link Set} of custom properties which extend this model
+   * @param name                  The extension's name. Cannot be blank
+   * @param description           The extension's description
+   * @param version               The extension's version
+   * @param vendor                The extension's vendor name
+   * @param category              The extension's {@link Category}
+   * @param minMuleVersion        The extension's minimum {@link MuleVersion}
+   * @param configurationModels   A {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels       A {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders   A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels          A {@link List} with the extension's {@link SourceModel message source models}
+   * @param displayModel          A model which contains directive about how the extension is displayed in the UI
+   * @param xmlDslModel           the {@link XmlDslModel} which describes the XML language
+   * @param subTypes              A {@link Set} with the sub types defined by this extension
+   * @param types                 A {@link Set} with the custom types defined by this extension
+   * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
+   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
+   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
+   * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
    */
   public ImmutableExtensionModel(String name,
@@ -87,6 +91,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<String> resources,
                                  Set<ImportedTypeModel> importedTypes,
                                  Set<ErrorModel> errors,
+                                 Set<ExternalLibraryModel> externalLibraryModels,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
@@ -96,8 +101,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     checkModelArgument(category != null, "Extension Category cannot be null");
     checkModelArgument(vendor != null, "Extension Vendor cannot be null");
 
-    //TODO: MULE-10734 reenable when done
-    //checkModelArgument(xmlDslModel != null, "xmlDslModel cannot be null");
+    checkModelArgument(xmlDslModel != null, "xmlDslModel cannot be null");
 
     this.minMuleVersion = minMuleVersion;
     this.category = category;
@@ -109,6 +113,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.subTypes = copy(subTypes);
     this.xmlDslModel = xmlDslModel;
     this.errors = errors;
+    this.externalLibraries = unmodifiableSet(externalLibraryModels);
   }
 
   /**
@@ -205,6 +210,14 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Set<ErrorModel> getErrorModels() {
     return errors;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<ExternalLibraryModel> getExternalLibraryModels() {
+    return externalLibraries;
   }
 
   private void checkModelArgument(boolean condition, String errorMessage) {

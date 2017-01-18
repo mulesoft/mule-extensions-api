@@ -14,6 +14,14 @@
   },
   "resources": [],
   "subTypes": [],
+  "externalLibraries": [
+    {
+      "name": "wss",
+      "description": "WSS native library",
+      "fileName": "*.jar",
+      "requiredClassName": "org.my.Library"
+    }
+  ],
   "importedTypes": [],
   "displayModel": {},
   "configurations": [],
@@ -641,6 +649,14 @@
   "connectionProviders": [
     {
       "connectionManagementType": "NONE",
+      "externalLibraryModels": [
+        {
+          "name": "wss",
+          "description": "WSS native library",
+          "fileName": "*.jar",
+          "requiredClassName": "org.my.Library"
+        }
+      ],
       "parameterGroupModels": [
         {
           "parameters": [

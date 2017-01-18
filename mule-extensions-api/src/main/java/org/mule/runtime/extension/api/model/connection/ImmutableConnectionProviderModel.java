@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.model.connection;
 
+import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
@@ -13,6 +14,7 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +26,7 @@ import java.util.Set;
 public class ImmutableConnectionProviderModel extends AbstractParameterizedModel implements ConnectionProviderModel {
 
   private final ConnectionManagementType connectionManagementType;
+  private final Set<ExternalLibraryModel> externalLibraryModels;
 
   /**
    * Creates a new instance with the given state
@@ -32,6 +35,7 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
    * @param description              the provider's description
    * @param parameterGroupModels     a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
    * @param connectionManagementType the type of connection management that the provider performs
+   * @param externalLibraryModels    a {@link Set} with the provider's {@link ExternalLibraryModel external libraries}
    * @param displayModel             a model which contains directive about how this provider is displayed in the UI
    * @param modelProperties          A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType} are {@code null}
@@ -40,11 +44,13 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
                                           String description,
                                           List<ParameterGroupModel> parameterGroupModels,
                                           ConnectionManagementType connectionManagementType,
+                                          Set<ExternalLibraryModel> externalLibraryModels,
                                           DisplayModel displayModel,
                                           Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
+    this.externalLibraryModels = Collections.unmodifiableSet(externalLibraryModels);
   }
 
   /**
@@ -53,5 +59,13 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
   @Override
   public ConnectionManagementType getConnectionManagementType() {
     return connectionManagementType;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<ExternalLibraryModel> getExternalLibraryModels() {
+    return externalLibraryModels;
   }
 }
