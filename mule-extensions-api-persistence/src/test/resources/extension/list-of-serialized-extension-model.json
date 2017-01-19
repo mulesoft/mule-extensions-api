@@ -720,19 +720,14 @@
               {
                 "type": {
                   "format": "java",
-                  "type": "Dictionary",
+                  "type": "Object",
                   "annotations": {
                     "typeId": "java.util.HashMap"
                   },
-                  "key": {
-                    "type": "String",
-                    "annotations": {
-                      "typeId": "java.lang.String"
-                    }
-                  },
-                  "value": {
+                  "open": {
                     "type": "@ref:test.package.ExportedClass"
-                  }
+                  },
+                  "fields": []
                 },
                 "hasDynamicType": false,
                 "required": true,
@@ -2158,19 +2153,14 @@
               {
                 "type": {
                   "format": "java",
-                  "type": "Dictionary",
+                  "type": "Object",
                   "annotations": {
                     "typeId": "java.util.HashMap"
                   },
-                  "key": {
-                    "type": "String",
-                    "annotations": {
-                      "typeId": "java.lang.String"
-                    }
-                  },
-                  "value": {
+                  "open": {
                     "type": "@ref:test.package.ExportedClass"
-                  }
+                  },
+                  "fields": []
                 },
                 "hasDynamicType": false,
                 "required": true,

@@ -9,7 +9,6 @@ package org.mule.runtime.extension.internal.loader.enricher;
 import static java.lang.String.format;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentDeclarationTypeName;
 import org.mule.metadata.api.model.ArrayType;
-import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.IntersectionType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
@@ -93,18 +92,16 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
 
       @Override
       public void visitObject(ObjectType objectType) {
-        declarer.withType(objectType);
+        if (objectType.isOpen()) {
+          objectType.getOpenRestriction().get().accept(this);
+        } else {
+          declarer.withType(objectType);
+        }
       }
 
       @Override
       public void visitArrayType(ArrayType arrayType) {
         arrayType.getType().accept(this);
-      }
-
-      @Override
-      public void visitDictionary(DictionaryType dictionaryType) {
-        dictionaryType.getKeyType().accept(this);
-        dictionaryType.getValueType().accept(this);
       }
 
       @Override
