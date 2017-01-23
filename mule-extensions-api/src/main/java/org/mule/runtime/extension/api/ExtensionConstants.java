@@ -33,12 +33,23 @@ public final class ExtensionConstants {
       "The name of a variable on which the operation's output will be placed";
 
   /**
-   * The name of the parameter for configuring reconnection strategy parameter
+   * The name of the parameter for configuring the streaming strategy parameter
+   */
+  public static final String STREAMING_STRATEGY_PARAMETER_NAME = "streamingStrategy";
+
+  /**
+   * The description of the parameter for configuring the streaming strategy parameter
+   */
+  public static final String STREAMING_STRATEGY_PARAMETER_DESCRIPTION =
+      "Configure if repeatable streams should be used and their behaviour";
+
+  /**
+   * The name of the parameter for configuring the reconnection strategy parameter
    */
   public static final String RECONNECTION_STRATEGY_PARAMETER_NAME = "reconnectionStrategy";
 
   /**
-   * The description of the parameter for configuring reconnection strategy parameter
+   * The description of the parameter for configuring the reconnection strategy parameter
    */
   public static final String RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION = "A retry strategy in case of connectivity errors";
 
@@ -67,6 +78,11 @@ public final class ExtensionConstants {
    * The name of the tab in which transaction parameters should appear
    */
   public static final String TRANSACTIONAL_TAB_NAME = "Transaction";
+
+  /**
+   * The name of the tab in which streaming parameters should appear
+   */
+  public static final String STREAMING_TAB_NAME = "Streaming";
 
   /**
    * The description of the parameter for configuring transactional actions

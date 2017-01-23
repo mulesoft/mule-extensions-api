@@ -65,6 +65,11 @@ public final class XmlModelUtils {
   public static final QName MULE_ABSTRACT_RECONNECTION_STRATEGY_QNAME =
       new QName(MULE_NAMESPACE_SCHEMA_LOCATION, "abstract-reconnection-strategy", MULE_PREFIX);
 
+  /**
+   * {@link QName} for the streaming strategy
+   */
+  public static final QName MULE_ABSTRACT_STREAMING_STRATEGY_QNAME =
+      new QName(MULE_NAMESPACE_SCHEMA_LOCATION, "abstract-streaming-strategy", MULE_PREFIX);
 
   public static XmlDslModel createXmlLanguageModel(Xml xml, String extensionName, String extensionVersion) {
     String namespace = calculateValue(xml, () -> xml.namespace(), () -> defaultNamespace(extensionName));
