@@ -4,7 +4,10 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata;
+package org.mule.runtime.extension.internal.persistence.metadata;
+
+import org.mule.runtime.extension.internal.persistence.ComponentMetadataResult;
+import org.mule.runtime.extension.internal.persistence.ComponentResultTypeAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -16,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
  * 
  * @since 1.0
  */
-final class ComponentResultTypeAdapterFactory
+public final class ComponentResultTypeAdapterFactory
     implements TypeAdapterFactory {
 
   @Override

@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 
@@ -21,7 +21,7 @@ import java.io.IOException;
  *
  * @since 1.0
  */
-class ElementDslModelTypeAdapter extends TypeAdapter<ParameterDslConfiguration> {
+public class ElementDslModelTypeAdapter extends TypeAdapter<ParameterDslConfiguration> {
 
   private static final String ALLOW_TOP_LEVEL_DEFINITION = "allowTopLevelDefinition";
   private static final String ALLOWS_REFERENCES = "allowsReferences";

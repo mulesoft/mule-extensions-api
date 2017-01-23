@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata;
+package org.mule.runtime.extension.internal.persistence;
 
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
@@ -19,7 +19,7 @@ import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import java.util.List;
 import java.util.Objects;
 
-class ComponentMetadataResult<T extends ComponentModel>
+public class ComponentMetadataResult<T extends ComponentModel>
     implements Descriptable<MetadataResult<ComponentMetadataDescriptor<T>>> {
 
   static final String TYPE = "type";
@@ -32,7 +32,7 @@ class ComponentMetadataResult<T extends ComponentModel>
   private final MetadataAttributes metadataAttributes;
   private final List<MetadataFailure> failures;
 
-  ComponentMetadataResult(MetadataResult<ComponentMetadataDescriptor<T>> result) {
+  public ComponentMetadataResult(MetadataResult<ComponentMetadataDescriptor<T>> result) {
     ComponentMetadataDescriptor<T> descriptor = result.get();
     this.model = descriptor != null ? descriptor.getModel() : null;
     this.metadataAttributes = descriptor != null ? descriptor.getMetadataAttributes() : null;

@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata;
+package org.mule.runtime.extension.internal.persistence.metadata;
 
 import org.mule.runtime.api.metadata.resolving.FailureCode;
 
@@ -17,7 +17,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-class FailureCodeTypeAdapterFactory implements TypeAdapterFactory {
+public class FailureCodeTypeAdapterFactory implements TypeAdapterFactory {
 
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {

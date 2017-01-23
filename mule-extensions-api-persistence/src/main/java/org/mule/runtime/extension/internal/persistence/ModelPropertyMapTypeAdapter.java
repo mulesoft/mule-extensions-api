@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
-final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<ModelProperty>> {
+public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<ModelProperty>> {
 
   private final Gson gson;
 

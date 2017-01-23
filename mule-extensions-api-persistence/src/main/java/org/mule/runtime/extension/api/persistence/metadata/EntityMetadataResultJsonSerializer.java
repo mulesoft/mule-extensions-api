@@ -11,6 +11,7 @@ import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.extension.internal.persistence.metadata.TypeMetadata;
 
 import com.google.gson.reflect.TypeToken;
 

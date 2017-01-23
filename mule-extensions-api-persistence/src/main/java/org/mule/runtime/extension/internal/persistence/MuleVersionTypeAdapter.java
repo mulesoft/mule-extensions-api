@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.runtime.api.meta.MuleVersion;
 
@@ -19,7 +19,7 @@ import java.io.IOException;
  *
  * @since 1.0
  */
-class MuleVersionTypeAdapter extends TypeAdapter<MuleVersion> {
+public class MuleVersionTypeAdapter extends TypeAdapter<MuleVersion> {
 
   @Override
   public void write(JsonWriter out, MuleVersion muleVersion) throws IOException {

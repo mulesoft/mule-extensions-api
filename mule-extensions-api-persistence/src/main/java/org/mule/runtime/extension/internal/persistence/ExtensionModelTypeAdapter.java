@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
@@ -52,7 +52,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
+public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
 
   private static final String CONFIGURATIONS = "configurations";
   private static final String OPERATIONS = "operations";
@@ -78,7 +78,7 @@ class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
   private final JsonMetadataTypeWriter typeWriter = new JsonMetadataTypeWriter();
   private final SerializationContext serializationContext;
 
-  ExtensionModelTypeAdapter(Gson gsonDelegate, SerializationContext serializationContext) {
+  public ExtensionModelTypeAdapter(Gson gsonDelegate, SerializationContext serializationContext) {
     this.gsonDelegate = gsonDelegate;
     this.serializationContext = serializationContext;
   }

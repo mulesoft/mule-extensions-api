@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.persistence.metadata;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
+import org.mule.runtime.extension.internal.persistence.ComponentMetadataResult;
 
 import com.google.gson.reflect.TypeToken;
 

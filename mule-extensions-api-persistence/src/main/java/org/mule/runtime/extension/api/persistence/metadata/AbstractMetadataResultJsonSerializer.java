@@ -30,6 +30,8 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.metadata.ComponentResultTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.metadata.FailureCodeTypeAdapterFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

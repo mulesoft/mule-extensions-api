@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata;
+package org.mule.runtime.extension.internal.persistence.metadata;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
@@ -14,12 +14,12 @@ import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
  *
  * @since 1.0
  */
-class TypeMetadata {
+public final class TypeMetadata {
 
   protected final MetadataType type;
   protected final boolean isDynamic;
 
-  TypeMetadata(MetadataType type, boolean isDynamic) {
+  public TypeMetadata(MetadataType type, boolean isDynamic) {
     this.isDynamic = isDynamic;
     this.type = type;
   }

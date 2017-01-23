@@ -4,14 +4,14 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence.metadata;
+package org.mule.runtime.extension.internal.persistence;
 
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
-import static org.mule.runtime.extension.api.persistence.metadata.ComponentMetadataResult.COMPONENT;
-import static org.mule.runtime.extension.api.persistence.metadata.ComponentMetadataResult.OPERATION;
-import static org.mule.runtime.extension.api.persistence.metadata.ComponentMetadataResult.SOURCE;
-import static org.mule.runtime.extension.api.persistence.metadata.ComponentMetadataResult.TYPE;
+import static org.mule.runtime.extension.internal.persistence.ComponentMetadataResult.COMPONENT;
+import static org.mule.runtime.extension.internal.persistence.ComponentMetadataResult.OPERATION;
+import static org.mule.runtime.extension.internal.persistence.ComponentMetadataResult.SOURCE;
+import static org.mule.runtime.extension.internal.persistence.ComponentMetadataResult.TYPE;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -37,13 +37,13 @@ import java.util.List;
  *
  * @since 1.0
  */
-class ComponentResultTypeAdapter extends TypeAdapter<ComponentMetadataResult> {
+public class ComponentResultTypeAdapter extends TypeAdapter<ComponentMetadataResult> {
 
   private static final String METADATA_ATTRIBUTES = "metadataAttributes";
   private static final String FAILURES = "failures";
   private final Gson gson;
 
-  ComponentResultTypeAdapter(Gson gson) {
+  public ComponentResultTypeAdapter(Gson gson) {
     this.gson = gson;
   }
 
