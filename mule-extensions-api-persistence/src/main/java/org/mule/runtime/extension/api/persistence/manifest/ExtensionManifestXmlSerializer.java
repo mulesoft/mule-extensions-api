@@ -9,19 +9,9 @@ package org.mule.runtime.extension.api.persistence.manifest;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder;
+import org.mule.runtime.extension.internal.ExtensionXmlSerializer;
 import org.mule.runtime.extension.internal.manifest.XmlDescriberManifest;
 import org.mule.runtime.extension.internal.manifest.XmlExtensionManifest;
-
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 /**
  * Serializer capable of marshalling an {@link ExtensionManifest} instance
@@ -46,18 +36,7 @@ public final class ExtensionManifestXmlSerializer {
     xmlManifest.setExportedPackages(manifest.getExportedPackages());
     xmlManifest.setExportedResources(manifest.getExportedResources());
     xmlManifest.setDescriberManifest(asXml(manifest.getDescriberManifest()));
-
-    try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(XmlExtensionManifest.class);
-      Marshaller marshaller = jaxbContext.createMarshaller();
-
-      ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-      marshaller.marshal(xmlManifest, getXMLSerializer(out).asContentHandler());
-
-      return out.toString();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    return ExtensionXmlSerializer.serialize(xmlManifest);
   }
 
   /**
@@ -67,16 +46,7 @@ public final class ExtensionManifestXmlSerializer {
    * @return an {@link ExtensionManifest} instance
    */
   public ExtensionManifest deserialize(String xml) {
-    XmlExtensionManifest xmlManifest;
-    try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(XmlExtensionManifest.class);
-      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-      xmlManifest = (XmlExtensionManifest) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-
+    XmlExtensionManifest xmlManifest = ExtensionXmlSerializer.deserialize(xml, XmlExtensionManifest.class);
     ExtensionManifestBuilder builder = new ExtensionManifestBuilder();
     builder.setName(xmlManifest.getName())
         .setDescription(xmlManifest.getDescription())
@@ -87,20 +57,7 @@ public final class ExtensionManifestXmlSerializer {
         .withDescriber()
         .setId(xmlManifest.getDescriberManifest().getId())
         .addProperties(xmlManifest.getDescriberManifest().getProperties());
-
     return builder.build();
-  }
-
-  private XMLSerializer getXMLSerializer(OutputStream out) {
-    OutputFormat of = new OutputFormat();
-
-    of.setCDataElements(new String[] {"^description"});
-    of.setIndenting(true);
-
-    XMLSerializer serializer = new XMLSerializer(of);
-    serializer.setOutputByteStream(out);
-
-    return serializer;
   }
 
   private XmlDescriberManifest asXml(DescriberManifest manifest) {
