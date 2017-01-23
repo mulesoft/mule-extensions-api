@@ -6,6 +6,9 @@
  */
 package org.mule.runtime.extension.api.util;
 
+import static java.lang.String.valueOf;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -14,7 +17,10 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectFieldType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
@@ -48,6 +54,36 @@ import java.util.Set;
 public class ExtensionModelUtils {
 
   private ExtensionModelUtils() {}
+
+  /**
+   * @param model the {@link ParameterModel parameter} who's default value is wanted
+   * @return the default value of the parameter
+   */
+  public static Optional<String> getDefaultValue(ParameterModel model) {
+    Object defaultValue = model.getDefaultValue();
+    return defaultValue == null ? empty() : of(valueOf(defaultValue));
+  }
+
+  /**
+   * Retrieves the default value of a field for a given {@link MetadataType}
+   *
+   * @param name the field's name
+   * @param model the {@link MetadataType} containing the field who's default value is wanted
+   * @return the default value of the given parameter
+   */
+  public static Optional<String> getDefaultValue(String name, MetadataType model) {
+    if (model instanceof ObjectType) {
+      Optional<ObjectFieldType> field = ((ObjectType) model).getFields().stream()
+          .filter(f -> f.getKey().getName().getLocalPart().equals(name))
+          .findFirst();
+
+      if (field.isPresent()) {
+        return field.get().getAnnotation(DefaultValueAnnotation.class).map(DefaultValueAnnotation::getValue);
+      }
+    }
+
+    return empty();
+  }
 
   /**
    * Collects the {@link ParameterModel parameters} from {@code model} which supports or requires expressions
@@ -186,7 +222,7 @@ public class ExtensionModelUtils {
     return content.map(c -> c.primary() ? PRIMARY_CONTENT : CONTENT).orElse(BEHAVIOUR);
   }
 
-  public static Map<MetadataType, Set<MetadataType>> toSubTypesMap(Collection<SubTypesModel> subTypes) {
+  public static Map<ObjectType, Set<ObjectType>> toSubTypesMap(Collection<SubTypesModel> subTypes) {
     return subTypes.stream().collect(toMap(SubTypesModel::getBaseType, SubTypesModel::getSubTypes));
   }
 

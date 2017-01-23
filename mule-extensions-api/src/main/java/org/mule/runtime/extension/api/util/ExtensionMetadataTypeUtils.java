@@ -7,10 +7,12 @@
 package org.mule.runtime.extension.api.util;
 
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
@@ -26,6 +28,15 @@ import java.lang.reflect.Modifier;
 public final class ExtensionMetadataTypeUtils {
 
   private ExtensionMetadataTypeUtils() {}
+
+  /**
+   * @param fieldType the {@link ObjectFieldType} to inspect to retrieve its type Alias
+   * @return the {@code Alias} name of the {@link ObjectFieldType}
+   */
+  public static String getAlias(ObjectFieldType fieldType) {
+    return fieldType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
+        .orElse(getLocalPart(fieldType));
+  }
 
   /**
    * @param metadataType the {@link MetadataType} to inspect to retrieve its type Alias

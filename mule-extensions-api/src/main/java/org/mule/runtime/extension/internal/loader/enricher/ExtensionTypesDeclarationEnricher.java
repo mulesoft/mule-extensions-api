@@ -27,7 +27,7 @@ import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
-import java.util.Collection;
+import java.util.Set;
 
 /**
  * Navigates all the components of the extension and automatically declares all complex types.
@@ -69,7 +69,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
     }.walk(declarer.getDeclaration());
   }
 
-  private void registerTypes(ExtensionDeclarer declarer, Collection<MetadataType> types) {
+  private void registerTypes(ExtensionDeclarer declarer, Set<ObjectType> types) {
     types.forEach(type -> registerType(declarer, type));
   }
 

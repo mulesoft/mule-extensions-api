@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.dsl.syntax;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.api.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
@@ -27,7 +28,6 @@ import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isEx
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isFlattened;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isText;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isValidBean;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.loadSubTypes;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import org.mule.metadata.api.model.ArrayType;
@@ -38,6 +38,7 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -48,14 +49,15 @@ import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
-import org.mule.runtime.extension.api.dsl.syntax.resolver.DslResolvingContext;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
-import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 import org.mule.runtime.extension.internal.property.QNameModelProperty;
+
+import com.google.common.collect.ImmutableSet;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -67,7 +69,7 @@ import java.util.Optional;
 
 /**
  * Default implementation of a {@link DslSyntaxResolver} based on XML.
- *
+ * <p>
  * Provides the {@link DslElementSyntax} of any {@link NamedObject Component}, {@link ParameterModel Parameter} or
  * {@link MetadataType Type} within the context of the {@link ExtensionModel Extension model} where the Component was declared.
  *
@@ -76,7 +78,7 @@ import java.util.Optional;
 public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private final ExtensionModel extensionModel;
-  private final SubTypesMappingContainer subTypesMap;
+  private final TypeCatalog typeCatalog;
   private final XmlDslModel languageModel;
   private final Map<String, DslElementSyntax> resolvedTypes = new HashMap<>();
   private final Map<MetadataType, XmlDslModel> importedTypes;
@@ -85,30 +87,33 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
+   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *                                  {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
-    this(model, new DefaultImportTypesStrategy(model, context));
+    this.extensionModel = model;
+    this.languageModel = model.getXmlDslModel();
+    this.typeCatalog = getTypeCatalog(model, context);
+    this.importedTypes = new DefaultImportTypesStrategy(model, context).getImportedTypes();
   }
 
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model               the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param importTypesStrategy the {@link ImportTypesStrategy} used for external types resolution
-   * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
    * @return the default implementation of a {@link DslSyntaxResolver}
+   * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
+   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *                                  {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
-    extensionModel = model;
+    this.extensionModel = model;
     this.languageModel = model.getXmlDslModel();
-    this.subTypesMap = loadSubTypes(model);
+    this.typeCatalog = TypeCatalog.getDefault(singleton(model));
     this.importedTypes = importTypesStrategy.getImportedTypes();
   }
 
@@ -272,20 +277,20 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    *
    * @param type the {@link MetadataType} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType} or
-   *         {@link Optional#empty} if the {@code type} is not supported as an standalone element
+   * {@link Optional#empty} if the {@code type} is not supported as an standalone element
    */
   public Optional<DslElementSyntax> resolve(MetadataType type) {
-    return type instanceof ObjectType ? resolvePojoDsl(type) : Optional.empty();
+    return type instanceof ObjectType ? resolvePojoDsl((ObjectType) type) : Optional.empty();
   }
 
-  private Optional<DslElementSyntax> resolvePojoDsl(MetadataType type) {
+  private Optional<DslElementSyntax> resolvePojoDsl(ObjectType type) {
 
     boolean requiresWrapper = typeRequiresWrapperElement(type);
     boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
     boolean supportTopLevelElement = supportTopLevelElement(type);
 
     if (!supportsInlineDeclaration && !supportTopLevelElement
-        && !requiresWrapper && subTypesMap.getSuperTypes(type).isEmpty()) {
+        && !requiresWrapper && typeCatalog.getSuperTypes(type).isEmpty()) {
       return Optional.empty();
     }
 
@@ -310,7 +315,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     if (!typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
         typeResolvingStack.push(typeId);
-        declareFieldsAsChilds(builder, ((ObjectType) type).getFields(), namespace, namespaceUri);
+        declareFieldsAsChilds(builder, type.getFields(), namespace, namespaceUri);
         typeResolvingStack.pop();
       }
 
@@ -421,6 +426,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                     .withElementName(resolveItemName(parameterName, asItem))
                                     .supportsAttributeDeclaration(false)
                                     .supportsChildDeclaration(true)
+                                    .containing(VALUE_ATTRIBUTE_NAME,
+                                                DslElementSyntaxBuilder.create()
+                                                    .withAttributeName(VALUE_ATTRIBUTE_NAME)
+                                                    .build())
                                     .build());
       }
     };
@@ -612,10 +621,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private boolean typeRequiresWrapperElement(MetadataType metadataType) {
-    boolean isPojo = metadataType instanceof ObjectType;
-    boolean hasSubtypes = subTypesMap.containsBaseType(metadataType);
-
-    return isPojo && (isExtensible(metadataType) || hasSubtypes);
+    return metadataType instanceof ObjectType &&
+        (isExtensible(metadataType) || typeCatalog.containsBaseType((ObjectType) metadataType));
   }
 
   private String getNamespace(MetadataType type) {
@@ -640,5 +647,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     String singularizedName = singularize(parameterName);
     return forceItemize || parameterName.equals(singularizedName) ? itemize(singularizedName)
         : hyphenize(singularizedName);
+  }
+
+  private TypeCatalog getTypeCatalog(ExtensionModel model, DslResolvingContext context) {
+    return context.getExtension(model.getName()).isPresent()
+        ? context.getTypeCatalog()
+        : TypeCatalog.getDefault(ImmutableSet.<ExtensionModel>builder()
+            .add(model).addAll(context.getExtensions()).build());
   }
 }

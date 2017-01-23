@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.api.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
@@ -32,10 +33,11 @@ import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -45,6 +47,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
@@ -52,7 +55,6 @@ import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.SubType;
 import org.mule.runtime.extension.api.dsl.model.SuperType;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
-import org.mule.runtime.extension.api.dsl.syntax.resolver.DslResolvingContext;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 
 import java.util.Arrays;
@@ -122,6 +124,9 @@ public abstract class BaseXmlDeclarationTestCase {
   @Mock
   protected DslResolvingContext dslContext;
 
+  @Mock
+  protected TypeCatalog typeCatalog;
+
 
   protected final ParameterRole role;
   protected ClassTypeLoader TYPE_LOADER = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
@@ -137,7 +142,6 @@ public abstract class BaseXmlDeclarationTestCase {
     initMocks(this);
     when(extension.getName()).thenReturn(EXTENSION_NAME);
     when(extension.getXmlDslModel()).thenReturn(createXmlDslModel());
-    when(extension.getConfigurationModels()).thenReturn(asList(configuration));
     when(extension.getConfigurationModels()).thenReturn(asList(configuration));
     when(extension.getOperationModels()).thenReturn(asList(operation));
     when(extension.getSourceModels()).thenReturn(asList(source));
@@ -182,7 +186,17 @@ public abstract class BaseXmlDeclarationTestCase {
     when(connectionProvider.getName()).thenReturn(CONNECTION_PROVIDER_NAME);
     when(connectionProvider.getParameterGroupModels()).thenReturn(asList(parameterGroupModel));
 
-    when(dslContext.getExtension(any())).thenReturn(empty());
+    when(typeCatalog.getSubTypes(any())).thenReturn(emptySet());
+    when(typeCatalog.getSuperTypes(any())).thenReturn(emptySet());
+    when(typeCatalog.getAllBaseTypes()).thenReturn(emptySet());
+    when(typeCatalog.getAllSubTypes()).thenReturn(emptySet());
+    when(typeCatalog.getTypes()).thenReturn(emptySet());
+    when(typeCatalog.getType(any())).thenReturn(empty());
+    when(typeCatalog.containsBaseType(any())).thenReturn(false);
+
+    when(dslContext.getExtension(any())).thenReturn(Optional.of(extension));
+    when(dslContext.getExtensions()).thenReturn(singleton(extension));
+    when(dslContext.getTypeCatalog()).thenReturn(typeCatalog);
 
     Stream.of(configuration, operation, connectionProvider, source).forEach(
                                                                             model -> when(model.getAllParameterModels())
@@ -410,7 +424,7 @@ public abstract class BaseXmlDeclarationTestCase {
     assertElementNamespace("", sampleStringAttrDsl);
     assertChildElementDeclarationIs(false, sampleStringAttrDsl);
     assertIsWrappedElement(false, sampleStringAttrDsl);
-    assertThat(sampleStringAttrDsl.getAttributes().isEmpty(), is(true));
+    assertNoAttributes(sampleStringAttrDsl);
     assertThat(sampleStringAttrDsl.getChilds().isEmpty(), is(true));
 
     String otherNumberName = "otherNumber";
@@ -441,7 +455,7 @@ public abstract class BaseXmlDeclarationTestCase {
     assertAttributeDeclaration(false, listItemDsl);
     assertChildElementDeclarationIs(true, listItemDsl);
     assertIsWrappedElement(false, listItemDsl);
-    assertNoAttributes(listItemDsl);
+    getAttributeDsl(VALUE_ATTRIBUTE_NAME, listItemDsl);
     assertNoChilds(listItemDsl);
 
   }

@@ -23,6 +23,12 @@ import java.util.Map;
  */
 public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBuilder {
 
+  public static final String COUNT = "count";
+  public static final String FREQUENCY = "frequency";
+  public static final String RECONNECT_ALIAS = "reconnect";
+  public static final String RECONNECT_FOREVER_ALIAS = "reconnect-forever";
+  public static final String BLOCKING = "blocking";
+
   /**
    * @return a {@link MetadataType} representation of a retry policy
    */
@@ -40,30 +46,30 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   private TypeBuilder getSimpleRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
         .id(Map.class.getName())
-        .with(new TypeAliasAnnotation("reconnect"));
+        .with(new TypeAliasAnnotation(RECONNECT_ALIAS));
 
     addFrequencyField(retryType, typeBuilder);
-    addIntField(retryType, typeBuilder, "count", "How many reconnection attempts to make", 2);
+    addIntField(retryType, typeBuilder, COUNT, "How many reconnection attempts to make", 2);
     addBlockingField(retryType, typeBuilder);
 
     return retryType;
   }
 
   private void addFrequencyField(ObjectTypeBuilder retryType, BaseTypeBuilder typeBuilder) {
-    addLongField(retryType, typeBuilder, "frequency", "How often (in ms) to reconnect", 2000L);
+    addLongField(retryType, typeBuilder, FREQUENCY, "How often (in ms) to reconnect", 2000L);
   }
 
   private TypeBuilder getForeverRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
         .id(Map.class.getName())
-        .with(new TypeAliasAnnotation("reconnect-forever"));
+        .with(new TypeAliasAnnotation(RECONNECT_FOREVER_ALIAS));
     addFrequencyField(retryType, typeBuilder);
 
     return retryType;
   }
 
   private void addBlockingField(ObjectTypeBuilder retryType, BaseTypeBuilder typeBuilder) {
-    addBooleanField(retryType, typeBuilder, "blocking",
+    addBooleanField(retryType, typeBuilder, BLOCKING,
                     "If false, the reconnection strategy will run in a separate, non-blocking thread",
                     true);
   }

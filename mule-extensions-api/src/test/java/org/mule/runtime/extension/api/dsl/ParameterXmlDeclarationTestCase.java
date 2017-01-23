@@ -21,9 +21,9 @@ import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
-import org.mule.runtime.api.meta.model.SubTypesModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
@@ -179,11 +179,12 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testInterfaceWithMappingParameter() {
-    when(extension.getSubTypes())
-        .thenReturn(singleton(new SubTypesModel(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
-                                                singleton(TYPE_LOADER.load(InterfaceImplementation.class)))));
+    ObjectType baseType = (ObjectType) TYPE_LOADER.load(InterfaceDeclarationWithMapping.class);
+    when(typeCatalog.containsBaseType(baseType)).thenReturn(true);
+    when(typeCatalog.getSubTypes(baseType))
+        .thenReturn(singleton((ObjectType) TYPE_LOADER.load(InterfaceImplementation.class)));
 
-    when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(InterfaceDeclarationWithMapping.class));
+    when(parameterModel.getType()).thenReturn(baseType);
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
     assertParameterChildElementDeclaration(true, result);
@@ -192,11 +193,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testAbstractWithMappingParameter() {
-    when(extension.getSubTypes()).thenReturn(singleton(
-                                                       new SubTypesModel(TYPE_LOADER.load(AbstractType.class),
-                                                                         singleton(TYPE_LOADER
-                                                                             .load(ChildOfAbstractType.class)))));
-
+    ObjectType baseType = (ObjectType) TYPE_LOADER.load(AbstractType.class);
+    when(typeCatalog.containsBaseType(baseType)).thenReturn(true);
+    when(typeCatalog.getSubTypes(baseType))
+        .thenReturn(singleton((ObjectType) TYPE_LOADER.load(ChildOfAbstractType.class)));
 
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(AbstractType.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -395,18 +395,15 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testMapOfNonInstantiableValueTypeWithMappedSubtypesParameter() {
     MetadataType keyType = TYPE_BUILDER.stringType().id(String.class.getName()).build();
-    MetadataType valueType = TYPE_LOADER.load(InterfaceDeclarationWithMapping.class);
+    ObjectType baseType = (ObjectType) TYPE_LOADER.load(InterfaceDeclarationWithMapping.class);
 
-    when(extension.getSubTypes()).thenReturn(singleton(new SubTypesModel(
-                                                                         TYPE_LOADER.load(InterfaceDeclarationWithMapping.class),
-                                                                         singleton(TYPE_LOADER
-                                                                             .load(InterfaceImplementation.class)))));
-
-
+    when(typeCatalog.containsBaseType(baseType)).thenReturn(true);
+    when(typeCatalog.getSubTypes(baseType))
+        .thenReturn(singleton((ObjectType) TYPE_LOADER.load(InterfaceImplementation.class)));
 
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.dictionaryType().id(Map.class.getName())
         .ofKey(keyType)
-        .ofValue(valueType)
+        .ofValue(baseType)
         .build());
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -418,11 +415,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     ifContentParameter(() -> {
       assertEmptyAttributeName(result);
       assertElementName(hyphenize(PARAMETER_NAME), result);
-      assertNoGeneric(result, valueType);
+      assertNoGeneric(result, baseType);
     }, () -> {
       assertAttributeName(PARAMETER_NAME, result);
       assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
-      DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
+      DslElementSyntax innerElement = getGenericTypeDsl(baseType, result);
       assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
       assertParameterChildElementDeclaration(true, innerElement);
       assertIsWrappedElement(true, innerElement);

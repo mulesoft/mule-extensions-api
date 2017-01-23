@@ -6,8 +6,11 @@
  */
 package org.mule.runtime.extension.api;
 
+import static java.util.Arrays.asList;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.tls.TlsContextFactory;
+
+import java.util.List;
 
 /**
  * Extensions API constants
@@ -53,7 +56,7 @@ public final class ExtensionConstants {
   /**
    * The name of an attribute which allows referencing a {@link TlsContextFactory}
    */
-  public static final String TLS_ATTRIBUTE_NAME = "tlsContext";
+  public static final String TLS_PARAMETER_NAME = "tlsContext";
 
   /**
    * The name of the parameter for configuring transactional actions
@@ -90,6 +93,15 @@ public final class ExtensionConstants {
    * The description of the parameter which disables connection validation
    */
   public static final String POOLING_PROFILE_PARAMETER_DESCRIPTION = "Characteristics of the connection pool";
+
+  /**
+   *
+   */
+  public static final List<String> INFRASTRUCTURE_PARAMETER_NAMES = asList(TLS_PARAMETER_NAME,
+                                                                           POOLING_PROFILE_PARAMETER_NAME,
+                                                                           RECONNECTION_STRATEGY_PARAMETER_NAME,
+                                                                           REDELIVERY_POLICY_PARAMETER_NAME,
+                                                                           TARGET_PARAMETER_NAME);
 
   private ExtensionConstants() {}
 }

@@ -12,6 +12,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.dsl.DslResolvingContext;
 
 import java.util.Map;
 
