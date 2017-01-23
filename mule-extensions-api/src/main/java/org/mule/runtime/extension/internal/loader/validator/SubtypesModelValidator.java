@@ -14,6 +14,7 @@ import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.get
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toSubTypesMap;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -44,13 +45,13 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
 
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
-    final Map<MetadataType, Set<MetadataType>> typesMapping = toSubTypesMap(model.getSubTypes());
+    final Map<ObjectType, Set<ObjectType>> typesMapping = toSubTypesMap(model.getSubTypes());
     validateBaseTypeNotFinal(model, typesMapping, problemsReporter);
     validateSubtypesExtendOrImplementBaseType(model, typesMapping, problemsReporter);
     validateSubtypesNameClashing(model, typesMapping, problemsReporter);
   }
 
-  private void validateBaseTypeNotFinal(ExtensionModel model, Map<MetadataType, Set<MetadataType>> typesMapping,
+  private void validateBaseTypeNotFinal(ExtensionModel model, Map<ObjectType, Set<ObjectType>> typesMapping,
                                         ProblemsReporter problemsReporter) {
     List<String> finalBaseTypes = typesMapping.keySet().stream()
         .filter(ExtensionMetadataTypeUtils::isFinal)
@@ -66,9 +67,9 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
   }
 
   private void validateSubtypesExtendOrImplementBaseType(ExtensionModel model,
-                                                         Map<MetadataType, Set<MetadataType>> typesMapping,
+                                                         Map<ObjectType, Set<ObjectType>> typesMapping,
                                                          ProblemsReporter problemsReporter) {
-    for (Map.Entry<MetadataType, Set<MetadataType>> subtypes : typesMapping.entrySet()) {
+    for (Map.Entry<ObjectType, Set<ObjectType>> subtypes : typesMapping.entrySet()) {
       if (!subtypes.getKey().getMetadataFormat().equals(JAVA)) {
         continue;
       }
@@ -88,7 +89,7 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
     }
   }
 
-  private void validateSubtypesNameClashing(ExtensionModel model, Map<MetadataType, Set<MetadataType>> typesMapping,
+  private void validateSubtypesNameClashing(ExtensionModel model, Map<ObjectType, Set<ObjectType>> typesMapping,
                                             ProblemsReporter problemsReporter) {
 
     ImmutableList<MetadataType> mappedTypes = ImmutableList.<MetadataType>builder()

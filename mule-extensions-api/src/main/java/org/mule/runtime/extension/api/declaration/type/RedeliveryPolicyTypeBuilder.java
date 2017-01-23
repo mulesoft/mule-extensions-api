@@ -22,6 +22,12 @@ import java.util.Map;
  */
 public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder {
 
+  public static final String MAX_REDELIVERY_COUNT = "maxRedeliveryCount";
+  public static final String USE_SECURE_HASH = "useSecureHash";
+  public static final String MESSAGE_DIGEST_ALGORITHM = "messageDigestAlgorithm";
+  public static final String ID_EXPRESSION = "idExpression";
+  public static final String OBJECT_STORE_REF = "object-store-ref";
+
   /**
    * @return a {@link MetadataType} representation of a redelivery policy
    */
@@ -32,28 +38,28 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
     BaseTypeBuilder typeBuilder = create(JAVA);
 
     addIntField(objectType, typeBuilder,
-                "maxRedeliveryCount",
+                MAX_REDELIVERY_COUNT,
                 "The maximum number of times a message can be redelivered and processed unsuccessfully before triggering "
                     + "process-failed-message",
                 5);
 
     addBooleanField(objectType, typeBuilder,
-                    "useSecureHash",
+                    USE_SECURE_HASH,
                     "Whether to use a secure hash algorithm to identify a redelivered message",
                     true);
     addStringField(objectType, typeBuilder,
-                   "messageDigestAlgorithm",
+                   MESSAGE_DIGEST_ALGORITHM,
                    "The secure hashing algorithm to use. If not set, the default is SHA-256.",
                    null);
 
     addStringField(objectType, typeBuilder,
-                   "idExpression",
+                   ID_EXPRESSION,
                    "Defines one or more expressions to use to determine when a message has been redelivered. "
                        + "This property may only be set if useSecureHash is false.",
                    null);
 
     addStringField(objectType, typeBuilder,
-                   "object-store-ref",
+                   OBJECT_STORE_REF,
                    "The object store where the redelivery counter for each message is going to be stored.",
                    null);
 

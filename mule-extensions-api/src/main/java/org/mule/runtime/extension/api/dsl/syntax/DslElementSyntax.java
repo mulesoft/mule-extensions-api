@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.dsl.syntax;
 import static com.google.common.collect.ImmutableList.copyOf;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.NamedObject;
 
@@ -189,7 +191,6 @@ public class DslElementSyntax {
    */
   public Optional<DslElementSyntax> getAttribute(String name) {
     return ofNullable(attributes.get(name));
-
   }
 
   /**
@@ -214,4 +215,13 @@ public class DslElementSyntax {
     return copyOf(containedElements.values());
   }
 
+  @Override
+  public boolean equals(Object o) {
+    return reflectionEquals(this, o);
+  }
+
+  @Override
+  public int hashCode() {
+    return reflectionHashCode(this);
+  }
 }

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
+import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.model.parameter.ParameterModel.RESERVED_NAMES;
@@ -29,6 +30,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
+import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
@@ -37,11 +39,9 @@ import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionE
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
-import org.mule.runtime.extension.api.util.SubTypesMappingContainer;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -61,12 +61,12 @@ import java.util.Set;
  */
 public final class ParameterModelValidator implements ExtensionModelValidator {
 
-  private SubTypesMappingContainer subTypesMapping;
+  private TypeCatalog typeCatalog;
   private DslSyntaxResolver dsl;
 
   @Override
   public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
-    subTypesMapping = loadSubtypesMapping(extensionModel);
+    typeCatalog = TypeCatalog.getDefault(singleton(extensionModel));
     dsl = DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy());
 
     new ExtensionWalker() {
@@ -168,20 +168,20 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
 
   private void validateNameCollisionWithTypes(ParameterModel parameterModel, String ownerName, String ownerModelType,
                                               List<String> parameterNames, ProblemsReporter problemsReporter) {
-    Optional<MetadataType> subTypeWithNameCollision = subTypesMapping.getSubTypes(parameterModel.getType()).stream()
-        .filter(subtype -> parameterNames.contains(getTopLevelTypeName(subtype))).findFirst();
-    if (subTypeWithNameCollision.isPresent()) {
-      problemsReporter.addError(new Problem(parameterModel, format(
-                                                                   "Parameter '%s' in the %s [%s] can't have the same name as the ClassName or Alias of the declared subType [%s] for parameter [%s]",
-                                                                   getTopLevelTypeName(subTypeWithNameCollision.get()),
-                                                                   ownerModelType, ownerName,
-                                                                   getType(subTypeWithNameCollision.get()).getSimpleName(),
-                                                                   parameterModel.getName())));
+    if (parameterModel.getType() instanceof ObjectType) {
+      typeCatalog.getSubTypes((ObjectType) parameterModel.getType())
+          .stream()
+          .filter(subtype -> parameterNames.contains(getTopLevelTypeName(subtype)))
+          .findFirst()
+          .ifPresent(metadataType -> problemsReporter.addError(
+                                                               new Problem(parameterModel, format(
+                                                                                                  "Parameter '%s' in the %s [%s] can't have the same name as the ClassName or Alias of the declared subType [%s] for parameter [%s]",
+                                                                                                  getTopLevelTypeName(metadataType),
+                                                                                                  ownerModelType, ownerName,
+                                                                                                  getType(metadataType)
+                                                                                                      .getSimpleName(),
+                                                                                                  parameterModel.getName()))));
     }
-  }
-
-  private SubTypesMappingContainer loadSubtypesMapping(ExtensionModel extensionModel) {
-    return new SubTypesMappingContainer(extensionModel.getSubTypes());
   }
 
   private boolean supportsGlobalReferences(ObjectFieldType field) {
