@@ -17,13 +17,17 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-public final class ExtensionXmlSerializer {
+public class GenericXmlSerializer<T> {
 
-  private ExtensionXmlSerializer() {}
+  private Class<T> serializedType;
 
-  public static String serialize(Object dto) {
+  public GenericXmlSerializer(Class<T> serializedType) {
+    this.serializedType = serializedType;
+  }
+
+  public String serialize(T dto) {
     try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(dto.getClass());
+      JAXBContext jaxbContext = JAXBContext.newInstance(serializedType);
       Marshaller marshaller = jaxbContext.createMarshaller();
 
       ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
@@ -35,9 +39,9 @@ public final class ExtensionXmlSerializer {
     }
   }
 
-  public static <T> T deserialize(String xml, Class<T> dtoType) {
+  public <T> T deserialize(String xml) {
     try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(dtoType);
+      JAXBContext jaxbContext = JAXBContext.newInstance(serializedType);
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
       return (T) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
     } catch (Exception e) {
@@ -45,7 +49,7 @@ public final class ExtensionXmlSerializer {
     }
   }
 
-  private static XMLSerializer getXmlSerializer(OutputStream out) {
+  private XMLSerializer getXmlSerializer(OutputStream out) {
     OutputFormat of = new OutputFormat();
 
     of.setCDataElements(new String[] {"^description"});

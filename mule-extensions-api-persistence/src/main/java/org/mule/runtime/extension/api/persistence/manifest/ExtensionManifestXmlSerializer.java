@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.persistence.manifest;
 import org.mule.runtime.extension.api.manifest.DescriberManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifest;
 import org.mule.runtime.extension.api.manifest.ExtensionManifestBuilder;
-import org.mule.runtime.extension.internal.ExtensionXmlSerializer;
+import org.mule.runtime.extension.internal.GenericXmlSerializer;
 import org.mule.runtime.extension.internal.manifest.XmlDescriberManifest;
 import org.mule.runtime.extension.internal.manifest.XmlExtensionManifest;
 
@@ -20,6 +20,9 @@ import org.mule.runtime.extension.internal.manifest.XmlExtensionManifest;
  * @since 1.0
  */
 public final class ExtensionManifestXmlSerializer {
+
+  private static final GenericXmlSerializer<XmlExtensionManifest> serializer =
+      new GenericXmlSerializer<>(XmlExtensionManifest.class);
 
   /**
    * Serializes the given {@code manifest} to XML
@@ -36,7 +39,7 @@ public final class ExtensionManifestXmlSerializer {
     xmlManifest.setExportedPackages(manifest.getExportedPackages());
     xmlManifest.setExportedResources(manifest.getExportedResources());
     xmlManifest.setDescriberManifest(asXml(manifest.getDescriberManifest()));
-    return ExtensionXmlSerializer.serialize(xmlManifest);
+    return serializer.serialize(xmlManifest);
   }
 
   /**
@@ -46,7 +49,7 @@ public final class ExtensionManifestXmlSerializer {
    * @return an {@link ExtensionManifest} instance
    */
   public ExtensionManifest deserialize(String xml) {
-    XmlExtensionManifest xmlManifest = ExtensionXmlSerializer.deserialize(xml, XmlExtensionManifest.class);
+    XmlExtensionManifest xmlManifest = serializer.deserialize(xml);
     ExtensionManifestBuilder builder = new ExtensionManifestBuilder();
     builder.setName(xmlManifest.getName())
         .setDescription(xmlManifest.getDescription())
