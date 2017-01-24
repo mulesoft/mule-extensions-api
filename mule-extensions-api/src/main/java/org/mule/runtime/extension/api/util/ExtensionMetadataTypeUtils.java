@@ -70,13 +70,21 @@ public final class ExtensionMetadataTypeUtils {
     }
   }
 
+  /**
+   * @param metadataType the {@link MetadataType} to inspect
+   * @return whether the {@code metadataType} represents a {@link Map} or not
+   */
   public static boolean isMap(MetadataType metadataType) {
-    boolean implementsMap = metadataType.getAnnotation(ClassInformationAnnotation.class)
+
+    if (metadataType.getMetadataFormat().equals(JAVA) && metadataType.getAnnotation(TypeIdAnnotation.class).isPresent()) {
+      if (Map.class.isAssignableFrom(getType(metadataType))) {
+        return true;
+      }
+    }
+
+    return metadataType.getAnnotation(ClassInformationAnnotation.class)
         .map(classInformationAnnotation -> classInformationAnnotation.getImplementedInterfaces().contains(Map.class.getName()))
         .orElse(false);
-
-    return implementsMap ? true : metadataType.getAnnotation(TypeIdAnnotation.class)
-        .map(type -> type.getValue().equals(Map.class.getName())).orElse(false);
   }
 
   public static String getId(MetadataType metadataType) {

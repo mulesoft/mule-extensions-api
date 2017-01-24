@@ -224,8 +224,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    addAttributeName(builder, parameter, isContent, dslConfig);
                                    builder.withNamespace(namespace.get(), namespaceUri.get());
                                    if (isMap(objectType)) {
-                                     resolveDictionaryDsl(objectType, builder, isContent, expressionSupport, dslConfig,
-                                                          parameter.getName(), namespace.get(), namespaceUri.get());
+                                     resolveMapDsl(objectType, builder, isContent, expressionSupport, dslConfig,
+                                                   parameter.getName(), namespace.get(), namespaceUri.get());
                                    } else {
                                      builder.withNamespace(namespace.get(), namespaceUri.get())
                                          .withElementName(elementName.get());
@@ -334,10 +334,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     }
   }
 
-  private void resolveDictionaryDsl(ObjectType objectType, DslElementSyntaxBuilder builder,
-                                    boolean isContent, ExpressionSupport expressionSupport,
-                                    ParameterDslConfiguration dslModel,
-                                    String name, String namespace, String namespaceUri) {
+  private void resolveMapDsl(ObjectType objectType, DslElementSyntaxBuilder builder,
+                             boolean isContent, ExpressionSupport expressionSupport,
+                             ParameterDslConfiguration dslModel,
+                             String name, String namespace, String namespaceUri) {
     final String parameterName =
         isContent ? name : pluralize(name);
     builder.withElementName(hyphenize(parameterName))
@@ -350,9 +350,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                               .build());
       objectType.getOpenRestriction()
           .ifPresent(type -> type
-              .accept(getDictionaryValueTypeVisitor(builder, name,
-                                                    namespace, namespaceUri,
-                                                    dslModel)));
+              .accept(getMapValueTypeVisitor(builder, name,
+                                             namespace, namespaceUri,
+                                             dslModel)));
     }
   }
 
@@ -447,9 +447,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     };
   }
 
-  private MetadataTypeVisitor getDictionaryValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName,
-                                                            final String namespace, final String namespaceUri,
-                                                            ParameterDslConfiguration dslModel) {
+  private MetadataTypeVisitor getMapValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName,
+                                                     final String namespace, final String namespaceUri,
+                                                     ParameterDslConfiguration dslModel) {
     return new MetadataTypeVisitor() {
 
       @Override
@@ -566,10 +566,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                          DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
           objectFieldBuilder.withAttributeName(KEY_ATTRIBUTE_NAME);
           objectType.getOpenRestriction()
-              .ifPresent(type -> type.accept(getDictionaryValueTypeVisitor(objectFieldBuilder, fieldName,
-                                                                           ownerNamespace, ownerNamespaceUri,
-                                                                           ParameterDslConfiguration
-                                                                               .getDefaultInstance())));
+              .ifPresent(type -> type.accept(getMapValueTypeVisitor(objectFieldBuilder, fieldName,
+                                                                    ownerNamespace, ownerNamespaceUri,
+                                                                    ParameterDslConfiguration
+                                                                        .getDefaultInstance())));
         } else {
           objectFieldBuilder.withElementName(hyphenize(fieldName))
               .withNamespace(getNamespace(objectType, ownerNamespace), getNamespaceUri(objectType, ownerNamespaceUri));
