@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import static java.util.Optional.empty;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-class RestrictedTypesObjectTypeReferenceHandler implements ObjectTypeReferenceHandler {
+public final class RestrictedTypesObjectTypeReferenceHandler implements ObjectTypeReferenceHandler {
 
   private final ObjectTypeReferenceHandler delegateReferenceHandler;
   private final Set<String> allowReferenceTypes;

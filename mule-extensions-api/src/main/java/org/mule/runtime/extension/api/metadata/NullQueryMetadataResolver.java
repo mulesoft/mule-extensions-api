@@ -6,13 +6,20 @@
  */
 package org.mule.runtime.extension.api.metadata;
 
+import static java.util.Collections.emptySet;
+import static org.mule.runtime.extension.api.metadata.NullMetadataResolver.NULL_CATEGORY_NAME;
+import static org.mule.runtime.extension.api.metadata.NullMetadataResolver.NULL_RESOLVER_NAME;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
+import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
 import org.mule.runtime.extension.api.annotation.param.Query;
+
+import java.util.Set;
 
 /**
  * Null implementation of {@link OutputTypeResolver} used to represent the absence of output resolver
@@ -20,11 +27,16 @@ import org.mule.runtime.extension.api.annotation.param.Query;
  *
  * @since 1.0
  */
-public final class NullQueryOutputMetadataResolver implements OutputTypeResolver<String> {
+public final class NullQueryMetadataResolver implements OutputTypeResolver<String>, QueryEntityResolver {
 
   @Override
   public String getCategoryName() {
-    return "NullQueryOutputCategory";
+    return NULL_CATEGORY_NAME;
+  }
+
+  @Override
+  public String getResolverName() {
+    return NULL_RESOLVER_NAME;
   }
 
   /**
@@ -38,7 +50,18 @@ public final class NullQueryOutputMetadataResolver implements OutputTypeResolver
    * @return a {@link VoidType} instance.
    */
   @Override
-  public MetadataType getOutputType(MetadataContext context, String key) throws MetadataResolvingException {
+  public MetadataType getOutputType(MetadataContext context, String key) throws MetadataResolvingException, ConnectionException {
+    return context.getTypeBuilder().voidType().build();
+  }
+
+  @Override
+  public Set<MetadataKey> getEntityKeys(MetadataContext context) throws MetadataResolvingException, ConnectionException {
+    return emptySet();
+  }
+
+  @Override
+  public MetadataType getEntityMetadata(MetadataContext context, String key)
+      throws MetadataResolvingException, ConnectionException {
     return context.getTypeBuilder().voidType().build();
   }
 }

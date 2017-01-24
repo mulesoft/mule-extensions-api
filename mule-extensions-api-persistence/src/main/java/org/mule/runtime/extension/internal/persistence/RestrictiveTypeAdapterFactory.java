@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

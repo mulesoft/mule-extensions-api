@@ -44,6 +44,15 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.ElementDslModelTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.ImportedTypesModelTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.RestrictedTypesObjectTypeReferenceHandler;
+import org.mule.runtime.extension.internal.persistence.SubTypesModelTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.XmlDslModelTypeAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

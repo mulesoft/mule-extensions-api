@@ -12,20 +12,5 @@
       "reason": "Metadata Failure Error",
       "failureCode": "INVALID_METADATA_KEY"
     }
-  ],
-  "metadataAttributes": {
-    "key": {
-      "id": "Key ID",
-      "displayName": "Key Name",
-      "partName": "",
-      "properties": {},
-      "childs": []
-    },
-    "category": "categoryName",
-    "parameters": {
-      "carName": "resolverName"
-    },
-    "outputResolver": "outputResolverName",
-    "attributesResolver": "outputResolverName"
-  }
+  ]
 }

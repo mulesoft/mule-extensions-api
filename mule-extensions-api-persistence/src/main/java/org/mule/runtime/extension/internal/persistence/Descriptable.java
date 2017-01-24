@@ -5,7 +5,7 @@
  * LICENSE.txt file.
  */
 
-package org.mule.runtime.extension.api.persistence.metadata;
+package org.mule.runtime.extension.internal.persistence;
 
 
 /**

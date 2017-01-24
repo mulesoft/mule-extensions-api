@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.runtime.api.meta.model.XmlDslModel;
 
@@ -21,7 +21,7 @@ import java.io.IOException;
  *
  * @since 1.0
  */
-class XmlDslModelTypeAdapter extends TypeAdapter<XmlDslModel> {
+public class XmlDslModelTypeAdapter extends TypeAdapter<XmlDslModel> {
 
   private static final String NAMESPACE = "namespace";
   private static final String NAMESPACE_URI = "namespaceUri";

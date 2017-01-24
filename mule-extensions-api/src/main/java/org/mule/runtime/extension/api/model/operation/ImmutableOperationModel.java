@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.model.operation;
 
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveOutputModelType;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveParameterGroupModelType;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ExecutionType;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -14,6 +16,8 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.api.metadata.descriptor.InputMetadataDescriptor;
+import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
@@ -24,7 +28,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel {
+public class ImmutableOperationModel extends AbstractComponentModel<OperationModel> implements OperationModel {
 
   private final boolean blocking;
   private final ExecutionType executionType;
@@ -87,5 +91,25 @@ public class ImmutableOperationModel extends AbstractComponentModel implements O
    */
   public ExecutionType getExecutionType() {
     return executionType;
+  }
+
+  @Override
+  public OperationModel getTypedModel(InputMetadataDescriptor inputMetadataDescriptor,
+                                      OutputMetadataDescriptor outputMetadataDescriptor) {
+    OutputModel typedOutputModel = resolveOutputModelType(getOutput(), outputMetadataDescriptor.getPayloadMetadata());
+    OutputModel typedAttributesModel =
+        resolveOutputModelType(getOutputAttributes(), outputMetadataDescriptor.getAttributesMetadata());
+
+    return new ImmutableOperationModel(getName(), getDescription(),
+                                       resolveParameterGroupModelType(getParameterGroupModels(),
+                                                                      inputMetadataDescriptor
+                                                                          .getAllParameters()),
+                                       typedOutputModel, typedAttributesModel, isBlocking(),
+                                       getExecutionType(), requiresConnection(),
+                                       isTransactional(),
+                                       getDisplayModel().orElse(null),
+                                       getErrorModels(),
+                                       getModelProperties());
+
   }
 }

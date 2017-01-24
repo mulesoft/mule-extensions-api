@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
@@ -26,7 +26,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-class SubTypesModelTypeAdapter extends TypeAdapter<SubTypesModel> {
+public class SubTypesModelTypeAdapter extends TypeAdapter<SubTypesModel> {
 
   public static final String SUB_TYPES = "subTypes";
   private static final String BASE_TYPE = "baseType";

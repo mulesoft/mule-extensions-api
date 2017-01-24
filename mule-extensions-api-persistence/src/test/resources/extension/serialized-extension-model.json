@@ -76,7 +76,7 @@
                   "typeId": "java.lang.String"
                 }
               },
-              "hasDynamicType": false,
+              "hasDynamicType": true,
               "required": false,
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -642,7 +642,7 @@
       "displayModel": {},
       "description": "Obtains a car",
       "modelProperties": {
-        "org.mule.runtime.extension.api.persistence.ExtensionModelPersistenceTestCase$ExternalizableModelProperty": {}
+        "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
       }
     }
   ],
@@ -1360,7 +1360,7 @@
                   "typeId": "java.lang.String"
                 }
               },
-              "hasDynamicType": false,
+              "hasDynamicType": true,
               "required": false,
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -1419,9 +1419,9 @@
       "annotations": {
         "typeId": "test.package.ExportedClass",
         "classInformation": {
-          "hasDefaultConstructor": false,
+          "hasDefaultConstructor": true,
           "isInterface": false,
-          "isInstantiable": false,
+          "isInstantiable": true,
           "isAbstract": false,
           "isFinal": false,
           "implementedInterfaces": [],

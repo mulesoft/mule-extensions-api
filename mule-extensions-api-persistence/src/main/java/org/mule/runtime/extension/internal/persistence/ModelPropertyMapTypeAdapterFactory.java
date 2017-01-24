@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
-final class ModelPropertyMapTypeAdapterFactory implements TypeAdapterFactory {
+public final class ModelPropertyMapTypeAdapterFactory implements TypeAdapterFactory {
 
   private final Type mapType = new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>() {}.getType();
   private final Type hierarchyClassMapType = new TypeToken<HierarchyClassMap<ModelProperty>>() {}.getType();

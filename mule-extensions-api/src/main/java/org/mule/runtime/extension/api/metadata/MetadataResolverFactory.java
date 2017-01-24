@@ -6,11 +6,13 @@
  */
 package org.mule.runtime.extension.api.metadata;
 
-import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
-import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+
+import java.util.Collection;
 
 /**
  * Provides instances of the {@link TypeKeysResolver}, {@link TypeKeysResolver},
@@ -33,6 +35,13 @@ public interface MetadataResolverFactory {
    * @return an instance of the {@link InputTypeResolver}
    */
   <T> InputTypeResolver<T> getInputResolver(String parameterName);
+
+  /**
+   * Provides all the {@link InputTypeResolver} associated to the parameters of the Component.
+   * 
+   * @return a {@link Collection} of {@link InputTypeResolver}
+   */
+  Collection<InputTypeResolver> getInputResolvers();
 
   /**
    * Provides an instance of the {@link OutputTypeResolver} type associated to the Component

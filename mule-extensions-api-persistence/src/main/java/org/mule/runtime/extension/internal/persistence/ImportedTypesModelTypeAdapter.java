@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
@@ -23,7 +23,7 @@ import java.io.IOException;
  *
  * @since 1.0
  */
-class ImportedTypesModelTypeAdapter extends TypeAdapter<ImportedTypeModel> {
+public class ImportedTypesModelTypeAdapter extends TypeAdapter<ImportedTypeModel> {
 
   private static final String EXTENSION = "extension";
   private static final String TYPE = "type";
