@@ -14,6 +14,7 @@ import static org.mule.runtime.api.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isContent;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
@@ -30,7 +31,7 @@ import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isTe
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isValidBean;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
-import org.mule.metadata.api.TypeLoader;
+import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
@@ -51,7 +52,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
-import org.mule.runtime.extension.api.declaration.type.DefaultExtensionsTypeLoaderFactory;
+import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
@@ -84,7 +85,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   private final Map<String, DslElementSyntax> resolvedTypes = new HashMap<>();
   private final Map<MetadataType, XmlDslModel> importedTypes;
   private final Deque<String> typeResolvingStack = new ArrayDeque<>();
-  private final TypeLoader typeLoader;
+  private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
   /**
    * Creates an instance using the default implementation
@@ -117,7 +118,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     this.languageModel = model.getXmlDslModel();
     this.typeCatalog = TypeCatalog.getDefault(singleton(model));
     this.importedTypes = importTypesStrategy.getImportedTypes();
-    this.typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
   }
 
   /**
@@ -222,26 +222,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  @Override
                                  public void visitObject(ObjectType objectType) {
                                    addAttributeName(builder, parameter, isContent, dslConfig);
-                                   if (objectType.isOpen()) {
-                                     final String parameterName =
-                                         isContent ? parameter.getName() : pluralize(parameter.getName());
-                                     builder.withNamespace(namespace.get(), namespaceUri.get())
-                                         .withElementName(hyphenize(parameterName))
-                                         .supportsChildDeclaration(supportsInlineDeclaration(objectType,
-                                                                                             expressionSupport,
-                                                                                             isContent));
-                                     if (!isContent) {
-                                       builder.withGeneric(typeLoader.load(String.class.getName()).get(),
-                                                           DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME)
-                                                               .build());
-                                       objectType.getOpenRestriction().get().accept(getDictionaryValueTypeVisitor(builder,
-                                                                                                                  parameter
-                                                                                                                      .getName(),
-                                                                                                                  namespace.get(),
-                                                                                                                  namespaceUri
-                                                                                                                      .get(),
-                                                                                                                  dslConfig));
-                                     }
+                                   builder.withNamespace(namespace.get(), namespaceUri.get());
+                                   if (isMap(objectType)) {
+                                     resolveDictionaryDsl(objectType, builder, isContent, expressionSupport, dslConfig,
+                                                          parameter.getName(), namespace.get(), namespaceUri.get());
                                    } else {
                                      builder.withNamespace(namespace.get(), namespaceUri.get())
                                          .withElementName(elementName.get());
@@ -350,6 +334,28 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     }
   }
 
+  private void resolveDictionaryDsl(ObjectType objectType, DslElementSyntaxBuilder builder,
+                                    boolean isContent, ExpressionSupport expressionSupport,
+                                    ParameterDslConfiguration dslModel,
+                                    String name, String namespace, String namespaceUri) {
+    final String parameterName =
+        isContent ? name : pluralize(name);
+    builder.withElementName(hyphenize(parameterName))
+        .supportsChildDeclaration(supportsInlineDeclaration(objectType,
+                                                            expressionSupport,
+                                                            isContent));
+    if (!isContent) {
+      builder.withGeneric(typeLoader.load(String.class),
+                          DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME)
+                              .build());
+      objectType.getOpenRestriction()
+          .ifPresent(type -> type
+              .accept(getDictionaryValueTypeVisitor(builder, name,
+                                                    namespace, namespaceUri,
+                                                    dslModel)));
+    }
+  }
+
   private void resolveGroupsDsl(ParameterizedModel component, DslElementSyntaxBuilder dsl) {
     List<ParameterModel> inlineGroupedParameters = component.getParameterGroupModels().stream()
         .filter(ParameterGroupModel::isShowInDsl)
@@ -383,7 +389,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (objectType.isOpen()) {
+        if (isMap(objectType)) {
           defaultVisit(objectType);
           return;
         }
@@ -448,7 +454,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (objectType.isOpen()) {
+        if (isMap(objectType)) {
           defaultVisit(objectType);
           return;
         }
@@ -549,26 +555,23 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (objectType.isOpen()) {
-          objectFieldBuilder.withAttributeName(fieldName)
-              .withElementName(hyphenize(pluralize(fieldName)))
+        objectFieldBuilder.withAttributeName(fieldName);
+        if (isMap(objectType)) {
+          objectFieldBuilder.withElementName(hyphenize(pluralize(fieldName)))
               .withNamespace(ownerNamespace, ownerNamespaceUri);
 
-          MetadataType keyType = typeLoader.load(String.class.getName()).get();
-          if (supportsInlineDeclaration(keyType, SUPPORTED)) {
-            objectFieldBuilder.supportsChildDeclaration(true);
+          objectFieldBuilder.supportsChildDeclaration(true);
 
-            objectFieldBuilder.withGeneric(keyType,
-                                           DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
-            objectFieldBuilder.withAttributeName(KEY_ATTRIBUTE_NAME);
-            objectType.getOpenRestriction().get().accept(getDictionaryValueTypeVisitor(objectFieldBuilder, fieldName,
-                                                                                       ownerNamespace, ownerNamespaceUri,
-                                                                                       ParameterDslConfiguration
-                                                                                           .getDefaultInstance()));
-          }
+          objectFieldBuilder.withGeneric(typeLoader.load(String.class),
+                                         DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
+          objectFieldBuilder.withAttributeName(KEY_ATTRIBUTE_NAME);
+          objectType.getOpenRestriction()
+              .ifPresent(type -> type.accept(getDictionaryValueTypeVisitor(objectFieldBuilder, fieldName,
+                                                                           ownerNamespace, ownerNamespaceUri,
+                                                                           ParameterDslConfiguration
+                                                                               .getDefaultInstance())));
         } else {
-          objectFieldBuilder.withAttributeName(fieldName)
-              .withElementName(hyphenize(fieldName))
+          objectFieldBuilder.withElementName(hyphenize(fieldName))
               .withNamespace(getNamespace(objectType, ownerNamespace), getNamespaceUri(objectType, ownerNamespaceUri));
 
           if (!typeResolvingStack.contains(getId(objectType))) {

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.dsl;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -21,6 +22,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
@@ -366,6 +368,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
         .openWith(valueType)
+        .with(new ClassInformationAnnotation(Map.class, asList(String.class, InterfaceDeclaration.class)))
         .build());
 
     ifContentParameter(() -> assertNoGeneric(getSyntaxResolver().resolve(parameterModel), valueType),

@@ -92,11 +92,8 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (objectType.isOpen()) {
-          objectType.getOpenRestriction().get().accept(this);
-        } else {
-          declarer.withType(objectType);
-        }
+        declarer.withType(objectType);
+        objectType.getOpenRestriction().ifPresent(type -> type.accept(this));
       }
 
       @Override

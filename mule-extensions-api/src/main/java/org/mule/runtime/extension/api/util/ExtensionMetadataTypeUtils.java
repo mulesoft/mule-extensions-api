@@ -11,6 +11,7 @@ import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
@@ -19,6 +20,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeA
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.lang.reflect.Modifier;
+import java.util.Map;
 
 /**
  * Set of utility operations to handle {@link MetadataType}
@@ -66,6 +68,15 @@ public final class ExtensionMetadataTypeUtils {
     } catch (Exception e) {
       return false;
     }
+  }
+
+  public static boolean isMap(MetadataType metadataType) {
+    boolean implementsMap = metadataType.getAnnotation(ClassInformationAnnotation.class)
+        .map(classInformationAnnotation -> classInformationAnnotation.getImplementedInterfaces().contains(Map.class.getName()))
+        .orElse(false);
+
+    return implementsMap ? true : metadataType.getAnnotation(TypeIdAnnotation.class)
+        .map(type -> type.getValue().equals(Map.class.getName())).orElse(false);
   }
 
   public static String getId(MetadataType metadataType) {
