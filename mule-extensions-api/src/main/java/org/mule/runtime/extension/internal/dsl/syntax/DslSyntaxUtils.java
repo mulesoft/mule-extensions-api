@@ -8,15 +8,13 @@ package org.mule.runtime.extension.internal.dsl.syntax;
 
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.supportsTopLevelDeclaration;
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
-import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
@@ -141,8 +139,12 @@ public final class DslSyntaxUtils {
         arrayType.getType().accept(new MetadataTypeVisitor() {
 
           @Override
-          public void visitDictionary(DictionaryType dictionaryType) {
-            supportsChildDeclaration.set(false);
+          public void visitObject(ObjectType objectType) {
+            if (isMap(objectType)) {
+              supportsChildDeclaration.set(false);
+            } else {
+              objectType.accept(currentVisitor);
+            }
           }
 
           @Override
@@ -154,37 +156,20 @@ public final class DslSyntaxUtils {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (!dslModel.allowsInlineDefinition()) {
-          supportsChildDeclaration.set(false);
+        if (isMap(objectType)) {
+          supportsChildDeclaration.set(true);
         } else {
-          supportsChildDeclaration.set(isValidBean(objectType));
+          if (!dslModel.allowsInlineDefinition()) {
+            supportsChildDeclaration.set(false);
+          } else {
+            supportsChildDeclaration.set(isValidBean(objectType));
+          }
         }
       }
 
       @Override
       public void visitUnion(UnionType unionType) {
         supportsChildDeclaration.set(false);
-      }
-
-      @Override
-      public void visitDictionary(DictionaryType dictionaryType) {
-        dictionaryType.getKeyType().accept(new MetadataTypeVisitor() {
-
-          @Override
-          public void visitString(StringType stringType) {
-            supportsChildDeclaration.set(true);
-          }
-
-          @Override
-          public void visitNumber(NumberType numberType) {
-            supportsChildDeclaration.set(true);
-          }
-
-          @Override
-          protected void defaultVisit(MetadataType metadataType) {
-            supportsChildDeclaration.set(false);
-          }
-        });
       }
     });
 
