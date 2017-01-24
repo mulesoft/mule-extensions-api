@@ -17,8 +17,8 @@ import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import org.mule.metadata.api.model.ArrayType;
-import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.DescribedObject;
 import org.mule.runtime.api.meta.NamedObject;
@@ -319,8 +319,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
                            parameter.getType().accept(new MetadataTypeVisitor() {
 
                              @Override
-                             public void visitDictionary(DictionaryType dictionaryType) {
-                               validateSingularizedChildName(dictionaryType.getValueType());
+                             public void visitObject(ObjectType objectType) {
+                               objectType.getOpenRestriction().ifPresent(this::validateSingularizedChildName);
                              }
 
                              @Override

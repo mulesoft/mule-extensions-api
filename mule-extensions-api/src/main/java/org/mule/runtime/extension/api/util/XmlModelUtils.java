@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.util;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -101,7 +102,7 @@ public final class XmlModelUtils {
    * @return Whether the given {@code metadataType} can be defined as a top level element
    */
   public static boolean supportsTopLevelDeclaration(MetadataType metadataType) {
-    if (metadataType instanceof ObjectType) {
+    if (metadataType instanceof ObjectType && !isMap(metadataType)) {
       return metadataType.getAnnotation(XmlHintsAnnotation.class)
           .map(XmlHintsAnnotation::allowsTopLevelDefinition)
           .orElse(false);
