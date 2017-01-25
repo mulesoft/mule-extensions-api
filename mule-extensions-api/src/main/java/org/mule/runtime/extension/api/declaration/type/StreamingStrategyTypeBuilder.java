@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.util.Arrays.stream;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_BUFFER_SIZE;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_BUFFER_SIZE_UNIT;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
@@ -68,10 +70,10 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
         .id(Map.class.getName())
         .with(new TypeAliasAnnotation(name));
 
-    addIntField(streamingType, typeBuilder, "maxInMemorySize", description, 256);//TODO: Use actual default
+    addIntField(streamingType, typeBuilder, "maxInMemorySize", description, DEFAULT_STREAMING_BUFFER_SIZE);
 
     addEnumField(streamingType, typeBuilder, "sizeUnit", "The unit in which maxInMemorySize is expressed",
-                 ByteUnit.KB.name(), /// TODO: use actual default
+                 DEFAULT_STREAMING_BUFFER_SIZE_UNIT.name(),
                  stream(ByteUnit.values()).map(unit -> unit.name()).toArray(String[]::new));
 
     return streamingType.build();

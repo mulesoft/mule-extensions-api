@@ -7,8 +7,10 @@
 package org.mule.runtime.extension.api;
 
 import static java.util.Arrays.asList;
+import static org.mule.runtime.api.util.ByteUnit.KB;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.tls.TlsContextFactory;
+import org.mule.runtime.api.util.ByteUnit;
 
 import java.util.List;
 
@@ -83,6 +85,16 @@ public final class ExtensionConstants {
    * The name of the tab in which streaming parameters should appear
    */
   public static final String STREAMING_TAB_NAME = "Streaming";
+
+  /**
+   * The default size of the buffer that allows for repeatable streams
+   */
+  public static final int DEFAULT_STREAMING_BUFFER_SIZE = 256;
+
+  /**
+   * The default unit which quialifies {@link #DEFAULT_STREAMING_BUFFER_SIZE}
+   */
+  public static final ByteUnit DEFAULT_STREAMING_BUFFER_SIZE_UNIT = KB;
 
   /**
    * The description of the parameter for configuring transactional actions
