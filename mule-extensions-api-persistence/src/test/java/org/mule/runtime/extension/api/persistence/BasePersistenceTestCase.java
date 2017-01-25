@@ -138,9 +138,10 @@ abstract class BasePersistenceTestCase {
 
     final ImmutableParameterModel objectMap =
         new ImmutableParameterModel(OBJECT_MAP_NAME, "object map",
-                                    typeBuilder.objectType()
+                                    typeBuilder.dictionaryType()
                                         .id(HashMap.class.getName())
-                                        .openWith(exportedType)
+                                        .ofKey(ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(String.class))
+                                        .ofValue(exportedType)
                                         .build(),
 
                                     false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,

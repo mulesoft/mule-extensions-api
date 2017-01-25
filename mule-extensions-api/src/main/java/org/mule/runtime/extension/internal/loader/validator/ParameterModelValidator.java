@@ -17,6 +17,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.ArrayType;
+import org.mule.metadata.api.model.DictionaryType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
@@ -114,6 +115,12 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
         private Set<MetadataType> visitedTypes = new HashSet<>();
 
         @Override
+        public void visitDictionary(DictionaryType dictionaryType) {
+          dictionaryType.getKeyType().accept(this);
+          dictionaryType.getValueType().accept(this);
+        }
+
+        @Override
         public void visitArrayType(ArrayType arrayType) {
           arrayType.getType().accept(this);
         }
@@ -121,10 +128,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
         @Override
         public void visitObject(ObjectType objectType) {
           DslElementSyntax paramDsl = dsl.resolve(parameterModel);
-          if (objectType.isOpen()) {
-            objectType.getOpenRestriction().get().accept(this);
-          } else if ((paramDsl.supportsTopLevelDeclaration() || paramDsl.supportsChildDeclaration())
-              && visitedTypes.add(objectType)) {
+          if ((paramDsl.supportsTopLevelDeclaration() || paramDsl.supportsChildDeclaration()) && visitedTypes.add(objectType)) {
             for (ObjectFieldType field : objectType.getFields()) {
 
               String fieldName = field.getKey().getName().getLocalPart();

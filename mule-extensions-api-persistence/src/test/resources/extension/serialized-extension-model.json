@@ -719,14 +719,19 @@
             {
               "type": {
                 "format": "java",
-                "type": "Object",
+                "type": "Dictionary",
                 "annotations": {
                   "typeId": "java.util.HashMap"
                 },
-                "open": {
-                  "type": "@ref:test.package.ExportedClass"
+                "key": {
+                  "type": "String",
+                  "annotations": {
+                    "typeId": "java.lang.String"
+                  }
                 },
-                "fields": []
+                "value": {
+                  "type": "@ref:test.package.ExportedClass"
+                }
               },
               "hasDynamicType": false,
               "required": true,
