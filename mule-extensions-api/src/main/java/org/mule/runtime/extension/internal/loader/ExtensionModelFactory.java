@@ -63,7 +63,6 @@ import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDecla
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.SourceDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
@@ -119,7 +118,6 @@ public final class ExtensionModelFactory {
                                                     new TargetParameterDeclarationEnricher(),
                                                     new ConnectionProviderDeclarationEnricher(),
                                                     new SourceDeclarationEnricher(),
-                                                    new StreamingDeclarationEnricher(),
                                                     new TransactionalDeclarationEnricher())));
 
     extensionModelValidators = unmodifiableList(asList(
