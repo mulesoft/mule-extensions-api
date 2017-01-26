@@ -27,6 +27,7 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
   public static final String MESSAGE_DIGEST_ALGORITHM = "messageDigestAlgorithm";
   public static final String ID_EXPRESSION = "idExpression";
   public static final String OBJECT_STORE_REF = "object-store-ref";
+  public static final String REDELIVERY_POLICY = "RedeliveryPolicy";
 
   /**
    * @return a {@link MetadataType} representation of a redelivery policy
@@ -34,7 +35,7 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
   public MetadataType buildRedeliveryPolicyType() {
     ObjectTypeBuilder objectType = create(JAVA).objectType()
         .id(Map.class.getName())
-        .with(new TypeAliasAnnotation("RedeliveryPolicy"));
+        .with(new TypeAliasAnnotation(REDELIVERY_POLICY));
     BaseTypeBuilder typeBuilder = create(JAVA);
 
     addIntField(objectType, typeBuilder,

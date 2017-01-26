@@ -6,10 +6,15 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder.RECONNECTION_STRATEGY;
+import static org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder.RECONNECT_ALIAS;
+import static org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder.RECONNECT_FOREVER_ALIAS;
+import static org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder.REDELIVERY_POLICY;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -21,6 +26,7 @@ import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
@@ -39,6 +45,9 @@ import java.util.stream.Stream;
 public final class TypeUtils {
 
   private TypeUtils() {}
+
+  private static List<String> INFRASTRUCTURE_ALIASES =
+      asList(REDELIVERY_POLICY, RECONNECTION_STRATEGY, RECONNECT_FOREVER_ALIAS, RECONNECT_ALIAS);
 
   /**
    * Returns all the {@link Field}s in the given {@code declaringType} which are annotated
@@ -135,6 +144,12 @@ public final class TypeUtils {
     }
 
     return empty();
+  }
+
+  public static boolean isInfrastructure(MetadataType type) {
+    return type.getAnnotation(TypeAliasAnnotation.class)
+        .map(typeAliasAnnotation -> INFRASTRUCTURE_ALIASES.contains(typeAliasAnnotation.getValue()))
+        .orElse(false);
   }
 
   /**

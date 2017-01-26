@@ -28,6 +28,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   public static final String RECONNECT_ALIAS = "reconnect";
   public static final String RECONNECT_FOREVER_ALIAS = "reconnect-forever";
   public static final String BLOCKING = "blocking";
+  public static final String RECONNECTION_STRATEGY = "ReconnectionStrategy";
 
   /**
    * @return a {@link MetadataType} representation of a retry policy
@@ -39,7 +40,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
         .of(getSimpleRetryType(typeBuilder))
         .of(getForeverRetryType(typeBuilder))
         .id(Map.class.getName())
-        .with(new TypeAliasAnnotation("ReconnectionStrategy"))
+        .with(new TypeAliasAnnotation(RECONNECTION_STRATEGY))
         .build();
   }
 
