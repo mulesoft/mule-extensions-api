@@ -16,6 +16,8 @@ import org.mule.metadata.java.api.handler.ClassHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.tls.TlsContextFactory;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -29,6 +31,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
   /**
    * {@inheritDoc}
+   *
    * @return {@code true} if {@code clazz} equals {@link TlsContextFactory}
    */
   @Override
@@ -48,6 +51,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
     ObjectTypeBuilder type = objectType(typeBuilder, TlsContextFactory.class, context);
     typeBuilder = create(JAVA);
+    type.with(new TypeAliasAnnotation("Tls"));
+    type.with(new InfrastructureTypeAnnotation());
     addStringField(type, typeBuilder, "enabledProtocols",
                    "A comma separated list of protocols enabled for this context.", null);
     addStringField(type, typeBuilder, "enabledCipherSuites",
@@ -62,6 +67,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
   private void addTrustStoreField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
     ObjectTypeBuilder trustStoreType = typeBuilder.objectType().id(Object.class.getName())
+        .with(new InfrastructureTypeAnnotation())
+        .with(new TypeAliasAnnotation("TrustStore"))
         .description("Trust store configuration. If used client side, the trust store contains the certificates of the "
             + "trusted servers. If used server side, it contains the certificates of the trusted clients.");
     typeBuilder = create(JAVA);
@@ -86,6 +93,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
   private void addKeyStoreField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
     ObjectTypeBuilder keyStoreType = typeBuilder.objectType().id(Object.class.getName())
+        .with(new TypeAliasAnnotation("KeyStore"))
+        .with(new InfrastructureTypeAnnotation())
         .description("Key store configuration. The key store contains the keys of this server/client.");
 
     addStringField(keyStoreType, typeBuilder, "path", "The location (which will be resolved relative to the current "

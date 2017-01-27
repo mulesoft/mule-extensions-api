@@ -6,15 +6,10 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
-import static org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder.RECONNECTION_STRATEGY;
-import static org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder.RECONNECT_ALIAS;
-import static org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder.RECONNECT_FOREVER_ALIAS;
-import static org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder.REDELIVERY_POLICY;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -24,9 +19,9 @@ import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
@@ -141,6 +136,15 @@ public final class TypeUtils {
     }
 
     return empty();
+  }
+
+  /**
+   *
+   * @param type the type to check
+   * @return whether is an infrastructure type or not.
+   */
+  public static boolean isInfrastructure(MetadataType type) {
+    return type.getAnnotation(InfrastructureTypeAnnotation.class).isPresent();
   }
 
   /**

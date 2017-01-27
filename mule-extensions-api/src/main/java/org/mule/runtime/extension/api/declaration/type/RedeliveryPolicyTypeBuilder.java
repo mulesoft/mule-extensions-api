@@ -11,6 +11,7 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 /**
@@ -35,6 +36,8 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
         .id(Object.class.getName())
         .with(new TypeAliasAnnotation(REDELIVERY_POLICY));
     BaseTypeBuilder typeBuilder = create(JAVA);
+
+    objectType.with(new InfrastructureTypeAnnotation());
 
     addIntField(objectType, typeBuilder,
                 MAX_REDELIVERY_COUNT,

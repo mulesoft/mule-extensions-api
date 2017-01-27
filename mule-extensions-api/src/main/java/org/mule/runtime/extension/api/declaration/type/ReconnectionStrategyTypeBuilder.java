@@ -12,6 +12,7 @@ import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 /**
@@ -33,18 +34,19 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
    */
   public MetadataType buildReconnectionStrategyType() {
     BaseTypeBuilder typeBuilder = create(JAVA);
-
     return create(JAVA).unionType()
         .of(getSimpleRetryType(typeBuilder))
         .of(getForeverRetryType(typeBuilder))
         .id(Object.class.getName())
         .with(new TypeAliasAnnotation(RECONNECTION_STRATEGY))
+        .with(new InfrastructureTypeAnnotation())
         .build();
   }
 
   private TypeBuilder getSimpleRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
         .id(Object.class.getName())
+        .with(new InfrastructureTypeAnnotation())
         .with(new TypeAliasAnnotation(RECONNECT_ALIAS));
 
     addFrequencyField(retryType, typeBuilder);
@@ -61,6 +63,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   private TypeBuilder getForeverRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
         .id(Object.class.getName())
+        .with(new InfrastructureTypeAnnotation())
         .with(new TypeAliasAnnotation(RECONNECT_FOREVER_ALIAS));
     addFrequencyField(retryType, typeBuilder);
 
