@@ -14,6 +14,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mule.runtime.api.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
+import static org.mule.runtime.api.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -23,8 +25,8 @@ import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
@@ -288,20 +290,34 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
         .openWith(TYPE_BUILDER.stringType().id(String.class.getName()))
         .build());
-
-    ifContentParameter(() -> assertNoGeneric(getSyntaxResolver().resolve(parameterModel), valueType),
+    final DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
+    ifContentParameter(() -> {
+      assertNoAttributes(result);
+      assertNoGeneric(result, valueType);
+    },
                        () -> {
-                         DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
-
                          assertAttributeName(PARAMETER_NAME, result);
                          assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
                          assertElementNamespace(NAMESPACE, result);
                          assertParameterChildElementDeclaration(true, result);
                          assertIsWrappedElement(false, result);
 
-                         DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
-                         assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
-                         assertIsWrappedElement(false, innerElement);
+                         DslElementSyntax generic = getGenericTypeDsl(valueType, result);
+                         assertAttributeDeclaration(false, generic);
+                         assertChildElementDeclarationIs(true, generic);
+                         assertIsWrappedElement(false, generic);
+
+                         DslElementSyntax key = getAttributeDsl(KEY_ATTRIBUTE_NAME, generic);
+                         assertAttributeName(KEY_ATTRIBUTE_NAME, key);
+                         assertAttributeDeclaration(true, key);
+                         assertChildElementDeclarationIs(false, key);
+                         assertIsWrappedElement(false, key);
+
+                         DslElementSyntax value = getAttributeDsl(VALUE_ATTRIBUTE_NAME, generic);
+                         assertAttributeName(VALUE_ATTRIBUTE_NAME, value);
+                         assertAttributeDeclaration(true, value);
+                         assertChildElementDeclarationIs(false, value);
+                         assertIsWrappedElement(false, value);
                        });
   }
 
@@ -326,12 +342,29 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
       assertAttributeDeclaration(false, result);
     }, () -> {
       assertAttributeName(PARAMETER_NAME, result);
-      assertAttributeDeclaration(true, result);
       assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
-      DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
-      assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
-      assertParameterChildElementDeclaration(true, innerElement);
-      assertIsWrappedElement(false, innerElement);
+      assertElementNamespace(NAMESPACE, result);
+      assertParameterChildElementDeclaration(true, result);
+      assertIsWrappedElement(false, result);
+
+      DslElementSyntax generic = getGenericTypeDsl(valueType, result);
+      assertAttributeDeclaration(false, generic);
+      assertChildElementDeclarationIs(true, generic);
+      assertIsWrappedElement(false, generic);
+
+      DslElementSyntax key = getAttributeDsl(KEY_ATTRIBUTE_NAME, generic);
+      assertAttributeName(KEY_ATTRIBUTE_NAME, key);
+      assertAttributeDeclaration(true, key);
+      assertChildElementDeclarationIs(false, key);
+      assertIsWrappedElement(false, key);
+
+      DslElementSyntax value = getAttributeDsl(VALUE_ATTRIBUTE_NAME, generic);
+      assertAttributeName(VALUE_ATTRIBUTE_NAME, value);
+      assertAttributeDeclaration(true, value);
+      assertChildElementDeclarationIs(true, value);
+      assertIsWrappedElement(false, value);
+      assertElementName(getTopLevelTypeName(valueType), value);
+      getChildFieldDsl("textField", value);
     });
   }
 
@@ -355,10 +388,27 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     }, () -> {
       assertAttributeName(PARAMETER_NAME, result);
       assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
-      DslElementSyntax innerElement = getGenericTypeDsl(valueType, result);
-      assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
-      assertParameterChildElementDeclaration(true, innerElement);
-      assertIsWrappedElement(true, innerElement);
+      assertElementNamespace(NAMESPACE, result);
+      assertParameterChildElementDeclaration(true, result);
+      assertIsWrappedElement(false, result);
+
+      DslElementSyntax generic = getGenericTypeDsl(valueType, result);
+      assertAttributeDeclaration(false, generic);
+      assertChildElementDeclarationIs(true, generic);
+      assertIsWrappedElement(false, generic);
+
+      DslElementSyntax key = getAttributeDsl(KEY_ATTRIBUTE_NAME, generic);
+      assertAttributeName(KEY_ATTRIBUTE_NAME, key);
+      assertAttributeDeclaration(true, key);
+      assertChildElementDeclarationIs(false, key);
+      assertIsWrappedElement(false, key);
+
+      DslElementSyntax value = getAttributeDsl(VALUE_ATTRIBUTE_NAME, generic);
+      assertAttributeName(VALUE_ATTRIBUTE_NAME, value);
+      assertAttributeDeclaration(true, value);
+      assertChildElementDeclarationIs(true, value);
+      assertIsWrappedElement(false, value);
+      assertElementName(getTopLevelTypeName(valueType), value);
     });
   }
 
@@ -368,7 +418,8 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
         .openWith(valueType)
-        .with(new ClassInformationAnnotation(Map.class, asList(String.class, InterfaceDeclaration.class)))
+        .with(new ClassInformationAnnotation(Map.class, asList(String.class,
+                                                               InterfaceDeclaration.class)))
         .build());
 
     ifContentParameter(() -> assertNoGeneric(getSyntaxResolver().resolve(parameterModel), valueType),
@@ -389,14 +440,14 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testMapOfNonInstantiableValueTypeWithMappedSubtypesParameter() {
-    ObjectType baseType = (ObjectType) TYPE_LOADER.load(InterfaceDeclarationWithMapping.class);
+    ObjectType valueType = (ObjectType) TYPE_LOADER.load(InterfaceDeclarationWithMapping.class);
 
-    when(typeCatalog.containsBaseType(baseType)).thenReturn(true);
-    when(typeCatalog.getSubTypes(baseType))
+    when(typeCatalog.containsBaseType(valueType)).thenReturn(true);
+    when(typeCatalog.getSubTypes(valueType))
         .thenReturn(singleton((ObjectType) TYPE_LOADER.load(InterfaceImplementation.class)));
 
     when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
-        .openWith(baseType)
+        .openWith(valueType)
         .build());
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -408,14 +459,31 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     ifContentParameter(() -> {
       assertEmptyAttributeName(result);
       assertElementName(hyphenize(PARAMETER_NAME), result);
-      assertNoGeneric(result, baseType);
+      assertNoGeneric(result, valueType);
     }, () -> {
       assertAttributeName(PARAMETER_NAME, result);
       assertElementName(hyphenize(pluralize(PARAMETER_NAME)), result);
-      DslElementSyntax innerElement = getGenericTypeDsl(baseType, result);
-      assertElementName(hyphenize(singularize(PARAMETER_NAME)), innerElement);
-      assertParameterChildElementDeclaration(true, innerElement);
-      assertIsWrappedElement(true, innerElement);
+      assertElementNamespace(NAMESPACE, result);
+      assertParameterChildElementDeclaration(true, result);
+      assertIsWrappedElement(false, result);
+
+      DslElementSyntax generic = getGenericTypeDsl(valueType, result);
+      assertAttributeDeclaration(false, generic);
+      assertChildElementDeclarationIs(true, generic);
+      assertIsWrappedElement(false, generic);
+
+      DslElementSyntax key = getAttributeDsl(KEY_ATTRIBUTE_NAME, generic);
+      assertAttributeName(KEY_ATTRIBUTE_NAME, key);
+      assertAttributeDeclaration(true, key);
+      assertChildElementDeclarationIs(false, key);
+      assertIsWrappedElement(false, key);
+
+      DslElementSyntax value = getAttributeDsl(VALUE_ATTRIBUTE_NAME, generic);
+      assertAttributeName(VALUE_ATTRIBUTE_NAME, value);
+      assertAttributeDeclaration(true, value);
+      assertChildElementDeclarationIs(false, value);
+      assertIsWrappedElement(true, value);
+      assertElementName("", value);
     });
 
   }

@@ -14,8 +14,6 @@ import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
-import java.util.Map;
-
 /**
  * Creates instances of {@link MetadataType} which represent a reconnection strategy
  *
@@ -39,14 +37,14 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
     return create(JAVA).unionType()
         .of(getSimpleRetryType(typeBuilder))
         .of(getForeverRetryType(typeBuilder))
-        .id(Map.class.getName())
+        .id(Object.class.getName())
         .with(new TypeAliasAnnotation(RECONNECTION_STRATEGY))
         .build();
   }
 
   private TypeBuilder getSimpleRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
-        .id(Map.class.getName())
+        .id(Object.class.getName())
         .with(new TypeAliasAnnotation(RECONNECT_ALIAS));
 
     addFrequencyField(retryType, typeBuilder);
@@ -62,7 +60,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
 
   private TypeBuilder getForeverRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
-        .id(Map.class.getName())
+        .id(Object.class.getName())
         .with(new TypeAliasAnnotation(RECONNECT_FOREVER_ALIAS));
     addFrequencyField(retryType, typeBuilder);
 

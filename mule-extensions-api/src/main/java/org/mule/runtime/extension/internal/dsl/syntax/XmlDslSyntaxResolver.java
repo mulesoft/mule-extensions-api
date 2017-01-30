@@ -16,6 +16,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -57,7 +58,6 @@ import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 import org.mule.runtime.extension.internal.property.QNameModelProperty;
 
 import com.google.common.collect.ImmutableSet;
@@ -224,8 +224,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  public void visitObject(ObjectType objectType) {
                                    addAttributeName(builder, parameter, isContent, dslConfig);
                                    builder.withNamespace(namespace.get(), namespaceUri.get());
-                                   if (isMap(objectType)
-                                       && !parameter.getModelProperty(InfrastructureParameterModelProperty.class).isPresent()) {
+                                   if (isMap(objectType) && !isInfrastructure(parameter)) {
                                      resolveMapDsl(objectType, builder, isContent, expressionSupport, dslConfig,
                                                    parameter.getName(), namespace.get(), namespaceUri.get());
                                    } else {
@@ -291,8 +290,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       return Optional.of(resolvedTypes.get(key));
     }
 
-    final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
-    builder.withNamespace(namespace, namespaceUri)
+    final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create()
+        .withNamespace(namespace, namespaceUri)
         .withElementName(getTopLevelTypeName(type))
         .supportsTopLevelDeclaration(supportTopLevelElement)
         .supportsChildDeclaration(supportsInlineDeclaration)
@@ -302,9 +301,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     String typeId = getId(type);
     if (!typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
-        typeResolvingStack.push(typeId);
-        declareFieldsAsChilds(builder, type.getFields(), namespace, namespaceUri);
-        typeResolvingStack.pop();
+        withStackControl(typeId, () -> declareFieldsAsChilds(builder, type.getFields(), namespace, namespaceUri));
       }
 
       DslElementSyntax dsl = builder.build();
@@ -340,16 +337,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                              boolean isContent, ExpressionSupport expressionSupport,
                              ParameterDslConfiguration dslModel,
                              String name, String namespace, String namespaceUri) {
-    final String parameterName =
-        isContent ? name : pluralize(name);
+
+    final String parameterName = isContent ? name : pluralize(name);
     builder.withElementName(hyphenize(parameterName))
-        .supportsChildDeclaration(supportsInlineDeclaration(objectType,
-                                                            expressionSupport,
-                                                            isContent));
+        .supportsChildDeclaration(supportsInlineDeclaration(objectType, expressionSupport, isContent));
+
     if (!isContent) {
-      builder.withGeneric(typeLoader.load(String.class),
-                          DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME)
-                              .build());
       objectType.getOpenRestriction()
           .ifPresent(type -> type
               .accept(getMapValueTypeVisitor(builder, name,
@@ -368,21 +361,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     component.getAllParameterModels().stream()
         .filter(p -> !inlineGroupedParameters.contains(p))
         .forEach(parameter -> dsl.containing(parameter.getName(), resolve(parameter)));
-  }
-
-  private void addAttributeName(DslElementSyntaxBuilder builder, ParameterModel parameter,
-                                boolean isContent, ParameterDslConfiguration dslModel) {
-
-    if (supportsAttributeDeclaration(parameter, isContent, dslModel)) {
-      builder.withAttributeName(parameter.getName());
-    } else {
-      // For Content parameters, we don't allow the attribute to be set
-      builder.supportsAttributeDeclaration(false);
-    }
-  }
-
-  private boolean supportsAttributeDeclaration(ParameterModel parameter, boolean isContent, ParameterDslConfiguration dslModel) {
-    return !isContent && (dslModel.allowsReferences() || !NOT_SUPPORTED.equals(parameter.getExpressionSupport()));
   }
 
   private MetadataTypeVisitor getArrayItemTypeVisitor(final DslElementSyntaxBuilder listBuilder, final String parameterName,
@@ -454,6 +432,48 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                                      ParameterDslConfiguration dslModel) {
     return new MetadataTypeVisitor() {
 
+      /**
+       * Builds the default {@code map-element} with a {@code key} and {@code value} attributes:
+       *
+       * {@code
+       * <ns:map-elements>
+       *    <ns:map-element key="" value=""/>
+       * </ns:map-elements>
+       * }
+       */
+      @Override
+      protected void defaultVisit(MetadataType metadataType) {
+        mapBuilder.withGeneric(metadataType,
+                               createBaseValueEntryDefinition()
+                                   .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create()
+                                       .withAttributeName(VALUE_ATTRIBUTE_NAME).build())
+                                   .build());
+      }
+
+      /**
+       * Builds the {@code map-element} that allows to represent complex objects both as
+       * a {@code value} attribute or as an inline definition if the given {@code objectType} supports it.
+       *
+       * Value attribute representation:
+       * {@code
+       * <ns:map-elements>
+       *    <ns:map-element key="one" value="#[myPojoVar]"/>
+       * </ns:map-elements>
+       * }
+       *
+       * Inline object representation:
+       * {@code
+       * <ns:map-elements>
+       *    <ns:map-element key="one">
+       *        <ns:complex-type-name attr="">
+       *          ...
+       *        <ns:complex-type-name>
+       *    </ns:map-element>
+       * </ns:map-elements>
+       * }
+       *
+       * For {@link Map} open objects, it delegates to {@link this#defaultVisit}.
+       */
       @Override
       public void visitObject(ObjectType objectType) {
         if (isMap(objectType)) {
@@ -465,51 +485,78 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         boolean requiresWrapperElement = typeRequiresWrapperElement(objectType);
 
         if (supportsInlineDeclaration || requiresWrapperElement) {
+          final DslElementSyntaxBuilder valueEntry = createBaseValueEntryDefinition();
 
-          DslElementSyntaxBuilder builder = createBaseValueDefinition();
-          if (!typeResolvingStack.contains(getId(objectType))) {
-            typeResolvingStack.push(getId(objectType));
-            addBeanDeclarationSupport(objectType, objectType.getFields(), builder, namespace, namespaceUri, true);
-            typeResolvingStack.pop();
+          final String namespace = getNamespace(objectType);
+          final String namespaceUri = getNamespaceUri(objectType);
+
+          final DslElementSyntaxBuilder innerPojoDsl = DslElementSyntaxBuilder.create()
+              .withAttributeName(VALUE_ATTRIBUTE_NAME)
+              .withNamespace(namespace, namespaceUri);
+
+          if (supportsInlineDeclaration) {
+            innerPojoDsl.withElementName(getTopLevelTypeName(objectType))
+                .supportsChildDeclaration(true);
+            withStackControl(getId(objectType),
+                             () -> declareFieldsAsChilds(innerPojoDsl, objectType.getFields(), namespace, namespaceUri));
           } else {
-            addBeanDeclarationSupport(objectType, emptyList(), builder, namespace, namespaceUri, false);
+            innerPojoDsl.asWrappedElement(true);
           }
 
-          builder.supportsChildDeclaration(true);
-          builder.asWrappedElement(requiresWrapperElement);
+          valueEntry.containing(VALUE_ATTRIBUTE_NAME, innerPojoDsl.build());
 
-          mapBuilder.withGeneric(objectType, builder.build());
+          mapBuilder.withGeneric(objectType, valueEntry.build());
         } else {
           defaultVisit(objectType);
         }
       }
 
+      /**
+       * Builds the {@code map-element} that allows to represent a list of elements both as
+       * a {@code value} attribute or as an inline definition.
+       *
+       * Value attribute representation:
+       * {@code
+       * <ns:map-elements>
+       *    <ns:map-element key="one" value="#[myListVar]"/>
+       * </ns:map-elements>
+       * }
+       *
+       * Inline list representation:
+       * {@code
+       * <ns:map-elements>
+       *    <ns:map-element key="">
+       *        <ns:map-element-item value="one"/>
+       *        <ns:map-element-item value="two"/>
+       *    </ns:map-element>
+       * </ns:map-elements>
+       * }
+       *
+       * List items may also be complex elements like objects or nested lists, in that case the {@code value}
+       * attribute of the item is replaced by inline content inside the {@code map-element-item} entry.
+       */
       @Override
       public void visitArrayType(ArrayType arrayType) {
-        DslElementSyntaxBuilder listBuilder = createBaseValueDefinition();
+        final DslElementSyntaxBuilder valueEntry = createBaseValueEntryDefinition()
+            .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
 
         MetadataType genericType = arrayType.getType();
-        boolean supportsInline = supportsInlineDeclaration(genericType, SUPPORTED, dslModel, false);
-        boolean requiresWrapper = typeRequiresWrapperElement(genericType);
-        if (supportsInline || requiresWrapper) {
-          listBuilder.supportsChildDeclaration(true);
-          genericType.accept(getArrayItemTypeVisitor(listBuilder, parameterName, namespace, namespaceUri, true));
+        boolean genericSupportsInline = supportsInlineDeclaration(genericType, SUPPORTED, dslModel, false);
+        boolean genericRequiresWrapper = typeRequiresWrapperElement(genericType);
+        if (genericSupportsInline || genericRequiresWrapper) {
+          genericType.accept(getArrayItemTypeVisitor(valueEntry, parameterName, namespace, namespaceUri, true));
         }
 
-        mapBuilder.withGeneric(arrayType, listBuilder.build());
+        mapBuilder.withGeneric(arrayType, valueEntry.build());
       }
 
-      @Override
-      protected void defaultVisit(MetadataType metadataType) {
-        mapBuilder.withGeneric(metadataType, createBaseValueDefinition().build());
-      }
-
-      private DslElementSyntaxBuilder createBaseValueDefinition() {
+      private DslElementSyntaxBuilder createBaseValueEntryDefinition() {
         return DslElementSyntaxBuilder.create()
-            .withAttributeName(VALUE_ATTRIBUTE_NAME)
             .withNamespace(namespace, namespaceUri)
             .withElementName(hyphenize(singularize(parameterName)))
-            .supportsAttributeDeclaration(true);
+            .supportsAttributeDeclaration(false)
+            .supportsChildDeclaration(true)
+            .containing(KEY_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
       }
     };
   }
@@ -576,16 +623,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
           objectFieldBuilder.withElementName(hyphenize(fieldName))
               .withNamespace(getNamespace(objectType, ownerNamespace), getNamespaceUri(objectType, ownerNamespaceUri));
 
-          if (!typeResolvingStack.contains(getId(objectType))) {
-            typeResolvingStack.push(getId(objectType));
-
-            List<ObjectFieldType> fields = objectType.getFields().stream()
-                .filter(f -> !typeResolvingStack.contains(getId(f.getValue())))
-                .collect(toList());
-
-            addBeanDeclarationSupport(objectType, fields, objectFieldBuilder, ownerNamespace, ownerNamespaceUri, true);
-
-            typeResolvingStack.pop();
+          String typeId = getId(objectType);
+          if (!typeResolvingStack.contains(typeId)) {
+            withStackControl(typeId, () -> {
+              List<ObjectFieldType> fields = objectType.getFields().stream()
+                  .filter(f -> !typeResolvingStack.contains(getId(f.getValue())))
+                  .collect(toList());
+              addBeanDeclarationSupport(objectType, fields, objectFieldBuilder, ownerNamespace, ownerNamespaceUri, true);
+            });
           } else {
             addBeanDeclarationSupport(objectType, emptyList(), objectFieldBuilder, ownerNamespace, ownerNamespaceUri, false);
           }
@@ -634,6 +679,21 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                    });
   }
 
+  private void addAttributeName(DslElementSyntaxBuilder builder, ParameterModel parameter,
+                                boolean isContent, ParameterDslConfiguration dslModel) {
+
+    if (supportsAttributeDeclaration(parameter, isContent, dslModel)) {
+      builder.withAttributeName(parameter.getName());
+    } else {
+      // For Content parameters, we don't allow the attribute to be set
+      builder.supportsAttributeDeclaration(false);
+    }
+  }
+
+  private boolean supportsAttributeDeclaration(ParameterModel parameter, boolean isContent, ParameterDslConfiguration dslModel) {
+    return !isContent && (dslModel.allowsReferences() || !NOT_SUPPORTED.equals(parameter.getExpressionSupport()));
+  }
+
   private boolean typeRequiresWrapperElement(MetadataType metadataType) {
     return metadataType instanceof ObjectType &&
         (isExtensible(metadataType) || typeCatalog.containsBaseType((ObjectType) metadataType));
@@ -668,5 +728,13 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         ? context.getTypeCatalog()
         : TypeCatalog.getDefault(ImmutableSet.<ExtensionModel>builder()
             .add(model).addAll(context.getExtensions()).build());
+  }
+
+  private void withStackControl(String stackId, Runnable action) {
+    if (!typeResolvingStack.contains(stackId)) {
+      typeResolvingStack.push(stackId);
+      action.run();
+      typeResolvingStack.pop();
+    }
   }
 }

@@ -13,8 +13,6 @@ import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
-import java.util.Map;
-
 /**
  * Creates instances of {@link MetadataType} which represent a redelivery policy
  *
@@ -34,7 +32,7 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
    */
   public MetadataType buildRedeliveryPolicyType() {
     ObjectTypeBuilder objectType = create(JAVA).objectType()
-        .id(Map.class.getName())
+        .id(Object.class.getName())
         .with(new TypeAliasAnnotation(REDELIVERY_POLICY));
     BaseTypeBuilder typeBuilder = create(JAVA);
 

@@ -47,6 +47,7 @@ import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
+import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -276,6 +277,13 @@ public class ExtensionModelUtils {
                                                                                                          inputTypeDescriptors),
                                                                           cb.getDisplayModel().orElse(null),
                                                                           cb.getModelProperties()));
+  }
+
+  /**
+   * @return {@code true} if the given {@link ParameterModel} was enriched with {@link InfrastructureParameterModelProperty}
+   */
+  public static boolean isInfrastructure(ParameterModel parameter) {
+    return parameter.getModelProperty(InfrastructureParameterModelProperty.class).isPresent();
   }
 
 }

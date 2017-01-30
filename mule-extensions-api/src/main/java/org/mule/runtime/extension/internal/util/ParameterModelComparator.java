@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.internal.util;
 
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 
 import java.util.Comparator;
 
@@ -29,8 +29,8 @@ public class ParameterModelComparator implements Comparator<ParameterModel> {
 
   @Override
   public int compare(ParameterModel left, ParameterModel right) {
-    boolean isLeftInfrastructure = left.getModelProperty(InfrastructureParameterModelProperty.class).isPresent();
-    boolean isRightInfrastructure = right.getModelProperty(InfrastructureParameterModelProperty.class).isPresent();
+    boolean isLeftInfrastructure = isInfrastructure(left);
+    boolean isRightInfrastructure = isInfrastructure(right);
 
     if (!isLeftInfrastructure && !isRightInfrastructure) {
       return 0;

@@ -8,7 +8,6 @@ package org.mule.runtime.extension.internal.dsl.syntax;
 
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
-import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.supportsTopLevelDeclaration;
 import org.mule.metadata.api.model.AnyType;
@@ -157,7 +156,7 @@ public final class DslSyntaxUtils {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (isMap(objectType) && !isInfrastructure(objectType)) {
+        if (isMap(objectType)) {
           supportsChildDeclaration.set(true);
         } else {
           if (!dslModel.allowsInlineDefinition()) {
