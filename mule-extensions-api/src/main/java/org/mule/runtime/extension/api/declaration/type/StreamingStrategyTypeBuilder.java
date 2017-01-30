@@ -9,15 +9,15 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.util.Arrays.stream;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_BUFFER_DATA_UNIT;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_BUFFER_SIZE;
-import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_BUFFER_SIZE_UNIT;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_MAX_BUFFER_SIZE;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.runtime.api.util.ByteUnit;
+import org.mule.runtime.api.util.DataUnit;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
-
-import java.util.Map;
 
 /**
  * Creates instances of {@link MetadataType} which represent a streaming strategy type
@@ -33,50 +33,75 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
     BaseTypeBuilder typeBuilder = create(JAVA);
 
     return create(JAVA).unionType()
-        .of(getFileStoreStrategy(typeBuilder))
         .of(getInMemoryStrategy(typeBuilder))
         .of(getNoStreamingStrategy(typeBuilder))
-        .id(Map.class.getName())
+        .of(getFileStoreStrategy(typeBuilder))
+        .id(Object.class.getName())
         .with(new TypeAliasAnnotation("ReconnectionStrategy"))
+        .with(new InfrastructureTypeAnnotation())
         .build();
   }
 
   private MetadataType getFileStoreStrategy(BaseTypeBuilder typeBuilder) {
-    return createBufferedStreamingType("repeatable-file-store-stream",
-                                       "Defines the maximum memory that the stream should use to keep data in memory. If more than that is consumed then "
-                                           +
-                                           "it will start to buffer the content on disk.",
-                                       typeBuilder);
+    ObjectTypeBuilder streamingType = typeBuilder.objectType()
+        .id(Object.class.getName())
+        .with(new TypeAliasAnnotation("repeatable-file-store-stream"))
+        .with(new InfrastructureTypeAnnotation());
+
+    addIntField(streamingType, typeBuilder, "maxInMemorySize",
+                "Defines the maximum memory that the stream should use to keep data in memory. If more than that is consumed then "
+                    +
+                    "it will start to buffer the content on disk.",
+                DEFAULT_STREAMING_MAX_BUFFER_SIZE);
+
+    addDataUnitField(typeBuilder, streamingType, "The unit in which maxInMemorySize is expressed");
+
+    return streamingType.build();
   }
 
   private MetadataType getInMemoryStrategy(BaseTypeBuilder typeBuilder) {
-    return createBufferedStreamingType("repeatable-in-memory-stream",
-                                       "This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised",
-                                       typeBuilder);
+    ObjectTypeBuilder streamingType = typeBuilder.objectType()
+        .id(Object.class.getName())
+        .with(new TypeAliasAnnotation("repeatable-in-memory-stream"))
+        .with(new InfrastructureTypeAnnotation());
+
+    addIntField(streamingType, typeBuilder, "initialBufferSize",
+                "This is the amount of memory that will be allocated in order to consume the stream and provide random "
+                    + "access to it. If the stream contains more data than can be fit into this buffer, then it will be expanded "
+                    + "by according to the bufferSizeIncrement attribute, with an upper limit of maxInMemorySize.",
+                DEFAULT_STREAMING_BUFFER_SIZE);
+
+    addIntField(streamingType, typeBuilder, "bufferSizeIncrement",
+                "This is by how much will be buffer size by expanded if it exceeds its initial size. Setting a value of zero or "
+                    + "lower will mean that the buffer should not expand, meaning that a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised "
+                    + "when the buffer gets full.",
+                DEFAULT_STREAMING_BUFFER_SIZE);
+
+    addIntField(streamingType, typeBuilder, "maxInMemorySize",
+                "This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. "
+                    + "A value lower or equal to zero means no limit.",
+                0);
+
+
+    addDataUnitField(typeBuilder, streamingType, "The unit in which all these attributes are expressed");
+
+    return streamingType.build();
+  }
+
+  private void addDataUnitField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder streamingType, String description) {
+    addEnumField(streamingType, typeBuilder, "bufferUnit", description,
+                 DEFAULT_STREAMING_BUFFER_DATA_UNIT.name(),
+                 stream(DataUnit.values()).map(unit -> unit.name()).toArray(String[]::new));
   }
 
   private MetadataType getNoStreamingStrategy(BaseTypeBuilder typeBuilder) {
     return typeBuilder.objectType()
-        .id(Map.class.getName())
+        .id(Object.class.getName())
         .with(new TypeAliasAnnotation("in-memory-stream"))
+        .with(new InfrastructureTypeAnnotation())
         .description("This configuration allows the input stream to be read only once. It will not allow to seek randomly " +
             "which will limit the transformations that DW can perform on this stream. " +
             "Use this option for use cases which just require moving data around from one system to another to get optimum performance.")
         .build();
   }
-
-  private MetadataType createBufferedStreamingType(String name, String description, BaseTypeBuilder typeBuilder) {
-    ObjectTypeBuilder streamingType = typeBuilder.objectType()
-        .id(Map.class.getName())
-        .with(new TypeAliasAnnotation(name));
-
-    addIntField(streamingType, typeBuilder, "maxInMemorySize", description, DEFAULT_STREAMING_BUFFER_SIZE);
-
-    addEnumField(streamingType, typeBuilder, "sizeUnit", "The unit in which maxInMemorySize is expressed",
-                 DEFAULT_STREAMING_BUFFER_SIZE_UNIT.name(),
-                 stream(ByteUnit.values()).map(unit -> unit.name()).toArray(String[]::new));
-
-    return streamingType.build();
-  }
-
 }

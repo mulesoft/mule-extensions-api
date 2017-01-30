@@ -7,11 +7,9 @@
 package org.mule.runtime.extension.api;
 
 import static java.util.Arrays.asList;
-import static org.mule.runtime.api.util.ByteUnit.KB;
 import static org.mule.runtime.api.util.DataUnit.KB;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.tls.TlsContextFactory;
-import org.mule.runtime.api.util.ByteUnit;
 import org.mule.runtime.api.util.DataUnit;
 
 import java.util.List;
@@ -99,9 +97,19 @@ public final class ExtensionConstants {
   public static final int DEFAULT_STREAMING_BUFFER_SIZE = 256;
 
   /**
-   * The default unit which quialifies {@link #DEFAULT_STREAMING_BUFFER_SIZE}
+   * The default size of the buffer that allows for repeatable streams
    */
-  public static final DataUnit DEFAULT_STREAMING_BUFFER_SIZE_UNIT = KB;
+  public static final int DEFAULT_STREAMING_BUFFER_INCREMENT_SIZE = 256;
+
+  /**
+   * The default size of the buffer that allows for repeatable streams
+   */
+  public static final int DEFAULT_STREAMING_MAX_BUFFER_SIZE = 2048;
+
+  /**
+   * The default unit which qualifies {@link #DEFAULT_STREAMING_BUFFER_SIZE}
+   */
+  public static final DataUnit DEFAULT_STREAMING_BUFFER_DATA_UNIT = KB;
 
   /**
    * The description of the parameter for configuring transactional actions
