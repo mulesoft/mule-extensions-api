@@ -43,20 +43,6 @@ public interface ExecutionContext<M extends ComponentModel> {
   <T> T getParameter(String parameterName);
 
   /**
-   * Same as {@link #getParameter(String)} with the added restriction that the returned value is expected to be either
-   * an instance of {@code expectedType} or {@code null}
-   *
-   * @param parameterName the name of a {@link ParameterModel} of the {@link ComponentModel} being executed
-   * @param expectedType  a {@link Class} of which the returned value is expected to be an instance of
-   * @param <T>           the returned value's expected type
-   * @return the parameter's value or {@code null}. Notice that {@code null} means that the parameter has been
-   * resolved to that value.
-   * @throws NoSuchElementException   if the parameter is not present.
-   * @throws IllegalArgumentException if the returned value is not an instance of {@code expectedType}
-   */
-  <T> T getTypeSafeParameter(String parameterName, Class<? extends T> expectedType);
-
-  /**
    * Returns the {@link ConfigurationInstance} for the operation being executed.
    *
    * @return a {@link ConfigurationInstance} consistent with a corresponding {@link ConfigurationModel}
