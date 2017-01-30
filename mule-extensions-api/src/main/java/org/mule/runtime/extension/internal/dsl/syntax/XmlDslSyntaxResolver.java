@@ -181,7 +181,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
                                  @Override
                                  protected void defaultVisit(MetadataType metadataType) {
-                                   addAttributeName(builder, parameter, isContent, dslConfig);
+                                   if (isContent) {
+                                     builder.withNamespace(namespace.get(), namespaceUri.get())
+                                         .withElementName(elementName.get())
+                                         .supportsChildDeclaration(true)
+                                         .supportsAttributeDeclaration(false);
+                                   } else {
+                                     addAttributeName(builder, parameter, isContent, dslConfig);
+                                   }
                                  }
 
                                  @Override
