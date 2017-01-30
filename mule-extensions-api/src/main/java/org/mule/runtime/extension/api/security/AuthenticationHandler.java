@@ -57,11 +57,11 @@ public interface AuthenticationHandler {
    * @param credentials the {@link Credentials} to be used for {@code this} {@link Authentication}
    * @return a new instance of a default implementation of {@link Authentication}
    */
-  Authentication createDefaultAuthentication(Credentials credentials);
+  Authentication createAuthentication(Credentials credentials);
 
   /**
    * @return a new {@link CredentialsBuilder}
    */
-  CredentialsBuilder createCredentials();
+  CredentialsBuilder createCredentialsBuilder();
 
 }
