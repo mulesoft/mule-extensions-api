@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.api.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.api.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -69,8 +69,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
       assertChildElementDeclarationIs(false, result);
     });
 
-    boolean supportChildElement = !role.equals(BEHAVIOUR);
-    assertChildElementDeclarationIs(supportChildElement, result);
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
     assertIsWrappedElement(false, result);
   }
 
@@ -85,8 +84,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
       assertChildElementDeclarationIs(false, result);
     });
 
-    boolean supportChildElement = !role.equals(BEHAVIOUR);
-    assertChildElementDeclarationIs(supportChildElement, result);
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
     assertIsWrappedElement(false, result);
   }
 
@@ -135,8 +133,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    boolean supportChildElement = !role.equals(BEHAVIOUR);
-    assertChildElementDeclarationIs(supportChildElement, result);
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
   }
 
   @Test
@@ -153,8 +150,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
-    boolean supportChildElement = !role.equals(BEHAVIOUR);
-    assertChildElementDeclarationIs(supportChildElement, result);
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
   }
 
   @Test
