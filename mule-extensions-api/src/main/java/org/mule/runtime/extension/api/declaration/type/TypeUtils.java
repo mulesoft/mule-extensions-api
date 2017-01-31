@@ -139,6 +139,7 @@ public final class TypeUtils {
   }
 
   /**
+   * Returns true if the type is an infrastructure type, false otherwise.
    *
    * @param type the type to check
    * @return whether is an infrastructure type or not.
