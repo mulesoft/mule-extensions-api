@@ -19,7 +19,6 @@ import org.mule.runtime.api.tls.TlsContextFactory;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Implementation of {@link ClassHandler} for the {@link TlsContextFactory} class
@@ -62,7 +61,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
   }
 
   private void addTrustStoreField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
-    ObjectTypeBuilder trustStoreType = typeBuilder.objectType().id(Map.class.getName())
+    ObjectTypeBuilder trustStoreType = typeBuilder.objectType().id(Object.class.getName())
         .description("Trust store configuration. If used client side, the trust store contains the certificates of the "
             + "trusted servers. If used server side, it contains the certificates of the trusted clients.");
     typeBuilder = create(JAVA);
@@ -86,7 +85,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
   }
 
   private void addKeyStoreField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
-    ObjectTypeBuilder keyStoreType = typeBuilder.objectType().id(Map.class.getName())
+    ObjectTypeBuilder keyStoreType = typeBuilder.objectType().id(Object.class.getName())
         .description("Key store configuration. The key store contains the keys of this server/client.");
 
     addStringField(keyStoreType, typeBuilder, "path", "The location (which will be resolved relative to the current "

@@ -46,9 +46,6 @@ public final class TypeUtils {
 
   private TypeUtils() {}
 
-  private static List<String> INFRASTRUCTURE_ALIASES =
-      asList(REDELIVERY_POLICY, RECONNECTION_STRATEGY, RECONNECT_FOREVER_ALIAS, RECONNECT_ALIAS);
-
   /**
    * Returns all the {@link Field}s in the given {@code declaringType} which are annotated
    * with {@link Parameter} but also do not have the {@link Ignore} one.
@@ -144,12 +141,6 @@ public final class TypeUtils {
     }
 
     return empty();
-  }
-
-  public static boolean isInfrastructure(MetadataType type) {
-    return type.getAnnotation(TypeAliasAnnotation.class)
-        .map(typeAliasAnnotation -> INFRASTRUCTURE_ALIASES.contains(typeAliasAnnotation.getValue()))
-        .orElse(false);
   }
 
   /**
