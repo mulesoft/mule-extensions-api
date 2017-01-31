@@ -10,7 +10,6 @@ import static java.lang.String.format;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
-import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.builder.WithAnnotation;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
@@ -48,36 +47,35 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
 
   @Override
   public TypeBuilder<?> handleClass(Class<?> clazz, List<Type> genericTypes, TypeHandlerManager typeHandlerManager,
-                                    ParsingContext context, BaseTypeBuilder typeBuilder) {
-    WithAnnotation annotableType = null;
+                                    ParsingContext context, BaseTypeBuilder baseTypeBuilder) {
+    TypeBuilder typeBuilder = baseTypeBuilder;
     Class<?> currentClass = clazz;
 
     if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context, typeBuilder, parameterResolverTypeAnnotation);
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context, baseTypeBuilder, parameterResolverTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context, typeBuilder, typedValueTypeAnnotation);
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context, baseTypeBuilder, typedValueTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
-      annotableType = (ObjectTypeBuilder) super.handleClass(currentClass, genericTypes,
-                                                            typeHandlerManager, context, typeBuilder);
+      typeBuilder = super.handleClass(currentClass, genericTypes,
+                                      typeHandlerManager, context, baseTypeBuilder);
     }
 
-    if (annotableType != null) {
+    if (typeBuilder != null && typeBuilder instanceof WithAnnotation) {
       if (currentClass.isAnnotationPresent(Extensible.class)) {
-        annotableType.with(new ExtensibleTypeAnnotation());
+        ((WithAnnotation) typeBuilder).with(new ExtensibleTypeAnnotation());
       }
 
       XmlHints hints = currentClass.getAnnotation(XmlHints.class);
       if (hints != null) {
-        annotableType.with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
-                                                  hints.allowTopLevelDefinition(),
-                                                  hints.allowReferences()));
+        ((WithAnnotation) typeBuilder).with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
+                                                                   hints.allowTopLevelDefinition(),
+                                                                   hints.allowReferences()));
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);
-      annotableType.with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
-
+      ((WithAnnotation) typeBuilder).with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
     }
     return typeBuilder;
   }
