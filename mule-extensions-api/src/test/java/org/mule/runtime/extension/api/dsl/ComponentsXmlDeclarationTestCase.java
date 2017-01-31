@@ -88,7 +88,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertAttributeDeclaration(false, result);
     assertIsWrappedElement(false, result);
 
-    assertSimpleTypeComponentParameter(result);
+    assertStringTypeComponentParameter(result);
     assertComplexTypeComponentParameter(result);
     assertInlineParameterGroup(result);
   }
@@ -104,7 +104,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
 
-    assertSimpleTypeComponentParameter(result);
+    assertStringTypeComponentParameter(result);
     assertComplexTypeComponentParameter(result);
     assertInlineParameterGroup(result);
   }
@@ -120,7 +120,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
 
-    assertSimpleTypeComponentParameter(result);
+    assertStringTypeComponentParameter(result);
     assertComplexTypeComponentParameter(result);
     assertInlineParameterGroup(result);
   }
@@ -136,7 +136,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
 
-    assertSimpleTypeComponentParameter(result);
+    assertStringTypeComponentParameter(result);
     assertComplexTypeComponentParameter(result);
     assertInlineParameterGroup(result);
   }
@@ -149,9 +149,9 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.requiresConfig(), is(true));
   }
 
-  private void assertSimpleTypeComponentParameter(DslElementSyntax result) {
+  private void assertStringTypeComponentParameter(DslElementSyntax result) {
 
-    ifContentParameter(() -> assertThat(result.getChild(PARAMETER_NAME).isPresent(), is(false)),
+    ifContentParameter(() -> assertThat(result.getChild(PARAMETER_NAME).isPresent(), is(true)),
                        () -> {
                          DslElementSyntax childDsl = getAttributeDsl(PARAMETER_NAME, result);
                          assertAttributeName(PARAMETER_NAME, childDsl);

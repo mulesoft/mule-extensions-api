@@ -16,6 +16,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.api.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.api.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -58,7 +59,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   }
 
   @Test
-  public void testSimpleTypeParameter() {
+  public void testStringTypeParameter() {
     when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(String.class));
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
 
@@ -67,7 +68,23 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
       assertTopLevelDeclarationSupportIs(false, result);
       assertChildElementDeclarationIs(false, result);
     });
-    assertChildElementDeclarationIs(false, result);
+
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
+    assertIsWrappedElement(false, result);
+  }
+
+  @Test
+  public void testSimpleTypeParameter() {
+    when(parameterModel.getType()).thenReturn(TYPE_LOADER.load(Integer.class));
+    DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
+
+    ifNotContentParameter(() -> {
+      assertAttributeName(PARAMETER_NAME, result);
+      assertTopLevelDeclarationSupportIs(false, result);
+      assertChildElementDeclarationIs(false, result);
+    });
+
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
     assertIsWrappedElement(false, result);
   }
 
@@ -115,7 +132,8 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getDslConfiguration()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
-    assertChildElementDeclarationIs(false, result);
+
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
   }
 
   @Test
@@ -131,7 +149,8 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(parameterModel.getDslConfiguration()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
-    assertChildElementDeclarationIs(false, result);
+
+    assertChildElementDeclarationIs(isContent(parameterModel), result);
   }
 
   @Test

@@ -191,7 +191,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  @Override
                                  public void visitString(StringType stringType) {
                                    // For Text parameters, we don't allow the attribute to be set
-                                   if (isText(parameter)) {
+                                   if (isText(parameter) || isContent) {
                                      addContentChildWithNoAttribute();
                                    } else {
                                      builder.supportsAttributeDeclaration(true)
