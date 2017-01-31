@@ -182,10 +182,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  @Override
                                  protected void defaultVisit(MetadataType metadataType) {
                                    if (isContent) {
-                                     builder.withNamespace(namespace.get(), namespaceUri.get())
-                                         .withElementName(elementName.get())
-                                         .supportsChildDeclaration(true)
-                                         .supportsAttributeDeclaration(false);
+                                     addContentChildWithNoAttribute();
                                    } else {
                                      addAttributeName(builder, parameter, isContent, dslConfig);
                                    }
@@ -195,10 +192,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  public void visitString(StringType stringType) {
                                    // For Text parameters, we don't allow the attribute to be set
                                    if (isText(parameter)) {
-                                     builder.withNamespace(namespace.get(), namespaceUri.get())
-                                         .withElementName(elementName.get())
-                                         .supportsChildDeclaration(true)
-                                         .supportsAttributeDeclaration(false);
+                                     addContentChildWithNoAttribute();
                                    } else {
                                      builder.supportsAttributeDeclaration(true)
                                          .supportsChildDeclaration(false)
@@ -242,6 +236,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                      resolveObjectDsl(objectType, builder, isContent, dslConfig, expressionSupport);
                                    }
                                  }
+
+                                 private void addContentChildWithNoAttribute() {
+                                   builder.withNamespace(namespace.get(), namespaceUri.get())
+                                       .withElementName(elementName.get())
+                                       .supportsChildDeclaration(true)
+                                       .supportsAttributeDeclaration(false);
+                                 }
+
                                });
     return builder.build();
   }
