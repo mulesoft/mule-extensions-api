@@ -18,6 +18,7 @@ import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.config.PoolingProfile;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 
 /**
  * Creates instances of {@link MetadataType} which represent a {@link PoolingProfile}.
@@ -36,9 +37,10 @@ public final class PoolingProfileTypeBuilder extends InfrastructureTypeBuilder {
   public MetadataType buildPoolingProfileType() {
     final ObjectTypeBuilder objectType = create(JAVA).objectType().id(PoolingProfile.class.getName());
     final BaseTypeBuilder typeBuilder = create(JAVA);
-
     objectType
         .description("A pooling profile is used to configure the pooling behaviour of Mule components. Each component can have its own pooling profile.");
+
+    objectType.with(new InfrastructureTypeAnnotation());
 
     addIntField(objectType, typeBuilder, "maxActive",
                 "Controls the maximum number of Mule components that can be borrowed from a session at one time. "
@@ -79,7 +81,6 @@ public final class PoolingProfileTypeBuilder extends InfrastructureTypeBuilder {
                  "INITIALISE_NONE", "INITIALISE_ONE", "INITIALISE_ALL");
 
     addBooleanField(objectType, typeBuilder, "disabled", "Whether pooling should be disabled", false);
-
     return objectType.build();
   }
 }
