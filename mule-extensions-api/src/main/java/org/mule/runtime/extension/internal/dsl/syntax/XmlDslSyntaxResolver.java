@@ -329,7 +329,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     boolean shouldGenerateChild;
     boolean requiresWrapper;
 
-    if (isInfrastructure(parameter)){
+    if (isInfrastructure(parameter)) {
       supportsTopLevel = dslConfig.allowTopLevelDefinition();
       shouldGenerateChild = dslConfig.allowsInlineDefinition();
       requiresWrapper = false;
