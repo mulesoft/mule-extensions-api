@@ -16,12 +16,14 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
  */
 public class InfrastructureParameterModelProperty implements ModelProperty {
 
+  public static final String NAME = "infrastructureParameter";
+
   /**
    * @return {@code infrastructureParameter}
    */
   @Override
   public String getName() {
-    return "infrastructureParameter";
+    return NAME;
   }
 
   /**

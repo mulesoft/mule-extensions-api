@@ -225,14 +225,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  public void visitObject(ObjectType objectType) {
                                    addAttributeName(builder, parameter, isContent, dslConfig);
                                    builder.withNamespace(namespace.get(), namespaceUri.get());
-                                   if (isMap(objectType) && !isInfrastructure(parameter)) {
+                                   if (isMap(objectType)) {
                                      resolveMapDsl(objectType, builder, isContent, expressionSupport, dslConfig,
                                                    parameter.getName(), namespace.get(), namespaceUri.get());
                                    } else {
                                      builder.withNamespace(namespace.get(), namespaceUri.get())
                                          .withElementName(elementName.get());
 
-                                     resolveObjectDsl(objectType, builder, isContent, dslConfig, expressionSupport);
+                                     resolveObjectDsl(parameter, objectType, builder, isContent, dslConfig, expressionSupport);
                                    }
                                  }
 
@@ -322,13 +322,24 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     return Optional.of(builder.build());
   }
 
-  private void resolveObjectDsl(ObjectType objectType, DslElementSyntaxBuilder builder,
-                                boolean isContent, ParameterDslConfiguration dslModel, ExpressionSupport expressionSupport) {
+  private void resolveObjectDsl(ParameterModel parameter, ObjectType objectType, DslElementSyntaxBuilder builder,
+                                boolean isContent, ParameterDslConfiguration dslConfig, ExpressionSupport expressionSupport) {
 
-    builder.supportsTopLevelDeclaration(supportTopLevelElement(objectType, dslModel));
+    boolean supportsTopLevel;
+    boolean shouldGenerateChild;
+    boolean requiresWrapper;
 
-    boolean shouldGenerateChild = supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent);
-    boolean requiresWrapper = typeRequiresWrapperElement(objectType);
+    if (isInfrastructure(parameter)) {
+      supportsTopLevel = dslConfig.allowTopLevelDefinition();
+      shouldGenerateChild = dslConfig.allowsInlineDefinition();
+      requiresWrapper = false;
+    } else {
+      supportsTopLevel = supportTopLevelElement(objectType, dslConfig);
+      shouldGenerateChild = supportsInlineDeclaration(objectType, expressionSupport, dslConfig, isContent);
+      requiresWrapper = typeRequiresWrapperElement(objectType);
+    }
+
+    builder.supportsTopLevelDeclaration(supportsTopLevel);
     if (shouldGenerateChild || requiresWrapper) {
       builder.supportsChildDeclaration(true);
       if (requiresWrapper) {

@@ -44,7 +44,7 @@ public final class DslSyntaxUtils {
     return isInstantiable(objectType) && !objectType.getFields().isEmpty();
   }
 
-  static boolean isFlattened(ObjectFieldType field, MetadataType fieldValue) {
+  public static boolean isFlattened(ObjectFieldType field, MetadataType fieldValue) {
     return fieldValue instanceof ObjectType && field.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
   }
 
