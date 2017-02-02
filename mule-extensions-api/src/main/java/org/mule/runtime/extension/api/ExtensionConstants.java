@@ -33,6 +33,11 @@ public final class ExtensionConstants {
       "The name of a variable on which the operation's output will be placed";
 
   /**
+   * The display name for the target parameter
+   */
+  public static final String TARGET_PARAMETER_DISPLAY_NAME = "Target Variable";
+
+  /**
    * The name of the parameter for configuring reconnection strategy parameter
    */
   public static final String RECONNECTION_STRATEGY_PARAMETER_NAME = "reconnectionStrategy";
@@ -66,7 +71,7 @@ public final class ExtensionConstants {
   /**
    * The name of the tab in which transaction parameters should appear
    */
-  public static final String TRANSACTIONAL_TAB_NAME = "Transaction";
+  public static final String TRANSACTIONAL_TAB_NAME = "Transactions";
 
   /**
    * The description of the parameter for configuring transactional actions

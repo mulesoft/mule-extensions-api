@@ -11,12 +11,14 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.OUTPUT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.ExtensionConstants;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
@@ -58,6 +60,7 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
           parameter.setRequired(false);
           parameter.setParameterRole(BEHAVIOUR);
           parameter.setType(attributeType, false);
+          parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_PARAMETER_DISPLAY_NAME).build());
           parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
 
           declaration.getParameterGroup(OUTPUT).addParameter(parameter);

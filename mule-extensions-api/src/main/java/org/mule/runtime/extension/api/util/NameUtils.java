@@ -22,8 +22,10 @@ import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.Declarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -313,19 +315,19 @@ public class NameUtils {
                                               component.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
   }
 
-  public static String getComponentDeclarationTypeName(Object component) {
-    if (component instanceof OperationDeclaration) {
+  public static String getComponentDeclarationTypeName(BaseDeclaration declaration) {
+    if (declaration instanceof OperationDeclaration) {
       return OPERATION;
-    } else if (component instanceof ConfigurationDeclaration) {
+    } else if (declaration instanceof ConfigurationDeclaration) {
       return CONFIGURATION;
-    } else if (component instanceof ConnectionProviderDeclaration) {
+    } else if (declaration instanceof ConnectionProviderDeclaration) {
       return CONNECTION_PROVIDER;
-    } else if (component instanceof SourceDeclaration) {
+    } else if (declaration instanceof SourceDeclaration) {
       return SOURCE;
     }
 
     throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s]",
-                                              component.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
+                                              declaration.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
   }
 
   public static String getModelName(Object model) {
