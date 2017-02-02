@@ -17,10 +17,10 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.utils.MetadataTypeUtils;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
@@ -88,10 +88,11 @@ public class ExtensionModelUtils {
           .findFirst();
 
       if (field.isPresent()) {
-        return field.get().getAnnotation(DefaultValueAnnotation.class).map(DefaultValueAnnotation::getValue);
+        return MetadataTypeUtils.getDefaultValue(field.get());
       }
+    } else {
+      return MetadataTypeUtils.getDefaultValue(model);
     }
-
     return empty();
   }
 
