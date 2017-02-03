@@ -6,17 +6,19 @@
  */
 package org.mule.runtime.extension.api.runtime;
 
+import org.mule.runtime.api.meta.AnnotatedObject;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * A policy around when should a given instances be expired
  * <p/>
- * Notice that this contract is not directly tied to the instance to be expired itself. It's tied
- * to the concept of idle based expiration.
+ * Notice that this contract is not directly tied to the instance to be expired itself. It's tied to the concept of idle based
+ * expiration.
  *
  * @since 1.0
  */
-public interface ExpirationPolicy {
+public interface ExpirationPolicy extends AnnotatedObject {
 
   /**
    * Determines if an instance should be expired based on the last time it was used.
@@ -28,8 +30,7 @@ public interface ExpirationPolicy {
   boolean isExpired(long lastUsed, TimeUnit timeUnit);
 
   /**
-   * Returns a scalar value for the maximum amount of time that an instance should be allowed
-   * to be idle
+   * Returns a scalar value for the maximum amount of time that an instance should be allowed to be idle
    */
   long getMaxIdleTime();
 
