@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime;
 
+import org.mule.runtime.api.meta.AnnotatedObject;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 
@@ -19,7 +20,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
  *
  * @since 1.0
  */
-public interface ConfigurationProvider {
+public interface ConfigurationProvider extends AnnotatedObject {
 
   /**
    * Returns a {@link ConfigurationInstance}
