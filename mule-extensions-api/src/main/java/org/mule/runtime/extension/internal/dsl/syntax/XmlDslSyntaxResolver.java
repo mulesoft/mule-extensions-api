@@ -360,7 +360,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
     final String parameterName = isContent ? name : pluralize(name);
     builder.withElementName(hyphenize(parameterName))
-        .supportsChildDeclaration(supportsInlineDeclaration(objectType, expressionSupport, isContent));
+        .supportsChildDeclaration(supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent));
 
     if (!isContent) {
       objectType.getOpenRestriction()

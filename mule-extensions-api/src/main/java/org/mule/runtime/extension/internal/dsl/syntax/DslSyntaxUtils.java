@@ -156,14 +156,12 @@ public final class DslSyntaxUtils {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (isMap(objectType)) {
+        if (!dslModel.allowsInlineDefinition()) {
+          supportsChildDeclaration.set(false);
+        } else if (isMap(objectType)) {
           supportsChildDeclaration.set(true);
         } else {
-          if (!dslModel.allowsInlineDefinition()) {
-            supportsChildDeclaration.set(false);
-          } else {
-            supportsChildDeclaration.set(isValidBean(objectType));
-          }
+          supportsChildDeclaration.set(isValidBean(objectType));
         }
       }
 
