@@ -119,6 +119,8 @@ public final class DslSyntaxUtils {
       return true;
     } else if (REQUIRED == expressionSupport) {
       return false;
+    } else if (!dslModel.allowsInlineDefinition()) {
+      return false;
     }
 
     metadataType.accept(new MetadataTypeVisitor() {
@@ -156,9 +158,7 @@ public final class DslSyntaxUtils {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        if (!dslModel.allowsInlineDefinition()) {
-          supportsChildDeclaration.set(false);
-        } else if (isMap(objectType)) {
+        if (isMap(objectType)) {
           supportsChildDeclaration.set(true);
         } else {
           supportsChildDeclaration.set(isValidBean(objectType));
