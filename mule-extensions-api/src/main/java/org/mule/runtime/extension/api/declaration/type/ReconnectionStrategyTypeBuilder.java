@@ -8,12 +8,13 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 /**
  * Creates instances of {@link MetadataType} which represent a reconnection strategy
