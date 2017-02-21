@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
@@ -17,7 +19,6 @@ import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 import java.lang.reflect.Type;
 import java.util.List;
