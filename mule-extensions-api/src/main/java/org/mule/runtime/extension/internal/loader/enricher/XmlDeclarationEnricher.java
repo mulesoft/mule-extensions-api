@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static java.util.Optional.empty;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.createXmlLanguageModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -19,7 +20,8 @@ public final class XmlDeclarationEnricher implements DeclarationEnricher {
     final ExtensionDeclarer extensionDeclarer = extensionLoadingContext.getExtensionDeclarer();
     ExtensionDeclaration extensionDeclaration = extensionDeclarer.getDeclaration();
     if (extensionDeclaration.getXmlDslModel() == null) {
-      extensionDeclarer.withXmlDsl(createXmlLanguageModel(extensionDeclaration.getName(), extensionDeclaration.getVersion()));
+      extensionDeclarer.withXmlDsl(createXmlLanguageModel(empty(), empty(), extensionDeclaration.getName(),
+                                                          extensionDeclaration.getVersion()));
     }
   }
 }

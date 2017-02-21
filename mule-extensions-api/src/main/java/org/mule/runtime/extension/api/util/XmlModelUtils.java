@@ -14,12 +14,10 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
-import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 
-import java.util.function.Supplier;
-
 import javax.xml.namespace.QName;
+import java.util.Optional;
 
 /**
  * Utils class for parsing and generation of Xml related values of an {@link ExtensionModel extension}.
@@ -72,24 +70,30 @@ public final class XmlModelUtils {
   public static final QName MULE_ABSTRACT_STREAMING_STRATEGY_QNAME =
       new QName(MULE_NAMESPACE_SCHEMA_LOCATION, "abstract-streaming-strategy", MULE_PREFIX);
 
-  public static XmlDslModel createXmlLanguageModel(Xml xml, String extensionName, String extensionVersion) {
-    String namespace = calculateValue(xml, () -> xml.namespace(), () -> defaultNamespace(extensionName));
-    String namespaceLocation = calculateValue(xml, () -> xml.namespaceLocation(), () -> buildDefaultLocation(namespace));
-    String xsdFileName = buildDefaultXsdFileName(namespace);
-    String schemaLocation = buildDefaultSchemaLocation(namespaceLocation, xsdFileName);
-
-    return XmlDslModel.builder()
-        .setSchemaVersion(extensionVersion)
-        .setNamespace(namespace)
-        .setNamespaceUri(namespaceLocation)
-        .setSchemaLocation(schemaLocation)
-        .setXsdFileName(xsdFileName)
-        .build();
+  /**
+   * Takes a set of parameters extracted from the extension and generates a {@link XmlDslModel}.
+   *
+   * @param extensionNamespace namespace of the extension. If {@link Optional#empty()} or empty string, then it will default using the {@code extensionName}.
+   * @param extensionNamespaceLocation namespace location of the extension. If {@link Optional#empty()} or empty string, then it will default using a generated namespace.
+   * @param extensionName name of the extension, cannot be null.
+   * @param extensionVersion version of the extension, cannot be null.
+   * @return a wellformed {@link XmlDslModel}
+   */
+  public static XmlDslModel createXmlLanguageModel(Optional<String> extensionNamespace,
+                                                   Optional<String> extensionNamespaceLocation, String extensionName,
+                                                   String extensionVersion) {
+    final String namespace =
+        isPresentAndNotBlank(extensionNamespace) ? extensionNamespace.get() : defaultNamespace(extensionName);
+    final String namespaceLocation =
+        isPresentAndNotBlank(extensionNamespaceLocation) ? extensionNamespaceLocation.get() : buildDefaultLocation(namespace);
+    return getXmlDslModel(extensionVersion, namespace, namespaceLocation);
   }
 
-  public static XmlDslModel createXmlLanguageModel(String extensionName, String extensionVersion) {
-    String namespace = defaultNamespace(extensionName);
-    String namespaceLocation = buildDefaultLocation(namespace);
+  private static boolean isPresentAndNotBlank(Optional<String> element) {
+    return element.isPresent() && isNotBlank(element.get());
+  }
+
+  private static XmlDslModel getXmlDslModel(String extensionVersion, String namespace, String namespaceLocation) {
     String xsdFileName = buildDefaultXsdFileName(namespace);
     String schemaLocation = buildDefaultSchemaLocation(namespaceLocation, xsdFileName);
 
@@ -114,16 +118,6 @@ public final class XmlModelUtils {
     }
 
     return false;
-  }
-
-  private static String calculateValue(Xml xml, Supplier<String> value, Supplier<String> fallback) {
-    if (xml != null) {
-      String result = value.get();
-      if (isNotBlank(result)) {
-        return result;
-      }
-    }
-    return fallback.get();
   }
 
   private static String buildDefaultLocation(String namespace) {
