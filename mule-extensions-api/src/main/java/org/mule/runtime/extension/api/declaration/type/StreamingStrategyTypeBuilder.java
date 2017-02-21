@@ -12,12 +12,13 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_BUFFER_DATA_UNIT;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_STREAMING_MAX_BUFFER_SIZE;
+
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.util.DataUnit;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 
 /**
  * Creates instances of {@link MetadataType} which represent a streaming strategy type

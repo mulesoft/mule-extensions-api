@@ -16,27 +16,24 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
 
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

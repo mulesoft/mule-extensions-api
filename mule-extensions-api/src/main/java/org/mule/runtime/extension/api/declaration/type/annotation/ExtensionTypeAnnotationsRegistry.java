@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.AnnotationsRegistry;
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.ExtensionObjectTypeHandler;
 

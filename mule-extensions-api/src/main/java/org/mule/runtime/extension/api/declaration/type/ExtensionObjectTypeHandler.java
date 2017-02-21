@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static java.lang.String.format;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
@@ -22,7 +24,6 @@ import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeAliasAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.runtime.operation.ParameterResolver;
