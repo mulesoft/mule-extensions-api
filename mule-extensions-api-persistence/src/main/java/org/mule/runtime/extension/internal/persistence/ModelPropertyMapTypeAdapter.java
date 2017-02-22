@@ -9,6 +9,7 @@ package org.mule.runtime.extension.internal.persistence;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
 import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
@@ -17,6 +18,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,6 +38,17 @@ import java.util.Map;
  */
 public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<ModelProperty>> {
 
+  private static final Map<Class<? extends ModelProperty>, String> classNameMapping;
+  private static final Map<String, Class<? extends ModelProperty>> nameClassMapping;
+
+  static {
+    classNameMapping = new HashMap<>();
+    classNameMapping.put(OAuthModelProperty.class, "OAuth");
+
+    nameClassMapping = new HashMap<>();
+    nameClassMapping.put("OAuth", OAuthModelProperty.class);
+  }
+
   private final Gson gson;
 
   ModelPropertyMapTypeAdapter(Gson gson) {
@@ -50,7 +63,7 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClas
       final Class<?> modelPropertyClass = entry.getKey();
 
       if (modelProperty.isPublic()) {
-        out.name(modelPropertyClass.getName());
+        out.name(getSerializableModelPropertyName(modelPropertyClass));
         final TypeAdapter adapter = gson.getAdapter(modelPropertyClass);
         adapter.write(out, modelProperty);
       }
@@ -65,6 +78,7 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClas
 
     in.beginObject();
     while (in.hasNext()) {
+
       final Class<? extends ModelProperty> type = getClassForModelProperty(in.nextName());
       final TypeAdapter<?> adapter = gson.getAdapter(type);
       final ModelProperty read = (ModelProperty) adapter.read(in);
@@ -75,13 +89,24 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClas
   }
 
   private Class<? extends ModelProperty> getClassForModelProperty(String modelPropertyName) {
-    try {
-      return (Class<? extends ModelProperty>) Class.forName(modelPropertyName);
-    } catch (ClassNotFoundException e) {
-      throw new ExtensionModelSerializationException(String
-          .format(
-                  "Error loading [%s] ModelProperty. Class not found in the current classloader",
-                  modelPropertyName), e);
+    Class<? extends ModelProperty> modelPropertyClass;
+    if (nameClassMapping.containsKey(modelPropertyName)) {
+      modelPropertyClass = nameClassMapping.get(modelPropertyName);
+    } else {
+      try {
+        modelPropertyClass = (Class<? extends ModelProperty>) Class.forName(modelPropertyName);
+      } catch (ClassNotFoundException e) {
+        throw new ExtensionModelSerializationException(String
+            .format(
+                    "Error loading [%s] ModelProperty. Class not found in the current classloader",
+                    modelPropertyName), e);
+      }
     }
+
+    return modelPropertyClass;
+  }
+
+  private String getSerializableModelPropertyName(Class<?> modelPropertyClass) {
+    return classNameMapping.getOrDefault(modelPropertyClass, modelPropertyClass.getName());
   }
 }

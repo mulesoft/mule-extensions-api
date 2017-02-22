@@ -10,6 +10,7 @@ import static java.lang.String.format;
 import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterModel.RESERVED_NAMES;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
@@ -32,6 +33,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.type.TypeCatalog;
+import org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
@@ -77,6 +79,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
         String ownerName = owner.getName();
         String ownerModelType = getComponentModelTypeName(owner);
         validateParameter(model, ownerName, ownerModelType, problemsReporter);
+        validateOAuthParameter(model, ownerName, ownerModelType, problemsReporter);
         validateNameCollisionWithTypes(model, ownerName, ownerModelType,
                                        owner.getAllParameterModels().stream().map(p -> hyphenize(p.getName())).collect(toList()),
                                        problemsReporter);
@@ -199,4 +202,16 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
             .orElse(true));
   }
 
+  private void validateOAuthParameter(ParameterModel parameterModel, String ownerName, String ownerModelType,
+                                      ProblemsReporter problemsReporter) {
+    parameterModel.getModelProperty(OAuthParameterModelProperty.class).ifPresent(p -> {
+      if (parameterModel.getExpressionSupport() != NOT_SUPPORTED) {
+        problemsReporter
+            .addError(new Problem(parameterModel,
+                                  format("Parameter '%s' in the %s [%s] is an OAuth parameter yet it supports expressions. "
+                                      + "Expressions are not supported on OAuth parameters",
+                                         parameterModel.getName(), ownerModelType, ownerName)));
+      }
+    });
+  }
 }

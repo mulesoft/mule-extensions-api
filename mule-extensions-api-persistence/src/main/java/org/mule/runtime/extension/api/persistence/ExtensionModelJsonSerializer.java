@@ -34,6 +34,8 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
+import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
@@ -155,6 +157,8 @@ public class ExtensionModelJsonSerializer {
     final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
     final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
+    final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
@@ -175,7 +179,8 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new OperationModelTypeAdapterFactory())
         .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(RouteModel.class, ImmutableRouteModel.class))
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
-        .registerTypeAdapterFactory(errorModelTypeAdapter);
+        .registerTypeAdapterFactory(errorModelTypeAdapter)
+        .registerTypeAdapterFactory(oauthGrantTypeAdapter);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();

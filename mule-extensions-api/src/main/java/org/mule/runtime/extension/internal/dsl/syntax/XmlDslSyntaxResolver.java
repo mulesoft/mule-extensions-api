@@ -268,7 +268,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @return the {@link DslElementSyntax} for the {@link ParameterGroupModel group}
    */
   public DslElementSyntax resolveInline(ParameterGroupModel group) {
-
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     builder.withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
         .withElementName(getSanitizedElementName(group))
