@@ -73,20 +73,20 @@ public final class XmlModelUtils {
   /**
    * Takes a set of parameters extracted from the extension and generates a {@link XmlDslModel}.
    *
-   * @param extensionPrefix namespace of the extension. If {@link Optional#empty()} or empty string, then it will default using the {@code extensionName}.
-   * @param extensionNamespace namespace location of the extension. If {@link Optional#empty()} or empty string, then it will default using a generated namespace.
+   * @param prefix prefix of the extension. If {@link Optional#empty()} or empty string, then it will default using the {@code extensionName}.
+   * @param namespace namespace location of the extension. If {@link Optional#empty()} or empty string, then it will default using a generated namespace.
    * @param extensionName name of the extension, cannot be null.
    * @param extensionVersion version of the extension, cannot be null.
    * @return a wellformed {@link XmlDslModel}
    */
-  public static XmlDslModel createXmlLanguageModel(Optional<String> extensionPrefix,
-                                                   Optional<String> extensionNamespace, String extensionName,
+  public static XmlDslModel createXmlLanguageModel(Optional<String> prefix,
+                                                   Optional<String> namespace, String extensionName,
                                                    String extensionVersion) {
-    final String prefix =
-        isPresentAndNotBlank(extensionPrefix) ? extensionPrefix.get() : defaultNamespace(extensionName);
-    final String namespaceLocation =
-        isPresentAndNotBlank(extensionNamespace) ? extensionNamespace.get() : buildDefaultLocation(prefix);
-    return getXmlDslModel(extensionVersion, prefix, namespaceLocation);
+    final String stringPrefix =
+        isPresentAndNotBlank(prefix) ? prefix.get() : defaultNamespace(extensionName);
+    final String stringNamespace =
+        isPresentAndNotBlank(namespace) ? namespace.get() : buildDefaultLocation(stringPrefix);
+    return getXmlDslModel(extensionVersion, stringPrefix, stringNamespace);
   }
 
   private static boolean isPresentAndNotBlank(Optional<String> element) {

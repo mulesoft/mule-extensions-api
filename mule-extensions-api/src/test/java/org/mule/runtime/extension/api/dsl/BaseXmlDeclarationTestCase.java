@@ -70,8 +70,8 @@ import java.util.stream.Stream;
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseXmlDeclarationTestCase {
 
-  static final String NAMESPACE = "mockns";
-  static final String NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/mockns";
+  static final String PREFIX = "mockns";
+  static final String NAMESPACE = "http://www.mulesoft.org/schema/mule/mockns";
   static final String SCHEMA_LOCATION = "http://www.mulesoft.org/schema/mule/mockns/current/mule-mockns.xsd";
   static final String PARAMETER_NAME = "myCamelCaseName";
   static final String COLLECTION_NAME = "myCamelCaseNames";
@@ -83,8 +83,8 @@ public abstract class BaseXmlDeclarationTestCase {
   static final String CONNECTION_PROVIDER_NAME = "connection";
   static final BaseTypeBuilder TYPE_BUILDER = BaseTypeBuilder.create(JAVA);
   static final String EXTENSIBLE_TYPE_LIST_NAME = "extensibleTypeList";
-  static final String IMPORT_NAMESPACE = "importns";
-  static final String IMPORT_NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/importns";
+  static final String IMPORT_PREFIX = "importns";
+  static final String IMPORT_NAMESPACE = "http://www.mulesoft.org/schema/mule/importns";
   static final String IMPORT_SCHEMA_LOCATION = "http://www.mulesoft.org/schema/mule/importns/current/mule-importns.xsd";
   static final String IMPORT_WITH_XML_SCHEMA_LOCATION =
       "http://www.mulesoft.org/schema/mule/importns/current/mule-import-extension-with-xml.xsd";
@@ -150,8 +150,8 @@ public abstract class BaseXmlDeclarationTestCase {
     when(extension.getImportedTypes()).thenReturn(emptySet());
     when(extension.getXmlDslModel()).thenReturn(XmlDslModel.builder()
         .setXsdFileName(EMPTY)
-        .setPrefix(NAMESPACE)
-        .setNamespace(NAMESPACE_URI)
+        .setPrefix(PREFIX)
+        .setNamespace(NAMESPACE)
         .setSchemaLocation(SCHEMA_LOCATION)
         .setSchemaVersion(EMPTY)
         .build());
@@ -243,7 +243,7 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   void assertElementNamespace(String expected, DslElementSyntax result) {
-    assertThat(result.getNamespace(), equalTo(expected));
+    assertThat(result.getPrefix(), equalTo(expected));
   }
 
   void assertTopElementDeclarationIs(boolean expected, DslElementSyntax result) {
@@ -278,7 +278,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax anotherGroupedFieldDsl = getChildFieldDsl(groupedFieldAsContent, topDsl);
     assertThat(topDsl.getAttribute(groupedFieldAsContent).isPresent(), is(false));
     assertElementName(hyphenize(groupedFieldAsContent), anotherGroupedFieldDsl);
-    assertElementNamespace(NAMESPACE, anotherGroupedFieldDsl);
+    assertElementNamespace(PREFIX, anotherGroupedFieldDsl);
     assertChildElementDeclarationIs(true, anotherGroupedFieldDsl);
     assertIsWrappedElement(false, anotherGroupedFieldDsl);
     assertNoAttributes(anotherGroupedFieldDsl);
@@ -300,7 +300,7 @@ public abstract class BaseXmlDeclarationTestCase {
     assertThat(topDsl.getAttribute(groupedField).isPresent(), is(false));
     DslElementSyntax groupedFieldDsl = getChildFieldDsl(groupedField, topDsl);
     assertElementName(hyphenize(groupedField), groupedFieldDsl);
-    assertElementNamespace(NAMESPACE, groupedFieldDsl);
+    assertElementNamespace(PREFIX, groupedFieldDsl);
     assertChildElementDeclarationIs(true, groupedFieldDsl);
     assertIsWrappedElement(false, groupedFieldDsl);
   }
@@ -313,7 +313,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
     assertElementName(hyphenize(notGlobalName), notGlobalDsl);
-    assertElementNamespace(NAMESPACE, notGlobalDsl);
+    assertElementNamespace(PREFIX, notGlobalDsl);
     assertChildElementDeclarationIs(true, notGlobalDsl);
     assertIsWrappedElement(false, notGlobalDsl);
   }
@@ -327,7 +327,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax simplePojoDsl = getChildFieldDsl(simplePojoName, topDsl);
     assertElementName(hyphenize(simplePojoName), simplePojoDsl);
-    assertElementNamespace(NAMESPACE, simplePojoDsl);
+    assertElementNamespace(PREFIX, simplePojoDsl);
     assertChildElementDeclarationIs(true, simplePojoDsl);
     assertIsWrappedElement(false, simplePojoDsl);
     assertTopElementDeclarationIs(false, simplePojoDsl);
@@ -360,7 +360,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax textFieldDsl = getChildFieldDsl(textFieldName, simplePojoDsl);
     assertAttributeDeclaration(false, textFieldDsl);
     assertElementName(hyphenize(textFieldName), textFieldDsl);
-    assertElementNamespace(NAMESPACE, textFieldDsl);
+    assertElementNamespace(PREFIX, textFieldDsl);
     assertChildElementDeclarationIs(true, textFieldDsl);
     assertIsWrappedElement(false, textFieldDsl);
     assertTopElementDeclarationIs(false, textFieldDsl);
@@ -380,7 +380,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax recursiveFromGroupDsl = getChildFieldDsl(recursiveFromGroupName, topDsl);
     assertElementName(hyphenize(recursiveFromGroupName), recursiveFromGroupDsl);
-    assertElementNamespace(NAMESPACE, recursiveFromGroupDsl);
+    assertElementNamespace(PREFIX, recursiveFromGroupDsl);
     assertChildElementDeclarationIs(true, recursiveFromGroupDsl);
     assertTopLevelDeclarationSupportIs(false, recursiveFromGroupDsl);
     assertIsWrappedElement(false, recursiveFromGroupDsl);
@@ -393,14 +393,14 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax listDsl = getChildFieldDsl(EXTENSIBLE_TYPE_LIST_NAME, topDsl);
     assertElementName(hyphenize(EXTENSIBLE_TYPE_LIST_NAME), listDsl);
-    assertElementNamespace(NAMESPACE, listDsl);
+    assertElementNamespace(PREFIX, listDsl);
     assertChildElementDeclarationIs(true, listDsl);
     assertIsWrappedElement(false, listDsl);
 
     MetadataType listItemType = TYPE_LOADER.load(ExtensibleType.class);
     DslElementSyntax listItemDsl = getGenericTypeDsl(listItemType, listDsl);
     assertElementName(getTopLevelTypeName(listItemType), listItemDsl);
-    assertElementNamespace(NAMESPACE, listItemDsl);
+    assertElementNamespace(PREFIX, listItemDsl);
     assertChildElementDeclarationIs(true, listItemDsl);
     assertTopElementDeclarationIs(false, listItemDsl);
     assertIsWrappedElement(true, listItemDsl);
@@ -471,7 +471,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax recursiveChildDsl = getChildFieldDsl(recursiveChildName, topDsl);
     assertElementName(hyphenize(recursiveChildName), recursiveChildDsl);
-    assertElementNamespace(NAMESPACE, recursiveChildDsl);
+    assertElementNamespace(PREFIX, recursiveChildDsl);
     assertChildElementDeclarationIs(true, recursiveChildDsl);
     assertTopLevelDeclarationSupportIs(false, recursiveChildDsl);
     assertIsWrappedElement(false, recursiveChildDsl);
@@ -517,8 +517,8 @@ public abstract class BaseXmlDeclarationTestCase {
   protected XmlDslModel createXmlDslModel() {
     return XmlDslModel.builder()
         .setXsdFileName("mule-mockns.xsd")
-        .setPrefix(NAMESPACE)
-        .setNamespace(NAMESPACE_URI)
+        .setPrefix(PREFIX)
+        .setNamespace(NAMESPACE)
         .setSchemaLocation(SCHEMA_LOCATION)
         .setSchemaVersion("4.0")
         .build();
@@ -527,8 +527,8 @@ public abstract class BaseXmlDeclarationTestCase {
   protected XmlDslModel createImportedXmlDslModel() {
     return XmlDslModel.builder()
         .setXsdFileName("mule-importns.xsd")
-        .setPrefix(IMPORT_NAMESPACE)
-        .setNamespace(IMPORT_NAMESPACE_URI)
+        .setPrefix(IMPORT_PREFIX)
+        .setNamespace(IMPORT_NAMESPACE)
         .setSchemaLocation(IMPORT_SCHEMA_LOCATION)
         .setSchemaVersion("4.0")
         .build();
@@ -547,7 +547,7 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
 
-  @Xml(prefix = IMPORT_NAMESPACE, namespace = IMPORT_NAMESPACE_URI)
+  @Xml(prefix = IMPORT_PREFIX, namespace = IMPORT_NAMESPACE)
   @Extension(name = IMPORT_EXTENSION_NAME_WITH_XML)
   protected static final class ExtensionForImportsDeclaresXml {
 

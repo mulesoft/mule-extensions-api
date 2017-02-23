@@ -160,14 +160,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     final ParameterDslConfiguration dslConfig = parameter.getDslConfiguration();
 
-    Reference<String> namespace = new Reference<>(languageModel.getPrefix());
-    Reference<String> namespaceUri = new Reference<>(languageModel.getNamespace());
+    Reference<String> prefix = new Reference<>(languageModel.getPrefix());
+    Reference<String> namespace = new Reference<>(languageModel.getNamespace());
     Reference<String> elementName = new Reference<>(hyphenize(parameter.getName()));
 
     parameter.getModelProperty(QNameModelProperty.class).map(QNameModelProperty::getValue).ifPresent(qName -> {
       elementName.set(qName.getLocalPart());
-      namespace.set(qName.getPrefix());
-      namespaceUri.set(qName.getNamespaceURI());
+      prefix.set(qName.getPrefix());
+      namespace.set(qName.getNamespaceURI());
     });
 
     final boolean isContent = isContent(parameter);
@@ -203,7 +203,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  @Override
                                  public void visitArrayType(ArrayType arrayType) {
                                    defaultVisit(arrayType);
-                                   builder.withNamespace(namespace.get(), namespaceUri.get())
+                                   builder.withNamespace(prefix.get(), namespace.get())
                                        .withElementName(elementName.get());
 
                                    MetadataType genericType = arrayType.getType();
@@ -214,8 +214,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                      builder.supportsChildDeclaration(true);
                                      if (!isContent) {
                                        genericType.accept(getArrayItemTypeVisitor(builder, parameter.getName(),
+                                                                                  prefix.get(),
                                                                                   namespace.get(),
-                                                                                  namespaceUri.get(),
                                                                                   false));
                                      }
                                    }
@@ -224,12 +224,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  @Override
                                  public void visitObject(ObjectType objectType) {
                                    addAttributeName(builder, parameter, isContent, dslConfig);
-                                   builder.withNamespace(namespace.get(), namespaceUri.get());
+                                   builder.withNamespace(prefix.get(), namespace.get());
                                    if (isMap(objectType)) {
                                      resolveMapDsl(objectType, builder, isContent, expressionSupport, dslConfig,
-                                                   parameter.getName(), namespace.get(), namespaceUri.get());
+                                                   parameter.getName(), prefix.get(), namespace.get());
                                    } else {
-                                     builder.withNamespace(namespace.get(), namespaceUri.get())
+                                     builder.withNamespace(prefix.get(), namespace.get())
                                          .withElementName(elementName.get());
 
                                      resolveObjectDsl(parameter, objectType, builder, isContent, dslConfig, expressionSupport);
@@ -237,7 +237,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  }
 
                                  private void addContentChildWithNoAttribute() {
-                                   builder.withNamespace(namespace.get(), namespaceUri.get())
+                                   builder.withNamespace(prefix.get(), namespace.get())
                                        .withElementName(elementName.get())
                                        .supportsChildDeclaration(true)
                                        .supportsAttributeDeclaration(false);
@@ -290,8 +290,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       return Optional.empty();
     }
 
-    final String namespace = getNamespace(type);
-    final String namespaceUri = getNamespaceUri(type);
+    final String namespace = getPrefix(type);
+    final String namespaceUri = getNamespace(type);
 
     final String key = getTypeKey(type, namespace, namespaceUri);
 
@@ -397,7 +397,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         if (typeRequiresWrapperElement(objectType)) {
           listBuilder.withGeneric(objectType,
                                   DslElementSyntaxBuilder.create()
-                                      .withNamespace(getNamespace(objectType), getNamespaceUri(objectType))
+                                      .withNamespace(getPrefix(objectType), getNamespace(objectType))
                                       .withElementName(getTopLevelTypeName(objectType))
                                       .supportsAttributeDeclaration(false)
                                       .supportsChildDeclaration(supportsInlineDeclaration(objectType, NOT_SUPPORTED))
@@ -507,8 +507,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         if (supportsInlineDeclaration || requiresWrapperElement) {
           final DslElementSyntaxBuilder valueEntry = createBaseValueEntryDefinition();
 
-          final String namespace = getNamespace(objectType);
-          final String namespaceUri = getNamespaceUri(objectType);
+          final String namespace = getPrefix(objectType);
+          final String namespaceUri = getNamespace(objectType);
 
           final DslElementSyntaxBuilder innerPojoDsl = DslElementSyntaxBuilder.create()
               .withAttributeName(VALUE_ATTRIBUTE_NAME)
@@ -641,7 +641,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                                                         .getDefaultInstance())));
         } else {
           objectFieldBuilder.withElementName(hyphenize(fieldName))
-              .withNamespace(getNamespace(objectType, ownerNamespace), getNamespaceUri(objectType, ownerNamespaceUri));
+              .withNamespace(getPrefix(objectType, ownerNamespace), getNamespace(objectType, ownerNamespaceUri));
 
           String typeId = getId(objectType);
           if (!typeResolvingStack.contains(typeId)) {
@@ -719,22 +719,22 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         (isExtensible(metadataType) || typeCatalog.containsBaseType((ObjectType) metadataType));
   }
 
+  private String getPrefix(MetadataType type) {
+    return getPrefix(type, languageModel.getPrefix());
+  }
+
+  private String getPrefix(MetadataType type, String prefix) {
+    XmlDslModel originXml = importedTypes.get(type);
+    return originXml != null ? originXml.getPrefix() : prefix;
+  }
+
   private String getNamespace(MetadataType type) {
-    return getNamespace(type, languageModel.getPrefix());
+    return getNamespace(type, languageModel.getNamespace());
   }
 
   private String getNamespace(MetadataType type, String defaultNamespace) {
     XmlDslModel originXml = importedTypes.get(type);
-    return originXml != null ? originXml.getPrefix() : defaultNamespace;
-  }
-
-  private String getNamespaceUri(MetadataType type) {
-    return getNamespaceUri(type, languageModel.getNamespace());
-  }
-
-  private String getNamespaceUri(MetadataType type, String defaultUri) {
-    XmlDslModel originXml = importedTypes.get(type);
-    return originXml != null ? originXml.getNamespace() : defaultUri;
+    return originXml != null ? originXml.getNamespace() : defaultNamespace;
   }
 
   private String resolveItemName(String parameterName, boolean forceItemize) {

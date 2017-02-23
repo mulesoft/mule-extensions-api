@@ -6,8 +6,8 @@
   "category": "COMMUNITY",
   "minMuleVersion": "4.0.0",
   "xmlDsl": {
+    "prefix": "",
     "namespace": "",
-    "namespaceUri": "",
     "schemaLocation": "",
     "schemaVersion": "",
     "xsdFileName": ""

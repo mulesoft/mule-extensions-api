@@ -81,7 +81,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     DslElementSyntax result = getSyntaxResolver().resolve(operation);
 
     assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
-    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(true));
     assertTopElementDeclarationIs(true, result);
     assertChildElementDeclarationIs(true, result);
@@ -99,7 +99,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
     assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
-    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(true));
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
@@ -115,7 +115,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
     assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
-    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
@@ -131,7 +131,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
     assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
-    assertThat(result.getNamespace(), is(NAMESPACE));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
@@ -166,7 +166,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     DslElementSyntax inlineDsl = getChildFieldDsl(INLINE_GROUP, result);
 
     assertThat(inlineDsl.getElementName(), is(hyphenize(INLINE_GROUP)));
-    assertThat(inlineDsl.getNamespace(), is(NAMESPACE));
+    assertThat(inlineDsl.getPrefix(), is(PREFIX));
     assertChildElementDeclarationIs(true, inlineDsl);
     assertTopElementDeclarationIs(false, inlineDsl);
     assertAttributeDeclaration(false, inlineDsl);

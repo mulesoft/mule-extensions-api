@@ -22,8 +22,8 @@ public final class DslElementSyntaxBuilder {
 
   private String attributeName = "";
   private String elementName = "";
-  private String elementNameSpace = "";
-  private String nameSpaceUri = "";
+  private String prefix = "";
+  private String namespace = "";
   private boolean isWrapped = false;
   private boolean supportsAttributeDeclaration = true;
   private boolean supportsChildDeclaration = false;
@@ -62,13 +62,13 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
-   * Adds a {@code nameSpace} to the element being declared
+   * Adds a {@code prefix} to the element being declared
    *
-   * @return {@code this} builder instance enriched with the {@code nameSpace}
+   * @return {@code this} builder instance enriched with the {@code prefix}
    */
-  public DslElementSyntaxBuilder withNamespace(String nameSpace, String nameSpaceUri) {
-    this.elementNameSpace = nameSpace;
-    this.nameSpaceUri = nameSpaceUri;
+  public DslElementSyntaxBuilder withNamespace(String prefix, String namespace) {
+    this.prefix = prefix;
+    this.namespace = namespace;
     return this;
   }
 
@@ -160,7 +160,7 @@ public final class DslElementSyntaxBuilder {
    * @return a new instance of {@link DslElementSyntax}
    */
   public DslElementSyntax build() {
-    return new DslElementSyntax(attributeName, elementName, elementNameSpace, nameSpaceUri, isWrapped,
+    return new DslElementSyntax(attributeName, elementName, prefix, namespace, isWrapped,
                                 supportsAttributeDeclaration, supportsChildDeclaration, supportsTopLevelDeclaration,
                                 requiresConfig, genericChilds, containedElements);
   }
