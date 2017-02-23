@@ -34,13 +34,13 @@ public @interface Xml {
    * Extension                    = extension
    * </pre>
    */
-  String namespace() default "";
+  String prefix() default "";
 
   /**
    * Location URI for the namespace. If left empty it will default to
    * &quot;http://www.mulesoft.org/schema/mule/&lt;&lt;extension_namespace&gt;&gt;
    */
-  String namespaceLocation() default "";
+  String namespace() default "";
 
 
 }

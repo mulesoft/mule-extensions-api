@@ -135,8 +135,8 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
     when(importOriginMock.getXmlDslModel()).thenReturn(XmlDslModel.builder()
         .setXsdFileName(EMPTY)
-        .setNamespace(defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML))
-        .setNamespaceUri(IMPORT_NAMESPACE_URI)
+        .setPrefix(defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML))
+        .setNamespace(IMPORT_NAMESPACE_URI)
         .setXsdFileName(EMPTY)
         .setSchemaLocation(IMPORT_WITH_XML_SCHEMA_LOCATION)
         .build());

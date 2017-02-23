@@ -32,8 +32,8 @@ public class XmlDslModelTypeAdapter extends TypeAdapter<XmlDslModel> {
   @Override
   public void write(JsonWriter out, XmlDslModel value) throws IOException {
     out.beginObject();
-    out.name(NAMESPACE).value(value.getNamespace());
-    out.name(NAMESPACE_URI).value(value.getNamespaceUri());
+    out.name(NAMESPACE).value(value.getPrefix());
+    out.name(NAMESPACE_URI).value(value.getNamespace());
     out.name(SCHEMA_LOCATION).value(value.getSchemaLocation());
     out.name(SCHEMA_VERSION).value(value.getSchemaVersion());
     out.name(XSD_FILE_NAME).value(value.getXsdFileName());
@@ -44,8 +44,8 @@ public class XmlDslModelTypeAdapter extends TypeAdapter<XmlDslModel> {
   public XmlDslModel read(JsonReader in) throws IOException {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
     return XmlDslModel.builder()
-        .setNamespace(read(json, NAMESPACE))
-        .setNamespaceUri(read(json, NAMESPACE_URI))
+        .setPrefix(read(json, NAMESPACE))
+        .setNamespace(read(json, NAMESPACE_URI))
         .setSchemaLocation(read(json, SCHEMA_LOCATION))
         .setSchemaVersion(read(json, SCHEMA_VERSION))
         .setXsdFileName(read(json, XSD_FILE_NAME))

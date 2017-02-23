@@ -73,34 +73,34 @@ public final class XmlModelUtils {
   /**
    * Takes a set of parameters extracted from the extension and generates a {@link XmlDslModel}.
    *
-   * @param extensionNamespace namespace of the extension. If {@link Optional#empty()} or empty string, then it will default using the {@code extensionName}.
-   * @param extensionNamespaceLocation namespace location of the extension. If {@link Optional#empty()} or empty string, then it will default using a generated namespace.
+   * @param extensionPrefix namespace of the extension. If {@link Optional#empty()} or empty string, then it will default using the {@code extensionName}.
+   * @param extensionNamespace namespace location of the extension. If {@link Optional#empty()} or empty string, then it will default using a generated namespace.
    * @param extensionName name of the extension, cannot be null.
    * @param extensionVersion version of the extension, cannot be null.
    * @return a wellformed {@link XmlDslModel}
    */
-  public static XmlDslModel createXmlLanguageModel(Optional<String> extensionNamespace,
-                                                   Optional<String> extensionNamespaceLocation, String extensionName,
+  public static XmlDslModel createXmlLanguageModel(Optional<String> extensionPrefix,
+                                                   Optional<String> extensionNamespace, String extensionName,
                                                    String extensionVersion) {
-    final String namespace =
-        isPresentAndNotBlank(extensionNamespace) ? extensionNamespace.get() : defaultNamespace(extensionName);
+    final String prefix =
+        isPresentAndNotBlank(extensionPrefix) ? extensionPrefix.get() : defaultNamespace(extensionName);
     final String namespaceLocation =
-        isPresentAndNotBlank(extensionNamespaceLocation) ? extensionNamespaceLocation.get() : buildDefaultLocation(namespace);
-    return getXmlDslModel(extensionVersion, namespace, namespaceLocation);
+        isPresentAndNotBlank(extensionNamespace) ? extensionNamespace.get() : buildDefaultLocation(prefix);
+    return getXmlDslModel(extensionVersion, prefix, namespaceLocation);
   }
 
   private static boolean isPresentAndNotBlank(Optional<String> element) {
     return element.isPresent() && isNotBlank(element.get());
   }
 
-  private static XmlDslModel getXmlDslModel(String extensionVersion, String namespace, String namespaceLocation) {
-    String xsdFileName = buildDefaultXsdFileName(namespace);
-    String schemaLocation = buildDefaultSchemaLocation(namespaceLocation, xsdFileName);
+  private static XmlDslModel getXmlDslModel(String extensionVersion, String prefix, String namespace) {
+    String xsdFileName = buildDefaultXsdFileName(prefix);
+    String schemaLocation = buildDefaultSchemaLocation(namespace, xsdFileName);
 
     return XmlDslModel.builder()
         .setSchemaVersion(extensionVersion)
+        .setPrefix(prefix)
         .setNamespace(namespace)
-        .setNamespaceUri(namespaceLocation)
         .setSchemaLocation(schemaLocation)
         .setXsdFileName(xsdFileName)
         .build();

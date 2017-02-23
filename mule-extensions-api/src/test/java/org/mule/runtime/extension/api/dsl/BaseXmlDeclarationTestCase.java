@@ -30,6 +30,11 @@ import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
@@ -61,12 +66,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseXmlDeclarationTestCase {
@@ -151,8 +150,8 @@ public abstract class BaseXmlDeclarationTestCase {
     when(extension.getImportedTypes()).thenReturn(emptySet());
     when(extension.getXmlDslModel()).thenReturn(XmlDslModel.builder()
         .setXsdFileName(EMPTY)
-        .setNamespace(NAMESPACE)
-        .setNamespaceUri(NAMESPACE_URI)
+        .setPrefix(NAMESPACE)
+        .setNamespace(NAMESPACE_URI)
         .setSchemaLocation(SCHEMA_LOCATION)
         .setSchemaVersion(EMPTY)
         .build());
@@ -518,8 +517,8 @@ public abstract class BaseXmlDeclarationTestCase {
   protected XmlDslModel createXmlDslModel() {
     return XmlDslModel.builder()
         .setXsdFileName("mule-mockns.xsd")
-        .setNamespace(NAMESPACE)
-        .setNamespaceUri(NAMESPACE_URI)
+        .setPrefix(NAMESPACE)
+        .setNamespace(NAMESPACE_URI)
         .setSchemaLocation(SCHEMA_LOCATION)
         .setSchemaVersion("4.0")
         .build();
@@ -528,8 +527,8 @@ public abstract class BaseXmlDeclarationTestCase {
   protected XmlDslModel createImportedXmlDslModel() {
     return XmlDslModel.builder()
         .setXsdFileName("mule-importns.xsd")
-        .setNamespace(IMPORT_NAMESPACE)
-        .setNamespaceUri(IMPORT_NAMESPACE_URI)
+        .setPrefix(IMPORT_NAMESPACE)
+        .setNamespace(IMPORT_NAMESPACE_URI)
         .setSchemaLocation(IMPORT_SCHEMA_LOCATION)
         .setSchemaVersion("4.0")
         .build();
@@ -548,7 +547,7 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
 
-  @Xml(namespace = IMPORT_NAMESPACE, namespaceLocation = IMPORT_NAMESPACE_URI)
+  @Xml(prefix = IMPORT_NAMESPACE, namespace = IMPORT_NAMESPACE_URI)
   @Extension(name = IMPORT_EXTENSION_NAME_WITH_XML)
   protected static final class ExtensionForImportsDeclaresXml {
 

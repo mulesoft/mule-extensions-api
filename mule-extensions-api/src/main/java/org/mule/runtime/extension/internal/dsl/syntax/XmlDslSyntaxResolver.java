@@ -130,7 +130,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   public DslElementSyntax resolve(final NamedObject component) {
     DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
         .withElementName(hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", ""))
-        .withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
+        .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
         .supportsTopLevelDeclaration(true)
         .supportsChildDeclaration(true)
         .supportsAttributeDeclaration(false)
@@ -160,8 +160,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     final ParameterDslConfiguration dslConfig = parameter.getDslConfiguration();
 
-    Reference<String> namespace = new Reference<>(languageModel.getNamespace());
-    Reference<String> namespaceUri = new Reference<>(languageModel.getNamespaceUri());
+    Reference<String> namespace = new Reference<>(languageModel.getPrefix());
+    Reference<String> namespaceUri = new Reference<>(languageModel.getNamespace());
     Reference<String> elementName = new Reference<>(hyphenize(parameter.getName()));
 
     parameter.getModelProperty(QNameModelProperty.class).map(QNameModelProperty::getValue).ifPresent(qName -> {
@@ -257,7 +257,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   public DslElementSyntax resolveInline(ParameterGroupModel group) {
 
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
-    builder.withNamespace(languageModel.getNamespace(), languageModel.getNamespaceUri())
+    builder.withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
         .withElementName(hyphenize(sanitizeName(group.getName())).replaceAll("\\s+", ""))
         .supportsAttributeDeclaration(false)
         .supportsChildDeclaration(true)
@@ -347,7 +347,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       } else {
         if (!isContent) {
           declareFieldsAsChilds(builder, objectType.getFields(),
-                                languageModel.getNamespace(), languageModel.getNamespaceUri());
+                                languageModel.getPrefix(), languageModel.getNamespace());
         }
       }
     }
@@ -720,21 +720,21 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private String getNamespace(MetadataType type) {
-    return getNamespace(type, languageModel.getNamespace());
+    return getNamespace(type, languageModel.getPrefix());
   }
 
   private String getNamespace(MetadataType type, String defaultNamespace) {
     XmlDslModel originXml = importedTypes.get(type);
-    return originXml != null ? originXml.getNamespace() : defaultNamespace;
+    return originXml != null ? originXml.getPrefix() : defaultNamespace;
   }
 
   private String getNamespaceUri(MetadataType type) {
-    return getNamespaceUri(type, languageModel.getNamespaceUri());
+    return getNamespaceUri(type, languageModel.getNamespace());
   }
 
   private String getNamespaceUri(MetadataType type, String defaultUri) {
     XmlDslModel originXml = importedTypes.get(type);
-    return originXml != null ? originXml.getNamespaceUri() : defaultUri;
+    return originXml != null ? originXml.getNamespace() : defaultUri;
   }
 
   private String resolveItemName(String parameterName, boolean forceItemize) {
