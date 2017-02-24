@@ -28,8 +28,8 @@ public class DslElementSyntax {
 
   private final String attributeName;
   private final String elementName;
-  private final String elementNameSpace;
-  private final String nameSpaceUri;
+  private final String prefix;
+  private final String namespace;
   private final boolean isWrapped;
   private final boolean supportsAttributeDeclaration;
   private final boolean supportsChildDeclaration;
@@ -46,7 +46,7 @@ public class DslElementSyntax {
    * @param attributeName                the name of the attribute in the parent element that
    *                                     references this element
    * @param elementName                  the name of this xml element
-   * @param elementNameSpace             the namespace of this xml element
+   * @param prefix                       the prefix of this xml element
    * @param isWrapped                    {@code false} if the element implements the Component's type
    *                                     as an xml extension, or {@code true} if the element is a
    *                                     wrapper of a ref to the Component's type
@@ -64,8 +64,8 @@ public class DslElementSyntax {
    */
   public DslElementSyntax(String attributeName,
                           String elementName,
-                          String elementNameSpace,
-                          String nameSpaceUri,
+                          String prefix,
+                          String namespace,
                           boolean isWrapped,
                           boolean supportsAttributeDeclaration, boolean supportsChildDeclaration,
                           boolean supportsTopLevelDeclaration,
@@ -74,8 +74,8 @@ public class DslElementSyntax {
                           Map<String, DslElementSyntax> containedElements) {
     this.attributeName = attributeName;
     this.elementName = elementName;
-    this.elementNameSpace = elementNameSpace;
-    this.nameSpaceUri = nameSpaceUri;
+    this.prefix = prefix;
+    this.namespace = namespace;
     this.isWrapped = isWrapped;
     this.supportsAttributeDeclaration = supportsAttributeDeclaration;
     this.supportsChildDeclaration = supportsChildDeclaration;
@@ -101,17 +101,17 @@ public class DslElementSyntax {
   }
 
   /**
-   * @return the namespace of this xml element
+   * @return the prefix of this xml element
    */
-  public String getNamespace() {
-    return elementNameSpace;
+  public String getPrefix() {
+    return prefix;
   }
 
   /**
-   * @return the namespace URI of this xml element
+   * @return the namespace of this xml element
    */
-  public String getNamespaceUri() {
-    return nameSpaceUri;
+  public String getNamespace() {
+    return namespace;
   }
 
   /**

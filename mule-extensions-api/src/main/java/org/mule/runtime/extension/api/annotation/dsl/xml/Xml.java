@@ -25,22 +25,22 @@ import java.lang.annotation.Target;
 public @interface Xml {
 
   /**
-   * Extension's namespace. If left empty it will create a default one
+   * Extension's prefix. If left empty it will create a default one
    * based on the extension's name, removing the words "extension", "module" or "connector"
-   * at the end if they are present and hyphenizing the resulting name.
+   * at the end if they are present and hyphenating the resulting name.
    * <pre>
    * Mulesoft Extension           = mulesoft
    * Cloud Service Connector      = cloud-service
    * Extension                    = extension
    * </pre>
    */
-  String namespace() default "";
+  String prefix() default "";
 
   /**
    * Location URI for the namespace. If left empty it will default to
    * &quot;http://www.mulesoft.org/schema/mule/&lt;&lt;extension_namespace&gt;&gt;
    */
-  String namespaceLocation() default "";
+  String namespace() default "";
 
 
 }
