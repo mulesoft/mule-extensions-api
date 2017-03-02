@@ -1,4 +1,20 @@
 {
+  "failures": [],
+  "metadataAttributes": {
+    "key": {
+      "id": "Key ID",
+      "displayName": "Key Name",
+      "partName": "",
+      "properties": {},
+      "childs": []
+    },
+    "category": "categoryName",
+    "parameters": {
+      "carName": "resolverName"
+    },
+    "outputResolver": "outputResolverName",
+    "attributesResolver": "outputResolverName"
+  },
   "type": "OPERATION",
   "component": {
     "blocking": true,
@@ -39,6 +55,7 @@
     },
     "transactional": false,
     "requiresConnection": false,
+    "stereotypes": [],
     "parameterGroupModels": [
       {
         "parameters": [
@@ -618,21 +635,5 @@
     "modelProperties": {
       "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
     }
-  },
-  "metadataAttributes": {
-    "key": {
-      "id": "Key ID",
-      "displayName": "Key Name",
-      "partName": "",
-      "properties": {},
-      "childs": []
-    },
-    "category": "categoryName",
-    "parameters": {
-      "carName": "resolverName"
-    },
-    "outputResolver": "outputResolverName",
-    "attributesResolver": "outputResolverName"
-  },
-  "failures": []
+  }
 }

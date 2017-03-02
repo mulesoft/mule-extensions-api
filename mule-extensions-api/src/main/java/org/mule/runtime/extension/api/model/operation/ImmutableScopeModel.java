@@ -13,28 +13,27 @@ import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.Stereotype;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
-import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.operation.RouteModel;
+import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
-import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
 import java.util.Set;
 
 /**
- * Immutable concrete implementation of {@link OperationModel}
+ * Immutable concrete implementation of {@link ScopeModel}
  *
  * @since 1.0
  */
-public class ImmutableOperationModel extends AbstractComponentModel<OperationModel> implements OperationModel {
+public final class ImmutableScopeModel extends ImmutableOperationModel implements ScopeModel {
 
-  private final boolean blocking;
-  private final ExecutionType executionType;
-  private final Set<ErrorModel> errors;
+  private final RouteModel routeModel;
 
   /**
    * Creates a new instance with the given state
    *
    * @param name                 the operation's name. Cannot be blank
+   * @param routeModel           a {@link RouteModel}
    * @param description          the operation's descriptor
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
    * @param output               an {@link OutputModel} which represents the operation's output content
@@ -50,45 +49,29 @@ public class ImmutableOperationModel extends AbstractComponentModel<OperationMod
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
-  public ImmutableOperationModel(String name,
-                                 String description,
-                                 List<ParameterGroupModel> parameterGroupModels,
-                                 OutputModel output,
-                                 OutputModel outputAttributes,
-                                 boolean blocking,
-                                 ExecutionType executionType,
-                                 boolean requiresConnection,
-                                 boolean transactional,
-                                 DisplayModel displayModel,
-                                 Set<ErrorModel> errors,
-                                 Set<Stereotype> stereotypes,
-                                 Set<ModelProperty> modelProperties) {
-    super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, displayModel,
-          stereotypes, modelProperties);
-    this.blocking = blocking;
-    this.executionType = executionType;
-    this.errors = errors;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public Set<ErrorModel> getErrorModels() {
-    return errors;
+  public ImmutableScopeModel(String name, String description,
+                             RouteModel routeModel,
+                             List<ParameterGroupModel> parameterGroupModels,
+                             OutputModel output,
+                             OutputModel outputAttributes,
+                             boolean blocking,
+                             ExecutionType executionType,
+                             boolean requiresConnection,
+                             boolean transactional,
+                             DisplayModel displayModel,
+                             Set<ErrorModel> errors,
+                             Set<Stereotype> stereotypes,
+                             Set<ModelProperty> modelProperties) {
+    super(name, description, parameterGroupModels, output, outputAttributes, blocking, executionType, requiresConnection,
+          transactional, displayModel, errors, stereotypes, modelProperties);
+    this.routeModel = routeModel;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public boolean isBlocking() {
-    return blocking;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public ExecutionType getExecutionType() {
-    return executionType;
+  public RouteModel getRouteModel() {
+    return routeModel;
   }
 }

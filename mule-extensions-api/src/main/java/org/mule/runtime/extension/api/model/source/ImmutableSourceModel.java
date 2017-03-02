@@ -8,18 +8,14 @@ package org.mule.runtime.extension.api.model.source;
 
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveOutputModelType;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveParameterGroupModelType;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveSourceCallbackType;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.Stereotype;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
-import org.mule.runtime.api.metadata.descriptor.InputMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
@@ -51,6 +47,7 @@ public class ImmutableSourceModel extends AbstractComponentModel<SourceModel> im
    * @param requiresConnection   whether this component requires connectivity
    * @param transactional        whether this component supports transactions
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
+   * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    */
   public ImmutableSourceModel(String name,
@@ -64,9 +61,10 @@ public class ImmutableSourceModel extends AbstractComponentModel<SourceModel> im
                               boolean requiresConnection,
                               boolean transactional,
                               DisplayModel displayModel,
+                              Set<Stereotype> stereotypes,
                               Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, displayModel,
-          modelProperties);
+          stereotypes, modelProperties);
     this.hasResponse = hasResponse;
     this.successCallback = successCallbackModel.orElse(null);
     this.errorCallback = errorCallbackModel.orElse(null);
@@ -102,28 +100,5 @@ public class ImmutableSourceModel extends AbstractComponentModel<SourceModel> im
   @Override
   public Set<ErrorModel> getErrorModels() {
     return emptySet();
-  }
-
-  @Override
-  public SourceModel getTypedModel(InputMetadataDescriptor inputMetadataDescriptor,
-                                   OutputMetadataDescriptor outputMetadataDescriptor) {
-    OutputModel typedOutputModel = resolveOutputModelType(getOutput(), outputMetadataDescriptor.getPayloadMetadata());
-    OutputModel typedAttributesModel =
-        resolveOutputModelType(getOutputAttributes(), outputMetadataDescriptor.getAttributesMetadata());
-
-    return new ImmutableSourceModel(getName(), getDescription(), hasResponse(),
-                                    resolveParameterGroupModelType(getParameterGroupModels(),
-                                                                   inputMetadataDescriptor
-                                                                       .getAllParameters()),
-                                    typedOutputModel, typedAttributesModel,
-                                    resolveSourceCallbackType(getSuccessCallback(),
-                                                              inputMetadataDescriptor.getAllParameters()),
-                                    resolveSourceCallbackType(getErrorCallback(),
-                                                              inputMetadataDescriptor.getAllParameters()),
-                                    requiresConnection(),
-                                    isTransactional(),
-                                    getDisplayModel().orElse(null),
-                                    getModelProperties());
-
   }
 }

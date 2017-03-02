@@ -10,6 +10,7 @@ import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.Stereotype;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
@@ -30,6 +31,7 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
   private final OutputModel outputAttributes;
   private final boolean transactional;
   private final boolean requiresConnection;
+  private final Set<Stereotype> stereotypes;
 
   /**
    * Creates a new instance
@@ -42,6 +44,7 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
    * @param requiresConnection   whether this component requires connectivity
    * @param transactional        whether this component supports transactions
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
@@ -53,12 +56,14 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
                                    boolean requiresConnection,
                                    boolean transactional,
                                    DisplayModel displayModel,
+                                   Set<Stereotype> stereotypes,
                                    Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
     this.output = output;
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;
     this.transactional = transactional;
+    this.stereotypes = copy(stereotypes);
   }
 
   /**
@@ -90,5 +95,13 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
   @Override
   public boolean requiresConnection() {
     return requiresConnection;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<Stereotype> getStereotypes() {
+    return stereotypes;
   }
 }

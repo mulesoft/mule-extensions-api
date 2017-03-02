@@ -33,9 +33,13 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OutputDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.RouteDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.RouterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ScopeDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.operation.RouteModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -53,6 +57,9 @@ import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.model.operation.ImmutableRouteModel;
+import org.mule.runtime.extension.api.model.operation.ImmutableRouterModel;
+import org.mule.runtime.extension.api.model.operation.ImmutableScopeModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
@@ -280,6 +287,7 @@ public final class ExtensionModelFactory {
                                                       declaration.isRequiresConnection(),
                                                       declaration.isTransactional(),
                                                       declaration.getDisplayModel(),
+                                                      declaration.getStereotypes(),
                                                       declaration.getModelProperties()));
     }
 
@@ -297,18 +305,71 @@ public final class ExtensionModelFactory {
     }
 
     private OperationModel toOperation(OperationDeclaration declaration) {
-      return fromCache(declaration, () -> new ImmutableOperationModel(declaration.getName(),
-                                                                      declaration.getDescription(),
-                                                                      toParameterGroups(declaration.getParameterGroups()),
-                                                                      toOutputModel(declaration.getOutput()),
-                                                                      toOutputModel(declaration.getOutputAttributes()),
-                                                                      declaration.isBlocking(),
-                                                                      declaration.getExecutionType(),
-                                                                      declaration.isRequiresConnection(),
-                                                                      declaration.isTransactional(),
-                                                                      declaration.getDisplayModel(),
-                                                                      declaration.getErrorModels(),
-                                                                      declaration.getModelProperties()));
+      return fromCache(declaration, () -> {
+        OperationModel operation;
+        if (declaration instanceof ScopeDeclaration) {
+          operation = new ImmutableScopeModel(declaration.getName(),
+                                              declaration.getDescription(),
+                                              toRouteModel(((ScopeDeclaration) declaration).getRoute()),
+                                              toParameterGroups(declaration.getParameterGroups()),
+                                              toOutputModel(declaration.getOutput()),
+                                              toOutputModel(declaration.getOutputAttributes()),
+                                              declaration.isBlocking(),
+                                              declaration.getExecutionType(),
+                                              declaration.isRequiresConnection(),
+                                              declaration.isTransactional(),
+                                              declaration.getDisplayModel(),
+                                              declaration.getErrorModels(),
+                                              declaration.getStereotypes(),
+                                              declaration.getModelProperties());
+        } else if (declaration instanceof RouterDeclaration) {
+          operation = new ImmutableRouterModel(declaration.getName(),
+                                               declaration.getDescription(),
+                                               toRouteModels(((RouterDeclaration) declaration).getRoutes()),
+                                               toParameterGroups(declaration.getParameterGroups()),
+                                               toOutputModel(declaration.getOutput()),
+                                               toOutputModel(declaration.getOutputAttributes()),
+                                               declaration.isBlocking(),
+                                               declaration.getExecutionType(),
+                                               declaration.isRequiresConnection(),
+                                               declaration.isTransactional(),
+                                               declaration.getDisplayModel(),
+                                               declaration.getErrorModels(),
+                                               declaration.getStereotypes(),
+                                               declaration.getModelProperties());
+        } else {
+          operation = new ImmutableOperationModel(declaration.getName(),
+                                                  declaration.getDescription(),
+                                                  toParameterGroups(declaration.getParameterGroups()),
+                                                  toOutputModel(declaration.getOutput()),
+                                                  toOutputModel(declaration.getOutputAttributes()),
+                                                  declaration.isBlocking(),
+                                                  declaration.getExecutionType(),
+                                                  declaration.isRequiresConnection(),
+                                                  declaration.isTransactional(),
+                                                  declaration.getDisplayModel(),
+                                                  declaration.getErrorModels(),
+                                                  declaration.getStereotypes(),
+                                                  declaration.getModelProperties());
+        }
+
+        return operation;
+      });
+    }
+
+    private List<RouteModel> toRouteModels(Collection<RouteDeclaration> routes) {
+      return routes.stream().map(this::toRouteModel).collect(toList());
+    }
+
+    private RouteModel toRouteModel(RouteDeclaration declaration) {
+      return new ImmutableRouteModel(declaration.getName(),
+                                     declaration.getDescription(),
+                                     declaration.getMinOccurs(),
+                                     declaration.getMaxOccurs(),
+                                     declaration.getAllowedStereotypes(),
+                                     toParameterGroups(declaration.getParameterGroups()),
+                                     declaration.getDisplayModel(),
+                                     declaration.getModelProperties());
     }
 
     private List<ConnectionProviderModel> toConnectionProviders(List<ConnectionProviderDeclaration> declarations) {
