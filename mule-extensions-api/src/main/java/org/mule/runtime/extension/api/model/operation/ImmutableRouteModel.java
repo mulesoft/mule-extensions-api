@@ -33,6 +33,10 @@ public class ImmutableRouteModel extends AbstractParameterizedModel implements R
    *
    * @param name                 the model's name
    * @param description          the model's description
+   *                             @param minOccurs minimum amount of times that this route can be used inside the owning component
+   *                             @param maxOccurs the maximum amount of times that this route can be used inside the owning component
+   *                             @param allowedStereotypes  {@link Set} of {@link Stereotype stereotypes} to which the components placed inside the route
+   * <b>MUST</b> conform to. {@code null} value means no restriction
    * @param parameterGroupModels a {@link List} with the component's {@link ParameterGroupModel parameter group models}
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param modelProperties      A {@link Set} of custom properties which extend this model

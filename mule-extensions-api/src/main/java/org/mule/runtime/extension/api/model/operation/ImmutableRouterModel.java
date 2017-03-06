@@ -32,11 +32,11 @@ public class ImmutableRouterModel extends ImmutableOperationModel implements Rou
   /**
    * Creates a new instance with the given state
    *
-   * @param name                 the operation's name. Cannot be blank
+   * @param name                 the router's name. Cannot be blank
    * @param routeModels          a {@link List} of {@link RouteModel}
-   * @param description          the operation's descriptor
-   * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
-   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param description          the router's descriptor
+   * @param parameterGroupModels a {@link List} with the router's {@link ParameterGroupModel parameter group models}
+   * @param output               an {@link OutputModel} which represents the router's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output {@link Message}
    * @param blocking             whether this operation executes in a blocking manner
    * @param executionType        describes the type of processing this operation performs
