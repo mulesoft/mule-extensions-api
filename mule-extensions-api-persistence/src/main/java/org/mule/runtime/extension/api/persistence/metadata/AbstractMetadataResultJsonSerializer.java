@@ -18,7 +18,6 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
-import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
@@ -32,6 +31,7 @@ import org.mule.runtime.extension.internal.persistence.DefaultImplementationType
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.ComponentResultTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.FailureCodeTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.metadata.MetadataKeyTypeAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -64,8 +64,6 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
-    final DefaultImplementationTypeAdapterFactory<MetadataKey, DefaultMetadataKey> metadataKeyTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(MetadataKey.class, DefaultMetadataKey.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
@@ -73,7 +71,7 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentResultTypeAdapterFactory())
-        .registerTypeAdapterFactory(metadataKeyTypeAdapter)
+        .registerTypeAdapter(MetadataKey.class, new MetadataKeyTypeAdapter())
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

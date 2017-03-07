@@ -6,8 +6,10 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.text.IsEmptyString.isEmptyString;
 import static org.mockito.Mockito.mock;
 import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
 import static org.mule.runtime.api.metadata.resolving.FailureCode.CONNECTION_FAILURE;
@@ -23,6 +25,7 @@ import org.mule.runtime.api.metadata.descriptor.TypeMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.api.metadata.resolving.NamedTypeResolver;
+import org.mule.runtime.extension.api.metadata.NullMetadataKey;
 import org.mule.runtime.extension.api.persistence.metadata.EntityMetadataResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
 
@@ -37,6 +40,7 @@ import org.junit.Test;
 public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersistenceTestCase {
 
   private static final String METADATA_KEYS_RESULT_JSON = "metadata/success-result-keys.json";
+  private static final String NULL_METADATA_KEYS_RESULT_JSON = "metadata/success-result-null-keys.json";
   private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "metadata/success-result-multilevel-keys.json";
   private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
   private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "metadata/failure-entity-result.json";
@@ -79,6 +83,15 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
         .onKeys());
     String serialized = keysResultSerializer.serialize(failure);
     assertSerializedJson(serialized, METADATA_KEYS_RESULT_FAILURE_JSON);
+  }
+
+  @Test
+  public void serializeSuccessNullMetadataKeysResult() throws IOException {
+    Set<MetadataKey> keys = new LinkedHashSet<>();
+    keys.add(new NullMetadataKey());
+    MetadataResult<MetadataKeysContainer> successResult = success(builder.add(CATEGORY_NAME, keys).build());
+    String serialized = keysResultSerializer.serialize(successResult);
+    assertSerializedJson(serialized, NULL_METADATA_KEYS_RESULT_JSON);
   }
 
   @Test
@@ -137,4 +150,19 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     assertThat(metadataFailure.getMessage(), is(METADATA_RESULT_ERROR_MESSAGE));
     assertThat(metadataFailure.getFailureCode().getName(), is(NOT_AUTHORIZED.getName()));
   }
+
+  @Test
+  public void deserializeNullMetadataKeysResult() throws IOException {
+    String resource = getResourceAsString(NULL_METADATA_KEYS_RESULT_JSON);
+    MetadataResult<MetadataKeysContainer> metadataResult = keysResultSerializer.deserialize(resource);
+
+    assertThat(metadataResult.isSuccess(), is(true));
+    MetadataKeysContainer container = metadataResult.get();
+    assertThat(container.getKeys(CATEGORY_NAME).isPresent(), is(true));
+    Iterator<MetadataKey> iterator = container.getKeys(CATEGORY_NAME).get().iterator();
+    final MetadataKey metadataKey = iterator.next();
+    assertThat(metadataKey, instanceOf(NullMetadataKey.class));
+    assertThat(metadataKey.getId(), isEmptyString());
+  }
+
 }
