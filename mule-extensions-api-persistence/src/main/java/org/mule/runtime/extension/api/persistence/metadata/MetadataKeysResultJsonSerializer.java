@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.persistence.metadata;
 import static java.util.Collections.emptyMap;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
-import org.mule.runtime.api.metadata.DefaultMetadataKey;
+import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeysContainer;
 import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
@@ -61,7 +61,7 @@ public class MetadataKeysResultJsonSerializer extends AbstractMetadataResultJson
    */
   private class MetadataKeysResult {
 
-    private final Map<String, Set<DefaultMetadataKey>> keys;
+    private final Map<String, Set<MetadataKey>> keys;
     private final List<MetadataFailure> failures;
 
     @SuppressWarnings("unchecked")
