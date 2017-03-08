@@ -89,6 +89,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   public void serializeSuccessNullMetadataKeysResult() throws IOException {
     Set<MetadataKey> keys = new LinkedHashSet<>();
     keys.add(new NullMetadataKey());
+    keys.add(null);
     MetadataResult<MetadataKeysContainer> successResult = success(builder.add(CATEGORY_NAME, keys).build());
     String serialized = keysResultSerializer.serialize(successResult);
     assertSerializedJson(serialized, NULL_METADATA_KEYS_RESULT_JSON);
