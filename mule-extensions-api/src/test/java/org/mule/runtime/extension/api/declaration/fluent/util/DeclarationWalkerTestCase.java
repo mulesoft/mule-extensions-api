@@ -19,6 +19,8 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.RouterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ScopeDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
@@ -47,6 +49,12 @@ public class DeclarationWalkerTestCase {
   private OperationDeclaration operation;
 
   @Mock
+  private ScopeDeclaration scope;
+
+  @Mock
+  private RouterDeclaration router;
+
+  @Mock
   private ConnectionProviderDeclaration connectionProvider;
 
   @Mock
@@ -67,7 +75,7 @@ public class DeclarationWalkerTestCase {
     when(source.getErrorCallback()).thenReturn(Optional.empty());
 
     when(extension.getConfigurations()).thenReturn(asList(configuration));
-    when(extension.getOperations()).thenReturn(asList(operation));
+    when(extension.getOperations()).thenReturn(asList(operation, scope, router));
     when(extension.getMessageSources()).thenReturn(asList(source));
     when(extension.getConnectionProviders()).thenReturn(asList(connectionProvider));
 
@@ -76,7 +84,7 @@ public class DeclarationWalkerTestCase {
     when(configuration.getConnectionProviders()).thenReturn(asList(connectionProvider));
     when(parameterGroup.getParameters()).thenReturn(asList(parameter));
 
-    addParameter(configuration, operation, connectionProvider, source, sourceCallback);
+    addParameter(configuration, operation, scope, router, connectionProvider, source, sourceCallback);
   }
 
   private void addParameter(ParameterizedDeclaration... declarations) {
@@ -87,6 +95,72 @@ public class DeclarationWalkerTestCase {
 
   @Test
   public void walk() {
+    AtomicInteger configs = new AtomicInteger(0);
+    AtomicInteger operations = new AtomicInteger(0);
+    AtomicInteger scopes = new AtomicInteger(0);
+    AtomicInteger routers = new AtomicInteger(0);
+    AtomicInteger sources = new AtomicInteger(0);
+    AtomicInteger parameterGroups = new AtomicInteger(0);
+    AtomicInteger parameters = new AtomicInteger(0);
+    AtomicInteger providers = new AtomicInteger(0);
+
+    new DeclarationWalker() {
+
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        configs.incrementAndGet();
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        operations.incrementAndGet();
+      }
+
+      @Override
+      protected void onRouter(WithOperationsDeclaration owner, RouterDeclaration declaration) {
+        routers.incrementAndGet();
+      }
+
+      @Override
+      protected void onScope(WithOperationsDeclaration owner, ScopeDeclaration declaration) {
+        scopes.incrementAndGet();
+      }
+
+      @Override
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+        providers.incrementAndGet();
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        sources.incrementAndGet();
+      }
+
+      @Override
+      public void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+        parameterGroups.incrementAndGet();
+      }
+
+      @Override
+      public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
+        assertThat(parameterGroup, is(sameInstance(DeclarationWalkerTestCase.this.parameterGroup)));
+        parameters.incrementAndGet();
+      }
+    }.walk(extension);
+
+    assertCount(configs, 1);
+    assertCount(operations, 2);
+    assertCount(routers, 1);
+    assertCount(scopes, 1);
+    assertCount(sources, 2);
+    assertCount(providers, 2);
+    assertCount(parameterGroups, 11);
+    assertCount(parameters, 11);
+  }
+
+  @Test
+  public void defaultOperationWalk() {
     AtomicInteger configs = new AtomicInteger(0);
     AtomicInteger operations = new AtomicInteger(0);
     AtomicInteger sources = new AtomicInteger(0);
@@ -130,11 +204,11 @@ public class DeclarationWalkerTestCase {
     }.walk(extension);
 
     assertCount(configs, 1);
-    assertCount(operations, 2);
+    assertCount(operations, 4);
     assertCount(sources, 2);
     assertCount(providers, 2);
-    assertCount(parameterGroups, 9);
-    assertCount(parameters, 9);
+    assertCount(parameterGroups, 11);
+    assertCount(parameters, 11);
   }
 
   @Test

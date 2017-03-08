@@ -66,6 +66,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "stereotypes": [],
         "parameterGroupModels": [
           {
             "parameters": [
@@ -644,7 +645,139 @@
         "description": "Obtains a car",
         "modelProperties": {
           "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
-        }
+        },
+        "kind": "operation"
+      },
+      {
+        "routeModel": {
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "allowedStereotypes": [
+            {
+              "name": "foreacheable"
+            }
+          ],
+          "parameterGroupModels": [],
+          "name": "default",
+          "description": "",
+          "modelProperties": {}
+        },
+        "blocking": true,
+        "executionType": "CPU_LITE",
+        "errors": [],
+        "output": {
+          "type": {
+            "format": "java",
+            "type": "Void"
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "outputAttributes": {
+          "type": {
+            "format": "java",
+            "type": "Object",
+            "annotations": {
+              "typeId": "org.mule.runtime.api.message.Attributes"
+            },
+            "fields": []
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "transactional": false,
+        "requiresConnection": false,
+        "stereotypes": [],
+        "parameterGroupModels": [
+          {
+            "parameters": [
+              {
+                "type": {
+                  "format": "java",
+                  "type": "String",
+                  "annotations": {
+                    "typeId": "java.lang.String"
+                  }
+                },
+                "hasDynamicType": false,
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "role": "BEHAVIOUR",
+                "dslConfiguration": {
+                  "allowsInlineDefinition": true,
+                  "allowsReferences": true,
+                  "allowTopLevelDefinition": false
+                },
+                "name": "expression",
+                "description": "",
+                "modelProperties": {}
+              }
+            ],
+            "exclusiveParametersModels": [],
+            "showInDsl": false,
+            "name": "General",
+            "description": "",
+            "modelProperties": {}
+          }
+        ],
+        "name": "foreach",
+        "description": "",
+        "modelProperties": {},
+        "kind": "scope"
+      },
+      {
+        "routeModels": [
+          {
+            "minOccurs": 1,
+            "parameterGroupModels": [],
+            "name": "when",
+            "description": "",
+            "modelProperties": {}
+          },
+          {
+            "minOccurs": 0,
+            "maxOccurs": 1,
+            "parameterGroupModels": [],
+            "name": "otherwise",
+            "description": "",
+            "modelProperties": {}
+          }
+        ],
+        "blocking": true,
+        "executionType": "CPU_LITE",
+        "errors": [],
+        "output": {
+          "type": {
+            "format": "java",
+            "type": "Void"
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "outputAttributes": {
+          "type": {
+            "format": "java",
+            "type": "Object",
+            "annotations": {
+              "typeId": "org.mule.runtime.api.message.Attributes"
+            },
+            "fields": []
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "transactional": false,
+        "requiresConnection": false,
+        "stereotypes": [],
+        "parameterGroupModels": [],
+        "name": "choice",
+        "description": "",
+        "modelProperties": {},
+        "kind": "router"
       }
     ],
     "connectionProviders": [
@@ -1345,6 +1478,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "stereotypes": [],
         "parameterGroupModels": [
           {
             "parameters": [
@@ -1499,6 +1633,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "stereotypes": [],
         "parameterGroupModels": [
           {
             "parameters": [
@@ -2077,7 +2212,139 @@
         "description": "Obtains a car",
         "modelProperties": {
           "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
-        }
+        },
+        "kind": "operation"
+      },
+      {
+        "routeModel": {
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "allowedStereotypes": [
+            {
+              "name": "foreacheable"
+            }
+          ],
+          "parameterGroupModels": [],
+          "name": "default",
+          "description": "",
+          "modelProperties": {}
+        },
+        "blocking": true,
+        "executionType": "CPU_LITE",
+        "errors": [],
+        "output": {
+          "type": {
+            "format": "java",
+            "type": "Void"
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "outputAttributes": {
+          "type": {
+            "format": "java",
+            "type": "Object",
+            "annotations": {
+              "typeId": "org.mule.runtime.api.message.Attributes"
+            },
+            "fields": []
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "transactional": false,
+        "requiresConnection": false,
+        "stereotypes": [],
+        "parameterGroupModels": [
+          {
+            "parameters": [
+              {
+                "type": {
+                  "format": "java",
+                  "type": "String",
+                  "annotations": {
+                    "typeId": "java.lang.String"
+                  }
+                },
+                "hasDynamicType": false,
+                "required": false,
+                "expressionSupport": "SUPPORTED",
+                "role": "BEHAVIOUR",
+                "dslConfiguration": {
+                  "allowsInlineDefinition": true,
+                  "allowsReferences": true,
+                  "allowTopLevelDefinition": false
+                },
+                "name": "expression",
+                "description": "",
+                "modelProperties": {}
+              }
+            ],
+            "exclusiveParametersModels": [],
+            "showInDsl": false,
+            "name": "General",
+            "description": "",
+            "modelProperties": {}
+          }
+        ],
+        "name": "foreach",
+        "description": "",
+        "modelProperties": {},
+        "kind": "scope"
+      },
+      {
+        "routeModels": [
+          {
+            "minOccurs": 1,
+            "parameterGroupModels": [],
+            "name": "when",
+            "description": "",
+            "modelProperties": {}
+          },
+          {
+            "minOccurs": 0,
+            "maxOccurs": 1,
+            "parameterGroupModels": [],
+            "name": "otherwise",
+            "description": "",
+            "modelProperties": {}
+          }
+        ],
+        "blocking": true,
+        "executionType": "CPU_LITE",
+        "errors": [],
+        "output": {
+          "type": {
+            "format": "java",
+            "type": "Void"
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "outputAttributes": {
+          "type": {
+            "format": "java",
+            "type": "Object",
+            "annotations": {
+              "typeId": "org.mule.runtime.api.message.Attributes"
+            },
+            "fields": []
+          },
+          "hasDynamicType": false,
+          "description": "",
+          "modelProperties": {}
+        },
+        "transactional": false,
+        "requiresConnection": false,
+        "stereotypes": [],
+        "parameterGroupModels": [],
+        "name": "choice",
+        "description": "",
+        "modelProperties": {},
+        "kind": "router"
       }
     ],
     "connectionProviders": [
@@ -2778,6 +3045,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "stereotypes": [],
         "parameterGroupModels": [
           {
             "parameters": [

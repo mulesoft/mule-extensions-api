@@ -15,12 +15,12 @@ import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
 import org.mule.runtime.api.meta.MuleVersion;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -28,7 +28,7 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
-import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.operation.RouteModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -38,7 +38,7 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.model.operation.ImmutableRouteModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
@@ -50,6 +50,7 @@ import org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter
 import org.mule.runtime.extension.internal.persistence.ImportedTypesModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.OperationModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.RestrictedTypesObjectTypeReferenceHandler;
 import org.mule.runtime.extension.internal.persistence.SubTypesModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.XmlDslModelTypeAdapter;
@@ -139,8 +140,6 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(ConfigurationModel.class, ImmutableConfigurationModel.class);
     final DefaultImplementationTypeAdapterFactory connectionProviderModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(ConnectionProviderModel.class, ImmutableConnectionProviderModel.class);
-    final DefaultImplementationTypeAdapterFactory operationModelTypeAdapterFactory =
-        new DefaultImplementationTypeAdapterFactory<>(OperationModel.class, ImmutableOperationModel.class);
     final DefaultImplementationTypeAdapterFactory sourceModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(SourceModel.class, ImmutableSourceModel.class);
     final DefaultImplementationTypeAdapterFactory sourceCallbackModelTypeAdapterFactory =
@@ -173,7 +172,8 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(exclusiveParametersTypeAdapterFactory)
         .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
         .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
-        .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(new OperationModelTypeAdapterFactory())
+        .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(RouteModel.class, ImmutableRouteModel.class))
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(errorModelTypeAdapter);
 

@@ -6,18 +6,15 @@
  */
 package org.mule.runtime.extension.api.model.operation;
 
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveOutputModelType;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.resolveParameterGroupModelType;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ExecutionType;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.Stereotype;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
-import org.mule.runtime.api.metadata.descriptor.InputMetadataDescriptor;
-import org.mule.runtime.api.metadata.descriptor.OutputMetadataDescriptor;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
@@ -49,6 +46,7 @@ public class ImmutableOperationModel extends AbstractComponentModel<OperationMod
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
    *                             the operation
+   * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
@@ -63,9 +61,10 @@ public class ImmutableOperationModel extends AbstractComponentModel<OperationMod
                                  boolean transactional,
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
+                                 Set<Stereotype> stereotypes,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, displayModel,
-          modelProperties);
+          stereotypes, modelProperties);
     this.blocking = blocking;
     this.executionType = executionType;
     this.errors = errors;
@@ -91,25 +90,5 @@ public class ImmutableOperationModel extends AbstractComponentModel<OperationMod
    */
   public ExecutionType getExecutionType() {
     return executionType;
-  }
-
-  @Override
-  public OperationModel getTypedModel(InputMetadataDescriptor inputMetadataDescriptor,
-                                      OutputMetadataDescriptor outputMetadataDescriptor) {
-    OutputModel typedOutputModel = resolveOutputModelType(getOutput(), outputMetadataDescriptor.getPayloadMetadata());
-    OutputModel typedAttributesModel =
-        resolveOutputModelType(getOutputAttributes(), outputMetadataDescriptor.getAttributesMetadata());
-
-    return new ImmutableOperationModel(getName(), getDescription(),
-                                       resolveParameterGroupModelType(getParameterGroupModels(),
-                                                                      inputMetadataDescriptor
-                                                                          .getAllParameters()),
-                                       typedOutputModel, typedAttributesModel, isBlocking(),
-                                       getExecutionType(), requiresConnection(),
-                                       isTransactional(),
-                                       getDisplayModel().orElse(null),
-                                       getErrorModels(),
-                                       getModelProperties());
-
   }
 }

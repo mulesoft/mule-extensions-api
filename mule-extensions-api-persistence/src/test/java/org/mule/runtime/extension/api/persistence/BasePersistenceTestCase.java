@@ -20,6 +20,8 @@ import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.CHOICE_OPERATION_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.FOREACH_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
@@ -39,12 +41,17 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.operation.RouterModel;
+import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer;
 import org.mule.runtime.extension.api.declaration.type.DefaultExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
@@ -105,6 +112,8 @@ abstract class BasePersistenceTestCase {
   protected ExtensionModel deserializedExtensionModel;
   protected ExtensionModel originalExtensionModel;
   protected OperationModel getCarOperation;
+  protected ScopeModel foreachScope;
+  protected RouterModel choiceRouter;
   protected SourceModel sourceModel;
   protected JsonElement serializedExtensionModel;
   protected JsonObject operationModelProperties;
@@ -155,7 +164,9 @@ abstract class BasePersistenceTestCase {
                                     outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), modelProperties);
+                                    singleton(ERROR_MODEL), emptySet(), modelProperties);
+
+    createCoreOperations();
 
     final ImmutableConnectionProviderModel basicAuth =
         new ImmutableConnectionProviderModel("BasicAuth",
@@ -179,12 +190,12 @@ abstract class BasePersistenceTestCase {
                                                                                     emptySet())),
                                            Optional.empty(), false, false,
                                            DisplayModel.builder().build(),
-                                           emptySet());
+                                           emptySet(), emptySet());
 
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
-                                    new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
+                                    new MuleVersion("4.0"), emptyList(), asList(getCarOperation, foreachScope, choiceRouter),
                                     singletonList(basicAuth), singletonList(sourceModel),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), singleton(exportedType), emptySet(), emptySet(), singleton(ERROR_MODEL),
@@ -198,6 +209,24 @@ abstract class BasePersistenceTestCase {
     operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonArray()
         .get(0).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
     extensionModelList = asList(deserializedExtensionModel, originalExtensionModel);
+  }
+
+  private void createCoreOperations() {
+    ExtensionModel coreModel = new ExtensionModelLoader() {
+
+      @Override
+      public String getId() {
+        return "test";
+      }
+
+      @Override
+      protected void declareExtension(ExtensionLoadingContext context) {
+        new TestCoreExtensionDeclarer().declareOn(context.getExtensionDeclarer());
+      }
+    }.loadExtensionModel(getClass().getClassLoader(), new HashMap<>());
+
+    foreachScope = (ScopeModel) coreModel.getOperationModel(FOREACH_OPERATION_NAME).get();
+    choiceRouter = (RouterModel) coreModel.getOperationModel(CHOICE_OPERATION_NAME).get();
   }
 
   protected String getResourceAsString(String fileName) throws IOException {

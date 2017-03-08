@@ -593,6 +593,7 @@
     },
     "transactional": false,
     "requiresConnection": false,
+    "stereotypes": [],
     "parameterGroupModels": [
       {
         "parameters": [

@@ -6,17 +6,19 @@
  */
 package org.mule.runtime.extension.api.declaration.fluent.util;
 
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
-import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.RouterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ScopeDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
+import org.mule.runtime.api.util.Reference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,27 +45,55 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
     return accumulator.add(new Reference<>(item));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
     doOnce(sources, declaration, this::onSource);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
     doOnce(parameterGroups, declaration, this::onParameterGroup);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
                              ParameterDeclaration declaration) {
     doOnce(parameters, declaration, p -> onParameter(parameterGroup, declaration));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
     doOnce(operations, declaration, this::onOperation);
   }
 
+  @Override
+  protected void onRouter(WithOperationsDeclaration owner, RouterDeclaration declaration) {
+    doOnce(operations, declaration, router -> onRouter((RouterDeclaration) router));
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected void onScope(WithOperationsDeclaration owner, ScopeDeclaration declaration) {
+    doOnce(operations, declaration, scope -> onScope((ScopeDeclaration) scope));
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
     doOnce(connectionProviders, declaration, this::onConnectionProvider);
@@ -108,7 +138,7 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
    * This method will only be invoked once per each found instance
    *
    * @param parameterGroup the {@link ParameterGroupDeclaration} in which the {@code declaration} is contained
-   * @param declaration the {@link ParameterDeclaration}
+   * @param declaration    the {@link ParameterDeclaration}
    */
   protected void onParameter(ParameterGroupDeclaration parameterGroup, ParameterDeclaration declaration) {}
 
@@ -120,4 +150,30 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
    * @param declaration the {@link WithOperationsDeclaration}
    */
   protected void onOperation(OperationDeclaration declaration) {}
+
+  /**
+   * Invoked when a {@link ScopeDeclaration} is found in the traversed {@code extensionDeclaration}.
+   * <p>
+   * This method will only be invoked once per each found instance.
+   * <p>
+   * By default, this method will simply delegate into {@link #onOperation(OperationDeclaration)}
+   *
+   * @param declaration the {@link WithOperationsDeclaration}
+   */
+  protected void onScope(ScopeDeclaration declaration) {
+    onOperation(declaration);
+  }
+
+  /**
+   * Invoked when a {@link RouterDeclaration} is found in the traversed {@code extensionDeclaration}.
+   * <p>
+   * This method will only be invoked once per each found instance.
+   * <p>
+   * By default, this method will simply delegate into {@link #onOperation(OperationDeclaration)}
+   *
+   * @param declaration the {@link WithOperationsDeclaration}
+   */
+  protected void onRouter(RouterDeclaration declaration) {
+    onOperation(declaration);
+  }
 }
