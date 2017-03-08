@@ -41,6 +41,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
 
   private static final String METADATA_KEYS_RESULT_JSON = "metadata/success-result-keys.json";
   private static final String NULL_METADATA_KEYS_RESULT_JSON = "metadata/success-result-null-keys.json";
+  private static final String NULL_VALUE_METADATA_KEYS_RESULT_JSON = "metadata/success-result-null-value-keys.json";
   private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "metadata/success-result-multilevel-keys.json";
   private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
   private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "metadata/failure-entity-result.json";
@@ -92,6 +93,15 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     MetadataResult<MetadataKeysContainer> successResult = success(builder.add(CATEGORY_NAME, keys).build());
     String serialized = keysResultSerializer.serialize(successResult);
     assertSerializedJson(serialized, NULL_METADATA_KEYS_RESULT_JSON);
+  }
+
+  @Test
+  public void serializeSuccessNullValueForMetadataKeysResult() throws IOException {
+    Set<MetadataKey> keys = new LinkedHashSet<>();
+    keys.add(null);
+    MetadataResult<MetadataKeysContainer> successResult = success(builder.add(CATEGORY_NAME, keys).build());
+    String serialized = keysResultSerializer.serialize(successResult);
+    assertSerializedJson(serialized, NULL_VALUE_METADATA_KEYS_RESULT_JSON);
   }
 
   @Test
@@ -163,6 +173,18 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     final MetadataKey metadataKey = iterator.next();
     assertThat(metadataKey, instanceOf(NullMetadataKey.class));
     assertThat(metadataKey.getId(), isEmptyString());
+  }
+
+  @Test
+  public void deserializeNullValueMetadataKeysResult() throws IOException {
+    String resource = getResourceAsString(NULL_VALUE_METADATA_KEYS_RESULT_JSON);
+    MetadataResult<MetadataKeysContainer> metadataResult = keysResultSerializer.deserialize(resource);
+
+    assertThat(metadataResult.isSuccess(), is(true));
+    MetadataKeysContainer container = metadataResult.get();
+    assertThat(container.getKeys(CATEGORY_NAME).isPresent(), is(true));
+    Iterator<MetadataKey> iterator = container.getKeys(CATEGORY_NAME).get().iterator();
+    assertThat(iterator.hasNext(), is(false));
   }
 
 }
