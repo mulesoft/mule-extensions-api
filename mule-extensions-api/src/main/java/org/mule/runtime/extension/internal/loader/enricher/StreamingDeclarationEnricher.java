@@ -21,8 +21,9 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
+import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuilder;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 import org.mule.runtime.extension.internal.property.QNameModelProperty;
 
 import java.io.InputStream;
@@ -58,7 +59,7 @@ public class StreamingDeclarationEnricher extends InfrastructureDeclarationEnric
       parameter.setExpressionSupport(NOT_SUPPORTED);
       parameter.setRequired(false);
       parameter.setParameterRole(BEHAVIOUR);
-      parameter.setType(new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), false);
+      parameter.setType(new StreamingStrategyTypeBuilder().buildStreamingStrategyType(), false);
       parameter.setLayoutModel(LayoutModel.builder().tabName(STREAMING_TAB_NAME).build());
       parameter.setDslConfiguration(ParameterDslConfiguration.builder()
           .allowsInlineDefinition(true)
@@ -66,6 +67,7 @@ public class StreamingDeclarationEnricher extends InfrastructureDeclarationEnric
           .allowTopLevelDefinition(false)
           .build());
       parameter.addModelProperty(new QNameModelProperty(MULE_ABSTRACT_STREAMING_STRATEGY_QNAME));
+      parameter.addModelProperty(new InfrastructureParameterModelProperty());
       markAsInfrastructure(parameter);
 
       declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(parameter);
