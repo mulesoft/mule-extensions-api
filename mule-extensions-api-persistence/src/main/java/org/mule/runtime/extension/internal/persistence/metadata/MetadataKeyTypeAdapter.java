@@ -27,12 +27,14 @@ public class MetadataKeyTypeAdapter extends TypeAdapter<MetadataKey> {
 
   @Override
   public void write(JsonWriter out, MetadataKey value) throws IOException {
-    if (value instanceof NullMetadataKey) {
-      gson.toJson(value, NullMetadataKey.class, out);
-    } else if (value instanceof DefaultMetadataKey) {
-      gson.toJson(value, DefaultMetadataKey.class, out);
-    } else {
-      throw new RuntimeException("Couldn't serialize MetadataKey for implementation: " + value.getClass());
+    if (value != null) {
+      if (value instanceof NullMetadataKey) {
+        gson.toJson(value, NullMetadataKey.class, out);
+      } else if (value instanceof DefaultMetadataKey) {
+        gson.toJson(value, DefaultMetadataKey.class, out);
+      } else {
+        throw new RuntimeException("Couldn't serialize MetadataKey for implementation: " + value.getClass());
+      }
     }
   }
 
