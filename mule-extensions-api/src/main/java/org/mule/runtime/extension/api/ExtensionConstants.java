@@ -9,8 +9,10 @@ package org.mule.runtime.extension.api;
 import static java.util.Arrays.asList;
 import static org.mule.runtime.api.util.DataUnit.KB;
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.api.util.DataUnit;
+import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 
 import java.util.List;
 
@@ -138,13 +140,17 @@ public final class ExtensionConstants {
   public static final String POOLING_PROFILE_PARAMETER_DESCRIPTION = "Characteristics of the connection pool";
 
   /**
-   *
+   * Contains all the names of the {@link InfrastructureParameterModelProperty infrastructure} parameters that
+   * may appear in a {@link ParameterizedModel}
    */
   public static final List<String> INFRASTRUCTURE_PARAMETER_NAMES = asList(TLS_PARAMETER_NAME,
                                                                            POOLING_PROFILE_PARAMETER_NAME,
+                                                                           DISABLE_CONNECTION_VALIDATION_PARAMETER_NAME,
                                                                            RECONNECTION_STRATEGY_PARAMETER_NAME,
                                                                            REDELIVERY_POLICY_PARAMETER_NAME,
-                                                                           TARGET_PARAMETER_NAME);
+                                                                           TARGET_PARAMETER_NAME,
+                                                                           STREAMING_STRATEGY_PARAMETER_NAME,
+                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME);
 
   private ExtensionConstants() {}
 }

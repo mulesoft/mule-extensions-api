@@ -18,9 +18,10 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.utils.MetadataTypeUtils;
+import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
@@ -77,23 +78,41 @@ public class ExtensionModelUtils {
   /**
    * Retrieves the default value of a field for a given {@link MetadataType}
    *
-   * @param name the field's name
+   * @param name  the field's name
    * @param model the {@link MetadataType} containing the field who's default value is wanted
    * @return the default value of the given parameter
    */
   public static Optional<String> getDefaultValue(String name, MetadataType model) {
-    if (model instanceof ObjectType) {
-      Optional<ObjectFieldType> field = ((ObjectType) model).getFields().stream()
-          .filter(f -> f.getKey().getName().getLocalPart().equals(name))
-          .findFirst();
+    Reference<String> value = new Reference<>();
 
-      if (field.isPresent()) {
-        return MetadataTypeUtils.getDefaultValue(field.get());
+    model.accept(new MetadataTypeVisitor() {
+
+      @Override
+      protected void defaultVisit(MetadataType metadataType) {
+        MetadataTypeUtils.getDefaultValue(metadataType).ifPresent(value::set);
       }
-    } else {
-      return MetadataTypeUtils.getDefaultValue(model);
-    }
-    return empty();
+
+      @Override
+      public void visitObject(ObjectType objectType) {
+        objectType.getFields().stream()
+            .filter(f -> f.getKey().getName().getLocalPart().equals(name))
+            .findFirst()
+            .ifPresent(fieldType -> MetadataTypeUtils.getDefaultValue(fieldType)
+                .ifPresent(value::set));
+      }
+
+      @Override
+      public void visitUnion(UnionType unionType) {
+        unionType.getTypes().stream()
+            .map(type -> getDefaultValue(name, type))
+            .filter(Optional::isPresent)
+            .findFirst()
+            .ifPresent(defaultValue -> value.set(defaultValue.get()));
+      }
+
+    });
+
+    return Optional.ofNullable(value.get());
   }
 
   /**
