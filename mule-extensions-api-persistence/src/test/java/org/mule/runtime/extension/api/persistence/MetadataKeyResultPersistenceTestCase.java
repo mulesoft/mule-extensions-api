@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.persistence;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEmptyString.isEmptyString;
 import static org.mockito.Mockito.mock;
@@ -184,7 +185,8 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     MetadataKeysContainer container = metadataResult.get();
     assertThat(container.getKeys(CATEGORY_NAME).isPresent(), is(true));
     Iterator<MetadataKey> iterator = container.getKeys(CATEGORY_NAME).get().iterator();
-    assertThat(iterator.hasNext(), is(false));
+    assertThat(iterator.hasNext(), is(true));
+    assertThat(iterator.next(), is(nullValue()));
   }
 
 }
