@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.util;
 import static java.lang.String.valueOf;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -17,6 +18,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
@@ -42,6 +44,7 @@ import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +106,7 @@ public class ExtensionModelUtils {
 
     });
 
-    return Optional.ofNullable(value.get());
+    return ofNullable(value.get());
   }
 
   /**
@@ -230,6 +233,40 @@ public class ExtensionModelUtils {
     return result.get();
   }
 
+  /**
+   * @param extensionModel the model which owns the {@code component}
+   * @param component a component
+   * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside with the {@code component}
+   */
+  public static Set<ConfigurationModel> getConfigurationForComponent(ExtensionModel extensionModel,
+                                                                     ComponentModel component) {
+    Set<ConfigurationModel> result = new HashSet<>();
+    new ExtensionWalker() {
+
+      @Override
+      public void onOperation(HasOperationModels owner, OperationModel model) {
+        resolve(model, owner);
+      }
+
+      @Override
+      public void onSource(HasSourceModels owner, SourceModel model) {
+        resolve(model, owner);
+      }
+
+      private void resolve(ComponentModel model, Object owner) {
+        if (model == component && owner != extensionModel) {
+          result.add((ConfigurationModel) owner);
+        }
+      }
+    }.walk(extensionModel);
+
+    if (component.requiresConnection()) {
+      extensionModel.getConfigurationModel(DEFAULT_CONFIG_NAME).ifPresent(result::add);
+    }
+
+    return result;
+  }
+
   public static boolean isContent(ParameterModel parameterModel) {
     return isContent(parameterModel.getRole());
   }
@@ -254,4 +291,30 @@ public class ExtensionModelUtils {
     return parameter.getModelProperty(InfrastructureParameterModelProperty.class).isPresent();
   }
 
+  /**
+   * Returns the first item in the {@code models} {@link List} that can be used implicitly.
+   * <p>
+   * A {@link ParameterizedModel} is consider to be implicit when all its {@link ParameterModel}s are optional
+   *
+   * @param models a {@link List} of {@code T}
+   * @param <T> the generic type of the items in the {@code models}. It's a type which is assignable from
+   *        {@link ParameterizedModel}
+   * @return one of the items in {@code models} or {@code null} if none of the models are implicit
+   */
+  public static <T extends ParameterizedModel> T getFirstImplicit(List<T> models) {
+    return models.stream()
+        .filter(ExtensionModelUtils::canBeUsedImplicitly)
+        .findFirst()
+        .orElse(null);
+  }
+
+  /**
+   * Returns whether the given model can be used implicitly. That means that all of its parameters are optional.
+   *
+   * @param parameterizedModel model
+   * @return whether the given model can be used implicitly or not.
+   */
+  public static boolean canBeUsedImplicitly(ParameterizedModel parameterizedModel) {
+    return parameterizedModel.getAllParameterModels().stream().noneMatch(ParameterModel::isRequired);
+  }
 }
