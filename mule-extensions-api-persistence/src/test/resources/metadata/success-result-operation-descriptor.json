@@ -110,10 +110,10 @@
               "fields": [
                 {
                   "key": {
-                    "name": "extensibleTypeList"
+                    "name": "extensibleTypeList",
+                    "required": "true"
                   },
                   "model": {
-                    "required": "true",
                     "type": "Array",
                     "annotations": {
                       "typeId": "java.util.List"
@@ -140,10 +140,10 @@
                       "fields": [
                         {
                           "key": {
-                            "name": "sampleString"
+                            "name": "sampleString",
+                            "required": "true"
                           },
                           "model": {
-                            "required": "true",
                             "type": "String",
                             "annotations": {
                               "typeId": "java.lang.String"
@@ -160,10 +160,10 @@
                         },
                         {
                           "key": {
-                            "name": "otherNumber"
+                            "name": "otherNumber",
+                            "required": "true"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "typeId": "java.lang.Integer"
@@ -180,10 +180,10 @@
                         },
                         {
                           "key": {
-                            "name": "childNumbers"
+                            "name": "childNumbers",
+                            "required": "true"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Array",
                             "annotations": {
                               "typeId": "java.util.List"
@@ -232,10 +232,10 @@
                 },
                 {
                   "key": {
-                    "name": "simplePojo"
+                    "name": "simplePojo",
+                    "required": "true"
                   },
                   "model": {
-                    "required": "true",
                     "type": "Object",
                     "annotations": {
                       "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
@@ -256,10 +256,10 @@
                     "fields": [
                       {
                         "key": {
-                          "name": "sampleString"
+                          "name": "sampleString",
+                          "required": "true"
                         },
                         "model": {
-                          "required": "true",
                           "type": "String",
                           "annotations": {
                             "typeId": "java.lang.String"
@@ -281,10 +281,10 @@
                       },
                       {
                         "key": {
-                          "name": "otherNumber"
+                          "name": "otherNumber",
+                          "required": "true"
                         },
                         "model": {
-                          "required": "true",
                           "type": "Number",
                           "annotations": {
                             "typeId": "java.lang.Integer"
@@ -301,10 +301,10 @@
                       },
                       {
                         "key": {
-                          "name": "textField"
+                          "name": "textField",
+                          "required": "true"
                         },
                         "model": {
-                          "required": "true",
                           "type": "String",
                           "annotations": {
                             "typeId": "java.lang.String"
@@ -362,10 +362,10 @@
                     "fields": [
                       {
                         "key": {
-                          "name": "sampleString"
+                          "name": "sampleString",
+                          "required": "true"
                         },
                         "model": {
-                          "required": "true",
                           "type": "String",
                           "annotations": {
                             "typeId": "java.lang.String"
@@ -382,10 +382,10 @@
                       },
                       {
                         "key": {
-                          "name": "otherNumber"
+                          "name": "otherNumber",
+                          "required": "true"
                         },
                         "model": {
-                          "required": "true",
                           "type": "Number",
                           "annotations": {
                             "typeId": "java.lang.Integer"
@@ -413,10 +413,10 @@
                 },
                 {
                   "key": {
-                    "name": "parameterGroupType"
+                    "name": "parameterGroupType",
+                    "required": "true"
                   },
                   "model": {
-                    "required": "true",
                     "type": "Object",
                     "annotations": {
                       "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
@@ -437,10 +437,10 @@
                     "fields": [
                       {
                         "key": {
-                          "name": "groupedField"
+                          "name": "groupedField",
+                          "required": "true"
                         },
                         "model": {
-                          "required": "true",
                           "type": "String",
                           "annotations": {
                             "typeId": "java.lang.String"
@@ -495,10 +495,10 @@
                 },
                 {
                   "key": {
-                    "name": "complexTypeFieldGroup"
+                    "name": "complexTypeFieldGroup",
+                    "required": "true"
                   },
                   "model": {
-                    "required": "true",
                     "type": "Object",
                     "annotations": {
                       "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
@@ -519,7 +519,8 @@
                     "fields": [
                       {
                         "key": {
-                          "name": "complexFieldsType"
+                          "name": "complexFieldsType",
+                          "required": "true"
                         },
                         "model": "#../..",
                         "annotations": {
@@ -545,10 +546,10 @@
                 },
                 {
                   "key": {
-                    "name": "inlineGroup"
+                    "name": "inlineGroup",
+                    "required": "true"
                   },
                   "model": {
-                    "required": "true",
                     "type": "Object",
                     "annotations": {
                       "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
@@ -569,7 +570,8 @@
                     "fields": [
                       {
                         "key": {
-                          "name": "complexFieldsType"
+                          "name": "complexFieldsType",
+                          "required": "true"
                         },
                         "model": "#../..",
                         "annotations": {
