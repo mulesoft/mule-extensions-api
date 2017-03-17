@@ -85,7 +85,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
     addIntField(streamingType, typeBuilder, "maxInMemorySize",
                 "This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. "
                     + "A value lower or equal to zero means no limit.",
-                0);
+                DEFAULT_STREAMING_MAX_BUFFER_SIZE);
 
 
     addDataUnitField(typeBuilder, streamingType, "The unit in which all these attributes are expressed");
