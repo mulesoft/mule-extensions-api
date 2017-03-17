@@ -9,6 +9,8 @@ package org.mule.runtime.extension.internal.dsl.syntax;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
+import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import static org.mule.runtime.extension.api.util.NameUtils.sanitizeName;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.supportsTopLevelDeclaration;
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
@@ -19,6 +21,7 @@ import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -39,6 +42,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class DslSyntaxUtils {
 
   private DslSyntaxUtils() {}
+
+  static String getSanitizedElementName(NamedObject component) {
+    return hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", "");
+  }
 
   static boolean isValidBean(ObjectType objectType) {
     return isInstantiable(objectType) && !objectType.getFields().isEmpty();
@@ -73,7 +80,7 @@ public final class DslSyntaxUtils {
     return classInformation.map(ClassInformationAnnotation::isInstantiable).orElse(false);
   }
 
-  static boolean isExtensible(MetadataType metadataType) {
+  public static boolean isExtensible(MetadataType metadataType) {
     return metadataType.getAnnotation(ExtensibleTypeAnnotation.class).isPresent();
   }
 

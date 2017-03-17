@@ -9,8 +9,6 @@ package org.mule.runtime.extension.internal.dsl.syntax;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.api.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
-import static org.mule.runtime.api.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isContent;
@@ -22,9 +20,9 @@ import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
-import static org.mule.runtime.extension.api.util.NameUtils.sanitizeName;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getId;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isExtensible;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isFlattened;
@@ -32,6 +30,8 @@ import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isTe
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isValidBean;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
+import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
+import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
@@ -43,14 +43,19 @@ import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
+import org.mule.runtime.api.meta.model.operation.RouteModel;
+import org.mule.runtime.api.meta.model.operation.RouterModel;
+import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.api.meta.model.util.ComponentModelVisitor;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
@@ -129,20 +134,24 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    */
   public DslElementSyntax resolve(final NamedObject component) {
     DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
-        .withElementName(hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", ""))
+        .withElementName(getSanitizedElementName(component))
         .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
         .supportsTopLevelDeclaration(true)
         .supportsChildDeclaration(true)
         .supportsAttributeDeclaration(false)
         .requiresConfig(requiresConfig(extensionModel, component));
 
-    if (component instanceof ParameterizedModel) {
-      resolveGroupsDsl((ParameterizedModel) component, dsl);
-    }
+    if (component instanceof ComponentModel){
+      resolveComponentDsl((ComponentModel) component, dsl);
+    } else {
+      if (component instanceof ParameterizedModel) {
+        resolveParameterizedDsl((ParameterizedModel) component, dsl);
+      }
 
-    if (component instanceof HasConnectionProviderModels) {
-      ((HasConnectionProviderModels) component).getConnectionProviders()
+      if (component instanceof HasConnectionProviderModels) {
+        ((HasConnectionProviderModels) component).getConnectionProviders()
           .forEach(c -> dsl.containing(c.getName(), resolve(c)));
+      }
     }
 
     return dsl.build();
@@ -258,7 +267,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     builder.withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
-        .withElementName(hyphenize(sanitizeName(group.getName())).replaceAll("\\s+", ""))
+        .withElementName(getSanitizedElementName(group))
         .supportsAttributeDeclaration(false)
         .supportsChildDeclaration(true)
         .supportsTopLevelDeclaration(false);
@@ -322,6 +331,41 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     return Optional.of(builder.build());
   }
 
+  private void resolveComponentDsl(ComponentModel component, final DslElementSyntaxBuilder dsl) {
+    dsl.supportsTopLevelDeclaration(false);
+
+    resolveParameterizedDsl(component, dsl);
+
+    component.accept(new ComponentModelVisitor() {
+
+      @Override
+      public void visit(ScopeModel scopeModel) {
+        dsl.containing(scopeModel.getRouteModel().getName(), resolveRouteDsl(scopeModel.getRouteModel()));
+      }
+
+      @Override
+      public void visit(RouterModel routerModel) {
+        routerModel.getRouteModels().forEach(routeModel -> dsl.containing(routeModel.getName(), resolveRouteDsl(routeModel)));
+      }
+
+    });
+  }
+
+  private DslElementSyntax resolveRouteDsl(final RouteModel route) {
+
+    DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
+      .withElementName(getSanitizedElementName(route))
+      .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
+      .supportsTopLevelDeclaration(false)
+      .supportsChildDeclaration(true)
+      .supportsAttributeDeclaration(false)
+      .requiresConfig(false);
+
+    resolveParameterizedDsl(route, dsl);
+
+    return dsl.build();
+  }
+
   private void resolveObjectDsl(ParameterModel parameter, ObjectType objectType, DslElementSyntaxBuilder builder,
                                 boolean isContent, ParameterDslConfiguration dslConfig, ExpressionSupport expressionSupport) {
 
@@ -371,7 +415,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     }
   }
 
-  private void resolveGroupsDsl(ParameterizedModel component, DslElementSyntaxBuilder dsl) {
+  private void resolveParameterizedDsl(ParameterizedModel component, DslElementSyntaxBuilder dsl) {
     List<ParameterModel> inlineGroupedParameters = component.getParameterGroupModels().stream()
         .filter(ParameterGroupModel::isShowInDsl)
         .peek(group -> dsl.containing(group.getName(), resolveInline(group)))
