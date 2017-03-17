@@ -43,6 +43,13 @@ public final class DslSyntaxUtils {
 
   private DslSyntaxUtils() {}
 
+  /**
+   * Provides a sanitized, hyphenized, space-free name that can be used as an XML element-name
+   * for a given {@link NamedObject}
+   *
+   * @param component the {@link NamedObject} who's name we want to convert
+   * @return a sanitized, hyphenized, space-free name that can be used as an XML element-name
+   */
   static String getSanitizedElementName(NamedObject component) {
     return hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", "");
   }
@@ -80,6 +87,12 @@ public final class DslSyntaxUtils {
     return classInformation.map(ClassInformationAnnotation::isInstantiable).orElse(false);
   }
 
+  /**
+   * Check's if a type is an {@link ExtensibleTypeAnnotation extensible type}
+   *
+   * @param metadataType the {@link MetadataType} to verify for it's extensibility
+   * @return {@code true} if the given type is annotated with {@link ExtensibleTypeAnnotation}
+   */
   public static boolean isExtensible(MetadataType metadataType) {
     return metadataType.getAnnotation(ExtensibleTypeAnnotation.class).isPresent();
   }
