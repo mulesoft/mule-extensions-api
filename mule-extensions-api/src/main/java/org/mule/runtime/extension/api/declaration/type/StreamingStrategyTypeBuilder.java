@@ -29,7 +29,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
 
   public static final String REPEATABLE_FILE_STORE_STREAM_ALIAS = "repeatable-file-store-stream";
   public static final String REPEATABLE_IN_MEMORY_STREAM_ALIAS = "repeatable-in-memory-stream";
-  public static final String IN_MEMORY_STREAM_ALIAS = "in-memory-stream";
+  public static final String NON_REPEATABLE_STREAM = "non-repeatable-stream";
 
   /**
    * @return a {@link MetadataType} representation of a retry policy
@@ -102,7 +102,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
   private MetadataType getNoStreamingStrategy(BaseTypeBuilder typeBuilder) {
     return typeBuilder.objectType()
         .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(IN_MEMORY_STREAM_ALIAS))
+        .with(new TypeAliasAnnotation(NON_REPEATABLE_STREAM))
         .with(new InfrastructureTypeAnnotation())
         .description("This configuration allows the input stream to be read only once. It will not allow to seek randomly " +
             "which will limit the transformations that DW can perform on this stream. " +
