@@ -141,7 +141,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         .supportsAttributeDeclaration(false)
         .requiresConfig(requiresConfig(extensionModel, component));
 
-    if (component instanceof ComponentModel){
+    if (component instanceof ComponentModel) {
       resolveComponentDsl((ComponentModel) component, dsl);
     } else {
       if (component instanceof ParameterizedModel) {
@@ -150,7 +150,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       if (component instanceof HasConnectionProviderModels) {
         ((HasConnectionProviderModels) component).getConnectionProviders()
-          .forEach(c -> dsl.containing(c.getName(), resolve(c)));
+            .forEach(c -> dsl.containing(c.getName(), resolve(c)));
       }
     }
 
@@ -354,12 +354,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   private DslElementSyntax resolveRouteDsl(final RouteModel route) {
 
     DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
-      .withElementName(getSanitizedElementName(route))
-      .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
-      .supportsTopLevelDeclaration(false)
-      .supportsChildDeclaration(true)
-      .supportsAttributeDeclaration(false)
-      .requiresConfig(false);
+        .withElementName(getSanitizedElementName(route))
+        .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
+        .supportsTopLevelDeclaration(false)
+        .supportsChildDeclaration(true)
+        .supportsAttributeDeclaration(false)
+        .requiresConfig(false);
 
     resolveParameterizedDsl(route, dsl);
 
