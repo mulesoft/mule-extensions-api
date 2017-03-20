@@ -39,6 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @since 1.0
  */
+// TODO MULE-12002: Revisit DslSyntaxUtils as part of the API
 public final class DslSyntaxUtils {
 
   private DslSyntaxUtils() {}

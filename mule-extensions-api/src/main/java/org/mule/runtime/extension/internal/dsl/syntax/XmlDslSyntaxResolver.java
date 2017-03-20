@@ -49,12 +49,14 @@ import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.operation.RouteModel;
 import org.mule.runtime.api.meta.model.operation.RouterModel;
 import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ComponentModelVisitor;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
@@ -83,6 +85,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+// TODO MULE-12002: Revisit DslSyntaxUtils as part of the API
 public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private final ExtensionModel extensionModel;
@@ -337,6 +340,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     resolveParameterizedDsl(component, dsl);
 
     component.accept(new ComponentModelVisitor() {
+
+      @Override
+      public void visit(OperationModel operationModel) {}
+
+      @Override
+      public void visit(SourceModel sourceModel) {}
 
       @Override
       public void visit(ScopeModel scopeModel) {
