@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.mule.extensions</groupId>
         <artifactId>mule-extensions-api-parent</artifactId>
-        <version>1.0.0-M5-RC-SNAPSHOT</version>
+        <version>1.0.0-M5.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>mule-extensions-api-persistence</artifactId>
-    <version>1.0.0-M5-RC-SNAPSHOT</version>
+    <version>1.0.0-M5.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Mule Extensions API Persistence</name>
     <description>Persistence API for Mule Extensions</description>
