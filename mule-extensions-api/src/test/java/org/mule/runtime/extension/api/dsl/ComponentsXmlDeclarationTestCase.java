@@ -83,7 +83,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
     assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(true));
-    assertTopElementDeclarationIs(true, result);
+    assertTopElementDeclarationIs(false, result);
     assertChildElementDeclarationIs(true, result);
     assertAttributeDeclaration(false, result);
     assertIsWrappedElement(false, result);
