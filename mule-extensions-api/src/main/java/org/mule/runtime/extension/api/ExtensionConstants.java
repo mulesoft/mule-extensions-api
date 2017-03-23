@@ -96,22 +96,37 @@ public final class ExtensionConstants {
   /**
    * The default size of the buffer that allows for repeatable streams
    */
-  public static final int DEFAULT_STREAMING_BUFFER_SIZE = 256;
+  public static final int DEFAULT_BYTE_STREAMING_BUFFER_SIZE = 256;
 
   /**
-   * The default increment size of a streaming buffer which will expand its capacity
+   * The default increment size of a bytes streaming buffer which will expand its capacity
    */
-  public static final int DEFAULT_STREAMING_BUFFER_INCREMENT_SIZE = 256;
+  public static final int DEFAULT_BYTE_STREAMING_BUFFER_INCREMENT_SIZE = 256;
 
   /**
-   * The default maximum size that a streaming buffer is allowed to expand
+   * The default maximum size that a bytes streaming buffer is allowed to expand to
    */
-  public static final int DEFAULT_STREAMING_MAX_BUFFER_SIZE = 1024;
+  public static final int DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE = 1024;
 
   /**
-   * The default unit which qualifies {@link #DEFAULT_STREAMING_BUFFER_SIZE}
+   * The default unit which qualifies {@link #DEFAULT_BYTE_STREAMING_BUFFER_SIZE}
    */
-  public static final DataUnit DEFAULT_STREAMING_BUFFER_DATA_UNIT = KB;
+  public static final DataUnit DEFAULT_BYTE_STREAMING_BUFFER_DATA_UNIT = KB;
+
+  /**
+   * The default size of the buffer that allows for repeatable objects streaming
+   */
+  public static final int DEFAULT_OBJECT_STREAMING_BUFFER_SIZE = 100;
+
+  /**
+   * The default increment size of an object streaming buffer which will expand its capacity
+   */
+  public static final int DEFAULT_OBJECT_STREAMING_BUFFER_INCREMENT_SIZE = 100;
+
+  /**
+   * The default maximum size that an objects streaming buffer is allowed to expand to
+   */
+  public static final int DEFAULT_OBJECT_STREAMING_MAX_BUFFER_SIZE = 500;
 
   /**
    * The description of the parameter for configuring transactional actions

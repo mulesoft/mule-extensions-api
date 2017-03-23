@@ -55,10 +55,16 @@ public final class XmlModelUtils {
       new QName(CORE_NAMESPACE, "abstract-reconnection-strategy", CORE_PREFIX);
 
   /**
-   * {@link QName} for the streaming strategy
+   * {@link QName} for the byte streaming strategy
    */
-  public static final QName MULE_ABSTRACT_STREAMING_STRATEGY_QNAME =
-      new QName(CORE_NAMESPACE, "abstract-streaming-strategy", CORE_PREFIX);
+  public static final QName MULE_ABSTRACT_BYTE_STREAMING_STRATEGY_QNAME =
+      new QName(CORE_NAMESPACE, "abstract-byte-streaming-strategy", CORE_PREFIX);
+
+  /**
+   * {@link QName} for the object streaming strategy
+   */
+  public static final QName MULE_ABSTRACT_OBJECT_STREAMING_STRATEGY_QNAME =
+      new QName(CORE_NAMESPACE, "abstract-object-streaming-strategy", CORE_PREFIX);
 
   /**
    * Takes a set of parameters extracted from the extension and generates a {@link XmlDslModel}.
