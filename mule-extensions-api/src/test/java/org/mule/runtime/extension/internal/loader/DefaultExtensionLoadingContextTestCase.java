@@ -6,9 +6,11 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
+import static java.util.Collections.emptySet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
@@ -29,7 +31,7 @@ public class DefaultExtensionLoadingContextTestCase {
   @Before
   public void before() {
     descriptor = new ExtensionDeclarer();
-    context = new DefaultExtensionLoadingContext(descriptor, getClass().getClassLoader());
+    context = new DefaultExtensionLoadingContext(descriptor, getClass().getClassLoader(), getDefault(emptySet()));
     context.addParameter(KEY, VALUE);
   }
 

@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.loader;
 
 import static java.lang.Thread.currentThread;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
+import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -50,14 +51,17 @@ public abstract class ExtensionModelLoader {
    *
    * @param pluginClassLoader context {@link ClassLoader} that holds all the needed classes and resources to properly generate
    *                          an {@link ExtensionModel}.
+   * @param dslResolvingContext context with all the {@link ExtensionModel}s already loaded that are mandatory to execute the
+   * method properly.
    * @param attributes        a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader}, which will
    *                          be responsible of extracting the mandatory parameters (while casting, if needed).
    * @return an {@link ExtensionModel} that represents the plugin being described
    * @throws IllegalArgumentException if there are missing entries in {@code attributes} or the type of any of them does not apply
    *                                  to the expected one.
    */
-  public final ExtensionModel loadExtensionModel(ClassLoader pluginClassLoader, Map<String, Object> attributes) {
-    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(pluginClassLoader);
+  public final ExtensionModel loadExtensionModel(ClassLoader pluginClassLoader, DslResolvingContext dslResolvingContext,
+                                                 Map<String, Object> attributes) {
+    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(pluginClassLoader, dslResolvingContext);
     ctx.addParameters(attributes);
     configureContextBeforeDeclaration(ctx);
 
