@@ -311,8 +311,9 @@ public class NameUtils {
       return SOURCE_CALLBACK;
     }
 
-    throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s]",
-                                              component.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
+    throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s, %s]",
+                                              component.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE,
+                                              SOURCE_CALLBACK));
   }
 
   public static String getComponentDeclarationTypeName(BaseDeclaration declaration) {

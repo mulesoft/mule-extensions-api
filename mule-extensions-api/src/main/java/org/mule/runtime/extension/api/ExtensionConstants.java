@@ -131,8 +131,14 @@ public final class ExtensionConstants {
   /**
    * The description of the parameter for configuring transactional actions
    */
-  public static final String TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION =
+  public static final String OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION =
       "The type of joining action that operations can take regarding transactions.";
+
+  /**
+   * The description of the parameter for configuring transactional actions
+   */
+  public static final String SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION =
+      "The type of beginning action that sources can take regarding transactions.";
 
   /**
    * The name of the parameter which disables connection validation
