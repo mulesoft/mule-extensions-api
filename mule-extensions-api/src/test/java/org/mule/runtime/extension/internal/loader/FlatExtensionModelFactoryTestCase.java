@@ -62,6 +62,8 @@ import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STR
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
@@ -69,6 +71,7 @@ import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.BooleanType;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
@@ -88,11 +91,14 @@ import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
+import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuilder;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
+import org.mule.runtime.extension.internal.property.PagedOperationModelProperty;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -343,13 +349,37 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     List<ParameterModel> parameters = sourceModel.getAllParameterModels();
     assertParameter(parameters.get(0), REDELIVERY_POLICY_PARAMETER_NAME, REDELIVERY_POLICY_PARAMETER_DESCRIPTION, NOT_SUPPORTED,
                     false, new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), ObjectType.class, null);
-    assertParameter(parameters.get(1), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
+    assertByteStreamingStrategyParameter(parameters.get(1));
+    assertParameter(parameters.get(2), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
                     null);
-    assertParameter(parameters.get(2), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
+    assertParameter(parameters.get(3), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
                     DEFAULT_PORT);
-    assertParameter(parameters.get(3), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+    assertParameter(parameters.get(4), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
                     false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
+  }
+
+  @Test
+  public void objectStreaming() {
+    final String LIST_TYPES_OPERATION = "LIST_TYPES";
+    declare(extensionDeclarer -> {
+      reference.declareOn(extensionDeclarer);
+      OperationDeclarer operation = extensionDeclarer.withOperation(LIST_TYPES_OPERATION).describedAs("List types");
+      operation.supportsStreaming(true).withOutput().ofType(typeLoader.load(Iterator.class));
+      operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
+      operation.withModelProperty(new PagedOperationModelProperty());
+    });
+
+    ExtensionModel extensionModel = load();
+
+    OperationModel operation = extensionModel.getOperationModel(LIST_TYPES_OPERATION).orElseThrow(IllegalArgumentException::new);
+    ParameterModel streamingStrategy = operation.getAllParameterModels().stream()
+        .filter(p -> p.getName().equals(STREAMING_STRATEGY_PARAMETER_NAME))
+        .findFirst()
+        .orElseThrow(IllegalArgumentException::new);
+
+
+    assertObjectStreamingStrategyParameter(streamingStrategy);
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {
@@ -361,12 +391,13 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(GO_GET_THEM_TIGER));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(3));
+    assertThat(parameterModels, hasSize(4));
 
-    assertTargetParameter(parameterModels.get(0));
-    assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
+    assertByteStreamingStrategyParameter(parameterModels.get(0));
+    assertTargetParameter(parameterModels.get(1));
+    assertParameter(parameterModels.get(2), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
                     StringType.class, null);
-    assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
+    assertParameter(parameterModels.get(3), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
                     BooleanType.class, true);
   }
 
@@ -398,6 +429,20 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertParameter(parameterModel, TARGET_PARAMETER_NAME, TARGET_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
                     typeLoader.load(String.class),
                     StringType.class, null);
+  }
+
+
+  private void assertByteStreamingStrategyParameter(ParameterModel parameter) {
+    assertStreamingStrategyParameter(parameter, new StreamingStrategyTypeBuilder().getByteStreamingStrategyType());
+  }
+
+  private void assertObjectStreamingStrategyParameter(ParameterModel parameter) {
+    assertStreamingStrategyParameter(parameter, new StreamingStrategyTypeBuilder().getObjectStreamingStrategyType());
+  }
+
+  private void assertStreamingStrategyParameter(ParameterModel parameter, MetadataType type) {
+    assertParameter(parameter, STREAMING_STRATEGY_PARAMETER_NAME, STREAMING_STRATEGY_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
+                    type, UnionType.class, null);
   }
 
   private void assertArglessOperation(List<OperationModel> operationModels) {
