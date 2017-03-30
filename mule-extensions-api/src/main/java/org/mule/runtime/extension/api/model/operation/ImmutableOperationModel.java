@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableOperationModel extends AbstractComponentModel<OperationModel> implements OperationModel {
+public class ImmutableOperationModel extends AbstractComponentModel implements OperationModel {
 
   private final boolean blocking;
   private final ExecutionType executionType;

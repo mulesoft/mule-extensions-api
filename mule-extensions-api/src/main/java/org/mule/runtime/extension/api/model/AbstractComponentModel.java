@@ -24,8 +24,8 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractComponentModel<T extends ComponentModel> extends AbstractParameterizedModel
-    implements ComponentModel<T> {
+public abstract class AbstractComponentModel extends AbstractParameterizedModel
+    implements ComponentModel {
 
   private final OutputModel output;
   private final OutputModel outputAttributes;
