@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableSourceModel extends AbstractComponentModel<SourceModel> implements SourceModel {
+public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel {
 
   private final boolean hasResponse;
   private final SourceCallbackModel successCallback;
