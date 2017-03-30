@@ -102,7 +102,11 @@ public final class ExtensionMetadataTypeUtils {
    * @return whether the given {@code type} represents an {@link InputStream} or not
    */
   public static boolean isInputStream(MetadataType type) {
-    return InputStream.class.isAssignableFrom(getType(type));
+    try {
+      return InputStream.class.isAssignableFrom(getType(type));
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
   }
 
   /**
