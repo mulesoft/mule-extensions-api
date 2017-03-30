@@ -11,7 +11,6 @@ import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
-
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
@@ -20,6 +19,7 @@ import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 
+import java.io.InputStream;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
@@ -52,7 +52,7 @@ public final class ExtensionMetadataTypeUtils {
 
   /**
    * @param metadataType the {@link MetadataType} to inspect to retrieve its type Alias
-   * @param defaultName default name to use if {@code metadataType} alias is not defined
+   * @param defaultName  default name to use if {@code metadataType} alias is not defined
    * @return the {@code Alias} name of the {@link MetadataType} or the {@code defaultName} if alias was not specified
    */
   public static String getAlias(MetadataType metadataType, String defaultName) {
@@ -94,6 +94,18 @@ public final class ExtensionMetadataTypeUtils {
           .orElse(metadataType.getMetadataFormat().equals(JAVA) ? getType(metadataType).getName() : "");
     } catch (Exception e) {
       return "";
+    }
+  }
+
+  /**
+   * @param type a {@link MetadataType}
+   * @return whether the given {@code type} represents an {@link InputStream} or not
+   */
+  public static boolean isInputStream(MetadataType type) {
+    try {
+      return InputStream.class.isAssignableFrom(getType(type));
+    } catch (IllegalArgumentException e) {
+      return false;
     }
   }
 

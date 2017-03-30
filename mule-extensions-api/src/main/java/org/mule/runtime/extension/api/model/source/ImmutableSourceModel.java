@@ -46,6 +46,7 @@ public class ImmutableSourceModel extends AbstractComponentModel<SourceModel> im
    * @param errorCallbackModel   an optional model for the source error callback
    * @param requiresConnection   whether this component requires connectivity
    * @param transactional        whether this component supports transactions
+   * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
    * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
@@ -60,11 +61,12 @@ public class ImmutableSourceModel extends AbstractComponentModel<SourceModel> im
                               Optional<SourceCallbackModel> errorCallbackModel,
                               boolean requiresConnection,
                               boolean transactional,
+                              boolean supportsStreaming,
                               DisplayModel displayModel,
                               Set<Stereotype> stereotypes,
                               Set<ModelProperty> modelProperties) {
-    super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, displayModel,
-          stereotypes, modelProperties);
+    super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
+          supportsStreaming, displayModel, stereotypes, modelProperties);
     this.hasResponse = hasResponse;
     this.successCallback = successCallbackModel.orElse(null);
     this.errorCallback = errorCallbackModel.orElse(null);

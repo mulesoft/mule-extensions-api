@@ -7,7 +7,9 @@
 package org.mule.runtime.extension.api.annotation;
 
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.mule.runtime.extension.api.runtime.source.Source;
 
 import java.io.InputStream;
 import java.lang.annotation.Documented;
@@ -15,16 +17,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Intended to be used on operation methods, this annotation indicates that such operation
- * should be provided with a streaming strategy parameter.
+ * Intended to be used on operation methods and implementations of {@link Source},
+ * this annotation indicates that such component supports streaming.
  * <p>
  * The runtime can automatically infer that when the return type is a {@link InputStream},
  * but there're corner cases in which the return type is of some other abstraction type
  * and thus this has to be manually hinted.
+ * <p>
+ * Using this annotation on components which return {@link InputStream} is redundant
+ * yet harmless.
  *
  * @since 1.0
  */
-@Target(METHOD)
+@Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
 public @interface Streaming {

@@ -66,6 +66,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [
           {
@@ -691,6 +692,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [
           {
@@ -774,6 +776,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [],
         "name": "choice",
@@ -1482,6 +1485,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [
           {
@@ -1637,6 +1641,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [
           {
@@ -2262,6 +2267,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [
           {
@@ -2345,6 +2351,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [],
         "name": "choice",
@@ -3053,6 +3060,7 @@
         },
         "transactional": false,
         "requiresConnection": false,
+        "supportsStreaming": false,
         "stereotypes": [],
         "parameterGroupModels": [
           {

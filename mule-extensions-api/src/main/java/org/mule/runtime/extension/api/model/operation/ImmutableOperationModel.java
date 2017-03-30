@@ -43,6 +43,7 @@ public class ImmutableOperationModel extends AbstractComponentModel<OperationMod
    * @param executionType        describes the type of processing this operation performs
    * @param requiresConnection   whether this component requires connectivity
    * @param transactional        whether this component supports transactions
+   * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
    *                             the operation
@@ -59,12 +60,13 @@ public class ImmutableOperationModel extends AbstractComponentModel<OperationMod
                                  ExecutionType executionType,
                                  boolean requiresConnection,
                                  boolean transactional,
+                                 boolean supportsStreaming,
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  Set<Stereotype> stereotypes,
                                  Set<ModelProperty> modelProperties) {
-    super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, displayModel,
-          stereotypes, modelProperties);
+    super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
+          displayModel, stereotypes, modelProperties);
     this.blocking = blocking;
     this.executionType = executionType;
     this.errors = errors;

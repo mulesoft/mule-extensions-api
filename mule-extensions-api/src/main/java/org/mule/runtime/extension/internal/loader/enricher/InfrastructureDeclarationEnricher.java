@@ -27,7 +27,7 @@ import org.mule.runtime.extension.internal.property.QNameModelProperty;
  *
  * @since 1.0
  */
-public abstract class InfrastructureDeclarationEnricher implements DeclarationEnricher {
+abstract class InfrastructureDeclarationEnricher implements DeclarationEnricher {
 
   protected void addReconnectionStrategyParameter(ParameterizedDeclaration declaration) {
     ParameterDeclaration parameter = new ParameterDeclaration(RECONNECTION_STRATEGY_PARAMETER_NAME);

@@ -42,6 +42,7 @@ public final class ImmutableScopeModel extends ImmutableOperationModel implement
    * @param executionType        describes the type of processing this operation performs
    * @param requiresConnection   whether this component requires connectivity
    * @param transactional        whether this component supports transactions
+   * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
    *                             the operation
@@ -58,12 +59,13 @@ public final class ImmutableScopeModel extends ImmutableOperationModel implement
                              ExecutionType executionType,
                              boolean requiresConnection,
                              boolean transactional,
+                             boolean supportsStreaming,
                              DisplayModel displayModel,
                              Set<ErrorModel> errors,
                              Set<Stereotype> stereotypes,
                              Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, blocking, executionType, requiresConnection,
-          transactional, displayModel, errors, stereotypes, modelProperties);
+          transactional, supportsStreaming, displayModel, errors, stereotypes, modelProperties);
     this.routeModel = routeModel;
   }
 

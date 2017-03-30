@@ -31,6 +31,7 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
   private final OutputModel outputAttributes;
   private final boolean transactional;
   private final boolean requiresConnection;
+  private final boolean supportsStreaming;
   private final Set<Stereotype> stereotypes;
 
   /**
@@ -43,6 +44,7 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
    * @param outputAttributes     an {@link OutputModel} which represents the component's attributes on the output {@link Message}
    * @param requiresConnection   whether this component requires connectivity
    * @param transactional        whether this component supports transactions
+   * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
@@ -55,6 +57,7 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
                                    OutputModel outputAttributes,
                                    boolean requiresConnection,
                                    boolean transactional,
+                                   boolean supportsStreaming,
                                    DisplayModel displayModel,
                                    Set<Stereotype> stereotypes,
                                    Set<ModelProperty> modelProperties) {
@@ -63,6 +66,7 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;
     this.transactional = transactional;
+    this.supportsStreaming = supportsStreaming;
     this.stereotypes = copy(stereotypes);
   }
 
@@ -95,6 +99,14 @@ public abstract class AbstractComponentModel<T extends ComponentModel> extends A
   @Override
   public boolean requiresConnection() {
     return requiresConnection;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean supportsStreaming() {
+    return supportsStreaming;
   }
 
   /**

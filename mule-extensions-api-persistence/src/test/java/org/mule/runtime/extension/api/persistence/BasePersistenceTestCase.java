@@ -163,7 +163,7 @@ abstract class BasePersistenceTestCase {
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asParameterGroup(carNameParameter, complexParameter),
                                     outputModel,
                                     outputAttributesModel,
-                                    true, CPU_LITE, false, false, defaultDisplayModel,
+                                    true, CPU_LITE, false, false, false, defaultDisplayModel,
                                     singleton(ERROR_MODEL), emptySet(), modelProperties);
 
     createCoreOperations();
@@ -188,7 +188,7 @@ abstract class BasePersistenceTestCase {
                                                                                         .builder()
                                                                                         .build(),
                                                                                     emptySet())),
-                                           Optional.empty(), false, false,
+                                           Optional.empty(), false, false, false,
                                            DisplayModel.builder().build(),
                                            emptySet(), emptySet());
 
