@@ -116,6 +116,11 @@ public final class XmlModelUtils {
     return false;
   }
 
+  public static String buildSchemaLocation(String prefix, String namespace) {
+    String schemaFile = buildDefaultXsdFileName(prefix);
+    return buildDefaultSchemaLocation(namespace, schemaFile);
+  }
+
   private static String buildDefaultLocation(String namespace) {
     return String.format(DEFAULT_NAMESPACE_URI_MASK, namespace);
   }
