@@ -116,6 +116,12 @@ public final class XmlModelUtils {
     return false;
   }
 
+  /**
+   * Given a prefix and a namespace returns the correspondent schema location
+   * @param prefix
+   * @param namespace
+   * @return {@link String} with the schema location
+   */
   public static String buildSchemaLocation(String prefix, String namespace) {
     String schemaFile = buildDefaultXsdFileName(prefix);
     return buildDefaultSchemaLocation(namespace, schemaFile);
