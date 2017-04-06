@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.mule</groupId>
             <artifactId>mule-metadata-model-json</artifactId>
-            <version>1.0.0-M5.2-SNAPSHOT</version>
+            <version>${metadataModelApiVersion}</version>
         </dependency>
     </dependencies>
 </project>
