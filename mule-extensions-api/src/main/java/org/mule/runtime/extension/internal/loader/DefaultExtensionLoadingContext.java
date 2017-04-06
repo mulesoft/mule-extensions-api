@@ -9,6 +9,7 @@ package org.mule.runtime.extension.internal.loader;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
@@ -34,17 +35,20 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   private final List<ExtensionModelValidator> customValidators = new LinkedList<>();
   private final List<DeclarationEnricher> customDeclarationEnrichers = new LinkedList<>();
   private final Map<String, Object> customParameters = new HashMap<>();
+  private final DslResolvingContext dslResolvingContext;
 
-  public DefaultExtensionLoadingContext(ClassLoader extensionClassLoader) {
-    this(new ExtensionDeclarer(), extensionClassLoader);
-
+  public DefaultExtensionLoadingContext(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
+    this(new ExtensionDeclarer(), extensionClassLoader, dslResolvingContext);
   }
 
-  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer, ClassLoader extensionClassLoader) {
+  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer, ClassLoader extensionClassLoader,
+                                        DslResolvingContext dslResolvingContext) {
     checkArgument(extensionDeclarer != null, "extension declarer cannot be null");
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
+    checkArgument(dslResolvingContext != null, "Dsl resolving context cannot be null");
     this.extensionDeclarer = extensionDeclarer;
     this.extensionClassLoader = extensionClassLoader;
+    this.dslResolvingContext = dslResolvingContext;
   }
 
   /**
@@ -129,6 +133,14 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   @Override
   public ClassLoader getExtensionClassLoader() {
     return extensionClassLoader;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public DslResolvingContext getDslResolvingContext() {
+    return dslResolvingContext;
   }
 
   /**

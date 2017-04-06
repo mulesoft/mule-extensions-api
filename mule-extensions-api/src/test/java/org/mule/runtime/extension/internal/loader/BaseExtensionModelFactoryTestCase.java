@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
+import static java.util.Collections.emptySet;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -13,6 +14,9 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -26,9 +30,6 @@ import org.mule.runtime.extension.internal.property.InfrastructureParameterModel
 
 import java.util.HashMap;
 import java.util.function.Consumer;
-
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseExtensionModelFactoryTestCase {
@@ -52,7 +53,7 @@ public abstract class BaseExtensionModelFactoryTestCase {
   protected ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
   protected ExtensionModel load() {
-    return extensionModel = loader.loadExtensionModel(getClass().getClassLoader(), new HashMap<>());
+    return extensionModel = loader.loadExtensionModel(getClass().getClassLoader(), getDefault(emptySet()), new HashMap<>());
   }
 
   protected void assertParameter(ParameterModel parameterModel, String name, String description,

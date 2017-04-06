@@ -14,6 +14,7 @@ import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
@@ -23,6 +24,13 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.CHOICE_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.FOREACH_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -62,12 +70,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -76,9 +78,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 
 abstract class BasePersistenceTestCase {
 
@@ -223,7 +222,7 @@ abstract class BasePersistenceTestCase {
       protected void declareExtension(ExtensionLoadingContext context) {
         new TestCoreExtensionDeclarer().declareOn(context.getExtensionDeclarer());
       }
-    }.loadExtensionModel(getClass().getClassLoader(), new HashMap<>());
+    }.loadExtensionModel(getClass().getClassLoader(), getDefault(emptySet()), new HashMap<>());
 
     foreachScope = (ScopeModel) coreModel.getOperationModel(FOREACH_OPERATION_NAME).get();
     choiceRouter = (RouterModel) coreModel.getOperationModel(CHOICE_OPERATION_NAME).get();
