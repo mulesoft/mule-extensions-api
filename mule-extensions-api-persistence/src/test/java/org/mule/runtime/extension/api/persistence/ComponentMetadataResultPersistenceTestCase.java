@@ -37,7 +37,7 @@ public class ComponentMetadataResultPersistenceTestCase extends AbstractMetadata
   private ComponentResultJsonSerializer<ComponentModel> metadataDescriptorSerializer = new ComponentResultJsonSerializer<>(true);
 
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
     super.setUp();
   }
 

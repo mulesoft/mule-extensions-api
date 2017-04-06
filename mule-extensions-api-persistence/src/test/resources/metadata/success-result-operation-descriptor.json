@@ -616,6 +616,194 @@
             "displayModel": {},
             "description": "complex type to serialize",
             "modelProperties": {}
+          },
+          {
+            "type": {
+              "format": "json",
+              "type": "Object",
+              "annotations": {
+                "typeId": "http://example.com/create-customer-request-type-schema.json"
+              },
+              "open": {
+                "type": "Any"
+              },
+              "fields": [
+                {
+                  "key": {
+                    "name": "phone"
+                  },
+                  "model": {
+                    "type": "String"
+                  }
+                },
+                {
+                  "key": {
+                    "name": "name"
+                  },
+                  "model": {
+                    "type": "String"
+                  }
+                },
+                {
+                  "key": {
+                    "name": "shippingAddress"
+                  },
+                  "model": {
+                    "type": "Array",
+                    "item": {
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "/properties/shippingAddress/items"
+                      },
+                      "open": {
+                        "type": "Any"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "country"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "address"
+                          },
+                          "model": {
+                            "type": "Array",
+                            "item": {
+                              "type": "String"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "city"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "postalCode"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "state"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "key": {
+                    "name": "billingAddress"
+                  },
+                  "model": {
+                    "type": "Array",
+                    "item": {
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "/properties/billingAddress/items"
+                      },
+                      "open": {
+                        "type": "Any"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "country"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "address"
+                          },
+                          "model": {
+                            "type": "Array",
+                            "item": {
+                              "type": "String"
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "city"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "postalCode"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "state"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "key": {
+                    "name": "id"
+                  },
+                  "model": {
+                    "type": "String"
+                  }
+                },
+                {
+                  "key": {
+                    "name": "email"
+                  },
+                  "model": {
+                    "type": "String"
+                  }
+                }
+              ]
+            },
+            "hasDynamicType": false,
+            "required": true,
+            "expressionSupport": "SUPPORTED",
+            "role": "BEHAVIOUR",
+            "dslConfiguration": {
+              "allowInlineDefinition": true,
+              "allowTopLevelDefinition": false,
+              "allowReferences": true
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false
+            },
+            "name": "loaded",
+            "displayModel": {},
+            "description": "loaded type from json to serialize",
+            "modelProperties": {}
           }
         ],
         "exclusiveParametersModels": [

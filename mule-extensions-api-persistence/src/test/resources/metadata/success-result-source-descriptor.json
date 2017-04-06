@@ -627,6 +627,57 @@
             "displayModel": {},
             "description": "Name of the car",
             "modelProperties": {}
+          },
+          {
+            "type": {
+              "format": "java",
+              "type": "Object",
+              "fields": [
+                {
+                  "key": {
+                    "name": "fieldName"
+                  },
+                  "model": {
+                    "type": "Object",
+                    "annotations": {
+                      "typeId": "test.package.ExportedClass",
+                      "classInformation": {
+                        "hasDefaultConstructor": true,
+                        "isInterface": false,
+                        "isInstantiable": true,
+                        "isAbstract": false,
+                        "isFinal": false,
+                        "implementedInterfaces": [],
+                        "parent": "",
+                        "genericTypes": []
+                      },
+                      "typeAlias": {
+                        "value": "ExportedClass"
+                      }
+                    },
+                    "fields": []
+                  }
+                }
+              ]
+            },
+            "hasDynamicType": false,
+            "required": true,
+            "expressionSupport": "SUPPORTED",
+            "role": "BEHAVIOUR",
+            "dslConfiguration": {
+              "allowInlineDefinition": true,
+              "allowTopLevelDefinition": false,
+              "allowReferences": true
+            },
+            "layoutModel": {
+              "password": false,
+              "text": false,
+              "query": false
+            },
+            "name": "noID",
+            "displayModel": {},
+            "description": "type to serialize without ID",
+            "modelProperties": {}
           }
         ],
         "exclusiveParametersModels": [

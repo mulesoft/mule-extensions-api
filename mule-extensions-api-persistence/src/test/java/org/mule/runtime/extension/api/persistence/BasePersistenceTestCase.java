@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static com.google.common.collect.ImmutableSet.of;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
@@ -34,10 +35,12 @@ import org.junit.Before;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
+import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.metadata.json.JsonTypeLoader;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
@@ -97,6 +100,8 @@ abstract class BasePersistenceTestCase {
   protected final String MODEL_PROPERTIES_NODE = "modelProperties";
   protected final String OPERATIONS_NODE = "operations";
   protected final String COMPLEX_PARAMETER_NAME = "complex";
+  protected final String LOADED_PARAMETER_NAME = "loaded";
+  protected static final String NO_ID_PARAMETER_NAME = "noID";
   protected final String OBJECT_MAP_NAME = "map";
 
   protected final String SOURCE_NAME = "Source";
@@ -121,7 +126,7 @@ abstract class BasePersistenceTestCase {
   protected ObjectType exportedType;
 
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
     final ImmutableParameterModel carNameParameter =
         new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel, emptySet());
@@ -140,6 +145,15 @@ abstract class BasePersistenceTestCase {
                                     false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
+    String schema = IOUtils
+        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("create-customer-request-type-schema.json"));
+    final MetadataType jsonLoadedType = new JsonTypeLoader(schema).load("").get();
+    final ImmutableParameterModel loadedParameter =
+        new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
+                                    jsonLoadedType,
+                                    false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    defaultDisplayModel, defaultLayoutModel, emptySet());
+
     exportedType = typeBuilder.objectType().id("test.package.ExportedClass")
         .with(new ClassInformationAnnotation(ExportedClass.class, emptyList()))
         .with(new TypeAliasAnnotation(ExportedClass.class.getSimpleName())).build();
@@ -154,12 +168,21 @@ abstract class BasePersistenceTestCase {
                                     false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
+    ObjectTypeBuilder typeNoId = typeBuilder.objectType();
+    typeNoId.addField().key("fieldName").value(exportedType).build();
+    final ImmutableParameterModel noIdParameter =
+        new ImmutableParameterModel(NO_ID_PARAMETER_NAME, "type to serialize without ID",
+                                    typeNoId.build(),
+                                    false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    defaultDisplayModel, defaultLayoutModel, emptySet());
+
     final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());
     final ImmutableOutputModel outputAttributesModel =
         new ImmutableOutputModel("Message.Attributes", stringType, false, emptySet());
 
     getCarOperation =
-        new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car", asParameterGroup(carNameParameter, complexParameter),
+        new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car",
+                                    asParameterGroup(carNameParameter, complexParameter, loadedParameter),
                                     outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
@@ -177,7 +200,7 @@ abstract class BasePersistenceTestCase {
                                              emptySet());
 
     sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true,
-                                           asParameterGroup(carNameParameter),
+                                           asParameterGroup(carNameParameter, noIdParameter),
                                            outputModel, outputAttributesModel,
                                            Optional
                                                .of(new ImmutableSourceCallbackModel("onSuccess", "",
@@ -197,7 +220,8 @@ abstract class BasePersistenceTestCase {
                                     new MuleVersion("4.0"), emptyList(), asList(getCarOperation, foreachScope, choiceRouter),
                                     singletonList(basicAuth), singletonList(sourceModel),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), singleton(exportedType), emptySet(), emptySet(), singleton(ERROR_MODEL),
+                                    emptySet(), of(exportedType, (ObjectType) jsonLoadedType),
+                                    emptySet(), emptySet(), singleton(ERROR_MODEL),
                                     externalLibrarySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);

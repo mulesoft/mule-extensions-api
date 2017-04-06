@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
-import static java.util.Optional.empty;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.TypeBuilder;
@@ -57,11 +56,8 @@ public final class RestrictedTypesObjectTypeReferenceHandler implements ObjectTy
    */
   @Override
   public Optional<String> writeReference(ObjectType type, JsonWriter writer) {
-    Optional<String> typeId = getTypeId(type);
-    if (typeId.isPresent()) {
-      return allowReferenceTypes.contains(typeId.get()) ? delegateReferenceHandler.writeReference(type, writer) : empty();
-    }
-    throw new IllegalArgumentException("Cannot serialize an object type without type id");
+    return getTypeId(type).filter(allowReferenceTypes::contains)
+        .flatMap(s -> delegateReferenceHandler.writeReference(type, writer));
   }
 
 }

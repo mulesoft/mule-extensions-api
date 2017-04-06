@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "id": "http://example.com/create-customer-request-type-schema.json",
+  "properties": {
+    "billingAddress": {
+      "id": "/properties/billingAddress",
+      "items": {
+        "id": "/properties/billingAddress/items",
+        "properties": {
+          "address": {
+            "id": "/properties/billingAddress/items/properties/address",
+            "items": {
+              "id": "/properties/billingAddress/items/properties/address/items",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "city": {
+            "id": "/properties/billingAddress/items/properties/city",
+            "type": "string"
+          },
+          "country": {
+            "id": "/properties/billingAddress/items/properties/country",
+            "type": "string"
+          },
+          "postalCode": {
+            "id": "/properties/billingAddress/items/properties/postalCode",
+            "type": "string"
+          },
+          "state": {
+            "id": "/properties/billingAddress/items/properties/state",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "email": {
+      "id": "/properties/email",
+      "type": "string"
+    },
+    "id": {
+      "id": "/properties/id",
+      "type": "string"
+    },
+    "name": {
+      "id": "/properties/name",
+      "type": "string"
+    },
+    "phone": {
+      "id": "/properties/phone",
+      "type": "string"
+    },
+    "shippingAddress": {
+      "id": "/properties/shippingAddress",
+      "items": {
+        "id": "/properties/shippingAddress/items",
+        "properties": {
+          "address": {
+            "id": "/properties/shippingAddress/items/properties/address",
+            "items": {
+              "id": "/properties/shippingAddress/items/properties/address/items",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "city": {
+            "id": "/properties/shippingAddress/items/properties/city",
+            "type": "string"
+          },
+          "country": {
+            "id": "/properties/shippingAddress/items/properties/country",
+            "type": "string"
+          },
+          "postalCode": {
+            "id": "/properties/shippingAddress/items/properties/postalCode",
+            "type": "string"
+          },
+          "state": {
+            "id": "/properties/shippingAddress/items/properties/state",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}

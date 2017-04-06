@@ -17,6 +17,8 @@ import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
 import org.mule.runtime.api.metadata.MetadataAttributes;
 import org.mule.runtime.api.metadata.resolving.NamedTypeResolver;
 
+import java.io.IOException;
+
 import org.junit.Before;
 
 public class AbstractMetadataPersistenceTestCase extends BasePersistenceTestCase {
@@ -31,7 +33,7 @@ public class AbstractMetadataPersistenceTestCase extends BasePersistenceTestCase
   protected MetadataKey key;
 
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
     super.setUp();
     resolver = mock(NamedTypeResolver.class);
     when(resolver.getResolverName()).thenReturn(RESOLVER_NAME);
