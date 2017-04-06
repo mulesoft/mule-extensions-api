@@ -14,13 +14,6 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.junit.Test;
-
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
@@ -39,6 +32,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.Test;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
@@ -64,7 +63,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   @Test
   public void messageSourceCorrectlyDeserialized() {
     SourceModel sourceModel = deserializedExtensionModel.getSourceModel(SOURCE_NAME).get();
-    assertThat(sourceModel.getAllParameterModels().size(), is(2));
+    assertThat(sourceModel.getAllParameterModels().size(), is(3));
 
     ParameterModel complexParameter = sourceModel.getAllParameterModels().stream()
         .filter(p -> p.getName().equals(COMPLEX_PARAMETER_NAME))

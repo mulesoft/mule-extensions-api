@@ -61,7 +61,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   protected final NamedTypeResolver resolver = mock(NamedTypeResolver.class);
 
   @Before
-  public void setup() {
+  public void setup() throws IOException {
     super.setUp();
     builder = MetadataKeysContainerBuilder.getInstance();
   }
