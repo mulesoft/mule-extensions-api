@@ -27,7 +27,7 @@ public class OperationMetadataResultPersistenceTestCase extends AbstractMetadata
   private ComponentResultJsonSerializer<OperationModel> metadataDescriptorSerializer = new ComponentResultJsonSerializer<>(true);
 
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
     super.setUp();
     operationMetadataDescriptor = buildTestOperationMetadataDescriptor();
   }
