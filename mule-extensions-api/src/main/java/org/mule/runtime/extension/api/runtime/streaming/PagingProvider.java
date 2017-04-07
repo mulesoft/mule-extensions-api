@@ -13,6 +13,9 @@ import java.util.Optional;
 /**
  * This interface provides functionality for consuming a data feed in pages.
  * <p>
+ * Instances should not be reused. Each execution of a paging operation should return
+ * different instances.
+ * <p>
  * Implementing this interface does not guarantee thread safeness.
  *
  * @param <C> connection type expected to handle the operations.
@@ -37,5 +40,21 @@ public interface PagingProvider<C, T> extends Closeable {
    * @param connection The connection to be used to do the query.
    */
   Optional<Integer> getTotalResults(C connection);
+
+  /**
+   * Some systems require the same connection that obtained the first page to be used to fetch
+   * the subsequent ones. Although this is not the case of most APIs, this method allows to instruct
+   * the runtime to always feed the same connection into the {@link #getPage(Object)} method.
+   * <p>
+   * Keep in mind that if the operation is participating in a transaction, then the connection
+   * <b>will</b> become sticky no matter what this method says.
+   * <p>
+   * This method is optional and defaults to {@code false}
+   *
+   * @return Whether all pages should be fetch using the same connection
+   */
+  default boolean useStickyConnections() {
+    return false;
+  }
 
 }
