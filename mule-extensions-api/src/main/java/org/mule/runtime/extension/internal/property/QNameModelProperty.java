@@ -48,6 +48,6 @@ public final class QNameModelProperty implements ModelProperty {
    */
   @Override
   public boolean isPublic() {
-    return false;
+    return true;
   }
 }

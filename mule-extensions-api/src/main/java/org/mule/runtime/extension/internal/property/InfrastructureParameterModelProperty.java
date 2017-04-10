@@ -31,6 +31,6 @@ public class InfrastructureParameterModelProperty implements ModelProperty {
    */
   @Override
   public boolean isPublic() {
-    return false;
+    return true;
   }
 }
