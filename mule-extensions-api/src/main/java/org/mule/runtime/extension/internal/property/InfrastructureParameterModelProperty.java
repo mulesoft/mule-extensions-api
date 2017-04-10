@@ -27,7 +27,7 @@ public class InfrastructureParameterModelProperty implements ModelProperty {
   }
 
   /**
-   * @return {@code false}
+   * @return {@code true}
    */
   @Override
   public boolean isPublic() {
