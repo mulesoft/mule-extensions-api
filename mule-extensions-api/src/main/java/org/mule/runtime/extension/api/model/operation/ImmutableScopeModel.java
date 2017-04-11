@@ -27,13 +27,10 @@ import java.util.Set;
  */
 public final class ImmutableScopeModel extends ImmutableOperationModel implements ScopeModel {
 
-  private final RouteModel routeModel;
-
   /**
    * Creates a new instance with the given state
    *
    * @param name                 the scope's name. Cannot be blank
-   * @param routeModel           a {@link RouteModel}
    * @param description          the scope's descriptor
    * @param parameterGroupModels a {@link List} with the scope's {@link ParameterGroupModel parameter group models}
    * @param output               an {@link OutputModel} which represents the scope's output content
@@ -51,7 +48,6 @@ public final class ImmutableScopeModel extends ImmutableOperationModel implement
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableScopeModel(String name, String description,
-                             RouteModel routeModel,
                              List<ParameterGroupModel> parameterGroupModels,
                              OutputModel output,
                              OutputModel outputAttributes,
@@ -66,14 +62,6 @@ public final class ImmutableScopeModel extends ImmutableOperationModel implement
                              Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, blocking, executionType, requiresConnection,
           transactional, supportsStreaming, displayModel, errors, stereotypes, modelProperties);
-    this.routeModel = routeModel;
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public RouteModel getRouteModel() {
-    return routeModel;
-  }
 }

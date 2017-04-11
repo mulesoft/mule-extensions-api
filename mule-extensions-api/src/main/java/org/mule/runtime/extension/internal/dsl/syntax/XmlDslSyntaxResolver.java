@@ -350,9 +350,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       public void visit(SourceModel sourceModel) {}
 
       @Override
-      public void visit(ScopeModel scopeModel) {
-        dsl.containing(scopeModel.getRouteModel().getName(), resolveRouteDsl(scopeModel.getRouteModel()));
-      }
+      public void visit(ScopeModel scopeModel) {}
 
       @Override
       public void visit(RouterModel routerModel) {
