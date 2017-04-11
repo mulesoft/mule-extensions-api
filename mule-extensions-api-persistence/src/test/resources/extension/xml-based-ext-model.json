@@ -1,0 +1,990 @@
+{
+  "name": "greenhouse_candidate_restc_v2-module",
+  "description": "",
+  "version": "4.0",
+  "vendor": "MuleSoft",
+  "category": "COMMUNITY",
+  "minMuleVersion": "4.0.0",
+  "xmlDsl": {
+    "namespace": "greenhouse_candidate_restc_v2-module",
+    "namespaceUri": "http://www.mulesoft.org/schema/mule/greenhouse_candidate_restc_v2-module",
+    "schemaLocation": "http://www.mulesoft.org/schema/mule/greenhouse_candidate_restc_v2-module/current/greenhouse_candidate_restc_v2-module.xsd",
+    "schemaVersion": "4.0",
+    "xsdFileName": "greenhouse_candidate_restc_v2-module.xsd"
+  },
+  "resources": [],
+  "subTypes": [],
+  "externalLibraries": [],
+  "importedTypes": [],
+  "configurations": [
+    {
+      "parameterGroupModels": [
+        {
+          "parameters": [
+            {
+              "type": {
+                "format": "java",
+                "type": "String",
+                "annotations": {
+                  "typeId": "java.lang.String"
+                }
+              },
+              "hasDynamicType": false,
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false
+              },
+              "name": "baseUri",
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String",
+                "annotations": {
+                  "typeId": "java.lang.String"
+                }
+              },
+              "hasDynamicType": false,
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false
+              },
+              "name": "username",
+              "description": "",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String",
+                "annotations": {
+                  "typeId": "java.lang.String"
+                }
+              },
+              "hasDynamicType": false,
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": true,
+                "text": false,
+                "query": false
+              },
+              "name": "password",
+              "description": "",
+              "modelProperties": {}
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false,
+          "name": "General",
+          "description": "",
+          "modelProperties": {}
+        }
+      ],
+      "externalLibraryModels": [],
+      "operations": [
+        {
+          "blocking": true,
+          "executionType": "CPU_LITE",
+          "errors": [],
+          "output": {
+            "type": {
+              "format": "json",
+              "type": "Intersection",
+              "of": [
+                {
+                  "type": "Object",
+                  "open": {
+                    "type": "Any"
+                  },
+                  "fields": []
+                },
+                {
+                  "type": "Union",
+                  "of": [
+                    {
+                      "type": "Object",
+                      "open": {
+                        "type": "Any"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "profile_url"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "external_id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "application_id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "http://json-schema.org/candidate"
+                      },
+                      "open": {
+                        "type": "Any"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "profile_url"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "external_id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "application_id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "outputAttributes": {
+            "type": {
+              "format": "java",
+              "type": "Void"
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "transactional": false,
+          "requiresConnection": false,
+          "parameterGroupModels": [
+            {
+              "parameters": [
+                {
+                  "type": {
+                    "format": "java",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "hasDynamicType": false,
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "role": "BEHAVIOUR",
+                  "dslConfiguration": {
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": true,
+                    "allowTopLevelDefinition": false
+                  },
+                  "layoutModel": {
+                    "password": false,
+                    "text": false,
+                    "query": false,
+                    "tabName": "Advanced"
+                  },
+                  "name": "target",
+                  "displayModel": {
+                    "displayName": "Target Variable"
+                  },
+                  "description": "The name of a variable on which the operation\u0027s output will be placed",
+                  "modelProperties": {}
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false,
+              "name": "Output",
+              "description": "",
+              "modelProperties": {}
+            }
+          ],
+          "name": "create-candidate",
+          "description": "Create one or more candidates or prospects.    **scope**: candidates.create     The API will respond with a single object if a single object was provided or an array of objects if an array was provided.",
+          "modelProperties": {}
+        },
+        {
+          "blocking": true,
+          "executionType": "CPU_LITE",
+          "errors": [],
+          "output": {
+            "type": {
+              "format": "json",
+              "type": "@ref:create-tracking-link-response-type"
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "outputAttributes": {
+            "type": {
+              "format": "java",
+              "type": "Void"
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "transactional": false,
+          "requiresConnection": false,
+          "parameterGroupModels": [
+            {
+              "parameters": [
+                {
+                  "type": {
+                    "format": "java",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "hasDynamicType": false,
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "role": "BEHAVIOUR",
+                  "dslConfiguration": {
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": true,
+                    "allowTopLevelDefinition": false
+                  },
+                  "layoutModel": {
+                    "password": false,
+                    "text": false,
+                    "query": false,
+                    "tabName": "Advanced"
+                  },
+                  "name": "target",
+                  "displayModel": {
+                    "displayName": "Target Variable"
+                  },
+                  "description": "The name of a variable on which the operation\u0027s output will be placed",
+                  "modelProperties": {}
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false,
+              "name": "Output",
+              "description": "",
+              "modelProperties": {}
+            }
+          ],
+          "name": "create-tracking-link",
+          "description": "Create a new tracking link for a specific job. Candidates that apply using this tracking link will automatically have their source set to your application and their referrer set to the current user.",
+          "modelProperties": {}
+        },
+        {
+          "blocking": true,
+          "executionType": "CPU_LITE",
+          "errors": [],
+          "output": {
+            "type": {
+              "format": "json",
+              "type": "Intersection",
+              "of": [
+                {
+                  "type": "Object",
+                  "open": {
+                    "type": "Any"
+                  },
+                  "fields": []
+                },
+                {
+                  "type": "Union",
+                  "of": [
+                    {
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "http://json-schema.org/current-user-1"
+                      },
+                      "open": {
+                        "type": "Any"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "external_id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "String"
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "applications"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Array",
+                            "annotations": {
+                              "description": {
+                                "value": "An array containing 0 or more applications representing the jobs to which this candidate has applied. Each of the sub-elements are required for each of the applications.\n"
+                              }
+                            },
+                            "item": {
+                              "type": "Object",
+                              "annotations": {
+                                "description": {
+                                  "value": "Application representing the job to which this candidate has applied.\n"
+                                },
+                                "typeId": "http://json-schema.org/application"
+                              },
+                              "open": {
+                                "type": "Any"
+                              },
+                              "fields": [
+                                {
+                                  "key": {
+                                    "name": "stage"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "profile_url"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "id"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "Number",
+                                    "annotations": {
+                                      "int": {}
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "job"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "status"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String",
+                                    "annotations": {
+                                      "enum": {
+                                        "type": "[Ljava.lang.String;",
+                                        "values": [
+                                          "rejected",
+                                          "active",
+                                          "hired"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "http://json-schema.org/current-user-2"
+                      },
+                      "open": {
+                        "type": "Any"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "external_id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "id"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Number",
+                            "annotations": {
+                              "int": {}
+                            }
+                          }
+                        },
+                        {
+                          "key": {
+                            "name": "applications"
+                          },
+                          "model": {
+                            "required": "true",
+                            "type": "Array",
+                            "annotations": {
+                              "description": {
+                                "value": "An array containing 0 or more applications representing the jobs to which this candidate has applied. Each of the sub-elements are required for each of the applications.\n"
+                              }
+                            },
+                            "item": {
+                              "type": "Object",
+                              "annotations": {
+                                "description": {
+                                  "value": "Application representing the job to which this candidate has applied.\n"
+                                },
+                                "typeId": "http://json-schema.org/application"
+                              },
+                              "open": {
+                                "type": "Any"
+                              },
+                              "fields": [
+                                {
+                                  "key": {
+                                    "name": "stage"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "profile_url"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "id"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "Number",
+                                    "annotations": {
+                                      "int": {}
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "job"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "status"
+                                  },
+                                  "model": {
+                                    "required": "true",
+                                    "type": "String",
+                                    "annotations": {
+                                      "enum": {
+                                        "type": "[Ljava.lang.String;",
+                                        "values": [
+                                          "rejected",
+                                          "active",
+                                          "hired"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "outputAttributes": {
+            "type": {
+              "format": "java",
+              "type": "Void"
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "transactional": false,
+          "requiresConnection": false,
+          "parameterGroupModels": [
+            {
+              "parameters": [
+                {
+                  "type": {
+                    "format": "java",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "hasDynamicType": false,
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "role": "BEHAVIOUR",
+                  "dslConfiguration": {
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": true,
+                    "allowTopLevelDefinition": false
+                  },
+                  "layoutModel": {
+                    "password": false,
+                    "text": false,
+                    "query": false,
+                    "tabName": "Advanced"
+                  },
+                  "name": "target",
+                  "displayModel": {
+                    "displayName": "Target Variable"
+                  },
+                  "description": "The name of a variable on which the operation\u0027s output will be placed",
+                  "modelProperties": {}
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false,
+              "name": "Output",
+              "description": "",
+              "modelProperties": {}
+            }
+          ],
+          "name": "get-candidates",
+          "description": "Retrieve a candidate?s data. Note that this call will only return candidates that the current user has permission to view.  **scope**: candidates.view   The request should contain a single query parameter that specifies a comma-delimited list of candidate IDs.  The response will always be an array of objects, even if only one candidate_id is provided.",
+          "modelProperties": {}
+        },
+        {
+          "blocking": true,
+          "executionType": "CPU_LITE",
+          "errors": [],
+          "output": {
+            "type": {
+              "format": "json",
+              "type": "@ref:get-current-users-response-type"
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "outputAttributes": {
+            "type": {
+              "format": "java",
+              "type": "Void"
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "transactional": false,
+          "requiresConnection": false,
+          "parameterGroupModels": [
+            {
+              "parameters": [
+                {
+                  "type": {
+                    "format": "java",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "hasDynamicType": false,
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "role": "BEHAVIOUR",
+                  "dslConfiguration": {
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": true,
+                    "allowTopLevelDefinition": false
+                  },
+                  "layoutModel": {
+                    "password": false,
+                    "text": false,
+                    "query": false,
+                    "tabName": "Advanced"
+                  },
+                  "name": "target",
+                  "displayModel": {
+                    "displayName": "Target Variable"
+                  },
+                  "description": "The name of a variable on which the operation\u0027s output will be placed",
+                  "modelProperties": {}
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false,
+              "name": "Output",
+              "description": "",
+              "modelProperties": {}
+            }
+          ],
+          "name": "get-current-users",
+          "description": "Retrieve details about the current user.  This request is simply the URL. It takes no parameters.",
+          "modelProperties": {}
+        },
+        {
+          "blocking": true,
+          "executionType": "CPU_LITE",
+          "errors": [],
+          "output": {
+            "type": {
+              "format": "json",
+              "type": "Array",
+              "item": {
+                "type": "Object",
+                "annotations": {
+                  "typeId": "http://json-schema.org/retrieve-jobs-response"
+                },
+                "open": {
+                  "type": "Any"
+                },
+                "fields": [
+                  {
+                    "key": {
+                      "name": "public"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "Boolean"
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "name"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "String"
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "id"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "Number",
+                      "annotations": {
+                        "int": {}
+                      }
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "status"
+                    },
+                    "model": {
+                      "required": "true",
+                      "type": "String",
+                      "annotations": {
+                        "enum": {
+                          "type": "[Ljava.lang.String;",
+                          "values": [
+                            "open"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "outputAttributes": {
+            "type": {
+              "format": "java",
+              "type": "Void"
+            },
+            "hasDynamicType": false,
+            "description": "",
+            "modelProperties": {}
+          },
+          "transactional": false,
+          "requiresConnection": false,
+          "parameterGroupModels": [
+            {
+              "parameters": [
+                {
+                  "type": {
+                    "format": "java",
+                    "type": "String",
+                    "annotations": {
+                      "typeId": "java.lang.String"
+                    }
+                  },
+                  "hasDynamicType": false,
+                  "required": false,
+                  "expressionSupport": "NOT_SUPPORTED",
+                  "role": "BEHAVIOUR",
+                  "dslConfiguration": {
+                    "allowsInlineDefinition": true,
+                    "allowsReferences": true,
+                    "allowTopLevelDefinition": false
+                  },
+                  "layoutModel": {
+                    "password": false,
+                    "text": false,
+                    "query": false,
+                    "tabName": "Advanced"
+                  },
+                  "name": "target",
+                  "displayModel": {
+                    "displayName": "Target Variable"
+                  },
+                  "description": "The name of a variable on which the operation\u0027s output will be placed",
+                  "modelProperties": {}
+                }
+              ],
+              "exclusiveParametersModels": [],
+              "showInDsl": false,
+              "name": "Output",
+              "description": "",
+              "modelProperties": {}
+            }
+          ],
+          "name": "get-jobs",
+          "description": "Retrieve jobs that are visible for the current user, including all jobs listed on their organization?s public careers page and unpublished jobs the user can access.  **scope**: jobs.view",
+          "modelProperties": {}
+        }
+      ],
+      "connectionProviders": [],
+      "messageSources": [],
+      "name": "config",
+      "description": "",
+      "modelProperties": {}
+    }
+  ],
+  "operations": [],
+  "connectionProviders": [],
+  "messageSources": [],
+  "errors": [],
+  "modelProperties": {},
+  "types": [
+    {
+      "format": "json",
+      "type": "Object",
+      "annotations": {
+        "typeId": "create-tracking-link-response-type"
+      },
+      "open": {
+        "type": "Any"
+      },
+      "fields": [
+        {
+          "key": {
+            "name": "referrer"
+          },
+          "model": {
+            "required": "true",
+            "type": "String"
+          }
+        },
+        {
+          "key": {
+            "name": "source"
+          },
+          "model": {
+            "required": "true",
+            "type": "String"
+          }
+        },
+        {
+          "key": {
+            "name": "job"
+          },
+          "model": {
+            "required": "true",
+            "type": "String"
+          }
+        },
+        {
+          "key": {
+            "name": "tracking_link"
+          },
+          "model": {
+            "required": "true",
+            "type": "String"
+          }
+        }
+      ]
+    },
+    {
+      "format": "json",
+      "type": "Object",
+      "annotations": {
+        "typeId": "get-current-users-response-type"
+      },
+      "open": {
+        "type": "Any"
+      },
+      "fields": [
+        {
+          "key": {
+            "name": "last_name"
+          },
+          "model": {
+            "required": "true",
+            "type": "String"
+          }
+        },
+        {
+          "key": {
+            "name": "first_name"
+          },
+          "model": {
+            "required": "true",
+            "type": "String"
+          }
+        },
+        {
+          "key": {
+            "name": "email"
+          },
+          "model": {
+            "required": "true",
+            "type": "String"
+          }
+        }
+      ]
+    }
+  ]
+}

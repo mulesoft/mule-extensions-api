@@ -714,9 +714,6 @@
                     "type": "Array",
                     "item": {
                       "type": "Object",
-                      "annotations": {
-                        "typeId": "/properties/billingAddress/items"
-                      },
                       "open": {
                         "type": "Any"
                       },

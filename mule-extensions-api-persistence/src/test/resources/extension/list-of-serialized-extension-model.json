@@ -1610,6 +1610,27 @@
     "modelProperties": {},
     "types": [
       {
+        "format": "java",
+        "type": "Object",
+        "annotations": {
+          "typeId": "test.package.ExportedClass",
+          "classInformation": {
+            "hasDefaultConstructor": true,
+            "isInterface": false,
+            "isInstantiable": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "implementedInterfaces": [],
+            "parent": "",
+            "genericTypes": []
+          },
+          "typeAlias": {
+            "value": "ExportedClass"
+          }
+        },
+        "fields": []
+      },
+      {
         "format": "json",
         "type": "Object",
         "annotations": {
@@ -1705,9 +1726,6 @@
               "type": "Array",
               "item": {
                 "type": "Object",
-                "annotations": {
-                  "typeId": "/properties/billingAddress/items"
-                },
                 "open": {
                   "type": "Any"
                 },
@@ -1776,27 +1794,6 @@
             }
           }
         ]
-      },
-      {
-        "format": "java",
-        "type": "Object",
-        "annotations": {
-          "typeId": "test.package.ExportedClass",
-          "classInformation": {
-            "hasDefaultConstructor": true,
-            "isInterface": false,
-            "isInstantiable": true,
-            "isAbstract": false,
-            "isFinal": false,
-            "implementedInterfaces": [],
-            "parent": "",
-            "genericTypes": []
-          },
-          "typeAlias": {
-            "value": "ExportedClass"
-          }
-        },
-        "fields": []
       }
     ]
   },
@@ -3527,9 +3524,6 @@
               "type": "Array",
               "item": {
                 "type": "Object",
-                "annotations": {
-                  "typeId": "/properties/billingAddress/items"
-                },
                 "open": {
                   "type": "Any"
                 },
