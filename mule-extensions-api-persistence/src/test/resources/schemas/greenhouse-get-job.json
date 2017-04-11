@@ -1,0 +1,36 @@
+{
+  "type": "array",
+  "example": "[\n  {\n    \"id\": 146859,\n    \"name\": \"Auror\",\n    \"status\": \"open\",\n    \"public\": true\n  },\n  {\n    \"id\": 150050,\n    \"name\": \"Professor\",\n    \"status\": \"open\",\n    \"public\": true\n  },\n  {\n    \"id\": 147886,\n    \"name\": \"Caretaker\",\n    \"status\": \"open\",\n    \"public\": false\n  }\n]\n",
+  "items": {
+    "properties": {
+      "id": {
+        "description": "The ID of the job.",
+        "type": "integer"
+      },
+      "name": {
+        "description": "The name as it appears in Greenhouse, NOT necessarily how it appears on the public job board.\n",
+        "type": "string"
+      },
+      "status": {
+        "description": "Always ?open?.",
+        "enum": [
+          "open"
+        ],
+        "type": "string"
+      },
+      "public": {
+        "description": "True if this job is published on the organization?s careers page.\n",
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "status",
+      "public"
+    ]
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#"
+}

@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.persistence;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
-import static java.util.stream.Collectors.toSet;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
@@ -42,10 +42,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
@@ -53,6 +55,8 @@ import java.util.Set;
  * @since 1.0
  */
 public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExtensionModelTypeAdapter.class);
 
   private static final String CONFIGURATIONS = "configurations";
   private static final String OPERATIONS = "operations";
@@ -166,7 +170,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   }
 
   private Set<ObjectType> parseTypes(JsonObject json) {
-    final Set<ObjectType> types = new HashSet<>();
+    final Set<ObjectType> types = new LinkedHashSet<>();
     JsonArray typesArray = json.get(TYPES).getAsJsonArray();
 
     if (typesArray == null) {
@@ -178,6 +182,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
         throw new IllegalArgumentException(format("Was expecting an object type but %s was found instead",
                                                   type.getClass().getSimpleName()));
       }
+      getTypeId(type)
+          .orElseThrow(() -> new IllegalArgumentException("Invalid json element found in 'types', only ObjectTypes "
+              + "with a 'typeId' can be part of the 'types' catalog"));
 
       final ObjectType objectType = (ObjectType) type;
       serializationContext.registerObjectType(objectType);
@@ -208,6 +215,6 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private Set<ModelProperty> parseExtensionLevelModelProperties(JsonObject json) {
     HierarchyClassMap<ModelProperty> properties =
         gsonDelegate.fromJson(json.get(MODEL_PROPERTIES), new TypeToken<HierarchyClassMap<ModelProperty>>() {}.getType());
-    return properties.values().stream().collect(toSet());
+    return new LinkedHashSet<>(properties.values());
   }
 }
