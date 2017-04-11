@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import static com.google.common.collect.ImmutableSet.of;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
@@ -68,6 +67,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -84,6 +84,8 @@ abstract class BasePersistenceTestCase {
       ErrorModelBuilder.newError("PARENT_ERROR_MODEL", "ERROR_NAMESPACE").build();
   protected static final ErrorModel ERROR_MODEL =
       ErrorModelBuilder.newError("SOME_ERROR", "ERROR_NAMESPACE").withParent(PARENT_ERROR_MODEL).build();
+  public static final String CREATE_CUSTOMER_REQUEST_TYPE_SCHEMA_JSON = "schemas/create-customer-request-type-schema.json";
+  public static final String TEST_PACKAGE_EXPORTED_CLASS = "test.package.ExportedClass";
 
   protected final DisplayModel defaultDisplayModel = DisplayModel.builder().build();
   protected final ClassTypeLoader typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
@@ -138,7 +140,8 @@ abstract class BasePersistenceTestCase {
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
     String schema = IOUtils
-        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("create-customer-request-type-schema.json"));
+        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(
+                                                                                     CREATE_CUSTOMER_REQUEST_TYPE_SCHEMA_JSON));
     final MetadataType jsonLoadedType = new JsonTypeLoader(schema).load("").get();
     final ImmutableParameterModel loadedParameter =
         new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
@@ -146,7 +149,7 @@ abstract class BasePersistenceTestCase {
                                     false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
-    exportedType = typeBuilder.objectType().id("test.package.ExportedClass")
+    exportedType = typeBuilder.objectType().id(TEST_PACKAGE_EXPORTED_CLASS)
         .with(new ClassInformationAnnotation(ExportedClass.class, emptyList()))
         .with(new TypeAliasAnnotation(ExportedClass.class.getSimpleName())).build();
 
@@ -205,12 +208,16 @@ abstract class BasePersistenceTestCase {
                                            emptySet());
 
 
+    LinkedHashSet<ObjectType> typesCatalog = new LinkedHashSet<>();
+    typesCatalog.add(exportedType);
+    typesCatalog.add((ObjectType) jsonLoadedType);
+
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                     new MuleVersion("4.0"), emptyList(), singletonList(getCarOperation),
                                     singletonList(basicAuth), singletonList(sourceModel),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), of(exportedType, (ObjectType) jsonLoadedType),
+                                    emptySet(), typesCatalog,
                                     emptySet(), emptySet(), singleton(ERROR_MODEL),
                                     externalLibrarySet(), emptySet());
 

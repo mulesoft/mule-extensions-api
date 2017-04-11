@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentDeclarationTypeName;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.IntersectionType;
@@ -88,6 +89,10 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
   }
 
   private void registerType(ExtensionDeclarer declarer, MetadataType type) {
+    if (!getTypeId(type).isPresent()) {
+      return;
+    }
+
     type.accept(new MetadataTypeVisitor() {
 
       @Override
