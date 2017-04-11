@@ -148,9 +148,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
     });
     Set<ExternalLibraryModel> externalLibraries =
-      parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {
+        parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {
 
-      });
+        });
     Set<ImportedTypeModel> importedTypes = parseWithDelegate(json, IMPORTED_TYPES, new TypeToken<Set<ImportedTypeModel>>() {
 
     });
@@ -161,9 +161,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
     });
     List<ConnectionProviderModel> providers =
-      parseWithDelegate(json, CONNECTION_PROVIDERS, new TypeToken<List<ConnectionProviderModel>>() {
+        parseWithDelegate(json, CONNECTION_PROVIDERS, new TypeToken<List<ConnectionProviderModel>>() {
 
-      });
+        });
     List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {
 
     });
@@ -220,8 +220,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                                   type.getClass().getSimpleName()));
       }
       getTypeId(type)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid json element found in 'types', only ObjectTypes "
-                                                          + "with a 'typeId' can be part of the 'types' catalog"));
+          .orElseThrow(() -> new IllegalArgumentException("Invalid json element found in 'types', only ObjectTypes "
+              + "with a 'typeId' can be part of the 'types' catalog"));
 
       final ObjectType objectType = (ObjectType) type;
       serializationContext.registerObjectType(objectType);
@@ -253,9 +253,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
   private Set<ModelProperty> parseExtensionLevelModelProperties(JsonObject json) {
     HierarchyClassMap<ModelProperty> properties =
-      gsonDelegate.fromJson(json.get(MODEL_PROPERTIES), new TypeToken<HierarchyClassMap<ModelProperty>>() {
+        gsonDelegate.fromJson(json.get(MODEL_PROPERTIES), new TypeToken<HierarchyClassMap<ModelProperty>>() {
 
-      }.getType());
+        }.getType());
     return new LinkedHashSet<>(properties.values());
   }
 }
