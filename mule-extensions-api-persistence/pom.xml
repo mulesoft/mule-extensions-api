@@ -69,6 +69,7 @@
             <groupId>org.mule</groupId>
             <artifactId>mule-metadata-model-json</artifactId>
             <version>${metadataModelApiVersion}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
