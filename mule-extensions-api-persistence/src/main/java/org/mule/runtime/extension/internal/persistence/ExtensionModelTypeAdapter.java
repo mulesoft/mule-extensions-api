@@ -46,17 +46,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
  *
  * @since 1.0
  */
 public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel> {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExtensionModelTypeAdapter.class);
 
   private static final String CONFIGURATIONS = "configurations";
   private static final String OPERATIONS = "operations";
@@ -95,21 +90,45 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     out.name(DESCRIPTION).value(model.getDescription());
     out.name(VERSION).value(model.getVersion());
     out.name(VENDOR).value(model.getVendor());
-    writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
-    out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().toCompleteNumericVersion());
-    writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {});
-    writeWithDelegate(model.getResources(), RESOURCES, out, new TypeToken<Set<String>>() {});
-    writeWithDelegate(model.getSubTypes(), SUB_TYPES, out, new TypeToken<Set<SubTypesModel>>() {});
-    writeWithDelegate(model.getExternalLibraryModels(), EXTERNAL_LIBRARIES, out, new TypeToken<Set<ExternalLibraryModel>>() {});
-    writeWithDelegate(model.getImportedTypes(), IMPORTED_TYPES, out, new TypeToken<Set<ImportedTypeModel>>() {});
-    writeWithDelegate(model.getDisplayModel().orElse(null), DISPLAY_MODEL, out, new TypeToken<DisplayModel>() {});
+    writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {
 
-    writeWithDelegate(model.getConfigurationModels(), CONFIGURATIONS, out, new TypeToken<List<ConfigurationModel>>() {});
-    writeWithDelegate(model.getOperationModels(), OPERATIONS, out, new TypeToken<List<OperationModel>>() {});
+    });
+    out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().toCompleteNumericVersion());
+    writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {
+
+    });
+    writeWithDelegate(model.getResources(), RESOURCES, out, new TypeToken<Set<String>>() {
+
+    });
+    writeWithDelegate(model.getSubTypes(), SUB_TYPES, out, new TypeToken<Set<SubTypesModel>>() {
+
+    });
+    writeWithDelegate(model.getExternalLibraryModels(), EXTERNAL_LIBRARIES, out, new TypeToken<Set<ExternalLibraryModel>>() {
+
+    });
+    writeWithDelegate(model.getImportedTypes(), IMPORTED_TYPES, out, new TypeToken<Set<ImportedTypeModel>>() {
+
+    });
+    writeWithDelegate(model.getDisplayModel().orElse(null), DISPLAY_MODEL, out, new TypeToken<DisplayModel>() {
+
+    });
+
+    writeWithDelegate(model.getConfigurationModels(), CONFIGURATIONS, out, new TypeToken<List<ConfigurationModel>>() {
+
+    });
+    writeWithDelegate(model.getOperationModels(), OPERATIONS, out, new TypeToken<List<OperationModel>>() {
+
+    });
     writeWithDelegate(model.getConnectionProviders(), CONNECTION_PROVIDERS, out,
-                      new TypeToken<List<ConnectionProviderModel>>() {});
-    writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {});
-    writeWithDelegate(model.getErrorModels(), "errors", out, new TypeToken<Set<ErrorModel>>() {});
+                      new TypeToken<List<ConnectionProviderModel>>() {
+
+                      });
+    writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {
+
+    });
+    writeWithDelegate(model.getErrorModels(), "errors", out, new TypeToken<Set<ErrorModel>>() {
+
+    });
 
     writeExtensionLevelModelProperties(out, model);
 
@@ -122,16 +141,32 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
 
     Set<ObjectType> types = parseTypes(json);
-    Set<String> resources = parseWithDelegate(json, RESOURCES, new TypeToken<Set<String>>() {});
-    Set<SubTypesModel> subTypes = parseWithDelegate(json, SUB_TYPES, new TypeToken<Set<SubTypesModel>>() {});
+    Set<String> resources = parseWithDelegate(json, RESOURCES, new TypeToken<Set<String>>() {
+
+    });
+    Set<SubTypesModel> subTypes = parseWithDelegate(json, SUB_TYPES, new TypeToken<Set<SubTypesModel>>() {
+
+    });
     Set<ExternalLibraryModel> externalLibraries =
-        parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {});
-    Set<ImportedTypeModel> importedTypes = parseWithDelegate(json, IMPORTED_TYPES, new TypeToken<Set<ImportedTypeModel>>() {});
-    List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {});
-    List<OperationModel> operations = parseWithDelegate(json, OPERATIONS, new TypeToken<List<OperationModel>>() {});
+      parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {
+
+      });
+    Set<ImportedTypeModel> importedTypes = parseWithDelegate(json, IMPORTED_TYPES, new TypeToken<Set<ImportedTypeModel>>() {
+
+    });
+    List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {
+
+    });
+    List<OperationModel> operations = parseWithDelegate(json, OPERATIONS, new TypeToken<List<OperationModel>>() {
+
+    });
     List<ConnectionProviderModel> providers =
-        parseWithDelegate(json, CONNECTION_PROVIDERS, new TypeToken<List<ConnectionProviderModel>>() {});
-    List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {});
+      parseWithDelegate(json, CONNECTION_PROVIDERS, new TypeToken<List<ConnectionProviderModel>>() {
+
+      });
+    List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {
+
+    });
 
     return new ImmutableExtensionModel(json.get(NAME).getAsString(),
                                        json.get(DESCRIPTION).getAsString(),
@@ -150,7 +185,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        resources,
                                        importedTypes,
                                        gsonDelegate.fromJson(json.get("errors"),
-                                                             new TypeToken<Set<ImmutableErrorModel>>() {}.getType()),
+                                                             new TypeToken<Set<ImmutableErrorModel>>() {
+
+                                                             }.getType()),
                                        externalLibraries,
                                        parseExtensionLevelModelProperties(json));
   }
@@ -183,8 +220,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                                   type.getClass().getSimpleName()));
       }
       getTypeId(type)
-          .orElseThrow(() -> new IllegalArgumentException("Invalid json element found in 'types', only ObjectTypes "
-              + "with a 'typeId' can be part of the 'types' catalog"));
+        .orElseThrow(() -> new IllegalArgumentException("Invalid json element found in 'types', only ObjectTypes "
+                                                          + "with a 'typeId' can be part of the 'types' catalog"));
 
       final ObjectType objectType = (ObjectType) type;
       serializationContext.registerObjectType(objectType);
@@ -209,12 +246,16 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     out.name(MODEL_PROPERTIES);
     HierarchyClassMap<ModelProperty> properties = new HierarchyClassMap<>();
     model.getModelProperties().forEach(p -> properties.put(p.getClass(), p));
-    gsonDelegate.toJson(properties, new TypeToken<HierarchyClassMap<ModelProperty>>() {}.getType(), out);
+    gsonDelegate.toJson(properties, new TypeToken<HierarchyClassMap<ModelProperty>>() {
+
+    }.getType(), out);
   }
 
   private Set<ModelProperty> parseExtensionLevelModelProperties(JsonObject json) {
     HierarchyClassMap<ModelProperty> properties =
-        gsonDelegate.fromJson(json.get(MODEL_PROPERTIES), new TypeToken<HierarchyClassMap<ModelProperty>>() {}.getType());
+      gsonDelegate.fromJson(json.get(MODEL_PROPERTIES), new TypeToken<HierarchyClassMap<ModelProperty>>() {
+
+      }.getType());
     return new LinkedHashSet<>(properties.values());
   }
 }

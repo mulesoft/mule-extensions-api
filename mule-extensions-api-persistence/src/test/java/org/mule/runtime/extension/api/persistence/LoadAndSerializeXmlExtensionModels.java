@@ -51,9 +51,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * //TODO
- */
 public class LoadAndSerializeXmlExtensionModels {
 
   public static final String SCHEMAS_GET_JOB_JSON = "schemas/greenhouse-get-job.json";
