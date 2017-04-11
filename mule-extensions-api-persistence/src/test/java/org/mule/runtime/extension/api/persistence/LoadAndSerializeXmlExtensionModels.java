@@ -55,7 +55,7 @@ public class LoadAndSerializeXmlExtensionModels {
 
   public static final String SCHEMAS_GET_JOB_JSON = "schemas/greenhouse-get-job.json";
   public static final String SERIALIZED_EXTENSION_MODEL_STRING_JSON = "serializedExtensionModelString.json";
-  public static final String XML_BASED_EXT_MODEL_JSON = "xml-based-ext-model.json";
+  public static final String XML_BASED_EXT_MODEL_JSON = "extension/xml-based-ext-model.json";
   protected final String LOADED_PARAMETER_NAME = "loaded";
   protected final String GET_CAR_OPERATION_NAME = "getCar";
   protected final DisplayModel defaultDisplayModel = DisplayModel.builder().build();

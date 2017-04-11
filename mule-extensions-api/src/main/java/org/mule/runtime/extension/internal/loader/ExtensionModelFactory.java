@@ -311,7 +311,6 @@ public final class ExtensionModelFactory {
         if (declaration instanceof ScopeDeclaration) {
           operation = new ImmutableScopeModel(declaration.getName(),
                                               declaration.getDescription(),
-                                              toRouteModel(((ScopeDeclaration) declaration).getRoute()),
                                               toParameterGroups(declaration.getParameterGroups()),
                                               toOutputModel(declaration.getOutput()),
                                               toOutputModel(declaration.getOutputAttributes()),

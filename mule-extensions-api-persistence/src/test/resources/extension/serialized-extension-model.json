@@ -675,19 +675,6 @@
       "kind": "operation"
     },
     {
-      "routeModel": {
-        "minOccurs": 1,
-        "maxOccurs": 1,
-        "allowedStereotypes": [
-          {
-            "name": "foreacheable"
-          }
-        ],
-        "parameterGroupModels": [],
-        "name": "default",
-        "description": "",
-        "modelProperties": {}
-      },
       "blocking": true,
       "executionType": "CPU_LITE",
       "errors": [],
