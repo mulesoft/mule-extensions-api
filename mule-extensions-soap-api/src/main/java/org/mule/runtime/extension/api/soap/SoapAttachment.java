@@ -14,7 +14,7 @@ import java.io.InputStream;
 /**
  * Represents and enables the construction of an attachment to be sent over SOAP.
  *
- * @since 4.0
+ * @since 1.0
  */
 public class SoapAttachment {
 

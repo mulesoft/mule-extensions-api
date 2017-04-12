@@ -10,7 +10,7 @@ package org.mule.runtime.extension.api.soap.security;
 /**
  * Password types that can be configured in a {@link SecurityStrategy}.
  *
- * @since 4.0
+ * @since 1.0
  */
 public enum PasswordType {
 

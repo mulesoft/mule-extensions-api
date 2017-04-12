@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.soap.security;
 /**
  * Bundles the outgoing SOAP message that it's being built with a timestamp that carries the creation.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class TimestampSecurityStrategy implements SecurityStrategy {
 

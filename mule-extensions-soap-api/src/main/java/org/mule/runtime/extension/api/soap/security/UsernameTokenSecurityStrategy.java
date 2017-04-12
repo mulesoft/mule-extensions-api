@@ -11,7 +11,7 @@ package org.mule.runtime.extension.api.soap.security;
  * Provides the capability to authenticate using Username and Password with a SOAP service by adding the UsernameToken
  * element in the SOAP request.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class UsernameTokenSecurityStrategy implements SecurityStrategy {
 

@@ -18,7 +18,7 @@ import java.util.Map;
  * This interface allows that different transports (such as JMS or HTTP) behave the same way when dispatching a
  * Web Service operation message.
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface MessageDispatcher extends Initialisable, Disposable {
 

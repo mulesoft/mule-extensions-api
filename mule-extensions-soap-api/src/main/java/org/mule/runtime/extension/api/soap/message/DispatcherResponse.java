@@ -12,7 +12,7 @@ import java.io.InputStream;
 /**
  * A simple object that carries the information retrieved after the message was dispatched with a {@link MessageDispatcher}.
  *
- * @since 4.0
+ * @since 1.0
  */
 public class DispatcherResponse {
 

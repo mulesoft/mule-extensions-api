@@ -6,14 +6,14 @@
  */
 package org.mule.runtime.extension.api.soap;
 
-import org.mule.runtime.api.util.Preconditions;
+import static org.mule.runtime.api.util.Preconditions.checkNotNull;
 
 import org.w3c.dom.Element;
 
 /**
  * Represents and enables the construction of a Soap Header to be sent over SOAP.
  *
- * @since 4.0
+ * @since 1.0
  */
 public class SoapHeader {
 
@@ -28,8 +28,8 @@ public class SoapHeader {
   private Element value;
 
   public SoapHeader(String name, Element value) {
-    Preconditions.checkNotNull(name, "Name cannot be null");
-    Preconditions.checkNotNull(value, "Value cannot be null");
+    checkNotNull(name, "Name cannot be null");
+    checkNotNull(value, "Value cannot be null");
     this.name = name;
     this.value = value;
   }

@@ -19,11 +19,11 @@ import java.lang.annotation.Target;
  * the {@link SoapServiceProvider}s that the extension exposes.
  * <p>
  * A key difference between traditional extensions and Soap based extensions is that the @Extension annotated class does not
- * serve as a configuration, but it can serve as SoapServiceProvider by implementing this interface.
+ * serve as a configuration, but it can serve as {@link SoapServiceProvider} by implementing it.
  * <p>
  * {@link Soap} cannot live with the @Configurations or @ConnectionProviders annotations, once the @Extension is marked a Soap
  * one, no other Configs or Providers could be declared.
- * <p>
+ *
  * since 1.0
  */
 @Target(ElementType.TYPE)

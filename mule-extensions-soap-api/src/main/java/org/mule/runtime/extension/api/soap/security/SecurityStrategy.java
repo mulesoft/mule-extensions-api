@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.soap.security;
 /**
  * Contract for objects that adds a level of security to the SOAP Protocol.
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface SecurityStrategy {
 
