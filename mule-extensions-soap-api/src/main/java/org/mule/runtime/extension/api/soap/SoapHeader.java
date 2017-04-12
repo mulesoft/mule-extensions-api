@@ -15,17 +15,17 @@ import org.w3c.dom.Element;
  *
  * @since 1.0
  */
-public class SoapHeader {
+public final class SoapHeader {
 
   /**
    * The name of the header.
    */
-  private String name;
+  private final String name;
 
   /**
    * the XML value of the header. e.g.: <con:aHeader xmlns:con="http://namespace.com>ValueContent</con:aHeader>
    */
-  private Element value;
+  private final Element value;
 
   public SoapHeader(String name, Element value) {
     checkNotNull(name, "Name cannot be null");
