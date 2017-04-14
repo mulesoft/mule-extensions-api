@@ -12,6 +12,7 @@ package org.mule.runtime.extension.api.tx;
  * @since 1.0
  */
 public enum SourceTransactionalAction {
+
   /**
    * Will ensure that a new transaction is created for each invocation
    * <p>
