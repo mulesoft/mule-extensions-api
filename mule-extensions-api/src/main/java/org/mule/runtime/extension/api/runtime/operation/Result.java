@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.runtime.operation;
 
 import static java.util.Optional.ofNullable;
-import org.mule.runtime.api.message.Attributes;
+
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
 
@@ -30,7 +30,7 @@ import java.util.Optional;
  * @param <A> the generic type of the message attributes
  * @since 1.0
  */
-public class Result<T, A extends Attributes> {
+public class Result<T, A> {
 
   /**
    * Builds instances of {@link Result}
@@ -38,7 +38,7 @@ public class Result<T, A extends Attributes> {
    * @param <T> the generic type of the output value
    * @param <A> the generic type of the message attributes
    */
-  public static final class Builder<T, A extends Attributes> {
+  public static final class Builder<T, A> {
 
     private final Result<T, A> product = new Result<>();
 
@@ -67,13 +67,24 @@ public class Result<T, A extends Attributes> {
     }
 
     /**
-     * Sets the output {@link MediaType}
+     * Sets the output {@link MediaType} for the payload
      *
      * @param mediaType the new {@link MediaType}
      * @return {@code this} builder
      */
     public Builder<T, A> mediaType(MediaType mediaType) {
       product.mediaType = mediaType;
+      return this;
+    }
+
+    /**
+     * Sets the output {@link MediaType} for the attributes
+     *
+     * @param mediaType the new {@link MediaType}
+     * @return {@code this} builder
+     */
+    public Builder<T, A> attributesMediaType(MediaType mediaType) {
+      product.attributesMediaType = mediaType;
       return this;
     }
 
@@ -92,7 +103,7 @@ public class Result<T, A extends Attributes> {
    * @param <A> the generic type of the message attributes
    * @return a new {@link Builder}
    */
-  public static <T, A extends Attributes> Builder<T, A> builder() {
+  public static <T, A> Builder<T, A> builder() {
     return new Builder<>();
   }
 
@@ -105,11 +116,12 @@ public class Result<T, A extends Attributes> {
    * @param <A>         the generic type of the message attributes
    * @return a new {@link Builder}
    */
-  public static <T, A extends Attributes> Builder<T, A> builder(Message muleMessage) {
+  public static <T, A> Builder<T, A> builder(Message muleMessage) {
     return new Builder<T, A>()
         .output((T) muleMessage.getPayload().getValue())
-        .attributes((A) muleMessage.getAttributes())
-        .mediaType(muleMessage.getPayload().getDataType().getMediaType());
+        .attributes((A) muleMessage.getAttributes().getValue())
+        .mediaType(muleMessage.getPayload().getDataType().getMediaType())
+        .attributesMediaType(muleMessage.getAttributes().getDataType().getMediaType());
   }
 
   /**
@@ -121,16 +133,18 @@ public class Result<T, A extends Attributes> {
    * @param <A>             the generic type of the message attributes
    * @return a new {@link Builder}
    */
-  public static <T, A extends Attributes> Builder<T, A> builder(Result<T, A> prototypeResult) {
+  public static <T, A> Builder<T, A> builder(Result<T, A> prototypeResult) {
     return new Builder<T, A>()
         .output(prototypeResult.getOutput())
         .attributes(prototypeResult.getAttributes().orElse(null))
-        .mediaType(prototypeResult.getMediaType().orElse(null));
+        .mediaType(prototypeResult.getMediaType().orElse(null))
+        .attributesMediaType(prototypeResult.getAttributesMediaType().orElse(null));
   }
 
   private T output;
   private A attributes = null;
   private MediaType mediaType = null;
+  private MediaType attributesMediaType = null;
 
   private Result() {}
 
@@ -154,7 +168,7 @@ public class Result<T, A extends Attributes> {
   }
 
   /**
-   * The new {@link MediaType} that the operation wants to set on {@link Message}.
+   * The new {@link MediaType} that the operation wants to set on {@link Message} payload.
    * <p>
    * The operation might not be interested in changing that value, in which case
    * this method would return {@link Optional#empty()}
@@ -163,5 +177,17 @@ public class Result<T, A extends Attributes> {
    */
   public Optional<MediaType> getMediaType() {
     return ofNullable(mediaType);
+  }
+
+  /**
+   * The new {@link MediaType} that the operation wants to set on {@link Message} attributes.
+   * <p>
+   * The operation might not be interested in changing that value, in which case
+   * this method would return {@link Optional#empty()}
+   *
+   * @return an {@link Optional} {@link MediaType} value
+   */
+  public Optional<MediaType> getAttributesMediaType() {
+    return ofNullable(attributesMediaType);
   }
 }

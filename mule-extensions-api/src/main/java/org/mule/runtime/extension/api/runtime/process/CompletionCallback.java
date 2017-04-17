@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.process;
 
-import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 /**
@@ -53,7 +52,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <T> The generic type of the operation's output value
  * @param <A> The generic type of the operation's output attributes
  */
-public interface CompletionCallback<T, A extends Attributes> {
+public interface CompletionCallback<T, A> {
 
   /**
    * This method is to be invoked with the operation's result.
