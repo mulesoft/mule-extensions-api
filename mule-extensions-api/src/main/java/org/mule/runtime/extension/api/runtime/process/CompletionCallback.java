@@ -31,7 +31,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * <p>
  * <pre>
  *
- *  public void request(String path, @Content Object content, NonBlockingCallback<InputStream, HttpAttributes> callback) {
+ *  public void request(String path, @Content Object content, CompletionCallback<InputStream, HttpAttributes> callback) {
  *    httpClient.requestNonBlocking(path, content, new HttpClientCallback() {
  *      void onSuccess(HttpResponse response) {
  *        callback.onSuccess(Result.<InputStream, HttpAttributes>.builder()
