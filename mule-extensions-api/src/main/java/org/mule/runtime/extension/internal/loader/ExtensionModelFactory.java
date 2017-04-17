@@ -81,7 +81,7 @@ import org.mule.runtime.extension.internal.loader.validator.NameClashModelValida
 import org.mule.runtime.extension.internal.loader.validator.OperationParametersModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
-import org.mule.runtime.extension.internal.loader.validator.TransactionalDeclarationValidator;
+import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.util.ParameterModelComparator;
 
 import com.google.common.cache.Cache;
@@ -137,7 +137,7 @@ public final class ExtensionModelFactory {
                                                        new OperationParametersModelValidator(),
                                                        new ParameterModelValidator(),
                                                        new SubtypesModelValidator(),
-                                                       new TransactionalDeclarationValidator()));
+                                                       new TransactionalParametersValidator()));
   }
 
   /**
