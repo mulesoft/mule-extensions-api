@@ -84,8 +84,9 @@ import java.util.stream.Stream;
 
 abstract class BasePersistenceTestCase {
 
-  protected static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
-  protected static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON = "extension/list-of-serialized-extension-model.json";
+  protected static final String SERIALIZED_EXTENSION_MODEL_JSON = "org/mule/test/soap/extension/serialized-extension-model.json";
+  protected static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON =
+      "org/mule/test/soap/extension/list-of-serialized-extension-model.json";
   protected static final ErrorModel PARENT_ERROR_MODEL =
       ErrorModelBuilder.newError("PARENT_ERROR_MODEL", "ERROR_NAMESPACE").build();
   protected static final ErrorModel ERROR_MODEL =
