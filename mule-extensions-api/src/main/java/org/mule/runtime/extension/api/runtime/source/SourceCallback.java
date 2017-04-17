@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
-import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
 import org.mule.runtime.extension.api.runtime.operation.Result;
@@ -23,7 +22,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <A> the generic type of the attributes of the generated results
  * @since 1.0
  */
-public interface SourceCallback<T, A extends Attributes> {
+public interface SourceCallback<T, A> {
 
   /**
    * Passes the given {@code result} back to the runtime for processing.

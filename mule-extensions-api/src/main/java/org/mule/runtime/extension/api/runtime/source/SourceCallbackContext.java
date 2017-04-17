@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
-import org.mule.runtime.api.message.Attributes;
-
 import java.util.Optional;
 
 /**
@@ -49,5 +47,5 @@ public interface SourceCallbackContext {
    * @param <A> the generic type of the attributes of the generated results
    * @return The {@link SourceCallback} that generated {@code this} context
    */
-  <T, A extends Attributes> SourceCallback<T, A> getSourceCallback();
+  <T, A> SourceCallback<T, A> getSourceCallback();
 }

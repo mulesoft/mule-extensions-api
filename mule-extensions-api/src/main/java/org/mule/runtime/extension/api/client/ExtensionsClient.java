@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.client;
 
 import org.mule.runtime.api.exception.MuleException;
-import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.util.concurrent.CompletableFuture;
@@ -61,8 +60,8 @@ public interface ExtensionsClient {
    * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and
    * the corresponding attributes.
    */
-  <T, A extends Attributes> CompletableFuture<Result<T, A>> executeAsync(String extension, String operation,
-                                                                         OperationParameters parameters);
+  <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension, String operation,
+                                                      OperationParameters parameters);
 
   /**
    * Executes an operation synchronously and returns a {@link Result} with the operation's output and attributes if available.
@@ -76,6 +75,6 @@ public interface ExtensionsClient {
    * @return a {@link Result} instance with the payload content and the corresponding attributes after the operation execution.
    * @throws MuleException if any error occurred while executing the operation.
    */
-  <T, A extends Attributes> Result<T, A> execute(String extension, String operation, OperationParameters parameters)
+  <T, A> Result<T, A> execute(String extension, String operation, OperationParameters parameters)
       throws MuleException;
 }
