@@ -16,7 +16,7 @@ import java.io.InputStream;
  *
  * @since 1.0
  */
-public final class SoapAttachment {
+public class SoapAttachment {
 
   /**
    * the content of the attachment.
