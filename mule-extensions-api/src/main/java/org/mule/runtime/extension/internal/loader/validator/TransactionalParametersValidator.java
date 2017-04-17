@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @since 4.0
  */
-public final class TransactionalDeclarationValidator implements ExtensionModelValidator {
+public final class TransactionalParametersValidator implements ExtensionModelValidator {
 
   @Override
   public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
