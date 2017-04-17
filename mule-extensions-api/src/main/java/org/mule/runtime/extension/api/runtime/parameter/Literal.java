@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * Finally, a super important consideration to have is the generic type. The {@link ParameterModel} derived
  * from uses of this interface will have its type set according to the generic type. The generic is not optional
- *
+ * <p>
  * @param <T> the generic type of the actual parameter type
  *           @since 1.0
  */
