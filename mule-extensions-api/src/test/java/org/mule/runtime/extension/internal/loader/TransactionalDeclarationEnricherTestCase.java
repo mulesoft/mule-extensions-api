@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.loader;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
@@ -18,7 +17,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
@@ -29,26 +27,28 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_AC
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TAB_NAME;
 import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
 import static org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclarer;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
 import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +59,7 @@ public class TransactionalDeclarationEnricherTestCase {
   private static final String TRANSACTIONAL_OPERATION = "transactionalOperation";
   private static final String NOT_TRANSACTIONAL_OPERATION = "notConnectedOperation";
   private static final String TRANSACTIONAL_SOURCE = "transactionalSource";
+  private final NullModelProperty nullModelProperty = new NullModelProperty();
 
   @Mock(answer = RETURNS_DEEP_STUBS)
   private ExtensionLoadingContext extensionLoadingContext;
@@ -75,11 +76,12 @@ public class TransactionalDeclarationEnricherTestCase {
 
   private SourceDeclaration transactionalSource;
 
+  private SourceDeclaration transactionalSourceWithTxParameter;
+
   private DeclarationEnricher enricher = new TransactionalDeclarationEnricher();
-
   private MetadataType operationTransactionalActionType;
-  private MetadataType sourceTransactionalActionType;
 
+  private MetadataType sourceTransactionalActionType;
   private ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
   @Before
@@ -101,6 +103,18 @@ public class TransactionalDeclarationEnricherTestCase {
         .withMessageSource(TRANSACTIONAL_SOURCE)
         .transactional(true)
         .getDeclaration());
+
+    SourceDeclarer transactional = new ExtensionDeclarer()
+        .withMessageSource(TRANSACTIONAL_SOURCE)
+        .transactional(true);
+
+    transactional
+        .onDefaultParameterGroup()
+        .withRequiredParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME)
+        .withModelProperty(nullModelProperty)
+        .ofType(sourceTransactionalActionType);
+
+    transactionalSourceWithTxParameter = spy(transactional.getDeclaration());
 
     when(extensionLoadingContext.getExtensionDeclarer()).thenReturn(extensionDeclarer);
     when(extensionDeclarer.getDeclaration()).thenReturn(extensionDeclaration);
@@ -125,20 +139,22 @@ public class TransactionalDeclarationEnricherTestCase {
   }
 
   @Test
+  public void enrichExistingTransactionalActionParameterIfExist() throws Exception {
+    when(extensionDeclaration.getMessageSources()).thenReturn(asList(transactionalSourceWithTxParameter));
+    enricher.enrich(extensionLoadingContext);
+
+    ParameterDeclaration transactionParameter = getTransactionActionParameter(transactionalSourceWithTxParameter).orElse(null);
+    assertTxParameter(transactionParameter, sourceTransactionalActionType, NONE,
+                      SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION);
+    assertThat(transactionParameter.getModelProperty(NullModelProperty.class), is(of(nullModelProperty)));
+  }
+
+  @Test
   public void enrichOnlyOnceWhenFlyweight() throws Exception {
     when(extensionDeclaration.getOperations())
         .thenReturn(asList(transactionalOperation, transactionalOperation, notTransactionalOperation));
     enricher.enrich(extensionLoadingContext);
     assertThat(getTransactionActionParameter(transactionalOperation).isPresent(), is(true));
-  }
-
-  @Test(expected = IllegalModelDefinitionException.class)
-  public void badTransactionalActionParameter() {
-    ParameterDeclaration offending = mock(ParameterDeclaration.class);
-    when(offending.getName()).thenReturn(TRANSACTIONAL_ACTION_PARAMETER_NAME);
-    when(transactionalOperation.getAllParameters()).thenReturn(singletonList(offending));
-
-    enricher.enrich(extensionLoadingContext);
   }
 
   private void assertTxParameter(ParameterDeclaration transactionParameter, MetadataType type, Object defaultValue,
@@ -161,5 +177,18 @@ public class TransactionalDeclarationEnricherTestCase {
     assertThat(txParameters, anyOf(hasSize(1), hasSize(0)));
 
     return txParameters.isEmpty() ? empty() : of(txParameters.get(0));
+  }
+
+  private class NullModelProperty implements ModelProperty {
+
+    @Override
+    public String getName() {
+      return null;
+    }
+
+    @Override
+    public boolean isPublic() {
+      return false;
+    }
   }
 }
