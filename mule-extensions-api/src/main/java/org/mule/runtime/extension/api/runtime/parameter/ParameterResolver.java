@@ -4,12 +4,12 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.runtime.operation;
+package org.mule.runtime.extension.api.runtime.parameter;
 
 import java.util.Optional;
 
 /**
- * A parameter type for operations that gives the capability of:
+ * A parameter type that gives the capability of:
  *
  * <ul>
  * <li><b>Get the configured expression:</b> With {@link #getExpression()} returns the possible
@@ -18,8 +18,6 @@ import java.util.Optional;
  * <li><b>Differ the resolution:</b> Using {@link #resolve()} resolves the parameter value of type
  * {@link T}
  * </ul>
- * </p>
- * This parameter type can only be used for operations.
  *
  * @param <T> The type of the value to resolve
  * @since 1.0

@@ -23,10 +23,12 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
-import org.mule.runtime.extension.api.runtime.operation.ParameterResolver;
+import org.mule.runtime.extension.api.runtime.parameter.Literal;
+import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -40,6 +42,7 @@ import java.util.List;
 public class ExtensionObjectTypeHandler extends ObjectHandler {
 
   private final ParameterResolverTypeAnnotation parameterResolverTypeAnnotation = new ParameterResolverTypeAnnotation();
+  private final LiteralTypeAnnotation literalTypeAnnotation = new LiteralTypeAnnotation();
   private final TypedValueTypeAnnotation typedValueTypeAnnotation = new TypedValueTypeAnnotation();
 
   public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler) {
@@ -57,6 +60,9 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
       handleGenericType(clazz, genericTypes, typeHandlerManager, context, baseTypeBuilder, typedValueTypeAnnotation);
+      currentClass = getGenericClass(genericTypes, 0);
+    } else if (Literal.class.isAssignableFrom(clazz)) {
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context, baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
       typeBuilder = super.handleClass(currentClass, genericTypes,

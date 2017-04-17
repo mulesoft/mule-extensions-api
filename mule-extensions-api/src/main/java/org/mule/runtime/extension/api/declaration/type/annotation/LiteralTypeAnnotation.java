@@ -7,22 +7,22 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
-import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
+import org.mule.runtime.extension.api.runtime.parameter.Literal;
 
 /**
- * {@link TypeAnnotation} indicating that the real type of the of the annotated type is a {@link ParameterResolver}
+ * {@link TypeAnnotation} indicating that the real type of the of the annotated type is a {@link Literal}
  *
  * @since 1.0
- * @see ParameterResolver
+ * @see Literal
  */
-public class ParameterResolverTypeAnnotation implements TypeAnnotation {
+public class LiteralTypeAnnotation implements TypeAnnotation {
 
   /**
    * {@inheritDoc}
    */
   @Override
   public String getName() {
-    return "parameterResolver";
+    return "literal";
   }
 
   /**
@@ -35,7 +35,7 @@ public class ParameterResolverTypeAnnotation implements TypeAnnotation {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof ParameterResolverTypeAnnotation;
+    return obj instanceof LiteralTypeAnnotation;
   }
 
   @Override
