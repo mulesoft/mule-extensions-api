@@ -30,6 +30,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final MetadataType type;
   private final boolean hasDynamicType;
   private final boolean required;
+  private final boolean isConfigOverride;
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
   private final ParameterRole role;
@@ -58,6 +59,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  MetadataType type,
                                  boolean hasDynamicType,
                                  boolean required,
+                                 boolean isConfigOverride,
                                  ExpressionSupport expressionSupport,
                                  Object defaultValue,
                                  ParameterRole role,
@@ -75,6 +77,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.hasDynamicType = hasDynamicType;
     this.dslConfiguration = dslConfiguration;
     this.layoutModel = layoutModel;
+    this.isConfigOverride = isConfigOverride;
   }
 
   /**
@@ -96,6 +99,14 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   @Override
   public boolean isRequired() {
     return required;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isOverrideFromConfig() {
+    return isConfigOverride;
   }
 
   /**

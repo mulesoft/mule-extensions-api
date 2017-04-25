@@ -47,11 +47,11 @@ import java.util.List;
  */
 public class NameUtils {
 
-  private static final String CONFIGURATION = "configuration";
-  private static final String OPERATION = "operation";
-  private static final String CONNECTION_PROVIDER = "connection provider";
-  private static final String SOURCE = "source";
-  private static final String SOURCE_CALLBACK = "source callback";
+  public static final String CONFIGURATION = "configuration";
+  public static final String OPERATION = "operation";
+  public static final String CONNECTION_PROVIDER = "connection provider";
+  public static final String SOURCE = "source";
+  public static final String SOURCE_CALLBACK = "source callback";
 
   private static final List<Inflection> plural = new ArrayList<>();
   private static final List<Inflection> singular = new ArrayList<>();

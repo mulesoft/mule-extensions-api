@@ -16,7 +16,7 @@ import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 
 /**
- * Validates that no {@link ParameterModel parameters} named {@code target}, since that word is reserved.
+ * Validates {@link ParameterModel parameters} with rules specific to {@link OperationModel}.
  *
  * @since 1.0
  */
