@@ -23,7 +23,7 @@ import org.mule.metadata.java.api.handler.TypeHandlerManagerFactory;
 public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerManagerFactory {
 
   /**
-   * Creates a {@link TypeHandlerManager} which uses a {@link ExtensionsFieldHandler}
+   * Creates a {@link TypeHandlerManager} which uses a {@link ExtensionsObjectFieldHandler}
    *
    * @return a {@link TypeHandlerManager}
    */
@@ -31,6 +31,6 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
   public TypeHandlerManager createTypeHandlerManager() {
     return TypeHandlerManager.create(
                                      new TlsContextClassHandler(),
-                                     new ExtensionObjectTypeHandler(new ExtensionsFieldHandler()));
+                                     new ExtensionObjectTypeHandler(new ExtensionsObjectFieldHandler()));
   }
 }

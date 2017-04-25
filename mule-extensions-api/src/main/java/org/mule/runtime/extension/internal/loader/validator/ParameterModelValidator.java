@@ -12,6 +12,8 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.model.parameter.ParameterModel.RESERVED_NAMES;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
+import static org.mule.runtime.extension.api.util.NameUtils.CONNECTION_PROVIDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -95,11 +97,22 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                                                                    ownerModelType, ownerName)));
     }
 
-    if (parameterModel.isRequired() && parameterModel.getDefaultValue() != null) {
-      problemsReporter
-          .addError(new Problem(parameterModel,
-                                format("Parameter '%s' in the %s '%s' is required, and must not provide a default value",
-                                       parameterModel.getName(), ownerModelType, ownerName)));
+    if (parameterModel.getDefaultValue() != null) {
+      if (parameterModel.isOverrideFromConfig() &&
+          !ownerModelType.equals(CONFIGURATION) && !ownerModelType.equals(CONNECTION_PROVIDER)) {
+        // We skip failing for configs and connection here since a different error is thrown in their own validators
+        problemsReporter
+            .addError(new Problem(parameterModel,
+                                  format("Parameter '%s' in the %s '%s' is declared as a config override,"
+                                      + " and must not provide a default value since one is already provided by the declared"
+                                      + " value in the config parameter",
+                                         parameterModel.getName(), ownerModelType, ownerName)));
+      } else if (parameterModel.isRequired()) {
+        problemsReporter
+            .addError(new Problem(parameterModel,
+                                  format("Parameter '%s' in the %s '%s' is required, and must not provide a default value",
+                                         parameterModel.getName(), ownerModelType, ownerName)));
+      }
     }
 
     if (parameterModel.getType() == null) {

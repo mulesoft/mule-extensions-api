@@ -76,7 +76,7 @@ public class LoadAndSerializeXmlExtensionModels {
     final ImmutableParameterModel loadedParameter =
         new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
                                     jsonLoadedType,
-                                    false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, emptySet());
 
     final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());

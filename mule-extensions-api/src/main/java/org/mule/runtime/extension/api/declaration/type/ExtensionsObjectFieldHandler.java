@@ -16,6 +16,7 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
+import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultEncodingAnnotation;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
@@ -68,7 +69,7 @@ import java.util.stream.Stream;
  *
  * @since 1.0
  */
-final class ExtensionsFieldHandler implements ObjectFieldHandler {
+final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
   @Override
   public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
@@ -80,10 +81,12 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
     Collection<Field> fields = getParameterFields(clazz);
     if (fields.isEmpty()) {
-      validateIllegalAnnotationUse(clazz);
+      validateIllegalAnnotationUseOnNonParameterFields(clazz);
       fallbackToBeanProperties(clazz, typeHandlerManager, context, builder);
       return;
     }
+
+    validateNoConfigOverride(clazz);
 
     for (Field field : fields) {
       final ObjectFieldTypeBuilder fieldBuilder = builder.addField();
@@ -101,7 +104,21 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void validateIllegalAnnotationUse(Class<?> clazz) {
+  private void validateNoConfigOverride(Class<?> clazz) {
+    List<String> illegalFieldNames = getAllFields(clazz).stream()
+        .filter(field -> field.getAnnotation(ConfigOverride.class) != null)
+        .map(Field::getName)
+        .collect(toList());
+
+    if (!illegalFieldNames.isEmpty()) {
+      throw new IllegalModelDefinitionException(
+                                                format("Type '%s' has fields declared as '%s', which is not allowed."
+                                                    + " Illegal fields are " + illegalFieldNames, clazz.getName(),
+                                                       ConfigOverride.class.getSimpleName()));
+    }
+  }
+
+  private void validateIllegalAnnotationUseOnNonParameterFields(Class<?> clazz) {
     final String annotationsPackageName = Parameter.class.getPackage().getName();
     List<String> illegalFieldNames = getAllFields(clazz).stream()
         .filter(field -> Stream.of(field.getAnnotations())
@@ -111,8 +128,8 @@ final class ExtensionsFieldHandler implements ObjectFieldHandler {
 
     if (!illegalFieldNames.isEmpty()) {
       throw new IllegalModelDefinitionException(
-                                                format("Class '%s' has fields annotated with Extensions API annotations which are not parameters. "
-                                                    + "Illegal fields are " + illegalFieldNames, clazz.getName()));
+                                                format("Class '%s' has fields which are not parameters but are annotated with Extensions API annotations."
+                                                    + " Illegal fields are " + illegalFieldNames, clazz.getName()));
     }
   }
 

@@ -534,6 +534,7 @@
               },
               "hasDynamicType": false,
               "required": true,
+              "isConfigOverride": false,
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
               "dslConfiguration": {
@@ -610,6 +611,7 @@
             },
             "hasDynamicType": true,
             "required": false,
+            "isConfigOverride": false,
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
             "role": "BEHAVIOUR",
@@ -662,6 +664,7 @@
             },
             "hasDynamicType": false,
             "required": true,
+            "isConfigOverride": false,
             "expressionSupport": "SUPPORTED",
             "role": "BEHAVIOUR",
             "dslConfiguration": {
