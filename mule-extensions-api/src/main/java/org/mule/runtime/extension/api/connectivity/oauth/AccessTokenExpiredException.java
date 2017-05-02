@@ -11,7 +11,7 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
 
 /**
  * Exception to be thrown by operations which are trying to use an expired access token.
- *
+ * <p>
  * The runtime will automatically catch this exception, try to execute the refresh token flow
  * and retry the operation. If the operation fails again or the token couldn't be refresh for
  * whatever reason, then the operation will fail
