@@ -43,10 +43,10 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClas
 
   static {
     classNameMapping = new HashMap<>();
-    classNameMapping.put(OAuthModelProperty.class, "OAuth");
+    classNameMapping.put(OAuthModelProperty.class, OAuthModelProperty.NAME);
 
     nameClassMapping = new HashMap<>();
-    nameClassMapping.put("OAuth", OAuthModelProperty.class);
+    nameClassMapping.put(OAuthModelProperty.NAME, OAuthModelProperty.class);
   }
 
   private final Gson gson;

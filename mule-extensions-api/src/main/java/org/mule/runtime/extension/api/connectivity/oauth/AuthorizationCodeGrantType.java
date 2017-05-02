@@ -35,12 +35,25 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
    */
   public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
                                     String expirationRegex, String refreshTokenExpr, String defaultScope) {
+    notBlank(accessTokenUrl, "accessTokenUrl");
+    notBlank(authorizationUrl, "authorizationUrl");
+    notBlank(accessTokenExpr, "accessTokenExpr");
+    notBlank(expirationRegex, "expirationRegex");
+    notBlank(expirationRegex, "expirationRegex");
+    notBlank(defaultScope, "defaultScope");
+
     this.accessTokenUrl = accessTokenUrl;
     this.authorizationUrl = authorizationUrl;
     this.accessTokenExpr = accessTokenExpr;
     this.expirationRegex = expirationRegex;
     this.refreshTokenExpr = refreshTokenExpr;
     this.defaultScope = defaultScope;
+  }
+
+  private void notBlank(String value, String name) {
+    if (value == null || value.trim().length() == 0) {
+      throw new IllegalArgumentException(name + " cannot be blank");
+    }
   }
 
   /**

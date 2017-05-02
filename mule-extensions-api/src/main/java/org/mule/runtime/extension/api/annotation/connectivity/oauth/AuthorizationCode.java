@@ -46,17 +46,17 @@ public @interface AuthorizationCode {
   /**
    * @return Expression to be used on the response of {@link #accessTokenUrl()} to extract the access token
    */
-  String accessTokenExpr() default "#[(payload match /.*\"access_token\"[ ]*:[ ]*\"([^\\\"]*)\".*/)[1]]";
+  String accessTokenExpr() default "#[payload.access_token]";
 
   /**
    * @return Expression to be used on the response of {@link #accessTokenUrl()} to extract the access token expiration
    */
-  String expirationRegex() default "#[(payload match /.*\"expires_in\"[ ]*:[ ]*\"([^\\\"]*)\".*/)[1]]";
+  String expirationExpr() default "#[payload.expires_in]";
 
   /**
    * @return Expression to be used on the response of {@link #accessTokenUrl()} to extract the refresh token
    */
-  String refreshTokenExpr() default "#[(payload match /.*\"refresh_token\"[ ]*:[ ]*\"([^\\\"]*)\".*/)[1]]";
+  String refreshTokenExpr() default "#[payload.refresh_token]";
 
   /**
    * @return The default set of scopes to be requested, as a comma separated list. Empty string means no default scopes.

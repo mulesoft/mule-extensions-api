@@ -22,11 +22,19 @@ import java.lang.annotation.Target;
  * Similar to {@link Parameter}, but intended to be used exclusively on fields of a {@link ConnectionProvider}
  * which supports OAuth.
  * <p>
- * The semantics are exactly the same as with {@link Parameter}, with the added behaviour of the parameter's value
- * being sent as a custom OAuth parameter during the authentication dance.
+ * The semantics are similar to that of {@link Parameter}, but with some important differences:
  * <p>
+ * <ul>
+ * <li>When the authorization dance is performed, the values of these parameters are sent as custom parameters
+ * to the OAuth provider</li>
+ * <li>
  * Unlike traditional parameters (which support expressions by default), these parameters cannot support them. Actually,
  * the {@link Expression} annotation cannot be used alongside this one.
+ * </li>
+ * <li>Only basic types are supported on OAuth parameters</li>
+ * </ul>
+ * being sent as a custom OAuth parameter during the authentication dance.
+ * <p>
  *
  * @since 1.0
  */

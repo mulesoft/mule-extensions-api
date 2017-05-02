@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class OAuthModelProperty implements ModelProperty {
 
+  public static final String NAME = "OAuth";
   private final List<OAuthGrantType> grantTypes;
 
   /**
@@ -36,7 +37,7 @@ public class OAuthModelProperty implements ModelProperty {
    */
   @Override
   public String getName() {
-    return "oauth";
+    return NAME;
   }
 
   /**

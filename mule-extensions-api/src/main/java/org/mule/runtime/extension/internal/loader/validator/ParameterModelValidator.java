@@ -12,6 +12,7 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterModel.RESERVED_NAMES;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isBasic;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
 import static org.mule.runtime.extension.api.util.NameUtils.CONNECTION_PROVIDER;
@@ -211,6 +212,14 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                                   format("Parameter '%s' in the %s [%s] is an OAuth parameter yet it supports expressions. "
                                       + "Expressions are not supported on OAuth parameters",
                                          parameterModel.getName(), ownerModelType, ownerName)));
+      }
+
+      if (!isBasic(parameterModel.getType())) {
+        problemsReporter
+            .addError(new Problem(parameterModel, format("Parameter '%s' in the %s [%s] is an OAuth parameter but is a %s. "
+                + "Only basic types are supported on OAuth parameters",
+                                                         parameterModel.getName(), ownerModelType, ownerName,
+                                                         parameterModel.getType().getClass().getSimpleName())));
       }
     });
   }

@@ -11,9 +11,11 @@ import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
@@ -156,5 +158,18 @@ public final class TypeUtils {
     return metadataType.getAnnotation(XmlHintsAnnotation.class)
         .map(XmlHintsAnnotation::allowsReferences)
         .orElse(true);
+  }
+
+  public static boolean isBasic(MetadataType metadataType) {
+    Reference<Boolean> basic = new Reference<>(false);
+    metadataType.accept(new BasicTypeMetadataVisitor() {
+
+      @Override
+      protected void visitBasicType(MetadataType metadataType) {
+        basic.set(true);
+      }
+    });
+
+    return basic.get();
   }
 }
