@@ -50,6 +50,8 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer;
+import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
+import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
 import org.mule.runtime.extension.api.declaration.type.DefaultExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
@@ -129,6 +131,8 @@ abstract class BasePersistenceTestCase {
   protected List<ExtensionModel> extensionModelList;
   protected ExtensionModelJsonSerializer extensionModelJsonSerializer;
   protected ObjectType exportedType;
+  protected OAuthModelProperty accessCodeModelProperty;
+  protected AuthorizationCodeGrantType authorizationCodeGrantType;
 
   @Before
   public void setUp() throws IOException {
@@ -225,6 +229,7 @@ abstract class BasePersistenceTestCase {
     typesCatalog.add(exportedType);
     typesCatalog.add((ObjectType) jsonLoadedType);
 
+    configureOAuth();
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                     new MuleVersion("4.0"), emptyList(), asList(getCarOperation, foreachScope, choiceRouter),
@@ -232,7 +237,7 @@ abstract class BasePersistenceTestCase {
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(), singleton(ERROR_MODEL),
-                                    externalLibrarySet(), emptySet());
+                                    externalLibrarySet(), singleton(accessCodeModelProperty));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =
@@ -242,6 +247,16 @@ abstract class BasePersistenceTestCase {
     operationModelProperties = serializedExtensionModel.getAsJsonObject().get(OPERATIONS_NODE).getAsJsonArray()
         .get(0).getAsJsonObject().get(MODEL_PROPERTIES_NODE).getAsJsonObject();
     extensionModelList = asList(deserializedExtensionModel, originalExtensionModel);
+  }
+
+  private void configureOAuth() {
+    authorizationCodeGrantType = new AuthorizationCodeGrantType("http://accessToken.url",
+                                                                "http://authorization.url",
+                                                                "#[accessToken]",
+                                                                "#[expiration]",
+                                                                "#[refreshToken]",
+                                                                "#[defaultScope]");
+    accessCodeModelProperty = new OAuthModelProperty(asList(authorizationCodeGrantType));
   }
 
   private void createCoreOperations() {

@@ -1604,7 +1604,20 @@
         }
       }
     ],
-    "modelProperties": {},
+    "modelProperties": {
+      "OAuth": {
+        "grantTypes": [
+          {
+            "accessTokenUrl": "http://accessToken.url",
+            "authorizationUrl": "http://authorization.url",
+            "accessTokenExpr": "#[accessToken]",
+            "expirationRegex": "#[expiration]",
+            "refreshTokenExpr": "#[refreshToken]",
+            "defaultScope": "#[defaultScope]"
+          }
+        ]
+      }
+    },
     "types": [
       {
         "format": "java",
@@ -3399,7 +3412,20 @@
         }
       }
     ],
-    "modelProperties": {},
+    "modelProperties": {
+      "OAuth": {
+        "grantTypes": [
+          {
+            "accessTokenUrl": "http://accessToken.url",
+            "authorizationUrl": "http://authorization.url",
+            "accessTokenExpr": "#[accessToken]",
+            "expirationRegex": "#[expiration]",
+            "refreshTokenExpr": "#[refreshToken]",
+            "defaultScope": "#[defaultScope]"
+          }
+        ]
+      }
+    },
     "types": [
       {
         "format": "java",
