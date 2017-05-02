@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation is used to annotate fields on a {@link ConnectionProvider} which supports OAuth.
- *
+ * <p>
  * The annotation is used to provide and expression which is evaluated against the response of the access
  * token url. The result of evaluating such expression will be injected into the annotated field.
  *
