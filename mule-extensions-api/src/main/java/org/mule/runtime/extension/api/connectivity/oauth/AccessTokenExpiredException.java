@@ -14,7 +14,7 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
  * <p>
  * The runtime will automatically catch this exception, try to execute the refresh token flow
  * and retry the operation. If the operation fails again or the token couldn't be refresh for
- * whatever reason, then the operation will fail
+ * whatever reason, then the operation will fail.
  *
  * @since 1.0
  */
@@ -25,7 +25,7 @@ public class AccessTokenExpiredException extends MuleRuntimeException {
   /**
    * Creates a new instance
    *
-   * @param resourceOwnerId the id of the resource owner which access token expired.
+   * @param resourceOwnerId the id of the resource owner whose access token expired.
    */
   public AccessTokenExpiredException(String resourceOwnerId) {
     super(createStaticMessage("Access Token expired for resource owner id " + resourceOwnerId));
@@ -33,7 +33,7 @@ public class AccessTokenExpiredException extends MuleRuntimeException {
   }
 
   /**
-   * @return the id of the resource owner which access token expired.
+   * @return the id of the resource owner whose access token expired.
    */
   public String getResourceOwnerId() {
     return resourceOwnerId;
