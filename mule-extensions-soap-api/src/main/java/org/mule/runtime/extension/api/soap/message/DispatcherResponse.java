@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.soap.message;
 
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple object that carries the information retrieved after the message was dispatched with a {@link MessageDispatcher}.
@@ -18,10 +20,12 @@ public class DispatcherResponse {
 
   private final String contentType;
   private final InputStream content;
+  private final Map<String, ? extends List<String>> headers;
 
-  public DispatcherResponse(String contentType, InputStream content) {
+  public DispatcherResponse(String contentType, InputStream content, Map<String, ? extends List<String>> headers) {
     this.contentType = contentType;
     this.content = content;
+    this.headers = headers;
   }
 
   /**
@@ -36,5 +40,12 @@ public class DispatcherResponse {
    */
   public String getContentType() {
     return contentType;
+  }
+
+  /**
+   * @return the output headers returned after dispatching the soap message.
+   */
+  public Map<String, ? extends List<String>> getHeaders() {
+    return headers;
   }
 }

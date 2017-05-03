@@ -11,7 +11,6 @@ import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
 
 import java.io.InputStream;
-import java.util.Map;
 
 
 /**
@@ -25,7 +24,9 @@ public interface MessageDispatcher extends Initialisable, Disposable {
   /**
    * Sends off a Soap Request to a destination and returns it's response.
    *
+   * @param message the soap envelope to be sent.
+   * @param context a {@link DispatchingContext} containing all the required information to deliver the message.
    * @return a {@link DispatcherResponse} with the content returned by the transport and it's corresponding Content-Type.
    */
-  DispatcherResponse dispatch(InputStream message, Map<String, String> properties);
+  DispatcherResponse dispatch(InputStream message, DispatchingContext context);
 }
