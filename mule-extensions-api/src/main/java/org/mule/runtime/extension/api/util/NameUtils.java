@@ -45,7 +45,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public class NameUtils {
+public final class NameUtils {
 
   public static final String CONFIGURATION = "configuration";
   public static final String OPERATION = "operation";
