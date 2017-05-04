@@ -327,13 +327,13 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(connectionProvider.getDescription(), is(CONNECTION_PROVIDER_DESCRIPTION));
 
     List<ParameterModel> parameters = connectionProvider.getAllParameterModels();
-    assertParameter(parameters.get(0), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+    assertParameter(parameters.get(0), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
+                    StringType.class, null);
+    assertParameter(parameters.get(1), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
+                    StringType.class, null);
+    assertParameter(parameters.get(2), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
                     false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
-    assertParameter(parameters.get(1), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
-                    StringType.class, null);
-    assertParameter(parameters.get(2), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
-                    StringType.class, null);
   }
 
   @Test
@@ -394,11 +394,11 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(parameterModels, hasSize(4));
 
     assertByteStreamingStrategyParameter(parameterModels.get(0));
-    assertTargetParameter(parameterModels.get(1));
-    assertParameter(parameterModels.get(2), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
                     StringType.class, null);
-    assertParameter(parameterModels.get(3), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
+    assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
                     BooleanType.class, true);
+    assertTargetParameter(parameterModels.get(3));
   }
 
   private void assertBroadcastOperation(List<OperationModel> operationModels) {

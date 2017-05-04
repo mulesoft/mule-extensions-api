@@ -103,6 +103,30 @@ public final class TypeUtils {
   }
 
   /**
+   * @return {@code true} if the given {@link MetadataType} should support inline definition as child element
+   */
+  public static boolean allowsInlineDefinition(MetadataType type) {
+    return type.getAnnotation(XmlHintsAnnotation.class)
+        .map(XmlHintsAnnotation::allowsInlineDefinition).orElse(true);
+  }
+
+  /**
+   * @return whether the given {@link MetadataType} should support being defined as a top level element
+   */
+  public static boolean allowsTopLevelDefinition(MetadataType type) {
+    return type.getAnnotation(XmlHintsAnnotation.class)
+        .map(XmlHintsAnnotation::allowsTopLevelDefinition).orElse(false);
+  }
+
+  /**
+   * @return whether the given {@link MetadataType} should support registry references
+   */
+  public static boolean allowsReferences(MetadataType type) {
+    return type.getAnnotation(XmlHintsAnnotation.class)
+        .map(XmlHintsAnnotation::allowsReferences).orElse(true);
+  }
+
+  /**
    * Checks the given {@code metadataType} for the {@link ExpressionSupportAnnotation}.
    * <p>
    * If present, the {@link ExpressionSupportAnnotation#getExpressionSupport()}
