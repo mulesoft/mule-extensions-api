@@ -10,9 +10,6 @@ package org.mule.runtime.extension.api.soap.message;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
 
-import java.io.InputStream;
-import java.util.Map;
-
 
 /**
  * This interface allows that different transports (such as JMS or HTTP) behave the same way when dispatching a
@@ -25,7 +22,8 @@ public interface MessageDispatcher extends Initialisable, Disposable {
   /**
    * Sends off a Soap Request to a destination and returns it's response.
    *
-   * @return a {@link DispatcherResponse} with the content returned by the transport and it's corresponding Content-Type.
+   * @param context a {@link DispatchingRequest} containing all the required information to deliver the message.
+   * @return a {@link DispatchingResponse} with the content returned by the transport and it's corresponding Content-Type.
    */
-  DispatcherResponse dispatch(InputStream message, Map<String, String> properties);
+  DispatchingResponse dispatch(DispatchingRequest context);
 }
