@@ -10,9 +10,12 @@ import static java.util.Arrays.stream;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_DATA_UNIT;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_INCREMENT_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_INCREMENT_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_SIZE;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_MAX_BUFFER_SIZE;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -27,6 +30,10 @@ import org.mule.runtime.extension.api.declaration.type.annotation.Infrastructure
  * @since 1.0
  */
 public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilder {
+
+  private static final String MAX_BUFFER_SIZE = "maxBufferSize";
+  private static final String BUFFER_SIZE_INCREMENT = "bufferSizeIncrement";
+  private static final String INITIAL_BUFFER_SIZE = "initialBufferSize";
 
   public static final String REPEATABLE_FILE_STORE_BYTES_STREAM_ALIAS = "repeatable-file-store-stream";
   public static final String REPEATABLE_IN_MEMORY_BYTES_STREAM_ALIAS = "repeatable-in-memory-stream";
@@ -108,19 +115,19 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
         .with(new TypeAliasAnnotation(REPEATABLE_IN_MEMORY_BYTES_STREAM_ALIAS))
         .with(new InfrastructureTypeAnnotation());
 
-    addIntField(streamingType, typeBuilder, "initialBufferSize",
+    addIntField(streamingType, typeBuilder, INITIAL_BUFFER_SIZE,
                 "This is the amount of memory that will be allocated in order to consume the stream and provide random "
                     + "access to it. If the stream contains more data than can be fit into this buffer, then it will be expanded "
                     + "by according to the bufferSizeIncrement attribute, with an upper limit of maxInMemorySize.",
                 DEFAULT_BYTE_STREAMING_BUFFER_SIZE);
 
-    addIntField(streamingType, typeBuilder, "bufferSizeIncrement",
+    addIntField(streamingType, typeBuilder, BUFFER_SIZE_INCREMENT,
                 "This is by how much will be buffer size by expanded if it exceeds its initial size. Setting a value of zero or "
                     + "lower will mean that the buffer should not expand, meaning that a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised "
                     + "when the buffer gets full.",
-                DEFAULT_BYTE_STREAMING_BUFFER_SIZE);
+                DEFAULT_BYTE_STREAMING_BUFFER_INCREMENT_SIZE);
 
-    addIntField(streamingType, typeBuilder, "maxInMemorySize",
+    addIntField(streamingType, typeBuilder, MAX_BUFFER_SIZE,
                 "This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. "
                     + "A value lower or equal to zero means no limit.",
                 DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE);
@@ -137,10 +144,23 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
         .with(new TypeAliasAnnotation(REPEATABLE_IN_MEMORY_OBJECTS_STREAM_ALIAS))
         .with(new InfrastructureTypeAnnotation());
 
-    addIntField(streamingType, typeBuilder, "maxInMemoryObjects",
-                "This is the maximum amount of instances that will be kept in memory. If more than that are required, "
-                    + "then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. A value lower or equal to zero means no limit.",
+    addIntField(streamingType, typeBuilder, INITIAL_BUFFER_SIZE,
+                "This is the amount of instances that will be initially be allowed to be kept in memory in order to "
+                    + "consume the stream and provide random access to it. If the stream contains more data than can fit "
+                    + "into this buffer, then it will be expanded according to the bufferSizeIncrement attribute, with an upper "
+                    + "limit of maxInMemorySize. Default value is 100 instances.",
                 DEFAULT_OBJECT_STREAMING_BUFFER_SIZE);
+
+    addIntField(streamingType, typeBuilder, "bufferSizeIncrement",
+                "This is by how much will the buffer size by expanded if it exceeds its initial size. Setting a value of zero or "
+                    + "lower will mean that the buffer should not expand, meaning that a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised "
+                    + "when the buffer gets full. Default value is 100 instances.",
+                DEFAULT_OBJECT_STREAMING_BUFFER_INCREMENT_SIZE);
+
+    addIntField(streamingType, typeBuilder, MAX_BUFFER_SIZE,
+                "This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. "
+                    + "A value lower or equal to zero means no limit.",
+                DEFAULT_OBJECT_STREAMING_MAX_BUFFER_SIZE);
 
     return streamingType.build();
   }
