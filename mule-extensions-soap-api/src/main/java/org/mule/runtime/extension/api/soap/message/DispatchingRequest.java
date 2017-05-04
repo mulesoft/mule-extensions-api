@@ -7,6 +7,8 @@
 package org.mule.runtime.extension.api.soap.message;
 
 
+import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,16 +16,13 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public class DispatchingContext {
+public class DispatchingRequest extends BaseDispatchingContext {
 
   private final String address;
-  private final String encoding;
-  private final Map<String, String> headers;
 
-  public DispatchingContext(String address, String encoding, Map<String, String> headers) {
+  public DispatchingRequest(InputStream message, String address, String contentType, Map<String, String> headers) {
+    super(message, contentType, headers);
     this.address = address;
-    this.encoding = encoding;
-    this.headers = headers;
   }
 
   /**
@@ -31,19 +30,5 @@ public class DispatchingContext {
    */
   public String getAddress() {
     return address;
-  }
-
-  /**
-   * @return the outgoing message encoding.
-   */
-  public String getEncoding() {
-    return encoding;
-  }
-
-  /**
-   * @return a set of additional headers to be bundled with the request.
-   */
-  public Map<String, String> getHeaders() {
-    return headers;
   }
 }

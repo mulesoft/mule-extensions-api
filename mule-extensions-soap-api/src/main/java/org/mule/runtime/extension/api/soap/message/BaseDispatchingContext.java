@@ -8,28 +8,28 @@ package org.mule.runtime.extension.api.soap.message;
 
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
- * A simple object that carries the information retrieved after the message was dispatched with a {@link MessageDispatcher}.
+ * Base class for messages that are sent or retrieved via {@link MessageDispatcher}s.
  *
  * @since 1.0
  */
-public class DispatcherResponse {
+abstract class BaseDispatchingContext {
 
   private final String contentType;
   private final InputStream content;
-  private final Map<String, ? extends List<String>> headers;
+  private final Map<String, String> headers;
 
-  public DispatcherResponse(String contentType, InputStream content, Map<String, ? extends List<String>> headers) {
-    this.contentType = contentType;
+  BaseDispatchingContext(InputStream content, String contentType, Map<String, String> headers) {
     this.content = content;
+    this.contentType = contentType;
     this.headers = headers;
   }
 
   /**
-   * @return the raw Web Service response content.
+   * @return the raw message content.
    */
   public InputStream getContent() {
     return content;
@@ -45,7 +45,15 @@ public class DispatcherResponse {
   /**
    * @return the output headers returned after dispatching the soap message.
    */
-  public Map<String, ? extends List<String>> getHeaders() {
+  public Map<String, String> getHeaders() {
     return headers;
+  }
+
+  /**
+   * @param headerName the name of the header which values are requested
+   * @return an {@link Optional} carrying the value of the header, {@link Optional#empty()} if the header does not exist.
+   */
+  public Optional<String> getHeader(String headerName) {
+    return Optional.ofNullable(headers.get(headerName));
   }
 }
