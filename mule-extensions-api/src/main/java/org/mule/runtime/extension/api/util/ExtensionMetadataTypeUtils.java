@@ -86,7 +86,7 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static String getAlias(MetadataType metadataType, String defaultName) {
     return metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElse(metadataType.getMetadataFormat().equals(JAVA)
+        .orElseGet(() -> metadataType.getMetadataFormat().equals(JAVA)
             ? getAliasName(defaultName, getType(metadataType).map(t -> t.getAnnotation(Alias.class)).orElse(null))
             : defaultName);
   }
@@ -94,7 +94,7 @@ public final class ExtensionMetadataTypeUtils {
   public static boolean isFinal(MetadataType metadataType) {
     try {
       return metadataType.getAnnotation(ClassInformationAnnotation.class).map(ClassInformationAnnotation::isFinal)
-          .orElse(metadataType.getMetadataFormat().equals(JAVA) &&
+          .orElseGet(() -> metadataType.getMetadataFormat().equals(JAVA) &&
               getType(metadataType).map(t -> Modifier.isFinal(t.getModifiers())).orElse(false));
     } catch (Exception e) {
       return false;
