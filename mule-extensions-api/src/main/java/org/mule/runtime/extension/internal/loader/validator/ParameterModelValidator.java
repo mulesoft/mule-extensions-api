@@ -24,6 +24,7 @@ import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -129,6 +130,11 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
       parameterModel.getType().accept(new MetadataTypeVisitor() {
 
         private Set<MetadataType> visitedTypes = new HashSet<>();
+
+        @Override
+        public void visitUnion(UnionType unionType) {
+          unionType.getTypes().forEach(t -> t.accept(this));
+        }
 
         @Override
         public void visitArrayType(ArrayType arrayType) {

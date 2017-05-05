@@ -346,7 +346,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       public void visit(OperationModel operationModel) {}
 
       @Override
-      public void visit(SourceModel sourceModel) {}
+      public void visit(SourceModel sourceModel) {
+        sourceModel.getSuccessCallback().ifPresent(cb -> resolveParameterizedDsl(cb, dsl));
+        sourceModel.getErrorCallback().ifPresent(cb -> resolveParameterizedDsl(cb, dsl));
+      }
 
       @Override
       public void visit(ScopeModel scopeModel) {}
