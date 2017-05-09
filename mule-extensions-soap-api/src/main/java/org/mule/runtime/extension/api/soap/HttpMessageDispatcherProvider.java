@@ -6,15 +6,16 @@
  */
 package org.mule.runtime.extension.api.soap;
 
-import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.soap.message.MessageDispatcher;
 
+import java.util.Optional;
+
 /**
- * {@link ConnectionProvider} specialization that handles {@link MessageDispatcher} connections that are bundled to
- * a {@link SoapServiceProvider}, which are created from when the {@link SoapServiceProvider} is created.
+ *
  *
  * @since 1.0
  */
-public interface SoapTransportProvider<T extends MessageDispatcher> extends ConnectionProvider<T> {
+public interface HttpMessageDispatcherProvider extends MessageDispatcherProvider<MessageDispatcher> {
 
+  Optional<String> getConfigRef();
 }

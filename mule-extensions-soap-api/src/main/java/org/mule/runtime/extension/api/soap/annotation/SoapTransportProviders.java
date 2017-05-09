@@ -8,14 +8,14 @@ package org.mule.runtime.extension.api.soap.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import org.mule.runtime.extension.api.soap.SoapTransportProvider;
+import org.mule.runtime.extension.api.soap.MessageDispatcherProvider;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used on the Extension class, to list the {@link SoapTransportProvider}s that the extension handles.
+ * Annotation to be used on the Extension class, to list the {@link MessageDispatcherProvider}s that the extension handles.
  *
  * @since 1.0
  */
@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 public @interface SoapTransportProviders {
 
   /**
-   * @return an array of {@link SoapTransportProvider} implementations.
+   * @return an array of {@link MessageDispatcherProvider} implementations.
    */
-  Class<? extends SoapTransportProvider>[] value() default {};
+  Class<? extends MessageDispatcherProvider>[] value() default {};
 }
