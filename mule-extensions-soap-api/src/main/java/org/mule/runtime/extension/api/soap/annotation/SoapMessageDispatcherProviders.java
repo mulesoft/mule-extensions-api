@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-public @interface SoapTransportProviders {
+public @interface SoapMessageDispatcherProviders {
 
   /**
    * @return an array of {@link MessageDispatcherProvider} implementations.
