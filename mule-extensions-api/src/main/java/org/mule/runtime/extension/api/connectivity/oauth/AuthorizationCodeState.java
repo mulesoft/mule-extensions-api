@@ -48,4 +48,24 @@ public interface AuthorizationCodeState {
    * @return The OAuth state that was originally sent
    */
   Optional<String> getState();
+
+  /**
+   * @return The url of the authorization endpoint that was used in the authorization process
+   */
+  String getAuthorizationUrl();
+
+  /**
+   * @return The url of the access token endpoint that was used in the authorization process
+   */
+  String getAccessTokenUrl();
+
+  /**
+   * @return The OAuth consumer key that was used in the authorization process
+   */
+  String getConsumerKey();
+
+  /**
+   * @return The OAuth consumer secret that was used in the authorization process
+   */
+  String getConsumerSecret();
 }
