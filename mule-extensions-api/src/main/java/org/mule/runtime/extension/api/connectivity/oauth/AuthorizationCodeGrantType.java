@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.connectivity.oauth;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
- * Implementaiton of {@Link OAuthGrantType} which contains inforamtion about how to use the
+ * Implementation of {@Link OAuthGrantType} which contains information about how to use the
  * Authorization-Code grant type against a particular OAuth provider
  *
  * @since 1.0
@@ -101,7 +101,7 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   }
 
   /**
-   * @return The default scopes to be request or a blank string if no default scopes are required.
+   * @return The default scopes to be request or {@code null} if no default scopes are required.
    */
   public String getDefaultScope() {
     return defaultScope;
