@@ -106,7 +106,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
     params.add(buildParameter(SCOPES_PARAMETER_NAME,
                               "The OAuth scopes to be requested during the dance. If not provided, it will default "
                                   + "to those in the annotation",
-                              false, stringType, NOT_SUPPORTED, grantType.getDefaultScope()));
+                              false, stringType, NOT_SUPPORTED, grantType.getDefaultScope().orElse(null)));
 
     params.add(buildParameter(RESOURCE_OWNER_ID_PARAMETER_NAME, "The resourceOwnerId which each component should use "
         + "if it doesn't reference otherwise.", true, stringType, SUPPORTED, null));

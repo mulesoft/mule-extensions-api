@@ -6,8 +6,13 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
+import java.util.Optional;
+
 /**
- * Implementaiton of {@Link OAuthGrantType} which contains inforamtion about how to use the
+ * Implementation of {@Link OAuthGrantType} which contains information about how to use the
  * Authorization-Code grant type against a particular OAuth provider
  *
  * @since 1.0
@@ -40,14 +45,13 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
     notBlank(accessTokenExpr, "accessTokenExpr");
     notBlank(expirationRegex, "expirationRegex");
     notBlank(expirationRegex, "expirationRegex");
-    notBlank(defaultScope, "defaultScope");
 
     this.accessTokenUrl = accessTokenUrl;
     this.authorizationUrl = authorizationUrl;
     this.accessTokenExpr = accessTokenExpr;
     this.expirationRegex = expirationRegex;
     this.refreshTokenExpr = refreshTokenExpr;
-    this.defaultScope = defaultScope;
+    this.defaultScope = isBlank(defaultScope) ? null : defaultScope;
   }
 
   private void notBlank(String value, String name) {
@@ -100,9 +104,9 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   }
 
   /**
-   * @return The default scopes to be request
+   * @return The default scopes to be requested
    */
-  public String getDefaultScope() {
-    return defaultScope;
+  public Optional<String> getDefaultScope() {
+    return ofNullable(defaultScope);
   }
 }
