@@ -11,13 +11,17 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
@@ -29,6 +33,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
@@ -103,6 +108,46 @@ public class ExtensionFieldHandlerTestCase {
     assertThat(field.getValue(), is(instanceOf(StringType.class)));
   }
 
+  @Test
+  public void contentField() {
+    ObjectType type = (ObjectType) typeLoader.load(ContentWithDefaultValue.class);
+    assertThat(type.getFields().isEmpty(), is(false));
+
+    ObjectFieldType field = getField(type, "contentWithDefaultValue");
+    assertThat(field.getAnnotation(DefaultValueAnnotation.class).get().getValue(), is("some value"));
+    assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(CONTENT));
+    assertThat(field.isRequired(), is(false));
+    assertThat(field.getValue(), is(instanceOf(StringType.class)));
+
+    field = getField(type, "contentWithoutDefaultValue");
+    assertThat(field.getAnnotation(DefaultValueAnnotation.class).isPresent(), is(false));
+    assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(CONTENT));
+    assertThat(field.isRequired(), is(false));
+    assertThat(field.getValue(), is(instanceOf(StringType.class)));
+
+    field = getField(type, "requiredContent");
+    assertThat(field.getAnnotation(DefaultValueAnnotation.class).isPresent(), is(false));
+    assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(CONTENT));
+    assertThat(field.isRequired(), is(true));
+    assertThat(field.getValue(), is(instanceOf(StringType.class)));
+
+
+    field = getField(type, "primaryContentWithDefaultValue");
+    assertThat(field.getAnnotation(DefaultValueAnnotation.class).get().getValue(), is("this is not #[payload]"));
+    assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(PRIMARY_CONTENT));
+    assertThat(field.isRequired(), is(false));
+    assertThat(field.getValue(), is(instanceOf(StringType.class)));
+
+    type = (ObjectType) typeLoader.load(PrimaryContentWithoutDefaultValue.class);
+
+    field = getField(type, "primaryContentWithoutDefaultValue");
+    assertThat(field.getAnnotation(DefaultValueAnnotation.class).get().getValue(), is("#[payload]"));
+    assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(PRIMARY_CONTENT));
+    assertThat(field.isRequired(), is(false));
+    assertThat(field.getValue(), is(instanceOf(StringType.class)));
+
+  }
+
   @Test(expected = IllegalModelDefinitionException.class)
   public void invalidAnnotatedFields() {
     typeLoader.load(InvalidAnnotatedFields.class);
@@ -160,5 +205,34 @@ public class ExtensionFieldHandlerTestCase {
     @Expression(NOT_SUPPORTED)
     private Object iSaidNotAParameterDoNotInsist;
 
+  }
+
+  public class ContentWithDefaultValue {
+
+    @Parameter
+    @Content
+    @Optional(defaultValue = "some value")
+    private String contentWithDefaultValue;
+
+    @Parameter
+    @Content
+    @Optional
+    private String contentWithoutDefaultValue;
+
+    @Parameter
+    @Content
+    private String requiredContent;
+
+    @Parameter
+    @Content(primary = true)
+    @Optional(defaultValue = "this is not #[payload]")
+    private String primaryContentWithDefaultValue;
+  }
+
+  public class PrimaryContentWithoutDefaultValue {
+
+    @Parameter
+    @Content(primary = true)
+    private String primaryContentWithoutDefaultValue;
   }
 }
