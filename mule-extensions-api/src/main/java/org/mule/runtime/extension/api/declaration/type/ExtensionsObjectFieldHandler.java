@@ -249,9 +249,11 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     fieldBuilder.required(true);
 
     contentAnnotation.ifPresent(content -> {
-      fieldBuilder.required(false);
-      if (content.primary() && getDefaultValue(field) == null) {
-        fieldBuilder.with(new DefaultValueAnnotation(PAYLOAD));
+      if (content.primary()) {
+        fieldBuilder.required(false);
+        if (getDefaultValue(field) == null) {
+          fieldBuilder.with(new DefaultValueAnnotation(PAYLOAD));
+        }
       }
     });
 

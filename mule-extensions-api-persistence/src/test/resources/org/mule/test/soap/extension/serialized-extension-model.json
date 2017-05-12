@@ -476,7 +476,8 @@
                         },
                         {
                           "key": {
-                            "name": "anotherGroupedFieldAsContent"
+                            "name": "anotherGroupedFieldAsContent",
+                            "required": "true"
                           },
                           "model": {
                             "type": "String",
@@ -1306,7 +1307,8 @@
                           },
                           {
                             "key": {
-                              "name": "anotherGroupedFieldAsContent"
+                              "name": "anotherGroupedFieldAsContent",
+                              "required": "true"
                             },
                             "model": {
                               "type": "String",

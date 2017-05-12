@@ -116,16 +116,26 @@ public class ExtensionFieldHandlerTestCase {
     ObjectFieldType field = getField(type, "contentWithDefaultValue");
     assertThat(field.getAnnotation(DefaultValueAnnotation.class).get().getValue(), is("some value"));
     assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(CONTENT));
+    assertThat(field.isRequired(), is(false));
     assertThat(field.getValue(), is(instanceOf(StringType.class)));
 
     field = getField(type, "contentWithoutDefaultValue");
     assertThat(field.getAnnotation(DefaultValueAnnotation.class).isPresent(), is(false));
     assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(CONTENT));
+    assertThat(field.isRequired(), is(false));
     assertThat(field.getValue(), is(instanceOf(StringType.class)));
+
+    field = getField(type, "requiredContent");
+    assertThat(field.getAnnotation(DefaultValueAnnotation.class).isPresent(), is(false));
+    assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(CONTENT));
+    assertThat(field.isRequired(), is(true));
+    assertThat(field.getValue(), is(instanceOf(StringType.class)));
+
 
     field = getField(type, "primaryContentWithDefaultValue");
     assertThat(field.getAnnotation(DefaultValueAnnotation.class).get().getValue(), is("this is not #[payload]"));
     assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(PRIMARY_CONTENT));
+    assertThat(field.isRequired(), is(false));
     assertThat(field.getValue(), is(instanceOf(StringType.class)));
 
     type = (ObjectType) typeLoader.load(PrimaryContentWithoutDefaultValue.class);
@@ -133,6 +143,7 @@ public class ExtensionFieldHandlerTestCase {
     field = getField(type, "primaryContentWithoutDefaultValue");
     assertThat(field.getAnnotation(DefaultValueAnnotation.class).get().getValue(), is("#[payload]"));
     assertThat(field.getAnnotation(ParameterRoleAnnotation.class).get().getRole(), is(PRIMARY_CONTENT));
+    assertThat(field.isRequired(), is(false));
     assertThat(field.getValue(), is(instanceOf(StringType.class)));
 
   }
@@ -207,6 +218,10 @@ public class ExtensionFieldHandlerTestCase {
     @Content
     @Optional
     private String contentWithoutDefaultValue;
+
+    @Parameter
+    @Content
+    private String requiredContent;
 
     @Parameter
     @Content(primary = true)
