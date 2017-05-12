@@ -29,10 +29,10 @@ public class ConfigOverrideTypeAnnotation implements TypeAnnotation {
   /**
    * {@inheritDoc}
    * 
-   * @return {@code false}
+   * @return {@code true}
    */
   @Override
   public boolean isPublic() {
-    return false;
+    return true;
   }
 }
