@@ -35,15 +35,16 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.type.TypeCatalog;
+import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
-import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
+import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -152,14 +153,22 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
 
               String fieldName = field.getKey().getName().getLocalPart();
               if (RESERVED_NAMES.contains(fieldName)) {
-                throw new IllegalParameterModelDefinitionException(
-                                                                   format("The field named '%s' [%s] from class [%s] cannot have that name since it is a reserved one",
-                                                                          fieldName, getId(field.getValue()), getId(objectType)));
+                problemsReporter
+                    .addError(new Problem(parameterModel,
+                                          format("The field named '%s' [%s] from class [%s] cannot have that name since it is a reserved one",
+                                                 fieldName, getId(field.getValue()), getId(objectType))));
               }
 
               if (supportsGlobalReferences(field)) {
                 field.getValue().accept(this);
               }
+
+              ExtensionMetadataTypeUtils.getType(field.getValue())
+                  .filter(c -> c.getAnnotation(ConfigOverride.class) != null)
+                  .ifPresent(c -> problemsReporter.addError(new Problem(parameterModel,
+                                                                        format("Type '%s' has fields declared as '%s', which is not allowed.",
+                                                                               getId(objectType),
+                                                                               ConfigOverride.class.getSimpleName()))));
             }
           }
         }

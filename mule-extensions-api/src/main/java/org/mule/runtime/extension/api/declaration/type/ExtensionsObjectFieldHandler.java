@@ -10,6 +10,8 @@ import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.extension.api.annotation.param.Optional.NULL;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
@@ -41,6 +43,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
+import org.mule.runtime.extension.api.declaration.type.annotation.ConfigOverrideTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultEncodingAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
@@ -86,8 +89,6 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       return;
     }
 
-    validateNoConfigOverride(clazz);
-
     for (Field field : fields) {
       final ObjectFieldTypeBuilder fieldBuilder = builder.addField();
       fieldBuilder.key(getAlias(field));
@@ -100,21 +101,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       processElementStyle(field, fieldBuilder);
       processLayoutAnnotation(field, fieldBuilder);
       processDisplayAnnotation(field, fieldBuilder);
+      processConfigOverride(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
-    }
-  }
-
-  private void validateNoConfigOverride(Class<?> clazz) {
-    List<String> illegalFieldNames = getAllFields(clazz).stream()
-        .filter(field -> field.getAnnotation(ConfigOverride.class) != null)
-        .map(Field::getName)
-        .collect(toList());
-
-    if (!illegalFieldNames.isEmpty()) {
-      throw new IllegalModelDefinitionException(
-                                                format("Type '%s' has fields declared as '%s', which is not allowed."
-                                                    + " Illegal fields are " + illegalFieldNames, clazz.getName(),
-                                                       ConfigOverride.class.getSimpleName()));
     }
   }
 
@@ -229,6 +217,14 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       fieldBuilder.with(new NullSafeTypeAnnotation(field.getType(), false));
     } else {
       fieldBuilder.with(new NullSafeTypeAnnotation(nullSafe.defaultImplementingType(), true));
+    }
+  }
+
+  private void processConfigOverride(Field field, ObjectFieldTypeBuilder fieldBuilder) {
+    ConfigOverride override = field.getAnnotation(ConfigOverride.class);
+    if (override != null) {
+      fieldBuilder.required(false);
+      fieldBuilder.with(new ConfigOverrideTypeAnnotation());
     }
   }
 
