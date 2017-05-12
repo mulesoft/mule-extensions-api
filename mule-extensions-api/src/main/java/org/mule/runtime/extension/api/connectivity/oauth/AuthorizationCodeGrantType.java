@@ -6,7 +6,10 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+
+import java.util.Optional;
 
 /**
  * Implementation of {@Link OAuthGrantType} which contains information about how to use the
@@ -101,9 +104,9 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   }
 
   /**
-   * @return The default scopes to be request or {@code null} if no default scopes are required.
+   * @return The default scopes to be requested
    */
-  public String getDefaultScope() {
-    return defaultScope;
+  public Optional<String> getDefaultScope() {
+    return ofNullable(defaultScope);
   }
 }
