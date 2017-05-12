@@ -10,11 +10,11 @@ import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
@@ -242,26 +242,25 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    Optional<Content> content = ofNullable(field.getAnnotation(Content.class));
-    if (content.isPresent()) {
-      fieldBuilder.with(new ParameterRoleAnnotation(roleOf(content)));
+    Optional<Content> contentAnnotation = ofNullable(field.getAnnotation(Content.class));
+    Optional<org.mule.runtime.extension.api.annotation.param.Optional> optionalAnnotation =
+        ofNullable(field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
+    fieldBuilder.with(new ParameterRoleAnnotation(roleOf(contentAnnotation)));
+    fieldBuilder.required(true);
+
+    contentAnnotation.ifPresent(content -> {
       fieldBuilder.required(false);
-      if (content.get().primary()) {
+      if (content.primary() && getDefaultValue(field) == null) {
         fieldBuilder.with(new DefaultValueAnnotation(PAYLOAD));
       }
-    } else {
-      fieldBuilder.with(new ParameterRoleAnnotation(BEHAVIOUR));
-      org.mule.runtime.extension.api.annotation.param.Optional optionalAnnotation =
-          field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class);
-      if (optionalAnnotation != null) {
-        fieldBuilder.required(false);
-        if (!optionalAnnotation.defaultValue().equals(org.mule.runtime.extension.api.annotation.param.Optional.NULL)) {
-          fieldBuilder.with(new DefaultValueAnnotation(optionalAnnotation.defaultValue()));
-        }
-      } else {
-        fieldBuilder.required(true);
+    });
+
+    optionalAnnotation.ifPresent(optional -> {
+      fieldBuilder.required(false);
+      if (getDefaultValue(optional) != null) {
+        fieldBuilder.with(new DefaultValueAnnotation(optional.defaultValue()));
       }
-    }
+    });
   }
 
   private void processDefaultEncoding(Field field, ObjectFieldTypeBuilder fieldBuilder) {
