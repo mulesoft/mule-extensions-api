@@ -50,18 +50,4 @@ public interface SoapServiceProvider {
   default List<SoapHeader> getCustomHeaders(WebServiceDefinition definition, String operation) {
     return emptyList();
   }
-
-  /**
-   * Allows the Soap Extension to dispatch the soap message using a custom {@link MessageDispatcher}. This makes possible for
-   * example (among many use cases) to enable HTTP Basic Authentication or use another protocol that is not HTTP to
-   * send the soap message.
-   * <p>
-   * If the returned object is {@link Optional#empty()} then the SDK will create a default {@link MessageDispatcher} to send the
-   * soap messages over HTTP.
-   *
-   * @return an {@link Optional} {@link MessageDispatcher} to dispatch the soap messages in a custom way.
-   */
-  default Optional<MessageDispatcher> getCustomDispatcher() {
-    return empty();
-  }
 }
