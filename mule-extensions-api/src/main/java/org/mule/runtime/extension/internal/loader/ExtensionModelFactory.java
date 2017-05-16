@@ -276,7 +276,7 @@ public final class ExtensionModelFactory {
     }
 
     private List<SourceModel> toMessageSources(List<SourceDeclaration> declarations) {
-      return alphaSortDescribedList(declarations.stream().map(this::toMessageSource).collect(toList()));
+      return unmodifiableList(alphaSortDescribedList(declarations.stream().map(this::toMessageSource).collect(toList())));
     }
 
     private SourceModel toMessageSource(SourceDeclaration declaration) {
@@ -306,7 +306,7 @@ public final class ExtensionModelFactory {
     }
 
     private List<OperationModel> toOperations(List<OperationDeclaration> declarations) {
-      return alphaSortDescribedList(declarations.stream().map(this::toOperation).collect(toList()));
+      return unmodifiableList(alphaSortDescribedList(declarations.stream().map(this::toOperation).collect(toList())));
     }
 
     private OperationModel toOperation(OperationDeclaration declaration) {
@@ -380,7 +380,7 @@ public final class ExtensionModelFactory {
     }
 
     private List<ConnectionProviderModel> toConnectionProviders(List<ConnectionProviderDeclaration> declarations) {
-      return unmodifiableList(declarations.stream().map(this::toConnectionProvider).collect(toList()));
+      return unmodifiableList(alphaSortDescribedList(declarations.stream().map(this::toConnectionProvider).collect(toList())));
     }
 
     private OutputModel toOutputModel(OutputDeclaration declaration) {

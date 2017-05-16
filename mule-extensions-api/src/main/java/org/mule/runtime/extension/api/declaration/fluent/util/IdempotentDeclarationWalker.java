@@ -20,7 +20,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.util.Reference;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -35,11 +35,11 @@ import java.util.function.Consumer;
  */
 public class IdempotentDeclarationWalker extends DeclarationWalker {
 
-  private Set<Reference<SourceDeclaration>> sources = new HashSet<>();
-  private Set<Reference<ParameterDeclaration>> parameters = new HashSet<>();
-  private Set<Reference<ParameterGroupDeclaration>> parameterGroups = new HashSet<>();
-  private Set<Reference<OperationDeclaration>> operations = new HashSet<>();
-  private Set<Reference<ConnectionProviderDeclaration>> connectionProviders = new HashSet<>();
+  private Set<Reference<SourceDeclaration>> sources = new LinkedHashSet<>();
+  private Set<Reference<ParameterDeclaration>> parameters = new LinkedHashSet<>();
+  private Set<Reference<ParameterGroupDeclaration>> parameterGroups = new LinkedHashSet<>();
+  private Set<Reference<OperationDeclaration>> operations = new LinkedHashSet<>();
+  private Set<Reference<ConnectionProviderDeclaration>> connectionProviders = new LinkedHashSet<>();
 
   private <T> boolean isFirstAppearance(Set<Reference<T>> accumulator, T item) {
     return accumulator.add(new Reference<>(item));
