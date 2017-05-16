@@ -25,38 +25,36 @@ public class ModuleException extends MuleRuntimeException {
   private ErrorTypeDefinition type;
 
   /**
-   * @param throwable           The {@link ModuleException#getCause()} of this new throwable.
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
+   * @param cause           The {@link ModuleException#getCause()} of this new throwable.
    * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
-  public <T extends Enum<T>> ModuleException(Throwable throwable, ErrorTypeDefinition<T> errorTypeDefinition) {
-    super(throwable);
+  public <T extends Enum<T>> ModuleException(ErrorTypeDefinition<T> errorTypeDefinition, Throwable cause) {
+    super(cause);
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
   }
 
   /**
-   * @param throwable           The {@link ModuleException#getCause()} of this new throwable.
-   * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    * @param message             to override the one from the original throwable
+   * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
+   * @param cause           The {@link ModuleException#getCause()} of this new throwable.
    * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
-  public <T extends Enum<T>> ModuleException(Throwable throwable, ErrorTypeDefinition<T> errorTypeDefinition,
-                                             I18nMessage message) {
-    super(message, throwable);
+  public <T extends Enum<T>> ModuleException(I18nMessage message, ErrorTypeDefinition<T> errorTypeDefinition, Throwable cause) {
+    super(message, cause);
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
   }
 
   /**
-   * @param throwable The {@link ModuleException#getCause()} of this new throwable.
-   * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    * @param message to override the one from the original throwable
+   * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
+   * @param cause The {@link ModuleException#getCause()} of this new throwable.
    * @param <T> Type of the {@link ErrorTypeDefinition}
    */
-  public <T extends Enum<T>> ModuleException(Throwable throwable, ErrorTypeDefinition<T> errorTypeDefinition,
-                                             String message) {
-    this(throwable, errorTypeDefinition, createStaticMessage(message));
+  public <T extends Enum<T>> ModuleException(String message, ErrorTypeDefinition<T> errorTypeDefinition, Throwable cause) {
+    this(createStaticMessage(message), errorTypeDefinition, cause);
   }
 
   /**
@@ -64,7 +62,7 @@ public class ModuleException extends MuleRuntimeException {
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    * @param <T> Type of the {@link ErrorTypeDefinition}
    */
-  protected <T extends Enum<T>> ModuleException(I18nMessage message, ErrorTypeDefinition<T> errorTypeDefinition) {
+  public <T extends Enum<T>> ModuleException(I18nMessage message, ErrorTypeDefinition<T> errorTypeDefinition) {
     super(message);
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
@@ -74,7 +72,7 @@ public class ModuleException extends MuleRuntimeException {
    * @param message to override the one from the original exception
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    */
-  protected <T extends Enum<T>> ModuleException(String message, ErrorTypeDefinition<T> errorTypeDefinition) {
+  public <T extends Enum<T>> ModuleException(String message, ErrorTypeDefinition<T> errorTypeDefinition) {
     this(createStaticMessage(message), errorTypeDefinition);
   }
 
@@ -84,5 +82,4 @@ public class ModuleException extends MuleRuntimeException {
   public ErrorTypeDefinition getType() {
     return type;
   }
-
 }
