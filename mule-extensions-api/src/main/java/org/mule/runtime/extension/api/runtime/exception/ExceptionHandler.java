@@ -47,7 +47,7 @@ public abstract class ExceptionHandler {
    */
   protected Exception getRootErrorException(Exception exception) {
     Optional<ErrorTypeDefinition> error = getRootCauseErrorType(exception);
-    return error.isPresent() ? new ModuleException(exception, error.get()) : exception;
+    return error.isPresent() ? new ModuleException(error.get(), exception) : exception;
   }
 
   private Optional<ErrorTypeDefinition> getRootCauseErrorType(Throwable exception,
