@@ -7,21 +7,16 @@
 package org.mule.runtime.extension.api.soap;
 
 import static java.util.Collections.emptyList;
-import static java.util.Optional.empty;
-
-import org.mule.runtime.extension.api.soap.message.MessageDispatcher;
 import org.mule.runtime.extension.api.soap.security.SecurityStrategy;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Contract for implementations that handles the web services that the extension will be able to execute by returning a list of
  * {@link WebServiceDefinition}s.
  * <p>
  * Implementations can also add a level of security by overriding the {@link SoapServiceProvider#getSecurities()}
- * method and on top of Soap Security the {@link SoapServiceProvider#getCustomDispatcher()} enables the capability to send
- * the soap messages using custom behaviour.
+ * method.
  *
  * @since 1.0
  */
