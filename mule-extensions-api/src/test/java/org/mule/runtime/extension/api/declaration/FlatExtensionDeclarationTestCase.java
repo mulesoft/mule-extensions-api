@@ -153,9 +153,9 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
   public void operations() throws Exception {
     List<OperationDeclaration> operations = extensionDeclaration.getOperations();
     assertThat(operations, hasSize(3));
-    assertConsumeOperation(operations);
-    assertBroadcastOperation(operations);
     assertArgLessOperation(operations);
+    assertBroadcastOperation(operations);
+    assertConsumeOperation(operations);
   }
 
   @Test
@@ -194,7 +194,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
   }
 
   private void assertConsumeOperation(List<OperationDeclaration> operations) {
-    OperationDeclaration operation = operations.get(0);
+    OperationDeclaration operation = operations.get(2);
     assertThat(operation.getName(), is(CONSUMER));
     assertThat(operation.getDescription(), is(GO_GET_THEM_TIGER));
     assertDataType(operation.getOutput().getType(), InputStream.class, BinaryType.class);
@@ -226,7 +226,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
   }
 
   private void assertArgLessOperation(List<OperationDeclaration> operations) {
-    OperationDeclaration operation = operations.get(2);
+    OperationDeclaration operation = operations.get(0);
 
     assertThat(operation.getName(), is(ARG_LESS));
     assertThat(operation.getDescription(), is(HAS_NO_ARGS));

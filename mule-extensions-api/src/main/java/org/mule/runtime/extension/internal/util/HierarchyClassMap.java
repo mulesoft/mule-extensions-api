@@ -8,6 +8,7 @@ package org.mule.runtime.extension.internal.util;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -63,14 +64,14 @@ public class HierarchyClassMap<V> implements Map<Class<?>, V> {
    * Creates a new instance which behaves like a {@link HashMap}
    */
   public HierarchyClassMap() {
-    this(new HashMap<>());
+    this(new LinkedHashMap<>());
   }
 
   /**
    * Creates a new instance which wraps the given {@code delegate},
    * inheriting its rules.
    *
-   * @param delegate a backing {@link Map}
+   * @param delegate a backing {@link Map} with predictable iteration order
    */
   public HierarchyClassMap(Map<Class<?>, V> delegate) {
     this.delegate = delegate;

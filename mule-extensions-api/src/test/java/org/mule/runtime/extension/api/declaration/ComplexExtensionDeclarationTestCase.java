@@ -68,7 +68,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
 
   @Test
   public void listenerConfig() {
-    ConfigurationDeclaration listener = extensionDeclaration.getConfigurations().get(1);
+    ConfigurationDeclaration listener = extensionDeclaration.getConfigurations().get(0);
     assertThat(listener.getName(), is(LISTENER_CONFIG_NAME));
     assertThat(listener.getDescription(), is(LISTENER_CONFIG_DESCRIPTION));
     assertThat(listener.getOperations(), is(empty()));
@@ -78,7 +78,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
 
   @Test
   public void listenerSource() {
-    SourceDeclaration source = extensionDeclaration.getConfigurations().get(1).getMessageSources().get(0);
+    SourceDeclaration source = extensionDeclaration.getConfigurations().get(0).getMessageSources().get(0);
     assertThat(source.getName(), is(LISTEN_MESSAGE_SOURCE));
     assertDataType(source.getOutput().getType(), InputStream.class, BinaryType.class);
     assertDataType(source.getOutputAttributes().getType(), Serializable.class, ObjectType.class);
@@ -92,17 +92,17 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
 
   @Test
   public void requesterConfig() {
-    ConfigurationDeclaration listener = extensionDeclaration.getConfigurations().get(0);
-    assertThat(listener.getName(), is(REQUESTER_CONFIG_NAME));
-    assertThat(listener.getDescription(), is(REQUESTER_CONFIG_DESCRIPTION));
-    assertThat(listener.getOperations(), hasSize(1));
-    assertThat(listener.getConnectionProviders(), hasSize(1));
-    assertThat(listener.getMessageSources(), is(empty()));
+    ConfigurationDeclaration requester = extensionDeclaration.getConfigurations().get(1);
+    assertThat(requester.getName(), is(REQUESTER_CONFIG_NAME));
+    assertThat(requester.getDescription(), is(REQUESTER_CONFIG_DESCRIPTION));
+    assertThat(requester.getOperations(), hasSize(1));
+    assertThat(requester.getConnectionProviders(), hasSize(1));
+    assertThat(requester.getMessageSources(), is(empty()));
   }
 
   @Test
   public void requestOperation() {
-    OperationDeclaration operation = extensionDeclaration.getConfigurations().get(0).getOperations().get(0);
+    OperationDeclaration operation = extensionDeclaration.getConfigurations().get(1).getOperations().get(0);
     assertThat(operation.getName(), is(REQUEST_OPERATION_NAME));
     assertDataType(operation.getOutput().getType(), InputStream.class, BinaryType.class);
     assertThat(operation.getAllParameters(), hasSize(1));
@@ -126,7 +126,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
 
   @Test
   public void connectionProvider() {
-    ConnectionProviderDeclaration provider = extensionDeclaration.getConfigurations().get(0).getConnectionProviders().get(0);
+    ConnectionProviderDeclaration provider = extensionDeclaration.getConfigurations().get(1).getConnectionProviders().get(0);
     assertThat(provider.getName(), is(REQUESTER_PROVIDER));
   }
 

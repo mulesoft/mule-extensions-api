@@ -19,7 +19,7 @@ import org.mule.runtime.extension.internal.util.HierarchyClassMap;
 import com.google.common.collect.ImmutableList;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -74,7 +74,7 @@ public abstract class AbstractImmutableModel implements DescribedObject, Enricha
    */
   @Override
   public Set<ModelProperty> getModelProperties() {
-    return unmodifiableSet(new HashSet(modelProperties.values()));
+    return unmodifiableSet(new LinkedHashSet<>(modelProperties.values()));
   }
 
   @Override
