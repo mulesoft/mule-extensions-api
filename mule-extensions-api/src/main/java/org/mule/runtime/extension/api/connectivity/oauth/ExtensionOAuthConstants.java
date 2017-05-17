@@ -79,19 +79,14 @@ public final class ExtensionOAuthConstants {
   public static final String LISTENER_CONFIG_PARAMETER_NAME = "listenerConfig";
 
   /**
-   * The name of the parameter on which the host of the OAuth callback is configured
-   */
-  public static final String CALLBACK_HOST_PARAMETER_NAME = "callbackHost";
-
-  /**
-   * The name of the parameter on which the port of the OAuth callback is configured
-   */
-  public static final String CALLBACK_PORT_PARAMETER_NAME = "callbackPort";
-
-  /**
    * The name of the parameter on which the path of the OAuth callback is configured
    */
   public static final String CALLBACK_PATH_PARAMETER_NAME = "callbackPath";
+
+  /**
+   * The name of the parameter on which the external callback URL is configured
+   */
+  public static final String EXTERNAL_CALLBACK_URL_PARAMETER_NAME = "externalCallbackUrl";
 
   /**
    * The name of the parameter on which the path of the local authorization url is configured

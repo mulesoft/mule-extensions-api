@@ -63,7 +63,7 @@ public class ModuleException extends MuleRuntimeException {
    * @param <T> Type of the {@link ErrorTypeDefinition}
    */
   public <T extends Enum<T>> ModuleException(I18nMessage message, ErrorTypeDefinition<T> errorTypeDefinition) {
-    super(message);
+    super(message, new MuleRuntimeException(message));
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
   }
