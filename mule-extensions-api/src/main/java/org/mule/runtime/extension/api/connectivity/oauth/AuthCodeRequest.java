@@ -35,4 +35,9 @@ public interface AuthCodeRequest {
    * @return The OAuth state that was sent
    */
   Optional<String> getState();
+
+  /**
+   * @return The external callback url that the user configured or {@link Optional#empty()} if none was provided
+   */
+  Optional<String> getExternalCallbackUrl();
 }

@@ -68,4 +68,9 @@ public interface AuthorizationCodeState {
    * @return The OAuth consumer secret that was used in the authorization process
    */
   String getConsumerSecret();
+
+  /**
+   * @return The external callback url that the user configured or {@link Optional#empty()} if none was provided
+   */
+  Optional<String> getExternalCallbackUrl();
 }

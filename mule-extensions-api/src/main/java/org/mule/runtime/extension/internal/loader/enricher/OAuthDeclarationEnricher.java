@@ -15,11 +15,10 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUTHORIZATION_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.BEFORE_FLOW_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CALLBACK_HOST_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CALLBACK_PATH_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CALLBACK_PORT_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CONSUMER_KEY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CONSUMER_SECRET_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.EXTERNAL_CALLBACK_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.LISTENER_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.LOCAL_AUTHORIZE_PATH_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_AUTHORIZATION_CODE_GROUP_NAME;
@@ -57,7 +56,6 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
   private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
   private final MetadataType stringType = typeLoader.load(String.class);
-  private final MetadataType intType = typeLoader.load(Integer.class);
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
@@ -124,31 +122,24 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
   private void addOAuthCallbackParameters(ConnectionProviderDeclaration declaration) {
     List<ParameterDeclaration> params = new LinkedList<>();
-    params.add(buildParameter(LISTENER_CONFIG_PARAMETER_NAME, "A reference to an <http:listener-config /> to be used in order "
-        + "to create the listener that will catch the access token callback endpoint. This is mutually exclusive with "
-        + CALLBACK_HOST_PARAMETER_NAME + " and " + CALLBACK_PORT_PARAMETER_NAME, false, stringType, NOT_SUPPORTED, null));
-
-    params
-        .add(buildParameter(CALLBACK_HOST_PARAMETER_NAME,
-                            "The host in which to create a http listener for the access token callback endpoint. "
-                                + "This is mutually exclusive with " + LISTENER_CONFIG_PARAMETER_NAME,
-                            false, stringType,
-                            NOT_SUPPORTED, null));
-
-    params
-        .add(buildParameter(CALLBACK_PORT_PARAMETER_NAME,
-                            "The port in which to create a http listener for triggering the authorization dance. "
-                                + "This is mutually exclusive with " + LISTENER_CONFIG_PARAMETER_NAME,
-                            false, intType,
-                            NOT_SUPPORTED, null));
+    params.add(buildParameter(LISTENER_CONFIG_PARAMETER_NAME, "A reference to a <http:listener-config /> to be used in order "
+        + "to create the listener that will catch the access token callback endpoint.", true, stringType,
+                              NOT_SUPPORTED, null));
 
     params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
-                              false, stringType, NOT_SUPPORTED, null));
-
-    params.add(
-               buildParameter(LOCAL_AUTHORIZE_PATH_PARAMETER_NAME,
-                              "The path of the local http endpoint which triggers the OAuth dance",
                               true, stringType, NOT_SUPPORTED, null));
+
+    params.add(buildParameter(LOCAL_AUTHORIZE_PATH_PARAMETER_NAME,
+                              "The path of the local http endpoint which triggers the OAuth dance", true,
+                              stringType, NOT_SUPPORTED, null));
+
+    params.add(buildParameter(EXTERNAL_CALLBACK_URL_PARAMETER_NAME, "If the callback endpoint is behind a proxy or should be "
+        + "accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use "
+        + "to access the callback", false, stringType, NOT_SUPPORTED, null));
+
+    params.add(buildParameter(LOCAL_AUTHORIZE_PATH_PARAMETER_NAME,
+                              "The path of the local http endpoint which triggers the OAuth dance", true,
+                              stringType, NOT_SUPPORTED, null));
 
     addToGroup(params, OAUTH_CALLBACK_GROUP_NAME, declaration);
   }
