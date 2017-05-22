@@ -137,10 +137,6 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
         + "accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use "
         + "to access the callback", false, stringType, NOT_SUPPORTED, null));
 
-    params.add(buildParameter(LOCAL_AUTHORIZE_PATH_PARAMETER_NAME,
-                              "The path of the local http endpoint which triggers the OAuth dance", true,
-                              stringType, NOT_SUPPORTED, null));
-
     addToGroup(params, OAUTH_CALLBACK_GROUP_NAME, declaration);
   }
 
