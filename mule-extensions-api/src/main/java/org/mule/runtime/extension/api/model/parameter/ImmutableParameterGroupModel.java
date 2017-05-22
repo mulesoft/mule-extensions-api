@@ -85,6 +85,14 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
   /**
    * {@inheritDoc}
    */
+  @Override
+  public Optional<ParameterModel> getParameter(String name) {
+    return parameters.stream().filter(p -> p.getName().equals(name)).findFirst();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public boolean isShowInDsl() {
     return showInDsl;
   }
