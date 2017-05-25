@@ -39,7 +39,7 @@ public @interface Placement {
    */
   String CONNECTION_TAB = "Connection";
 
-  String SECURITY_TAB = "Security";
+  String SECURITY_TAB = "TLS";
 
   String DEFAULT_TAB = "General";
 

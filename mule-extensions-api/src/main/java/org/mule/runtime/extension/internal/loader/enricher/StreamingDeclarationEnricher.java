@@ -11,7 +11,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_TAB_NAME;
+import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_BYTE_STREAMING_STRATEGY_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_OBJECT_STREAMING_STRATEGY_QNAME;
 import org.mule.metadata.api.model.MetadataType;
@@ -81,7 +81,7 @@ public class StreamingDeclarationEnricher extends InfrastructureDeclarationEnric
     parameter.setRequired(false);
     parameter.setParameterRole(BEHAVIOUR);
     parameter.setType(type, false);
-    parameter.setLayoutModel(LayoutModel.builder().tabName(STREAMING_TAB_NAME).build());
+    parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
     parameter.setDslConfiguration(ParameterDslConfiguration.builder()
         .allowsInlineDefinition(true)
         .allowsReferences(false)
