@@ -71,6 +71,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String EXTERNAL_LIBRARIES = "externalLibraries";
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
+  public static final String ERRORS = "errors";
 
   private final Gson gsonDelegate;
   private final JsonMetadataTypeLoader typeLoader = new JsonMetadataTypeLoader();
@@ -126,7 +127,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {
 
     });
-    writeWithDelegate(model.getErrorModels(), "errors", out, new TypeToken<Set<ErrorModel>>() {
+    writeWithDelegate(model.getErrorModels(), ERRORS, out, new TypeToken<Set<ErrorModel>>() {
 
     });
 

@@ -220,7 +220,7 @@
                     <executions>
                         <execution>
                             <goals>
-                                <goal>${formatterGoal}</goal>
+                                <goal>format</goal>
                             </goals>
                             <configuration>
                                 <skipFormatting>${skipCodeFormatting}</skipFormatting>
@@ -249,7 +249,7 @@
                         <execution>
                             <phase>compile</phase>
                             <goals>
-                                <goal>check</goal>
+                                <goal>format</goal>
                             </goals>
                         </execution>
                     </executions>
