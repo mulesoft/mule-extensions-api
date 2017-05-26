@@ -120,9 +120,7 @@ public final class ExtensionMetadataTypeUtils {
   public static String getId(MetadataType metadataType) {
     try {
       return getTypeId(metadataType)
-          .orElseGet(() -> metadataType.getMetadataFormat().equals(JAVA)
-              ? getType(metadataType).map(Class::getName).orElse("")
-              : "");
+          .orElseGet(() -> ExtensionMetadataTypeUtils.getType(metadataType).map(Class::getName).orElse(""));
     } catch (Exception e) {
       return "";
     }

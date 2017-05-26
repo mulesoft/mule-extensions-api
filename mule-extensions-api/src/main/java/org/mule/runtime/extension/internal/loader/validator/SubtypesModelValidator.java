@@ -8,14 +8,11 @@ package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getAlias;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toSubTypesMap;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
@@ -31,6 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -70,13 +68,18 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
                                                          Map<ObjectType, Set<ObjectType>> typesMapping,
                                                          ProblemsReporter problemsReporter) {
     for (Map.Entry<ObjectType, Set<ObjectType>> subtypes : typesMapping.entrySet()) {
-      if (!subtypes.getKey().getMetadataFormat().equals(JAVA)) {
+      Optional<Class<?>> baseType = ExtensionMetadataTypeUtils.getType(subtypes.getKey());
+      if (!baseType.isPresent()) {
         continue;
       }
 
-      final Class<?> baseType = getType(subtypes.getKey());
-      List<String> invalidTypes = subtypes.getValue().stream().map(JavaTypeUtils::getType)
-          .filter(s -> !baseType.isAssignableFrom(s)).map(Class::getSimpleName).collect(toList());
+      List<String> invalidTypes = subtypes.getValue().stream()
+          .map(ExtensionMetadataTypeUtils::getType)
+          .filter(Optional::isPresent)
+          .map(Optional::get)
+          .filter(s -> !baseType.get().isAssignableFrom(s))
+          .map(Class::getSimpleName)
+          .collect(toList());
 
       if (!invalidTypes.isEmpty()) {
         problemsReporter
@@ -84,7 +87,7 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
                                   format("All the declared Subtypes should be concrete implementations of the give baseType,"
                                       + " but [%s] are not implementations of [%s]",
                                          Arrays.toString(invalidTypes.toArray()),
-                                         baseType.getSimpleName())));
+                                         baseType.get().getSimpleName())));
       }
     }
   }
