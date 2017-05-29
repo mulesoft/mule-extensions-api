@@ -7,17 +7,19 @@
 package org.mule.runtime.extension.api;
 
 import org.mule.runtime.api.message.Error;
+import org.mule.runtime.extension.api.annotation.execution.OnTerminate;
 
 import java.util.function.Consumer;
 
 /**
- *
+ * Result for the {@link OnTerminate} callbacks.
+ * This result provides an easy way and common way to discern the different kinds of states that a
  *
  * @since 1.0
  */
 @FunctionalInterface
-public interface OnTerminateCallback {
+public interface OnTerminateResult {
 
-  void execute(Consumer<Void> onSuccess, Consumer<Error> onParameterResolutionError, Consumer<Error> onResponseError);
+  void execute(Runnable onSuccess, Consumer<Error> onParameterResolutionError, Consumer<Error> onResponseError);
 
 }

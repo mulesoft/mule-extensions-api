@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.annotation.execution;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import org.mule.runtime.extension.api.OnTerminateCallback;
+import org.mule.runtime.extension.api.OnTerminateResult;
 import org.mule.runtime.extension.api.runtime.source.Source;
 import org.mule.runtime.extension.api.runtime.source.SourceCallbackContext;
 
@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * by the owning flow doesn't taking in account if the processing finished successfully or not.
  *
  * For {@link Source sources} the unique parameters which this callback can receive are
- * the {@link OnTerminateCallback} and the {@link SourceCallbackContext}
+ * the {@link OnTerminateResult} and the {@link SourceCallbackContext}
  *
  * @since 1.0
  */

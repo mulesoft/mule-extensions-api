@@ -12,7 +12,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
-import org.mule.runtime.extension.api.OnTerminateCallback;
+import org.mule.runtime.extension.api.OnTerminateResult;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
@@ -30,7 +30,7 @@ import java.util.StringJoiner;
  */
 public class SourceCallbacksModelValidator implements ExtensionModelValidator {
 
-  private static final String ON_TERMINATE_CALLBACK = OnTerminateCallback.class.getSimpleName();
+  private static final String ON_TERMINATE_CALLBACK = OnTerminateResult.class.getSimpleName();
   private static final String CALLBACK_CONTEXT = SourceCallbackContext.class.getSimpleName();
   private static final String ERROR_MESSAGE = "'On Terminate Callbacks' can only receive parameters of the following types: " +
       "'" + ON_TERMINATE_CALLBACK + "' and '" + CALLBACK_CONTEXT + "'";
@@ -65,6 +65,6 @@ public class SourceCallbacksModelValidator implements ExtensionModelValidator {
 
   private String getMissingTerminateCallbackError(SourceModel sourceModel) {
     return "The source [" + sourceModel.getName() + "] defines a Success or Error Callback. " +
-            "If at least one of these are defined, a Terminate Callback should also be defined.";
+        "If at least one of these are defined, a Terminate Callback should also be defined.";
   }
 }
