@@ -24,7 +24,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.extension.api.ExtensionConstants.OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_ACTION_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TAB_NAME;
+import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
 import static org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -166,7 +166,7 @@ public class TransactionalDeclarationEnricherTestCase {
     assertThat(transactionParameter.isRequired(), is(false));
     assertThat(transactionParameter.getDefaultValue(), is(defaultValue));
     assertThat(transactionParameter.getDescription(), is(description));
-    assertThat(transactionParameter.getLayoutModel().getTabName().get(), is(TRANSACTIONAL_TAB_NAME));
+    assertThat(transactionParameter.getLayoutModel().getTabName().get(), is(ADVANCED_TAB));
   }
 
   private Optional<ParameterDeclaration> getTransactionActionParameter(ComponentDeclaration declaration) {

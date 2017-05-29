@@ -74,6 +74,11 @@ public final class ExtensionConstants {
       "Defines a policy for processing the redelivery of the same message";
 
   /**
+   * The name of the tab in which transaction parameters should appear
+   */
+  public static final String REDELIVERY_TAB_NAME = "Redelivery";
+
+  /**
    * The name of an attribute which allows referencing a {@link TlsContextFactory}
    */
   public static final String TLS_PARAMETER_NAME = "tlsContext";
@@ -82,16 +87,6 @@ public final class ExtensionConstants {
    * The name of the parameter for configuring transactional actions
    */
   public static final String TRANSACTIONAL_ACTION_PARAMETER_NAME = "transactionalAction";
-
-  /**
-   * The name of the tab in which transaction parameters should appear
-   */
-  public static final String TRANSACTIONAL_TAB_NAME = "Transactions";
-
-  /**
-   * The name of the tab in which streaming parameters should appear
-   */
-  public static final String STREAMING_TAB_NAME = "Streaming";
 
   /**
    * The default size of the buffer that allows for repeatable streams
