@@ -94,7 +94,7 @@ public abstract class ExtensionModelLoader {
    * <p>
    * This method should only be invoked by the runtime. Do not invoke manually.
    *
-   * @param context the context taht will be used for the declaration
+   * @param context the context that will be used for the declaration
    */
   protected abstract void declareExtension(ExtensionLoadingContext context);
 }
