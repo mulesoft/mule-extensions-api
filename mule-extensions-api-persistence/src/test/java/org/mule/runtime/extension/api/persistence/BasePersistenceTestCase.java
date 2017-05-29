@@ -11,6 +11,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -219,7 +220,7 @@ abstract class BasePersistenceTestCase {
                                                                                         .builder()
                                                                                         .build(),
                                                                                     emptySet())),
-                                           Optional.empty(), Optional.empty(), false, false, false,
+                                           empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(),
                                            emptySet(), emptySet(), emptySet());
 

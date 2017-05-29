@@ -12,7 +12,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
-import org.mule.runtime.extension.api.OnTerminateResult;
+import org.mule.runtime.extension.api.runtime.source.OnTerminateResult;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;

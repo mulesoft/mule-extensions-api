@@ -8,20 +8,14 @@ package org.mule.runtime.extension.api.annotation.execution;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import org.mule.runtime.extension.api.runtime.source.Source;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to indicate that an annotated method should be executed when a given
- * execution finishes successfully.
- * <p>
- * The actual meaning of the term 'given execution' depends of the context in which
- * this annotation is used. For example, if used in a {@link Source} type, it means
- * that the annotated method should be executed when a generated event is successfully
- * processed by the owning flow.
+ * Used to indicate that an Source's method should be executed when a generated
+ * event is successfully processed by the owning flow.
  * <p>
  * Another important semantic of this annotation, is that whatever parameters the annotated
  * method takes, are to be automatically resolved by the runtime in the same way as an
