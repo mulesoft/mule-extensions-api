@@ -45,7 +45,7 @@ public class SourceCallbacksModelValidator implements ExtensionModelValidator {
         Optional<SourceCallbackModel> errorCallback = sourceModel.getErrorCallback();
         Optional<SourceCallbackModel> terminateCallback = sourceModel.getTerminateCallback();
 
-        if((successCallback.isPresent() || errorCallback.isPresent()) && !terminateCallback.isPresent()){
+        if ((successCallback.isPresent() || errorCallback.isPresent()) && !terminateCallback.isPresent()) {
           problemsReporter.addError(new Problem(sourceModel, getMissingTerminateCallbackError(sourceModel)));
         }
 
