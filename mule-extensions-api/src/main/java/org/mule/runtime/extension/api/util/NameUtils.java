@@ -14,10 +14,7 @@ import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
@@ -264,9 +261,11 @@ public class NameUtils {
 
   public static String getAliasName(MetadataType metadataType) {
     return metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElseGet(() -> getTypeId(metadataType).map(typeId -> metadataType.getMetadataFormat().equals(JAVA)
-            ? getAliasName(getType(metadataType))
-            : typeId).orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
+        .orElseGet(() -> getTypeId(metadataType)
+            .map(typeId -> ExtensionMetadataTypeUtils.getType(metadataType)
+                .map(t -> getAliasName(t))
+                .orElse(typeId))
+            .orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
   }
 
   public static String getAliasName(Class<?> type) {

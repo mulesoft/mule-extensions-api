@@ -9,7 +9,6 @@ package org.mule.runtime.extension.internal.loader.validator;
 import static java.lang.String.format;
 import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterModel.RESERVED_NAMES;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isBasic;
@@ -206,8 +205,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                                                                                                   "Parameter '%s' in the %s [%s] can't have the same name as the ClassName or Alias of the declared subType [%s] for parameter [%s]",
                                                                                                   getTopLevelTypeName(metadataType),
                                                                                                   ownerModelType, ownerName,
-                                                                                                  getType(metadataType)
-                                                                                                      .getSimpleName(),
+                                                                                                  getId(metadataType),
                                                                                                   parameterModel.getName()))));
     }
   }
