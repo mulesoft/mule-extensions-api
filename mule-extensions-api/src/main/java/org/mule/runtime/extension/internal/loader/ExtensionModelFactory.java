@@ -81,6 +81,7 @@ import org.mule.runtime.extension.internal.loader.validator.ExclusiveParameterMo
 import org.mule.runtime.extension.internal.loader.validator.NameClashModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.OperationParametersModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.util.ParameterModelComparator;
@@ -139,6 +140,7 @@ public final class ExtensionModelFactory {
                                                        new OperationParametersModelValidator(),
                                                        new ParameterModelValidator(),
                                                        new SubtypesModelValidator(),
+                                                       new SourceCallbacksModelValidator(),
                                                        new TransactionalParametersValidator()));
   }
 

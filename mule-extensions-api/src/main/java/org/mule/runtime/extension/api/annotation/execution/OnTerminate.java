@@ -8,7 +8,9 @@ package org.mule.runtime.extension.api.annotation.execution;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.mule.runtime.extension.api.OnTerminateCallback;
 import org.mule.runtime.extension.api.runtime.source.Source;
+import org.mule.runtime.extension.api.runtime.source.SourceCallbackContext;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -16,16 +18,15 @@ import java.lang.annotation.Target;
 
 /**
  * Used to indicate that an annotated method should be executed when a given
- * execution fails.
+ * execution finishes.
  *
  * The actual meaning of the term 'given execution' depends of the context in which
  * this annotation is used. For example, if used in a {@link Source} type, it means
  * that the annotated method should be executed when a generated event was processed
- * by the owning flow but an error was thrown.
+ * by the owning flow doesn't taking in account if the processing finished successfully or not.
  *
- * Another important semantic of this annotation, is that whatever parameters the annotated
- * method takes, are to be automatically resolved by the runtime in the same way as an
- * operation method would.
+ * For {@link Source sources} the unique parameters which this callback can receive are
+ * the {@link OnTerminateCallback} and the {@link SourceCallbackContext}
  *
  * @since 1.0
  */

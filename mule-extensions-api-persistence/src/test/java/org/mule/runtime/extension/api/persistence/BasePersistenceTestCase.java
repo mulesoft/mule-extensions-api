@@ -64,6 +64,8 @@ import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
+import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -79,6 +81,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -205,7 +208,21 @@ abstract class BasePersistenceTestCase {
                                              defaultDisplayModel,
                                              emptySet());
 
-    sourceModel = null;
+    sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true,
+                                           asParameterGroup(carNameParameter, noIdParameter),
+                                           outputModel, outputAttributesModel,
+                                           Optional
+                                               .of(new ImmutableSourceCallbackModel("onSuccess", "",
+                                                                                    asParameterGroup(
+                                                                                                     complexParameter),
+                                                                                    DisplayModel
+                                                                                        .builder()
+                                                                                        .build(),
+                                                                                    emptySet())),
+                                           Optional.empty(), Optional.empty(), false, false, false,
+                                           DisplayModel.builder().build(),
+                                           emptySet(), emptySet(), emptySet());
+
 
     LinkedHashSet<ObjectType> typesCatalog = new LinkedHashSet<>();
     typesCatalog.add(exportedType);

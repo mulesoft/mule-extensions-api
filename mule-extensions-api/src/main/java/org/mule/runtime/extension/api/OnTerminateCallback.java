@@ -11,13 +11,13 @@ import org.mule.runtime.api.message.Error;
 import java.util.function.Consumer;
 
 /**
- * mule-alltogether
  *
- * @author Esteban Wasinger (http://github.com/estebanwasinger)
+ *
+ * @since 1.0
  */
+@FunctionalInterface
 public interface OnTerminateCallback {
 
   void execute(Consumer<Void> onSuccess, Consumer<Error> onParameterResolutionError, Consumer<Error> onResponseError);
 
-  void execute(Consumer<Error> onParameterResolutionError, Consumer<Error> onResponseError);
 }
