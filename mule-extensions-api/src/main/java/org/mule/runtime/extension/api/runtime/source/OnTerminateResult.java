@@ -6,16 +6,16 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.runtime.api.message.Error;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
 import org.mule.runtime.extension.api.annotation.execution.OnTerminate;
-import org.mule.runtime.api.message.Error;
 
 import java.util.Optional;
 
 /**
- * Result for the {@link OnTerminate} callbacks. Provides information the result of the Source
- * generated message processing execution.
+ * Result for the {@link OnTerminate} callbacks. Provides information the result of the Source generated message processing
+ * execution.
  *
  * @since 1.0
  */
@@ -50,23 +50,21 @@ public final class OnTerminateResult {
    */
   public boolean isSuccess() {
     return this.parameterGenerationError == null &&
-            this.responseError == null;
+        this.responseError == null;
   }
 
   /**
-   * Indicates whether an error occurred or not trying to generate the parameters
-   * to call the {@link OnSuccess} or {@link OnError} callbacks.
+   * Indicates whether an error occurred or not trying to generate the parameters to call the {@link OnSuccess} or {@link OnError}
+   * callbacks.
    *
-   * @return boolean indicating if the error happened trying to generate the parameters
-   * of the callbacks
+   * @return boolean indicating if the error happened trying to generate the parameters of the callbacks
    */
   public Optional<Error> getParameterGenerationError() {
     return Optional.ofNullable(parameterGenerationError);
   }
 
   /**
-   * Indicates whether an error occurred or not executing one of the source callbacks
-   * ({@link OnSuccess} or {@link OnError}).
+   * Indicates whether an error occurred or not executing one of the source callbacks ({@link OnSuccess} or {@link OnError}).
    *
    * @return boolean indicating if the error happened calling the source callbacks.
    */
