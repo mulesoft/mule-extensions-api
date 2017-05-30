@@ -45,8 +45,10 @@ public class SourceCallbacksModelValidator implements ExtensionModelValidator {
         Optional<SourceCallbackModel> errorCallback = sourceModel.getErrorCallback();
         Optional<SourceCallbackModel> terminateCallback = sourceModel.getTerminateCallback();
 
-        if ((successCallback.isPresent() || errorCallback.isPresent()) && !terminateCallback.isPresent()) {
-          problemsReporter.addError(new Problem(sourceModel, getMissingTerminateCallbackError(sourceModel)));
+        if (hasCallbacksWithOutOnTerminate(successCallback, errorCallback, terminateCallback)) {
+          if (!errorCallback.isPresent() || hasParameters(errorCallback)) {
+            problemsReporter.addError(new Problem(sourceModel, getMissingTerminateCallbackError(sourceModel)));
+          }
         }
 
         terminateCallback.ifPresent(callback -> {
@@ -61,6 +63,16 @@ public class SourceCallbacksModelValidator implements ExtensionModelValidator {
         this.stop();
       }
     }.walk(model);
+  }
+
+  private boolean hasCallbacksWithOutOnTerminate(Optional<SourceCallbackModel> successCallback,
+                                                 Optional<SourceCallbackModel> errorCallback,
+                                                 Optional<SourceCallbackModel> terminateCallback) {
+    return (successCallback.isPresent() || errorCallback.isPresent()) && !terminateCallback.isPresent();
+  }
+
+  private boolean hasParameters(Optional<SourceCallbackModel> errorCallback) {
+    return errorCallback.isPresent() && !errorCallback.get().getAllParameterModels().isEmpty();
   }
 
   private String getMissingTerminateCallbackError(SourceModel sourceModel) {
