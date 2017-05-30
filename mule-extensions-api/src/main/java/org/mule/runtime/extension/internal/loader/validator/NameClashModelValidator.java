@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import org.mule.metadata.api.model.ArrayType;
@@ -42,6 +43,7 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportT
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
+import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.LinkedListMultimap;
@@ -51,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -71,6 +74,8 @@ import java.util.Set;
  * @since 1.0
  */
 public final class NameClashModelValidator implements ExtensionModelValidator {
+
+  private final List<ParameterReference> allContentParameters = new LinkedList<>();
 
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
@@ -107,15 +112,17 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         }
 
         @Override
+        public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model) {
+          defaultValidation(model);
+        }
+
+        @Override
         public void onOperation(HasOperationModels owner, OperationModel model) {
           validateOperation(model);
           registerNamedObject(model);
           validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
-        }
 
-        @Override
-        public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model) {
-          defaultValidation(model);
+          registerContentParameters(model);
         }
 
         @Override
@@ -123,6 +130,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           validateCallbackNames(model.getSuccessCallback(), model);
           validateCallbackNames(model.getErrorCallback(), model);
           defaultValidation(model);
+
+          registerContentParameters(model);
         }
 
         @Override
@@ -151,6 +160,14 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       validateSingularizeNameClashesWithNamedObjects();
       validateNameClashes(namedObjects, topLevelParameters.values(),
                           topLevelParameters.values().stream().map(TypedTopLevelParameter::new).collect(toSet()));
+
+      validateContentNamesMatchType(extensionModel, problemsReporter);
+    }
+
+    private void registerContentParameters(ParameterizedModel model) {
+      getContentParameters(model).stream()
+          .map(p -> new ParameterReference(p, model, dslSyntaxResolver.resolve(p)))
+          .forEach(allContentParameters::add);
     }
 
     private void validateOperation(OperationModel operation) {
@@ -166,8 +183,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
             namedObjects.forEach(namedObject -> validateClash(namedObject.getName(), parameterElement.getElementName(),
                                                               namedObject.getDescription(),
-                                                              String.format("%s named %s with an argument", operationName,
-                                                                            getComponentModelTypeName(operation))));
+                                                              format("%s named %s with an argument", operationName,
+                                                                     getComponentModelTypeName(operation))));
           });
     }
 
@@ -201,15 +218,15 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
               .filter(topLevelParameter -> !topLevelParameter.type.equals(parameterType))
               .findAny().ifPresent(
                                    tp -> {
-                                     problemsReporter.addError(new Problem(extensionModel, String.format(
-                                                                                                         "An %s of name '%s' contains parameter '%s' of complex type '%s'. However, "
-                                                                                                             + "%s of name '%s' defines a parameter of the same name but type '%s'. Complex parameter of different types cannot have the same name.",
-                                                                                                         ownerType, ownerName,
-                                                                                                         parameterElement
-                                                                                                             .getElementName(),
-                                                                                                         parameterType,
-                                                                                                         tp.ownerType, tp.owner,
-                                                                                                         tp.type.getName())));
+                                     problemsReporter.addError(new Problem(extensionModel, format(
+                                                                                                  "An %s of name '%s' contains parameter '%s' of complex type '%s'. However, "
+                                                                                                      + "%s of name '%s' defines a parameter of the same name but type '%s'. Complex parameter of different types cannot have the same name.",
+                                                                                                  ownerType, ownerName,
+                                                                                                  parameterElement
+                                                                                                      .getElementName(),
+                                                                                                  parameterType,
+                                                                                                  tp.ownerType, tp.owner,
+                                                                                                  tp.type.getName())));
                                    });
         }
       }
@@ -360,6 +377,34 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     }
   }
 
+  private List<ParameterModel> getContentParameters(ParameterizedModel model) {
+    return model.getAllParameterModels().stream().filter(ExtensionModelUtils::isContent).collect(toList());
+  }
+
+  private void validateContentNamesMatchType(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
+    Map<String, List<ParameterReference>> clashingsByTagName = new HashMap<>();
+    allContentParameters
+        .forEach(param -> clashingsByTagName.computeIfAbsent(param.dsl.getElementName(), k -> {
+          List<ParameterReference> others = allContentParameters.stream()
+              .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName()) && !param.type.equals(other.type))
+              .collect(toList());
+          if (!others.isEmpty()) {
+            others.add(param);
+          }
+          return others;
+        }));
+
+    clashingsByTagName.forEach((tag, invalidParams) -> {
+      if (!invalidParams.isEmpty()) {
+        String msg =
+            format("Parameters with name [%s] declared in [%s] with tag name [%s] are declared as Content but have different types [%s]",
+                   invalidParams.get(0).model.getName(),
+                   invalidParams.stream().map(p -> p.owner.getName()).collect(joining(", ")), tag,
+                   invalidParams.stream().map(p -> getId(p.type)).collect(joining(", ")));
+        problemsReporter.addError(new Problem(extensionModel, msg));
+      }
+    });
+  }
 
   private class TopLevelParameter implements NamedObject, DescribedObject {
 
@@ -474,6 +519,23 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     public MetadataType getDescribedType() {
       return describedType;
     }
+  }
+
+  private static class ParameterReference {
+
+    private final ParameterModel model;
+    private final MetadataType type;
+    private final ParameterizedModel owner;
+    private final DslElementSyntax dsl;
+
+
+    public ParameterReference(ParameterModel model, ParameterizedModel owner, DslElementSyntax dsl) {
+      this.model = model;
+      this.type = model.getType();
+      this.owner = owner;
+      this.dsl = dsl;
+    }
+
   }
 
 }
