@@ -7,9 +7,11 @@
 package org.mule.runtime.extension.api.soap;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import org.mule.runtime.extension.api.soap.security.SecurityStrategy;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Contract for implementations that handles the web services that the extension will be able to execute by returning a list of
@@ -35,14 +37,17 @@ public interface SoapServiceProvider {
   }
 
   /**
-   * Gives the capability to create {@link SoapHeader}s given the a service definition and the operation that is being consumed
+   * Gives the capability to create Soap headers given the a service definition and the operation that is being consumed
    * so they can be bundled with the soap request
+   * <p>
+   * It returns a {@link Map} with {@link String} keys representing the name of the headers and {@link String} values
+   * representing the actual XML soap header value.
    *
    * @param definition the {@link WebServiceDefinition} of the service being called.
    * @param operation  the name of the operation that is going to be consumed.
-   * @return a {@link List} of {@link SoapHeader}s to be bundled in the generated envelope.
+   * @return a {@link Map} of soap headers to be bundled in the generated envelope.
    */
-  default List<SoapHeader> getCustomHeaders(WebServiceDefinition definition, String operation) {
-    return emptyList();
+  default Map<String, String> getCustomHeaders(WebServiceDefinition definition, String operation) {
+    return emptyMap();
   }
 }
