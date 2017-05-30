@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.message.Error;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
@@ -14,37 +15,39 @@ import org.mule.runtime.extension.api.annotation.execution.OnTerminate;
 import java.util.Optional;
 
 /**
- * Result for the {@link OnTerminate} callbacks. Provides information the result of the Source generated message processing
- * execution.
+ * A class that represents the result of processing a message from a {@link Source} through a flow,
+ * this reports whether the result of the processing was successful or terminated with errors.
+ * The purpose of this class is to be used as input of the {@link OnTerminate} callback of a
+ * {@link Source} so that this callback can operate according to the result.
  *
  * @since 1.0
  */
-public final class OnTerminateResult {
+public final class SourceResult {
 
   private final Error parameterGenerationError;
   private final Error responseError;
   private final SourceCallbackContext sourceCallbackContext;
 
-  public static OnTerminateResult success(SourceCallbackContext sourceCallbackContext) {
-    return new OnTerminateResult(null, null, sourceCallbackContext);
+  public static SourceResult success(SourceCallbackContext sourceCallbackContext) {
+    return new SourceResult(null, null, sourceCallbackContext);
   }
 
-  public static OnTerminateResult responseError(Error responseError, SourceCallbackContext sourceCallbackContext) {
-    return new OnTerminateResult(null, responseError, sourceCallbackContext);
+  public static SourceResult responseError(Error responseError, SourceCallbackContext sourceCallbackContext) {
+    return new SourceResult(null, responseError, sourceCallbackContext);
   }
 
-  public static OnTerminateResult parameterError(Error parameterError, SourceCallbackContext sourceCallbackContext) {
-    return new OnTerminateResult(parameterError, null, sourceCallbackContext);
+  public static SourceResult parameterError(Error parameterError, SourceCallbackContext sourceCallbackContext) {
+    return new SourceResult(parameterError, null, sourceCallbackContext);
   }
 
-  private OnTerminateResult(Error parameterGenerationError, Error responseError, SourceCallbackContext sourceCallbackContext) {
+  private SourceResult(Error parameterGenerationError, Error responseError, SourceCallbackContext sourceCallbackContext) {
     this.parameterGenerationError = parameterGenerationError;
     this.responseError = responseError;
     this.sourceCallbackContext = sourceCallbackContext;
   }
 
   /**
-   * Indicates whether an error occurred or not processing the Source message.
+   * Indicates whether an error has occurred or not processing a message from a {@link Source} through the owned flow
    *
    * @return boolean indicating the result of the message processing.
    */
@@ -60,7 +63,7 @@ public final class OnTerminateResult {
    * @return boolean indicating if the error happened trying to generate the parameters of the callbacks
    */
   public Optional<Error> getParameterGenerationError() {
-    return Optional.ofNullable(parameterGenerationError);
+    return ofNullable(parameterGenerationError);
   }
 
   /**
@@ -69,7 +72,7 @@ public final class OnTerminateResult {
    * @return boolean indicating if the error happened calling the source callbacks.
    */
   public Optional<Error> getResponseError() {
-    return Optional.ofNullable(responseError);
+    return ofNullable(responseError);
   }
 
   /**

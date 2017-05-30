@@ -12,7 +12,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
-import org.mule.runtime.extension.api.runtime.source.OnTerminateResult;
+import org.mule.runtime.extension.api.runtime.source.SourceResult;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
@@ -30,10 +30,10 @@ import java.util.StringJoiner;
  */
 public class SourceCallbacksModelValidator implements ExtensionModelValidator {
 
-  private static final String ON_TERMINATE_CALLBACK = OnTerminateResult.class.getSimpleName();
+  private static final String SOURCE_RESULT = SourceResult.class.getSimpleName();
   private static final String CALLBACK_CONTEXT = SourceCallbackContext.class.getSimpleName();
   private static final String ERROR_MESSAGE = "'On Terminate Callbacks' can only receive parameters of the following types: " +
-      "'" + ON_TERMINATE_CALLBACK + "' and '" + CALLBACK_CONTEXT + "'";
+      "'" + SOURCE_RESULT + "' and '" + CALLBACK_CONTEXT + "'";
 
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {

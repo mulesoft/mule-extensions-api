@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.annotation.execution;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import org.mule.runtime.extension.api.runtime.source.OnTerminateResult;
+import org.mule.runtime.extension.api.runtime.source.SourceResult;
 import org.mule.runtime.extension.api.runtime.source.Source;
 
 import java.lang.annotation.Documented;
@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * account if the processing finished successfully or not.
  * <p>
  * For {@link Source sources} the unique parameters which this callback can receive are
- * the {@link OnTerminateResult};
+ * the {@link SourceResult};
  *
  * @since 1.0
  */
