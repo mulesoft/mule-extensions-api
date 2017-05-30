@@ -571,6 +571,7 @@
       "description": "",
       "modelProperties": {}
     },
+    "errors": [],
     "output": {
       "type": {
         "format": "java",

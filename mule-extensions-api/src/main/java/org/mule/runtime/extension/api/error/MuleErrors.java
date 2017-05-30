@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.error;
 
-import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
 
@@ -17,16 +17,26 @@ import java.util.Optional;
  * @since 1.0
  */
 public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
-  CONNECTIVITY, TRANSFORMATION, EXPRESSION, REDELIVERY_EXHAUSTED, RETRY_EXHAUSTED, ROUTING, SECURITY, OVERLOAD, ANY {
 
-    @Override
-    public Optional<ErrorTypeDefinition<?>> getParent() {
-      return empty();
-    }
-  };
+  ANY, CONNECTIVITY(ANY), TRANSFORMATION(ANY), EXPRESSION(ANY), REDELIVERY_EXHAUSTED(ANY), RETRY_EXHAUSTED(ANY), ROUTING(
+      ANY), SECURITY(ANY), OVERLOAD(ANY),
+
+  SOURCE(ANY),
+
+  SOURCE_ERROR_RESPONSE_GENERATE(SOURCE), SOURCE_ERROR_RESPONSE_SEND(SOURCE),
+
+  SOURCE_RESPONSE(SOURCE), SOURCE_RESPONSE_GENERATE(SOURCE_RESPONSE), SOURCE_RESPONSE_SEND(SOURCE_RESPONSE);
+
+  private ErrorTypeDefinition<MuleErrors> parentError;
+
+  MuleErrors(ErrorTypeDefinition<MuleErrors> parentError) {
+    this.parentError = parentError;
+  }
+
+  MuleErrors() {}
 
   @Override
   public Optional<ErrorTypeDefinition<?>> getParent() {
-    return Optional.of(ANY);
+    return ofNullable(parentError);
   }
 }

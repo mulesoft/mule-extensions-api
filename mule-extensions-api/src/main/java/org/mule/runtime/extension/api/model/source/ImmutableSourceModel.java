@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.model.source;
 
-import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
@@ -32,6 +31,8 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
   private final boolean hasResponse;
   private final SourceCallbackModel successCallback;
   private final SourceCallbackModel errorCallback;
+  private final SourceCallbackModel terminateCallbackModel;
+  private final Set<ErrorModel> errors;
 
   /**
    * Creates a new instance
@@ -59,17 +60,21 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
                               OutputModel outputAttributes,
                               Optional<SourceCallbackModel> successCallbackModel,
                               Optional<SourceCallbackModel> errorCallbackModel,
+                              Optional<SourceCallbackModel> terminateCallbackModel,
                               boolean requiresConnection,
                               boolean transactional,
                               boolean supportsStreaming,
                               DisplayModel displayModel,
                               Set<Stereotype> stereotypes,
+                              Set<ErrorModel> errors,
                               Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
           supportsStreaming, displayModel, stereotypes, modelProperties);
     this.hasResponse = hasResponse;
     this.successCallback = successCallbackModel.orElse(null);
     this.errorCallback = errorCallbackModel.orElse(null);
+    this.terminateCallbackModel = terminateCallbackModel.orElse(null);
+    this.errors = errors;
   }
 
   /**
@@ -100,7 +105,15 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    * {@inheritDoc}
    */
   @Override
+  public Optional<SourceCallbackModel> getTerminateCallback() {
+    return ofNullable(terminateCallbackModel);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public Set<ErrorModel> getErrorModels() {
-    return emptySet();
+    return errors;
   }
 }

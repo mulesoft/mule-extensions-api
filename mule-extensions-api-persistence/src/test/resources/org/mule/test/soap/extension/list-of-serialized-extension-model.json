@@ -1480,6 +1480,7 @@
           "description": "",
           "modelProperties": {}
         },
+        "errors": [],
         "output": {
           "type": {
             "format": "java",
@@ -3290,6 +3291,7 @@
           "description": "",
           "modelProperties": {}
         },
+        "errors": [],
         "output": {
           "type": {
             "format": "java",

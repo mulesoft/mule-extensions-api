@@ -11,6 +11,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -72,6 +73,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,9 +85,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 
 abstract class BasePersistenceTestCase {
 
@@ -220,9 +220,9 @@ abstract class BasePersistenceTestCase {
                                                                                         .builder()
                                                                                         .build(),
                                                                                     emptySet())),
-                                           Optional.empty(), false, false, false,
+                                           empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(),
-                                           emptySet(), emptySet());
+                                           emptySet(), emptySet(), emptySet());
 
 
     LinkedHashSet<ObjectType> typesCatalog = new LinkedHashSet<>();
