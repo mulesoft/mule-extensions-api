@@ -11,15 +11,15 @@ import static java.util.Optional.ofNullable;
 import java.util.Optional;
 
 /**
- * {@link ErrorTypeDefinition} {@link Enum} which publish the available errors that the Mule Runtime provides
- * to be extended from an extension.
+ * {@link ErrorTypeDefinition} {@link Enum} which publish the available errors that the Mule Runtime provides to be extended from
+ * an extension.
  *
  * @since 1.0
  */
 public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
 
   ANY, CONNECTIVITY(ANY), TRANSFORMATION(ANY), EXPRESSION(ANY), REDELIVERY_EXHAUSTED(ANY), RETRY_EXHAUSTED(ANY), ROUTING(
-      ANY), SECURITY(ANY), OVERLOAD(ANY),
+      ANY), SECURITY(ANY), CLIENT_SECURITY(SECURITY), SERVER_SECURITY(SECURITY), OVERLOAD(ANY),
 
   SOURCE(ANY),
 
