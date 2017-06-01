@@ -23,6 +23,8 @@ import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
@@ -42,6 +44,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 // TODO MULE-12002: Revisit DslSyntaxUtils as part of the API
 public final class DslSyntaxUtils {
 
+  public final static String CONNECTION_PROVIDER_SUFFIX = "connection";
+  public final static String CONFIGURATION_SUFFIX = "config";
+
   private DslSyntaxUtils() {}
 
   /**
@@ -52,7 +57,18 @@ public final class DslSyntaxUtils {
    * @return a sanitized, hyphenized, space-free name that can be used as an XML element-name
    */
   static String getSanitizedElementName(NamedObject component) {
-    return hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", "");
+    String name = hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", "");
+    if (component instanceof ConfigurationModel) {
+      return appendSuffix(name, CONFIGURATION_SUFFIX);
+    }
+    if (component instanceof ConnectionProviderModel) {
+      return appendSuffix(name, CONNECTION_PROVIDER_SUFFIX);
+    }
+    return name;
+  }
+
+  private static String appendSuffix(String name, String suffix) {
+    return !name.toLowerCase().endsWith(suffix) ? name.concat("-" + suffix) : name;
   }
 
   static boolean isValidBean(ObjectType objectType) {
