@@ -40,7 +40,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   /**
    * Creates a new instance with the given state
    *
-   * @param name              the parameter's name. Cannot be blank and cannot be one of the values in {@link #RESERVED_NAMES}
+   * @param name              the parameter's name. Cannot be blank.
    * @param description       the parameter's description
    * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
    * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
