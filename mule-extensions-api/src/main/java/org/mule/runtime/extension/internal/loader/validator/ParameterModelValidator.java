@@ -10,7 +10,6 @@ import static java.lang.String.format;
 import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
-import static org.mule.runtime.api.meta.model.parameter.ParameterModel.RESERVED_NAMES;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isBasic;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
@@ -54,7 +53,6 @@ import java.util.Set;
  * {@link ConnectionProviderModel connection providers} and {@link OperationModel operations} from the {@link ExtensionModel
  * extension} complies with:
  * <ul>
- * <li>The name must not be one of the reserved ones</li>
  * <li>If the parameter is a {@link ArrayType} the name should be plural</li>
  * <li>The {@link MetadataType metadataType} must be provided</li>
  * <li>If required, cannot provide a default value</li>
@@ -91,11 +89,6 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
 
   private void validateParameter(ParameterModel parameterModel, String ownerName,
                                  String ownerModelType, ProblemsReporter problemsReporter) {
-    if (RESERVED_NAMES.contains(parameterModel.getName())) {
-      problemsReporter.addError(new Problem(parameterModel, format("Parameter '%s' in the %s '%s' is named after a reserved one",
-                                                                   parameterModel.getName(), ownerModelType, ownerName)));
-    }
-
     if (parameterModel.getType() == null) {
       problemsReporter.addError(new Problem(parameterModel, format("Parameter '%s' in the %s '%s' must provide a type",
                                                                    parameterModel.getName(),
@@ -149,15 +142,6 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
           } else if ((paramDsl.supportsTopLevelDeclaration() || paramDsl.supportsChildDeclaration())
               && visitedTypes.add(objectType)) {
             for (ObjectFieldType field : objectType.getFields()) {
-
-              String fieldName = field.getKey().getName().getLocalPart();
-              if (RESERVED_NAMES.contains(fieldName)) {
-                problemsReporter
-                    .addError(new Problem(parameterModel,
-                                          format("The field named '%s' [%s] from class [%s] cannot have that name since it is a reserved one",
-                                                 fieldName, getId(field.getValue()), getId(objectType))));
-              }
-
               if (supportsGlobalReferences(field)) {
                 field.getValue().accept(this);
               }
