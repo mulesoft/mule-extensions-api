@@ -219,21 +219,6 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     load();
   }
 
-  @Test
-  public void operationWithParameterNamedName() {
-    exception.expect(IllegalModelDefinitionException.class);
-    exception.expectMessage(containsString("is named after a reserved one"));
-
-    declare(extensionDeclarer -> {
-      extensionDeclarer = declareBase(extensionDeclarer);
-      OperationDeclarer operation = extensionDeclarer.withOperation("invalidOperation").describedAs("");
-      operation.onDefaultParameterGroup().withRequiredParameter("name").ofType(typeLoader.load(String.class));
-      operation.withOutput().ofType(typeLoader.load(String.class));
-      operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
-    });
-    load();
-  }
-
   @Test(expected = IllegalParameterModelDefinitionException.class)
   public void fixedParameterWithExpressionDefault() {
     declare(declarer -> {
