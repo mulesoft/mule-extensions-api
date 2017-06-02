@@ -151,13 +151,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       if (component instanceof ParameterizedModel) {
         resolveParameterizedDsl((ParameterizedModel) component, dsl);
       }
-
       if (component instanceof HasConnectionProviderModels) {
         ((HasConnectionProviderModels) component).getConnectionProviders()
-            .forEach(c -> dsl.containing(c.getName(), resolve(c)));
+            .forEach(c -> dsl.containing(getSanitizedElementName(component), resolve(c)));
       }
     }
-
     return dsl.build();
   }
 

@@ -12,6 +12,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.CONFIGURATION_SUFFIX;
+import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.CONNECTION_PROVIDER_SUFFIX;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
@@ -114,7 +116,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     DslElementSyntax result = getSyntaxResolver().resolve(configuration);
 
     assertThat(result.getAttributeName(), is(""));
-    assertThat(result.getElementName(), is(hyphenize(CONFIGURATION_NAME)));
+    assertThat(result.getElementName(), is(CONFIGURATION_NAME + "-" + CONFIGURATION_SUFFIX));
     assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(true, result);
@@ -126,11 +128,39 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   }
 
   @Test
+  public void testConfigurationDeclarationWithConfigSuffix() {
+    when(configuration.getName()).thenReturn(CONFIGURATION_NAME + "Config");
+    testConfigurationDeclaration();
+  }
+
+  @Test
+  public void testDefaultConfigurationDeclarationWithConfigSuffix() {
+    String defaultName = "config";
+    when(configuration.getName()).thenReturn(defaultName);
+    DslElementSyntax result = getSyntaxResolver().resolve(configuration);
+    assertThat(result.getElementName(), is(defaultName));
+  }
+
+  @Test
+  public void testConnectionProviderDeclarationWithConnectionSuffix() {
+    when(connectionProvider.getName()).thenReturn(CONNECTION_PROVIDER_NAME + "Connection");
+    testConnectionProviderDeclaration();
+  }
+
+  @Test
+  public void testDefaultConnectionProviderDeclarationWithConnectionSuffix() {
+    String defaultName = "connection";
+    when(connectionProvider.getName()).thenReturn(defaultName);
+    DslElementSyntax result = getSyntaxResolver().resolve(connectionProvider);
+    assertThat(result.getElementName(), is(defaultName));
+  }
+
+  @Test
   public void testConnectionProviderDeclaration() {
     DslElementSyntax result = getSyntaxResolver().resolve(connectionProvider);
 
     assertThat(result.getAttributeName(), is(""));
-    assertThat(result.getElementName(), is(hyphenize(CONNECTION_PROVIDER_NAME)));
+    assertThat(result.getElementName(), is(CONNECTION_PROVIDER_NAME + "-" + CONNECTION_PROVIDER_SUFFIX));
     assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(true, result);

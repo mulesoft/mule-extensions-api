@@ -8,6 +8,7 @@
 package org.mule.runtime.extension.internal.dsl.syntax;
 
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
 import java.util.HashMap;
@@ -164,6 +165,5 @@ public final class DslElementSyntaxBuilder {
                                 supportsAttributeDeclaration, supportsChildDeclaration, supportsTopLevelDeclaration,
                                 requiresConfig, genericChilds, containedElements);
   }
-
 }
 
