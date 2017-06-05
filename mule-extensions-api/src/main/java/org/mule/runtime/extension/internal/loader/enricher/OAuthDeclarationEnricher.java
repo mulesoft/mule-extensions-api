@@ -107,7 +107,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                               false, stringType, NOT_SUPPORTED, grantType.getDefaultScope().orElse(null)));
 
     params.add(buildParameter(RESOURCE_OWNER_ID_PARAMETER_NAME, "The resourceOwnerId which each component should use "
-        + "if it doesn't reference otherwise.", true, stringType, SUPPORTED, null));
+        + "if it doesn't reference otherwise.", false, stringType, SUPPORTED, null));
 
     params
         .add(buildParameter(BEFORE_FLOW_PARAMETER_NAME, "The name of a flow to be executed right before starting the OAuth dance",
