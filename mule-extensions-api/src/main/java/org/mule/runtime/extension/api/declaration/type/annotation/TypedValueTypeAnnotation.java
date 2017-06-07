@@ -15,18 +15,28 @@ import org.mule.runtime.api.metadata.TypedValue;
  * @since 1.0
  * @see TypedValue
  */
-public class TypedValueTypeAnnotation implements TypeAnnotation {
+public final class TypedValueTypeAnnotation implements TypeAnnotation {
+
+  public static final String NAME = "typedValue";
 
   /**
    * {@inheritDoc}
    */
   @Override
   public String getName() {
-    return "typedValue";
+    return NAME;
   }
 
   @Override
   public boolean equals(Object obj) {
     return obj instanceof TypedValueTypeAnnotation;
+  }
+
+  /**
+   * @return false
+   */
+  @Override
+  public boolean isPublic() {
+    return false;
   }
 }

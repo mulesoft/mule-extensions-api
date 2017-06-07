@@ -10,8 +10,6 @@ import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
-import static org.mule.runtime.extension.api.annotation.param.Optional.NULL;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
@@ -94,7 +92,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       fieldBuilder.key(getAlias(field));
 
       setOptionalAndDefault(field, fieldBuilder);
-      processesParameterGroup(field, fieldBuilder);
+      processParameterGroup(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
       processNullSafe(clazz, field, fieldBuilder);
       processDefaultEncoding(field, fieldBuilder);
@@ -121,7 +119,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private void processesParameterGroup(Field field, ObjectFieldTypeBuilder fieldBuilder) {
+  private void processParameterGroup(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     if (field.getAnnotation(ParameterGroup.class) != null) {
       fieldBuilder.with(new FlattenedTypeAnnotation());
     }
