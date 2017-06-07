@@ -27,7 +27,7 @@ import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
  * up resources associated with the message being responded to.
  * <p>
  * In those use cases, the methods annotated with {@link OnSuccess} or {@link OnError} can have an argument
- * of this type. That's enough to signal the runtime that the source is an async one. The runtime will not finished
+ * of this type. That's enough to signal the runtime that the source is an async one. The runtime will not finish
  * the associated event until either {@link #success()} or {@link #error(Throwable)} methods are invoked. Notice
  * this is a very strong piece of the contract. A source which requests a {@link SourceCompletionCallback} but then
  * doesn't properly notifies it is one likely to eventually freeze the entire runtime!.
