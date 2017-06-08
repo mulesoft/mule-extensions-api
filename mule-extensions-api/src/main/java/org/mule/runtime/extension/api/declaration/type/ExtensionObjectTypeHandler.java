@@ -29,8 +29,9 @@ import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnota
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,17 +47,15 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
   private final LiteralTypeAnnotation literalTypeAnnotation = new LiteralTypeAnnotation();
   private final TypedValueTypeAnnotation typedValueTypeAnnotation = new TypedValueTypeAnnotation();
 
-  private final Map<Class<?>, ParsingContext> wrappedTypesContextProvider = new HashMap<Class<?>, ParsingContext>() {
-
-    {
-      put(ParameterResolver.class, new ParsingContext());
-      put(TypedValue.class, new ParsingContext());
-      put(Literal.class, new ParsingContext());
-    }
-  };
+  private final Map<Class<?>, ParsingContext> wrappedTypesContexts;
 
   public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler) {
     super(fieldHandler);
+    wrappedTypesContexts = ImmutableMap.<Class<?>, ParsingContext>builder()
+        .put(ParameterResolver.class, new ParsingContext())
+        .put(TypedValue.class, new ParsingContext())
+        .put(Literal.class, new ParsingContext())
+        .build();
   }
 
   @Override
@@ -66,15 +65,15 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     Class<?> currentClass = clazz;
 
     if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContextProvider.get(ParameterResolver.class),
+      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(ParameterResolver.class),
                         baseTypeBuilder, parameterResolverTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContextProvider.get(TypedValue.class),
+      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(TypedValue.class),
                         baseTypeBuilder, typedValueTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (Literal.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContextProvider.get(Literal.class),
+      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(Literal.class),
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
