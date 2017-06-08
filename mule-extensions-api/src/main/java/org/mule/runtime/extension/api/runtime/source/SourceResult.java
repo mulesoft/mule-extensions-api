@@ -24,7 +24,7 @@ import java.util.Optional;
  */
 public final class SourceResult {
 
-  private final Error parameterGenerationError;
+  private final Error invocationError;
   private final Error responseError;
   private final SourceCallbackContext sourceCallbackContext;
 
@@ -36,12 +36,12 @@ public final class SourceResult {
     return new SourceResult(null, responseError, sourceCallbackContext);
   }
 
-  public static SourceResult parameterError(Error parameterError, SourceCallbackContext sourceCallbackContext) {
-    return new SourceResult(parameterError, null, sourceCallbackContext);
+  public static SourceResult invocationError(Error invocationError, SourceCallbackContext sourceCallbackContext) {
+    return new SourceResult(invocationError, null, sourceCallbackContext);
   }
 
-  private SourceResult(Error parameterGenerationError, Error responseError, SourceCallbackContext sourceCallbackContext) {
-    this.parameterGenerationError = parameterGenerationError;
+  private SourceResult(Error invocationError, Error responseError, SourceCallbackContext sourceCallbackContext) {
+    this.invocationError = invocationError;
     this.responseError = responseError;
     this.sourceCallbackContext = sourceCallbackContext;
   }
@@ -52,18 +52,19 @@ public final class SourceResult {
    * @return boolean indicating the result of the message processing.
    */
   public boolean isSuccess() {
-    return this.parameterGenerationError == null &&
+    return this.invocationError == null &&
         this.responseError == null;
   }
 
   /**
-   * Indicates whether an error occurred or not trying to generate the parameters to call the {@link OnSuccess} or {@link OnError}
-   * callbacks.
+   * Indicates whether an error occurred before calling {@link OnSuccess} or {@link OnError}.
+   * This could be either due to errors when generating required error parameters,
+   * or due to an exception thrown inside an error handler message processor.
    *
-   * @return boolean indicating if the error happened trying to generate the parameters of the callbacks
+   * @return boolean indicating if the error happened before invoking the other callbacks
    */
-  public Optional<Error> getParameterGenerationError() {
-    return ofNullable(parameterGenerationError);
+  public Optional<Error> getInvocationError() {
+    return ofNullable(invocationError);
   }
 
   /**
