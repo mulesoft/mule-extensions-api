@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static java.lang.String.format;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -30,8 +29,11 @@ import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnota
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An implementation of {@link ObjectHandler} which allows the type to me enriched with custom
@@ -45,8 +47,15 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
   private final LiteralTypeAnnotation literalTypeAnnotation = new LiteralTypeAnnotation();
   private final TypedValueTypeAnnotation typedValueTypeAnnotation = new TypedValueTypeAnnotation();
 
+  private final Map<Class<?>, ParsingContext> wrappedTypesContexts;
+
   public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler) {
     super(fieldHandler);
+    wrappedTypesContexts = ImmutableMap.<Class<?>, ParsingContext>builder()
+        .put(ParameterResolver.class, new ParsingContext())
+        .put(TypedValue.class, new ParsingContext())
+        .put(Literal.class, new ParsingContext())
+        .build();
   }
 
   @Override
@@ -56,13 +65,16 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     Class<?> currentClass = clazz;
 
     if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context, baseTypeBuilder, parameterResolverTypeAnnotation);
+      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(ParameterResolver.class),
+                        baseTypeBuilder, parameterResolverTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context, baseTypeBuilder, typedValueTypeAnnotation);
+      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(TypedValue.class),
+                        baseTypeBuilder, typedValueTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (Literal.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context, baseTypeBuilder, literalTypeAnnotation);
+      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(Literal.class),
+                        baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
       typeBuilder = super.handleClass(currentClass, genericTypes,

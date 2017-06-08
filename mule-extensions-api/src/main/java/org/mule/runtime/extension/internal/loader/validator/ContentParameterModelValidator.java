@@ -206,7 +206,8 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
 
     if (primaryContents.isEmpty()) {
       problemsReporter
-          .addError(problem(model, format("contains %d content parameters but none of them is primary", primaryContents.size())));
+          .addError(problem(model,
+                            format("contains %d content parameters but none of them is primary", contentParameters.size())));
     } else if (primaryContents.size() > 1) {
       problemsReporter.addError(problem(model, format("contains %d content parameters marked as primary. Only one primary "
           + "content parameter is allowed. Offending parameters are [%s]",
