@@ -6,7 +6,9 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import static java.lang.Boolean.FALSE;
 import static java.lang.String.format;
+import static java.lang.String.valueOf;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
@@ -257,6 +259,13 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
         fieldBuilder.with(new DefaultValueAnnotation(optional.defaultValue()));
       }
     });
+
+    if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())){
+      fieldBuilder.required(false);
+      if (getDefaultValue(field) == null) {
+        fieldBuilder.with(new DefaultValueAnnotation(valueOf(FALSE)));
+      }
+    }
   }
 
   private void processDefaultEncoding(Field field, ObjectFieldTypeBuilder fieldBuilder) {
