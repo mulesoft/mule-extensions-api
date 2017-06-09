@@ -23,7 +23,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * DO NOT USE THIS ANNOTATION. THIS ANNOTATION SHOULD <strong>ONLY</strong> BE USED BY PRIVILEGED EXTENSIONS.
  * <p>
  * This annotation allows privileged {@link Extension}s to contribute with {@link DeclarationEnricher}s for enriching
- * the {@link ExtensionModel} AFTER the SDK run all the internal {@link DeclarationEnricher}s declared in the
+ * the {@link ExtensionModel} AFTER the SDK runs all the internal {@link DeclarationEnricher}s declared in the
  * {@link ExtensionModelLoader}.
  * <p>
  * This annotation is part of the Privileged API and only selected {@link Extension}s should be able to use it,
