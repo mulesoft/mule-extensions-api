@@ -260,9 +260,9 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       }
     });
 
-    if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())){
+    if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())) {
       fieldBuilder.required(false);
-      if (getDefaultValue(field) == null) {
+      if (getDefaultValue(field) == null && field.getAnnotation(ConfigOverride.class) == null) {
         fieldBuilder.with(new DefaultValueAnnotation(valueOf(FALSE)));
       }
     }
