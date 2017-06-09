@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.dsl.syntax;
 
+import static org.apache.commons.lang3.text.WordUtils.capitalize;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
@@ -57,7 +58,7 @@ public final class DslSyntaxUtils {
    * @return a sanitized, hyphenized, space-free name that can be used as an XML element-name
    */
   static String getSanitizedElementName(NamedObject component) {
-    String name = hyphenize(sanitizeName(component.getName())).replaceAll("\\s+", "");
+    String name = hyphenize(sanitizeName(capitalize(component.getName()))).replaceAll("\\s+", "");
     if (component instanceof ConfigurationModel) {
       return appendSuffix(name, CONFIGURATION_SUFFIX);
     }
