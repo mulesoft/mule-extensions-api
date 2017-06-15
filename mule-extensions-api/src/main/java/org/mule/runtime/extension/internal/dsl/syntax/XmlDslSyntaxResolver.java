@@ -195,7 +195,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    if (isContent) {
                                      addContentChildWithNoAttribute();
                                    } else {
-                                     addAttributeName(builder, parameter, isContent, dslConfig);
+                                     builder.supportsAttributeDeclaration(true)
+                                         .supportsChildDeclaration(false)
+                                         .withAttributeName(parameter.getName());
                                    }
                                  }
 
@@ -758,7 +760,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     if (supportsAttributeDeclaration(parameter, isContent, dslModel)) {
       builder.withAttributeName(parameter.getName());
     } else {
-      // For Content parameters, we don't allow the attribute to be set
       builder.supportsAttributeDeclaration(false);
     }
   }
