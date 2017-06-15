@@ -6,8 +6,8 @@
   "category": "COMMUNITY",
   "minMuleVersion": "4.0.0",
   "xmlDsl": {
-    "namespace": "greenhouse_candidate_restc_v2-module",
-    "namespaceUri": "http://www.mulesoft.org/schema/mule/greenhouse_candidate_restc_v2-module",
+    "prefix": "greenhouse_candidate_restc_v2-module",
+    "namespace": "http://www.mulesoft.org/schema/mule/greenhouse_candidate_restc_v2-module",
     "schemaLocation": "http://www.mulesoft.org/schema/mule/greenhouse_candidate_restc_v2-module/current/greenhouse_candidate_restc_v2-module.xsd",
     "schemaVersion": "4.0",
     "xsdFileName": "greenhouse_candidate_restc_v2-module.xsd"
@@ -31,6 +31,7 @@
               },
               "hasDynamicType": false,
               "required": true,
+              "isConfigOverride": false,
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
               "dslConfiguration": {
@@ -57,6 +58,7 @@
               },
               "hasDynamicType": false,
               "required": true,
+              "isConfigOverride": false,
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
               "dslConfiguration": {
@@ -83,6 +85,7 @@
               },
               "hasDynamicType": false,
               "required": true,
+              "isConfigOverride": false,
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
               "dslConfiguration": {
@@ -139,7 +142,6 @@
                             "name": "profile_url"
                           },
                           "model": {
-                            "required": "true",
                             "type": "String"
                           }
                         },
@@ -148,7 +150,6 @@
                             "name": "external_id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "String"
                           }
                         },
@@ -157,7 +158,6 @@
                             "name": "id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -169,7 +169,6 @@
                             "name": "application_id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -192,7 +191,6 @@
                             "name": "profile_url"
                           },
                           "model": {
-                            "required": "true",
                             "type": "String"
                           }
                         },
@@ -201,7 +199,6 @@
                             "name": "external_id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -213,7 +210,6 @@
                             "name": "id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -225,7 +221,6 @@
                             "name": "application_id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -253,6 +248,7 @@
           },
           "transactional": false,
           "requiresConnection": false,
+          "supportsStreaming": false,
           "parameterGroupModels": [
             {
               "parameters": [
@@ -266,6 +262,7 @@
                   },
                   "hasDynamicType": false,
                   "required": false,
+                  "isConfigOverride": false,
                   "expressionSupport": "NOT_SUPPORTED",
                   "role": "BEHAVIOUR",
                   "dslConfiguration": {
@@ -296,7 +293,8 @@
           ],
           "name": "create-candidate",
           "description": "Create one or more candidates or prospects.    **scope**: candidates.create     The API will respond with a single object if a single object was provided or an array of objects if an array was provided.",
-          "modelProperties": {}
+          "modelProperties": {},
+          "kind": "operation"
         },
         {
           "blocking": true,
@@ -322,6 +320,7 @@
           },
           "transactional": false,
           "requiresConnection": false,
+          "supportsStreaming": false,
           "parameterGroupModels": [
             {
               "parameters": [
@@ -335,6 +334,7 @@
                   },
                   "hasDynamicType": false,
                   "required": false,
+                  "isConfigOverride": false,
                   "expressionSupport": "NOT_SUPPORTED",
                   "role": "BEHAVIOUR",
                   "dslConfiguration": {
@@ -365,7 +365,8 @@
           ],
           "name": "create-tracking-link",
           "description": "Create a new tracking link for a specific job. Candidates that apply using this tracking link will automatically have their source set to your application and their referrer set to the current user.",
-          "modelProperties": {}
+          "modelProperties": {},
+          "kind": "operation"
         },
         {
           "blocking": true,
@@ -400,7 +401,6 @@
                             "name": "external_id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "String"
                           }
                         },
@@ -409,7 +409,6 @@
                             "name": "id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -421,7 +420,6 @@
                             "name": "applications"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Array",
                             "annotations": {
                               "description": {
@@ -445,7 +443,6 @@
                                     "name": "stage"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String"
                                   }
                                 },
@@ -454,7 +451,6 @@
                                     "name": "profile_url"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String"
                                   }
                                 },
@@ -463,7 +459,6 @@
                                     "name": "id"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "Number",
                                     "annotations": {
                                       "int": {}
@@ -475,7 +470,6 @@
                                     "name": "job"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String"
                                   }
                                 },
@@ -484,7 +478,6 @@
                                     "name": "status"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String",
                                     "annotations": {
                                       "enum": {
@@ -518,7 +511,6 @@
                             "name": "external_id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -530,7 +522,6 @@
                             "name": "id"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Number",
                             "annotations": {
                               "int": {}
@@ -542,7 +533,6 @@
                             "name": "applications"
                           },
                           "model": {
-                            "required": "true",
                             "type": "Array",
                             "annotations": {
                               "description": {
@@ -566,7 +556,6 @@
                                     "name": "stage"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String"
                                   }
                                 },
@@ -575,7 +564,6 @@
                                     "name": "profile_url"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String"
                                   }
                                 },
@@ -584,7 +572,6 @@
                                     "name": "id"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "Number",
                                     "annotations": {
                                       "int": {}
@@ -596,7 +583,6 @@
                                     "name": "job"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String"
                                   }
                                 },
@@ -605,7 +591,6 @@
                                     "name": "status"
                                   },
                                   "model": {
-                                    "required": "true",
                                     "type": "String",
                                     "annotations": {
                                       "enum": {
@@ -644,6 +629,7 @@
           },
           "transactional": false,
           "requiresConnection": false,
+          "supportsStreaming": false,
           "parameterGroupModels": [
             {
               "parameters": [
@@ -657,6 +643,7 @@
                   },
                   "hasDynamicType": false,
                   "required": false,
+                  "isConfigOverride": false,
                   "expressionSupport": "NOT_SUPPORTED",
                   "role": "BEHAVIOUR",
                   "dslConfiguration": {
@@ -687,7 +674,8 @@
           ],
           "name": "get-candidates",
           "description": "Retrieve a candidate?s data. Note that this call will only return candidates that the current user has permission to view.  **scope**: candidates.view   The request should contain a single query parameter that specifies a comma-delimited list of candidate IDs.  The response will always be an array of objects, even if only one candidate_id is provided.",
-          "modelProperties": {}
+          "modelProperties": {},
+          "kind": "operation"
         },
         {
           "blocking": true,
@@ -713,6 +701,7 @@
           },
           "transactional": false,
           "requiresConnection": false,
+          "supportsStreaming": false,
           "parameterGroupModels": [
             {
               "parameters": [
@@ -726,6 +715,7 @@
                   },
                   "hasDynamicType": false,
                   "required": false,
+                  "isConfigOverride": false,
                   "expressionSupport": "NOT_SUPPORTED",
                   "role": "BEHAVIOUR",
                   "dslConfiguration": {
@@ -756,7 +746,8 @@
           ],
           "name": "get-current-users",
           "description": "Retrieve details about the current user.  This request is simply the URL. It takes no parameters.",
-          "modelProperties": {}
+          "modelProperties": {},
+          "kind": "operation"
         },
         {
           "blocking": true,
@@ -780,7 +771,6 @@
                       "name": "public"
                     },
                     "model": {
-                      "required": "true",
                       "type": "Boolean"
                     }
                   },
@@ -789,7 +779,6 @@
                       "name": "name"
                     },
                     "model": {
-                      "required": "true",
                       "type": "String"
                     }
                   },
@@ -798,7 +787,6 @@
                       "name": "id"
                     },
                     "model": {
-                      "required": "true",
                       "type": "Number",
                       "annotations": {
                         "int": {}
@@ -810,7 +798,6 @@
                       "name": "status"
                     },
                     "model": {
-                      "required": "true",
                       "type": "String",
                       "annotations": {
                         "enum": {
@@ -840,6 +827,7 @@
           },
           "transactional": false,
           "requiresConnection": false,
+          "supportsStreaming": false,
           "parameterGroupModels": [
             {
               "parameters": [
@@ -853,6 +841,7 @@
                   },
                   "hasDynamicType": false,
                   "required": false,
+                  "isConfigOverride": false,
                   "expressionSupport": "NOT_SUPPORTED",
                   "role": "BEHAVIOUR",
                   "dslConfiguration": {
@@ -883,7 +872,8 @@
           ],
           "name": "get-jobs",
           "description": "Retrieve jobs that are visible for the current user, including all jobs listed on their organization?s public careers page and unpublished jobs the user can access.  **scope**: jobs.view",
-          "modelProperties": {}
+          "modelProperties": {},
+          "kind": "operation"
         }
       ],
       "connectionProviders": [],
@@ -914,7 +904,6 @@
             "name": "referrer"
           },
           "model": {
-            "required": "true",
             "type": "String"
           }
         },
@@ -923,7 +912,6 @@
             "name": "source"
           },
           "model": {
-            "required": "true",
             "type": "String"
           }
         },
@@ -932,7 +920,6 @@
             "name": "job"
           },
           "model": {
-            "required": "true",
             "type": "String"
           }
         },
@@ -941,7 +928,6 @@
             "name": "tracking_link"
           },
           "model": {
-            "required": "true",
             "type": "String"
           }
         }
@@ -962,7 +948,6 @@
             "name": "last_name"
           },
           "model": {
-            "required": "true",
             "type": "String"
           }
         },
@@ -971,7 +956,6 @@
             "name": "first_name"
           },
           "model": {
-            "required": "true",
             "type": "String"
           }
         },
@@ -980,7 +964,6 @@
             "name": "email"
           },
           "model": {
-            "required": "true",
             "type": "String"
           }
         }

@@ -1593,7 +1593,8 @@
       "name": "Source",
       "displayModel": {},
       "description": "A Message Source",
-      "modelProperties": {}
+      "modelProperties": {},
+      "kind": "source"
     }
   ],
   "errors": [
