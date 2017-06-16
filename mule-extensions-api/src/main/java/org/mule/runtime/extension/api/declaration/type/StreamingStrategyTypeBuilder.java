@@ -86,7 +86,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
                 "Defines the maximum memory that the stream should use to keep data in memory. If more than that is consumed then "
                     +
                     "it will start to buffer the content on disk.",
-                DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE);
+                DEFAULT_BYTE_STREAMING_BUFFER_SIZE);
 
     addDataUnitField(typeBuilder, streamingType, "The unit in which maxInMemorySize is expressed");
 

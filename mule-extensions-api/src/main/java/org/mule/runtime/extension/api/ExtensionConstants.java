@@ -91,12 +91,12 @@ public final class ExtensionConstants {
   /**
    * The default size of the buffer that allows for repeatable streams
    */
-  public static final int DEFAULT_BYTE_STREAMING_BUFFER_SIZE = 256;
+  public static final int DEFAULT_BYTE_STREAMING_BUFFER_SIZE = 512;
 
   /**
    * The default increment size of a bytes streaming buffer which will expand its capacity
    */
-  public static final int DEFAULT_BYTE_STREAMING_BUFFER_INCREMENT_SIZE = 256;
+  public static final int DEFAULT_BYTE_STREAMING_BUFFER_INCREMENT_SIZE = 512;
 
   /**
    * The default maximum size that a bytes streaming buffer is allowed to expand to
