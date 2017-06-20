@@ -310,6 +310,10 @@
     <profiles>
         <profile>
             <id>release</id>
+            <properties>
+                <skipVerifications>false</skipVerifications>
+                <skipGpg>false</skipGpg>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -351,6 +355,9 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <skip>${skipGpg}</skip>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
