@@ -15,8 +15,6 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -30,6 +28,9 @@ import org.mule.runtime.extension.internal.property.InfrastructureParameterModel
 
 import java.util.HashMap;
 import java.util.function.Consumer;
+
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseExtensionModelFactoryTestCase {
