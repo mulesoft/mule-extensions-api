@@ -11,6 +11,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
@@ -19,6 +20,7 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParam
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
@@ -45,6 +47,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.declaration.type.annotation.ConfigOverrideTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultEncodingAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.DefaultImplementingTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
@@ -96,7 +99,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       setOptionalAndDefault(field, fieldBuilder);
       processParameterGroup(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
-      processNullSafe(clazz, field, fieldBuilder);
+      processNullSafe(clazz, field, fieldBuilder, typeHandlerManager, context);
       processDefaultEncoding(field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
       processLayoutAnnotation(field, fieldBuilder);
@@ -197,7 +200,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
   }
 
-  private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder) {
+  private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder,
+                               TypeHandlerManager typeHandlerManager, ParsingContext context) {
     NullSafe nullSafe = field.getAnnotation(NullSafe.class);
     if (nullSafe == null) {
       return;
@@ -213,10 +217,20 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
                                                                 NullSafe.class.getSimpleName()));
     }
 
-    if (nullSafe.defaultImplementingType().equals(Object.class)) {
+    Class<?> defaultType = nullSafe.defaultImplementingType();
+    if (defaultType.equals(Object.class)) {
       fieldBuilder.with(new NullSafeTypeAnnotation(field.getType(), false));
     } else {
-      fieldBuilder.with(new NullSafeTypeAnnotation(nullSafe.defaultImplementingType(), true));
+      fieldBuilder.with(new NullSafeTypeAnnotation(defaultType, true));
+
+      final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(defaultType);
+      if (typeBuilder.isPresent()) {
+        fieldBuilder.with(new DefaultImplementingTypeAnnotation(typeBuilder.get().build()));
+      } else {
+        BaseTypeBuilder defaultTypeBuilder = BaseTypeBuilder.create(JAVA);
+        typeHandlerManager.handle(defaultType, context, defaultTypeBuilder);
+        fieldBuilder.with(new DefaultImplementingTypeAnnotation(defaultTypeBuilder.build()));
+      }
     }
   }
 
