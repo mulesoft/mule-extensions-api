@@ -30,8 +30,10 @@ import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
@@ -272,6 +274,14 @@ public class ExtensionModelUtils {
     return isContent(parameterModel.getRole());
   }
 
+  /**
+   * @return {@code true} if the given {@link ParameterModel} has layout property
+   * {@link LayoutModel#isText()}
+   */
+  public static boolean isText(ParameterModel parameter) {
+    return parameter.getLayoutModel().map(LayoutModel::isText).orElse(false);
+  }
+
   public static boolean isContent(ParameterRole purpose) {
     checkArgument(purpose != null, "cannot evaluate null purpose");
     return purpose != BEHAVIOUR;
@@ -356,5 +366,15 @@ public class ExtensionModelUtils {
    */
   public static Object getDefaultValue(AccessibleObject object) {
     return getDefaultValue(object.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
+  }
+
+  /**
+   * Tests if the given {@code group} contains at least one required {@link ParameterModel}
+   *
+   * @param group the {@link ParameterGroupModel} to be inspected
+   * @return {@code true} if the given {@code group} contains at least one required {@link ParameterModel}
+   */
+  public static boolean isRequired(ParameterGroupModel group) {
+    return group.getParameterModels().stream().anyMatch(ParameterModel::isRequired);
   }
 }
