@@ -75,8 +75,6 @@ import java.util.Set;
  */
 public final class NameClashModelValidator implements ExtensionModelValidator {
 
-  private final List<ParameterReference> allContentParameters = new LinkedList<>();
-
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
     new ValidationDelegate(model, problemsReporter).validate();
@@ -93,6 +91,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     private final Set<DescribedReference<NamedObject>> namedObjects = new HashSet<>();
     private final Map<String, DescribedParameter> singularizedObjects = new HashMap<>();
     private final Multimap<String, TopLevelParameter> topLevelParameters = LinkedListMultimap.create();
+    private final List<ParameterReference> allContentParameters = new LinkedList<>();
     private final DslSyntaxResolver dslSyntaxResolver;
     private final ProblemsReporter problemsReporter;
 
@@ -329,6 +328,31 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       }
     }
 
+    private void validateContentNamesMatchType(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
+      Map<String, List<ParameterReference>> clashingsByTagName = new HashMap<>();
+      allContentParameters
+          .forEach(param -> clashingsByTagName.computeIfAbsent(param.dsl.getElementName(), k -> {
+            List<ParameterReference> others = allContentParameters.stream()
+                .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName()) && !param.type.equals(other.type))
+                .collect(toList());
+            if (!others.isEmpty()) {
+              others.add(param);
+            }
+            return others;
+          }));
+
+      clashingsByTagName.forEach((tag, invalidParams) -> {
+        if (!invalidParams.isEmpty()) {
+          String msg =
+              format("Parameters with name [%s] declared in [%s] with tag name [%s] are declared as Content but have different types [%s]",
+                     invalidParams.get(0).model.getName(),
+                     invalidParams.stream().map(p -> p.owner.getName()).collect(joining(", ")), tag,
+                     invalidParams.stream().map(p -> getId(p.type)).collect(joining(", ")));
+          problemsReporter.addError(new Problem(extensionModel, msg));
+        }
+      });
+    }
+
     private void validateSingularizedNameClash(ParameterizedModel model, String modelElementName) {
       List<ParameterModel> parameters = filterContentParameters(model.getAllParameterModels());
       parameters.forEach(
@@ -379,31 +403,6 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
   private List<ParameterModel> getContentParameters(ParameterizedModel model) {
     return model.getAllParameterModels().stream().filter(ExtensionModelUtils::isContent).collect(toList());
-  }
-
-  private void validateContentNamesMatchType(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
-    Map<String, List<ParameterReference>> clashingsByTagName = new HashMap<>();
-    allContentParameters
-        .forEach(param -> clashingsByTagName.computeIfAbsent(param.dsl.getElementName(), k -> {
-          List<ParameterReference> others = allContentParameters.stream()
-              .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName()) && !param.type.equals(other.type))
-              .collect(toList());
-          if (!others.isEmpty()) {
-            others.add(param);
-          }
-          return others;
-        }));
-
-    clashingsByTagName.forEach((tag, invalidParams) -> {
-      if (!invalidParams.isEmpty()) {
-        String msg =
-            format("Parameters with name [%s] declared in [%s] with tag name [%s] are declared as Content but have different types [%s]",
-                   invalidParams.get(0).model.getName(),
-                   invalidParams.stream().map(p -> p.owner.getName()).collect(joining(", ")), tag,
-                   invalidParams.stream().map(p -> getId(p.type)).collect(joining(", ")));
-        problemsReporter.addError(new Problem(extensionModel, msg));
-      }
-    });
   }
 
   private class TopLevelParameter implements NamedObject, DescribedObject {
