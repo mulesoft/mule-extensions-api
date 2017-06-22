@@ -9,6 +9,7 @@ package org.mule.runtime.extension.internal.persistence.metadata;
 
 import org.mule.runtime.api.metadata.DefaultMetadataKey;
 import org.mule.runtime.api.metadata.MetadataKey;
+import org.mule.runtime.api.metadata.MetadataKeyBuilder;
 import org.mule.runtime.extension.api.metadata.NullMetadataKey;
 
 import com.google.gson.Gson;
@@ -51,8 +52,24 @@ public class MetadataKeyTypeAdapter extends TypeAdapter<MetadataKey> {
 
     if (metadataKey.entrySet().isEmpty()) {
       return new NullMetadataKey();
-    } else {
-      return gson.fromJson(jsonElement, DefaultMetadataKey.class);
     }
+
+    JsonElement id = metadataKey.get("id");
+    JsonElement displayName = metadataKey.get("displayName");
+    JsonElement partName = metadataKey.get("partName");
+    JsonElement childs = metadataKey.get("childs");
+
+    if (id != null && displayName != null && partName != null && childs != null) {
+      MetadataKeyBuilder key = MetadataKeyBuilder.newKey(id.getAsString())
+          .withDisplayName(displayName.getAsString())
+          .withPartName(partName.getAsString());
+
+      childs.getAsJsonArray()
+          .forEach(child -> key.withChild(gson.fromJson(child, DefaultMetadataKey.class)));
+
+      return key.build();
+    }
+
+    return null;
   }
 }
