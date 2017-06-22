@@ -30,11 +30,15 @@ import org.mule.runtime.extension.api.metadata.NullMetadataKey;
 import org.mule.runtime.extension.api.persistence.metadata.EntityMetadataResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,6 +50,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "metadata/success-result-multilevel-keys.json";
   private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
   private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "metadata/failure-entity-result.json";
+  private static final String METADATA_MULTI_LEVEL_KEY_RESULT_JSON = "metadata/multi-level-key-result.json";
 
   private static final String FIRST_KEY_ID = "firstKey";
   private static final String SECOND_KEY_ID = "secondKey";
@@ -67,6 +72,14 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   }
 
   @Test
+  public void multiLevelLoadAndSerialize() throws Exception {
+    String keys = IOUtils
+        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(METADATA_MULTI_LEVEL_KEY_RESULT_JSON));
+
+    assertLoadAndSerialize(keys);
+  }
+
+  @Test
   public void serializeSuccessMetadataKeysResult() throws IOException {
     Set<MetadataKey> keys = new LinkedHashSet<>();
     keys.add(newKey(FIRST_KEY_ID).build());
@@ -74,6 +87,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     MetadataResult<MetadataKeysContainer> successResult = success(builder.add(CATEGORY_NAME, keys).build());
     String serialized = keysResultSerializer.serialize(successResult);
     assertSerializedJson(serialized, METADATA_KEYS_RESULT_JSON);
+    assertLoadAndSerialize(serialized);
   }
 
   @Test
@@ -85,6 +99,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
         .onKeys());
     String serialized = keysResultSerializer.serialize(failure);
     assertSerializedJson(serialized, METADATA_KEYS_RESULT_FAILURE_JSON);
+    assertLoadAndSerialize(serialized);
   }
 
   @Test
@@ -94,6 +109,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     MetadataResult<MetadataKeysContainer> successResult = success(builder.add(CATEGORY_NAME, keys).build());
     String serialized = keysResultSerializer.serialize(successResult);
     assertSerializedJson(serialized, NULL_METADATA_KEYS_RESULT_JSON);
+    assertLoadAndSerialize(serialized);
   }
 
   @Test
@@ -103,6 +119,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     MetadataResult<MetadataKeysContainer> successResult = success(builder.add(CATEGORY_NAME, keys).build());
     String serialized = keysResultSerializer.serialize(successResult);
     assertSerializedJson(serialized, NULL_VALUE_METADATA_KEYS_RESULT_JSON);
+    assertLoadAndSerialize(serialized);
   }
 
   @Test
@@ -112,6 +129,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     keys.add(newKey(SECOND_KEY_ID).build());
     String serialized = keysResultSerializer.serialize(success(builder.add(CATEGORY_NAME, keys).build()));
     assertSerializedJson(serialized, METADATA_MULTILEVEL_KEYS_RESULT_JSON);
+    assertLoadAndSerialize(serialized);
   }
 
   @Test
@@ -123,6 +141,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
         .onKeys());
     String serialized = keysResultSerializer.serialize(failureResult);
     assertSerializedJson(serialized, METADATA_KEYS_RESULT_FAILURE_JSON);
+    assertLoadAndSerialize(serialized);
   }
 
   @Test
@@ -187,6 +206,22 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
     Iterator<MetadataKey> iterator = container.getKeys(CATEGORY_NAME).get().iterator();
     assertThat(iterator.hasNext(), is(true));
     assertThat(iterator.next(), is(nullValue()));
+  }
+
+  private void assertLoadAndSerialize(String json) {
+    MetadataResult<MetadataKeysContainer> deserialized = keysResultSerializer.deserialize(json);
+    String reSerialized = keysResultSerializer.serialize(deserialized);
+
+    final JsonParser jsonParser = new JsonParser();
+    JsonElement expected = jsonParser.parse(json);
+    JsonElement result = jsonParser.parse(reSerialized);
+
+    if (!result.equals(expected)) {
+      System.out.println("Expected: \n " + json);
+      System.out.println("\n\nBut Got: \n " + reSerialized);
+    }
+
+    assertThat(result, is(expected));
   }
 
 }

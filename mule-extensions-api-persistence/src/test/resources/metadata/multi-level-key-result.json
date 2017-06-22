@@ -1,0 +1,78 @@
+{
+  "failures":[],
+  "keys": {
+    "categoryName": [
+      {
+        "id": "Absence_Management",
+        "displayName": "Absence Management",
+        "partName": "",
+        "properties": {},
+        "childs": [
+          {
+            "id": "Get_Time_Off_Plan_Balances",
+            "displayName": "Get_Time_Off_Plan_Balances",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Put_Absence_Input",
+            "displayName": "Put_Absence_Input",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Get_Absence_Inputs",
+            "displayName": "Get_Absence_Inputs",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Request_Leave_of_Absence",
+            "displayName": "Request_Leave_of_Absence",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Request_Return_from_Leave_of_Absence",
+            "displayName": "Request_Return_from_Leave_of_Absence",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Put_Override_Balance",
+            "displayName": "Put_Override_Balance",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Adjust_Time_Off",
+            "displayName": "Adjust_Time_Off",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Get_Override_Balances",
+            "displayName": "Get_Override_Balances",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          },
+          {
+            "id": "Enter_Time_Off",
+            "displayName": "Enter_Time_Off",
+            "partName": "",
+            "properties": {},
+            "childs": []
+          }
+        ]
+      }
+    ]
+  }
+}
