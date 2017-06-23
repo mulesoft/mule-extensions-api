@@ -49,7 +49,7 @@ public final class DsqlParser {
    * @return true if the query is a dsql query, false otherwise.
    */
   public static boolean isDsqlQuery(String query) {
-    return query.substring(0, 5).toLowerCase().equals(DSQL_QUERY_PREFIX);
+    return query.length() > 5 && query.substring(0, 5).toLowerCase().equals(DSQL_QUERY_PREFIX);
   }
 
   /**
