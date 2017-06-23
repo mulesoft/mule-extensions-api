@@ -32,6 +32,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.dsl.DslResolvingContext;
@@ -506,8 +507,12 @@ public abstract class BaseXmlDeclarationTestCase {
     return childDsl.get();
   }
 
-  protected void mockImportedTypes(String originExtension, Class<?> type) {
-    when(extension.getImportedTypes()).thenReturn(singleton(new ImportedTypeModel(originExtension, TYPE_LOADER.load(type))));
+  protected void mockImportedTypes(ExtensionModel extensionModel, String originExtension, Class<?> type) {
+    MetadataType metadataType = TYPE_LOADER.load(type);
+    String typeId = metadataType.getAnnotation(TypeIdAnnotation.class).get().getValue();
+    when(extension.getImportedTypes()).thenReturn(singleton(new ImportedTypeModel(metadataType)));
+    when(typeCatalog.getDeclaringExtension(typeId)).thenReturn(Optional.of(originExtension));
+    when(dslContext.getExtensionForType(typeId)).thenReturn(Optional.of(extensionModel));
   }
 
   protected void ifContentParameter(Runnable test, Runnable orElse) {

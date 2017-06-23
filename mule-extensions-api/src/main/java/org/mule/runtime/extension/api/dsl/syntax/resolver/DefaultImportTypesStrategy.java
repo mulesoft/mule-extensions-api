@@ -7,13 +7,14 @@
 package org.mule.runtime.extension.api.dsl.syntax.resolver;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toMap;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
-import org.mule.runtime.api.dsl.DslResolvingContext;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,20 +26,30 @@ public class DefaultImportTypesStrategy implements ImportTypesStrategy {
 
   private final ExtensionModel extensionModel;
   private final DslResolvingContext context;
+  private final Map<MetadataType, XmlDslModel> importedTypes;
 
   public DefaultImportTypesStrategy(ExtensionModel extensionModel, DslResolvingContext context) {
     this.extensionModel = extensionModel;
     this.context = context;
+    this.importedTypes = generateImportedTypes();
+  }
+
+  private Map<MetadataType, XmlDslModel> generateImportedTypes() {
+    Map<MetadataType, XmlDslModel> types = new HashMap<>();
+    extensionModel.getImportedTypes().stream().map(ImportedTypeModel::getImportedType).forEach(importedType -> {
+      importedType.getAnnotation(TypeIdAnnotation.class).map(TypeIdAnnotation::getValue).ifPresent(typeId -> {
+        ExtensionModel extensionModel = context.getExtensionForType(typeId)
+            .orElseThrow(() -> new IllegalArgumentException(format("Couldn't load type '%s' because its declaring extension wasn't present in the current context",
+                                                                   typeId)));
+        types.put(importedType, extensionModel.getXmlDslModel());
+      });
+    });
+
+    return types;
   }
 
   @Override
   public Map<MetadataType, XmlDslModel> getImportedTypes() {
-    return extensionModel.getImportedTypes().stream().collect(toMap(ImportedTypeModel::getImportedType, imported -> {
-      ExtensionModel extensionModel = context.getExtension(imported.getOriginExtensionName())
-          .orElseThrow(() -> new IllegalArgumentException(format(
-                                                                 "The Extension [%s] is not present in the current context",
-                                                                 imported.getOriginExtensionName())));
-      return extensionModel.getXmlDslModel();
-    }));
+    return importedTypes;
   }
 }

@@ -44,13 +44,12 @@ public class ImportedTypesModelTypeAdapter extends TypeAdapter<ImportedTypeModel
     out.beginObject();
     out.name(TYPE);
     typeAdapter.write(out, value.getImportedType());
-    out.name(EXTENSION).value(value.getOriginExtensionName());
     out.endObject();
   }
 
   @Override
   public ImportedTypeModel read(JsonReader in) throws IOException {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
-    return new ImportedTypeModel(json.get(EXTENSION).getAsString(), typeAdapter.fromJsonTree(json.get(TYPE)));
+    return new ImportedTypeModel(typeAdapter.fromJsonTree(json.get(TYPE)));
   }
 }

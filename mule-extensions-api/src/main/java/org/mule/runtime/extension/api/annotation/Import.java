@@ -33,10 +33,4 @@ public @interface Import {
    * @return the {@link Class} which definition will be imported
    */
   Class<?> type();
-
-  /**
-   * @return the {@link Extension#name} of the {@link Extension} which declares the imported {@code type}
-   */
-  String from();
-
 }

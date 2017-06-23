@@ -131,7 +131,7 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
   @Test
   public void testExtensibleImportParameter() {
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    mockImportedTypes(IMPORT_EXTENSION_NAME_WITH_XML, ExtensibleType.class);
+    mockImportedTypes(importOriginMock, IMPORT_EXTENSION_NAME_WITH_XML, ExtensibleType.class);
 
     when(importOriginMock.getXmlDslModel()).thenReturn(XmlDslModel.builder()
         .setXsdFileName(EMPTY)
