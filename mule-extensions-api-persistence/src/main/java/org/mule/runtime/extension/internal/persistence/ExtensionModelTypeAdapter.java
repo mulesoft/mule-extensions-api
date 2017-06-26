@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
@@ -107,9 +108,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeWithDelegate(model.getExternalLibraryModels(), EXTERNAL_LIBRARIES, out, new TypeToken<Set<ExternalLibraryModel>>() {
 
     });
-    writeWithDelegate(model.getImportedTypes(), IMPORTED_TYPES, out, new TypeToken<Set<ImportedTypeModel>>() {
 
-    });
+    writeImportedTypes(out, model.getImportedTypes());
+
     writeWithDelegate(model.getDisplayModel().orElse(null), DISPLAY_MODEL, out, new TypeToken<DisplayModel>() {
 
     });
@@ -133,7 +134,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
     writeExtensionLevelModelProperties(out, model);
 
-    writeTypes(out, model.getTypes());
+    writeTypes(TYPES, out, model.getTypes());
     out.endObject();
   }
 
@@ -141,7 +142,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   public ExtensionModel read(JsonReader in) throws IOException {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
 
-    Set<ObjectType> types = parseTypes(json);
+    Set<ObjectType> types = parseTypes(TYPES, json);
+    Set<ImportedTypeModel> importedTypes = parseImportedTypes(json);
+
     Set<String> resources = parseWithDelegate(json, RESOURCES, new TypeToken<Set<String>>() {
 
     });
@@ -152,9 +155,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
         parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {
 
         });
-    Set<ImportedTypeModel> importedTypes = parseWithDelegate(json, IMPORTED_TYPES, new TypeToken<Set<ImportedTypeModel>>() {
 
-    });
     List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {
 
     });
@@ -207,9 +208,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     gsonDelegate.toJson(value, typeToken.getType(), out);
   }
 
-  private Set<ObjectType> parseTypes(JsonObject json) {
+  private Set<ObjectType> parseTypes(String label, JsonObject json) {
     final Set<ObjectType> types = new LinkedHashSet<>();
-    JsonArray typesArray = json.get(TYPES).getAsJsonArray();
+    JsonArray typesArray = json.get(label).getAsJsonArray();
 
     if (typesArray == null) {
       return emptySet();
@@ -232,8 +233,14 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     return types;
   }
 
-  private void writeTypes(JsonWriter out, Set<ObjectType> additionalTypes) throws IOException {
-    out.name(TYPES);
+  private Set<ImportedTypeModel> parseImportedTypes(JsonObject json) {
+    return parseTypes(IMPORTED_TYPES, json)
+        .stream().map(ImportedTypeModel::new)
+        .collect(Collectors.toSet());
+  }
+
+  private void writeTypes(String label, JsonWriter out, Set<ObjectType> additionalTypes) throws IOException {
+    out.name(label);
     out.beginArray();
     final Set<ObjectType> objectTypes = new LinkedHashSet<>();
     objectTypes.addAll(additionalTypes);
@@ -241,6 +248,15 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
       typeWriter.write(type, out);
     }
     out.endArray();
+  }
+
+  private void writeImportedTypes(JsonWriter out, Set<ImportedTypeModel> importedTypeModels) throws IOException {
+    writeTypes(IMPORTED_TYPES, out, importedTypeModels
+        .stream()
+        .map(ImportedTypeModel::getImportedType)
+        .filter(t -> t instanceof ObjectType)
+        .map(t -> (ObjectType) t)
+        .collect(Collectors.toCollection(LinkedHashSet::new)));
   }
 
   private void writeExtensionLevelModelProperties(JsonWriter out, ExtensionModel model) throws IOException {

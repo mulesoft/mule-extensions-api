@@ -10,7 +10,9 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -104,7 +106,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 
@@ -493,8 +494,13 @@ public final class ExtensionModelFactory {
   }
 
   private Set<ObjectType> toExtensionTypes(Set<ObjectType> types, Set<ImportedTypeModel> importedTypes) {
-    Set<String> importedTypesIds = importedTypes.stream().map(ImportedTypeModel::getImportedType)
-        .map(ExtensionMetadataTypeUtils::getId).collect(Collectors.toSet());
-    return types.stream().filter(t -> !importedTypesIds.contains(getId(t))).collect(Collectors.toCollection(LinkedHashSet::new));
+    Set<String> importedTypesIds = importedTypes.stream()
+        .map(ImportedTypeModel::getImportedType)
+        .map(ExtensionMetadataTypeUtils::getId)
+        .collect(toSet());
+
+    return types.stream()
+        .filter(t -> !importedTypesIds.contains(getId(t)))
+        .collect(toCollection(LinkedHashSet::new));
   }
 }
