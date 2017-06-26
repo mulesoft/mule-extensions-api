@@ -31,12 +31,6 @@
             <groupId>org.mule.runtime</groupId>
             <artifactId>mule-metadata-model-persistence</artifactId>
         </dependency>
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>${xercesVersion}</version>
-            <scope>provided</scope>
-        </dependency>
 
         <!--Test dependencies-->
         <dependency>

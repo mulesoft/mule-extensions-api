@@ -118,7 +118,6 @@
         <mockitoVersion>1.9.5</mockitoVersion>
         <junitVersion>4.11</junitVersion>
         <hamcrestVersion>1.3</hamcrestVersion>
-        <xercesVersion>2.11.0</xercesVersion>
         <xDocLint>-Xdoclint:none</xDocLint>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <javaFormatter.plugin.version>1.8.0</javaFormatter.plugin.version>
