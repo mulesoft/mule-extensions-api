@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
-import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 
 import com.google.gson.JsonObject;
@@ -25,32 +25,25 @@ import java.io.IOException;
  */
 public class ImportedTypesModelTypeAdapter extends TypeAdapter<ImportedTypeModel> {
 
-  private static final String EXTENSION = "extension";
-  private static final String TYPE = "type";
   private final MetadataTypeGsonTypeAdapter typeAdapter;
 
   /**
-   * Creates a new instance which handles type references through the given
-   * {@code referenceHandler}
+   * Creates a new instance which doesn't handle type references.
+   * Types are described (no ref) in the imported types section.
    *
-   * @param referenceHandler an {@link ObjectTypeReferenceHandler}
    */
-  public ImportedTypesModelTypeAdapter(ObjectTypeReferenceHandler referenceHandler) {
-    typeAdapter = new MetadataTypeGsonTypeAdapter(referenceHandler);
+  public ImportedTypesModelTypeAdapter() {
+    typeAdapter = new MetadataTypeGsonTypeAdapter();
   }
 
   @Override
   public void write(JsonWriter out, ImportedTypeModel value) throws IOException {
-    out.beginObject();
-    out.name(TYPE);
     typeAdapter.write(out, value.getImportedType());
-    out.name(EXTENSION).value(value.getOriginExtensionName());
-    out.endObject();
   }
 
   @Override
   public ImportedTypeModel read(JsonReader in) throws IOException {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
-    return new ImportedTypeModel(json.get(EXTENSION).getAsString(), typeAdapter.fromJsonTree(json.get(TYPE)));
+    return new ImportedTypeModel((ObjectType) typeAdapter.fromJsonTree(json));
   }
 }

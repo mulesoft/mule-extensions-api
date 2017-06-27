@@ -7,12 +7,7 @@
 package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Collections.emptySet;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.utils.MetadataTypeUtils;
@@ -68,6 +63,11 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Serializer that can convert a {@link ExtensionModel} into a readable and processable JSON representation and from a JSON
  * {@link String} to an {@link ExtensionModel} instance
@@ -90,6 +90,7 @@ public class ExtensionModelJsonSerializer {
 
   private final boolean prettyPrint;
   private Set<ObjectType> registeredTypes = emptySet();
+  private Set<ObjectType> importedTypes = emptySet();
 
   /**
    * Creates a new instance of the {@link ExtensionModelJsonSerializer}. This serializer is capable of serializing and
@@ -135,6 +136,11 @@ public class ExtensionModelJsonSerializer {
         .filter(Optional::isPresent)
         .map(Optional::get).collect(Collectors.toSet());
 
+    importedTypes.forEach(type -> {
+      getTypeId(type).ifPresent(registeredTypeIds::add);
+      serializationContext.registerObjectType(type);
+    });
+
     final ObjectTypeReferenceHandler referenceHandler =
         new RestrictedTypesObjectTypeReferenceHandler(serializationContext, registeredTypeIds);
 
@@ -162,7 +168,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
         .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
-        .registerTypeAdapter(ImportedTypeModel.class, new ImportedTypesModelTypeAdapter(referenceHandler))
+        .registerTypeAdapter(ImportedTypeModel.class, new ImportedTypesModelTypeAdapter())
         .registerTypeAdapter(SubTypesModel.class, new SubTypesModelTypeAdapter(referenceHandler))
         .registerTypeAdapter(XmlDslModel.class, new XmlDslModelTypeAdapter())
         .registerTypeAdapter(ParameterDslConfiguration.class, new ElementDslModelTypeAdapter())
@@ -194,6 +200,10 @@ public class ExtensionModelJsonSerializer {
    */
   public String serialize(ExtensionModel extensionModel) {
     registeredTypes = extensionModel.getTypes();
+    importedTypes =
+        extensionModel.getImportedTypes().stream()
+            .map(ImportedTypeModel::getImportedType)
+            .collect(Collectors.toSet());
     return buildGson().toJson(extensionModel);
   }
 

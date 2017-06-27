@@ -10,17 +10,22 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
@@ -65,6 +70,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
@@ -90,15 +96,18 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
+
+import org.slf4j.Logger;
 
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual
@@ -226,7 +235,7 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getDisplayModel(),
                                       extensionDeclaration.getXmlDslModel(),
                                       extensionDeclaration.getSubTypes(),
-                                      extensionDeclaration.getTypes(),
+                                      toExtensionTypes(extensionDeclaration.getTypes(), extensionDeclaration.getImportedTypes()),
                                       extensionDeclaration.getResources(),
                                       extensionDeclaration.getImportedTypes(),
                                       extensionDeclaration.getErrorModels(),
@@ -482,5 +491,16 @@ public final class ExtensionModelFactory {
                                          parameter.getLayoutModel(),
                                          parameter.getModelProperties());
     }
+  }
+
+  private Set<ObjectType> toExtensionTypes(Set<ObjectType> types, Set<ImportedTypeModel> importedTypes) {
+    Set<String> importedTypesIds = importedTypes.stream()
+        .map(ImportedTypeModel::getImportedType)
+        .map(ExtensionMetadataTypeUtils::getId)
+        .collect(toSet());
+
+    return types.stream()
+        .filter(t -> !importedTypesIds.contains(getId(t)))
+        .collect(toCollection(LinkedHashSet::new));
   }
 }

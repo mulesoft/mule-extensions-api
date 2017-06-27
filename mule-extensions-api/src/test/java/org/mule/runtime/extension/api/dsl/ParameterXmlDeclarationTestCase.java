@@ -230,7 +230,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testImportedFinalTypeWithXmlParameter() {
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    mockImportedTypes(IMPORT_EXTENSION_NAME_WITH_XML, SimpleFieldsType.class);
+    mockImportedTypes(importOriginMock, IMPORT_EXTENSION_NAME_WITH_XML, SimpleFieldsType.class);
 
     when(importOriginMock.getXmlDslModel()).thenReturn(createImportedXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME_WITH_XML)).thenReturn(of(importOriginMock));
@@ -245,7 +245,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testImportedFinalTypeWithoutXmlParameter() {
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    mockImportedTypes(IMPORT_EXTENSION_NAME, SimpleFieldsType.class);
+    mockImportedTypes(importOriginMock, IMPORT_EXTENSION_NAME, SimpleFieldsType.class);
 
     when(importOriginMock.getXmlDslModel()).thenReturn(createImportedXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(importOriginMock));
@@ -260,7 +260,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testExtensibleImportParameter() {
     ExtensionModel importOriginMock = mock(ExtensionModel.class);
-    mockImportedTypes(IMPORT_EXTENSION_NAME_WITH_XML, ExtensibleType.class);
+    mockImportedTypes(importOriginMock, IMPORT_EXTENSION_NAME_WITH_XML, ExtensibleType.class);
 
     when(importOriginMock.getXmlDslModel()).thenReturn(XmlDslModel.builder()
         .setXsdFileName(EMPTY)
@@ -291,7 +291,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testExtensibleImportedTypeWithoutXmlParameter() {
     extension = mock(ExtensionModel.class);
-    mockImportedTypes(IMPORT_EXTENSION_NAME, ExtensibleType.class);
+    mockImportedTypes(extension, IMPORT_EXTENSION_NAME, ExtensibleType.class);
 
     when(extension.getXmlDslModel()).thenReturn(createImportedXmlDslModel());
     when(dslContext.getExtension(IMPORT_EXTENSION_NAME)).thenReturn(of(extension));
