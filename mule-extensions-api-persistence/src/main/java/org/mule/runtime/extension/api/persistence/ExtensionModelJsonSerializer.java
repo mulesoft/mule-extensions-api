@@ -90,7 +90,7 @@ public class ExtensionModelJsonSerializer {
 
   private final boolean prettyPrint;
   private Set<ObjectType> registeredTypes = emptySet();
-  private Set<MetadataType> importedTypes = emptySet();
+  private Set<ObjectType> importedTypes = emptySet();
 
   /**
    * Creates a new instance of the {@link ExtensionModelJsonSerializer}. This serializer is capable of serializing and
@@ -136,12 +136,10 @@ public class ExtensionModelJsonSerializer {
         .filter(Optional::isPresent)
         .map(Optional::get).collect(Collectors.toSet());
 
-    importedTypes.stream()
-        .filter(type -> type instanceof ObjectType)
-        .map(type -> (ObjectType) type).forEach(type -> {
-          getTypeId(type).ifPresent(registeredTypeIds::add);
-          serializationContext.registerObjectType(type);
-        });
+    importedTypes.forEach(type -> {
+      getTypeId(type).ifPresent(registeredTypeIds::add);
+      serializationContext.registerObjectType(type);
+    });
 
     final ObjectTypeReferenceHandler referenceHandler =
         new RestrictedTypesObjectTypeReferenceHandler(serializationContext, registeredTypeIds);
@@ -204,7 +202,8 @@ public class ExtensionModelJsonSerializer {
     registeredTypes = extensionModel.getTypes();
     importedTypes =
         extensionModel.getImportedTypes().stream()
-            .map(ImportedTypeModel::getImportedType).collect(Collectors.toSet());
+            .map(ImportedTypeModel::getImportedType)
+            .collect(Collectors.toSet());
     return buildGson().toJson(extensionModel);
   }
 

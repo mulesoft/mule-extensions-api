@@ -35,6 +35,7 @@ import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -508,7 +509,7 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   protected void mockImportedTypes(ExtensionModel extensionModel, String originExtension, Class<?> type) {
-    MetadataType metadataType = TYPE_LOADER.load(type);
+    ObjectType metadataType = (ObjectType) TYPE_LOADER.load(type);
     String typeId = metadataType.getAnnotation(TypeIdAnnotation.class).get().getValue();
     when(extension.getImportedTypes()).thenReturn(singleton(new ImportedTypeModel(metadataType)));
     when(typeCatalog.getDeclaringExtension(typeId)).thenReturn(Optional.of(originExtension));

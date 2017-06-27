@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 
@@ -43,6 +44,6 @@ public class ImportedTypesModelTypeAdapter extends TypeAdapter<ImportedTypeModel
   @Override
   public ImportedTypeModel read(JsonReader in) throws IOException {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
-    return new ImportedTypeModel(typeAdapter.fromJsonTree(json));
+    return new ImportedTypeModel((ObjectType) typeAdapter.fromJsonTree(json));
   }
 }

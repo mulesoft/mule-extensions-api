@@ -254,8 +254,6 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeTypes(IMPORTED_TYPES, out, importedTypeModels
         .stream()
         .map(ImportedTypeModel::getImportedType)
-        .filter(t -> t instanceof ObjectType)
-        .map(t -> (ObjectType) t)
         .collect(Collectors.toCollection(LinkedHashSet::new)));
   }
 
