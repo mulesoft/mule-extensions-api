@@ -240,6 +240,7 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getImportedTypes(),
                                       extensionDeclaration.getErrorModels(),
                                       extensionDeclaration.getExternalLibraryModels(),
+                                      extensionDeclaration.getExternalDependenciesModels(),
                                       extensionDeclaration.getModelProperties());
 
       return extensionModel;

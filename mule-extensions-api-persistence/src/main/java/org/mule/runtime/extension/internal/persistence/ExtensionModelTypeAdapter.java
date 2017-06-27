@@ -16,6 +16,7 @@ import org.mule.metadata.persistence.SerializationContext;
 import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExternalDependencyModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -70,6 +71,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String XML_DSL = "xmlDsl";
   private static final String SUB_TYPES = "subTypes";
   private static final String EXTERNAL_LIBRARIES = "externalLibraries";
+  private static final String EXTERNAL_DEPENDENCIES = "externalDependencies";
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
   private static final String ERRORS = "errors";
@@ -108,6 +110,11 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeWithDelegate(model.getExternalLibraryModels(), EXTERNAL_LIBRARIES, out, new TypeToken<Set<ExternalLibraryModel>>() {
 
     });
+
+    writeWithDelegate(model.getExternalDependenciesModels(), EXTERNAL_DEPENDENCIES, out,
+                      new TypeToken<Set<ExternalDependencyModel>>() {
+
+                      });
 
     writeImportedTypes(out, model.getImportedTypes());
 
@@ -156,6 +163,11 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
         });
 
+    Set<ExternalDependencyModel> externalDependencies =
+        parseWithDelegate(json, EXTERNAL_DEPENDENCIES, new TypeToken<Set<ExternalDependencyModel>>() {
+
+        });
+
     List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {
 
     });
@@ -191,6 +203,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
                                                              }.getType()),
                                        externalLibraries,
+                                       externalDependencies,
                                        parseExtensionLevelModelProperties(json));
   }
 

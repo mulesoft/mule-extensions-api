@@ -11,6 +11,7 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExternalDependencyModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -49,6 +50,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final Set<SubTypesModel> subTypes;
   private final Set<ImportedTypeModel> importedTypes;
   private final Set<ExternalLibraryModel> externalLibraries;
+  private final Set<ExternalDependencyModel> externalDependencies;
 
   /**
    * Creates a new instance with the given state
@@ -92,6 +94,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<ImportedTypeModel> importedTypes,
                                  Set<ErrorModel> errors,
                                  Set<ExternalLibraryModel> externalLibraryModels,
+                                 Set<ExternalDependencyModel> externalDepenciesModels,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
@@ -114,6 +117,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.xmlDslModel = xmlDslModel;
     this.errors = errors;
     this.externalLibraries = unmodifiableSet(externalLibraryModels);
+    this.externalDependencies = unmodifiableSet(externalDepenciesModels);
   }
 
   /**
@@ -218,6 +222,14 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Set<ExternalLibraryModel> getExternalLibraryModels() {
     return externalLibraries;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<ExternalDependencyModel> getExternalDependenciesModels() {
+    return externalDependencies;
   }
 
   private void checkModelArgument(boolean condition, String errorMessage) {
