@@ -16,7 +16,7 @@ import org.mule.runtime.api.util.Reference;
 /**
  * Helper class that builds the output types retrieved by Soap Connect extensions and WSC.
  *
- * @since 4.0
+ * @since 1.0
  */
 public class SoapOutputTypeBuilder {
 
