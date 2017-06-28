@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class DispatchingResponse extends BaseDispatchingContext {
 
-  public DispatchingResponse(InputStream content, String contentType, Map<String, String> headers) {
-    super(content, contentType, headers);
+  public DispatchingResponse(InputStream content, Map<String, String> headers) {
+    super(content, headers);
   }
 }

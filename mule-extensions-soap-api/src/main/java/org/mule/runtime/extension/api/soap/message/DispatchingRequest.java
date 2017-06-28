@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.soap.message;
 
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,8 +19,8 @@ public class DispatchingRequest extends BaseDispatchingContext {
 
   private final String address;
 
-  public DispatchingRequest(InputStream message, String address, String contentType, Map<String, String> headers) {
-    super(message, contentType, headers);
+  public DispatchingRequest(InputStream message, String address, Map<String, String> headers) {
+    super(message, headers);
     this.address = address;
   }
 
