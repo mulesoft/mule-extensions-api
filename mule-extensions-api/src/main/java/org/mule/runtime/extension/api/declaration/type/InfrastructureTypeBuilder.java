@@ -15,6 +15,8 @@ import org.mule.metadata.api.builder.StringTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 
 /**
  * Base class for a component capable of creating a {@link MetadataType} to be used
@@ -67,13 +69,33 @@ abstract class InfrastructureTypeBuilder {
                                                   String name,
                                                   String description,
                                                   String defaultValue) {
+
+    final StringTypeBuilder stringType = stringTypeBuilder(typeBuilder, defaultValue);
+    return addField(objectType, stringType, name, description);
+  }
+
+  private StringTypeBuilder stringTypeBuilder(BaseTypeBuilder typeBuilder, String defaultValue) {
     final StringTypeBuilder stringType = typeBuilder.stringType().id(String.class.getName());
 
     if (defaultValue != null) {
       stringType.defaultValue(String.valueOf(defaultValue));
     }
+    return stringType;
+  }
 
-    return addField(objectType, stringType, name, description);
+  protected ObjectFieldTypeBuilder addPasswordField(ObjectTypeBuilder objectType,
+                                                    BaseTypeBuilder typeBuilder,
+                                                    String name,
+                                                    String description,
+                                                    String defaultValue) {
+    final StringTypeBuilder stringType = stringTypeBuilder(typeBuilder, defaultValue);
+
+    return objectType.addField()
+        .key(name)
+        .description(description)
+        .required(false)
+        .with(new LayoutTypeAnnotation(LayoutModel.builder().asPassword().build()))
+        .value(stringType.build());
   }
 
   protected ObjectFieldTypeBuilder addIntField(ObjectTypeBuilder objectType,
