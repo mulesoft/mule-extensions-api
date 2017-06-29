@@ -18,13 +18,13 @@ import java.util.Optional;
  */
 abstract class BaseDispatchingContext {
 
-  private final String contentType;
+  private static final String CONTENT_TYPE = "Content-Type";
+
   private final InputStream content;
   private final Map<String, String> headers;
 
-  BaseDispatchingContext(InputStream content, String contentType, Map<String, String> headers) {
+  BaseDispatchingContext(InputStream content, Map<String, String> headers) {
     this.content = content;
-    this.contentType = contentType;
     this.headers = headers;
   }
 
@@ -39,7 +39,9 @@ abstract class BaseDispatchingContext {
    * @return the content-type of the raw WS response content.
    */
   public String getContentType() {
-    return contentType;
+    return getHeader(CONTENT_TYPE)
+        .orElseGet(() -> getHeader(CONTENT_TYPE.toLowerCase())
+            .orElseThrow(() -> new IllegalStateException("No " + CONTENT_TYPE + "boundled in the message")));
   }
 
   /**
