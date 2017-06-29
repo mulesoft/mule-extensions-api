@@ -10,6 +10,7 @@ import static java.util.Collections.emptySet;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -24,11 +25,13 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
+import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
 import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -52,9 +55,18 @@ public abstract class BaseExtensionModelFactoryTestCase {
   };
 
   protected ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+  private ClassLoader extensionClassLoader = getClass().getClassLoader();
 
-  protected ExtensionModel load() {
-    return extensionModel = loader.loadExtensionModel(getClass().getClassLoader(), getDefault(emptySet()), new HashMap<>());
+  @Test
+  public void classLoaderModelProperty() {
+    ClassLoaderModelProperty classLoaderModelProperty =
+        extensionModel.getModelProperty(ClassLoaderModelProperty.class).orElse(null);
+    assertThat(classLoaderModelProperty, is(notNullValue()));
+    assertThat(classLoaderModelProperty.getClassLoader(), is(sameInstance(extensionClassLoader)));
+  }
+
+  protected final ExtensionModel load() {
+    return extensionModel = loader.loadExtensionModel(extensionClassLoader, getDefault(emptySet()), new HashMap<>());
   }
 
   protected void assertParameter(ParameterModel parameterModel, String name, String description,
