@@ -82,8 +82,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     addStringField(trustStoreType, typeBuilder, "algorithm", "The algorithm used by the trust store.", null);
 
     addBooleanField(trustStoreType, typeBuilder, "insecure",
-                    "If true, no certificate validations will be performed, rendering connections vulnerable"
-                        + "to attacks. Use at your own risk",
+                    "If true, no certificate validations will be performed, rendering connections vulnerable "
+                        + "to attacks. Use at your own risk.",
                     false);
 
     type.addField().key("trust-store").required(false).value(trustStoreType);
