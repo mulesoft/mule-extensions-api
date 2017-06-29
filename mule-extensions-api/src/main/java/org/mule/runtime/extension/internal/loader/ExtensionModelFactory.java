@@ -71,6 +71,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
+import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
@@ -130,6 +131,7 @@ public final class ExtensionModelFactory {
 
   public ExtensionModelFactory() {
     declarationEnrichers = unmodifiableList((asList(
+                                                    new ClassLoaderDeclarationEnricher(),
                                                     new ContentParameterDeclarationEnricher(),
                                                     new ExecutionTypeDeclarationEnricher(),
                                                     new ExtensionTypesDeclarationEnricher(),
