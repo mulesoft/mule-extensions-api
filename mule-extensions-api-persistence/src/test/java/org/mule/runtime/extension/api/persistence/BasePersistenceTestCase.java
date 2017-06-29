@@ -24,6 +24,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.CHOICE_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.FOREACH_OPERATION_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_DEPENDENCY_MODEL;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
@@ -36,6 +37,7 @@ import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.json.JsonTypeLoader;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.ExternalDependencyModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
@@ -238,7 +240,7 @@ abstract class BasePersistenceTestCase {
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(), singleton(ERROR_MODEL),
-                                    externalLibrarySet(), singleton(accessCodeModelProperty));
+                                    externalLibrarySet(), externalDependencySet(), singleton(accessCodeModelProperty));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =
@@ -332,6 +334,13 @@ abstract class BasePersistenceTestCase {
     externalLibraryModels.add(EXTERNAL_LIBRARY_MODEL);
 
     return externalLibraryModels;
+  }
+
+  private Set<ExternalDependencyModel> externalDependencySet() {
+    Set<ExternalDependencyModel> externalDependenciesModels = new HashSet<>();
+    externalDependenciesModels.add(EXTERNAL_DEPENDENCY_MODEL);
+
+    return externalDependenciesModels;
   }
 
   private List<ParameterGroupModel> asParameterGroup(ParameterModel... parameters) {

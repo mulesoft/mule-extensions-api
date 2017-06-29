@@ -96,7 +96,8 @@ public class LoadAndSerializeXmlExtensionModels {
                                     COMMUNITY, new MuleVersion("4.0"), emptyList(),
                                     singletonList(getCarOperation),
                                     emptyList(), emptyList(), defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet());
+                                    emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(),
+                                    emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
 

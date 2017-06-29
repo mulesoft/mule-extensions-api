@@ -22,6 +22,16 @@
       "requiredClassName": "org.my.Library"
     }
   ],
+	"externalDependencies": [
+		{
+			"groupId": "javax.jms",
+			"artifactId": "javax.jms-api",
+			"minVersion": "2.0.1",
+			"maxVersion": "2.1.0",
+			"name": "javax",
+			"description": "Javax dependency"
+		}
+	],
   "importedTypes": [],
   "displayModel": {},
   "configurations": [],
