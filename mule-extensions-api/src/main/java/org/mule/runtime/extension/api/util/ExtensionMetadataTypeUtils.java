@@ -101,6 +101,16 @@ public final class ExtensionMetadataTypeUtils {
     }
   }
 
+  public static boolean isInstanciable(MetadataType metadataType) {
+    try {
+      return metadataType.getAnnotation(ClassInformationAnnotation.class).map(ClassInformationAnnotation::isInstantiable)
+          .orElseGet(() -> metadataType.getMetadataFormat().equals(JAVA) &&
+              getType(metadataType).map(t -> Modifier.isFinal(t.getModifiers())).orElse(false));
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
   /**
    * @param metadataType the {@link MetadataType} to inspect
    * @return whether the {@code metadataType} represents a {@link Map} or not
