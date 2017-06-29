@@ -76,12 +76,15 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     addStringField(trustStoreType, typeBuilder, "path", "The location (which will be resolved relative to the current "
         + "classpath and file system, if possible) of the trust store.", null);
 
-    addStringField(trustStoreType, typeBuilder, "password", "The password used to protect the trust store.", null);
+    addPasswordField(trustStoreType, typeBuilder, "password", "The password used to protect the trust store.", null);
     addField(trustStoreType, getStoreMetadataType(typeBuilder), "type", "The type of store used.");
 
     addStringField(trustStoreType, typeBuilder, "algorithm", "The algorithm used by the trust store.", null);
 
-    addBooleanField(trustStoreType, typeBuilder, "insecure", "If true, no certificate validations will be performed.", false);
+    addBooleanField(trustStoreType, typeBuilder, "insecure",
+                    "If true, no certificate validations will be performed, rendering connections vulnerable"
+                        + "to attacks. Use at your own risk",
+                    false);
 
     type.addField().key("trust-store").required(false).value(trustStoreType);
   }
@@ -107,8 +110,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
                        + "should be used. If not defined, the first key in the file will be used by default.",
                    null);
 
-    addStringField(keyStoreType, typeBuilder, "keyPassword", "The password used to protect the private key.", null);
-    addStringField(keyStoreType, typeBuilder, "password", "The password used to protect the key store.", null);
+    addPasswordField(keyStoreType, typeBuilder, "keyPassword", "The password used to protect the private key.", null);
+    addPasswordField(keyStoreType, typeBuilder, "password", "The password used to protect the key store.", null);
     addStringField(keyStoreType, typeBuilder, "algorithm", "The algorithm used by the key store.", null);
 
     type.addField().key("key-store").required(false).value(keyStoreType);
