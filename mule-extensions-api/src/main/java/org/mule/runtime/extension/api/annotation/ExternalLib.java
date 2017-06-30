@@ -8,9 +8,8 @@ package org.mule.runtime.extension.api.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.mule.runtime.api.meta.LibraryType.LIBRARY;
 import org.mule.runtime.api.connection.ConnectionProvider;
-import org.mule.runtime.api.meta.LibraryType;
+import org.mule.runtime.api.meta.ExternalLibraryType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
@@ -63,5 +62,5 @@ public @interface ExternalLib {
   /**
    * @return The type of library needed
    */
-  LibraryType type() default LIBRARY;
+  ExternalLibraryType type();
 }

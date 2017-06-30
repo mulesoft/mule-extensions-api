@@ -21,7 +21,7 @@
         "description": "WSS native library",
         "regexMatcher": "*.jar",
         "requiredClassName": "org.my.Library",
-        "type": "LIBRARY"
+        "type": "JAR"
       }
     ],
     "importedTypes": [],
@@ -811,7 +811,7 @@
             "description": "WSS native library",
             "regexMatcher": "*.jar",
             "requiredClassName": "org.my.Library",
-            "type": "LIBRARY"
+            "type": "JAR"
           }
         ],
         "parameterGroupModels": [
@@ -1835,7 +1835,7 @@
         "description": "WSS native library",
         "regexMatcher": "*.jar",
         "requiredClassName": "org.my.Library",
-        "type": "LIBRARY"
+        "type": "JAR"
       }
     ],
     "importedTypes": [],
@@ -2625,7 +2625,7 @@
             "description": "WSS native library",
             "regexMatcher": "*.jar",
             "requiredClassName": "org.my.Library",
-            "type": "LIBRARY"
+            "type": "JAR"
           }
         ],
         "parameterGroupModels": [
