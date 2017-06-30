@@ -10,8 +10,8 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
-
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A {@link TypeAnnotation} that contains information about the name and summary that should be rendered in the UI for a
@@ -65,6 +65,13 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
     return displayModel.getExample();
   }
 
+  /**
+   * @return a {@link PathInformation} instance if the carrier parameter points to a file or directory,
+   * {@link Optional#empty()} otherwise.
+   */
+  public Optional<PathInformation> getPathInformation() {
+    return displayModel.getPathModel().map(PathInformation::new);
+  }
 
   @Override
   public boolean equals(Object obj) {
