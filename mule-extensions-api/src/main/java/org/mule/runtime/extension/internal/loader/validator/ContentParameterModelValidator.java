@@ -18,7 +18,6 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.utils.MetadataTypeUtils;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
@@ -191,7 +190,7 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
     }
   }
 
-  private Problem problem(NamedObject model, String message) {
+  private Problem problem(ParameterizedModel model, String message) {
     return new Problem(model, String.format("'%s' %s %s ",
                                             getComponentModelTypeName(model),
                                             model.getName(),

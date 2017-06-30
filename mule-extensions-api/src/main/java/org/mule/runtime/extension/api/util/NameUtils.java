@@ -27,6 +27,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -297,7 +298,7 @@ public class NameUtils {
     return hyphenize(isBlank(namespace) ? extensionName : namespace);
   }
 
-  public static String getComponentModelTypeName(Object component) {
+  public static String getComponentModelTypeName(ParameterizedModel component) {
     if (component instanceof OperationModel) {
       return OPERATION;
     } else if (component instanceof ConfigurationModel) {
