@@ -19,8 +19,9 @@
       {
         "name": "wss",
         "description": "WSS native library",
-        "fileName": "*.jar",
-        "requiredClassName": "org.my.Library"
+        "regexMatcher": "*.jar",
+        "requiredClassName": "org.my.Library",
+        "type": "JAR"
       }
     ],
     "importedTypes": [],
@@ -808,8 +809,9 @@
           {
             "name": "wss",
             "description": "WSS native library",
-            "fileName": "*.jar",
-            "requiredClassName": "org.my.Library"
+            "regexMatcher": "*.jar",
+            "requiredClassName": "org.my.Library",
+            "type": "JAR"
           }
         ],
         "parameterGroupModels": [
@@ -1831,8 +1833,9 @@
       {
         "name": "wss",
         "description": "WSS native library",
-        "fileName": "*.jar",
-        "requiredClassName": "org.my.Library"
+        "regexMatcher": "*.jar",
+        "requiredClassName": "org.my.Library",
+        "type": "JAR"
       }
     ],
     "importedTypes": [],
@@ -2620,8 +2623,9 @@
           {
             "name": "wss",
             "description": "WSS native library",
-            "fileName": "*.jar",
-            "requiredClassName": "org.my.Library"
+            "regexMatcher": "*.jar",
+            "requiredClassName": "org.my.Library",
+            "type": "JAR"
           }
         ],
         "parameterGroupModels": [

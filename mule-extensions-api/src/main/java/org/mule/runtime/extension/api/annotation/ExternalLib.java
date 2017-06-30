@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.annotation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.runtime.api.meta.ExternalLibraryType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
@@ -51,10 +52,15 @@ public @interface ExternalLib {
   /**
    * @return A regexp to match the name of the library's file.
    */
-  String fileName() default "";
+  String nameRegexpMatcher() default "";
 
   /**
    * @return If provided, the library should contain a class of the given name
    */
   String requiredClassName() default "";
+
+  /**
+   * @return The type of library needed
+   */
+  ExternalLibraryType type();
 }
