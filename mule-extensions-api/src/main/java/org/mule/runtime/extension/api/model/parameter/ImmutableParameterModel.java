@@ -15,6 +15,7 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.api.meta.model.parameter.ValuesProviderModel;
 import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
 
 import java.util.Optional;
@@ -31,6 +32,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final boolean hasDynamicType;
   private final boolean required;
   private final boolean isConfigOverride;
+  private final ValuesProviderModel valuesProviderModel;
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
   private final ParameterRole role;
@@ -66,6 +68,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  ParameterDslConfiguration dslConfiguration,
                                  DisplayModel displayModel,
                                  LayoutModel layoutModel,
+                                 ValuesProviderModel valuesProviderModel,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
 
@@ -78,6 +81,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.dslConfiguration = dslConfiguration;
     this.layoutModel = layoutModel;
     this.isConfigOverride = isConfigOverride;
+    this.valuesProviderModel = valuesProviderModel;
   }
 
   /**
@@ -141,8 +145,19 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     return role;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Optional<LayoutModel> getLayoutModel() {
     return ofNullable(layoutModel);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<ValuesProviderModel> getValuesProviderModel() {
+    return ofNullable(valuesProviderModel);
   }
 }

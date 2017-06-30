@@ -13,6 +13,7 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.parameter.ValuesProviderModel;
 import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
   private final List<ExclusiveParametersModel> exclusiveParametersModels;
   private final LayoutModel layoutModel;
   private final boolean showInDsl;
+  private final ValuesProviderModel valuesProviderModel;
 
   /**
    * Creates a new instance
@@ -50,12 +52,14 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
                                       boolean showInDsl,
                                       DisplayModel displayModel,
                                       LayoutModel layoutModel,
+                                      ValuesProviderModel valuesProviderModel,
                                       Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
     this.parameters = copy(parameters);
     this.exclusiveParametersModels = copy(exclusiveParametersModels);
     this.layoutModel = layoutModel;
     this.showInDsl = showInDsl;
+    this.valuesProviderModel = valuesProviderModel;
   }
 
   /**
@@ -97,4 +101,11 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
     return showInDsl;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<ValuesProviderModel> getValuesProviderModel() {
+    return ofNullable(valuesProviderModel);
+  }
 }

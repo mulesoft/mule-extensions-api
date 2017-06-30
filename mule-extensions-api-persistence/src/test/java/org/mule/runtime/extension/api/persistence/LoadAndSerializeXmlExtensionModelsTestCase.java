@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static java.nio.file.Files.createTempFile;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
@@ -37,21 +38,19 @@ import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
-
-public class LoadAndSerializeXmlExtensionModels {
+public class LoadAndSerializeXmlExtensionModelsTestCase {
 
   public static final String SCHEMAS_GET_JOB_JSON = "schemas/greenhouse-get-job.json";
   public static final String SERIALIZED_EXTENSION_MODEL_STRING_JSON = "serializedExtensionModelString.json";
@@ -77,7 +76,7 @@ public class LoadAndSerializeXmlExtensionModels {
         new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
                                     jsonLoadedType,
                                     false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, null, emptySet());
 
     final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());
     final ImmutableOutputModel outputAttributesModel =
@@ -116,7 +115,9 @@ public class LoadAndSerializeXmlExtensionModels {
   public void serializeDeserializeMock() throws IOException {
 
     final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
-    FileUtils.writeStringToFile(new java.io.File(SERIALIZED_EXTENSION_MODEL_STRING_JSON), serializedExtensionModelString);
+
+    FileUtils.writeStringToFile(createTempFile(SERIALIZED_EXTENSION_MODEL_STRING_JSON, ".tmp").toFile(),
+                                serializedExtensionModelString);
 
     serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
     ExtensionModel deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
@@ -135,6 +136,7 @@ public class LoadAndSerializeXmlExtensionModels {
                                                    asList(parameters),
                                                    asList(new ImmutableExclusiveParametersModel(exclusiveParamNames, false)),
                                                    false,
+                                                   null,
                                                    null,
                                                    null,
                                                    emptySet()));

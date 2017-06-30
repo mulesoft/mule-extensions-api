@@ -536,6 +536,13 @@
               "hasDynamicType": false,
               "required": true,
               "isConfigOverride": false,
+              "valuesProviderModel": {
+                "requiredParameters": [],
+                "valueParts": {
+                  "1": "partName"
+                },
+                "category": "ACategory"
+              },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
               "dslConfiguration": {
@@ -614,6 +621,13 @@
             "hasDynamicType": true,
             "required": false,
             "isConfigOverride": false,
+            "valuesProviderModel": {
+              "requiredParameters": [],
+              "valueParts": {
+                "1": "partName"
+              },
+              "category": "ACategory"
+            },
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
             "role": "BEHAVIOUR",
@@ -667,6 +681,13 @@
             "hasDynamicType": false,
             "required": true,
             "isConfigOverride": false,
+            "valuesProviderModel": {
+              "requiredParameters": [],
+              "valueParts": {
+                "1": "partName"
+              },
+              "category": "ACategory"
+            },
             "expressionSupport": "SUPPORTED",
             "role": "BEHAVIOUR",
             "dslConfiguration": {

@@ -1,0 +1,10 @@
+{
+  "requiredParameters": [
+    "param1",
+    "param2"
+  ],
+  "valueParts": {
+    "1": "part1"
+  },
+  "category": "Category 1"
+}

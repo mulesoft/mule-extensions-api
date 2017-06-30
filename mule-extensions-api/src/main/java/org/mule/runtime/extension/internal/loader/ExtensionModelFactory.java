@@ -443,6 +443,7 @@ public final class ExtensionModelFactory {
                                               declaration.isShowInDsl(),
                                               declaration.getDisplayModel(),
                                               declaration.getLayoutModel(),
+                                              declaration.getValuesProviderModel(),
                                               declaration.getModelProperties());
     }
 
@@ -491,6 +492,7 @@ public final class ExtensionModelFactory {
                                          parameter.getDslConfiguration(),
                                          parameter.getDisplayModel(),
                                          parameter.getLayoutModel(),
+                                         parameter.getValuesProviderModel(),
                                          parameter.getModelProperties());
     }
   }
