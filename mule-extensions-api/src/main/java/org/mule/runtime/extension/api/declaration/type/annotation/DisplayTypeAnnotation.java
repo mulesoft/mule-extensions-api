@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import java.util.Objects;
@@ -16,9 +17,9 @@ import java.util.Optional;
 /**
  * A {@link TypeAnnotation} that contains information about the name and summary that should be rendered in the UI for a
  * particular model.
- * 
+ * <p>
  * That information is obtained through the {@link DisplayName} and {@link Summary} annotations.
- * 
+ *
  * @since 1.0
  */
 public class DisplayTypeAnnotation implements TypeAnnotation {
@@ -66,11 +67,11 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
   }
 
   /**
-   * @return a {@link PathInformation} instance if the carrier parameter points to a file or directory,
+   * @return a {@link PathModel} instance if the carrier parameter points to a file or directory,
    * {@link Optional#empty()} otherwise.
    */
-  public Optional<PathInformation> getPathInformation() {
-    return displayModel.getPathModel().map(PathInformation::new);
+  public Optional<PathModel> getPathInformation() {
+    return displayModel.getPathModel();
   }
 
   @Override

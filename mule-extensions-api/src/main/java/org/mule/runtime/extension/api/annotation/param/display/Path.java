@@ -27,7 +27,18 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Path {
 
+  /**
+   * @return whether the path is to a directory or a file
+   */
   boolean isDirectory() default false;
 
+  /**
+   * @return whether the path parameter also supports urls.
+   */
+  boolean acceptsUrls() default false;
+
+  /**
+   * @return the file extensions that this path handles.
+   */
   String[] acceptedFileExtensions() default {};
 }
