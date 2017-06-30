@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
-import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.runtime.api.meta.model.display.PathModel;
 
 /**
@@ -17,21 +16,12 @@ import org.mule.runtime.api.meta.model.display.PathModel;
  *
  * @since 1.0
  */
-public class PathInformation implements TypeAnnotation {
+public class PathInformation {
 
-  public static final String NAME = "path";
   private final PathModel pathModel;
 
   PathInformation(PathModel pathModel) {
     this.pathModel = pathModel;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String getName() {
-    return NAME;
   }
 
   /**
