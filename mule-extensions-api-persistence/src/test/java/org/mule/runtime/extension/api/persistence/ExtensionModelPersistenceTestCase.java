@@ -38,6 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
@@ -89,13 +90,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
   @Test
   public void validateJsonListStructure() throws IOException {
-    final JsonParser jsonParser = new JsonParser();
-    final JsonElement expectedSerializedExtensionModel =
-        jsonParser.parse(getResourceAsString(LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON));
     final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
-    final JsonElement parse = jsonParser.parse(serializedList);
-
-    assertThat(parse, is(expectedSerializedExtensionModel));
+    JSONAssert.assertEquals(getResourceAsString(LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON), serializedList, true);
   }
 
   @Test
