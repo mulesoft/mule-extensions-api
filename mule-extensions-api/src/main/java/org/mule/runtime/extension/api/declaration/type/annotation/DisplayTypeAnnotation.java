@@ -70,7 +70,7 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
    * @return a {@link PathModel} instance if the carrier parameter points to a file or directory,
    * {@link Optional#empty()} otherwise.
    */
-  public Optional<PathModel> getPathInformation() {
+  public Optional<PathModel> getPathModel() {
     return displayModel.getPathModel();
   }
 
