@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -17,9 +18,11 @@ import org.mule.metadata.api.builder.UnionTypeBuilder;
 import org.mule.metadata.java.api.handler.ClassHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.tls.TlsContextFactory;
+import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -74,7 +77,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
             + "trusted servers. If used server side, it contains the certificates of the trusted clients.");
     typeBuilder = create(JAVA);
     addStringField(trustStoreType, typeBuilder, "path", "The location (which will be resolved relative to the current "
-        + "classpath and file system, if possible) of the trust store.", null);
+        + "classpath and file system, if possible) of the trust store.", null)
+            .with(filePathDisplayModel());
 
     addPasswordField(trustStoreType, typeBuilder, "password", "The password used to protect the trust store.", null);
     addField(trustStoreType, getStoreMetadataType(typeBuilder), "type", "The type of store used.");
@@ -102,7 +106,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
         .description("Key store configuration. The key store contains the keys of this server/client.");
 
     addStringField(keyStoreType, typeBuilder, "path", "The location (which will be resolved relative to the current "
-        + "classpath and file system, if possible) of the key store.", null);
+        + "classpath and file system, if possible) of the key store.", null).with(filePathDisplayModel());;
 
     addField(keyStoreType, getStoreMetadataType(typeBuilder), "type", "The type of store used.");
     addStringField(keyStoreType, typeBuilder, "alias",
@@ -116,4 +120,9 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
     type.addField().key("key-store").required(false).value(keyStoreType);
   }
+
+  private DisplayTypeAnnotation filePathDisplayModel() {
+    return new DisplayTypeAnnotation(DisplayModel.builder().path(new PathModel(FILE, false, new String[] {})).build());
+  }
+
 }
