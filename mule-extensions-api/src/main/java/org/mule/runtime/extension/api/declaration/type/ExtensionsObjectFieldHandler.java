@@ -30,6 +30,7 @@ import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
@@ -42,6 +43,7 @@ import org.mule.runtime.extension.api.annotation.param.Query;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Example;
 import org.mule.runtime.extension.api.annotation.param.display.Password;
+import org.mule.runtime.extension.api.annotation.param.display.Path;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
@@ -146,6 +148,12 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     if (field.getAnnotation(Example.class) != null) {
       builder.example(field.getAnnotation(Example.class).value());
+      shouldAddTypeAnnotation = true;
+    }
+
+    Path path = field.getAnnotation(Path.class);
+    if (path != null) {
+      builder.path(new PathModel(path.type(), path.acceptsUrls(), path.acceptedFileExtensions()));
       shouldAddTypeAnnotation = true;
     }
 
