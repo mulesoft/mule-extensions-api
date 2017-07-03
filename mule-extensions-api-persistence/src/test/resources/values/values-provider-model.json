@@ -3,8 +3,6 @@
     "param1",
     "param2"
   ],
-  "valueParts": {
-    "1": "part1"
-  },
-  "category": "Category 1"
+  "partOrder": 1,
+  "providerName": "Category 1"
 }

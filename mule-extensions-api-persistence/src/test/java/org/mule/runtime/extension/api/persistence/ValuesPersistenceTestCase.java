@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.mule.runtime.api.meta.model.parameter.ValuesProviderModel;
 import org.mule.runtime.api.values.Value;
-import org.mule.runtime.api.values.ValueBuilder;
+import org.mule.runtime.extension.api.values.ValueBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -21,14 +21,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class ValuesPersistenceTestCase {
 
   private final Value value =
       ValueBuilder.newValue("root").withChild(ValueBuilder.newValue("level1").withChild(ValueBuilder.newValue("level2"))).build();
   private ValuesProviderModel valuesProviderModel =
-      new ValuesProviderModel(Arrays.asList("param1", "param2"), Collections.singletonMap(1, "part1"), "Category 1");
+      new ValuesProviderModel(Arrays.asList("param1", "param2"), 1, "Category 1");
   private Gson gson = new Gson();
 
   @Test

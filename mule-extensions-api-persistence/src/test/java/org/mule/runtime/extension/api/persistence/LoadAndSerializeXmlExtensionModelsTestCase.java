@@ -138,7 +138,6 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                    false,
                                                    null,
                                                    null,
-                                                   null,
                                                    emptySet()));
   }
 

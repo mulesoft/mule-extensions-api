@@ -31,12 +31,10 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
   private final List<ExclusiveParametersModel> exclusiveParametersModels;
   private final LayoutModel layoutModel;
   private final boolean showInDsl;
-  private final ValuesProviderModel valuesProviderModel;
 
   /**
    * Creates a new instance
-   *
-   * @param name                      the operation's name. Cannot be blank
+   *  @param name                      the operation's name. Cannot be blank
    * @param description               the operation's descriptor
    * @param parameters                the parameters contained in this group
    * @param exclusiveParametersModels a list with the applying {@link ExclusiveParametersModel}
@@ -52,14 +50,12 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
                                       boolean showInDsl,
                                       DisplayModel displayModel,
                                       LayoutModel layoutModel,
-                                      ValuesProviderModel valuesProviderModel,
                                       Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
     this.parameters = copy(parameters);
     this.exclusiveParametersModels = copy(exclusiveParametersModels);
     this.layoutModel = layoutModel;
     this.showInDsl = showInDsl;
-    this.valuesProviderModel = valuesProviderModel;
   }
 
   /**
@@ -101,11 +97,4 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
     return showInDsl;
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Optional<ValuesProviderModel> getValuesProviderModel() {
-    return ofNullable(valuesProviderModel);
-  }
 }

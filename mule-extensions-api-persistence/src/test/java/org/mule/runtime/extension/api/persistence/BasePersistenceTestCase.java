@@ -11,7 +11,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
-import static java.util.Collections.singletonMap;
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.CoreMatchers.is;
@@ -116,7 +115,7 @@ abstract class BasePersistenceTestCase {
   protected final ParameterDslConfiguration defaultParameterDsl = ParameterDslConfiguration.getDefaultInstance();
   protected final LayoutModel defaultLayoutModel = LayoutModel.builder().build();
   protected final ValuesProviderModel defaultValueProviderModel =
-      new ValuesProviderModel(emptyList(), singletonMap(1, "partName"), "ACategory");
+      new ValuesProviderModel(emptyList(), 1, "ACategory");
 
   protected final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   protected final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
@@ -350,7 +349,6 @@ abstract class BasePersistenceTestCase {
                                                    asList(parameters),
                                                    asList(new ImmutableExclusiveParametersModel(exclusiveParamNames, false)),
                                                    false,
-                                                   null,
                                                    null,
                                                    null,
                                                    emptySet()));

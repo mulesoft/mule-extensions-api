@@ -83,10 +83,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -622,10 +620,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
@@ -654,10 +650,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
@@ -848,10 +842,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -884,10 +876,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -924,10 +914,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
@@ -1488,10 +1476,8 @@
                 "isConfigOverride": false,
                 "valuesProviderModel": {
                   "requiredParameters": [],
-                  "valueParts": {
-                    "1": "partName"
-                  },
-                  "category": "ACategory"
+                  "partOrder": 1,
+                  "providerName": "ACategory"
                 },
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
@@ -1573,10 +1559,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -1616,10 +1600,8 @@
               "isConfigOverride": false,
               "valuesProviderModel": {
                 "requiredParameters": [],
-                "valueParts": {
-                  "1": "partName"
-                },
-                "category": "ACategory"
+                "partOrder": 1,
+                "providerName": "ACategory"
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",

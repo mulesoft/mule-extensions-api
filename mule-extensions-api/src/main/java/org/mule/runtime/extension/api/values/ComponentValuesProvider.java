@@ -11,20 +11,16 @@ import org.mule.runtime.api.values.Value;
 import java.util.Set;
 
 /**
- * Provider of {@link Value values}.
+ * This interface allows the exposure of the {@link Value values} associated to a parameter of a Component.
  *
  * @since 1.0
- * @see Value
  */
-public interface ValuesProvider {
+public interface ComponentValuesProvider {
 
   /**
-   * Resolves and provides a {@link Set} of {@link Value values} which represents a set of possible and valid values for
-   * a parameter.
-   *
-   * @return a {@link Set} of {@link Value values}.
-   * @throws ValueResolvingException if an error occurs during the resolving
+   * @param parameterName the name of the parameter for which resolve their possible {@link Value values}
+   * @return the resolved {@link Value values}
    */
-  Set<Value> resolve() throws ValueResolvingException;
+  Set<Value> getValues(String parameterName) throws ValueResolvingException;
 
 }
