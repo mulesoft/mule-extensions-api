@@ -18,7 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a {@link Parameter} field as path to a file or directory.
+ * Marks a field or parameter annotated with {@link Parameter} as a path to a file or directory.
  * <p/>
  * This annotation should only be used with {@link String} parameters.
  *
