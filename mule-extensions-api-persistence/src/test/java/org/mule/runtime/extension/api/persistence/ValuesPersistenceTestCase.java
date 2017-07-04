@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.persistence;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import org.mule.runtime.api.meta.model.parameter.ValuesProviderModel;
+import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.values.Value;
 import org.mule.runtime.extension.api.values.ValueBuilder;
 import com.google.gson.Gson;
@@ -26,21 +26,21 @@ public class ValuesPersistenceTestCase {
 
   private final Value value =
       ValueBuilder.newValue("root").withChild(ValueBuilder.newValue("level1").withChild(ValueBuilder.newValue("level2"))).build();
-  private ValuesProviderModel valuesProviderModel =
-      new ValuesProviderModel(Arrays.asList("param1", "param2"), 1, "Category 1");
+  private ValueProviderModel valueProviderModel =
+      new ValueProviderModel(Arrays.asList("param1", "param2"), 1, "Category 1");
   private Gson gson = new Gson();
 
   @Test
   public void serializePartModelProperty() throws IOException {
-    JsonElement serialized = gson.toJsonTree(valuesProviderModel);
+    JsonElement serialized = gson.toJsonTree(valueProviderModel);
     JsonElement expected = load("values/values-provider-model.json");
     assertThat(serialized, is(expected));
   }
 
   @Test
   public void deserializedPartModelProperty() throws IOException {
-    ValuesProviderModel valuesProviderModel = gson.fromJson(load("values/values-provider-model.json"), ValuesProviderModel.class);
-    assertThat(valuesProviderModel, is(this.valuesProviderModel));
+    ValueProviderModel valueProviderModel = gson.fromJson(load("values/values-provider-model.json"), ValueProviderModel.class);
+    assertThat(valueProviderModel, is(this.valueProviderModel));
   }
 
   @Test

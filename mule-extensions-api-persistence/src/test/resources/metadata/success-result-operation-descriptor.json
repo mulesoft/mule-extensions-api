@@ -71,8 +71,8 @@
             "hasDynamicType": true,
             "required": false,
             "isConfigOverride": false,
-            "valuesProviderModel": {
-              "requiredParameters": [],
+            "valueProviderModel": {
+              "actingParameters": [],
               "partOrder": 1,
               "providerName": "ACategory"
             },
@@ -608,8 +608,8 @@
             "hasDynamicType": false,
             "required": true,
             "isConfigOverride": false,
-            "valuesProviderModel": {
-              "requiredParameters": [],
+            "valueProviderModel": {
+              "actingParameters": [],
               "partOrder": 1,
               "providerName": "ACategory"
             },
@@ -799,8 +799,8 @@
             "hasDynamicType": false,
             "required": true,
             "isConfigOverride": false,
-            "valuesProviderModel": {
-              "requiredParameters": [],
+            "valueProviderModel": {
+              "actingParameters": [],
               "partOrder": 1,
               "providerName": "ACategory"
             },

@@ -1,5 +1,5 @@
 {
-  "requiredParameters": [
+  "actingParameters": [
     "param1",
     "param2"
   ],

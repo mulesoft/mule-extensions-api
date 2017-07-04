@@ -13,7 +13,6 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.api.meta.model.parameter.ValuesProviderModel;
 import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
 
 import java.util.List;

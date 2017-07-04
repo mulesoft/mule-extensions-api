@@ -489,7 +489,7 @@ public final class ExtensionModelFactory {
                                          parameter.getDslConfiguration(),
                                          parameter.getDisplayModel(),
                                          parameter.getLayoutModel(),
-                                         parameter.getValuesProviderModel(),
+                                         parameter.getValueProviderModel(),
                                          parameter.getModelProperties());
     }
   }

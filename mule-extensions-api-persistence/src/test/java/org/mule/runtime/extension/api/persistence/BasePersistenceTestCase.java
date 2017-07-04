@@ -49,7 +49,7 @@ import org.mule.runtime.api.meta.model.operation.RouterModel;
 import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.api.meta.model.parameter.ValuesProviderModel;
+import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
@@ -114,8 +114,8 @@ abstract class BasePersistenceTestCase {
   protected final String SOURCE_NAME = "Source";
   protected final ParameterDslConfiguration defaultParameterDsl = ParameterDslConfiguration.getDefaultInstance();
   protected final LayoutModel defaultLayoutModel = LayoutModel.builder().build();
-  protected final ValuesProviderModel defaultValueProviderModel =
-      new ValuesProviderModel(emptyList(), 1, "ACategory");
+  protected final ValueProviderModel defaultValueProviderModel =
+      new ValueProviderModel(emptyList(), 1, "ACategory");
 
   protected final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   protected final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
