@@ -16,7 +16,7 @@ import java.util.Set;
  * @since 1.0
  * @see Value
  */
-public interface ValuesProvider {
+public interface ValueProvider {
 
   /**
    * Resolves and provides a {@link Set} of {@link Value values} which represents a set of possible and valid values for

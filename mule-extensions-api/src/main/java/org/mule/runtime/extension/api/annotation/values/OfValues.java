@@ -10,7 +10,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.values.Value;
-import org.mule.runtime.extension.api.values.ValuesProvider;
+import org.mule.runtime.extension.api.values.ValueProvider;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a parameter or parameter group as a value that has the capability of resolve {@link Value values} for this one.
- * This resolution is resolved by the {@link ValuesProvider} referenced in the {@link OfValues}.
+ * This resolution is resolved by the {@link ValueProvider} referenced in the {@link OfValues}.
  *
  * @since 1.0
  */
@@ -28,8 +28,8 @@ import java.lang.annotation.Target;
 public @interface OfValues {
 
   /**
-   * @return the associated {@link ValuesProvider} for the parameter
+   * @return the associated {@link ValueProvider} for the parameter
    */
-  Class<? extends ValuesProvider> value();
+  Class<? extends ValueProvider> value();
 
 }
