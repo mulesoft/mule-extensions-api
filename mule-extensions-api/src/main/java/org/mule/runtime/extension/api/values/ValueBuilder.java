@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.values;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.internal.utils.StringUtils.isNotEmpty;
-
+import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.runtime.api.values.Value;
 
 import java.util.LinkedHashSet;
@@ -47,6 +47,7 @@ public class ValueBuilder {
    * @return an initialized instance of {@link ValueBuilder}
    */
   public static ValueBuilder newValue(String id) {
+    checkArgument(isNotEmpty(id), "The ID can't be empty");
     return new ValueBuilder(id);
   }
 
@@ -59,6 +60,7 @@ public class ValueBuilder {
    * @return an initialized instance of {@link ValueBuilder}
    */
   public static ValueBuilder newValue(String id, String partName) {
+    checkArgument(isNotEmpty(id), "The ID can't be empty");
     return new ValueBuilder(id, partName);
   }
 
@@ -90,6 +92,10 @@ public class ValueBuilder {
    */
   public static Set<Value> getValuesFor(Stream<String> values) {
     return values
+        .map(id -> {
+          checkArgument(isNotEmpty(id), "The ID can't be empty");
+          return id;
+        })
         .map(ValueBuilder::newValue)
         .map(ValueBuilder::build)
         .collect(toSet());
@@ -106,9 +112,13 @@ public class ValueBuilder {
   public static Set<Value> getValuesFor(Map<String, String> values) {
     return values.entrySet()
         .stream()
-        .map((entry) -> ValueBuilder.newValue(entry.getKey())
-            .withDisplayName(entry.getValue())
-            .build())
+        .map((entry) -> {
+          checkArgument(isNotEmpty(entry.getKey()), "The ID can't be empty");
+          checkArgument(isNotEmpty(entry.getValue()), "The displayName can't be empty");
+          return ValueBuilder.newValue(entry.getKey())
+              .withDisplayName(entry.getValue())
+              .build();
+        })
         .collect(toSet());
   }
 
@@ -119,6 +129,7 @@ public class ValueBuilder {
    * @return {@code this} builder with the configured display name
    */
   public ValueBuilder withDisplayName(String displayName) {
+    checkArgument(isNotEmpty(displayName), "The displayName can't be empty");
     this.displayName = displayName;
     return this;
   }
