@@ -33,8 +33,7 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
 
   /**
    * Creates a new instance
-   *
-   * @param name                      the operation's name. Cannot be blank
+   *  @param name                      the operation's name. Cannot be blank
    * @param description               the operation's descriptor
    * @param parameters                the parameters contained in this group
    * @param exclusiveParametersModels a list with the applying {@link ExclusiveParametersModel}

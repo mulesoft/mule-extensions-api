@@ -536,6 +536,11 @@
               "hasDynamicType": false,
               "required": true,
               "isConfigOverride": false,
+              "valueProviderModel": {
+                "actingParameters": [],
+                "partOrder": 1,
+                "providerName": "ACategory"
+              },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
               "dslConfiguration": {
@@ -614,6 +619,11 @@
             "hasDynamicType": true,
             "required": false,
             "isConfigOverride": false,
+            "valueProviderModel": {
+              "actingParameters": [],
+              "partOrder": 1,
+              "providerName": "ACategory"
+            },
             "expressionSupport": "SUPPORTED",
             "defaultValue": "",
             "role": "BEHAVIOUR",
@@ -667,6 +677,11 @@
             "hasDynamicType": false,
             "required": true,
             "isConfigOverride": false,
+            "valueProviderModel": {
+              "actingParameters": [],
+              "partOrder": 1,
+              "providerName": "ACategory"
+            },
             "expressionSupport": "SUPPORTED",
             "role": "BEHAVIOUR",
             "dslConfiguration": {
