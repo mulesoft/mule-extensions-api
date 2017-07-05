@@ -17,55 +17,8 @@ import static org.mule.runtime.api.meta.Category.SELECT;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ADDRESS;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ARG_LESS;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.BROADCAST;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.BROADCAST_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CALLBACK;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CALLBACK_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.COLLECTION_PARAMETER;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIGURATION_MODEL_PROPERTY;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIG_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIG_NAME;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONFIG_PARAMETER_GROUP;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_NAME;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_PARAMETER_GROUP;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONSUMER;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.DEFAULT_PORT;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTENSION_MODEL_PROPERTY;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.GO_GET_THEM_TIGER;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.HAS_NO_ARGS;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.LISTENER;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.LISTEN_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.MIN_MULE_VERSION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.MTOM_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.MTOM_ENABLED;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.MULESOFT;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.OPERATION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.OPERATION_MODEL_PROPERTY;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.OPERATION_PARAMETER_GROUP;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PARAMETER_MODEL_PROPERTY;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PASSWORD;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PASSWORD_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PORT;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.PORT_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SERVICE;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SERVICE_ADDRESS;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SERVICE_NAME;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SERVICE_PORT;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.SOURCE_PARAMETER_GROUP;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.THE_OPERATION_TO_USE;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.URI_TO_FIND_THE_WSDL;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.URL;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.URL_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.USERNAME;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.USERNAME_DESCRIPTION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.VERSION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER;
-import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
+import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.*;
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
@@ -77,6 +30,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
@@ -157,6 +111,22 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertBroadcastOperation(operations);
     assertConsumeOperation(operations);
   }
+
+  @Test
+  public void functions() throws Exception {
+    List<FunctionDeclaration> functions = extensionDeclaration.getFunctions();
+    assertThat(functions, hasSize(1));
+
+    FunctionDeclaration function = functions.get(0);
+    assertThat(function.getName(), is(FUNCTION_NAME));
+    assertThat(function.getDescription(), is(FUNCTION_DESCRIPTION));
+    assertDataType(function.getOutput().getType(), Integer.class, NumberType.class);;
+
+    List<ParameterDeclaration> parameters = assertGroupAndGetParameters(function, DEFAULT_GROUP_NAME);
+    assertThat(parameters, hasSize(1));
+    assertParameter(parameters.get(0), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), null);
+  }
+
 
   @Test
   public void connectionProvider() throws Exception {
