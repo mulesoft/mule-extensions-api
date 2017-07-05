@@ -845,6 +845,11 @@
                 "hasDynamicType": true,
                 "required": true,
                 "isConfigOverride": false,
+                "valueProviderModel": {
+                  "actingParameters": [],
+                  "partOrder": 1,
+                  "providerName": "ACategory"
+                },
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -2770,6 +2775,11 @@
                 "hasDynamicType": true,
                 "required": true,
                 "isConfigOverride": false,
+                "valueProviderModel": {
+                  "actingParameters": [],
+                  "partOrder": 1,
+                  "providerName": "ACategory"
+                },
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
