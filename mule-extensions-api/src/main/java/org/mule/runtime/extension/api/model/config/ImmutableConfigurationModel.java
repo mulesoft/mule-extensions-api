@@ -13,6 +13,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -41,6 +42,7 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
    * @param operationModels       a {@link List} with the configuration's {@link OperationModel operationModels}
    * @param connectionProviders   a {@link List} with the configuration's {@link ConnectionProviderModel connection provider models}
    * @param sourceModels          a {@link List} with the configuration's {@link SourceModel message source models}
+   * @param functions             a {@link List} with the configuration's {@link FunctionModel function models}
    * @param externalLibraryModels a {@link Set} with the configuration's {@link ExternalLibraryModel external libraries}
    * @param displayModel          a model which contains directive about how this configuration is displayed in the UI
    * @param modelProperties       a {@link Set} of custom properties which extend this model
@@ -52,10 +54,11 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
                                      List<OperationModel> operationModels,
                                      List<ConnectionProviderModel> connectionProviders,
                                      List<SourceModel> sourceModels,
+                                     List<FunctionModel> functions,
                                      Set<ExternalLibraryModel> externalLibraryModels,
                                      DisplayModel displayModel,
                                      Set<ModelProperty> modelProperties) {
-    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
+    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, functions);
     this.parameterGroupModels = unmodifiableList(new ArrayList<>(parameterGroupModels));
     this.externalLibraryModels = unmodifiableSet(externalLibraryModels);
   }
