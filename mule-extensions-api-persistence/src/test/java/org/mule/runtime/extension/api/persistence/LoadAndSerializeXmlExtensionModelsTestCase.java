@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static java.nio.file.Files.createTempFile;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
@@ -39,21 +40,20 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-
-
 public class LoadAndSerializeXmlExtensionModelsTestCase {
 
   public static final String SCHEMAS_GET_JOB_JSON = "schemas/greenhouse-get-job.json";
+  public static final String SERIALIZED_EXTENSION_MODEL_STRING_JSON = "serializedExtensionModelString.json";
   public static final String XML_BASED_EXT_MODEL_JSON = "extension/xml-based-ext-model.json";
   protected final String LOADED_PARAMETER_NAME = "loaded";
   protected final String GET_CAR_OPERATION_NAME = "getCar";
@@ -94,8 +94,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft",
                                     COMMUNITY, new MuleVersion("4.0"), emptyList(),
                                     singletonList(getCarOperation),
-                                    emptyList(), emptyList(), emptyList(),
-                                    defaultDisplayModel, XmlDslModel.builder().build(),
+                                    emptyList(), emptyList(), defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
@@ -109,13 +108,17 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
     ExtensionModel externalModel = extensionModelJsonSerializer.deserialize(external);
     String serializedResult = extensionModelJsonSerializer.serialize(externalModel);
 
-    JSONAssert.assertEquals(external, serializedResult, true);
+    assertThat(external, is(equalTo(serializedResult)));
   }
 
   @Test
   public void serializeDeserializeMock() throws IOException {
 
     final String serializedExtensionModelString = extensionModelJsonSerializer.serialize(originalExtensionModel);
+
+    FileUtils.writeStringToFile(createTempFile(SERIALIZED_EXTENSION_MODEL_STRING_JSON, ".tmp").toFile(),
+                                serializedExtensionModelString);
+
     serializedExtensionModel = new JsonParser().parse(serializedExtensionModelString);
     ExtensionModel deserializedExtensionModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelString);
 

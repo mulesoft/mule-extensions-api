@@ -33,7 +33,6 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclarati
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
-import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OutputDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
@@ -44,7 +43,6 @@ import org.mule.runtime.api.meta.model.declaration.fluent.RouterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ScopeDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.operation.RouteModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
@@ -63,7 +61,6 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.model.function.ImmutableFunctionModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableRouteModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableRouterModel;
@@ -88,7 +85,6 @@ import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnriche
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ContentParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ExclusiveParameterModelValidator;
-import org.mule.runtime.extension.internal.loader.validator.FunctionModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.NameClashModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.OperationParametersModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
@@ -151,7 +147,6 @@ public final class ExtensionModelFactory {
                                                        new ExclusiveParameterModelValidator(),
                                                        new NameClashModelValidator(),
                                                        new OperationParametersModelValidator(),
-                                                       new FunctionModelValidator(),
                                                        new ParameterModelValidator(),
                                                        new SubtypesModelValidator(),
                                                        new SourceCallbacksModelValidator(),
@@ -237,7 +232,6 @@ public final class ExtensionModelFactory {
                                       toOperations(extensionDeclaration.getOperations()),
                                       toConnectionProviders(extensionDeclaration.getConnectionProviders()),
                                       toMessageSources(extensionDeclaration.getMessageSources()),
-                                      toFunctions(extensionDeclaration.getFunctions()),
                                       extensionDeclaration.getDisplayModel(),
                                       extensionDeclaration.getXmlDslModel(),
                                       extensionDeclaration.getSubTypes(),
@@ -286,7 +280,6 @@ public final class ExtensionModelFactory {
                                                              toOperations(declaration.getOperations()),
                                                              toConnectionProviders(declaration.getConnectionProviders()),
                                                              toMessageSources(declaration.getMessageSources()),
-                                                             toFunctions(declaration.getFunctions()),
                                                              declaration.getExternalLibraryModels(),
                                                              declaration.getDisplayModel(),
                                                              declaration.getModelProperties()));
@@ -498,17 +491,6 @@ public final class ExtensionModelFactory {
                                          parameter.getLayoutModel(),
                                          parameter.getValueProviderModel(),
                                          parameter.getModelProperties());
-    }
-
-    private List<FunctionModel> toFunctions(List<FunctionDeclaration> expressionFunctions) {
-      return unmodifiableList(expressionFunctions.stream()
-          .map(declaration -> new ImmutableFunctionModel(declaration.getName(),
-                                                         declaration.getDescription(),
-                                                         toParameterGroups(declaration.getParameterGroups()),
-                                                         toOutputModel(declaration.getOutput()),
-                                                         declaration.getDisplayModel(),
-                                                         declaration.getModelProperties()))
-          .collect(toList()));
     }
   }
 

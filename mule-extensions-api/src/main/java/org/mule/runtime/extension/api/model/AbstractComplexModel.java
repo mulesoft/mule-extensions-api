@@ -13,8 +13,6 @@ import static java.util.Collections.unmodifiableList;
 import org.mule.runtime.api.meta.DescribedObject;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.meta.model.function.FunctionModel;
-import org.mule.runtime.api.meta.model.function.HasFunctionModels;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
@@ -42,12 +40,11 @@ import java.util.stream.Collectors;
  * @since 1.0
  */
 public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
-    implements HasConnectionProviderModels, HasSourceModels, HasOperationModels, HasFunctionModels {
+    implements HasConnectionProviderModels, HasSourceModels, HasOperationModels {
 
   private final List<OperationModel> operations;
   private final List<ConnectionProviderModel> connectionProviders;
   private final List<SourceModel> messageSources;
-  private final List<FunctionModel> functions;
 
   public AbstractComplexModel(String name,
                               String description,
@@ -55,13 +52,11 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
                               List<ConnectionProviderModel> connectionProviders,
                               List<SourceModel> sourceModels,
                               DisplayModel displayModel,
-                              Set<ModelProperty> modelProperties,
-                              List<FunctionModel> functions) {
+                              Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
     this.operations = unique(operationModels, "Operations");
     this.connectionProviders = unique(connectionProviders, "Connection Providers");
     this.messageSources = unique(sourceModels, "Message Sources");
-    this.functions = unique(functions, "Functions");
   }
 
   /**
@@ -78,14 +73,6 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
   @Override
   public List<SourceModel> getSourceModels() {
     return messageSources;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public List<FunctionModel> getFunctionModels() {
-    return functions;
   }
 
   /**
@@ -110,14 +97,6 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
   @Override
   public Optional<OperationModel> getOperationModel(String name) {
     return findModel(operations, name);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Optional<FunctionModel> getFunctionModel(String name) {
-    return findModel(functions, name);
   }
 
   /**
