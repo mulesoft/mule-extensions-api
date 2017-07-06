@@ -19,7 +19,6 @@
     <properties>
         <dom4jVersion>1.6.1</dom4jVersion>
         <formatterConfigPath>../formatter.xml</formatterConfigPath>
-        <jsonassert.version>1.5.0</jsonassert.version>
     </properties>
 
     <dependencies>
@@ -64,12 +63,6 @@
             <groupId>org.mule.runtime</groupId>
             <artifactId>mule-metadata-model-json</artifactId>
             <version>${metadataModelApiVersion}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.skyscreamer</groupId>
-            <artifactId>jsonassert</artifactId>
-            <version>${jsonassert.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

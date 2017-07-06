@@ -26,7 +26,6 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclarati
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
@@ -51,7 +50,6 @@ public class NameUtils {
   public static final String CONNECTION_PROVIDER = "connection provider";
   public static final String SOURCE = "source";
   public static final String SOURCE_CALLBACK = "source callback";
-  public static final String FUNCTION = "function";
 
   private static final List<Inflection> plural = new ArrayList<>();
   private static final List<Inflection> singular = new ArrayList<>();
@@ -309,8 +307,6 @@ public class NameUtils {
       return CONNECTION_PROVIDER;
     } else if (component instanceof SourceModel) {
       return SOURCE;
-    } else if (component instanceof FunctionModel) {
-      return FUNCTION;
     } else if (component instanceof SourceCallbackModel) {
       return SOURCE_CALLBACK;
     }

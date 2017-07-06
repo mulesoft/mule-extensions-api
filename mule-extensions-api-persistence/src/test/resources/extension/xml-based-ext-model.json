@@ -878,14 +878,12 @@
       ],
       "connectionProviders": [],
       "messageSources": [],
-      "functions": [],
       "name": "config",
       "description": "",
       "modelProperties": {}
     }
   ],
   "operations": [],
-  "functions": [],
   "connectionProviders": [],
   "messageSources": [],
   "errors": [],
