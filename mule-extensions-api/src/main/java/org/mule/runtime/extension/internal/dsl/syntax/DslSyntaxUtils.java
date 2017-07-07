@@ -42,11 +42,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @since 1.0
  */
-// TODO MULE-12002: Revisit DslSyntaxUtils as part of the API
-public final class DslSyntaxUtils {
+final class DslSyntaxUtils {
 
-  public final static String CONNECTION_PROVIDER_SUFFIX = "connection";
-  public final static String CONFIGURATION_SUFFIX = "config";
+  private final static String CONNECTION_PROVIDER_SUFFIX = "connection";
+  private final static String CONFIGURATION_SUFFIX = "config";
 
   private DslSyntaxUtils() {}
 
