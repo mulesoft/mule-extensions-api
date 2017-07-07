@@ -21,7 +21,6 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
 import org.mule.runtime.extension.internal.property.QNameModelProperty;
 
 /**
@@ -62,8 +61,7 @@ public final class SourceDeclarationEnricher extends InfrastructureDeclarationEn
         .allowTopLevelDefinition(false)
         .build());
     parameter.addModelProperty(new QNameModelProperty(MULE_ABSTRACT_REDELIVERY_POLICY_QNAME));
-    parameter.addModelProperty(new InfrastructureParameterModelProperty());
-    markAsInfrastructure(parameter);
+    markAsInfrastructure(parameter, 1);
 
     declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(parameter);
   }

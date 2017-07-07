@@ -43,12 +43,12 @@ abstract class InfrastructureDeclarationEnricher implements DeclarationEnricher 
         .allowTopLevelDefinition(false)
         .build());
     parameter.addModelProperty(new QNameModelProperty(MULE_ABSTRACT_RECONNECTION_STRATEGY_QNAME));
-    markAsInfrastructure(parameter);
+    markAsInfrastructure(parameter, 3);
 
     declaration.getParameterGroup(CONNECTION).addParameter(parameter);
   }
 
-  protected void markAsInfrastructure(ParameterDeclaration parameter) {
-    parameter.addModelProperty(new InfrastructureParameterModelProperty());
+  protected void markAsInfrastructure(ParameterDeclaration parameter, int sequence) {
+    parameter.addModelProperty(new InfrastructureParameterModelProperty(sequence));
   }
 }

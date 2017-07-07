@@ -18,6 +18,12 @@ public class InfrastructureParameterModelProperty implements ModelProperty {
 
   public static final String NAME = "infrastructureParameter";
 
+  public InfrastructureParameterModelProperty(int sequence) {
+    this.sequence = sequence;
+  }
+
+  private final int sequence;
+
   /**
    * @return {@code infrastructureParameter}
    */
@@ -32,5 +38,12 @@ public class InfrastructureParameterModelProperty implements ModelProperty {
   @Override
   public boolean isPublic() {
     return true;
+  }
+
+  /**
+   * @return a sequence indicating the parameters order
+   */
+  public int getSequence() {
+    return sequence;
   }
 }
