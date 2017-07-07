@@ -89,6 +89,7 @@
               "text": false,
               "query": false
             },
+            "elementReferences": [],
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",
@@ -625,6 +626,7 @@
               "text": false,
               "query": false
             },
+            "elementReferences": [],
             "name": "complex",
             "displayModel": {},
             "description": "complex type to serialize",
@@ -816,6 +818,7 @@
               "text": false,
               "query": false
             },
+            "elementReferences": [],
             "name": "loaded",
             "displayModel": {},
             "description": "loaded type from json to serialize",
