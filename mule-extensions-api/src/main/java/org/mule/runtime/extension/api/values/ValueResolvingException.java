@@ -21,8 +21,10 @@ public class ValueResolvingException extends MuleException {
   public final static String UNKNOWN = "UNKNOWN";
   public final static String INVALID_PARAMETER = "INVALID_PARAMETER";
   public final static String CONNECTION_FAILURE = "CONNECTION_FAILURE";
+  public final static String INVALID_LOCATION = "INVALID_LOCATION";
+  public final static String NOT_VALUE_PROVIDER_ENABLED = "NOT_VALUE_PROVIDER_ENABLED";
 
-  private String failureCode;
+  private String failureCode = UNKNOWN;
 
   public ValueResolvingException(String message, String failureCode) {
     super(createStaticMessage(message));
@@ -44,6 +46,9 @@ public class ValueResolvingException extends MuleException {
     this.failureCode = failureCode;
   }
 
+  /**
+   * @return The failure code of the error that produced the error
+   */
   public String getFailureCode() {
     return failureCode;
   }
