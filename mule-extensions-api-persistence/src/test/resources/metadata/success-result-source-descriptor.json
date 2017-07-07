@@ -5,8 +5,7 @@
       "id": "Key ID",
       "displayName": "Key Name",
       "partName": "",
-      "properties": {
-      },
+      "properties": {},
       "childs": []
     },
     "category": "categoryName",
@@ -554,10 +553,15 @@
                 "text": false,
                 "query": false
               },
-              "elementReferences": [],
+              "elementReferences": [
+                {
+                  "namespace": "test",
+                  "name": "config",
+                  "type": "CONFIG"
+                }
+              ],
               "name": "complex",
-              "displayModel": {
-              },
+              "displayModel": {},
               "description": "complex type to serialize",
               "modelProperties": {}
             }
@@ -571,13 +575,11 @@
           "showInDsl": false,
           "name": "General",
           "description": "",
-          "modelProperties": {
-          }
+          "modelProperties": {}
         }
       ],
       "name": "onSuccess",
-      "displayModel": {
-      },
+      "displayModel": {},
       "description": "",
       "modelProperties": {}
     },
@@ -604,8 +606,7 @@
       },
       "hasDynamicType": false,
       "description": "Message.Attributes",
-      "modelProperties": {
-      }
+      "modelProperties": {}
     },
     "transactional": false,
     "requiresConnection": false,
@@ -645,8 +646,7 @@
             },
             "elementReferences": [],
             "name": "carName",
-            "displayModel": {
-            },
+            "displayModel": {},
             "description": "Name of the car",
             "modelProperties": {}
           },
@@ -704,8 +704,7 @@
             },
             "elementReferences": [],
             "name": "noID",
-            "displayModel": {
-            },
+            "displayModel": {},
             "description": "type to serialize without ID",
             "modelProperties": {}
           }
@@ -721,13 +720,11 @@
         "showInDsl": false,
         "name": "General",
         "description": "",
-        "modelProperties": {
-        }
+        "modelProperties": {}
       }
     ],
     "name": "Source",
-    "displayModel": {
-    },
+    "displayModel": {},
     "description": "A Message Source",
     "modelProperties": {}
   }

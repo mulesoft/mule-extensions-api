@@ -626,7 +626,13 @@
               "text": false,
               "query": false
             },
-            "elementReferences": [],
+            "elementReferences": [
+              {
+                "namespace": "test",
+                "name": "config",
+                "type": "CONFIG"
+              }
+            ],
             "name": "complex",
             "displayModel": {},
             "description": "complex type to serialize",
