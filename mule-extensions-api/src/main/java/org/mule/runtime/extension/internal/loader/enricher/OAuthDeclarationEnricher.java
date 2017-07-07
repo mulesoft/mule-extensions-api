@@ -8,8 +8,10 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.CONFIG;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.ACCESS_TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
@@ -27,6 +29,7 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OBJECT_STORE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.RESOURCE_OWNER_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -34,6 +37,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
+import org.mule.runtime.api.meta.model.parameter.ElementReference;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
@@ -42,7 +46,6 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.exception.IllegalConnectionProviderModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -122,9 +125,12 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
   private void addOAuthCallbackParameters(ConnectionProviderDeclaration declaration) {
     List<ParameterDeclaration> params = new LinkedList<>();
-    params.add(buildParameter(LISTENER_CONFIG_PARAMETER_NAME, "A reference to a <http:listener-config /> to be used in order "
-        + "to create the listener that will catch the access token callback endpoint.", true, stringType,
-                              NOT_SUPPORTED, null));
+    ParameterDeclaration listenerConfig = buildParameter(LISTENER_CONFIG_PARAMETER_NAME,
+                                                         "A reference to a <http:listener-config /> to be used in order to create the "
+                                                             + "listener that will catch the access token callback endpoint.",
+                                                         true, stringType, NOT_SUPPORTED, null);
+    listenerConfig.setElementReferences(singletonList(new ElementReference("http", "listener-config", CONFIG)));
+    params.add(listenerConfig);
 
     params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
                               true, stringType, NOT_SUPPORTED, null));
