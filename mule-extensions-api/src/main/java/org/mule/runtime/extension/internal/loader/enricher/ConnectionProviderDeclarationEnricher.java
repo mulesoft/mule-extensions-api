@@ -82,7 +82,7 @@ public class ConnectionProviderDeclarationEnricher extends InfrastructureDeclara
         .allowTopLevelDefinition(false)
         .build());
     parameter.addModelProperty(new QNameModelProperty(MULE_POOLING_PROFILE_TYPE_QNAME));
-    markAsInfrastructure(parameter);
+    markAsInfrastructure(parameter, 5);
 
     declaration.getParameterGroup(CONNECTION).addParameter(parameter);
   }
@@ -95,7 +95,7 @@ public class ConnectionProviderDeclarationEnricher extends InfrastructureDeclara
     parameter.setParameterRole(BEHAVIOUR);
     parameter.setType(typeLoader.load(boolean.class), false);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-    markAsInfrastructure(parameter);
+    markAsInfrastructure(parameter, 4);
 
     declaration.getParameterGroup(CONNECTION).addParameter(parameter);
   }
