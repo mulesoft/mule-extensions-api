@@ -12,8 +12,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.CONFIGURATION_SUFFIX;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.CONNECTION_PROVIDER_SUFFIX;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
@@ -30,6 +28,8 @@ import org.junit.runners.Parameterized;
 @RunWith(Parameterized.class)
 public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
+  private final static String CONNECTION_PROVIDER_SUFFIX = "connection";
+  private final static String CONFIGURATION_SUFFIX = "config";
   private static final String COMPLEX_PARAMETER = "complexParameter";
   private static final String GROUPED_COMPLEX_PARAMETER = "groupedComplexParameter";
   private static final String SIMPLE_PARAMETER = "simpleParameter";
