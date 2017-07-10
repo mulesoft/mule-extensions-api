@@ -872,6 +872,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "username",
               "displayModel": {},
               "description": "Username",
