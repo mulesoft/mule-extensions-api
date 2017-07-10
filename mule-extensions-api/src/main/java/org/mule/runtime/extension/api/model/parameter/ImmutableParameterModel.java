@@ -49,8 +49,8 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param required          whether this parameter is required or not
    * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
    * @param defaultValue      this parameter's default value
-   * @param role           this parameter's purpose
-   * @param dslConfiguration          a model which describes the DSL semantics for this parameter
+   * @param role              this parameter's purpose
+   * @param dslConfiguration  a model which describes the DSL semantics for this parameter
    * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
    * @param layoutModel       a model which contains directives about the parameter's layout in the UI
    * @param modelProperties   A {@link Set} of custom properties which extend this model

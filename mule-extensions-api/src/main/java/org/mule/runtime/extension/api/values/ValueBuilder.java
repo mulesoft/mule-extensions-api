@@ -10,7 +10,7 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.internal.utils.StringUtils.isNotEmpty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import org.mule.runtime.api.values.Value;
+import org.mule.runtime.api.value.Value;
 
 import java.util.LinkedHashSet;
 import java.util.List;

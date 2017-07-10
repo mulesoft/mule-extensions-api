@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.persistence;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
-import org.mule.runtime.api.values.Value;
+import org.mule.runtime.api.value.Value;
 import org.mule.runtime.extension.api.values.ValueBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

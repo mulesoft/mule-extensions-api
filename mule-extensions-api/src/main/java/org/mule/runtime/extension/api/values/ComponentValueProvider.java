@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.values;
 
-import org.mule.runtime.api.values.Value;
+import org.mule.runtime.api.value.Value;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public interface ComponentValuesProvider {
+public interface ComponentValueProvider {
 
   /**
    * @param parameterName the name of the parameter for which resolve their possible {@link Value values}

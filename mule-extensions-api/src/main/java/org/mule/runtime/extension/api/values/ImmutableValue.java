@@ -12,7 +12,7 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 
-import org.mule.runtime.api.values.Value;
+import org.mule.runtime.api.value.Value;
 
 import java.util.Set;
 
