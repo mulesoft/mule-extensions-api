@@ -66,12 +66,12 @@ public final class ContentParameterDeclarationEnricher implements DeclarationEnr
       contentParameters.get(0).setParameterRole(PRIMARY_CONTENT);
     }
 
-    contentParameters.forEach(p -> {
-      configureDsl(p);
-      if (p.getRole() == PRIMARY_CONTENT) {
-        if (p.isRequired()) {
-          p.setRequired(false);
-          p.setDefaultValue(PAYLOAD);
+    contentParameters.forEach(param -> {
+      configureDsl(param);
+      if (param.getRole() == PRIMARY_CONTENT) {
+        if (param.isRequired()) {
+          param.setRequired(false);
+          param.setDefaultValue(PAYLOAD);
         }
       }
     });

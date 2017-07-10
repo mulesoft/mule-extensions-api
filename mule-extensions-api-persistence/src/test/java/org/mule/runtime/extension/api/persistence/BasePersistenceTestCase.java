@@ -20,6 +20,7 @@ import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
+import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.CONFIG;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.CHOICE_OPERATION_NAME;
@@ -47,6 +48,7 @@ import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.operation.RouterModel;
 import org.mule.runtime.api.meta.model.operation.ScopeModel;
+import org.mule.runtime.api.meta.model.parameter.ElementReference;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
@@ -141,23 +143,24 @@ abstract class BasePersistenceTestCase {
     final ImmutableParameterModel carNameParameter =
         new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptySet());
+                                    defaultValueProviderModel, emptyList(), emptySet());
 
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptySet());
+                                    defaultValueProviderModel, emptyList(), emptySet());
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptySet());
+                                    defaultValueProviderModel, emptyList(), emptySet());
     final ImmutableParameterModel complexParameter =
         new ImmutableParameterModel(COMPLEX_PARAMETER_NAME, "complex type to serialize",
                                     ExtensionsTypeLoaderFactory.getDefault()
                                         .createTypeLoader()
                                         .load(ComplexFieldsType.class),
                                     false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel,
+                                    singletonList(new ElementReference("test", "config", CONFIG)), emptySet());
 
     String schema = IOUtils
         .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(
@@ -167,7 +170,7 @@ abstract class BasePersistenceTestCase {
         new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
                                     jsonLoadedType,
                                     false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
 
     exportedType = typeBuilder.objectType().id(TEST_PACKAGE_EXPORTED_CLASS)
         .with(new ClassInformationAnnotation(ExportedClass.class, emptyList()))
@@ -179,9 +182,8 @@ abstract class BasePersistenceTestCase {
                                         .id(HashMap.class.getName())
                                         .openWith(exportedType)
                                         .build(),
-
                                     false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
 
     ObjectTypeBuilder typeNoId = typeBuilder.objectType();
     typeNoId.addField().key("fieldName").value(exportedType).build();
@@ -189,7 +191,7 @@ abstract class BasePersistenceTestCase {
         new ImmutableParameterModel(NO_ID_PARAMETER_NAME, "type to serialize without ID",
                                     typeNoId.build(),
                                     false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
 
     final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());
     final ImmutableOutputModel outputAttributesModel =

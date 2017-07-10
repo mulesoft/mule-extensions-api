@@ -553,6 +553,13 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [
+                {
+                  "namespace": "test",
+                  "name": "config",
+                  "type": "CONFIG"
+                }
+              ],
               "name": "complex",
               "displayModel": {},
               "description": "complex type to serialize",
@@ -637,6 +644,7 @@
               "text": false,
               "query": false
             },
+            "elementReferences": [],
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",
@@ -694,6 +702,7 @@
               "text": false,
               "query": false
             },
+            "elementReferences": [],
             "name": "noID",
             "displayModel": {},
             "description": "type to serialize without ID",

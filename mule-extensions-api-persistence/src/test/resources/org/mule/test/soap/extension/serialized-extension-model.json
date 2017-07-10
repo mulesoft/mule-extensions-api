@@ -100,6 +100,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "carName",
               "displayModel": {},
               "description": "Name of the car",
@@ -636,6 +637,13 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [
+                {
+                  "namespace": "test",
+                  "name": "config",
+                  "type": "CONFIG"
+                }
+              ],
               "name": "complex",
               "displayModel": {},
               "description": "complex type to serialize",
@@ -666,6 +674,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "loaded",
               "displayModel": {},
               "description": "loaded type from json to serialize",
@@ -745,6 +754,7 @@
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false
               },
+              "elementReferences": [],
               "name": "expression",
               "description": "",
               "modelProperties": {}
@@ -860,6 +870,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "username",
               "displayModel": {},
               "description": "Username",
@@ -894,6 +905,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "password",
               "displayModel": {},
               "description": "Password",
@@ -931,6 +943,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "map",
               "displayModel": {},
               "description": "object map",
@@ -1493,6 +1506,13 @@
                   "text": false,
                   "query": false
                 },
+                "elementReferences": [
+                  {
+                    "namespace": "test",
+                    "name": "config",
+                    "type": "CONFIG"
+                  }
+                ],
                 "name": "complex",
                 "displayModel": {},
                 "description": "complex type to serialize",
@@ -1577,6 +1597,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "carName",
               "displayModel": {},
               "description": "Name of the car",
@@ -1617,6 +1638,7 @@
                 "text": false,
                 "query": false
               },
+              "elementReferences": [],
               "name": "noID",
               "displayModel": {},
               "description": "type to serialize without ID",
