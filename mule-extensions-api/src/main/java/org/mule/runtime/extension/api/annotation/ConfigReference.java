@@ -17,11 +17,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used in a {@link String} type {@link Parameter} field or parameter that is an
- * {@link ConfigReference}.
- * <p>
- * This annotation is useful for example for tooling to provide values for the annotated {@link Parameter}s that are references
- * to some {@link Configuration} or flow between others.
+ * Annotation to be used in a {@link String} type {@link Parameter} field or parameter which value is a reference to a global
+ * configuration element.
  *
  * @since 1.0
  */

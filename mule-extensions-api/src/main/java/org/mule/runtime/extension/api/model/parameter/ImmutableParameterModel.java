@@ -53,10 +53,11 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param required          whether this parameter is required or not
    * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
    * @param defaultValue      this parameter's default value
-   * @param role           this parameter's purpose
-   * @param dslConfiguration          a model which describes the DSL semantics for this parameter
+   * @param role              this parameter's purpose
+   * @param dslConfiguration  a model which describes the DSL semantics for this parameter
    * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
    * @param layoutModel       a model which contains directives about the parameter's layout in the UI
+   * @param elementReferences A {@link Set} elements to which this parameter points
    * @param modelProperties   A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
    */
@@ -73,10 +74,9 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  DisplayModel displayModel,
                                  LayoutModel layoutModel,
                                  ValueProviderModel valueProviderModel,
-                                 Set<ModelProperty> modelProperties,
-                                 List<ElementReference> elementReferences) {
+                                 List<ElementReference> elementReferences,
+                                 Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
-
     this.type = type;
     this.required = required;
     this.expressionSupport = expressionSupport;
