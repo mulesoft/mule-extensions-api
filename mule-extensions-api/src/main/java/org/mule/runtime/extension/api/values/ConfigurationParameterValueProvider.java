@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.values;
 
-import org.mule.runtime.api.values.Value;
+import org.mule.runtime.api.value.Value;
 
 import java.util.Set;
 
