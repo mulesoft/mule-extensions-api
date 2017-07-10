@@ -48,6 +48,7 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ElementDslModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.FunctionModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ImportedTypesModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
@@ -181,6 +182,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
         .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
         .registerTypeAdapterFactory(new OperationModelTypeAdapterFactory())
+        .registerTypeAdapterFactory(new FunctionModelTypeAdapterFactory())
         .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(RouteModel.class, ImmutableRouteModel.class))
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(errorModelTypeAdapter)

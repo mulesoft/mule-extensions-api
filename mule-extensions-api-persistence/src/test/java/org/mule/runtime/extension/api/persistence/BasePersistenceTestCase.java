@@ -45,6 +45,7 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
+import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.operation.RouterModel;
 import org.mule.runtime.api.meta.model.operation.ScopeModel;
@@ -64,6 +65,7 @@ import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.model.function.ImmutableFunctionModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
@@ -99,6 +101,7 @@ abstract class BasePersistenceTestCase {
       ErrorModelBuilder.newError("SOME_ERROR", "ERROR_NAMESPACE").withParent(PARENT_ERROR_MODEL).build();
   public static final String CREATE_CUSTOMER_REQUEST_TYPE_SCHEMA_JSON = "schemas/create-customer-request-type-schema.json";
   public static final String TEST_PACKAGE_EXPORTED_CLASS = "test.package.ExportedClass";
+  private static final String FUNCTION_NAME = "myFunction";
 
   protected final DisplayModel defaultDisplayModel = DisplayModel.builder().build();
   protected final ClassTypeLoader typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
@@ -137,6 +140,7 @@ abstract class BasePersistenceTestCase {
   protected ObjectType exportedType;
   protected OAuthModelProperty accessCodeModelProperty;
   protected AuthorizationCodeGrantType authorizationCodeGrantType;
+  private FunctionModel functionModel;
 
   @Before
   public void setUp() throws IOException {
@@ -232,6 +236,12 @@ abstract class BasePersistenceTestCase {
                                            emptySet(), emptySet(), emptySet());
 
 
+    functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",
+                                               asParameterGroup(usernameParameter),
+                                               new ImmutableOutputModel("Payload", stringType, false, emptySet()),
+                                               DisplayModel.builder().build(),
+                                               emptySet());
+
     LinkedHashSet<ObjectType> typesCatalog = new LinkedHashSet<>();
     typesCatalog.add(exportedType);
     typesCatalog.add((ObjectType) jsonLoadedType);
@@ -241,7 +251,8 @@ abstract class BasePersistenceTestCase {
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                     new MuleVersion("4.0"), emptyList(), asList(getCarOperation, foreachScope, choiceRouter),
                                     singletonList(basicAuth), singletonList(sourceModel),
-                                    defaultDisplayModel, XmlDslModel.builder().build(),
+                                    singletonList(functionModel), defaultDisplayModel,
+                                    XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(), singleton(ERROR_MODEL),
                                     externalLibrarySet(), singleton(accessCodeModelProperty));
