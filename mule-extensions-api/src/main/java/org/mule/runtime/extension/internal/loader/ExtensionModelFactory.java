@@ -96,11 +96,11 @@ import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModel
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.util.ParameterModelComparator;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -111,6 +111,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
+
+import org.slf4j.Logger;
 
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual
@@ -246,7 +248,9 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getImportedTypes(),
                                       extensionDeclaration.getErrorModels(),
                                       extensionDeclaration.getExternalLibraryModels(),
-                                      extensionDeclaration.getModelProperties());
+                                      extensionDeclaration.getModelProperties(),
+                                      extensionDeclaration.getPrivilegedPackages(),
+                                      extensionDeclaration.getPrivilegedArtifacts());
 
       return extensionModel;
     }

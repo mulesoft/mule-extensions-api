@@ -37,6 +37,7 @@ import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -49,7 +50,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
-
 
 public class LoadAndSerializeXmlExtensionModelsTestCase {
 
@@ -96,7 +96,8 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                     singletonList(getCarOperation),
                                     emptyList(), emptyList(), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet());
+                                    emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(),
+                                    emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
 
