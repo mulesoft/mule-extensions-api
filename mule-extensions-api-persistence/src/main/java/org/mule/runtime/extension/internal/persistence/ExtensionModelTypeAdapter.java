@@ -69,6 +69,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String CATEGORY = "category";
   private static final String TYPES = "types";
   private static final String RESOURCES = "resources";
+  private static final String PRIVILEGED_PACKAGES = "privilegedPackages";
+  private static final String PRIVILEGED_ARTIFACTS = "privilegedArtifacts";
   private static final String XML_DSL = "xmlDsl";
   private static final String SUB_TYPES = "subTypes";
   private static final String EXTERNAL_LIBRARIES = "externalLibraries";
@@ -107,6 +109,11 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeWithDelegate(model.getSubTypes(), SUB_TYPES, out, new TypeToken<Set<SubTypesModel>>() {
 
     });
+
+    writeWithDelegate(model.getPrivilegedPackages(), PRIVILEGED_PACKAGES, out, new TypeToken<Set<String>>() {});
+
+    writeWithDelegate(model.getPrivilegedArtifacts(), PRIVILEGED_ARTIFACTS, out, new TypeToken<Set<String>>() {});
+
     writeWithDelegate(model.getExternalLibraryModels(), EXTERNAL_LIBRARIES, out, new TypeToken<Set<ExternalLibraryModel>>() {
 
     });
@@ -157,6 +164,10 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     Set<SubTypesModel> subTypes = parseWithDelegate(json, SUB_TYPES, new TypeToken<Set<SubTypesModel>>() {
 
     });
+
+    Set<String> privilegedPackages = parseWithDelegate(json, PRIVILEGED_PACKAGES, new TypeToken<Set<String>>() {});
+    Set<String> privilegedArtifacts = parseWithDelegate(json, PRIVILEGED_ARTIFACTS, new TypeToken<Set<String>>() {});
+
     Set<ExternalLibraryModel> externalLibraries =
         parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {
 
@@ -201,7 +212,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
                                                              }.getType()),
                                        externalLibraries,
-                                       parseExtensionLevelModelProperties(json));
+                                       parseExtensionLevelModelProperties(json), privilegedPackages, privilegedArtifacts);
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {

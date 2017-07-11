@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-
 /**
  * Immutable implementation of {@link ExtensionModel}
  *
@@ -43,6 +42,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final MuleVersion minMuleVersion;
   private final Category category;
   private final List<ConfigurationModel> configurations;
+  private final Set<String> privilegedPackages;
+  private final Set<String> privilegedArtifacts;
   private final Set<ErrorModel> errors;
   private final Set<ObjectType> types;
   private final Set<String> resources;
@@ -73,7 +74,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
    * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
-   * @param modelProperties       A {@link Set} of custom properties which extend this model          @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank
+   * @param modelProperties       A {@link Set} of custom properties which extend this model
+   * @param privilegedPackages a {@link Set} of Java package names to export on the extension's privileged API.
+   * @param privilegedArtifacts a {@link Set} of artifact ID that have access to the extension's privileged API.
+   * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank.
    */
   public ImmutableExtensionModel(String name,
                                  String description,
@@ -94,7 +98,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<ImportedTypeModel> importedTypes,
                                  Set<ErrorModel> errors,
                                  Set<ExternalLibraryModel> externalLibraryModels,
-                                 Set<ModelProperty> modelProperties) {
+                                 Set<ModelProperty> modelProperties,
+                                 Set<String> privilegedPackages, Set<String> privilegedArtifacts) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, functions);
     this.configurations = unique(configurationModels, "Configurations");
 
@@ -115,6 +120,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.xmlDslModel = xmlDslModel;
     this.errors = errors;
     this.externalLibraries = unmodifiableSet(externalLibraryModels);
+    this.privilegedPackages = privilegedPackages;
+    this.privilegedArtifacts = privilegedArtifacts;
   }
 
   /**
@@ -171,6 +178,22 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Set<ObjectType> getTypes() {
     return types;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<String> getPrivilegedPackages() {
+    return privilegedPackages;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<String> getPrivilegedArtifacts() {
+    return privilegedArtifacts;
   }
 
   /**

@@ -72,13 +72,12 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,6 +88,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 
 abstract class BasePersistenceTestCase {
 
@@ -255,7 +257,7 @@ abstract class BasePersistenceTestCase {
                                     XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(), singleton(ERROR_MODEL),
-                                    externalLibrarySet(), singleton(accessCodeModelProperty));
+                                    externalLibrarySet(), singleton(accessCodeModelProperty), emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =
