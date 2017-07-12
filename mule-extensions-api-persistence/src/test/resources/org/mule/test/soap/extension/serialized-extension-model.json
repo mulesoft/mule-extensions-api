@@ -721,11 +721,7 @@
       "outputAttributes": {
         "type": {
           "format": "java",
-          "type": "Object",
-          "annotations": {
-            "typeId": "org.mule.runtime.api.message.Attributes"
-          },
-          "fields": []
+          "type": "Void"
         },
         "hasDynamicType": false,
         "description": "",
@@ -807,11 +803,7 @@
       "outputAttributes": {
         "type": {
           "format": "java",
-          "type": "Object",
-          "annotations": {
-            "typeId": "org.mule.runtime.api.message.Attributes"
-          },
-          "fields": []
+          "type": "Void"
         },
         "hasDynamicType": false,
         "description": "",

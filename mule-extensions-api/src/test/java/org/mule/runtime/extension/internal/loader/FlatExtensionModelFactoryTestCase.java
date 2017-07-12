@@ -77,7 +77,6 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.model.VoidType;
-import org.mule.runtime.api.message.NullAttributes;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
@@ -110,9 +109,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
   private static final MuleVersion MIN_MULE_VERSION = new MuleVersion("4.0");
   private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer();
+  private final MetadataType voidType = typeLoader.load(void.class);
+  private final MetadataType stringType = typeLoader.load(String.class);
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
+
 
   @Before
   public void before() {
@@ -138,14 +140,14 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     List<ParameterModel> parameterModels = configurationModel.getAllParameterModels();
     assertThat(parameterModels, hasSize(4));
-    assertParameter(parameterModels.get(0), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameterModels.get(0), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameterModels.get(1), PORT, SERVICE_PORT, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
+    assertParameter(parameterModels.get(1), PORT, SERVICE_PORT, SUPPORTED, true, stringType, StringType.class,
                     null);
-    assertParameter(parameterModels.get(2), SERVICE, SERVICE_NAME, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameterModels.get(2), SERVICE, SERVICE_NAME, SUPPORTED, true, stringType,
                     StringType.class, null);
     assertParameter(parameterModels.get(3), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true,
-                    typeLoader.load(String.class), StringType.class, null);
+                    stringType, StringType.class, null);
   }
 
   @Test
@@ -224,10 +226,10 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     declare(declarer -> {
       declarer = declareBase(declarer);
       OperationDeclarer operation = declarer.withOperation("invalidOperation").describedAs("");
-      operation.withOutput().ofType(typeLoader.load(String.class));
-      operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
+      operation.withOutput().ofType(stringType);
+      operation.withOutputAttributes().ofType(voidType);
       operation.onDefaultParameterGroup().withOptionalParameter("fixed")
-          .ofType(typeLoader.load(String.class)).withExpressionSupport(NOT_SUPPORTED).defaultingTo("#['hello']");
+          .ofType(stringType).withExpressionSupport(NOT_SUPPORTED).defaultingTo("#['hello']");
     });
 
     load();
@@ -240,9 +242,9 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     declare(declarer -> {
       declarer = declareBase(declarer);
       OperationDeclarer operation = declarer.withOperation("invalidOperation").describedAs("");
-      operation.onDefaultParameterGroup().withOptionalParameter(TARGET_PARAMETER_NAME).ofType(typeLoader.load(String.class));
-      operation.withOutput().ofType(typeLoader.load(String.class));
-      operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
+      operation.onDefaultParameterGroup().withOptionalParameter(TARGET_PARAMETER_NAME).ofType(stringType);
+      operation.withOutput().ofType(stringType);
+      operation.withOutputAttributes().ofType(voidType);
     });
 
     load();
@@ -254,9 +256,9 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
       declarer = declareBase(declarer);
       OperationDeclarer operation = declarer.withOperation("invalidOperation").describedAs("");
       operation.onDefaultParameterGroup().withOptionalParameter("expression")
-          .ofType(typeLoader.load(String.class)).withExpressionSupport(REQUIRED).defaultingTo("static");
-      operation.withOutput().ofType(typeLoader.load(String.class));
-      operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
+          .ofType(stringType).withExpressionSupport(REQUIRED).defaultingTo("static");
+      operation.withOutput().ofType(stringType);
+      operation.withOutputAttributes().ofType(voidType);
     });
 
     load();
@@ -312,9 +314,9 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(connectionProvider.getDescription(), is(CONNECTION_PROVIDER_DESCRIPTION));
 
     List<ParameterModel> parameters = connectionProvider.getAllParameterModels();
-    assertParameter(parameters.get(0), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameters.get(0), USERNAME, USERNAME_DESCRIPTION, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameters.get(1), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameters.get(1), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, stringType,
                     StringType.class, null);
     assertParameter(parameters.get(2), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
@@ -335,7 +337,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertParameter(parameters.get(0), REDELIVERY_POLICY_PARAMETER_NAME, REDELIVERY_POLICY_PARAMETER_DESCRIPTION, NOT_SUPPORTED,
                     false, new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), ObjectType.class, null);
     assertByteStreamingStrategyParameter(parameters.get(1));
-    assertParameter(parameters.get(2), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
+    assertParameter(parameters.get(2), URL, URL_DESCRIPTION, SUPPORTED, true, stringType, StringType.class,
                     null);
     assertParameter(parameters.get(3), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
                     DEFAULT_PORT);
@@ -351,7 +353,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
       reference.declareOn(extensionDeclarer);
       OperationDeclarer operation = extensionDeclarer.withOperation(LIST_TYPES_OPERATION).describedAs("List types");
       operation.supportsStreaming(true).withOutput().ofType(typeLoader.load(Iterator.class));
-      operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
+      operation.withOutputAttributes().ofType(voidType);
       operation.withModelProperty(new PagedOperationModelProperty());
     });
 
@@ -379,7 +381,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(parameterModels, hasSize(4));
 
     assertByteStreamingStrategyParameter(parameterModels.get(0));
-    assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
+    assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, stringType,
                     StringType.class, null);
     assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
                     BooleanType.class, true);
@@ -412,7 +414,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
   private void assertTargetParameter(ParameterModel parameterModel) {
     assertParameter(parameterModel, TARGET_PARAMETER_NAME, TARGET_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
-                    typeLoader.load(String.class),
+                    stringType,
                     StringType.class, null);
   }
 

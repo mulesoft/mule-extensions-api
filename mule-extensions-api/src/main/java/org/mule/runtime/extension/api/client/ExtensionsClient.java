@@ -34,7 +34,7 @@ import java.util.concurrent.CompletableFuture;
  *  ...
  *  public void executeWithClient() {
  *    OperationParameters parameters = DefaultOperationParameters.builder().configName("conf").addParameter("account", 12).build();
- *    Result<String, Attributes> result = client.execute(CustomExtension.class, "getName", parameters);
+ *    Result<String, Object> result = client.execute(CustomExtension.class, "getName", parameters);
  *    if (result.getOutput().equals("DeveloperAccount"))
  *    ...
  *  }
