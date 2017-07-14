@@ -134,11 +134,12 @@ public class Result<T, A> {
    * @return a new {@link Builder}
    */
   public static <T, A> Builder<T, A> builder(Result<T, A> prototypeResult) {
-    return new Builder<T, A>()
-        .output(prototypeResult.getOutput())
-        .attributes(prototypeResult.getAttributes().orElse(null))
-        .mediaType(prototypeResult.getMediaType().orElse(null))
-        .attributesMediaType(prototypeResult.getAttributesMediaType().orElse(null));
+    final Builder<T, A> builder = new Builder<T, A>()
+        .output(prototypeResult.getOutput());
+    prototypeResult.getAttributes().ifPresent(builder::attributes);
+    prototypeResult.getMediaType().ifPresent(builder::mediaType);
+    prototypeResult.getAttributesMediaType().ifPresent(builder::attributesMediaType);
+    return builder;
   }
 
   private T output;
