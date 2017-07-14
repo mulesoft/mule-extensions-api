@@ -88,6 +88,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclarer;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -228,7 +229,9 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
       operation.withOutput().ofType(typeLoader.load(String.class));
       operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
       operation.onDefaultParameterGroup().withOptionalParameter("fixed")
-          .ofType(typeLoader.load(String.class)).withExpressionSupport(NOT_SUPPORTED).defaultingTo("#['hello']");
+          .ofType(typeLoader.load(String.class)).withExpressionSupport(NOT_SUPPORTED)
+          .defaultingTo("#['hello']")
+          .withLayout(LayoutModel.builder().build());
     });
 
     load();
@@ -241,7 +244,8 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     declare(declarer -> {
       declarer = declareBase(declarer);
       OperationDeclarer operation = declarer.withOperation("invalidOperation").describedAs("");
-      operation.onDefaultParameterGroup().withOptionalParameter(TARGET_PARAMETER_NAME).ofType(typeLoader.load(String.class));
+      operation.onDefaultParameterGroup().withOptionalParameter(TARGET_PARAMETER_NAME).ofType(typeLoader.load(String.class))
+          .withLayout(LayoutModel.builder().build());
       operation.withOutput().ofType(typeLoader.load(String.class));
       operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
     });
@@ -255,7 +259,8 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
       declarer = declareBase(declarer);
       OperationDeclarer operation = declarer.withOperation("invalidOperation").describedAs("");
       operation.onDefaultParameterGroup().withOptionalParameter("expression")
-          .ofType(typeLoader.load(String.class)).withExpressionSupport(REQUIRED).defaultingTo("static");
+          .ofType(typeLoader.load(String.class)).withExpressionSupport(REQUIRED).defaultingTo("static")
+          .withLayout(LayoutModel.builder().build());
       operation.withOutput().ofType(typeLoader.load(String.class));
       operation.withOutputAttributes().ofType(typeLoader.load(NullAttributes.class));
     });

@@ -14,8 +14,8 @@
   },
   "resources": [],
   "subTypes": [],
-  "privilegedPackages":[],
-  "privilegedArtifacts":[],
+  "privilegedPackages": [],
+  "privilegedArtifacts": [],
   "externalLibraries": [
     {
       "name": "wss",
@@ -755,6 +755,12 @@
                 "allowsInlineDefinition": true,
                 "allowsReferences": true,
                 "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false,
+                "order": 1
               },
               "elementReferences": [],
               "name": "expression",

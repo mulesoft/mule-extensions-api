@@ -82,6 +82,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarat
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.MimeTypeParametersDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ParameterLayoutOrderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.SourceDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
@@ -145,6 +146,7 @@ public final class ExtensionModelFactory {
                                                     new StreamingDeclarationEnricher(),
                                                     new OAuthDeclarationEnricher(),
                                                     new MimeTypeParametersDeclarationEnricher(),
+                                                    new ParameterLayoutOrderDeclarationEnricher(),
                                                     new TransactionalDeclarationEnricher())));
 
     extensionModelValidators = unmodifiableList(asList(
