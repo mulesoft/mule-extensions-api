@@ -20,6 +20,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
 import static org.slf4j.LoggerFactory.getLogger;
+
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -79,6 +80,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDec
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.MimeTypeParametersDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.SourceDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
@@ -96,12 +98,11 @@ import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModel
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.util.ParameterModelComparator;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-
+import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -111,8 +112,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
-
-import org.slf4j.Logger;
 
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual
@@ -145,6 +144,7 @@ public final class ExtensionModelFactory {
                                                     new SourceDeclarationEnricher(),
                                                     new StreamingDeclarationEnricher(),
                                                     new OAuthDeclarationEnricher(),
+                                                    new MimeTypeParametersDeclarationEnricher(),
                                                     new TransactionalDeclarationEnricher())));
 
     extensionModelValidators = unmodifiableList(asList(

@@ -66,6 +66,9 @@ import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATE
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
+import static org.mule.runtime.extension.internal.loader.enricher.MimeTypeParametersDeclarationEnricher.ENCODING_PARAMETER_NAME;
+import static org.mule.runtime.extension.internal.loader.enricher.MimeTypeParametersDeclarationEnricher.MIME_TYPE_PARAMETER_NAME;
+
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
@@ -95,16 +98,14 @@ import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuil
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.internal.property.PagedOperationModelProperty;
-
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
 
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
@@ -331,17 +332,19 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(getType(sourceModel.getOutput().getType()), is(equalTo(InputStream.class)));
     assertThat(getType(sourceModel.getOutputAttributes().getType()), is(equalTo(Serializable.class)));
 
-    List<ParameterModel> parameters = sourceModel.getAllParameterModels();
-    assertParameter(parameters.get(0), REDELIVERY_POLICY_PARAMETER_NAME, REDELIVERY_POLICY_PARAMETER_DESCRIPTION, NOT_SUPPORTED,
+    MetadataType stringType = typeLoader.load(String.class);
+    MetadataType intType = typeLoader.load(Integer.class);
+    List<ParameterModel> params = sourceModel.getAllParameterModels();
+    assertParameter(params.get(0), MIME_TYPE_PARAMETER_NAME, "", SUPPORTED, false, stringType, StringType.class, null);
+    assertParameter(params.get(1), ENCODING_PARAMETER_NAME, "", SUPPORTED, false, stringType, StringType.class, null);
+    assertParameter(params.get(2), REDELIVERY_POLICY_PARAMETER_NAME, REDELIVERY_POLICY_PARAMETER_DESCRIPTION, NOT_SUPPORTED,
                     false, new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), ObjectType.class, null);
-    assertByteStreamingStrategyParameter(parameters.get(1));
-    assertParameter(parameters.get(2), URL, URL_DESCRIPTION, SUPPORTED, true, typeLoader.load(String.class), StringType.class,
-                    null);
-    assertParameter(parameters.get(3), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
-                    DEFAULT_PORT);
-    assertParameter(parameters.get(4), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
-                    NOT_SUPPORTED,
-                    false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
+    assertByteStreamingStrategyParameter(params.get(3));
+    assertParameter(params.get(4), URL, URL_DESCRIPTION, SUPPORTED, true, stringType, StringType.class, null);
+    assertParameter(params.get(5), PORT, PORT_DESCRIPTION, SUPPORTED, false, intType, NumberType.class, DEFAULT_PORT);
+    assertParameter(params.get(6), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+                    NOT_SUPPORTED, false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(),
+                    UnionType.class, null);
   }
 
   @Test
@@ -375,15 +378,17 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getName(), equalTo(CONSUMER));
     assertThat(operationModel.getDescription(), equalTo(GO_GET_THEM_TIGER));
 
-    List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(4));
+    MetadataType stringType = typeLoader.load(String.class);
+    MetadataType booleanType = typeLoader.load(Boolean.class);
 
-    assertByteStreamingStrategyParameter(parameterModels.get(0));
-    assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, typeLoader.load(String.class),
-                    StringType.class, null);
-    assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
-                    BooleanType.class, true);
-    assertTargetParameter(parameterModels.get(3));
+    List<ParameterModel> params = operationModel.getAllParameterModels();
+    assertThat(params, hasSize(6));
+    assertParameter(params.get(0), MIME_TYPE_PARAMETER_NAME, "", SUPPORTED, false, stringType, StringType.class, null);
+    assertParameter(params.get(1), ENCODING_PARAMETER_NAME, "", SUPPORTED, false, stringType, StringType.class, null);
+    assertByteStreamingStrategyParameter(params.get(2));
+    assertParameter(params.get(3), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, stringType, StringType.class, null);
+    assertParameter(params.get(4), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, booleanType, BooleanType.class, true);
+    assertTargetParameter(params.get(5));
   }
 
   private void assertBroadcastOperation(List<OperationModel> operationModels) {
