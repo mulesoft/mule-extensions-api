@@ -1,0 +1,24 @@
+{
+  "values": [
+    {
+      "id": "root",
+      "displayName": "root",
+      "partName": "",
+      "childs": [
+        {
+          "id": "level1",
+          "displayName": "level1",
+          "partName": "",
+          "childs": [
+            {
+              "id": "level2",
+              "displayName": "level2",
+              "partName": "",
+              "childs": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
