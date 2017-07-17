@@ -46,10 +46,9 @@ import org.mule.runtime.extension.internal.property.QNameModelProperty;
  */
 public class ConnectionProviderDeclarationEnricher extends InfrastructureDeclarationEnricher {
 
-  private ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
+    ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     new IdempotentDeclarationWalker() {
 
       @Override
@@ -58,7 +57,7 @@ public class ConnectionProviderDeclarationEnricher extends InfrastructureDeclara
         ConnectionManagementType managementType = declaration.getConnectionManagementType();
 
         if (managementType == POOLING || managementType == CACHED) {
-          addDisableValidationParameter(declaration);
+          addDisableValidationParameter(declaration, typeLoader);
         }
 
         if (managementType == POOLING) {
@@ -87,7 +86,7 @@ public class ConnectionProviderDeclarationEnricher extends InfrastructureDeclara
     declaration.getParameterGroup(CONNECTION).addParameter(parameter);
   }
 
-  private void addDisableValidationParameter(ConnectionProviderDeclaration declaration) {
+  private void addDisableValidationParameter(ConnectionProviderDeclaration declaration, ClassTypeLoader typeLoader) {
     ParameterDeclaration parameter = new ParameterDeclaration(DISABLE_CONNECTION_VALIDATION_PARAMETER_NAME);
     parameter.setDescription(DISABLE_CONNECTION_VALIDATION_PARAMETER_DESCRIPTION);
     parameter.setExpressionSupport(NOT_SUPPORTED);

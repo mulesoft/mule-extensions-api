@@ -57,118 +57,130 @@ import java.util.List;
  */
 public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
-  private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-  private final MetadataType stringType = typeLoader.load(String.class);
-
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    new IdempotentDeclarationWalker() {
-
-      @Override
-      protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
-        declaration.getModelProperty(OAuthModelProperty.class)
-            .ifPresent(property -> enrich(extensionDeclaration, declaration, property.getGrantTypes()));
-      }
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    new EnricherDelegate().enrich(extensionLoadingContext);
   }
 
-  private void enrich(ExtensionDeclaration extension, ConnectionProviderDeclaration declaration,
-                      List<OAuthGrantType> grantTypes) {
-    grantTypes.forEach(type -> {
-      if (AuthorizationCodeGrantType.NAME.equals(type.getName())) {
-        addOAuthAuthorizationCodeParameters(declaration, (AuthorizationCodeGrantType) type);
-        addOAuthCallbackParameters(declaration);
-        addOAuthStoreConfigParameter(declaration);
-      } else {
-        throw new IllegalConnectionProviderModelDefinitionException(
-                                                                    format("Extension '%s' defines connection provider '%s' with unsupported OAuth GrantType '%s'",
-                                                                           extension.getName(), declaration.getName(),
-                                                                           type.getName()));
-      }
-    });
-  }
+  private class EnricherDelegate implements DeclarationEnricher {
 
-  private void addOAuthAuthorizationCodeParameters(ConnectionProviderDeclaration declaration,
-                                                   AuthorizationCodeGrantType grantType) {
-    List<ParameterDeclaration> params = new LinkedList<>();
-    params.add(buildParameter(CONSUMER_KEY_PARAMETER_NAME, "The OAuth consumerKey as registered with the service provider",
+    private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+    private final MetadataType stringType = typeLoader.load(String.class);
+
+    @Override
+    public void enrich(ExtensionLoadingContext extensionLoadingContext) {
+      ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+      new IdempotentDeclarationWalker() {
+
+        @Override
+        protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
+          declaration.getModelProperty(OAuthModelProperty.class)
+              .ifPresent(property -> enrich(extensionDeclaration, declaration, property.getGrantTypes()));
+        }
+      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    }
+
+    private void enrich(ExtensionDeclaration extension, ConnectionProviderDeclaration declaration,
+                        List<OAuthGrantType> grantTypes) {
+      grantTypes.forEach(type -> {
+        if (AuthorizationCodeGrantType.NAME.equals(type.getName())) {
+          addOAuthAuthorizationCodeParameters(declaration, (AuthorizationCodeGrantType) type);
+          addOAuthCallbackParameters(declaration);
+          addOAuthStoreConfigParameter(declaration);
+        } else {
+          throw new IllegalConnectionProviderModelDefinitionException(
+                                                                      format("Extension '%s' defines connection provider '%s' with unsupported OAuth GrantType '%s'",
+                                                                             extension.getName(), declaration.getName(),
+                                                                             type.getName()));
+        }
+      });
+    }
+
+    private void addOAuthAuthorizationCodeParameters(ConnectionProviderDeclaration declaration,
+                                                     AuthorizationCodeGrantType grantType) {
+      List<ParameterDeclaration> params = new LinkedList<>();
+      params.add(buildParameter(CONSUMER_KEY_PARAMETER_NAME, "The OAuth consumerKey as registered with the service provider",
+                                true, stringType, NOT_SUPPORTED, null));
+
+      params
+          .add(buildParameter(CONSUMER_SECRET_PARAMETER_NAME, "The OAuth consumerSecret as registered with the service provider",
                               true, stringType, NOT_SUPPORTED, null));
 
-    params.add(buildParameter(CONSUMER_SECRET_PARAMETER_NAME, "The OAuth consumerSecret as registered with the service provider",
-                              true, stringType, NOT_SUPPORTED, null));
+      params.add(buildParameter(AUTHORIZATION_URL_PARAMETER_NAME, "The service provider's authorization endpoint URL",
+                                false, stringType, NOT_SUPPORTED, grantType.getAuthorizationUrl()));
 
-    params.add(buildParameter(AUTHORIZATION_URL_PARAMETER_NAME, "The service provider's authorization endpoint URL",
-                              false, stringType, NOT_SUPPORTED, grantType.getAuthorizationUrl()));
+      params.add(buildParameter(ACCESS_TOKEN_URL_PARAMETER_NAME, "The service provider's accessToken endpoint URL",
+                                false, stringType, NOT_SUPPORTED, grantType.getAccessTokenUrl()));
 
-    params.add(buildParameter(ACCESS_TOKEN_URL_PARAMETER_NAME, "The service provider's accessToken endpoint URL",
-                              false, stringType, NOT_SUPPORTED, grantType.getAccessTokenUrl()));
+      params.add(buildParameter(SCOPES_PARAMETER_NAME,
+                                "The OAuth scopes to be requested during the dance. If not provided, it will default "
+                                    + "to those in the annotation",
+                                false, stringType, NOT_SUPPORTED, grantType.getDefaultScope().orElse(null)));
 
-    params.add(buildParameter(SCOPES_PARAMETER_NAME,
-                              "The OAuth scopes to be requested during the dance. If not provided, it will default "
-                                  + "to those in the annotation",
-                              false, stringType, NOT_SUPPORTED, grantType.getDefaultScope().orElse(null)));
+      params.add(buildParameter(RESOURCE_OWNER_ID_PARAMETER_NAME, "The resourceOwnerId which each component should use "
+          + "if it doesn't reference otherwise.", false, stringType, SUPPORTED, null));
 
-    params.add(buildParameter(RESOURCE_OWNER_ID_PARAMETER_NAME, "The resourceOwnerId which each component should use "
-        + "if it doesn't reference otherwise.", false, stringType, SUPPORTED, null));
-
-    params
-        .add(buildParameter(BEFORE_FLOW_PARAMETER_NAME, "The name of a flow to be executed right before starting the OAuth dance",
-                            false, stringType, NOT_SUPPORTED, null));
-
-    params.add(buildParameter(AFTER_FLOW_PARAMETER_NAME,
-                              "The name of a flow to be executed right after an accessToken has been received",
+      params
+          .add(buildParameter(BEFORE_FLOW_PARAMETER_NAME,
+                              "The name of a flow to be executed right before starting the OAuth dance",
                               false, stringType, NOT_SUPPORTED, null));
 
-    addToGroup(params, OAUTH_AUTHORIZATION_CODE_GROUP_NAME, declaration);
-  }
+      params.add(buildParameter(AFTER_FLOW_PARAMETER_NAME,
+                                "The name of a flow to be executed right after an accessToken has been received",
+                                false, stringType, NOT_SUPPORTED, null));
 
-  private void addOAuthCallbackParameters(ConnectionProviderDeclaration declaration) {
-    List<ParameterDeclaration> params = new LinkedList<>();
-    ParameterDeclaration listenerConfig = buildParameter(LISTENER_CONFIG_PARAMETER_NAME,
-                                                         "A reference to a <http:listener-config /> to be used in order to create the "
-                                                             + "listener that will catch the access token callback endpoint.",
-                                                         true, stringType, NOT_SUPPORTED, null);
-    listenerConfig.setElementReferences(singletonList(new ElementReference("http", "listener-config", CONFIG)));
-    params.add(listenerConfig);
+      addToGroup(params, OAUTH_AUTHORIZATION_CODE_GROUP_NAME, declaration);
+    }
 
-    params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
-                              true, stringType, NOT_SUPPORTED, null));
+    private void addOAuthCallbackParameters(ConnectionProviderDeclaration declaration) {
+      List<ParameterDeclaration> params = new LinkedList<>();
+      ParameterDeclaration listenerConfig = buildParameter(LISTENER_CONFIG_PARAMETER_NAME,
+                                                           "A reference to a <http:listener-config /> to be used in order to create the "
+                                                               + "listener that will catch the access token callback endpoint.",
+                                                           true, stringType, NOT_SUPPORTED, null);
+      listenerConfig.setElementReferences(singletonList(new ElementReference("http", "listener-config", CONFIG)));
+      params.add(listenerConfig);
 
-    params.add(buildParameter(LOCAL_AUTHORIZE_PATH_PARAMETER_NAME,
-                              "The path of the local http endpoint which triggers the OAuth dance", true,
-                              stringType, NOT_SUPPORTED, null));
+      params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
+                                true, stringType, NOT_SUPPORTED, null));
 
-    params.add(buildParameter(EXTERNAL_CALLBACK_URL_PARAMETER_NAME, "If the callback endpoint is behind a proxy or should be "
-        + "accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use "
-        + "to access the callback", false, stringType, NOT_SUPPORTED, null));
+      params.add(buildParameter(LOCAL_AUTHORIZE_PATH_PARAMETER_NAME,
+                                "The path of the local http endpoint which triggers the OAuth dance", true,
+                                stringType, NOT_SUPPORTED, null));
 
-    addToGroup(params, OAUTH_CALLBACK_GROUP_NAME, declaration);
-  }
+      params.add(buildParameter(EXTERNAL_CALLBACK_URL_PARAMETER_NAME, "If the callback endpoint is behind a proxy or should be "
+          + "accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use "
+          + "to access the callback", false, stringType, NOT_SUPPORTED, null));
 
-  private void addToGroup(List<ParameterDeclaration> params, String groupName, ConnectionProviderDeclaration declaration) {
-    ParameterGroupDeclaration group = declaration.getParameterGroup(groupName);
-    params.forEach(group::addParameter);
-    group.showInDsl(true);
-  }
+      addToGroup(params, OAUTH_CALLBACK_GROUP_NAME, declaration);
+    }
 
-  private void addOAuthStoreConfigParameter(ConnectionProviderDeclaration declaration) {
-    addToGroup(asList(buildParameter(OBJECT_STORE_PARAMETER_NAME, "A reference to the object store that should be used to store "
-        + "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
-                                     false, stringType, NOT_SUPPORTED, null)),
-               OAUTH_STORE_CONFIG_GROUP_NAME, declaration);
-  }
+    private void addToGroup(List<ParameterDeclaration> params, String groupName, ConnectionProviderDeclaration declaration) {
+      ParameterGroupDeclaration group = declaration.getParameterGroup(groupName);
+      params.forEach(group::addParameter);
+      group.showInDsl(true);
+    }
 
-  private ParameterDeclaration buildParameter(String name, String description, boolean required, MetadataType type,
-                                              ExpressionSupport expressionSupport, Object defaultValue) {
-    ParameterDeclaration parameter = new ParameterDeclaration(name);
-    parameter.setDescription(description);
-    parameter.setExpressionSupport(expressionSupport);
-    parameter.setRequired(required);
-    parameter.setDefaultValue(defaultValue);
-    parameter.setParameterRole(BEHAVIOUR);
-    parameter.setType(type, false);
+    private void addOAuthStoreConfigParameter(ConnectionProviderDeclaration declaration) {
+      addToGroup(
+                 asList(buildParameter(OBJECT_STORE_PARAMETER_NAME,
+                                       "A reference to the object store that should be used to store "
+                                           + "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
+                                       false, stringType, NOT_SUPPORTED, null)),
+                 OAUTH_STORE_CONFIG_GROUP_NAME, declaration);
+    }
 
-    return parameter;
+    private ParameterDeclaration buildParameter(String name, String description, boolean required, MetadataType type,
+                                                ExpressionSupport expressionSupport, Object defaultValue) {
+      ParameterDeclaration parameter = new ParameterDeclaration(name);
+      parameter.setDescription(description);
+      parameter.setExpressionSupport(expressionSupport);
+      parameter.setRequired(required);
+      parameter.setDefaultValue(defaultValue);
+      parameter.setParameterRole(BEHAVIOUR);
+      parameter.setType(type, false);
+
+      return parameter;
+    }
   }
 }
