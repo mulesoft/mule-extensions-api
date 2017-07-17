@@ -35,37 +35,45 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
  */
 public final class TargetParameterDeclarationEnricher implements DeclarationEnricher {
 
-  private MetadataType attributeType;
-
-  public TargetParameterDeclarationEnricher() {
-    this.attributeType = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(String.class);
-  }
-
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new IdempotentDeclarationWalker() {
+    new EnricherDelegate().enrich(extensionLoadingContext);
+  }
 
-      @Override
-      protected void onOperation(OperationDeclaration declaration) {
-        final MetadataType outputType = declaration.getOutput().getType();
-        if (outputType == null) {
-          throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",
-                                                                    declaration.getName()));
+  private class EnricherDelegate implements DeclarationEnricher {
+
+    private MetadataType attributeType;
+
+    private EnricherDelegate() {
+      this.attributeType = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(String.class);
+    }
+
+    @Override
+    public void enrich(ExtensionLoadingContext extensionLoadingContext) {
+      new IdempotentDeclarationWalker() {
+
+        @Override
+        protected void onOperation(OperationDeclaration declaration) {
+          final MetadataType outputType = declaration.getOutput().getType();
+          if (outputType == null) {
+            throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",
+                                                                      declaration.getName()));
+          }
+
+          if (!(outputType instanceof VoidType)) {
+            ParameterDeclaration parameter = new ParameterDeclaration(TARGET_PARAMETER_NAME);
+            parameter.setDescription(TARGET_PARAMETER_DESCRIPTION);
+            parameter.setExpressionSupport(NOT_SUPPORTED);
+            parameter.setRequired(false);
+            parameter.setParameterRole(BEHAVIOUR);
+            parameter.setType(attributeType, false);
+            parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_PARAMETER_DISPLAY_NAME).build());
+            parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+
+            declaration.getParameterGroup(OUTPUT).addParameter(parameter);
+          }
         }
-
-        if (!(outputType instanceof VoidType)) {
-          ParameterDeclaration parameter = new ParameterDeclaration(TARGET_PARAMETER_NAME);
-          parameter.setDescription(TARGET_PARAMETER_DESCRIPTION);
-          parameter.setExpressionSupport(NOT_SUPPORTED);
-          parameter.setRequired(false);
-          parameter.setParameterRole(BEHAVIOUR);
-          parameter.setType(attributeType, false);
-          parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_PARAMETER_DISPLAY_NAME).build());
-          parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-
-          declaration.getParameterGroup(OUTPUT).addParameter(parameter);
-        }
-      }
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    }
   }
 }
