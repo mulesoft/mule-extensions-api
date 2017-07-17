@@ -13,15 +13,14 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * {@link TypeAdapterFactory} implementation, which creates {@link TypeAdapter}s that for any subclass of {@link S},
- * fixes the serialization and desearilization to unique class {@link T}.
+ * fixes the serialization and deserialization to unique class {@link T}.
  * <p>
  * Does not matter which subclass of {@link S} is found, this factory will create {@link TypeAdapter}s of
  * {@link T} type.
  *
  * @since 1.0
  */
-public final class DefaultImplementationTypeAdapterFactory<S, T extends S>
-    implements TypeAdapterFactory {
+public final class DefaultImplementationTypeAdapterFactory<S, T extends S> implements TypeAdapterFactory {
 
   private final Class<T> clazz;
   private final Class<S> superClass;
@@ -40,9 +39,9 @@ public final class DefaultImplementationTypeAdapterFactory<S, T extends S>
   }
 
   /**
-   * @param gson                  The actual Gson serializer
-   * @param type                  Implementation that GSON is trying to find a {@link TypeAdapter}
-   * @param <C> type of objects that the {@link TypeAdapter} will create
+   * @param gson The actual {@link Gson} serializer
+   * @param type Implementation that {@link Gson} is trying to find a {@link TypeAdapter}
+   * @param <C>  type of objects that the {@link TypeAdapter} will create
    * @return if {@param type} is subclass of {@link #superClass} a {@link TypeAdapter}, that serializes and deserialize
    * {@link C} instances
    */

@@ -20,18 +20,24 @@ import com.google.gson.GsonBuilder;
  *
  * @since 1.0
  */
-public class ValueResultJsonSerializer {
+public final class ValueResultJsonSerializer {
 
   private final Gson gson;
-  private final DefaultImplementationTypeAdapterFactory valueResultTypeAdapterFactory =
-      new DefaultImplementationTypeAdapterFactory<>(ValueResult.class, ImmutableValueResult.class);
-  private final DefaultImplementationTypeAdapterFactory valueTypeAdapterFactory =
-      new DefaultImplementationTypeAdapterFactory<>(Value.class, ImmutableValue.class);
 
   public ValueResultJsonSerializer() {
-    gson = new GsonBuilder()
-        .registerTypeAdapterFactory(valueResultTypeAdapterFactory)
-        .registerTypeAdapterFactory(valueTypeAdapterFactory)
+    this(false);
+  }
+
+  public ValueResultJsonSerializer(boolean prettyPrinting) {
+    GsonBuilder gsonBuilder = new GsonBuilder();
+
+    if (prettyPrinting) {
+      gsonBuilder.setPrettyPrinting();
+    }
+
+    gson = gsonBuilder
+        .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(ValueResult.class, ImmutableValueResult.class))
+        .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(Value.class, ImmutableValue.class))
         .create();
   }
 
