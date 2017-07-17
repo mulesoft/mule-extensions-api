@@ -64,160 +64,170 @@ import java.util.Set;
  */
 public final class ParameterModelValidator implements ExtensionModelValidator {
 
-  private TypeCatalog typeCatalog;
-  private DslSyntaxResolver dsl;
-
   @Override
-  public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
-    typeCatalog = TypeCatalog.getDefault(singleton(extensionModel));
-    dsl = DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy());
-
-    new ExtensionWalker() {
-
-      @Override
-      public void onParameter(ParameterizedModel owner, ParameterGroupModel groupModel, ParameterModel model) {
-        String ownerName = owner.getName();
-        String ownerModelType = getComponentModelTypeName(owner);
-        validateParameter(model, ownerName, ownerModelType, problemsReporter);
-        validateOAuthParameter(model, ownerName, ownerModelType, problemsReporter);
-        validateNameCollisionWithTypes(model, ownerName, ownerModelType,
-                                       owner.getAllParameterModels().stream().map(p -> hyphenize(p.getName())).collect(toList()),
-                                       problemsReporter);
-      }
-    }.walk(extensionModel);
+  public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
+    new ValidatorDelegate().validate(model, problemsReporter);
   }
 
-  private void validateParameter(ParameterModel parameterModel, String ownerName,
-                                 String ownerModelType, ProblemsReporter problemsReporter) {
-    if (parameterModel.getType() == null) {
-      problemsReporter.addError(new Problem(parameterModel, format("Parameter '%s' in the %s '%s' must provide a type",
-                                                                   parameterModel.getName(),
-                                                                   ownerModelType, ownerName)));
+  private class ValidatorDelegate implements ExtensionModelValidator {
+
+    private TypeCatalog typeCatalog;
+    private DslSyntaxResolver dsl;
+
+    @Override
+    public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
+      typeCatalog = TypeCatalog.getDefault(singleton(extensionModel));
+      dsl = DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy());
+
+      new ExtensionWalker() {
+
+        @Override
+        public void onParameter(ParameterizedModel owner, ParameterGroupModel groupModel, ParameterModel model) {
+          String ownerName = owner.getName();
+          String ownerModelType = getComponentModelTypeName(owner);
+          validateParameter(model, ownerName, ownerModelType, problemsReporter);
+          validateOAuthParameter(model, ownerName, ownerModelType, problemsReporter);
+          validateNameCollisionWithTypes(model, ownerName, ownerModelType,
+                                         owner.getAllParameterModels().stream().map(p -> hyphenize(p.getName()))
+                                             .collect(toList()),
+                                         problemsReporter);
+        }
+      }.walk(extensionModel);
     }
 
-    if (parameterModel.getDefaultValue() != null) {
-      if (parameterModel.isOverrideFromConfig() &&
-          !ownerModelType.equals(CONFIGURATION) && !ownerModelType.equals(CONNECTION_PROVIDER)) {
-        // We skip failing for configs and connection here since a different error is thrown in their own validators
-        problemsReporter
-            .addError(new Problem(parameterModel,
-                                  format("Parameter '%s' in the %s '%s' is declared as a config override,"
-                                      + " and must not provide a default value since one is already provided by the declared"
-                                      + " value in the config parameter",
-                                         parameterModel.getName(), ownerModelType, ownerName)));
-      } else if (parameterModel.isRequired()) {
-        problemsReporter
-            .addError(new Problem(parameterModel,
-                                  format("Parameter '%s' in the %s '%s' is required, and must not provide a default value",
-                                         parameterModel.getName(), ownerModelType, ownerName)));
+    private void validateParameter(ParameterModel parameterModel, String ownerName,
+                                   String ownerModelType, ProblemsReporter problemsReporter) {
+      if (parameterModel.getType() == null) {
+        problemsReporter.addError(new Problem(parameterModel, format("Parameter '%s' in the %s '%s' must provide a type",
+                                                                     parameterModel.getName(),
+                                                                     ownerModelType, ownerName)));
       }
-    }
 
-    if (parameterModel.getType() == null) {
-      problemsReporter
-          .addError(new Problem(parameterModel,
-                                format("Parameter '%s' in the %s '%s' doesn't specify a return type",
-                                       parameterModel.getName(), ownerModelType, ownerName)));
-    } else {
-
-      parameterModel.getType().accept(new MetadataTypeVisitor() {
-
-        private Set<MetadataType> visitedTypes = new HashSet<>();
-
-        @Override
-        public void visitUnion(UnionType unionType) {
-          unionType.getTypes().forEach(t -> t.accept(this));
-        }
-
-        @Override
-        public void visitArrayType(ArrayType arrayType) {
-          arrayType.getType().accept(this);
-        }
-
-        @Override
-        public void visitObject(ObjectType objectType) {
-          DslElementSyntax paramDsl = dsl.resolve(parameterModel);
-          if (objectType.isOpen()) {
-            objectType.getOpenRestriction().get().accept(this);
-          } else if ((paramDsl.supportsTopLevelDeclaration() || paramDsl.supportsChildDeclaration())
-              && visitedTypes.add(objectType)) {
-            for (ObjectFieldType field : objectType.getFields()) {
-              if (supportsGlobalReferences(field)) {
-                field.getValue().accept(this);
-              }
-
-              ExtensionMetadataTypeUtils.getType(field.getValue())
-                  .filter(c -> c.getAnnotation(ConfigOverride.class) != null)
-                  .ifPresent(c -> problemsReporter.addError(new Problem(parameterModel,
-                                                                        format("Type '%s' has fields declared as '%s', which is not allowed.",
-                                                                               getId(objectType),
-                                                                               ConfigOverride.class.getSimpleName()))));
-            }
-          }
-        }
-      });
-
-      validateParameterIsPlural(parameterModel, ownerModelType, ownerName, problemsReporter);
-    }
-  }
-
-  private void validateParameterIsPlural(final ParameterModel parameterModel, String ownerModelType, String ownerName,
-                                         ProblemsReporter problemsReporter) {
-    parameterModel.getType().accept(new MetadataTypeVisitor() {
-
-      @Override
-      public void visitArrayType(ArrayType arrayType) {
-        if (parameterModel.getName().equals(singularize(parameterModel.getName()))) {
+      if (parameterModel.getDefaultValue() != null) {
+        if (parameterModel.isOverrideFromConfig() &&
+            !ownerModelType.equals(CONFIGURATION) && !ownerModelType.equals(CONNECTION_PROVIDER)) {
+          // We skip failing for configs and connection here since a different error is thrown in their own validators
           problemsReporter
               .addError(new Problem(parameterModel,
-                                    format("Parameter '%s' in the %s '%s' is a collection and its name should be plural",
+                                    format("Parameter '%s' in the %s '%s' is declared as a config override,"
+                                        + " and must not provide a default value since one is already provided by the declared"
+                                        + " value in the config parameter",
+                                           parameterModel.getName(), ownerModelType, ownerName)));
+        } else if (parameterModel.isRequired()) {
+          problemsReporter
+              .addError(new Problem(parameterModel,
+                                    format("Parameter '%s' in the %s '%s' is required, and must not provide a default value",
                                            parameterModel.getName(), ownerModelType, ownerName)));
         }
       }
-    });
-  }
 
-  private void validateNameCollisionWithTypes(ParameterModel parameterModel, String ownerName, String ownerModelType,
-                                              List<String> parameterNames, ProblemsReporter problemsReporter) {
-    if (parameterModel.getType() instanceof ObjectType) {
-      typeCatalog.getSubTypes((ObjectType) parameterModel.getType())
-          .stream()
-          .filter(subtype -> parameterNames.contains(getTopLevelTypeName(subtype)))
-          .findFirst()
-          .ifPresent(metadataType -> problemsReporter.addError(
-                                                               new Problem(parameterModel, format(
-                                                                                                  "Parameter '%s' in the %s [%s] can't have the same name as the ClassName or Alias of the declared subType [%s] for parameter [%s]",
-                                                                                                  getTopLevelTypeName(metadataType),
-                                                                                                  ownerModelType, ownerName,
-                                                                                                  getId(metadataType),
-                                                                                                  parameterModel.getName()))));
-    }
-  }
-
-  private boolean supportsGlobalReferences(ObjectFieldType field) {
-    return dsl.resolve(field.getValue()).map(DslElementSyntax::supportsTopLevelDeclaration)
-        .orElseGet(() -> field.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::allowsReferences)
-            .orElse(true));
-  }
-
-  private void validateOAuthParameter(ParameterModel parameterModel, String ownerName, String ownerModelType,
-                                      ProblemsReporter problemsReporter) {
-    parameterModel.getModelProperty(OAuthParameterModelProperty.class).ifPresent(p -> {
-      if (parameterModel.getExpressionSupport() != NOT_SUPPORTED) {
+      if (parameterModel.getType() == null) {
         problemsReporter
             .addError(new Problem(parameterModel,
-                                  format("Parameter '%s' in the %s [%s] is an OAuth parameter yet it supports expressions. "
-                                      + "Expressions are not supported on OAuth parameters",
+                                  format("Parameter '%s' in the %s '%s' doesn't specify a return type",
                                          parameterModel.getName(), ownerModelType, ownerName)));
-      }
+      } else {
 
-      if (!isBasic(parameterModel.getType())) {
-        problemsReporter
-            .addError(new Problem(parameterModel, format("Parameter '%s' in the %s [%s] is an OAuth parameter but is a %s. "
-                + "Only basic types are supported on OAuth parameters",
-                                                         parameterModel.getName(), ownerModelType, ownerName,
-                                                         parameterModel.getType().getClass().getSimpleName())));
+        parameterModel.getType().accept(new MetadataTypeVisitor() {
+
+          private Set<MetadataType> visitedTypes = new HashSet<>();
+
+          @Override
+          public void visitUnion(UnionType unionType) {
+            unionType.getTypes().forEach(t -> t.accept(this));
+          }
+
+          @Override
+          public void visitArrayType(ArrayType arrayType) {
+            arrayType.getType().accept(this);
+          }
+
+          @Override
+          public void visitObject(ObjectType objectType) {
+            DslElementSyntax paramDsl = dsl.resolve(parameterModel);
+            if (objectType.isOpen()) {
+              objectType.getOpenRestriction().get().accept(this);
+            } else if ((paramDsl.supportsTopLevelDeclaration() || paramDsl.supportsChildDeclaration())
+                && visitedTypes.add(objectType)) {
+              for (ObjectFieldType field : objectType.getFields()) {
+                if (supportsGlobalReferences(field)) {
+                  field.getValue().accept(this);
+                }
+
+                ExtensionMetadataTypeUtils.getType(field.getValue())
+                    .filter(c -> c.getAnnotation(ConfigOverride.class) != null)
+                    .ifPresent(c -> problemsReporter.addError(new Problem(parameterModel,
+                                                                          format(
+                                                                                 "Type '%s' has fields declared as '%s', which is not allowed.",
+                                                                                 getId(objectType),
+                                                                                 ConfigOverride.class.getSimpleName()))));
+              }
+            }
+          }
+        });
+
+        validateParameterIsPlural(parameterModel, ownerModelType, ownerName, problemsReporter);
       }
-    });
+    }
+
+    private void validateParameterIsPlural(final ParameterModel parameterModel, String ownerModelType, String ownerName,
+                                           ProblemsReporter problemsReporter) {
+      parameterModel.getType().accept(new MetadataTypeVisitor() {
+
+        @Override
+        public void visitArrayType(ArrayType arrayType) {
+          if (parameterModel.getName().equals(singularize(parameterModel.getName()))) {
+            problemsReporter
+                .addError(new Problem(parameterModel,
+                                      format("Parameter '%s' in the %s '%s' is a collection and its name should be plural",
+                                             parameterModel.getName(), ownerModelType, ownerName)));
+          }
+        }
+      });
+    }
+
+    private void validateNameCollisionWithTypes(ParameterModel parameterModel, String ownerName, String ownerModelType,
+                                                List<String> parameterNames, ProblemsReporter problemsReporter) {
+      if (parameterModel.getType() instanceof ObjectType) {
+        typeCatalog.getSubTypes((ObjectType) parameterModel.getType())
+            .stream()
+            .filter(subtype -> parameterNames.contains(getTopLevelTypeName(subtype)))
+            .findFirst()
+            .ifPresent(metadataType -> problemsReporter.addError(
+                                                                 new Problem(parameterModel, format(
+                                                                                                    "Parameter '%s' in the %s [%s] can't have the same name as the ClassName or Alias of the declared subType [%s] for parameter [%s]",
+                                                                                                    getTopLevelTypeName(metadataType),
+                                                                                                    ownerModelType, ownerName,
+                                                                                                    getId(metadataType),
+                                                                                                    parameterModel.getName()))));
+      }
+    }
+
+    private boolean supportsGlobalReferences(ObjectFieldType field) {
+      return dsl.resolve(field.getValue()).map(DslElementSyntax::supportsTopLevelDeclaration)
+          .orElseGet(() -> field.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::allowsReferences)
+              .orElse(true));
+    }
+
+    private void validateOAuthParameter(ParameterModel parameterModel, String ownerName, String ownerModelType,
+                                        ProblemsReporter problemsReporter) {
+      parameterModel.getModelProperty(OAuthParameterModelProperty.class).ifPresent(p -> {
+        if (parameterModel.getExpressionSupport() != NOT_SUPPORTED) {
+          problemsReporter
+              .addError(new Problem(parameterModel,
+                                    format("Parameter '%s' in the %s [%s] is an OAuth parameter yet it supports expressions. "
+                                        + "Expressions are not supported on OAuth parameters",
+                                           parameterModel.getName(), ownerModelType, ownerName)));
+        }
+
+        if (!isBasic(parameterModel.getType())) {
+          problemsReporter
+              .addError(new Problem(parameterModel, format("Parameter '%s' in the %s [%s] is an OAuth parameter but is a %s. "
+                  + "Only basic types are supported on OAuth parameters",
+                                                           parameterModel.getName(), ownerModelType, ownerName,
+                                                           parameterModel.getType().getClass().getSimpleName())));
+        }
+      });
+    }
   }
 }

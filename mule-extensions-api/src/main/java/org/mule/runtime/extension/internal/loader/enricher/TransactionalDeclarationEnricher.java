@@ -43,64 +43,72 @@ import java.util.Optional;
  */
 public final class TransactionalDeclarationEnricher implements DeclarationEnricher {
 
-  private final MetadataType operationTransactionalActionType;
-  private final MetadataType sourceTransactionalActionType;
-
-  public TransactionalDeclarationEnricher() {
-    ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-    operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
-    sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
-  }
-
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new IdempotentDeclarationWalker() {
-
-      @Override
-      protected void onSource(SourceDeclaration declaration) {
-        //TODO - MULE-12066 : Support XA transactions in SDK extensions at source level
-        addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, sourceTransactionalActionType, NONE,
-                       SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration);
-      }
-
-      @Override
-      protected void onOperation(OperationDeclaration declaration) {
-        addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, operationTransactionalActionType, JOIN_IF_POSSIBLE,
-                       OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration);
-      }
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    new EnricherDelegate().enrich(extensionLoadingContext);
   }
 
-  private void addTxParameter(String parameterName, MetadataType metadataType, Object defaultValue, String description,
-                              ComponentDeclaration<?> declaration) {
-    if (declaration.isTransactional()) {
-      Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
-      if (parameterDeclaration.isPresent()) {
-        enrichTransactionParameter(defaultValue, description, parameterDeclaration.get());
-      } else {
-        ParameterDeclaration transactionParameter = new ParameterDeclaration(parameterName);
-        transactionParameter.setType(metadataType, false);
-        enrichTransactionParameter(defaultValue, description, transactionParameter);
-        declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(transactionParameter);
+  private class EnricherDelegate implements DeclarationEnricher {
+
+    private final MetadataType operationTransactionalActionType;
+    private final MetadataType sourceTransactionalActionType;
+
+    private EnricherDelegate() {
+      ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+      operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
+      sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
+    }
+
+    @Override
+    public void enrich(ExtensionLoadingContext extensionLoadingContext) {
+      new IdempotentDeclarationWalker() {
+
+        @Override
+        protected void onSource(SourceDeclaration declaration) {
+          //TODO - MULE-12066 : Support XA transactions in SDK extensions at source level
+          addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, sourceTransactionalActionType, NONE,
+                         SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration);
+        }
+
+        @Override
+        protected void onOperation(OperationDeclaration declaration) {
+          addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, operationTransactionalActionType, JOIN_IF_POSSIBLE,
+                         OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration);
+        }
+      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    }
+
+    private void addTxParameter(String parameterName, MetadataType metadataType, Object defaultValue, String description,
+                                ComponentDeclaration<?> declaration) {
+      if (declaration.isTransactional()) {
+        Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
+        if (parameterDeclaration.isPresent()) {
+          enrichTransactionParameter(defaultValue, description, parameterDeclaration.get());
+        } else {
+          ParameterDeclaration transactionParameter = new ParameterDeclaration(parameterName);
+          transactionParameter.setType(metadataType, false);
+          enrichTransactionParameter(defaultValue, description, transactionParameter);
+          declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(transactionParameter);
+        }
       }
     }
-  }
 
-  private void enrichTransactionParameter(Object defaultValue, String description, ParameterDeclaration transactionParameter) {
-    transactionParameter.setExpressionSupport(NOT_SUPPORTED);
-    transactionParameter.setRequired(false);
-    transactionParameter.setDefaultValue(defaultValue);
-    transactionParameter.setDescription(description);
-    transactionParameter.addModelProperty(new TransactionalActionModelProperty());
-    transactionParameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-  }
+    private void enrichTransactionParameter(Object defaultValue, String description, ParameterDeclaration transactionParameter) {
+      transactionParameter.setExpressionSupport(NOT_SUPPORTED);
+      transactionParameter.setRequired(false);
+      transactionParameter.setDefaultValue(defaultValue);
+      transactionParameter.setDescription(description);
+      transactionParameter.addModelProperty(new TransactionalActionModelProperty());
+      transactionParameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+    }
 
-  private Optional<ParameterDeclaration> isPresent(ComponentDeclaration<?> declaration, MetadataType metadataType) {
-    return declaration.getParameterGroups()
-        .stream()
-        .map(group -> group.getParameters().stream())
-        .flatMap(stream -> stream)
-        .filter(parameterDeclaration -> parameterDeclaration.getType().equals(metadataType))
-        .findAny();
+    private Optional<ParameterDeclaration> isPresent(ComponentDeclaration<?> declaration, MetadataType metadataType) {
+      return declaration.getParameterGroups()
+          .stream()
+          .map(group -> group.getParameters().stream())
+          .flatMap(stream -> stream)
+          .filter(parameterDeclaration -> parameterDeclaration.getType().equals(metadataType))
+          .findAny();
+    }
   }
 }
