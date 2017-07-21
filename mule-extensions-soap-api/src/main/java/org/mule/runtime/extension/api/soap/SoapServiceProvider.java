@@ -8,8 +8,8 @@ package org.mule.runtime.extension.api.soap;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
-import org.mule.runtime.extension.api.soap.security.SecurityStrategy;
 
+import org.mule.runtime.extension.api.soap.security.SecurityStrategy;
 import java.util.List;
 import java.util.Map;
 
@@ -50,4 +50,12 @@ public interface SoapServiceProvider {
   default Map<String, String> getCustomHeaders(WebServiceDefinition definition, String operation) {
     return emptyMap();
   }
+
+  /**
+   * This method is a hook for {@link SoapServiceProvider} instances to validate the configured parameters and
+   * fail gracefully before attempting to create a connection avoiding misleading and confusing error messages.
+   *
+   * @throws SoapServiceProviderConfigurationException if any configured parameter has an invalid value.
+   */
+  default void validateConfiguration() throws SoapServiceProviderConfigurationException {}
 }
