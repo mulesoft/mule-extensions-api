@@ -8,9 +8,7 @@ package org.mule.runtime.extension.api.soap;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
-import static org.mule.runtime.api.connection.ConnectionValidationResult.success;
 
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.extension.api.soap.security.SecurityStrategy;
 import java.util.List;
 import java.util.Map;
@@ -57,10 +55,7 @@ public interface SoapServiceProvider {
    * This method is a hook for {@link SoapServiceProvider} instances to validate the configured parameters and
    * fail gracefully before attempting to create a connection avoiding misleading and confusing error messages.
    *
-   * @return a {@link ConnectionValidationResult#failure} if the configuration is invalid,
-   * {@link ConnectionValidationResult#success()} otherwise.
+   * @throws SoapServiceProviderConfigurationException if any configured parameter has an invalid value.
    */
-  default ConnectionValidationResult validate() {
-    return success();
-  }
+  default void validateConfiguration() throws SoapServiceProviderConfigurationException {}
 }
