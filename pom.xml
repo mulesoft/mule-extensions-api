@@ -113,8 +113,8 @@
 
     <properties>
         <javaVersion>1.8</javaVersion>
-        <muleApiVersion>1.0.0-SNAPSHOT</muleApiVersion>
-        <metadataModelApiVersion>1.0.0-SNAPSHOT</metadataModelApiVersion>
+        <muleApiVersion>1.0.0-rc.batman</muleApiVersion>
+        <metadataModelApiVersion>1.0.0-rc.batman</metadataModelApiVersion>
         <mockitoVersion>1.9.5</mockitoVersion>
         <junitVersion>4.11</junitVersion>
         <hamcrestVersion>1.3</hamcrestVersion>
