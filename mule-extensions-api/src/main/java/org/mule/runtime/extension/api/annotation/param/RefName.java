@@ -7,10 +7,10 @@
 package org.mule.runtime.extension.api.annotation.param;
 
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
@@ -30,8 +30,8 @@ import java.lang.annotation.Target;
  * @since 1.0
  */
 @Target(value = FIELD)
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RUNTIME)
 @Documented
-public @interface ConfigName {
+public @interface RefName {
 
 }

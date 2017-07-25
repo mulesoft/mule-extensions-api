@@ -12,6 +12,7 @@ import static java.util.Collections.singletonList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.CONFIG;
+import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.OBJECT_STORE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.ACCESS_TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
@@ -29,7 +30,6 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OBJECT_STORE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.RESOURCE_OWNER_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
-
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -46,6 +46,7 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.exception.IllegalConnectionProviderModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -162,12 +163,13 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
     }
 
     private void addOAuthStoreConfigParameter(ConnectionProviderDeclaration declaration) {
-      addToGroup(
-                 asList(buildParameter(OBJECT_STORE_PARAMETER_NAME,
-                                       "A reference to the object store that should be used to store "
-                                           + "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
-                                       false, stringType, NOT_SUPPORTED, null)),
-                 OAUTH_STORE_CONFIG_GROUP_NAME, declaration);
+      final ParameterDeclaration osParameter = buildParameter(
+                                                              OBJECT_STORE_PARAMETER_NAME,
+                                                              "A reference to the object store that should be used to store " +
+                                                                  "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
+                                                              false, stringType, NOT_SUPPORTED, null);
+      osParameter.setElementReferences(asList(new ElementReference("os", "objectStore", OBJECT_STORE)));
+      addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, declaration);
     }
 
     private ParameterDeclaration buildParameter(String name, String description, boolean required, MetadataType type,

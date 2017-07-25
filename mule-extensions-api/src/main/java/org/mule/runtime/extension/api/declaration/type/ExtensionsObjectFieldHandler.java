@@ -9,10 +9,14 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.lang.Boolean.FALSE;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
+import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.CONFIG;
+import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.FLOW;
+import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.OBJECT_STORE;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
@@ -31,6 +35,8 @@ import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
+import org.mule.runtime.api.meta.model.parameter.ElementReference;
+import org.mule.runtime.extension.api.annotation.ElementReferences;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
@@ -47,10 +53,14 @@ import org.mule.runtime.extension.api.annotation.param.display.Path;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
+import org.mule.runtime.extension.api.annotation.param.reference.ConfigReference;
+import org.mule.runtime.extension.api.annotation.param.reference.FlowReference;
+import org.mule.runtime.extension.api.annotation.param.reference.ObjectStoreReference;
 import org.mule.runtime.extension.api.declaration.type.annotation.ConfigOverrideTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultEncodingAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultImplementingTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ElementReferenceTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
@@ -107,6 +117,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       processLayoutAnnotation(field, fieldBuilder);
       processDisplayAnnotation(field, fieldBuilder);
       processConfigOverride(field, fieldBuilder);
+      processElementReference(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
     }
   }
@@ -247,6 +258,28 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     if (override != null) {
       fieldBuilder.required(false);
       fieldBuilder.with(new ConfigOverrideTypeAnnotation());
+    }
+  }
+
+  private void processElementReference(Field field, ObjectFieldTypeBuilder fieldBuilder) {
+    ElementReferences references = field.getAnnotation(ElementReferences.class);
+    if (references != null) {
+      stream(references.value())
+          .map(ref -> new ElementReferenceTypeAnnotation(new ElementReference(ref.namespace(), ref.name(), CONFIG)))
+          .forEach(fieldBuilder::with);
+    }
+
+    ConfigReference ref = field.getAnnotation(ConfigReference.class);
+    if (ref != null) {
+      fieldBuilder.with(new ElementReferenceTypeAnnotation(new ElementReference(ref.namespace(), ref.name(), CONFIG)));
+    }
+
+    if (field.getAnnotation(FlowReference.class) != null) {
+      fieldBuilder.with(new ElementReferenceTypeAnnotation(new ElementReference("mule", "flow", FLOW)));
+    }
+
+    if (field.getAnnotation(ObjectStoreReference.class) != null) {
+      fieldBuilder.with(new ElementReferenceTypeAnnotation(new ElementReference("os", "objectStore", OBJECT_STORE)));
     }
   }
 

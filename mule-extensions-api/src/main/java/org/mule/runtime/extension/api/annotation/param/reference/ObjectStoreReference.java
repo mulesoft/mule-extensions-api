@@ -4,26 +4,25 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.annotation;
+package org.mule.runtime.extension.api.annotation.param.reference;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import org.mule.runtime.extension.api.annotation.param.Parameter;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used in a {@link String} type {@link Parameter}
- * field or parameter that is a reference to a flow in a mule app.
+ * Annotation to be used in a field or parameter which value is a reference to a global
+ * object store element
  *
  * @since 1.0
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-public @interface FlowReference {
+public @interface ObjectStoreReference {
 
 }
