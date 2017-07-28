@@ -18,6 +18,7 @@ import org.mule.runtime.api.meta.model.parameter.ElementReference;
  */
 public class ElementReferenceTypeAnnotation implements TypeAnnotation {
 
+  public static final String NAME = "elementReference";
   private final ElementReference elementReference;
 
   /**
@@ -39,11 +40,11 @@ public class ElementReferenceTypeAnnotation implements TypeAnnotation {
   /**
    * {@inheritDoc}
    *
-   * @return {@code elementReference}
+   * @return {@link #NAME}
    */
   @Override
   public String getName() {
-    return "elementReference";
+    return NAME;
   }
 
   /**

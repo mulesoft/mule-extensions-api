@@ -15,10 +15,11 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation is meant to be applied on fields of classes
- * which are serving as extension configurations.
+ * which are serving as top level elements which can be referenced
+ * by name, such as configs or global objects.
  * <p>
  * This annotation signals that the target field should be injected
- * with the name that the config has received on the application configuration.
+ * with the name that the element has received on the application.
  * <p>
  * This implies the following restrictions:
  * <p>
