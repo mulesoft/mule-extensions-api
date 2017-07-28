@@ -7,18 +7,19 @@
 package org.mule.runtime.extension.api.annotation.param;
 
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
  * This annotation is meant to be applied on fields of classes
- * which are serving as extension configurations.
+ * which are serving as top level elements which can be referenced
+ * by name, such as configs or global objects.
  * <p>
  * This annotation signals that the target field should be injected
- * with the name that the config has received on the application configuration.
+ * with the name that the element has received on the application.
  * <p>
  * This implies the following restrictions:
  * <p>
@@ -30,8 +31,8 @@ import java.lang.annotation.Target;
  * @since 1.0
  */
 @Target(value = FIELD)
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RUNTIME)
 @Documented
-public @interface ConfigName {
+public @interface RefName {
 
 }
