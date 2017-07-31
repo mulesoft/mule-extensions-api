@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.runtime.api.connection.ConnectionException;
+import org.mule.runtime.api.tx.TransactionException;
+import org.mule.runtime.extension.api.connectivity.TransactionalConnection;
+import org.mule.runtime.extension.api.tx.TransactionHandle;
+
 import java.util.Optional;
 
 /**
@@ -15,6 +20,43 @@ import java.util.Optional;
  * @since 1.0
  */
 public interface SourceCallbackContext {
+
+  /**
+   * Associates the given {@code connection} to {@code this} context. As a result of this binding,
+   * the runtime will automatically take care of releasing the {@code connection} once the source has
+   * finished processing the response and will also take care of resolving the associated transaction (if any).
+   *
+   * If the connection is a {@link TransactionalConnection} and the source was configured to be transactional,
+   * then this method will start such transaction.
+   *
+   * @param connection the connection to be bound
+   * @return a {@link TransactionHandle} produced as a result of the binding
+   * @throws ConnectionException if the connection is not valid or cannot be used
+   * @throws TransactionException if a transaction was needed but couldn't be started.
+   */
+  TransactionHandle bindConnection(Object connection) throws ConnectionException, TransactionException;
+
+  /**
+   * Returns the connection that was bound through {@link #bindConnection(Object)}.
+   *
+   * If that method was not called, then it will throw {@link IllegalStateException}
+   * @param <T> the generic type of the connection
+   * @return the bound connection
+   * @throws IllegalStateException if no connection bound
+   */
+  <T> T getConnection() throws IllegalStateException;
+
+  /**
+   * A handle to the current on-going transaction. If no transaction is active, then you get a handle
+   * which represents a void transaction, but this method will never return null.
+   *
+   * This method can be used without the need for {@link #bindConnection(Object)} to had been invoked on {@code this} instance
+   * first. However if it has, then the result of this method will be the exact same instance that
+   * {@link #bindConnection(Object)} returned.
+   * 
+   * @return the current {@link TransactionHandle}
+   */
+  TransactionHandle getTransactionHandle();
 
   /**
    * Returns whether a variable of name {@code variableName} has a value associated to it
