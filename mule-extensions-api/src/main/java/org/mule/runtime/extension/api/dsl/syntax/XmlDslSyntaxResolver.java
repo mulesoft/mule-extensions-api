@@ -309,7 +309,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
     final String namespace = getPrefix(type);
     final String namespaceUri = getNamespace(type);
-    final String substitutionGroup = getSubstitutionGroup(type);
 
     final String key = getTypeKey(type, namespace, namespaceUri);
 
@@ -318,12 +317,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     }
 
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create()
-        .withNamespace(namespace, namespaceUri).withSubstitutionGroup(substitutionGroup)
+        .withNamespace(namespace, namespaceUri)
         .withElementName(getTopLevelTypeName(type))
         .supportsTopLevelDeclaration(supportTopLevelElement)
         .supportsChildDeclaration(supportsInlineDeclaration)
         .supportsAttributeDeclaration(false)
         .asWrappedElement(requiresWrapper);
+
+    getSubstitutionGroup(type).ifPresent(builder::withSubstitutionGroup);
 
     String typeId = getId(type);
     if (!typeResolvingStack.contains(typeId)) {

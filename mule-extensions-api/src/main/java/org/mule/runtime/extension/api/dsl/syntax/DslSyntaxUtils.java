@@ -37,6 +37,8 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Utils class with helper methods for the {@link DslSyntaxResolver}
  *
@@ -140,8 +142,8 @@ final class DslSyntaxUtils {
     return supporstGlobalDeclaration.get();
   }
 
-  static String getSubstitutionGroup(MetadataType metadataType) {
-    return metadataType.getAnnotation(XmlHintsAnnotation.class).isPresent() ? metadataType.getAnnotation(XmlHintsAnnotation.class).get().getSubstitutionGroup() : "";
+  static Optional<String> getSubstitutionGroup(MetadataType metadataType) {
+    return metadataType.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::getSubstitutionGroup).filter(StringUtils::isNotBlank);
   }
 
 
