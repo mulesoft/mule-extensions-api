@@ -256,6 +256,10 @@ public abstract class BaseXmlDeclarationTestCase {
     assertThat("Expected the element to support Top Level definitions", result.supportsTopLevelDeclaration(), is(expected));
   }
 
+  void assertSubstitutionGroupIs(String expected, DslElementSyntax result) {
+    assertThat(result.getSubstitutionGroup(), equalTo(expected));
+  }
+
   DslSyntaxResolver getSyntaxResolver() {
     return DslSyntaxResolver.getDefault(extension, dslContext);
   }

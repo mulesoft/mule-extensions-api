@@ -140,6 +140,11 @@ final class DslSyntaxUtils {
     return supporstGlobalDeclaration.get();
   }
 
+  static String getSubstitutionGroup(MetadataType metadataType) {
+    return metadataType.getAnnotation(XmlHintsAnnotation.class).isPresent() ? metadataType.getAnnotation(XmlHintsAnnotation.class).get().getSubstitutionGroup() : "";
+  }
+
+
   static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport) {
     return supportsInlineDeclaration(metadataType, expressionSupport, ParameterDslConfiguration.getDefaultInstance(), false);
   }

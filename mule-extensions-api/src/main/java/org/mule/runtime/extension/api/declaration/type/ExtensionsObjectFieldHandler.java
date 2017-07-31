@@ -288,7 +288,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     if (annotation != null) {
       fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(),
                                                annotation.allowTopLevelDefinition(),
-                                               annotation.allowReferences()));
+                                               annotation.allowReferences(),
+                                               annotation.substitutionGroup()));
     }
   }
 

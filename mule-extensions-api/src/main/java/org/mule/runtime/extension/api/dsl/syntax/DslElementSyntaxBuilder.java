@@ -23,6 +23,7 @@ public final class DslElementSyntaxBuilder {
   private String elementName = "";
   private String prefix = "";
   private String namespace = "";
+  private String substitutionGroup = "";
   private boolean isWrapped = false;
   private boolean supportsAttributeDeclaration = true;
   private boolean supportsChildDeclaration = false;
@@ -68,6 +69,16 @@ public final class DslElementSyntaxBuilder {
   public DslElementSyntaxBuilder withNamespace(String prefix, String namespace) {
     this.prefix = prefix;
     this.namespace = namespace;
+    return this;
+  }
+
+  /**
+   * Adds a {@code substitutionGroup} to the element being declared
+   *
+   * @return {@code this} builder instance enriched with the {@code substitutionGroup}
+   */
+  public DslElementSyntaxBuilder withSubstitutionGroup(String substitutionGroup) {
+    this.substitutionGroup = substitutionGroup;
     return this;
   }
 
@@ -159,7 +170,7 @@ public final class DslElementSyntaxBuilder {
    * @return a new instance of {@link DslElementSyntax}
    */
   public DslElementSyntax build() {
-    return new DslElementSyntax(attributeName, elementName, prefix, namespace, isWrapped,
+    return new DslElementSyntax(attributeName, elementName, prefix, namespace, substitutionGroup, isWrapped,
                                 supportsAttributeDeclaration, supportsChildDeclaration, supportsTopLevelDeclaration,
                                 requiresConfig, genericChilds, containedElements);
   }

@@ -21,6 +21,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   private final boolean allowInlineDefinition;
   private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
+  private final String substitutionGroup;
 
   /**
    * Creates a new instance
@@ -28,11 +29,14 @@ public class XmlHintsAnnotation implements TypeAnnotation {
    * @param allowInlineDefinition   whether the associated element should support inline definition as child element
    * @param allowTopLevelDefinition whether the associated element should support being defined as a top level element
    * @param allowReferences         whether the associated element should support registry references
+   * @param substitutionGroup       whether the associated element should extend from any substitutionGroup
    */
-  public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, boolean allowReferences) {
+  public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, boolean allowReferences,
+                            String substitutionGroup) {
     this.allowInlineDefinition = allowInlineDefinition;
     this.allowTopLevelDefinition = allowTopLevelDefinition;
     this.allowReferences = allowReferences;
+    this.substitutionGroup = substitutionGroup;
   }
 
   /**
@@ -64,6 +68,13 @@ public class XmlHintsAnnotation implements TypeAnnotation {
     return allowTopLevelDefinition;
   }
 
+  /**
+   * @return any subtitutionGroup the element might extend from
+   */
+  public String getSubstitutionGroup() {
+    return this.substitutionGroup;
+  }
+
   @Override
   public int hashCode() {
     return reflectionHashCode(this);
@@ -75,7 +86,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
       XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
       return allowInlineDefinition == other.allowsInlineDefinition() &&
           allowTopLevelDefinition == other.allowsTopLevelDefinition() &&
-          allowReferences == other.allowsReferences();
+          allowReferences == other.allowsReferences() && substitutionGroup == other.substitutionGroup;
     }
 
     return false;

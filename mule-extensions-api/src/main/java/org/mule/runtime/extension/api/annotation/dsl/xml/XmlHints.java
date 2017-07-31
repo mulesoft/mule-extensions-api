@@ -47,4 +47,9 @@ public @interface XmlHints {
    */
   boolean allowReferences() default true;
 
+  /**
+   * Added if the element created from these annotations should extend any substitutionGroup
+   */
+  String substitutionGroup() default "";
+
 }
