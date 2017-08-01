@@ -143,7 +143,8 @@ final class DslSyntaxUtils {
   }
 
   static Optional<String> getSubstitutionGroup(MetadataType metadataType) {
-    return metadataType.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::getSubstitutionGroup).filter(StringUtils::isNotBlank);
+    return metadataType.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::getSubstitutionGroup)
+        .filter(StringUtils::isNotBlank);
   }
 
 

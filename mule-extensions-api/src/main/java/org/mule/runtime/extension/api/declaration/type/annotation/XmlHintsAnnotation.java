@@ -86,7 +86,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
       XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
       return allowInlineDefinition == other.allowsInlineDefinition() &&
           allowTopLevelDefinition == other.allowsTopLevelDefinition() &&
-          allowReferences == other.allowsReferences() && substitutionGroup == other.substitutionGroup;
+          allowReferences == other.allowsReferences() && substitutionGroup.equals(other.getSubstitutionGroup());
     }
 
     return false;

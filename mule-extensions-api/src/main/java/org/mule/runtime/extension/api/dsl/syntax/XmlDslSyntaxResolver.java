@@ -63,7 +63,6 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
@@ -202,6 +201,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                      builder.supportsAttributeDeclaration(true)
                                          .supportsChildDeclaration(false)
                                          .withAttributeName(parameter.getName());
+                                     getSubstitutionGroup(metadataType).ifPresent(builder::withSubstitutionGroup);
                                    }
                                  }
 
