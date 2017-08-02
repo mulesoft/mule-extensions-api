@@ -201,7 +201,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                      builder.supportsAttributeDeclaration(true)
                                          .supportsChildDeclaration(false)
                                          .withAttributeName(parameter.getName());
-                                     getSubstitutionGroup(metadataType).ifPresent(builder::withSubstitutionGroup);
                                    }
                                  }
 
@@ -242,6 +241,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                  public void visitObject(ObjectType objectType) {
                                    addAttributeName(builder, parameter, isContent, dslConfig);
                                    builder.withNamespace(prefix.get(), namespace.get());
+                                   getSubstitutionGroup(objectType).ifPresent(builder::withSubstitutionGroup);
                                    if (isMap(objectType)) {
                                      resolveMapDsl(objectType, builder, isContent, expressionSupport, dslConfig,
                                                    parameter.getName(), prefix.get(), namespace.get());
