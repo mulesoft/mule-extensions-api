@@ -6,32 +6,33 @@
  */
 package org.mule.runtime.extension.api.tx;
 
+import org.mule.runtime.api.tx.TransactionException;
+
 /**
  * Base contract for a component which can participate in a transaction
  *
  * @since 1.0
  */
-//TODO: MULE-8946 these methods should throw TransactionException
 public interface Transactional {
 
   /**
    * Begins the transaction
    *
-   * @throws Exception if the transaction fails to begin
+   * @throws TransactionException if the transaction fails to begin
    */
-  void begin() throws Exception;
+  void begin() throws TransactionException;
 
   /**
    * Commits the transaction
    *
-   * @throws Exception if the transaction fails to commit
+   * @throws TransactionException if the transaction fails to commit
    */
-  void commit() throws Exception;
+  void commit() throws TransactionException;
 
   /**
    * Rolls the transaction back
    *
-   * @throws Exception if the transaction fails to roll back
+   * @throws TransactionException if the transaction fails to roll back
    */
-  void rollback() throws Exception;
+  void rollback() throws TransactionException;
 }
