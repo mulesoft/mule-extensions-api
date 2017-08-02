@@ -298,7 +298,8 @@
                               "xmlHints": {
                                 "allowInlineDefinition": true,
                                 "allowTopLevelDefinition": false,
-                                "allowReferences": false
+                                "allowReferences": false,
+                                "substitutionGroup": ""
                               }
                             }
                           },
@@ -1210,7 +1211,8 @@
                                 "xmlHints": {
                                   "allowInlineDefinition": true,
                                   "allowTopLevelDefinition": false,
-                                  "allowReferences": false
+                                  "allowReferences": false,
+                                  "substitutionGroup": ""
                                 }
                               }
                             },
@@ -2226,7 +2228,8 @@
                               "xmlHints": {
                                 "allowInlineDefinition": true,
                                 "allowTopLevelDefinition": false,
-                                "allowReferences": false
+                                "allowReferences": false,
+                                "substitutionGroup": ""
                               }
                             }
                           },
@@ -3138,7 +3141,8 @@
                                 "xmlHints": {
                                   "allowInlineDefinition": true,
                                   "allowTopLevelDefinition": false,
-                                  "allowReferences": false
+                                  "allowReferences": false,
+                                  "substitutionGroup": ""
                                 }
                               }
                             },
