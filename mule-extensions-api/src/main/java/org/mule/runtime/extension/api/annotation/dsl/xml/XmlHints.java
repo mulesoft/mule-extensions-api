@@ -48,7 +48,11 @@ public @interface XmlHints {
   boolean allowReferences() default true;
 
   /**
-   * Added if the element created from these annotations should extend any substitutionGroup
+   * Specifies that the annotated element should extend a particular substitution group.
+   * The format expected is prefix:component where the prefix should correspond to an existent one related to an
+   * imported namespace. The component should belong the the namespace related to that prefix.
+   * If the namespace prefix does not exist or the string format is not as expected,
+   * an {@code IllegalArgumentException} will be thrown.
    */
   String substitutionGroup() default "";
 

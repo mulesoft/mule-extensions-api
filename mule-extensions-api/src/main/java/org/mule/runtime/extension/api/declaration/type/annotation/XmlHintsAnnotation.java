@@ -29,7 +29,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
    * @param allowInlineDefinition   whether the associated element should support inline definition as child element
    * @param allowTopLevelDefinition whether the associated element should support being defined as a top level element
    * @param allowReferences         whether the associated element should support registry references
-   * @param substitutionGroup       whether the associated element should extend from any substitutionGroup
+   * @param substitutionGroup       the substitutionGroup that the xml element should have as attribute
    */
   public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, boolean allowReferences,
                             String substitutionGroup) {
