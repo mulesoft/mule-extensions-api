@@ -18,6 +18,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.extension.api.declaration.type.TypeUtils;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.GlobalType;
@@ -161,10 +162,11 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     MetadataType type = TYPE_LOADER.load(SubstitutionGroupReferencingType.class);
     Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
 
+    assertThat(TypeUtils.getSubstitutionGroup(type).get().getPrefix(),is("someprefix"));
+    assertThat(TypeUtils.getSubstitutionGroup(type).get().getElement(),is("some-element"));
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
     assertElementName(getTopLevelTypeName(type), topDsl.get());
     assertElementNamespace(PREFIX, topDsl.get());
-    assertSubstitutionGroupIs("some-substitution-group", topDsl.get());
     assertChildElementDeclarationIs(true, topDsl.get());
     assertIsWrappedElement(false, topDsl.get());
   }

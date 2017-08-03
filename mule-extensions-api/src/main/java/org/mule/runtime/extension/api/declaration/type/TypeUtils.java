@@ -24,6 +24,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupp
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
@@ -197,5 +198,15 @@ public final class TypeUtils {
     });
 
     return basic.get();
+  }
+
+  /**
+   * Returns the substitutionGroup defined by the user or {@code Optional.empty()} if not present.
+   * @param metadataType
+   * @return
+   */
+  public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
+    return metadataType.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::getSubstitutionGroup)
+            .filter(SubstitutionGroup::isDefined);
   }
 }

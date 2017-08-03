@@ -9,14 +9,14 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 /**
  * Pojo used to store a substitutionGroup when specified from {@code XmlHints}
  */
-public class SubstitutionGroup
-{
+public class SubstitutionGroup {
+
   private static final String DELIMITER = ":";
   private static final String EMPTY = "";
   private String prefix = EMPTY;
   private String element = EMPTY;
 
-  public SubstitutionGroup(){}
+  public SubstitutionGroup() {}
 
   public SubstitutionGroup(String prefix, String element) {
     this.prefix = prefix;
@@ -29,8 +29,9 @@ public class SubstitutionGroup
     if (splittedSubstitutionGroup.length == 2) {
       this.prefix = splittedSubstitutionGroup[0];
       this.element = splittedSubstitutionGroup[1];
-    }else{
-      throw new IllegalArgumentException(formattedSubstitutionGroup + " is not a valid format for a substitutionGroup. prefix:element is expected");
+    } else {
+      throw new IllegalArgumentException(formattedSubstitutionGroup
+          + " is not a valid format for a substitutionGroup. prefix:element is expected");
     }
   }
 
