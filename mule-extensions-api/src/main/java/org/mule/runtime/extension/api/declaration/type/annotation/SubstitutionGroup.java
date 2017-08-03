@@ -38,4 +38,11 @@ public class SubstitutionGroup
     return (!prefix.equals(EMPTY) || !element.equals(EMPTY));
   }
 
+  public String getPrefix() {
+    return this.prefix;
+  }
+
+  public String getElement() {
+    return this.element;
+  }
 }
