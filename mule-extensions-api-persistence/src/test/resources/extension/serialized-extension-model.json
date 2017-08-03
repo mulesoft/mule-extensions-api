@@ -298,7 +298,10 @@
                               "allowInlineDefinition": true,
                               "allowTopLevelDefinition": false,
                               "allowReferences": false,
-                              "substitutionGroup": ""
+                              "substitutionGroup": {
+                                "prefix": "",
+                                "element": ""
+                              }
                             }
                           }
                         },
@@ -1211,7 +1214,10 @@
                                 "allowInlineDefinition": true,
                                 "allowTopLevelDefinition": false,
                                 "allowReferences": false,
-                                "substitutionGroup": ""
+                                "substitutionGroup": {
+                                  "prefix": "",
+                                  "element": ""
+                                }
                               }
                             }
                           },
