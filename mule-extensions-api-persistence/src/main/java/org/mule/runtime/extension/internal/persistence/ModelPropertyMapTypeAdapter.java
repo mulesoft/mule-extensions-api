@@ -10,7 +10,7 @@ import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
-import org.mule.runtime.extension.internal.util.HierarchyClassMap;
+import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

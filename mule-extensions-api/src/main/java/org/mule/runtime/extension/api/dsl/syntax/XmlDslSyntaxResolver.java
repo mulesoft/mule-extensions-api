@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.dsl.syntax;
+package org.mule.runtime.extension.api.dsl.syntax;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singleton;
@@ -21,16 +21,16 @@ import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getId;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.getTypeKey;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isExtensible;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isFlattened;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isInstantiable;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isText;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.isValidBean;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
-import static org.mule.runtime.extension.internal.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getId;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isExtensible;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlattened;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isInstantiable;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isText;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isValidBean;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -62,7 +62,6 @@ import org.mule.runtime.api.meta.model.util.ComponentModelVisitor;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
@@ -86,7 +85,6 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-// TODO MULE-12002: Revisit DslSyntaxUtils as part of the API
 public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private final ExtensionModel extensionModel;

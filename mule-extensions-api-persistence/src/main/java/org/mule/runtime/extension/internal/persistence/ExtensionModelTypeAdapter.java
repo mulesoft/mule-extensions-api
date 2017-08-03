@@ -30,7 +30,7 @@ import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
-import org.mule.runtime.extension.internal.util.HierarchyClassMap;
+import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

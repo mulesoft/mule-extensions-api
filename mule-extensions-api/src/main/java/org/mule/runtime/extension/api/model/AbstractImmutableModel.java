@@ -14,7 +14,7 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 import org.mule.runtime.api.meta.DescribedObject;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.extension.internal.util.HierarchyClassMap;
+import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import com.google.common.collect.ImmutableList;
 

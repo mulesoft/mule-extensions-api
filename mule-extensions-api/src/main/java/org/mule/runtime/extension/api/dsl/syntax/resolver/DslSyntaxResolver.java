@@ -14,7 +14,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
-import org.mule.runtime.extension.internal.dsl.syntax.XmlDslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.syntax.XmlDslSyntaxResolver;
 
 import java.util.Optional;
 

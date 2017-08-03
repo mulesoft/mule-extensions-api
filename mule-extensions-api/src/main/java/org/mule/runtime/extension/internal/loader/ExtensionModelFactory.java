@@ -95,7 +95,7 @@ import org.mule.runtime.extension.internal.loader.validator.ParameterModelValida
 import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
-import org.mule.runtime.extension.internal.util.ParameterModelComparator;
+import org.mule.runtime.extension.api.util.ParameterModelComparator;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

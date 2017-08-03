@@ -16,7 +16,7 @@ import org.mule.metadata.api.builder.WithAnnotation;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
-import org.mule.metadata.java.internal.handler.ObjectHandler;
+import org.mule.metadata.java.api.handler.ObjectHandler;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
