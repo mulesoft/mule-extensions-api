@@ -24,8 +24,11 @@ public class SubstitutionGroup {
   }
 
   public SubstitutionGroup(String formattedSubstitutionGroup) throws IllegalArgumentException {
-
     String[] splittedSubstitutionGroup = formattedSubstitutionGroup.split(DELIMITER);
+    if (splittedSubstitutionGroup.length == 0) {
+      //Empty string
+      return;
+    }
     if (splittedSubstitutionGroup.length == 2) {
       this.prefix = splittedSubstitutionGroup[0];
       this.element = splittedSubstitutionGroup[1];
