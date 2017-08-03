@@ -162,8 +162,8 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     MetadataType type = TYPE_LOADER.load(SubstitutionGroupReferencingType.class);
     Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
 
-    assertThat(TypeUtils.getSubstitutionGroup(type).get().getPrefix(),is("someprefix"));
-    assertThat(TypeUtils.getSubstitutionGroup(type).get().getElement(),is("some-element"));
+    assertThat(TypeUtils.getSubstitutionGroup(type).get().getPrefix(), is("someprefix"));
+    assertThat(TypeUtils.getSubstitutionGroup(type).get().getElement(), is("some-element"));
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
     assertElementName(getTopLevelTypeName(type), topDsl.get());
     assertElementNamespace(PREFIX, topDsl.get());

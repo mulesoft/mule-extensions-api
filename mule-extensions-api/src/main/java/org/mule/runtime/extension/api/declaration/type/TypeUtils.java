@@ -207,6 +207,6 @@ public final class TypeUtils {
    */
   public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
     return metadataType.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::getSubstitutionGroup)
-            .filter(SubstitutionGroup::isDefined);
+        .filter(SubstitutionGroup::isDefined);
   }
 }
