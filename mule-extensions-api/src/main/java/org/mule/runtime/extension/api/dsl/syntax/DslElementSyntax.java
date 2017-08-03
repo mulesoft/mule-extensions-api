@@ -30,7 +30,6 @@ public class DslElementSyntax {
   private final String elementName;
   private final String prefix;
   private final String namespace;
-  private final String substitutionGroup;
   private final boolean isWrapped;
   private final boolean supportsAttributeDeclaration;
   private final boolean supportsChildDeclaration;
@@ -48,7 +47,6 @@ public class DslElementSyntax {
    *                                     references this element
    * @param elementName                  the name of this xml element
    * @param prefix                       the prefix of this xml element
-   * @param substitutionGroup            the substitutionGroup of the xml element
    * @param isWrapped                    {@code false} if the element implements the Component's type
    *                                     as an xml extension, or {@code true} if the element is a
    *                                     wrapper of a ref to the Component's type
@@ -68,7 +66,6 @@ public class DslElementSyntax {
                           String elementName,
                           String prefix,
                           String namespace,
-                          String substitutionGroup,
                           boolean isWrapped,
                           boolean supportsAttributeDeclaration, boolean supportsChildDeclaration,
                           boolean supportsTopLevelDeclaration,
@@ -79,7 +76,6 @@ public class DslElementSyntax {
     this.elementName = elementName;
     this.prefix = prefix;
     this.namespace = namespace;
-    this.substitutionGroup = substitutionGroup;
     this.isWrapped = isWrapped;
     this.supportsAttributeDeclaration = supportsAttributeDeclaration;
     this.supportsChildDeclaration = supportsChildDeclaration;
@@ -116,13 +112,6 @@ public class DslElementSyntax {
    */
   public String getNamespace() {
     return namespace;
-  }
-
-  /**
-   * @return the substitutionGroup of the xml element
-   */
-  public String getSubstitutionGroup() {
-    return substitutionGroup;
   }
 
   /**
