@@ -21,7 +21,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   private final boolean allowInlineDefinition;
   private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
-  private final String substitutionGroup;
+  private final SubstitutionGroup substitutionGroup;
 
   /**
    * Creates a new instance
@@ -36,7 +36,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
     this.allowInlineDefinition = allowInlineDefinition;
     this.allowTopLevelDefinition = allowTopLevelDefinition;
     this.allowReferences = allowReferences;
-    this.substitutionGroup = substitutionGroup;
+    this.substitutionGroup = new SubstitutionGroup(substitutionGroup);
   }
 
   /**
@@ -71,7 +71,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   /**
    * @return any subtitutionGroup the element might extend from
    */
-  public String getSubstitutionGroup() {
+  public SubstitutionGroup getSubstitutionGroup() {
     return this.substitutionGroup;
   }
 
