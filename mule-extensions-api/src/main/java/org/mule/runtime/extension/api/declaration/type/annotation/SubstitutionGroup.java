@@ -49,4 +49,18 @@ public class SubstitutionGroup {
   public String getElement() {
     return this.element;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof SubstitutionGroup) {
+      return prefix.equals(((SubstitutionGroup) obj).getPrefix()) && element.equals(((SubstitutionGroup) obj).getElement());
+    }
+
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return prefix.hashCode() + element.hashCode();
+  }
 }
