@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 
+import java.util.Optional;
+
 /**
  * Contains directives regarding syntax and semantics of the generated XML DSL
  *
@@ -21,7 +23,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   private final boolean allowInlineDefinition;
   private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
-  private final SubstitutionGroup substitutionGroup;
+  private final Optional<SubstitutionGroup> substitutionGroup;
 
   /**
    * Creates a new instance
@@ -36,7 +38,8 @@ public class XmlHintsAnnotation implements TypeAnnotation {
     this.allowInlineDefinition = allowInlineDefinition;
     this.allowTopLevelDefinition = allowTopLevelDefinition;
     this.allowReferences = allowReferences;
-    this.substitutionGroup = new SubstitutionGroup(substitutionGroup);
+    SubstitutionGroup substitutionGroupObject = new SubstitutionGroup(substitutionGroup);
+    this.substitutionGroup = substitutionGroupObject.isDefined() ? Optional.of(substitutionGroupObject) : Optional.empty();
   }
 
   /**
@@ -71,7 +74,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   /**
    * @return any subtitutionGroup the element might extend from
    */
-  public SubstitutionGroup getSubstitutionGroup() {
+  public Optional<SubstitutionGroup> getSubstitutionGroup() {
     return this.substitutionGroup;
   }
 

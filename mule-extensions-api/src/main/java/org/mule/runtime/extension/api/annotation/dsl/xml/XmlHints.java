@@ -54,6 +54,6 @@ public @interface XmlHints {
    * If the namespace prefix does not exist or the string doesn't match the required format,
    * an {@code IllegalArgumentException} will be thrown.
    */
-  String substitutionGroup() default ":";
+  String substitutionGroup() default "";
 
 }
