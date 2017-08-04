@@ -40,7 +40,7 @@ public class SubstitutionGroup {
   }
 
   private void setValues(String prefix, String element) {
-    if (StringUtils.isNotBlank(prefix) || StringUtils.isNotBlank(element)) {
+    if (StringUtils.isBlank(prefix) || StringUtils.isBlank(element)) {
       throw new IllegalArgumentException(String
           .format("prefix and element should both be specified, got prefix: %s and element: %s", prefix, element));
     }
