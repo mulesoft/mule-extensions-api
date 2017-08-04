@@ -19,6 +19,7 @@ import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.TargetType.PAYLOAD;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ADDRESS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ARG_LESS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.BROADCAST;
@@ -64,6 +65,8 @@ import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLIC
 import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_OUTPUT_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_TYPE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
@@ -78,6 +81,7 @@ import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.meta.MuleVersion;
+import org.mule.runtime.api.meta.TargetType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -111,6 +115,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
   private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer();
   private final MetadataType voidType = typeLoader.load(void.class);
   private final MetadataType stringType = typeLoader.load(String.class);
+  private final MetadataType targetType = typeLoader.load(TargetType.class);
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
@@ -378,14 +383,14 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(GO_GET_THEM_TIGER));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(4));
+    assertThat(parameterModels, hasSize(5));
 
     assertByteStreamingStrategyParameter(parameterModels.get(0));
     assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, stringType,
                     StringType.class, null);
     assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
                     BooleanType.class, true);
-    assertTargetParameter(parameterModels.get(3));
+    assertTargetParameter(parameterModels.get(3), parameterModels.get(4));
   }
 
   private void assertBroadcastOperation(List<OperationModel> operationModels) {
@@ -412,10 +417,13 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
                     ObjectType.class, null);
   }
 
-  private void assertTargetParameter(ParameterModel parameterModel) {
-    assertParameter(parameterModel, TARGET_PARAMETER_NAME, TARGET_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
+  private void assertTargetParameter(ParameterModel target, ParameterModel targetType) {
+    assertParameter(target, TARGET_PARAMETER_NAME, TARGET_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
                     stringType,
                     StringType.class, null);
+    assertParameter(targetType, TARGET_TYPE_PARAMETER_NAME, TARGET_OUTPUT_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
+                    this.targetType,
+                    StringType.class, PAYLOAD);
   }
 
 
@@ -441,8 +449,8 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(HAS_NO_ARGS));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(1));
-    assertTargetParameter(parameterModels.get(0));
+    assertThat(parameterModels, hasSize(2));
+    assertTargetParameter(parameterModels.get(0), parameterModels.get(1));
   }
 
   private ExtensionDeclarer declareBase(ExtensionDeclarer extensionDeclarer) {

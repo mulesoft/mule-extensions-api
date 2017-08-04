@@ -8,14 +8,20 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.api.meta.TargetType.PAYLOAD;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.OUTPUT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_OUTPUT_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_OUTPUT_PARAMETER_DISPLAY_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_TYPE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
+import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
+import org.mule.runtime.api.meta.TargetType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -43,9 +49,12 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
   private class EnricherDelegate implements DeclarationEnricher {
 
     private MetadataType attributeType;
+    private MetadataType targetType;
 
     private EnricherDelegate() {
-      this.attributeType = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(String.class);
+      ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+      this.attributeType = typeLoader.load(String.class);
+      this.targetType = typeLoader.load(TargetType.class);
     }
 
     @Override
@@ -61,19 +70,35 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
           }
 
           if (!(outputType instanceof VoidType)) {
-            ParameterDeclaration parameter = new ParameterDeclaration(TARGET_PARAMETER_NAME);
-            parameter.setDescription(TARGET_PARAMETER_DESCRIPTION);
-            parameter.setExpressionSupport(NOT_SUPPORTED);
-            parameter.setRequired(false);
-            parameter.setParameterRole(BEHAVIOUR);
-            parameter.setType(attributeType, false);
-            parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_PARAMETER_DISPLAY_NAME).build());
-            parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-
-            declaration.getParameterGroup(OUTPUT).addParameter(parameter);
+            declaration.getParameterGroup(OUTPUT).addParameter(declareTarget()).addParameter(declareTargetType());
           }
         }
       }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    }
+
+    private ParameterDeclaration declareTarget() {
+      ParameterDeclaration parameter = new ParameterDeclaration(TARGET_PARAMETER_NAME);
+      parameter.setDescription(TARGET_PARAMETER_DESCRIPTION);
+      parameter.setExpressionSupport(NOT_SUPPORTED);
+      parameter.setRequired(false);
+      parameter.setParameterRole(BEHAVIOUR);
+      parameter.setType(attributeType, false);
+      parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_PARAMETER_DISPLAY_NAME).build());
+      parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+      return parameter;
+    }
+
+    private ParameterDeclaration declareTargetType() {
+      ParameterDeclaration parameter = new ParameterDeclaration(TARGET_TYPE_PARAMETER_NAME);
+      parameter.setDescription(TARGET_OUTPUT_PARAMETER_DESCRIPTION);
+      parameter.setExpressionSupport(NOT_SUPPORTED);
+      parameter.setRequired(false);
+      parameter.setDefaultValue(PAYLOAD);
+      parameter.setParameterRole(BEHAVIOUR);
+      parameter.setType(targetType, false);
+      parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_OUTPUT_PARAMETER_DISPLAY_NAME).build());
+      parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+      return parameter;
     }
   }
 }
