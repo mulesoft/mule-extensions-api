@@ -298,11 +298,7 @@
                               "xmlHints": {
                                 "allowInlineDefinition": true,
                                 "allowTopLevelDefinition": false,
-                                "allowReferences": false,
-                                "substitutionGroup": {
-                                  "prefix": "",
-                                  "element": ""
-                                }
+                                "allowReferences": false
                               }
                             }
                           },
@@ -1214,11 +1210,7 @@
                                 "xmlHints": {
                                   "allowInlineDefinition": true,
                                   "allowTopLevelDefinition": false,
-                                  "allowReferences": false,
-                                  "substitutionGroup": {
-                                    "prefix": "",
-                                    "element": ""
-                                  }
+                                  "allowReferences": false
                                 }
                               }
                             },
@@ -2234,11 +2226,7 @@
                               "xmlHints": {
                                 "allowInlineDefinition": true,
                                 "allowTopLevelDefinition": false,
-                                "allowReferences": false,
-                                "substitutionGroup": {
-                                  "prefix": "",
-                                  "element": ""
-                                }
+                                "allowReferences": false
                               }
                             }
                           },
@@ -3150,11 +3138,7 @@
                                 "xmlHints": {
                                   "allowInlineDefinition": true,
                                   "allowTopLevelDefinition": false,
-                                  "allowReferences": false,
-                                  "substitutionGroup": {
-                                    "prefix": "",
-                                    "element": ""
-                                  }
+                                  "allowReferences": false
                                 }
                               }
                             },
