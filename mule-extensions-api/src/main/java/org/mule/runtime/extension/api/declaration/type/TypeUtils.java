@@ -201,9 +201,8 @@ public final class TypeUtils {
   }
 
   /**
-   * Returns the substitutionGroup defined by the user or {@code Optional.empty()} if not present.
    * @param metadataType
-   * @return
+   * @return the substitutionGroup defined by the user or {@code Optional.empty()} if not present.
    */
   public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
     return metadataType.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::getSubstitutionGroup)

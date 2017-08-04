@@ -37,7 +37,6 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
 /**
  * Utils class with helper methods for the {@link DslSyntaxResolver}
  *
