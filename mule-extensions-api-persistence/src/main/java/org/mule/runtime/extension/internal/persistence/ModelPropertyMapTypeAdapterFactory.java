@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.extension.internal.util.HierarchyClassMap;
+import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

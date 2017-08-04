@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.dsl.syntax;
+package org.mule.runtime.extension.api.dsl.syntax;
 
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
