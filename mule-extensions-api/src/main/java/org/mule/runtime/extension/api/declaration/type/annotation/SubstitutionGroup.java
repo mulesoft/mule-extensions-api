@@ -23,24 +23,26 @@ public class SubstitutionGroup {
   public SubstitutionGroup() {}
 
   public SubstitutionGroup(String prefix, String element) {
-    setValues(prefix,element);
+    setValues(prefix, element);
   }
 
   public SubstitutionGroup(String formattedSubstitutionGroup) throws IllegalArgumentException {
-    if(StringUtils.isBlank(formattedSubstitutionGroup)) {
+    if (StringUtils.isBlank(formattedSubstitutionGroup)) {
       return;
     }
     String[] splittedSubstitutionGroup = formattedSubstitutionGroup.split(DELIMITER);
     if (splittedSubstitutionGroup.length == 2) {
       setValues(StringUtils.trim(splittedSubstitutionGroup[0]), StringUtils.trim(splittedSubstitutionGroup[1]));
     } else {
-      throw new IllegalArgumentException(String.format("%s is not a valid format for a substitutionGroup. prefix:element is expected",formattedSubstitutionGroup));
+      throw new IllegalArgumentException(String
+          .format("%s is not a valid format for a substitutionGroup. prefix:element is expected", formattedSubstitutionGroup));
     }
   }
 
   private void setValues(String prefix, String element) {
-    if(StringUtils.isNotBlank(prefix) || StringUtils.isNotBlank(element)) {
-      throw new IllegalArgumentException(String.format("prefix and element should both be specified, got prefix: %s and element: %s",prefix,element));
+    if (StringUtils.isNotBlank(prefix) || StringUtils.isNotBlank(element)) {
+      throw new IllegalArgumentException(String
+          .format("prefix and element should both be specified, got prefix: %s and element: %s", prefix, element));
     }
     this.prefix = prefix;
     this.element = element;
