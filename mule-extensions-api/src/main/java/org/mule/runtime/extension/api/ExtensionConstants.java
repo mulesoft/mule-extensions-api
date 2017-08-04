@@ -42,21 +42,21 @@ public final class ExtensionConstants {
   public static final String TARGET_PARAMETER_DISPLAY_NAME = "Target Variable";
 
   /**
-   * The name of a synthetic parameter that's automatically added to all non void operations. The meaning of it is requesting the
-   * runtime to configure whether the entire operation's output {@link Message} or just its payload will be stored in the flowVar pointed by the target parameter.
+   * The name of a synthetic parameter that's automatically added to all non void operations. The meaning of it is to provide an expression
+   * for operating over the operation's output so that can be stored in the flowVar pointed by the target parameter.
    */
-  public static final String TARGET_TYPE_PARAMETER_NAME = "targetType";
+  public static final String TARGET_VALUE_PARAMETER_NAME = "targetValue";
 
   /**
-   * Human friendly description for {@link ExtensionConstants#TARGET_TYPE_PARAMETER_NAME}
+   * Human friendly description for {@link ExtensionConstants#TARGET_VALUE_PARAMETER_NAME}
    */
-  public static final String TARGET_OUTPUT_PARAMETER_DESCRIPTION =
-      "The type of the operation's output that will be stored in the target variable";
+  public static final String TARGET_VALUE_PARAMETER_DESCRIPTION =
+      "An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable";
 
   /**
-   * The display name for the target output parameter
+   * The display name for the target value parameter
    */
-  public static final String TARGET_OUTPUT_PARAMETER_DISPLAY_NAME = "Target Output";
+  public static final String TARGET_VALUE_PARAMETER_DISPLAY_NAME = "Target Value";
 
   /**
    * The name of the parameter for configuring the streaming strategy parameter

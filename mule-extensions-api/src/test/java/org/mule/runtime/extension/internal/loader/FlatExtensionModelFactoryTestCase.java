@@ -19,7 +19,6 @@ import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.TargetType.PAYLOAD;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ADDRESS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ARG_LESS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.BROADCAST;
@@ -63,10 +62,11 @@ import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STR
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_OUTPUT_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_TYPE_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
@@ -79,7 +79,6 @@ import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.meta.MuleVersion;
-import org.mule.runtime.api.meta.TargetType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -112,7 +111,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
   private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer();
   private final MetadataType voidType = typeLoader.load(void.class);
   private final MetadataType stringType = typeLoader.load(String.class);
-  private final MetadataType targetType = typeLoader.load(TargetType.class);
+  private final MetadataType targetValue = typeLoader.load(String.class);
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
@@ -412,12 +411,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
                     ObjectType.class, null);
   }
 
-  private void assertTargetParameter(ParameterModel target, ParameterModel targetType) {
+  private void assertTargetParameter(ParameterModel target, ParameterModel targetValue) {
     assertParameter(target, TARGET_PARAMETER_NAME, TARGET_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
                     stringType,
                     StringType.class, null);
-    assertParameter(targetType, TARGET_TYPE_PARAMETER_NAME, TARGET_OUTPUT_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
-                    this.targetType,
+    assertParameter(targetValue, TARGET_VALUE_PARAMETER_NAME, TARGET_VALUE_PARAMETER_DESCRIPTION, REQUIRED, false,
+                    this.targetValue,
                     StringType.class, PAYLOAD);
   }
 
