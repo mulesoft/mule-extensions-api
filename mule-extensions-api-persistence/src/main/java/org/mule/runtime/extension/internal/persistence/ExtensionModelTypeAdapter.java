@@ -23,6 +23,7 @@ import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
@@ -58,6 +59,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String CONFIGURATIONS = "configurations";
   private static final String OPERATIONS = "operations";
   private static final String FUNCTIONS = "functions";
+  private static final String CONSTRUCTS = "constructs";
   private static final String CONNECTION_PROVIDERS = "connectionProviders";
   private static final String MESSAGE_SOURCES = "messageSources";
   private static final String MODEL_PROPERTIES = "modelProperties";
@@ -134,6 +136,11 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeWithDelegate(model.getFunctionModels(), FUNCTIONS, out, new TypeToken<List<FunctionModel>>() {
 
     });
+
+    writeWithDelegate(model.getConstructModels(), CONSTRUCTS, out, new TypeToken<List<ConstructModel>>() {
+
+    });
+
     writeWithDelegate(model.getConnectionProviders(), CONNECTION_PROVIDERS, out,
                       new TypeToken<List<ConnectionProviderModel>>() {
 
@@ -190,6 +197,10 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
     });
 
+    List<ConstructModel> constructs = parseWithDelegate(json, CONSTRUCTS, new TypeToken<List<ConstructModel>>() {
+
+    });
+
     return new ImmutableExtensionModel(json.get(NAME).getAsString(),
                                        json.get(DESCRIPTION).getAsString(),
                                        json.get(VERSION).getAsString(),
@@ -201,6 +212,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        providers,
                                        sources,
                                        functions,
+                                       constructs,
                                        gsonDelegate.fromJson(json.get(DISPLAY_MODEL), DisplayModel.class),
                                        gsonDelegate.fromJson(json.get(XML_DSL), XmlDslModel.class),
                                        subTypes,

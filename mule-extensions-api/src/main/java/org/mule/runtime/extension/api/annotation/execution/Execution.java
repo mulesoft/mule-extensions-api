@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.annotation.execution;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import org.mule.runtime.api.meta.model.ExecutionType;
+import org.mule.runtime.api.meta.model.operation.ExecutionType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

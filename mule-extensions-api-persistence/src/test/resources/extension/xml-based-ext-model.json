@@ -249,6 +249,8 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
+          "stereotypes": [],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -321,6 +323,8 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
+          "stereotypes": [],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -630,6 +634,8 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
+          "stereotypes": [],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -702,6 +708,8 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
+          "stereotypes": [],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -828,6 +836,8 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
+          "stereotypes": [],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -878,7 +888,6 @@
       ],
       "connectionProviders": [],
       "messageSources": [],
-      "functions": [],
       "name": "config",
       "description": "",
       "modelProperties": {}
@@ -886,6 +895,7 @@
   ],
   "operations": [],
   "functions": [],
+  "constructs": [],
   "connectionProviders": [],
   "messageSources": [],
   "errors": [],

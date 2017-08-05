@@ -45,20 +45,22 @@ import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
+import org.mule.runtime.api.meta.model.nested.NestableElementModelVisistor;
+import org.mule.runtime.api.meta.model.nested.NestedChainModel;
+import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
+import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.api.meta.model.operation.RouteModel;
-import org.mule.runtime.api.meta.model.operation.RouterModel;
-import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
-import org.mule.runtime.api.meta.model.util.ComponentModelVisitor;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
@@ -135,26 +137,29 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @return the {@link DslElementSyntax} for the {@link NamedObject model}
    */
   public DslElementSyntax resolve(final NamedObject component) {
-    DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
-        .withElementName(getSanitizedElementName(component))
-        .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
-        .supportsTopLevelDeclaration(true)
-        .supportsChildDeclaration(true)
-        .supportsAttributeDeclaration(false)
-        .requiresConfig(requiresConfig(extensionModel, component));
+    final String elementName = getSanitizedElementName(component);
+    return resolvedTypes.computeIfAbsent(elementName, key -> {
+      DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
+          .withElementName(elementName)
+          .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
+          .supportsTopLevelDeclaration(true)
+          .supportsChildDeclaration(true)
+          .supportsAttributeDeclaration(false)
+          .requiresConfig(requiresConfig(extensionModel, component));
 
-    if (component instanceof ComponentModel) {
-      resolveComponentDsl((ComponentModel) component, dsl);
-    } else {
-      if (component instanceof ParameterizedModel) {
-        resolveParameterizedDsl((ParameterizedModel) component, dsl);
+      if (component instanceof ComponentModel) {
+        resolveComponentDsl((ComponentModel) component, dsl);
+      } else {
+        if (component instanceof ParameterizedModel) {
+          resolveParameterizedDsl((ParameterizedModel) component, dsl);
+        }
+        if (component instanceof HasConnectionProviderModels) {
+          ((HasConnectionProviderModels) component).getConnectionProviders()
+              .forEach(c -> dsl.containing(elementName, resolve(c)));
+        }
       }
-      if (component instanceof HasConnectionProviderModels) {
-        ((HasConnectionProviderModels) component).getConnectionProviders()
-            .forEach(c -> dsl.containing(getSanitizedElementName(component), resolve(c)));
-      }
-    }
-    return dsl.build();
+      return dsl.build();
+    });
   }
 
   /**
@@ -350,17 +355,30 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
 
       @Override
-      public void visit(ScopeModel scopeModel) {}
+      public void visit(ConstructModel model) {
+        model.getNestedComponents().forEach(child -> child.accept(new NestableElementModelVisistor() {
 
-      @Override
-      public void visit(RouterModel routerModel) {
-        routerModel.getRouteModels().forEach(routeModel -> dsl.containing(routeModel.getName(), resolveRouteDsl(routeModel)));
+          @Override
+          public void visit(NestedComponentModel component) {
+            //no-op
+          }
+
+          @Override
+          public void visit(NestedChainModel component) {
+            //no-op
+          }
+
+          @Override
+          public void visit(NestedRouteModel component) {
+            dsl.containing(component.getName(), resolveRouteDsl(component));
+          }
+        }));
       }
 
     });
   }
 
-  private DslElementSyntax resolveRouteDsl(final RouteModel route) {
+  private DslElementSyntax resolveRouteDsl(final NestedRouteModel route) {
 
     DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
         .withElementName(getSanitizedElementName(route))

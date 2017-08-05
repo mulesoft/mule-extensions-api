@@ -57,6 +57,7 @@
     "requiresConnection": false,
     "supportsStreaming": false,
     "stereotypes": [],
+    "nestedComponents": [],
     "parameterGroupModels": [
       {
         "parameters": [

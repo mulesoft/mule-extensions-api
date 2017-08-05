@@ -21,6 +21,7 @@ import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
@@ -52,6 +53,7 @@ public class NameUtils {
   public static final String SOURCE = "source";
   public static final String SOURCE_CALLBACK = "source callback";
   public static final String FUNCTION = "function";
+  public static final String CONSTRUCT = "construct";
 
   private static final List<Inflection> plural = new ArrayList<>();
   private static final List<Inflection> singular = new ArrayList<>();
@@ -311,6 +313,8 @@ public class NameUtils {
       return SOURCE;
     } else if (component instanceof FunctionModel) {
       return FUNCTION;
+    } else if (component instanceof ConstructModel) {
+      return CONSTRUCT;
     } else if (component instanceof SourceCallbackModel) {
       return SOURCE_CALLBACK;
     }

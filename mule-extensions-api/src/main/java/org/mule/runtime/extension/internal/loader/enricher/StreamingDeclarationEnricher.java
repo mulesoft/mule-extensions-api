@@ -17,6 +17,7 @@ import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_OB
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
@@ -55,7 +56,7 @@ public class StreamingDeclarationEnricher extends InfrastructureDeclarationEnric
     }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
   }
 
-  private void enrich(ComponentDeclaration declaration) {
+  private void enrich(ExecutableComponentDeclaration declaration) {
     if (declaration.isSupportsStreaming()) {
       MetadataType type;
       QName qName;

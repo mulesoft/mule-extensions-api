@@ -18,6 +18,7 @@ import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
@@ -79,7 +80,7 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
     }
 
     private void addTxParameter(String parameterName, MetadataType metadataType, Object defaultValue, String description,
-                                ComponentDeclaration<?> declaration) {
+                                ExecutableComponentDeclaration<?> declaration) {
       if (declaration.isTransactional()) {
         Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
         if (parameterDeclaration.isPresent()) {

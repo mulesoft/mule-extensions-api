@@ -31,16 +31,12 @@ import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProvid
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
@@ -85,15 +81,14 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
   @Test
   public void validateJsonStructure() throws IOException {
-    final JsonElement expectedSerializedExtensionModel =
-        new JsonParser().parse(getResourceAsString(SERIALIZED_EXTENSION_MODEL_JSON));
-    assertThat(serializedExtensionModel, is(expectedSerializedExtensionModel));
+    String serializedModel = extensionModelJsonSerializer.serialize(originalExtensionModel);
+    assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON);
   }
 
   @Test
   public void validateJsonListStructure() throws IOException {
     final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
-    JSONAssert.assertEquals(getResourceAsString(LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON), serializedList, true);
+    assertSerializedJson(serializedList, LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON);
   }
 
   @Test

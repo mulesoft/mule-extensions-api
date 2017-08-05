@@ -6,13 +6,12 @@
  */
 package org.mule.runtime.extension.api.model;
 
-import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.meta.model.OutputModel;
-import org.mule.runtime.api.meta.model.Stereotype;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
 
 import java.util.List;
@@ -27,12 +26,8 @@ import java.util.Set;
 public abstract class AbstractComponentModel extends AbstractParameterizedModel
     implements ComponentModel {
 
-  private final OutputModel output;
-  private final OutputModel outputAttributes;
-  private final boolean transactional;
-  private final boolean requiresConnection;
-  private final boolean supportsStreaming;
-  private final Set<Stereotype> stereotypes;
+  private final Set<StereotypeModel> stereotypes;
+  private final List<? extends NestableElementModel> nestedComponents;
 
   /**
    * Creates a new instance
@@ -40,80 +35,38 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel
    * @param name                 the model's name
    * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-   * @param output               an {@link OutputModel} which represents the component's output content
-   * @param outputAttributes     an {@link OutputModel} which represents the component's attributes on the output {@link Message}
-   * @param requiresConnection   whether this component requires connectivity
-   * @param transactional        whether this component supports transactions
-   * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
-   * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
+   * @param stereotypes          A {@link Set} of {@link StereotypeModel stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param nestedComponents     a {@link List} with the components contained by this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,
                                    String description,
                                    List<ParameterGroupModel> parameterGroupModels,
-                                   OutputModel output,
-                                   OutputModel outputAttributes,
-                                   boolean requiresConnection,
-                                   boolean transactional,
-                                   boolean supportsStreaming,
                                    DisplayModel displayModel,
-                                   Set<Stereotype> stereotypes,
-                                   Set<ModelProperty> modelProperties) {
+                                   Set<StereotypeModel> stereotypes,
+                                   Set<ModelProperty> modelProperties,
+                                   List<? extends NestableElementModel> nestedComponents) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
-    this.output = output;
-    this.outputAttributes = outputAttributes;
-    this.requiresConnection = requiresConnection;
-    this.transactional = transactional;
-    this.supportsStreaming = supportsStreaming;
+
     this.stereotypes = copy(stereotypes);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public OutputModel getOutput() {
-    return output;
+    this.nestedComponents = copy(nestedComponents);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public OutputModel getOutputAttributes() {
-    return outputAttributes;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean isTransactional() {
-    return transactional;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean requiresConnection() {
-    return requiresConnection;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean supportsStreaming() {
-    return supportsStreaming;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Set<Stereotype> getStereotypes() {
+  public Set<StereotypeModel> getStereotypes() {
     return stereotypes;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<? extends NestableElementModel> getNestedComponents() {
+    return nestedComponents;
   }
 }

@@ -16,7 +16,7 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
@@ -72,7 +72,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
     types.forEach(type -> registerType(declarer, type));
   }
 
-  private void registerType(ExtensionDeclarer declarer, ComponentDeclaration declaration) {
+  private void registerType(ExtensionDeclarer declarer, ExecutableComponentDeclaration declaration) {
     if (declaration.getOutput() == null) {
       throw new IllegalModelDefinitionException(format("%s '%s' doesn't specify an output type",
                                                        getComponentDeclarationTypeName(declaration), declaration.getName()));

@@ -16,7 +16,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
+import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -88,15 +88,16 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
                                                                           defaultDisplayModel,
-                                                                          emptySet(), emptySet(), emptySet());
+                                                                          emptySet(), emptySet(), emptySet(), emptyList());
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft",
                                     COMMUNITY, new MuleVersion("4.0"), emptyList(),
                                     singletonList(getCarOperation),
-                                    emptyList(), emptyList(), emptyList(),
+                                    emptyList(), emptyList(), emptyList(), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
-                                    emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(),
+                                    emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(),
+                                    emptySet(),
                                     emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);

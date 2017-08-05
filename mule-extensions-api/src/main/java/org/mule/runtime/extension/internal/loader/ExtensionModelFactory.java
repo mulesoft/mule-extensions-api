@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
+import static com.google.common.collect.ImmutableSet.of;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
@@ -17,8 +18,13 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
+import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.ANY;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
+import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
@@ -29,30 +35,34 @@ import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.NestableElementDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.NestedChainDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.NestedComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.NestedRouteDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OutputDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.RouteDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.RouterDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ScopeDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
+import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.api.meta.model.operation.RouteModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -63,17 +73,19 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.model.construct.ImmutableConstructModel;
 import org.mule.runtime.extension.api.model.function.ImmutableFunctionModel;
+import org.mule.runtime.extension.api.model.nested.ImmutableNestedChainModel;
+import org.mule.runtime.extension.api.model.nested.ImmutableNestedComponentModel;
+import org.mule.runtime.extension.api.model.nested.ImmutableNestedRouteModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
-import org.mule.runtime.extension.api.model.operation.ImmutableRouteModel;
-import org.mule.runtime.extension.api.model.operation.ImmutableRouterModel;
-import org.mule.runtime.extension.api.model.operation.ImmutableScopeModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
+import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
@@ -95,7 +107,6 @@ import org.mule.runtime.extension.internal.loader.validator.ParameterModelValida
 import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
-import org.mule.runtime.extension.api.util.ParameterModelComparator;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -240,6 +251,7 @@ public final class ExtensionModelFactory {
                                       toConnectionProviders(extensionDeclaration.getConnectionProviders()),
                                       toMessageSources(extensionDeclaration.getMessageSources()),
                                       toFunctions(extensionDeclaration.getFunctions()),
+                                      toConstructs(extensionDeclaration.getConstructs()),
                                       extensionDeclaration.getDisplayModel(),
                                       extensionDeclaration.getXmlDslModel(),
                                       extensionDeclaration.getSubTypes(),
@@ -290,10 +302,25 @@ public final class ExtensionModelFactory {
                                                              toOperations(declaration.getOperations()),
                                                              toConnectionProviders(declaration.getConnectionProviders()),
                                                              toMessageSources(declaration.getMessageSources()),
-                                                             toFunctions(declaration.getFunctions()),
                                                              declaration.getExternalLibraryModels(),
                                                              declaration.getDisplayModel(),
                                                              declaration.getModelProperties()));
+    }
+
+    private List<ConstructModel> toConstructs(List<ConstructDeclaration> constructs) {
+      return constructs.stream().map(this::toConstruct).collect(toList());
+    }
+
+    private ConstructModel toConstruct(ConstructDeclaration declaration) {
+      return fromCache(declaration,
+                       () -> new ImmutableConstructModel(declaration.getName(),
+                                                         declaration.getDescription(),
+                                                         toParameterGroups(declaration.getParameterGroups()),
+                                                         declaration.getDisplayModel(),
+                                                         getProcessorStereotypes(declaration.getStereotypes()),
+                                                         declaration.getModelProperties(),
+                                                         toNestedComponentModels(declaration.getNestedComponents()),
+                                                         declaration.allowsTopLevelDefinition()));
     }
 
     private List<SourceModel> toMessageSources(List<SourceDeclaration> declarations) {
@@ -314,9 +341,19 @@ public final class ExtensionModelFactory {
                                                       declaration.isTransactional(),
                                                       declaration.isSupportsStreaming(),
                                                       declaration.getDisplayModel(),
-                                                      declaration.getStereotypes(),
+                                                      getSourceStereotypes(declaration),
                                                       declaration.getErrorModels(),
-                                                      declaration.getModelProperties()));
+                                                      declaration.getModelProperties(),
+                                                      toNestedComponentModels(declaration.getNestedComponents())));
+    }
+
+    private Set<StereotypeModel> getSourceStereotypes(SourceDeclaration declaration) {
+      if (!declaration.getStereotypes().isEmpty()) {
+        return declaration.getStereotypes();
+      }
+
+      return of(newStereotype(SOURCE.getName(), CORE_PREFIX.toUpperCase())
+                  .withParent(newStereotype(ANY.getName(), CORE_PREFIX.toUpperCase()).build()).build());
     }
 
     private Optional<SourceCallbackModel> toSourceCallback(Optional<SourceCallbackDeclaration> callbackDeclaration) {
@@ -328,6 +365,15 @@ public final class ExtensionModelFactory {
                                                                                   callback.getModelProperties()));
     }
 
+    private Set<StereotypeModel> getProcessorStereotypes(Set<StereotypeModel> stereotypeModels) {
+      if (!stereotypeModels.isEmpty()) {
+        return stereotypeModels;
+      }
+
+      return of(newStereotype(PROCESSOR.name(), CORE_PREFIX.toUpperCase())
+          .withParent(newStereotype(ANY.name(), CORE_PREFIX.toUpperCase()).build()).build());
+    }
+
     private List<OperationModel> toOperations(List<OperationDeclaration> declarations) {
       return unmodifiableList(alphaSortDescribedList(declarations.stream().map(this::toOperation).collect(toList())));
     }
@@ -335,71 +381,59 @@ public final class ExtensionModelFactory {
     private OperationModel toOperation(OperationDeclaration declaration) {
       return fromCache(declaration, () -> {
         OperationModel operation;
-        if (declaration instanceof ScopeDeclaration) {
-          operation = new ImmutableScopeModel(declaration.getName(),
-                                              declaration.getDescription(),
-                                              toParameterGroups(declaration.getParameterGroups()),
-                                              toOutputModel(declaration.getOutput()),
-                                              toOutputModel(declaration.getOutputAttributes()),
-                                              declaration.isBlocking(),
-                                              declaration.getExecutionType(),
-                                              declaration.isRequiresConnection(),
-                                              declaration.isTransactional(),
-                                              declaration.isSupportsStreaming(),
-                                              declaration.getDisplayModel(),
-                                              declaration.getErrorModels(),
-                                              declaration.getStereotypes(),
-                                              declaration.getModelProperties());
-        } else if (declaration instanceof RouterDeclaration) {
-          operation = new ImmutableRouterModel(declaration.getName(),
-                                               declaration.getDescription(),
-                                               toRouteModels(((RouterDeclaration) declaration).getRoutes()),
-                                               toParameterGroups(declaration.getParameterGroups()),
-                                               toOutputModel(declaration.getOutput()),
-                                               toOutputModel(declaration.getOutputAttributes()),
-                                               declaration.isBlocking(),
-                                               declaration.getExecutionType(),
-                                               declaration.isRequiresConnection(),
-                                               declaration.isTransactional(),
-                                               declaration.isSupportsStreaming(),
-                                               declaration.getDisplayModel(),
-                                               declaration.getErrorModels(),
-                                               declaration.getStereotypes(),
-                                               declaration.getModelProperties());
-        } else {
-          operation = new ImmutableOperationModel(declaration.getName(),
-                                                  declaration.getDescription(),
-                                                  toParameterGroups(declaration.getParameterGroups()),
-                                                  toOutputModel(declaration.getOutput()),
-                                                  toOutputModel(declaration.getOutputAttributes()),
-                                                  declaration.isBlocking(),
-                                                  declaration.getExecutionType(),
-                                                  declaration.isRequiresConnection(),
-                                                  declaration.isTransactional(),
-                                                  declaration.isSupportsStreaming(),
-                                                  declaration.getDisplayModel(),
-                                                  declaration.getErrorModels(),
-                                                  declaration.getStereotypes(),
-                                                  declaration.getModelProperties());
-        }
+
+        operation = new ImmutableOperationModel(declaration.getName(),
+                                                declaration.getDescription(),
+                                                toParameterGroups(declaration.getParameterGroups()),
+                                                toOutputModel(declaration.getOutput()),
+                                                toOutputModel(declaration.getOutputAttributes()),
+                                                declaration.isBlocking(),
+                                                declaration.getExecutionType(),
+                                                declaration.isRequiresConnection(),
+                                                declaration.isTransactional(),
+                                                declaration.isSupportsStreaming(),
+                                                declaration.getDisplayModel(),
+                                                declaration.getErrorModels(),
+                                                getProcessorStereotypes(declaration.getStereotypes()),
+                                                declaration.getModelProperties(),
+                                                toNestedComponentModels(declaration.getNestedComponents()));
 
         return operation;
       });
     }
 
-    private List<RouteModel> toRouteModels(Collection<RouteDeclaration> routes) {
-      return routes.stream().map(this::toRouteModel).collect(toList());
+    private List<NestableElementModel> toNestedComponentModels(List<NestableElementDeclaration> nestedComponents) {
+      return nestedComponents.stream().map(this::toNestedComponent).collect(toList());
     }
 
-    private RouteModel toRouteModel(RouteDeclaration declaration) {
-      return new ImmutableRouteModel(declaration.getName(),
-                                     declaration.getDescription(),
-                                     declaration.getMinOccurs(),
-                                     declaration.getMaxOccurs(),
-                                     declaration.getAllowedStereotypes(),
-                                     toParameterGroups(declaration.getParameterGroups()),
-                                     declaration.getDisplayModel(),
-                                     declaration.getModelProperties());
+    private NestableElementModel toNestedComponent(NestableElementDeclaration declaration) {
+      if (declaration instanceof NestedRouteDeclaration) {
+        return new ImmutableNestedRouteModel(declaration.getName(),
+                                             declaration.getDescription(),
+                                             toParameterGroups(((NestedRouteDeclaration) declaration).getParameterGroups()),
+                                             declaration.getDisplayModel(),
+                                             ((NestedRouteDeclaration) declaration).getMinOccurs(),
+                                             ((NestedRouteDeclaration) declaration).getMaxOccurs(),
+                                             toNestedComponentModels(((NestedRouteDeclaration) declaration)
+                                                 .getNestedComponents()),
+                                             declaration.getModelProperties());
+      }
+      if (declaration instanceof NestedChainDeclaration) {
+        return new ImmutableNestedChainModel(declaration.getName(),
+                                             declaration.getDescription(),
+                                             declaration.getDisplayModel(),
+                                             declaration.isRequired(),
+                                             getProcessorStereotypes(((NestedChainDeclaration) declaration)
+                                                 .getAllowedStereotypes()),
+                                             declaration.getModelProperties());
+      }
+      return new ImmutableNestedComponentModel(declaration.getName(),
+                                               declaration.getDescription(),
+                                               declaration.getDisplayModel(),
+                                               declaration.isRequired(),
+                                               getProcessorStereotypes(((NestedComponentDeclaration<NestedComponentDeclaration>) declaration)
+                                                   .getAllowedStereotypes()),
+                                               declaration.getModelProperties());
     }
 
     private List<ConnectionProviderModel> toConnectionProviders(List<ConnectionProviderDeclaration> declarations) {

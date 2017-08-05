@@ -9,13 +9,15 @@ package org.mule.runtime.extension.api.model.source;
 import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
-import org.mule.runtime.api.meta.model.Stereotype;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
-import org.mule.runtime.extension.api.model.AbstractComponentModel;
+import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
+import org.mule.runtime.extension.api.model.AbstractExecutableComponentModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel {
+public class ImmutableSourceModel extends AbstractExecutableComponentModel implements SourceModel {
 
   private final boolean hasResponse;
   private final SourceCallbackModel successCallback;
@@ -49,8 +51,9 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    * @param transactional        whether this component supports transactions
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
-   * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
+   * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param nestedComponents     a {@link List} with the components contained by this model
    */
   public ImmutableSourceModel(String name,
                               String description,
@@ -65,11 +68,12 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
                               boolean transactional,
                               boolean supportsStreaming,
                               DisplayModel displayModel,
-                              Set<Stereotype> stereotypes,
+                              Set<StereotypeModel> stereotypes,
                               Set<ErrorModel> errors,
-                              Set<ModelProperty> modelProperties) {
+                              Set<ModelProperty> modelProperties,
+                              List<? extends NestableElementModel> nestedComponents) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-          supportsStreaming, displayModel, stereotypes, modelProperties);
+          supportsStreaming, displayModel, stereotypes, modelProperties, nestedComponents);
     this.hasResponse = hasResponse;
     this.successCallback = successCallbackModel.orElse(null);
     this.errorCallback = errorCallbackModel.orElse(null);
