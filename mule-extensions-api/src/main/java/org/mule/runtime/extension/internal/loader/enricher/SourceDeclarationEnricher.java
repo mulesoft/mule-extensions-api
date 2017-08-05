@@ -6,25 +6,15 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
-import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
-import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_DESCRIPTION;
-import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_TAB_NAME;
-import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_REDELIVERY_POLICY_QNAME;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionStrategyParameter;
+import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addRedeliveryPolicy;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
+import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.internal.property.QNameModelProperty;
 
 /**
- * An {@link InfrastructureDeclarationEnricher} which adds the following to all {@link SourceDeclaration}:
+ * A {@link DeclarationEnricher} which adds the following to all {@link SourceDeclaration}:
  *
  * <ul>
  *   <li>A Redelivery policy parameter</li>
@@ -33,7 +23,7 @@ import org.mule.runtime.extension.internal.property.QNameModelProperty;
  *
  * @since 1.0
  */
-public final class SourceDeclarationEnricher extends InfrastructureDeclarationEnricher {
+public final class SourceDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
@@ -45,24 +35,5 @@ public final class SourceDeclarationEnricher extends InfrastructureDeclarationEn
         addReconnectionStrategyParameter(declaration);
       }
     }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
-  }
-
-  protected void addRedeliveryPolicy(ParameterizedDeclaration declaration) {
-    ParameterDeclaration parameter = new ParameterDeclaration(REDELIVERY_POLICY_PARAMETER_NAME);
-    parameter.setDescription(REDELIVERY_POLICY_PARAMETER_DESCRIPTION);
-    parameter.setExpressionSupport(NOT_SUPPORTED);
-    parameter.setRequired(false);
-    parameter.setParameterRole(BEHAVIOUR);
-    parameter.setType(new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), false);
-    parameter.setLayoutModel(LayoutModel.builder().tabName(REDELIVERY_TAB_NAME).build());
-    parameter.setDslConfiguration(ParameterDslConfiguration.builder()
-        .allowsInlineDefinition(true)
-        .allowsReferences(false)
-        .allowTopLevelDefinition(false)
-        .build());
-    parameter.addModelProperty(new QNameModelProperty(MULE_ABSTRACT_REDELIVERY_POLICY_QNAME));
-    markAsInfrastructure(parameter, 1);
-
-    declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(parameter);
   }
 }

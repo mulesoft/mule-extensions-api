@@ -302,12 +302,12 @@ abstract class BasePersistenceTestCase {
 
   void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException {
     String expected = getResourceAsString(expectedFileName);
-    if (!serializedResult.equals(expected)) {
+    try {
+      JSONAssert.assertEquals(expected, serializedResult, true);
+    } catch (AssertionError e) {
       System.out.println("Expected: \n " + expected);
       System.out.println("\n\nBut Got: \n " + serializedResult);
     }
-
-    JSONAssert.assertEquals(expected, serializedResult, true);
   }
 
   public static class NonExternalizableModelProperty implements ModelProperty {
@@ -337,7 +337,9 @@ abstract class BasePersistenceTestCase {
     }
   }
 
+
   public static class ExportedClass {
+
   }
 
   private Set<ExternalLibraryModel> externalLibrarySet() {

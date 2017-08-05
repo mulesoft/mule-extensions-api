@@ -353,7 +353,7 @@ public final class ExtensionModelFactory {
       }
 
       return of(newStereotype(SOURCE.getName(), CORE_PREFIX.toUpperCase())
-                  .withParent(newStereotype(ANY.getName(), CORE_PREFIX.toUpperCase()).build()).build());
+          .withParent(newStereotype(ANY.getName(), CORE_PREFIX.toUpperCase()).build()).build());
     }
 
     private Optional<SourceCallbackModel> toSourceCallback(Optional<SourceCallbackDeclaration> callbackDeclaration) {
