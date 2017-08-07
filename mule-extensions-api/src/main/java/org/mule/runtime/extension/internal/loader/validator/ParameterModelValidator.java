@@ -17,7 +17,6 @@ import static org.mule.runtime.extension.api.util.NameUtils.CONNECTION_PROVIDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
@@ -165,25 +164,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
             }
           }
         });
-
-        validateParameterIsPlural(parameterModel, ownerModelType, ownerName, problemsReporter);
       }
-    }
-
-    private void validateParameterIsPlural(final ParameterModel parameterModel, String ownerModelType, String ownerName,
-                                           ProblemsReporter problemsReporter) {
-      parameterModel.getType().accept(new MetadataTypeVisitor() {
-
-        @Override
-        public void visitArrayType(ArrayType arrayType) {
-          if (parameterModel.getName().equals(singularize(parameterModel.getName()))) {
-            problemsReporter
-                .addError(new Problem(parameterModel,
-                                      format("Parameter '%s' in the %s '%s' is a collection and its name should be plural",
-                                             parameterModel.getName(), ownerModelType, ownerName)));
-          }
-        }
-      });
     }
 
     private void validateNameCollisionWithTypes(ParameterModel parameterModel, String ownerName, String ownerModelType,
