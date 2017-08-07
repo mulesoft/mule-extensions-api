@@ -8,6 +8,9 @@ package org.mule.runtime.extension.api.runtime.config;
 
 import java.util.Map;
 
+/**
+ * Contains the state of a {@link }
+ */
 public interface ConfigurationState {
 
   Map<String, Object> getConfigParameters();
