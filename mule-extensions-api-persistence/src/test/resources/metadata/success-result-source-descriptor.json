@@ -211,7 +211,6 @@
                               "allowInlineDefinition": true,
                               "allowTopLevelDefinition": false,
                               "allowReferences": false
-
                             }
                           }
                         },
