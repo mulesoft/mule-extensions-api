@@ -20,10 +20,12 @@ import org.mule.metadata.java.api.handler.ObjectHandler;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
+import org.mule.runtime.extension.api.annotation.dsl.xml.TypeXmlHints;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeXmlHintsAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
@@ -86,13 +88,12 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
         ((WithAnnotation) typeBuilder).with(new ExtensibleTypeAnnotation());
       }
 
-      XmlHints hints = currentClass.getAnnotation(XmlHints.class);
+      TypeXmlHints hints = currentClass.getAnnotation(TypeXmlHints.class);
       if (hints != null) {
-        ((WithAnnotation) typeBuilder).with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
-                                                                   hints.allowTopLevelDefinition(),
-                                                                   hints.allowReferences(),
-                                                                   hints.substitutionGroup(),
-                                            hints.baseType()));
+        ((WithAnnotation) typeBuilder).with(new TypeXmlHintsAnnotation(hints.allowInlineDefinition(),
+                                                                       hints.allowTopLevelDefinition(),
+                                                                       hints.substitutionGroup(),
+                                                                       hints.baseType()));
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);

@@ -1,0 +1,97 @@
+/*
+ * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
+ */
+package org.mule.runtime.extension.api.declaration.type.annotation;
+
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+
+import org.mule.metadata.api.annotation.TypeAnnotation;
+
+import java.util.Optional;
+
+
+/**
+ * Created by luciano.raineri on 8/7/17.
+ */
+public class TypeXmlHintsAnnotation implements TypeAnnotation
+{
+  public static final String NAME = "typeXmlHints";
+
+  private final boolean allowInlineDefinition;
+  private final boolean allowTopLevelDefinition;
+  private final SubstitutionGroup substitutionGroup;
+  private final BaseType baseType;
+
+  /**
+   * Creates a new instance
+   *
+   * @param allowInlineDefinition   whether the associated element should support inline definition as child element
+   * @param allowTopLevelDefinition whether the associated element should support being defined as a top level element
+   * @param substitutionGroup       the substitutionGroup that the xml element should have as attribute
+   * @param baseType                the baseType that the type should declare as base attribute
+   */
+  public TypeXmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, String substitutionGroup, String baseType) {
+    this.allowInlineDefinition = allowInlineDefinition;
+    this.allowTopLevelDefinition = allowTopLevelDefinition;
+    SubstitutionGroup substitutionGroupObject = new SubstitutionGroup(substitutionGroup);
+    this.substitutionGroup = substitutionGroupObject.isDefined() ? substitutionGroupObject : null;
+    BaseType baseTypeObject = new BaseType(baseType);
+    this.baseType = baseTypeObject.isDefined() ? baseTypeObject : null;
+  }
+
+  /**
+   * @return {@code xmlHints}
+   */
+  @Override
+  public String getName() {
+    return NAME;
+  }
+
+  /**
+   * @return whether the associated element should support inline definition as child element
+   */
+  public boolean allowsInlineDefinition() {
+    return allowInlineDefinition;
+  }
+
+  /**
+   * @return whether the associated element should support being defined as a top level element
+   */
+  public boolean allowsTopLevelDefinition() {
+    return allowTopLevelDefinition;
+  }
+
+  /**
+   * @return any subtitutionGroup the element might extend from or {@code Optional.empty()} if not defined
+   */
+  public Optional<SubstitutionGroup> getSubstitutionGroup() {
+    return Optional.ofNullable(this.substitutionGroup);
+  }
+
+  /**
+   * @return any baseType defined for the type to extend from
+   */
+  public Optional<BaseType> getBaseType() {
+    return Optional.ofNullable(baseType);
+  }
+
+  @Override
+  public int hashCode() {
+    return reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof TypeXmlHintsAnnotation) {
+      TypeXmlHintsAnnotation other = (TypeXmlHintsAnnotation) obj;
+      return allowInlineDefinition == other.allowsInlineDefinition() &&
+             allowTopLevelDefinition == other.allowsTopLevelDefinition()
+             && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup() && Optional.ofNullable(baseType) == other.getBaseType();
+    }
+    return false;
+  }
+
+}

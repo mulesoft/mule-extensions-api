@@ -26,6 +26,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.Infrastructure
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeXmlHintsAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
@@ -118,8 +119,8 @@ public final class TypeUtils {
    * @return whether the given {@link MetadataType} should support being defined as a top level element
    */
   public static boolean allowsTopLevelDefinition(MetadataType type) {
-    return type.getAnnotation(XmlHintsAnnotation.class)
-        .map(XmlHintsAnnotation::allowsTopLevelDefinition).orElse(false);
+    return type.getAnnotation(TypeXmlHintsAnnotation.class)
+        .map(TypeXmlHintsAnnotation::allowsTopLevelDefinition).orElse(false);
   }
 
   /**
@@ -206,7 +207,7 @@ public final class TypeUtils {
    * @return the substitutionGroup defined by the user or {@code Optional.empty()} if not present.
    */
   public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
-    return metadataType.getAnnotation(XmlHintsAnnotation.class).flatMap(XmlHintsAnnotation::getSubstitutionGroup);
+    return metadataType.getAnnotation(TypeXmlHintsAnnotation.class).flatMap(TypeXmlHintsAnnotation::getSubstitutionGroup);
   }
 
   /**
@@ -214,6 +215,6 @@ public final class TypeUtils {
    * @return the baseType defined by the user or {Optional.empty()} if not present
    */
   public static Optional<BaseType> getBaseType(MetadataType metadataType) {
-    return metadataType.getAnnotation(XmlHintsAnnotation.class).flatMap(XmlHintsAnnotation::getBaseType);
+    return metadataType.getAnnotation(TypeXmlHintsAnnotation.class).flatMap(TypeXmlHintsAnnotation::getBaseType);
   }
 }

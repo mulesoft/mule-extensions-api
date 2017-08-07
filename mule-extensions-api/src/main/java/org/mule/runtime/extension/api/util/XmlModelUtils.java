@@ -18,6 +18,7 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeXmlHintsAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.util.Optional;
@@ -108,8 +109,8 @@ public final class XmlModelUtils {
    */
   public static boolean supportsTopLevelDeclaration(MetadataType metadataType) {
     if (metadataType instanceof ObjectType && !isMap(metadataType)) {
-      return metadataType.getAnnotation(XmlHintsAnnotation.class)
-          .map(XmlHintsAnnotation::allowsTopLevelDefinition)
+      return metadataType.getAnnotation(TypeXmlHintsAnnotation.class)
+          .map(TypeXmlHintsAnnotation::allowsTopLevelDefinition)
           .orElse(false);
     }
 

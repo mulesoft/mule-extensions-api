@@ -31,6 +31,7 @@ import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeXmlHintsAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.dsl.model.AbstractType;
 import org.mule.runtime.extension.api.dsl.model.ChildOfAbstractType;
@@ -145,7 +146,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
         .build();
 
     when(parameterModel.getType())
-        .thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false, false, "", "")).build());
+        .thenReturn(TYPE_BUILDER.stringType().with(new TypeXmlHintsAnnotation(false, false, "", "")).build());
     when(parameterModel.getDslConfiguration()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);

@@ -7,13 +7,14 @@
 package org.mule.runtime.extension.api.dsl.model;
 
 
+import org.mule.runtime.extension.api.annotation.dsl.xml.TypeXmlHints;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 
 import java.util.List;
 import java.util.Map;
 
-@XmlHints(allowTopLevelDefinition = true)
+@TypeXmlHints(allowTopLevelDefinition = true)
 public class RecursivePojo {
 
   @Parameter
