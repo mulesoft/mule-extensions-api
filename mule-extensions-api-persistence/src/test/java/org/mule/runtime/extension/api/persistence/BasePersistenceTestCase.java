@@ -230,8 +230,7 @@ abstract class BasePersistenceTestCase {
                                                                                         .build(),
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
-                                           DisplayModel.builder().build(),
-                                           emptySet(), emptySet(), emptySet());
+                                           DisplayModel.builder().build(), emptySet(), emptySet(), emptySet());
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",

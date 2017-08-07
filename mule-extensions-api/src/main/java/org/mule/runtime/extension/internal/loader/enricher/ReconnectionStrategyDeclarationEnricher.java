@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionStrategyParameter;
-import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addRedeliveryPolicy;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -17,13 +16,12 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
  * A {@link DeclarationEnricher} which adds the following to all {@link SourceDeclaration}:
  *
  * <ul>
- *   <li>A Redelivery policy parameter</li>
  *   <li>A reconnection strategy parameter</li>
  * </ul>
  *
  * @since 1.0
  */
-public final class SourceDeclarationEnricher implements DeclarationEnricher {
+public final class ReconnectionStrategyDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
@@ -31,7 +29,6 @@ public final class SourceDeclarationEnricher implements DeclarationEnricher {
 
       @Override
       protected void onSource(SourceDeclaration declaration) {
-        addRedeliveryPolicy(declaration);
         addReconnectionStrategyParameter(declaration);
       }
     }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());

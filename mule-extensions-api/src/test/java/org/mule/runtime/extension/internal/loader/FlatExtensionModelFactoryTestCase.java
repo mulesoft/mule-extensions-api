@@ -61,14 +61,12 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_DESCRIPTION;
-import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_OUTPUT_PARAMETER_DESCRIPTION;
-import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_TYPE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_TYPE_PARAMETER_NAME;
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
@@ -93,7 +91,6 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
-import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuilder;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
@@ -339,14 +336,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(getType(sourceModel.getOutputAttributes().getType()), is(equalTo(Serializable.class)));
 
     List<ParameterModel> parameters = sourceModel.getAllParameterModels();
-    assertParameter(parameters.get(0), REDELIVERY_POLICY_PARAMETER_NAME, REDELIVERY_POLICY_PARAMETER_DESCRIPTION, NOT_SUPPORTED,
-                    false, new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType(), ObjectType.class, null);
-    assertByteStreamingStrategyParameter(parameters.get(1));
-    assertParameter(parameters.get(2), URL, URL_DESCRIPTION, SUPPORTED, true, stringType, StringType.class,
+    assertByteStreamingStrategyParameter(parameters.get(0));
+    assertParameter(parameters.get(1), URL, URL_DESCRIPTION, SUPPORTED, true, stringType, StringType.class,
                     null);
-    assertParameter(parameters.get(3), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
+    assertParameter(parameters.get(2), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
                     DEFAULT_PORT);
-    assertParameter(parameters.get(4), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+    assertParameter(parameters.get(3), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
                     false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
   }
