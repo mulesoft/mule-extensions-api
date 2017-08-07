@@ -91,7 +91,8 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
         ((WithAnnotation) typeBuilder).with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
                                                                    hints.allowTopLevelDefinition(),
                                                                    hints.allowReferences(),
-                                                                   hints.substitutionGroup()));
+                                                                   hints.substitutionGroup(),
+                                            hints.baseType()));
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);

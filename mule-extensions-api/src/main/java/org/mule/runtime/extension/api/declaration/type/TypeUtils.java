@@ -207,4 +207,12 @@ public final class TypeUtils {
   public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
     return metadataType.getAnnotation(XmlHintsAnnotation.class).flatMap(XmlHintsAnnotation::getSubstitutionGroup);
   }
+
+  /**
+   * @param metadataType
+   * @return the baseType defined by the user or {Optional.empty()} if not present
+   */
+  public static Optional<String> getBaseType(MetadataType metadataType) {
+    return metadataType.getAnnotation(XmlHintsAnnotation.class).flatMap(XmlHintsAnnotation::getBaseType);
+  }
 }

@@ -11,6 +11,8 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Contains directives regarding syntax and semantics of the generated XML DSL
  *
@@ -24,6 +26,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
   private final SubstitutionGroup substitutionGroup;
+  private final String baseType;
 
   /**
    * Creates a new instance
@@ -34,12 +37,13 @@ public class XmlHintsAnnotation implements TypeAnnotation {
    * @param substitutionGroup       the substitutionGroup that the xml element should have as attribute
    */
   public XmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, boolean allowReferences,
-                            String substitutionGroup) {
+                            String substitutionGroup, String baseType) {
     this.allowInlineDefinition = allowInlineDefinition;
     this.allowTopLevelDefinition = allowTopLevelDefinition;
     this.allowReferences = allowReferences;
     SubstitutionGroup substitutionGroupObject = new SubstitutionGroup(substitutionGroup);
     this.substitutionGroup = substitutionGroupObject.isDefined() ? substitutionGroupObject : null;
+    this.baseType = baseType;
   }
 
   /**
@@ -72,10 +76,17 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   }
 
   /**
-   * @return any subtitutionGroup the element might extend from
+   * @return any subtitutionGroup the element might extend from or {@code Optional.empty()} if not defined
    */
   public Optional<SubstitutionGroup> getSubstitutionGroup() {
     return Optional.ofNullable(this.substitutionGroup);
+  }
+
+  /**
+   * @return any baseType defined for the type to extend from
+   */
+  public Optional<String> getBaseType() {
+    return StringUtils.isEmpty(baseType) ? Optional.empty() : Optional.of(baseType);
   }
 
   @Override
@@ -90,7 +101,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
       return allowInlineDefinition == other.allowsInlineDefinition() &&
           allowTopLevelDefinition == other.allowsTopLevelDefinition() &&
           allowReferences == other.allowsReferences()
-          && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup();
+          && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup() && Optional.ofNullable(baseType) == other.getBaseType();
     }
 
     return false;

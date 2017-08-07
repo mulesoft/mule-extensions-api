@@ -145,7 +145,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
         .build();
 
     when(parameterModel.getType())
-        .thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false, false, "")).build());
+        .thenReturn(TYPE_BUILDER.stringType().with(new XmlHintsAnnotation(false, false, false, "", "")).build());
     when(parameterModel.getDslConfiguration()).thenReturn(dslModel);
 
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);

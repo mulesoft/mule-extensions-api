@@ -56,4 +56,11 @@ public @interface XmlHints {
    */
   String substitutionGroup() default "";
 
+  /**
+   * Specifies that the annotated type should extend from an specific baseType
+   * an {@code IllegalArgumentException} will be thrown.
+   * @return the baseType defined or the default
+   */
+  String baseType() default "";
+
 }
