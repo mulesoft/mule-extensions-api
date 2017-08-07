@@ -11,6 +11,8 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 
 import java.util.Optional;
 
+import javax.swing.text.html.Option;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -26,7 +28,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
   private final SubstitutionGroup substitutionGroup;
-  private final String baseType;
+  private final BaseType baseType;
 
   /**
    * Creates a new instance
@@ -43,7 +45,8 @@ public class XmlHintsAnnotation implements TypeAnnotation {
     this.allowReferences = allowReferences;
     SubstitutionGroup substitutionGroupObject = new SubstitutionGroup(substitutionGroup);
     this.substitutionGroup = substitutionGroupObject.isDefined() ? substitutionGroupObject : null;
-    this.baseType = baseType;
+    BaseType baseTypeObject = new BaseType(baseType);
+    this.baseType = baseTypeObject.isDefined() ? baseTypeObject : null;
   }
 
   /**
@@ -85,8 +88,8 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   /**
    * @return any baseType defined for the type to extend from
    */
-  public Optional<String> getBaseType() {
-    return StringUtils.isEmpty(baseType) ? Optional.empty() : Optional.of(baseType);
+  public Optional<BaseType> getBaseType() {
+    return Optional.ofNullable(baseType);
   }
 
   @Override

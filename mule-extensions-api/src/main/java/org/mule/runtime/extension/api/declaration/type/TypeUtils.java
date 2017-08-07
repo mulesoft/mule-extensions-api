@@ -20,6 +20,7 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
+import org.mule.runtime.extension.api.declaration.type.annotation.BaseType;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
@@ -212,7 +213,7 @@ public final class TypeUtils {
    * @param metadataType
    * @return the baseType defined by the user or {Optional.empty()} if not present
    */
-  public static Optional<String> getBaseType(MetadataType metadataType) {
+  public static Optional<BaseType> getBaseType(MetadataType metadataType) {
     return metadataType.getAnnotation(XmlHintsAnnotation.class).flatMap(XmlHintsAnnotation::getBaseType);
   }
 }
