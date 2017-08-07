@@ -23,7 +23,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
   private final boolean allowInlineDefinition;
   private final boolean allowTopLevelDefinition;
   private final boolean allowReferences;
-  private final Optional<SubstitutionGroup> substitutionGroup;
+  private final SubstitutionGroup substitutionGroup;
 
   /**
    * Creates a new instance
@@ -39,7 +39,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
     this.allowTopLevelDefinition = allowTopLevelDefinition;
     this.allowReferences = allowReferences;
     SubstitutionGroup substitutionGroupObject = new SubstitutionGroup(substitutionGroup);
-    this.substitutionGroup = substitutionGroupObject.isDefined() ? Optional.of(substitutionGroupObject) : Optional.empty();
+    this.substitutionGroup = substitutionGroupObject.isDefined() ? substitutionGroupObject : null;
   }
 
   /**
@@ -75,7 +75,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
    * @return any subtitutionGroup the element might extend from
    */
   public Optional<SubstitutionGroup> getSubstitutionGroup() {
-    return this.substitutionGroup;
+    return Optional.of(this.substitutionGroup);
   }
 
   @Override
@@ -89,7 +89,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
       XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
       return allowInlineDefinition == other.allowsInlineDefinition() &&
           allowTopLevelDefinition == other.allowsTopLevelDefinition() &&
-          allowReferences == other.allowsReferences() && substitutionGroup.equals(other.getSubstitutionGroup());
+          allowReferences == other.allowsReferences() && Optional.of(substitutionGroup).equals(other.getSubstitutionGroup());
     }
 
     return false;
