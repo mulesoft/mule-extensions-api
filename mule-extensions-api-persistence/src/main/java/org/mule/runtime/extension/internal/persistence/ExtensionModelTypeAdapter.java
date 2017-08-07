@@ -224,7 +224,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
                                                              }.getType()),
                                        externalLibraries,
-                                       parseExtensionLevelModelProperties(json), privilegedPackages, privilegedArtifacts);
+                                       privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json));
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {

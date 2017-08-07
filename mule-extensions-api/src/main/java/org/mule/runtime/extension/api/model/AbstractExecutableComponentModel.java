@@ -63,7 +63,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              Set<StereotypeModel> stereotypes,
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents) {
-    super(name, description, parameterGroupModels, displayModel, stereotypes, modelProperties, nestedComponents);
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, stereotypes, modelProperties);
     this.output = output;
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;

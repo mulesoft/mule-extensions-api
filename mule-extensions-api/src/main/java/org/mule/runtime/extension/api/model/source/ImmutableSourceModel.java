@@ -38,11 +38,11 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
 
   /**
    * Creates a new instance
-   *
-   * @param name                 the source name. Cannot be blank
+   *  @param name                 the source name. Cannot be blank
    * @param description          the source description
    * @param hasResponse          Whether the source emits a response
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents     a {@link List} with the components contained by this model
    * @param output               an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output me
    * @param successCallbackModel an optional model for the source success callback
@@ -53,13 +53,12 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
    * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
-   * @param nestedComponents     a {@link List} with the components contained by this model
    */
   public ImmutableSourceModel(String name,
                               String description,
                               boolean hasResponse,
                               List<ParameterGroupModel> parameterGroupModels,
-                              OutputModel output,
+                              List<? extends NestableElementModel> nestedComponents, OutputModel output,
                               OutputModel outputAttributes,
                               Optional<SourceCallbackModel> successCallbackModel,
                               Optional<SourceCallbackModel> errorCallbackModel,
@@ -70,8 +69,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               DisplayModel displayModel,
                               Set<StereotypeModel> stereotypes,
                               Set<ErrorModel> errors,
-                              Set<ModelProperty> modelProperties,
-                              List<? extends NestableElementModel> nestedComponents) {
+                              Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
           supportsStreaming, displayModel, stereotypes, modelProperties, nestedComponents);
     this.hasResponse = hasResponse;

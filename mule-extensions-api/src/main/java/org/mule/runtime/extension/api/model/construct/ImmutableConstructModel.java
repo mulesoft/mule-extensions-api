@@ -34,22 +34,21 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
    * @param name                 the operation's name. Cannot be blank
    * @param description          the operation's descriptor
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param allowsTopLevelDefinition  whether or not {@code this} model can be declared as a root component in the application
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
-   * @param nestedComponents     a {@link List} with the components contained by this model
-   * @param allowsTopLevelDefinition  whether or not {@code this} model can be declared as a root component in the application
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableConstructModel(String name,
                                  String description,
                                  List<ParameterGroupModel> parameterGroupModels,
+                                 List<? extends NestableElementModel> nestedComponents, boolean allowsTopLevelDefinition,
                                  DisplayModel displayModel,
                                  Set<StereotypeModel> stereotypes,
-                                 Set<ModelProperty> modelProperties,
-                                 List<? extends NestableElementModel> nestedComponents,
-                                 boolean allowsTopLevelDefinition) {
-    super(name, description, parameterGroupModels, displayModel, stereotypes, modelProperties, nestedComponents);
+                                 Set<ModelProperty> modelProperties) {
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, stereotypes, modelProperties);
     this.allowsTopLevelDefinition = allowsTopLevelDefinition;
   }
 

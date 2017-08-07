@@ -78,9 +78,9 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
    * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
-   * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param privilegedPackages a {@link Set} of Java package names to export on the extension's privileged API.
    * @param privilegedArtifacts a {@link Set} of artifact ID that have access to the extension's privileged API.
+   * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank.
    */
   public ImmutableExtensionModel(String name,
@@ -103,8 +103,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<ImportedTypeModel> importedTypes,
                                  Set<ErrorModel> errors,
                                  Set<ExternalLibraryModel> externalLibraryModels,
-                                 Set<ModelProperty> modelProperties,
-                                 Set<String> privilegedPackages, Set<String> privilegedArtifacts) {
+                                 Set<String> privilegedPackages, Set<String> privilegedArtifacts,
+                                 Set<ModelProperty> modelProperties) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
 

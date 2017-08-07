@@ -39,6 +39,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param name                 the operation's name. Cannot be blank
    * @param description          the operation's descriptor
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents     a {@link List} with the components contained by this model
    * @param output               an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output {@link Message}
    * @param blocking             whether this operation executes in a blocking manner
@@ -51,13 +52,12 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    *                             the operation
    * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
-   * @param nestedComponents     a {@link List} with the components contained by this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableOperationModel(String name,
                                  String description,
                                  List<ParameterGroupModel> parameterGroupModels,
-                                 OutputModel output,
+                                 List<? extends NestableElementModel> nestedComponents, OutputModel output,
                                  OutputModel outputAttributes,
                                  boolean blocking,
                                  ExecutionType executionType,
@@ -67,8 +67,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  Set<StereotypeModel> stereotypes,
-                                 Set<ModelProperty> modelProperties,
-                                 List<? extends NestableElementModel> nestedComponents) {
+                                 Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
           displayModel, stereotypes, modelProperties, nestedComponents);
     this.blocking = blocking;

@@ -202,10 +202,10 @@ abstract class BasePersistenceTestCase {
     getCarOperation =
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car",
                                     asParameterGroup(carNameParameter, complexParameter, loadedParameter),
-                                    outputModel,
+                                    emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), emptySet(), modelProperties, emptyList());
+                                    singleton(ERROR_MODEL), emptySet(), modelProperties);
 
     createCoreOperations();
 
@@ -220,7 +220,7 @@ abstract class BasePersistenceTestCase {
 
     sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true,
                                            asParameterGroup(carNameParameter, noIdParameter),
-                                           outputModel, outputAttributesModel,
+                                           emptyList(), outputModel, outputAttributesModel,
                                            Optional
                                                .of(new ImmutableSourceCallbackModel("onSuccess", "",
                                                                                     asParameterGroup(
@@ -231,7 +231,7 @@ abstract class BasePersistenceTestCase {
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(),
-                                           emptySet(), emptySet(), emptySet(), emptyList());
+                                           emptySet(), emptySet(), emptySet());
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",
@@ -255,7 +255,7 @@ abstract class BasePersistenceTestCase {
                                     XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(), singleton(ERROR_MODEL),
-                                    externalLibrarySet(), singleton(accessCodeModelProperty), emptySet(), emptySet());
+                                    externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

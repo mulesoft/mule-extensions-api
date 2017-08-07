@@ -42,7 +42,9 @@ import org.mule.runtime.extension.internal.property.QNameModelProperty;
 import javax.xml.namespace.QName;
 
 /**
- * //TODO
+ * Utility builder for all the infrastructure parameters
+ *
+ * @since 1.0
  */
 public final class InfrastructureParameterBuilder {
 

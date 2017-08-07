@@ -260,9 +260,8 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getImportedTypes(),
                                       extensionDeclaration.getErrorModels(),
                                       extensionDeclaration.getExternalLibraryModels(),
-                                      extensionDeclaration.getModelProperties(),
-                                      extensionDeclaration.getPrivilegedPackages(),
-                                      extensionDeclaration.getPrivilegedArtifacts());
+                                      extensionDeclaration.getPrivilegedPackages(), extensionDeclaration.getPrivilegedArtifacts(),
+                                      extensionDeclaration.getModelProperties());
 
       return extensionModel;
     }
@@ -316,11 +315,10 @@ public final class ExtensionModelFactory {
                        () -> new ImmutableConstructModel(declaration.getName(),
                                                          declaration.getDescription(),
                                                          toParameterGroups(declaration.getParameterGroups()),
-                                                         declaration.getDisplayModel(),
-                                                         getProcessorStereotypes(declaration.getStereotypes()),
-                                                         declaration.getModelProperties(),
                                                          toNestedComponentModels(declaration.getNestedComponents()),
-                                                         declaration.allowsTopLevelDefinition()));
+                                                         declaration.allowsTopLevelDefinition(), declaration.getDisplayModel(),
+                                                         getProcessorStereotypes(declaration.getStereotypes()),
+                                                         declaration.getModelProperties()));
     }
 
     private List<SourceModel> toMessageSources(List<SourceDeclaration> declarations) {
@@ -332,6 +330,7 @@ public final class ExtensionModelFactory {
                        () -> new ImmutableSourceModel(declaration.getName(), declaration.getDescription(),
                                                       declaration.hasResponse(),
                                                       toParameterGroups(declaration.getParameterGroups()),
+                                                      toNestedComponentModels(declaration.getNestedComponents()),
                                                       toOutputModel(declaration.getOutput()),
                                                       toOutputModel(declaration.getOutputAttributes()),
                                                       toSourceCallback(declaration.getSuccessCallback()),
@@ -343,8 +342,7 @@ public final class ExtensionModelFactory {
                                                       declaration.getDisplayModel(),
                                                       getSourceStereotypes(declaration),
                                                       declaration.getErrorModels(),
-                                                      declaration.getModelProperties(),
-                                                      toNestedComponentModels(declaration.getNestedComponents())));
+                                                      declaration.getModelProperties()));
     }
 
     private Set<StereotypeModel> getSourceStereotypes(SourceDeclaration declaration) {
@@ -385,6 +383,7 @@ public final class ExtensionModelFactory {
         operation = new ImmutableOperationModel(declaration.getName(),
                                                 declaration.getDescription(),
                                                 toParameterGroups(declaration.getParameterGroups()),
+                                                toNestedComponentModels(declaration.getNestedComponents()),
                                                 toOutputModel(declaration.getOutput()),
                                                 toOutputModel(declaration.getOutputAttributes()),
                                                 declaration.isBlocking(),
@@ -395,8 +394,7 @@ public final class ExtensionModelFactory {
                                                 declaration.getDisplayModel(),
                                                 declaration.getErrorModels(),
                                                 getProcessorStereotypes(declaration.getStereotypes()),
-                                                declaration.getModelProperties(),
-                                                toNestedComponentModels(declaration.getNestedComponents()));
+                                                declaration.getModelProperties());
 
         return operation;
       });

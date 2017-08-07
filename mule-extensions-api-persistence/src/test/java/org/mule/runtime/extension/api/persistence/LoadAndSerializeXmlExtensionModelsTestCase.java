@@ -84,11 +84,11 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
 
     ImmutableOperationModel getCarOperation = new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car",
                                                                           asParameterGroup(loadedParameter),
-                                                                          outputModel,
+                                                                          emptyList(), outputModel,
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
                                                                           defaultDisplayModel,
-                                                                          emptySet(), emptySet(), emptySet(), emptyList());
+                                                                          emptySet(), emptySet(), emptySet());
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft",
@@ -97,8 +97,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                     emptyList(), emptyList(), emptyList(), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(),
-                                    emptySet(),
-                                    emptySet(), emptySet());
+                                    emptySet(), emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
 
