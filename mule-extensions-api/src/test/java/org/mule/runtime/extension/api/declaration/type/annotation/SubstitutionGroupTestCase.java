@@ -87,4 +87,28 @@ public class SubstitutionGroupTestCase {
     assertEquals("prefix", sg.getPrefix());
     assertEquals("some-element", sg.getElement());
   }
+
+  @Test
+  public void testEquals() {
+    String prefix = "prefix";
+    String element = "element";
+    SubstitutionGroup sg1 = new SubstitutionGroup(prefix, element);
+    SubstitutionGroup sg2 = new SubstitutionGroup(prefix, element);
+    assertEquals(sg1, sg2);
+    SubstitutionGroup sg3 = new SubstitutionGroup(String.format("%s:%s", prefix, element));
+    assertEquals(sg1, sg3);
+    assertEquals(sg2, sg3);
+  }
+
+  @Test
+  public void testHashCode() {
+    String prefix = "prefix";
+    String element = "element";
+    SubstitutionGroup sg1 = new SubstitutionGroup(prefix, element);
+    SubstitutionGroup sg2 = new SubstitutionGroup(prefix, element);
+    assertEquals(sg1.hashCode(), sg2.hashCode());
+    SubstitutionGroup sg3 = new SubstitutionGroup(String.format("%s:%s", prefix, element));
+    assertEquals(sg1.hashCode(), sg3.hashCode());
+    assertEquals(sg2.hashCode(), sg3.hashCode());
+  }
 }

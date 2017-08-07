@@ -75,7 +75,7 @@ public class XmlHintsAnnotation implements TypeAnnotation {
    * @return any subtitutionGroup the element might extend from
    */
   public Optional<SubstitutionGroup> getSubstitutionGroup() {
-    return Optional.of(this.substitutionGroup);
+    return Optional.ofNullable(this.substitutionGroup);
   }
 
   @Override
@@ -89,7 +89,8 @@ public class XmlHintsAnnotation implements TypeAnnotation {
       XmlHintsAnnotation other = (XmlHintsAnnotation) obj;
       return allowInlineDefinition == other.allowsInlineDefinition() &&
           allowTopLevelDefinition == other.allowsTopLevelDefinition() &&
-          allowReferences == other.allowsReferences() && Optional.of(substitutionGroup).equals(other.getSubstitutionGroup());
+          allowReferences == other.allowsReferences()
+          && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup();
     }
 
     return false;

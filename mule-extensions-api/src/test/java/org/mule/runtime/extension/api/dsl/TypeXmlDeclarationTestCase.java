@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.dsl;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -170,4 +171,5 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     assertChildElementDeclarationIs(true, topDsl.get());
     assertIsWrappedElement(false, topDsl.get());
   }
+
 }

@@ -65,7 +65,6 @@ public class SubstitutionGroup {
     if (obj instanceof SubstitutionGroup) {
       return prefix.equals(((SubstitutionGroup) obj).getPrefix()) && element.equals(((SubstitutionGroup) obj).getElement());
     }
-
     return false;
   }
 
