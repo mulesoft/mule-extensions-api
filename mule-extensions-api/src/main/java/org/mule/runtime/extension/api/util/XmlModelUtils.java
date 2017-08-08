@@ -19,7 +19,6 @@ import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeXmlHintsAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 
 import java.util.Optional;
 

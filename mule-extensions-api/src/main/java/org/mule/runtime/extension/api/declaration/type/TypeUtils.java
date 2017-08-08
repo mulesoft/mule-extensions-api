@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model

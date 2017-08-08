@@ -9,9 +9,6 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 
-import java.util.Optional;
-
-
 /**
  * Contains directives regarding syntax and semantics of the generated XML DSL
  *

@@ -32,7 +32,6 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeXmlHintsAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.dsl.model.AbstractType;
 import org.mule.runtime.extension.api.dsl.model.ChildOfAbstractType;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
