@@ -29,16 +29,6 @@ public final class FunctionModelValidator implements ExtensionModelValidator {
     new IdempotentExtensionWalker() {
 
       @Override
-      protected void onConfiguration(ConfigurationModel model) {
-        if (!model.getFunctionModels().isEmpty()) {
-          problemsReporter.addError(
-                                    new Problem(model,
-                                                format("Configuration [%s] declares scoped functions, but only extension-level functions are allowed",
-                                                       model.getName())));
-        }
-      }
-
-      @Override
       protected void onFunction(FunctionModel model) {
         model.getAllParameterModels().forEach(p -> validateParameter(model, p, problemsReporter));
       }

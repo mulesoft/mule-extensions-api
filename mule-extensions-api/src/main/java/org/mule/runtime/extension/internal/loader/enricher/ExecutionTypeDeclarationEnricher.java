@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static org.mule.runtime.api.meta.model.ExecutionType.BLOCKING;
-import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
-import org.mule.runtime.api.meta.model.ExecutionType;
+import static org.mule.runtime.api.meta.model.operation.ExecutionType.BLOCKING;
+import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
+import org.mule.runtime.api.meta.model.operation.ExecutionType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;

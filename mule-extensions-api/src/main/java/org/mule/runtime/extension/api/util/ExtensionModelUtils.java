@@ -27,6 +27,7 @@ import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.ExecutableComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -152,7 +153,7 @@ public class ExtensionModelUtils {
         collect(model);
       }
 
-      private void collect(ComponentModel model) {
+      private void collect(ExecutableComponentModel model) {
         if (model.requiresConnection()) {
           connectedModels.add(model);
         }
@@ -187,7 +188,7 @@ public class ExtensionModelUtils {
         collect(owner, model);
       }
 
-      private void collect(Object owner, ComponentModel model) {
+      private void collect(Object owner, ExecutableComponentModel model) {
         if (owner == configurationModel && model.requiresConnection()) {
           connectedModels.add(model);
         }
@@ -204,11 +205,11 @@ public class ExtensionModelUtils {
    * in order to function
    */
   public static boolean requiresConfig(ExtensionModel extensionModel, NamedObject component) {
-    if (!(component instanceof ComponentModel)) {
+    if (!(component instanceof ExecutableComponentModel)) {
       return false;
     }
 
-    ComponentModel model = (ComponentModel) component;
+    ExecutableComponentModel model = (ExecutableComponentModel) component;
     if (model.requiresConnection()) {
       return true;
     }
@@ -263,7 +264,7 @@ public class ExtensionModelUtils {
       }
     }.walk(extensionModel);
 
-    if (component.requiresConnection()) {
+    if (component instanceof ExecutableComponentModel && ((ExecutableComponentModel) component).requiresConnection()) {
       extensionModel.getConfigurationModel(DEFAULT_CONFIG_NAME).ifPresent(result::add);
     }
 

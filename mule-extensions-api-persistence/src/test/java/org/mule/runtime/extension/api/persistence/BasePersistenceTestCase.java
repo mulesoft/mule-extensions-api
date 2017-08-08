@@ -13,13 +13,11 @@ import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toSet;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.model.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
+import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.CONFIG;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
@@ -41,14 +39,13 @@ import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.api.meta.model.operation.RouterModel;
-import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ElementReference;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -73,8 +70,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -91,6 +86,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 abstract class BasePersistenceTestCase {
 
@@ -132,8 +128,8 @@ abstract class BasePersistenceTestCase {
   protected ExtensionModel deserializedExtensionModel;
   protected ExtensionModel originalExtensionModel;
   protected OperationModel getCarOperation;
-  protected ScopeModel foreachScope;
-  protected RouterModel choiceRouter;
+  protected ConstructModel foreachScope;
+  protected ConstructModel choiceRouter;
   protected SourceModel sourceModel;
   protected JsonElement serializedExtensionModel;
   protected JsonObject operationModelProperties;
@@ -206,7 +202,7 @@ abstract class BasePersistenceTestCase {
     getCarOperation =
         new ImmutableOperationModel(GET_CAR_OPERATION_NAME, "Obtains a car",
                                     asParameterGroup(carNameParameter, complexParameter, loadedParameter),
-                                    outputModel,
+                                    emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
                                     singleton(ERROR_MODEL), emptySet(), modelProperties);
@@ -224,7 +220,7 @@ abstract class BasePersistenceTestCase {
 
     sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true,
                                            asParameterGroup(carNameParameter, noIdParameter),
-                                           outputModel, outputAttributesModel,
+                                           emptyList(), outputModel, outputAttributesModel,
                                            Optional
                                                .of(new ImmutableSourceCallbackModel("onSuccess", "",
                                                                                     asParameterGroup(
@@ -234,8 +230,7 @@ abstract class BasePersistenceTestCase {
                                                                                         .build(),
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
-                                           DisplayModel.builder().build(),
-                                           emptySet(), emptySet(), emptySet());
+                                           DisplayModel.builder().build(), emptySet(), emptySet(), emptySet());
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",
@@ -251,13 +246,15 @@ abstract class BasePersistenceTestCase {
     configureOAuth();
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
-                                    new MuleVersion("4.0"), emptyList(), asList(getCarOperation, foreachScope, choiceRouter),
+                                    new MuleVersion("4.0"), emptyList(), asList(getCarOperation),
                                     singletonList(basicAuth), singletonList(sourceModel),
-                                    singletonList(functionModel), defaultDisplayModel,
+                                    singletonList(functionModel),
+                                    asList(foreachScope, choiceRouter),
+                                    defaultDisplayModel,
                                     XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(), singleton(ERROR_MODEL),
-                                    externalLibrarySet(), singleton(accessCodeModelProperty), emptySet(), emptySet());
+                                    externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =
@@ -293,8 +290,8 @@ abstract class BasePersistenceTestCase {
       }
     }.loadExtensionModel(getClass().getClassLoader(), getDefault(emptySet()), new HashMap<>());
 
-    foreachScope = (ScopeModel) coreModel.getOperationModel(FOREACH_OPERATION_NAME).get();
-    choiceRouter = (RouterModel) coreModel.getOperationModel(CHOICE_OPERATION_NAME).get();
+    foreachScope = coreModel.getConstructModel(FOREACH_OPERATION_NAME).get();
+    choiceRouter = coreModel.getConstructModel(CHOICE_OPERATION_NAME).get();
   }
 
   protected String getResourceAsString(String fileName) throws IOException {
@@ -303,17 +300,13 @@ abstract class BasePersistenceTestCase {
   }
 
   void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    String resource = getResourceAsString(expectedFileName);
-    final JsonParser jsonParser = new JsonParser();
-    JsonElement expected = jsonParser.parse(resource);
-    JsonElement result = jsonParser.parse(serializedResult);
-    if (!result.equals(expected)) {
-      System.out.println("Expected: \n " + gson.toJson(expected));
-      System.out.println("\n\nBut Got: \n " + gson.toJson(result));
+    String expected = getResourceAsString(expectedFileName);
+    try {
+      JSONAssert.assertEquals(expected, serializedResult, true);
+    } catch (AssertionError e) {
+      System.out.println("Expected: \n " + expected);
+      System.out.println("\n\nBut Got: \n " + serializedResult);
     }
-
-    assertThat(result, is(expected));
   }
 
   public static class NonExternalizableModelProperty implements ModelProperty {
@@ -343,7 +336,9 @@ abstract class BasePersistenceTestCase {
     }
   }
 
+
   public static class ExportedClass {
+
   }
 
   private Set<ExternalLibraryModel> externalLibrarySet() {

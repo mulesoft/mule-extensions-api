@@ -29,22 +29,23 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
-import org.mule.runtime.api.meta.model.operation.RouteModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
+import org.mule.runtime.api.meta.model.stereotype.ImmutableStereotypeModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
-import org.mule.runtime.extension.api.model.operation.ImmutableRouteModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
+import org.mule.runtime.extension.internal.persistence.ConstructModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ElementDslModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter;
@@ -52,6 +53,7 @@ import org.mule.runtime.extension.internal.persistence.FunctionModelTypeAdapterF
 import org.mule.runtime.extension.internal.persistence.ImportedTypesModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.NestableElementModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.OperationModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.RestrictedTypesObjectTypeReferenceHandler;
 import org.mule.runtime.extension.internal.persistence.SourceModelTypeAdapterFactory;
@@ -162,6 +164,8 @@ public class ExtensionModelJsonSerializer {
     final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
     final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
+    final DefaultImplementationTypeAdapterFactory<StereotypeModel, ImmutableStereotypeModel> stereotypeModelTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
 
@@ -182,10 +186,12 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)
         .registerTypeAdapterFactory(connectionProviderModelTypeAdapterFactory)
         .registerTypeAdapterFactory(new OperationModelTypeAdapterFactory())
+        .registerTypeAdapterFactory(new ConstructModelTypeAdapterFactory())
         .registerTypeAdapterFactory(new FunctionModelTypeAdapterFactory())
-        .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(RouteModel.class, ImmutableRouteModel.class))
+        .registerTypeAdapterFactory(new NestableElementModelTypeAdapterFactory())
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(errorModelTypeAdapter)
+        .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
         .registerTypeAdapterFactory(oauthGrantTypeAdapter);
 
     if (prettyPrint) {

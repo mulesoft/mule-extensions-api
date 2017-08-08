@@ -8,13 +8,13 @@ package org.mule.runtime.extension.api.declaration.fluent.util;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.RouterDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ScopeDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithConstructsDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
@@ -39,6 +39,7 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
   private Set<Reference<ParameterDeclaration>> parameters = new LinkedHashSet<>();
   private Set<Reference<ParameterGroupDeclaration>> parameterGroups = new LinkedHashSet<>();
   private Set<Reference<OperationDeclaration>> operations = new LinkedHashSet<>();
+  private Set<Reference<ConstructDeclaration>> constructs = new LinkedHashSet<>();
   private Set<Reference<ConnectionProviderDeclaration>> connectionProviders = new LinkedHashSet<>();
 
   private <T> boolean isFirstAppearance(Set<Reference<T>> accumulator, T item) {
@@ -79,16 +80,8 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
   }
 
   @Override
-  protected void onRouter(WithOperationsDeclaration owner, RouterDeclaration declaration) {
-    doOnce(operations, declaration, router -> onRouter((RouterDeclaration) router));
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected void onScope(WithOperationsDeclaration owner, ScopeDeclaration declaration) {
-    doOnce(operations, declaration, scope -> onScope((ScopeDeclaration) scope));
+  protected void onConstruct(WithConstructsDeclaration owner, ConstructDeclaration declaration) {
+    doOnce(constructs, declaration, this::onConstruct);
   }
 
   /**
@@ -152,28 +145,12 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
   protected void onOperation(OperationDeclaration declaration) {}
 
   /**
-   * Invoked when a {@link ScopeDeclaration} is found in the traversed {@code extensionDeclaration}.
+   * Invoked when a {@link ConstructDeclaration} is found in the traversed {@code extensionDeclaration}.
    * <p>
    * This method will only be invoked once per each found instance.
-   * <p>
-   * By default, this method will simply delegate into {@link #onOperation(OperationDeclaration)}
    *
    * @param declaration the {@link WithOperationsDeclaration}
    */
-  protected void onScope(ScopeDeclaration declaration) {
-    onOperation(declaration);
-  }
+  protected void onConstruct(ConstructDeclaration declaration) {}
 
-  /**
-   * Invoked when a {@link RouterDeclaration} is found in the traversed {@code extensionDeclaration}.
-   * <p>
-   * This method will only be invoked once per each found instance.
-   * <p>
-   * By default, this method will simply delegate into {@link #onOperation(OperationDeclaration)}
-   *
-   * @param declaration the {@link WithOperationsDeclaration}
-   */
-  protected void onRouter(RouterDeclaration declaration) {
-    onOperation(declaration);
-  }
 }

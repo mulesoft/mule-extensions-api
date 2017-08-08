@@ -10,6 +10,7 @@ import static java.util.Collections.unmodifiableSet;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.MuleVersion;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -21,6 +22,7 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
+import org.mule.runtime.api.meta.model.function.HasFunctionModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -35,13 +37,15 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableExtensionModel extends AbstractComplexModel implements ExtensionModel {
+public class ImmutableExtensionModel extends AbstractComplexModel implements ExtensionModel, HasFunctionModels {
 
   private final String vendor;
   private final String version;
   private final MuleVersion minMuleVersion;
   private final Category category;
   private final List<ConfigurationModel> configurations;
+  private final List<ConstructModel> constructModels;
+  private final List<FunctionModel> functions;
   private final Set<String> privilegedPackages;
   private final Set<String> privilegedArtifacts;
   private final Set<ErrorModel> errors;
@@ -74,9 +78,9 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
    * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
-   * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param privilegedPackages a {@link Set} of Java package names to export on the extension's privileged API.
    * @param privilegedArtifacts a {@link Set} of artifact ID that have access to the extension's privileged API.
+   * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank.
    */
   public ImmutableExtensionModel(String name,
@@ -90,6 +94,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  List<ConnectionProviderModel> connectionProviders,
                                  List<SourceModel> sourceModels,
                                  List<FunctionModel> functions,
+                                 List<ConstructModel> constructModels,
                                  DisplayModel displayModel,
                                  XmlDslModel xmlDslModel,
                                  Set<SubTypesModel> subTypes,
@@ -98,9 +103,9 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<ImportedTypeModel> importedTypes,
                                  Set<ErrorModel> errors,
                                  Set<ExternalLibraryModel> externalLibraryModels,
-                                 Set<ModelProperty> modelProperties,
-                                 Set<String> privilegedPackages, Set<String> privilegedArtifacts) {
-    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, functions);
+                                 Set<String> privilegedPackages, Set<String> privilegedArtifacts,
+                                 Set<ModelProperty> modelProperties) {
+    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
 
     checkModelArgument(version != null && version.length() > 0, "Version cannot be blank");
@@ -122,6 +127,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.externalLibraries = unmodifiableSet(externalLibraryModels);
     this.privilegedPackages = privilegedPackages;
     this.privilegedArtifacts = privilegedArtifacts;
+    this.constructModels = unique(constructModels, "Constructs");
+    this.functions = unique(functions, "Functions");
   }
 
   /**
@@ -139,6 +146,34 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   public Optional<ConfigurationModel> getConfigurationModel(String name) {
     return findModel(configurations, name);
   }
+
+  @Override
+  public List<ConstructModel> getConstructModels() {
+    return constructModels;
+  }
+
+  @Override
+  public Optional<ConstructModel> getConstructModel(String name) {
+    return constructModels.stream().filter(c -> c.getName().equals(name)).findFirst();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<FunctionModel> getFunctionModels() {
+    return functions;
+  }
+
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<FunctionModel> getFunctionModel(String name) {
+    return findModel(functions, name);
+  }
+
 
   /**
    * {@inheritDoc}

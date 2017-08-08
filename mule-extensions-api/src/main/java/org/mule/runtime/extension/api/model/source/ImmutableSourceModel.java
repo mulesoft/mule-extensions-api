@@ -9,13 +9,15 @@ package org.mule.runtime.extension.api.model.source;
 import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
-import org.mule.runtime.api.meta.model.Stereotype;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
-import org.mule.runtime.extension.api.model.AbstractComponentModel;
+import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
+import org.mule.runtime.extension.api.model.AbstractExecutableComponentModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableSourceModel extends AbstractComponentModel implements SourceModel {
+public class ImmutableSourceModel extends AbstractExecutableComponentModel implements SourceModel {
 
   private final boolean hasResponse;
   private final SourceCallbackModel successCallback;
@@ -36,11 +38,11 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
 
   /**
    * Creates a new instance
-   *
-   * @param name                 the source name. Cannot be blank
+   *  @param name                 the source name. Cannot be blank
    * @param description          the source description
    * @param hasResponse          Whether the source emits a response
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents     a {@link List} with the components contained by this model
    * @param output               an {@link OutputModel} which represents the operation's output content
    * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output me
    * @param successCallbackModel an optional model for the source success callback
@@ -49,14 +51,14 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
    * @param transactional        whether this component supports transactions
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
-   * @param stereotypes          A {@link Set} of {@link Stereotype stereotypes}
+   * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    */
   public ImmutableSourceModel(String name,
                               String description,
                               boolean hasResponse,
                               List<ParameterGroupModel> parameterGroupModels,
-                              OutputModel output,
+                              List<? extends NestableElementModel> nestedComponents, OutputModel output,
                               OutputModel outputAttributes,
                               Optional<SourceCallbackModel> successCallbackModel,
                               Optional<SourceCallbackModel> errorCallbackModel,
@@ -65,11 +67,11 @@ public class ImmutableSourceModel extends AbstractComponentModel implements Sour
                               boolean transactional,
                               boolean supportsStreaming,
                               DisplayModel displayModel,
-                              Set<Stereotype> stereotypes,
+                              Set<StereotypeModel> stereotypes,
                               Set<ErrorModel> errors,
                               Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-          supportsStreaming, displayModel, stereotypes, modelProperties);
+          supportsStreaming, displayModel, stereotypes, modelProperties, nestedComponents);
     this.hasResponse = hasResponse;
     this.successCallback = successCallbackModel.orElse(null);
     this.errorCallback = errorCallbackModel.orElse(null);
