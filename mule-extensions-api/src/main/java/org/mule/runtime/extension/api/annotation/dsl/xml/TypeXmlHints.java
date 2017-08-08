@@ -46,6 +46,7 @@ public @interface TypeXmlHints {
 
   /**
    * Specifies that the annotated type should extend from an specific baseType
+   * If the namespace prefix does not exist or the string doesn't match the required format,
    * an {@code IllegalArgumentException} will be thrown.
    * @return the baseType defined or the default
    */

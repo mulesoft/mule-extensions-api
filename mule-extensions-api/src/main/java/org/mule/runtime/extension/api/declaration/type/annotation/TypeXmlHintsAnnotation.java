@@ -13,9 +13,6 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 import java.util.Optional;
 
 
-/**
- * Created by luciano.raineri on 8/7/17.
- */
 public class TypeXmlHintsAnnotation implements TypeAnnotation {
 
   public static final String NAME = "typeXmlHints";
@@ -73,7 +70,7 @@ public class TypeXmlHintsAnnotation implements TypeAnnotation {
   }
 
   /**
-   * @return any baseType defined for the type to extend from
+   * @return any baseType defined for the type to extend from or {@code Optional.empty()} it not defined
    */
   public Optional<BaseType> getBaseType() {
     return Optional.ofNullable(baseType);
