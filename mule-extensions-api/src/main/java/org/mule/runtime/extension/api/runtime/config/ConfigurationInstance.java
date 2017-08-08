@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.runtime;
+package org.mule.runtime.extension.api.runtime.config;
 
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -61,4 +61,8 @@ public interface ConfigurationInstance {
    */
   Optional<ConnectionProvider> getConnectionProvider();
 
+  /**
+   * @return a {@link ConfigurationState} holding the parameter values for {@code this} instance.
+   */
+  ConfigurationState getState();
 }

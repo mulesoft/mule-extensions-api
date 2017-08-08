@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.runtime.operation;
 
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.extension.api.runtime.ConfigurationInstance;
+import org.mule.runtime.extension.api.runtime.config.ConfigurationInstance;
 
 /**
  * Taps into different phases of the execution of an extension's operation
