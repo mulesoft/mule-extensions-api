@@ -9,18 +9,17 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 /**
  * Created by luciano.raineri on 8/7/17.
  */
-public class BaseType extends PrefixDefinedAnnotation
-{
+public class BaseType extends PrefixDefinedAnnotation {
+
   public BaseType() {
     super();
   }
 
   public BaseType(String prefix, String type) {
-    super(prefix,type);
+    super(prefix, type);
   }
 
-  public BaseType(String formattedBaseType) throws IllegalArgumentException
-  {
+  public BaseType(String formattedBaseType) throws IllegalArgumentException {
     super(formattedBaseType);
   }
 

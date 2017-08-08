@@ -8,8 +8,8 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.apache.commons.lang3.StringUtils;
 
-public abstract class PrefixDefinedAnnotation
-{
+public abstract class PrefixDefinedAnnotation {
+
   private static final String DELIMITER = ":";
   private String prefix = StringUtils.EMPTY;
   private String content = StringUtils.EMPTY;
@@ -29,14 +29,14 @@ public abstract class PrefixDefinedAnnotation
       setValues(StringUtils.trim(splittedAnnotation[0]), StringUtils.trim(splittedAnnotation[1]));
     } else {
       throw new IllegalArgumentException(String
-                                                 .format("%s is not a valid format. prefix:content is expected", formattedAnnotation));
+          .format("%s is not a valid format. prefix:content is expected", formattedAnnotation));
     }
   }
 
   void setValues(String prefix, String content) {
     if (StringUtils.isBlank(prefix) || StringUtils.isBlank(content)) {
       throw new IllegalArgumentException(String
-                                                 .format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
+          .format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
     }
     this.prefix = prefix;
     this.content = content;
@@ -57,7 +57,8 @@ public abstract class PrefixDefinedAnnotation
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof PrefixDefinedAnnotation) {
-      return prefix.equals(((PrefixDefinedAnnotation) obj).getPrefix()) && content.equals(((PrefixDefinedAnnotation) obj).getContent());
+      return prefix.equals(((PrefixDefinedAnnotation) obj).getPrefix())
+          && content.equals(((PrefixDefinedAnnotation) obj).getContent());
     }
     return false;
   }

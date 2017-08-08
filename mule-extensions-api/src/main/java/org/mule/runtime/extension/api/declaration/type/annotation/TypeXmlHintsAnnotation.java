@@ -16,8 +16,8 @@ import java.util.Optional;
 /**
  * Created by luciano.raineri on 8/7/17.
  */
-public class TypeXmlHintsAnnotation implements TypeAnnotation
-{
+public class TypeXmlHintsAnnotation implements TypeAnnotation {
+
   public static final String NAME = "typeXmlHints";
 
   private final boolean allowInlineDefinition;
@@ -33,7 +33,8 @@ public class TypeXmlHintsAnnotation implements TypeAnnotation
    * @param substitutionGroup       the substitutionGroup that the xml element should have as attribute
    * @param baseType                the baseType that the type should declare as base attribute
    */
-  public TypeXmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, String substitutionGroup, String baseType) {
+  public TypeXmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, String substitutionGroup,
+                                String baseType) {
     this.allowInlineDefinition = allowInlineDefinition;
     this.allowTopLevelDefinition = allowTopLevelDefinition;
     SubstitutionGroup substitutionGroupObject = new SubstitutionGroup(substitutionGroup);
@@ -88,8 +89,9 @@ public class TypeXmlHintsAnnotation implements TypeAnnotation
     if (obj instanceof TypeXmlHintsAnnotation) {
       TypeXmlHintsAnnotation other = (TypeXmlHintsAnnotation) obj;
       return allowInlineDefinition == other.allowsInlineDefinition() &&
-             allowTopLevelDefinition == other.allowsTopLevelDefinition()
-             && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup() && Optional.ofNullable(baseType) == other.getBaseType();
+          allowTopLevelDefinition == other.allowsTopLevelDefinition()
+          && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup()
+          && Optional.ofNullable(baseType) == other.getBaseType();
     }
     return false;
   }

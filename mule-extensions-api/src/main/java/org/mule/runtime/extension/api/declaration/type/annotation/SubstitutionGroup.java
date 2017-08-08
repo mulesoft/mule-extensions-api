@@ -19,11 +19,10 @@ public class SubstitutionGroup extends PrefixDefinedAnnotation {
   }
 
   public SubstitutionGroup(String prefix, String element) {
-    super(prefix,element);
+    super(prefix, element);
   }
 
-  public SubstitutionGroup(String formattedSubstitutionGroup) throws IllegalArgumentException
-  {
+  public SubstitutionGroup(String formattedSubstitutionGroup) throws IllegalArgumentException {
     super(formattedSubstitutionGroup);
   }
 
