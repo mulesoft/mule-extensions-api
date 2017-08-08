@@ -61,5 +61,5 @@ public interface ConfigurationInstance {
    */
   Optional<ConnectionProvider> getConnectionProvider();
 
-  ConfigurationState getState(Object event);
+  ConfigurationState getState();
 }
