@@ -12,7 +12,7 @@ public abstract class PrefixDefinedAnnotation {
 
   private static final String DELIMITER = ":";
   private String prefix = StringUtils.EMPTY;
-  private String content = StringUtils.EMPTY;
+  private String element = StringUtils.EMPTY;
 
   public PrefixDefinedAnnotation() {}
 
@@ -39,33 +39,33 @@ public abstract class PrefixDefinedAnnotation {
           .format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
     }
     this.prefix = prefix;
-    this.content = content;
+    this.element = content;
   }
 
   public boolean isDefined() {
-    return (StringUtils.isNotEmpty(prefix) && StringUtils.isNotEmpty(content));
+    return (StringUtils.isNotEmpty(prefix) && StringUtils.isNotEmpty(element));
   }
 
   public String getPrefix() {
     return this.prefix;
   }
 
-  public String getContent() {
-    return this.content;
+  protected String getContent() {
+    return this.element;
   }
 
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof PrefixDefinedAnnotation) {
       return prefix.equals(((PrefixDefinedAnnotation) obj).getPrefix())
-          && content.equals(((PrefixDefinedAnnotation) obj).getContent());
+          && element.equals(((PrefixDefinedAnnotation) obj).getContent());
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return prefix.hashCode() + content.hashCode();
+    return prefix.hashCode() + element.hashCode();
   }
 
 }
