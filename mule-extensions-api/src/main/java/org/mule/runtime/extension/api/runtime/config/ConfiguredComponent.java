@@ -8,7 +8,15 @@ package org.mule.runtime.extension.api.runtime.config;
 
 import java.util.Optional;
 
+/**
+ * Represents a component which might be associated to a {@link ConfigurationInstance}
+ *
+ * @since 1.0
+ */
 public interface ConfiguredComponent {
 
+  /**
+   * @return The {@link ConfigurationInstance} which may optinally be associated to {@code this} component
+   */
   Optional<ConfigurationInstance> getConfigurationInstance();
 }

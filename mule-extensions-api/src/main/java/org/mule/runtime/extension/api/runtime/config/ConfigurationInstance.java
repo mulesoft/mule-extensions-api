@@ -61,5 +61,8 @@ public interface ConfigurationInstance {
    */
   Optional<ConnectionProvider> getConnectionProvider();
 
+  /**
+   * @return a {@link ConfigurationState} holding the parameter values for {@code this} instance.
+   */
   ConfigurationState getState();
 }
