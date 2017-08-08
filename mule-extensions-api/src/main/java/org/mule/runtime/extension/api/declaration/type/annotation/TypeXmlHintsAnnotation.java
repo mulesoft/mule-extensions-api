@@ -44,7 +44,7 @@ public class TypeXmlHintsAnnotation implements TypeAnnotation {
   }
 
   /**
-   * @return {@code xmlHints}
+   * @return {@code typeXmlHints}
    */
   @Override
   public String getName() {
