@@ -86,12 +86,12 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
         ((WithAnnotation) typeBuilder).with(new ExtensibleTypeAnnotation());
       }
 
-      TypeDsl hints = currentClass.getAnnotation(TypeDsl.class);
-      if (hints != null) {
-        ((WithAnnotation) typeBuilder).with(new TypeDslAnnotation(hints.allowInlineDefinition(),
-                                                                  hints.allowTopLevelDefinition(),
-                                                                  hints.substitutionGroup(),
-                                                                  hints.baseType()));
+      TypeDsl typeDsl = currentClass.getAnnotation(TypeDsl.class);
+      if (typeDsl != null) {
+        ((WithAnnotation) typeBuilder).with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
+                                                                  typeDsl.allowTopLevelDefinition(),
+                                                                  typeDsl.substitutionGroup(),
+                                                                  typeDsl.baseType()));
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);
