@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.streaming;
 
-import java.io.Closeable;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ import java.util.Optional;
  * @param <T> the type of the returned pages.
  * @since 1.0
  */
-public interface PagingProvider<C, T> extends Closeable {
+public interface PagingProvider<C, T> {
 
   /**
    * Returns the next page of items. If the return value is an empty {@link List} then it means no more items are available
@@ -57,4 +57,11 @@ public interface PagingProvider<C, T> extends Closeable {
     return false;
   }
 
+  /**
+   * Closes the resources. This method should not call close on the {@code connection} parameter. That
+   * would be automatically handled by the runtime.
+   * @param connection  The connection to be used in order to correctly close the {@link PagingProvider}.
+   * @throws IOException if there was an error closing the resources
+   */
+  void close(C connection) throws IOException;
 }
