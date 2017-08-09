@@ -12,7 +12,11 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 
 import java.util.Optional;
 
-
+/**
+ * {@link TypeAnnotation} storing information defined by {@code TypsDsl} annotations
+ *
+ * @since 1.0
+ */
 public class TypeDslAnnotation implements TypeAnnotation {
 
   public static final String NAME = "typeDsl";
@@ -41,7 +45,7 @@ public class TypeDslAnnotation implements TypeAnnotation {
   }
 
   /**
-   * @return {@code typeXmlHints}
+   * @return {@code typeDsl}
    */
   @Override
   public String getName() {

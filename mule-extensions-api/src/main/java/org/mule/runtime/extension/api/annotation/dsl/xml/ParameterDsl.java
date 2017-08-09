@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.annotation.dsl.xml;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.runtime.extension.api.annotation.param.Parameter;
