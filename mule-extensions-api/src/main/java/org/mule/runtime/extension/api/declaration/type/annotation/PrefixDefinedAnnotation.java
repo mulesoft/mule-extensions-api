@@ -8,6 +8,10 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Pojo used to store annotations that have the format prefix:element.
+ * @since 1.0
+ */
 public abstract class PrefixDefinedAnnotation {
 
   private static final String DELIMITER = ":";

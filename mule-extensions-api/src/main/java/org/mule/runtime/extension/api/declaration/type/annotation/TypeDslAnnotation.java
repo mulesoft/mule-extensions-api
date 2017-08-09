@@ -13,14 +13,14 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 import java.util.Optional;
 
 
-public class TypeXmlHintsAnnotation implements TypeAnnotation {
+public class TypeDslAnnotation implements TypeAnnotation {
 
-  public static final String NAME = "typeXmlHints";
+  public static final String NAME = "typeDsl";
 
   private final boolean allowInlineDefinition;
   private final boolean allowTopLevelDefinition;
   private final SubstitutionGroup substitutionGroup;
-  private final BaseType baseType;
+  private final DslBaseType dslBaseType;
 
   /**
    * Creates a new instance
@@ -28,16 +28,16 @@ public class TypeXmlHintsAnnotation implements TypeAnnotation {
    * @param allowInlineDefinition   whether the associated element should support inline definition as child element
    * @param allowTopLevelDefinition whether the associated element should support being defined as a top level element
    * @param substitutionGroup       the substitutionGroup that the xml element should have as attribute
-   * @param baseType                the baseType that the type should declare as base attribute
+   * @param baseType                the dslBaseType that the type should declare as base attribute
    */
-  public TypeXmlHintsAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, String substitutionGroup,
-                                String baseType) {
+  public TypeDslAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, String substitutionGroup,
+                           String baseType) {
     this.allowInlineDefinition = allowInlineDefinition;
     this.allowTopLevelDefinition = allowTopLevelDefinition;
     SubstitutionGroup substitutionGroupObject = new SubstitutionGroup(substitutionGroup);
     this.substitutionGroup = substitutionGroupObject.isDefined() ? substitutionGroupObject : null;
-    BaseType baseTypeObject = new BaseType(baseType);
-    this.baseType = baseTypeObject.isDefined() ? baseTypeObject : null;
+    DslBaseType dslBaseTypeObject = new DslBaseType(baseType);
+    this.dslBaseType = dslBaseTypeObject.isDefined() ? dslBaseTypeObject : null;
   }
 
   /**
@@ -70,10 +70,10 @@ public class TypeXmlHintsAnnotation implements TypeAnnotation {
   }
 
   /**
-   * @return any baseType defined for the type to extend from or {@code Optional.empty()} it not defined
+   * @return any dslBaseType defined for the type to extend from or {@code Optional.empty()} it not defined
    */
-  public Optional<BaseType> getBaseType() {
-    return Optional.ofNullable(baseType);
+  public Optional<DslBaseType> getDslBaseType() {
+    return Optional.ofNullable(dslBaseType);
   }
 
   @Override
@@ -83,12 +83,12 @@ public class TypeXmlHintsAnnotation implements TypeAnnotation {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof TypeXmlHintsAnnotation) {
-      TypeXmlHintsAnnotation other = (TypeXmlHintsAnnotation) obj;
+    if (obj instanceof TypeDslAnnotation) {
+      TypeDslAnnotation other = (TypeDslAnnotation) obj;
       return allowInlineDefinition == other.allowsInlineDefinition() &&
           allowTopLevelDefinition == other.allowsTopLevelDefinition()
           && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup()
-          && Optional.ofNullable(baseType) == other.getBaseType();
+          && Optional.ofNullable(dslBaseType) == other.getDslBaseType();
     }
     return false;
   }

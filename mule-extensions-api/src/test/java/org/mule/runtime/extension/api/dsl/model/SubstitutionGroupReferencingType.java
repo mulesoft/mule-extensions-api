@@ -6,10 +6,10 @@
  */
 package org.mule.runtime.extension.api.dsl.model;
 
-import org.mule.runtime.extension.api.annotation.dsl.xml.TypeXmlHints;
+import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
-@TypeXmlHints(substitutionGroup = "someprefix:some-element")
+@TypeDsl(substitutionGroup = "someprefix:some-element")
 public class SubstitutionGroupReferencingType {
 
   @Parameter

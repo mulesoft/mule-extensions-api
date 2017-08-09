@@ -31,7 +31,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 
 import java.util.Optional;
@@ -115,8 +115,8 @@ final class DslSyntaxUtils {
   }
 
   static boolean supportTopLevelElement(MetadataType metadataType) {
-    return supportTopLevelElement(metadataType, metadataType.getAnnotation(XmlHintsAnnotation.class)
-        .map(XmlHintsAnnotation::allowsReferences).orElse(true));
+    return supportTopLevelElement(metadataType, metadataType.getAnnotation(ParameterDslAnnotation.class)
+        .map(ParameterDslAnnotation::allowsReferences).orElse(true));
   }
 
   static boolean supportTopLevelElement(MetadataType metadataType, ParameterDslConfiguration dslConfiguration) {

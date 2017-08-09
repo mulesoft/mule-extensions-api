@@ -7,19 +7,21 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 /**
- * Created by luciano.raineri on 8/7/17.
+ * Pojo used to store a baseType when specified from {@code TypeDsl}.
+ * The format expected is prefix:element and they should both always be specified.
+ * @since 1.0
  */
-public class BaseType extends PrefixDefinedAnnotation {
+public class DslBaseType extends PrefixDefinedAnnotation {
 
-  public BaseType() {
+  public DslBaseType() {
     super();
   }
 
-  public BaseType(String prefix, String type) {
+  public DslBaseType(String prefix, String type) {
     super(prefix, type);
   }
 
-  public BaseType(String formattedBaseType) throws IllegalArgumentException {
+  public DslBaseType(String formattedBaseType) throws IllegalArgumentException {
     super(formattedBaseType);
   }
 

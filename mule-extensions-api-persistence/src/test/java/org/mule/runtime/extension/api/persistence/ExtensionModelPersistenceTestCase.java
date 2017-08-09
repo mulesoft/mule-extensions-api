@@ -22,7 +22,7 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
@@ -103,7 +103,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     assertThat(extensibleTypeList.getType().getAnnotation(TypeAliasAnnotation.class).get().getValue(), is(ExtensibleType.ALIAS));
 
     ObjectType simplePojo = (ObjectType) ((ObjectType) complexType).getFieldByName("simplePojo").get().getValue();
-    assertThat(simplePojo.getFieldByName("sampleString").get().getAnnotation(XmlHintsAnnotation.class).get().allowsReferences(),
+    assertThat(simplePojo.getFieldByName("sampleString").get().getAnnotation(ParameterDslAnnotation.class).get().allowsReferences(),
                is(false));
   }
 

@@ -21,7 +21,8 @@ import java.lang.annotation.Target;
 @Target({TYPE})
 @Retention(RUNTIME)
 @Documented
-public @interface TypeXmlHints {
+public @interface TypeDsl
+{
 
   /**
    * Whether the associated element should support inline definition as child element. Defaults to {@code true}

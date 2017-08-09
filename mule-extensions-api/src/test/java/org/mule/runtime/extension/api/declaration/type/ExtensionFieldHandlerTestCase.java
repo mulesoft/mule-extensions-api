@@ -20,7 +20,7 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.extension.api.annotation.Expression;
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
@@ -34,7 +34,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnn
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
 import org.junit.Test;
@@ -53,7 +53,7 @@ public class ExtensionFieldHandlerTestCase {
   public void xmlElementStyle() {
     ObjectType type = (ObjectType) typeLoader.load(NoRefType.class);
     assertThat(type.getFields(), hasSize(1));
-    assertThat(type.getFields().iterator().next().getAnnotation(XmlHintsAnnotation.class).isPresent(), is(true));
+    assertThat(type.getFields().iterator().next().getAnnotation(ParameterDslAnnotation.class).isPresent(), is(true));
   }
 
   @Test
@@ -161,7 +161,7 @@ public class ExtensionFieldHandlerTestCase {
   public class NoRefType {
 
     @Parameter
-    @XmlHints(allowReferences = false)
+    @ParameterDsl(allowReferences = false)
     private Object data;
   }
 

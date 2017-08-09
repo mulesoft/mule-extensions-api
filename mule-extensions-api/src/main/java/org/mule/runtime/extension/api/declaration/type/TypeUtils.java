@@ -20,14 +20,14 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
-import org.mule.runtime.extension.api.declaration.type.annotation.BaseType;
+import org.mule.runtime.extension.api.declaration.type.annotation.DslBaseType;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeXmlHintsAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
 import java.lang.reflect.Field;
@@ -110,24 +110,24 @@ public final class TypeUtils {
    * @return {@code true} if the given {@link MetadataType} should support inline definition as child element
    */
   public static boolean allowsInlineDefinition(MetadataType type) {
-    return type.getAnnotation(XmlHintsAnnotation.class)
-        .map(XmlHintsAnnotation::allowsInlineDefinition).orElse(true);
+    return type.getAnnotation(ParameterDslAnnotation.class)
+        .map(ParameterDslAnnotation::allowsInlineDefinition).orElse(true);
   }
 
   /**
    * @return whether the given {@link MetadataType} should support being defined as a top level element
    */
   public static boolean allowsTopLevelDefinition(MetadataType type) {
-    return type.getAnnotation(TypeXmlHintsAnnotation.class)
-        .map(TypeXmlHintsAnnotation::allowsTopLevelDefinition).orElse(false);
+    return type.getAnnotation(TypeDslAnnotation.class)
+        .map(TypeDslAnnotation::allowsTopLevelDefinition).orElse(false);
   }
 
   /**
    * @return whether the given {@link MetadataType} should support registry references
    */
   public static boolean allowsReferences(MetadataType type) {
-    return type.getAnnotation(XmlHintsAnnotation.class)
-        .map(XmlHintsAnnotation::allowsReferences).orElse(true);
+    return type.getAnnotation(ParameterDslAnnotation.class)
+        .map(ParameterDslAnnotation::allowsReferences).orElse(true);
   }
 
   /**
@@ -183,8 +183,8 @@ public final class TypeUtils {
    * @return whether instances of the given {@code metadataType} accept being referenced to
    */
   public static boolean acceptsReferences(MetadataType metadataType) {
-    return metadataType.getAnnotation(XmlHintsAnnotation.class)
-        .map(XmlHintsAnnotation::allowsReferences)
+    return metadataType.getAnnotation(ParameterDslAnnotation.class)
+        .map(ParameterDslAnnotation::allowsReferences)
         .orElse(true);
   }
 
@@ -206,14 +206,14 @@ public final class TypeUtils {
    * @return the substitutionGroup defined by the user or {@code Optional.empty()} if not present.
    */
   public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
-    return metadataType.getAnnotation(TypeXmlHintsAnnotation.class).flatMap(TypeXmlHintsAnnotation::getSubstitutionGroup);
+    return metadataType.getAnnotation(TypeDslAnnotation.class).flatMap(TypeDslAnnotation::getSubstitutionGroup);
   }
 
   /**
    * @param metadataType
    * @return the baseType defined by the user or {Optional.empty()} if not present
    */
-  public static Optional<BaseType> getBaseType(MetadataType metadataType) {
-    return metadataType.getAnnotation(TypeXmlHintsAnnotation.class).flatMap(TypeXmlHintsAnnotation::getBaseType);
+  public static Optional<DslBaseType> getBaseType(MetadataType metadataType) {
+    return metadataType.getAnnotation(TypeDslAnnotation.class).flatMap(TypeDslAnnotation::getDslBaseType);
   }
 }
