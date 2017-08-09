@@ -6,10 +6,12 @@
  */
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
+import org.mule.runtime.api.util.Preconditions;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Pojo used to store annotations that have the format prefix:element.
+ * Pojo used to store annotations which value has the format prefix:element.
  * @since 1.0
  */
 public abstract class PrefixDefinedAnnotation {
@@ -29,19 +31,12 @@ public abstract class PrefixDefinedAnnotation {
       return;
     }
     String[] splittedAnnotation = formattedAnnotation.split(DELIMITER);
-    if (splittedAnnotation.length == 2) {
-      setValues(StringUtils.trim(splittedAnnotation[0]), StringUtils.trim(splittedAnnotation[1]));
-    } else {
-      throw new IllegalArgumentException(String
-          .format("%s is not a valid format. prefix:content is expected", formattedAnnotation));
-    }
+    Preconditions.checkArgument(splittedAnnotation.length == 2, String.format("%s is not a valid format. prefix:content is expected", formattedAnnotation));
+    setValues(StringUtils.trim(splittedAnnotation[0]), StringUtils.trim(splittedAnnotation[1]));
   }
 
   void setValues(String prefix, String content) {
-    if (StringUtils.isBlank(prefix) || StringUtils.isBlank(content)) {
-      throw new IllegalArgumentException(String
-          .format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
-    }
+    Preconditions.checkArgument(StringUtils.isBlank(prefix) || StringUtils.isBlank(content), String.format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
     this.prefix = prefix;
     this.element = content;
   }
