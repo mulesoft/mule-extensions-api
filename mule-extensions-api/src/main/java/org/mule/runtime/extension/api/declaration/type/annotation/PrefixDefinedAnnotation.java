@@ -37,7 +37,7 @@ public abstract class PrefixDefinedAnnotation {
   }
 
   void setValues(String prefix, String content) {
-    Preconditions.checkArgument(StringUtils.isBlank(prefix) || StringUtils.isBlank(content), String
+    Preconditions.checkArgument(!StringUtils.isBlank(prefix) && !StringUtils.isBlank(content), String
         .format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
     this.prefix = prefix;
     this.element = content;
