@@ -20,12 +20,12 @@ import org.mule.metadata.java.api.handler.ObjectHandler;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 
@@ -86,11 +86,12 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
         ((WithAnnotation) typeBuilder).with(new ExtensibleTypeAnnotation());
       }
 
-      XmlHints hints = currentClass.getAnnotation(XmlHints.class);
-      if (hints != null) {
-        ((WithAnnotation) typeBuilder).with(new XmlHintsAnnotation(hints.allowInlineDefinition(),
-                                                                   hints.allowTopLevelDefinition(),
-                                                                   hints.allowReferences()));
+      TypeDsl typeDsl = currentClass.getAnnotation(TypeDsl.class);
+      if (typeDsl != null) {
+        ((WithAnnotation) typeBuilder).with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
+                                                                  typeDsl.allowTopLevelDefinition(),
+                                                                  typeDsl.substitutionGroup(),
+                                                                  typeDsl.baseType()));
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);

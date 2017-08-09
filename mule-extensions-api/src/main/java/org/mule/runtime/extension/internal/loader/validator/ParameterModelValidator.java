@@ -34,7 +34,7 @@ import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
@@ -186,7 +186,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
 
     private boolean supportsGlobalReferences(ObjectFieldType field) {
       return dsl.resolve(field.getValue()).map(DslElementSyntax::supportsTopLevelDeclaration)
-          .orElseGet(() -> field.getAnnotation(XmlHintsAnnotation.class).map(XmlHintsAnnotation::allowsReferences)
+          .orElseGet(() -> field.getAnnotation(ParameterDslAnnotation.class).map(ParameterDslAnnotation::allowsReferences)
               .orElse(true));
     }
 

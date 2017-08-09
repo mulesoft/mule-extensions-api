@@ -38,7 +38,7 @@ import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.meta.model.parameter.ElementReference;
 import org.mule.runtime.extension.api.annotation.ElementReferences;
 import org.mule.runtime.extension.api.annotation.Expression;
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
 import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.DefaultEncoding;
@@ -66,7 +66,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeA
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.NullSafeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.XmlHintsAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 
@@ -284,11 +284,10 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void processElementStyle(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    final XmlHints annotation = field.getAnnotation(XmlHints.class);
+    final ParameterDsl annotation = field.getAnnotation(ParameterDsl.class);
     if (annotation != null) {
-      fieldBuilder.with(new XmlHintsAnnotation(annotation.allowInlineDefinition(),
-                                               annotation.allowTopLevelDefinition(),
-                                               annotation.allowReferences()));
+      fieldBuilder.with(new ParameterDslAnnotation(annotation.allowInlineDefinition(),
+                                                   annotation.allowReferences()));
     }
   }
 

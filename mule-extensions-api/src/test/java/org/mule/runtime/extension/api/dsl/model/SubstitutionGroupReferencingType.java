@@ -6,22 +6,21 @@
  */
 package org.mule.runtime.extension.api.dsl.model;
 
-
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
-import java.util.List;
-import java.util.Map;
-
-@TypeDsl(allowTopLevelDefinition = true)
-public class RecursivePojo {
+@TypeDsl(substitutionGroup = "someprefix:some-element")
+public class SubstitutionGroupReferencingType {
 
   @Parameter
-  private RecursivePojo next;
+  private String sampleString;
 
-  @Parameter
-  private List<RecursivePojo> childs;
+  public String getSampleString() {
+    return sampleString;
+  }
 
-  @Parameter
-  private Map<String, RecursivePojo> mappedChilds;
+  public void setSampleString(String sampleString) {
+    this.sampleString = sampleString;
+  }
+
 }

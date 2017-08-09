@@ -18,6 +18,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.extension.api.declaration.type.TypeUtils;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.GlobalType;
@@ -27,6 +28,7 @@ import org.mule.runtime.extension.api.dsl.model.RecursiveChainA;
 import org.mule.runtime.extension.api.dsl.model.RecursiveChainB;
 import org.mule.runtime.extension.api.dsl.model.RecursivePojo;
 import org.mule.runtime.extension.api.dsl.model.SimpleFieldsType;
+import org.mule.runtime.extension.api.dsl.model.SubstitutionGroupReferencingType;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
 import java.util.Optional;
@@ -154,4 +156,19 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     assertElementNamespace(defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML), typeResult.get());
     assertExtensibleTypeDslStructure(typeResult.get());
   }
+
+  @Test
+  public void testSubstitutionGroupReferencingType() {
+    MetadataType type = TYPE_LOADER.load(SubstitutionGroupReferencingType.class);
+    Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
+
+    assertThat(TypeUtils.getSubstitutionGroup(type).get().getPrefix(), is("someprefix"));
+    assertThat(TypeUtils.getSubstitutionGroup(type).get().getElement(), is("some-element"));
+    assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
+    assertElementName(getTopLevelTypeName(type), topDsl.get());
+    assertElementNamespace(PREFIX, topDsl.get());
+    assertChildElementDeclarationIs(true, topDsl.get());
+    assertIsWrappedElement(false, topDsl.get());
+  }
+
 }

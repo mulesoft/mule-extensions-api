@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.dsl.model;
 
-import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
+import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 
-@XmlHints(allowTopLevelDefinition = true)
+@TypeDsl(allowTopLevelDefinition = true)
 public class GlobalType extends NotGlobalType {
 
 }
