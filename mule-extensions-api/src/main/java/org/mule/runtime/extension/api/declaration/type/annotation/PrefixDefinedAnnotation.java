@@ -31,12 +31,14 @@ public abstract class PrefixDefinedAnnotation {
       return;
     }
     String[] splittedAnnotation = formattedAnnotation.split(DELIMITER);
-    Preconditions.checkArgument(splittedAnnotation.length == 2, String.format("%s is not a valid format. prefix:content is expected", formattedAnnotation));
+    Preconditions.checkArgument(splittedAnnotation.length == 2,
+                                String.format("%s is not a valid format. prefix:content is expected", formattedAnnotation));
     setValues(StringUtils.trim(splittedAnnotation[0]), StringUtils.trim(splittedAnnotation[1]));
   }
 
   void setValues(String prefix, String content) {
-    Preconditions.checkArgument(StringUtils.isBlank(prefix) || StringUtils.isBlank(content), String.format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
+    Preconditions.checkArgument(StringUtils.isBlank(prefix) || StringUtils.isBlank(content), String
+        .format("prefix and content should both be specified, got prefix: %s and content: %s", prefix, content));
     this.prefix = prefix;
     this.element = content;
   }

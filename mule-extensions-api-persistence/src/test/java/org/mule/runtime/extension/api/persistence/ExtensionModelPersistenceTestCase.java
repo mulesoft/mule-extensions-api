@@ -103,7 +103,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     assertThat(extensibleTypeList.getType().getAnnotation(TypeAliasAnnotation.class).get().getValue(), is(ExtensibleType.ALIAS));
 
     ObjectType simplePojo = (ObjectType) ((ObjectType) complexType).getFieldByName("simplePojo").get().getValue();
-    assertThat(simplePojo.getFieldByName("sampleString").get().getAnnotation(ParameterDslAnnotation.class).get().allowsReferences(),
+    assertThat(simplePojo.getFieldByName("sampleString").get().getAnnotation(ParameterDslAnnotation.class).get()
+        .allowsReferences(),
                is(false));
   }
 

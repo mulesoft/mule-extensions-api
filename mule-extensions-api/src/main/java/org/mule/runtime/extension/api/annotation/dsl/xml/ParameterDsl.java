@@ -27,8 +27,7 @@ import java.lang.annotation.Target;
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-public @interface ParameterDsl
-{
+public @interface ParameterDsl {
 
   /**
    * Whether the associated element should support inline definition as child element. Defaults to {@code true}

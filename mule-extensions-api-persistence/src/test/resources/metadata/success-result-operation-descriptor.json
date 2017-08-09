@@ -281,7 +281,7 @@
                           "expressionSupport": {
                             "value": "SUPPORTED"
                           },
-                          "xmlHints": {
+                          "parameterDsl": {
                             "allowInlineDefinition": true,
                             "allowReferences": false
                           }

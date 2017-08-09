@@ -144,7 +144,7 @@
                     "expressionSupport": {
                       "value": "SUPPORTED"
                     },
-                    "xmlHints": {
+                    "parameterDsl": {
                       "allowInlineDefinition": true,
                       "allowTopLevelDefinition": false,
                       "allowReferences": false
@@ -215,7 +215,7 @@
                     "expressionSupport": {
                       "value": "SUPPORTED"
                     },
-                    "xmlHints": {
+                    "parameterDsl": {
                       "allowInlineDefinition": true,
                       "allowTopLevelDefinition": false,
                       "allowReferences": false
