@@ -6,17 +6,13 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.CACHED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.POOLING;
-import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addDisableValidationParameter;
+import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionConfigParameter;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPoolingProfileParameter;
-import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionStrategyParameter;
-import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
@@ -38,17 +34,12 @@ public class ConnectionProviderDeclarationEnricher implements DeclarationEnriche
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     new IdempotentDeclarationWalker() {
 
       @Override
       protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
-        addReconnectionStrategyParameter(declaration);
+        addReconnectionConfigParameter(declaration);
         ConnectionManagementType managementType = declaration.getConnectionManagementType();
-
-        if (managementType == POOLING || managementType == CACHED) {
-          addDisableValidationParameter(declaration, typeLoader);
-        }
 
         if (managementType == POOLING) {
           addPoolingProfileParameter(declaration);

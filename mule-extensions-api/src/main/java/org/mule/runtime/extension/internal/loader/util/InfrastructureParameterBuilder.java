@@ -10,8 +10,8 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.CONNECTION;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
-import static org.mule.runtime.extension.api.ExtensionConstants.DISABLE_CONNECTION_VALIDATION_PARAMETER_DESCRIPTION;
-import static org.mule.runtime.extension.api.ExtensionConstants.DISABLE_CONNECTION_VALIDATION_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.POOLING_PROFILE_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.POOLING_PROFILE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION;
@@ -22,10 +22,10 @@ import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_TAB_N
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
+import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_DEFAULT_RECONNECTION_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_RECONNECTION_STRATEGY_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_REDELIVERY_POLICY_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_POOLING_PROFILE_TYPE_QNAME;
-import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
@@ -49,6 +49,26 @@ import javax.xml.namespace.QName;
 public final class InfrastructureParameterBuilder {
 
   private InfrastructureParameterBuilder() {}
+
+  public static void addReconnectionConfigParameter(ParameterizedDeclaration declaration) {
+    ParameterDeclaration parameter = new ParameterDeclaration(RECONNECTION_CONFIG_PARAMETER_NAME);
+    parameter.setDescription(RECONNECTION_CONFIG_PARAMETER_DESCRIPTION);
+    parameter.setExpressionSupport(NOT_SUPPORTED);
+    parameter.setRequired(false);
+    parameter.setParameterRole(BEHAVIOUR);
+    parameter.setType(new ReconnectionStrategyTypeBuilder().buildReconnectionConfigType(), false);
+    parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+    parameter.setDslConfiguration(ParameterDslConfiguration.builder()
+        .allowsInlineDefinition(true)
+        .allowsReferences(false)
+        .allowTopLevelDefinition(false)
+        .build());
+    parameter.addModelProperty(new QNameModelProperty(MULE_ABSTRACT_DEFAULT_RECONNECTION_QNAME));
+    markAsInfrastructure(parameter, 3);
+
+    declaration.getParameterGroup(CONNECTION).addParameter(parameter);
+  }
+
 
   public static void addReconnectionStrategyParameter(ParameterizedDeclaration declaration) {
     ParameterDeclaration parameter = new ParameterDeclaration(RECONNECTION_STRATEGY_PARAMETER_NAME);
@@ -84,19 +104,6 @@ public final class InfrastructureParameterBuilder {
         .build());
     parameter.addModelProperty(new QNameModelProperty(MULE_POOLING_PROFILE_TYPE_QNAME));
     markAsInfrastructure(parameter, 5);
-
-    declaration.getParameterGroup(CONNECTION).addParameter(parameter);
-  }
-
-  public static void addDisableValidationParameter(ConnectionProviderDeclaration declaration, ClassTypeLoader typeLoader) {
-    ParameterDeclaration parameter = new ParameterDeclaration(DISABLE_CONNECTION_VALIDATION_PARAMETER_NAME);
-    parameter.setDescription(DISABLE_CONNECTION_VALIDATION_PARAMETER_DESCRIPTION);
-    parameter.setExpressionSupport(NOT_SUPPORTED);
-    parameter.setRequired(false);
-    parameter.setParameterRole(BEHAVIOUR);
-    parameter.setType(typeLoader.load(boolean.class), false);
-    parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-    markAsInfrastructure(parameter, 4);
 
     declaration.getParameterGroup(CONNECTION).addParameter(parameter);
   }

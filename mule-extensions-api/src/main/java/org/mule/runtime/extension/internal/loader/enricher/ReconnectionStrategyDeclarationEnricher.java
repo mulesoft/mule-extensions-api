@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionStrategyParameter;
+import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -30,6 +31,13 @@ public final class ReconnectionStrategyDeclarationEnricher implements Declaratio
       @Override
       protected void onSource(SourceDeclaration declaration) {
         addReconnectionStrategyParameter(declaration);
+      }
+
+      @Override
+      protected void onOperation(OperationDeclaration declaration) {
+        if (declaration.isRequiresConnection()) {
+          addReconnectionStrategyParameter(declaration);
+        }
       }
     }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
   }
