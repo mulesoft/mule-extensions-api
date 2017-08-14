@@ -10,6 +10,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.tx.TransactionType.LOCAL;
 import static org.mule.runtime.extension.api.ExtensionConstants.OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTION_TYPE_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_ACTION_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TYPE_PARAMETER_NAME;
@@ -73,10 +74,10 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
 
         @Override
         protected void onSource(SourceDeclaration declaration) {
-          //TODO - MULE-12066 : Support XA transactions in SDK extensions at source level
           addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, sourceTransactionalActionType, NONE,
                          SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration, new TransactionalActionModelProperty());
-          addTxParameter(TRANSACTIONAL_TYPE_PARAMETER_NAME, transactionType, LOCAL, "some description", declaration,
+          addTxParameter(TRANSACTIONAL_TYPE_PARAMETER_NAME, transactionType, LOCAL, TRANSACTION_TYPE_PARAMETER_DESCRIPTION,
+                         declaration,
                          new TransactionalTypeModelProperty());
         }
 
