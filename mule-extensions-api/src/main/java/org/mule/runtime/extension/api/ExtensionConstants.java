@@ -42,8 +42,9 @@ public final class ExtensionConstants {
   public static final String TARGET_PARAMETER_DISPLAY_NAME = "Target Variable";
 
   /**
-   * The name of a synthetic parameter that's automatically added to all non void operations. The meaning of it is to provide an expression
-   * for operating over the operation's output so that can be stored in the flowVar pointed by the target parameter.
+   * The name of a synthetic parameter that's automatically added to all non void operations. The meaning of it is to provide
+   * an expression to be evaluated over the operation's output, so that can be stored in the variable pointed by the target
+   * parameter.
    */
   public static final String TARGET_VALUE_PARAMETER_NAME = "targetValue";
 
