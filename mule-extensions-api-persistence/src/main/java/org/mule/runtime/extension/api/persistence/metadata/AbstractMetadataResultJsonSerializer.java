@@ -18,6 +18,8 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.model.stereotype.ImmutableStereotypeModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
@@ -32,7 +34,6 @@ import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapt
 import org.mule.runtime.extension.internal.persistence.metadata.ComponentResultTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.FailureCodeTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.MetadataKeyTypeAdapter;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -64,6 +65,8 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
+    final DefaultImplementationTypeAdapterFactory stereoTypeModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
@@ -79,7 +82,8 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(exclusiveParametersTypeAdapterFactory)
         .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
-        .registerTypeAdapterFactory(errorModelTypeAdapter);
+        .registerTypeAdapterFactory(errorModelTypeAdapter)
+        .registerTypeAdapterFactory(stereoTypeModelTypeAdapterFactory);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();
