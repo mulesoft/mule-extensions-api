@@ -6,7 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.streaming;
 
-import java.io.IOException;
+import org.mule.runtime.api.exception.MuleException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -58,10 +59,13 @@ public interface PagingProvider<C, T> {
   }
 
   /**
-   * Closes the resources. This method should not call close on the {@code connection} parameter. That
-   * would be automatically handled by the runtime.
+   * Closes {@code this} provider and all resources allocated by it, both local and remote.
+   *
+   * This method should not try to also close the {@code connection}, the runtime will do that when
+   * appropriate.
+   * 
    * @param connection  The connection to be used in order to correctly close the {@link PagingProvider}.
-   * @throws IOException if there was an error closing the resources
+   * @throws MuleException if there was an error closing the resources
    */
-  void close(C connection) throws IOException;
+  void close(C connection) throws MuleException;
 }
