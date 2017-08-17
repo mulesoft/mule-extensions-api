@@ -17,18 +17,16 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.extension.api.annotation.Alias;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 public class NameUtilsTestCase {
 
@@ -40,14 +38,10 @@ public class NameUtilsTestCase {
   public void setup() {
     objectType = mock(ObjectType.class);
     when(objectType.getAnnotation(TypeAliasAnnotation.class)).thenReturn(empty());
-    doAnswer(new Answer<Void>() {
-
-      @Override
-      public Void answer(InvocationOnMock invocation) throws Throwable {
-        MetadataTypeVisitor visitor = (MetadataTypeVisitor) invocation.getArguments()[0];
-        visitor.visitObject(objectType);
-        return null;
-      }
+    doAnswer(invocation -> {
+      MetadataTypeVisitor visitor = (MetadataTypeVisitor) invocation.getArguments()[0];
+      visitor.visitObject(objectType);
+      return null;
     }).when(objectType).accept(Mockito.any(MetadataTypeVisitor.class));
   }
 
@@ -70,9 +64,21 @@ public class NameUtilsTestCase {
   public void getTopLevelTypeNameByAliasAnnotation() {
     when(objectType.getMetadataFormat()).thenReturn(JAVA);
     when(objectType.getAnnotation(TypeIdAnnotation.class)).thenReturn(of(new TypeIdAnnotation(AliasedClass.class.getName())));
+    when(objectType.getAnnotation(ClassInformationAnnotation.class)).thenReturn(empty());
 
     assertThat(getTopLevelTypeName(objectType), is(hyphenize(TYPE_ALIAS)));
   }
+
+  @Test
+  public void getTopLevelTypeNameByClassInformationAnnotaion() {
+    when(objectType.getMetadataFormat()).thenReturn(JAVA);
+    when(objectType.getAnnotation(TypeIdAnnotation.class)).thenReturn(empty());
+    when(objectType.getAnnotation(ClassInformationAnnotation.class))
+        .thenReturn(of(new ClassInformationAnnotation(AliasedClass.class)));
+
+    assertThat(getTopLevelTypeName(objectType), is(hyphenize(TYPE_ALIAS)));
+  }
+
 
   @Alias(TYPE_ALIAS)
   private static class AliasedClass {

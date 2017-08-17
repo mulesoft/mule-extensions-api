@@ -14,6 +14,7 @@ import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.StringTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
@@ -43,7 +44,7 @@ abstract class InfrastructureTypeBuilder {
   }
 
   protected StringTypeBuilder getEnumType(BaseTypeBuilder typeBuilder, String defaultValue, String... values) {
-    StringTypeBuilder enumType = typeBuilder.stringType().id(String.class.getName()).enumOf(values);
+    StringTypeBuilder enumType = typeBuilder.stringType().enumOf(values);
     if (defaultValue != null) {
       enumType.defaultValue(defaultValue);
     }
@@ -56,7 +57,7 @@ abstract class InfrastructureTypeBuilder {
                                                    String name,
                                                    String description,
                                                    Boolean defaultValue) {
-    BooleanTypeBuilder booleanType = typeBuilder.booleanType().id(Boolean.class.getName());
+    BooleanTypeBuilder booleanType = typeBuilder.booleanType();
     if (defaultValue != null) {
       booleanType.defaultValue(defaultValue.toString());
     }
@@ -75,7 +76,7 @@ abstract class InfrastructureTypeBuilder {
   }
 
   private StringTypeBuilder stringTypeBuilder(BaseTypeBuilder typeBuilder, String defaultValue) {
-    final StringTypeBuilder stringType = typeBuilder.stringType().id(String.class.getName());
+    final StringTypeBuilder stringType = typeBuilder.stringType();
 
     if (defaultValue != null) {
       stringType.defaultValue(String.valueOf(defaultValue));
@@ -103,9 +104,7 @@ abstract class InfrastructureTypeBuilder {
                                                String name,
                                                String description,
                                                Integer defaultValue) {
-    final NumberTypeBuilder intType = typeBuilder.numberType()
-        .integer()
-        .id(Integer.class.getName());
+    final NumberTypeBuilder intType = typeBuilder.numberType().integer();
 
     if (defaultValue != null) {
       intType.defaultValue(String.valueOf(defaultValue));
@@ -122,7 +121,7 @@ abstract class InfrastructureTypeBuilder {
 
     final NumberTypeBuilder longType = typeBuilder.numberType()
         .integer()
-        .id(Long.class.getName());
+        .with(new ClassInformationAnnotation(Long.class));
 
     if (defaultValue != null) {
       longType.defaultValue(String.valueOf(defaultValue));

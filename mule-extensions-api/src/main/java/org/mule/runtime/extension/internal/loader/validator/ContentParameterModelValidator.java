@@ -14,6 +14,7 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFi
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import org.mule.metadata.api.model.ArrayType;
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.utils.MetadataTypeUtils;
@@ -112,11 +113,17 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
 
             if (!contentFields.isEmpty()) {
               problemsReporter.addError(new Problem(model, String
-                  .format("Parameter '%s' of type '%s' in group '%s' contains content fields: [%s]."
+                  .format("Parameter '%s' %s in group '%s' contains content fields: [%s]."
                       + " Content fields are not allowed in complex types.",
-                          model.getName(), getId(objectType), groupModel.getName(),
+                          model.getName(), toString(objectType), groupModel.getName(),
                           Joiner.on(", ").join(contentFields))));
             }
+          }
+
+          private String toString(MetadataType type) {
+            return getId(type)
+                .map(id -> "of type '" + id + "'")
+                .orElse("");
           }
 
           void validateNoMetadataField(ObjectType objectType) {
@@ -130,10 +137,10 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
 
                   if (!metadataFields.isEmpty()) {
                     problemsReporter.addError(new Problem(model, String
-                        .format("Parameter '%s' of type '%s' in group '%s' contains fields [%s]"
+                        .format("Parameter '%s' %s in group '%s' contains fields [%s]"
                             + " annotated with metadata and dynamic type resolution."
                             + " Metadata annotations cannot be used as part of types, and are allowed only in Parameters",
-                                model.getName(), getId(objectType), groupModel.getName(),
+                                model.getName(), toString(objectType), groupModel.getName(),
                                 Joiner.on(", ").join(metadataFields))));
                   }
                 });

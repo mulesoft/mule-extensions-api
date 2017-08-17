@@ -11,8 +11,8 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.java.api.JavaTypeLoader.JAVA;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -44,7 +44,7 @@ public abstract class BaseDeclarationTestCase {
     assertThat(parameter.isRequired(), is(required));
     assertThat(parameter.getDefaultValue(), equalTo(defaultValue));
     assertThat(parameter.getType().getClass(), equalTo(type.getClass()));
-    assertThat(getTypeId(parameter.getType()).get(), equalTo(getTypeId(type).get()));
+    assertThat(getId(parameter.getType()).get(), equalTo(getId(type).get()));
   }
 
   protected void assertDataType(MetadataType type, Class<?> expectedRawType, Class<? extends MetadataType> typeQualifier) {

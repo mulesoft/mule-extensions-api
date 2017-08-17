@@ -7,10 +7,9 @@
 package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Collections.emptySet;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.utils.MetadataTypeUtils;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
@@ -45,6 +44,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParamete
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
+import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 import org.mule.runtime.extension.internal.persistence.ConstructModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ElementDslModelTypeAdapter;
@@ -135,12 +135,12 @@ public class ExtensionModelJsonSerializer {
 
   private GsonBuilder gsonBuilder(SerializationContext serializationContext, boolean prettyPrint) {
     Set<String> registeredTypeIds = registeredTypes.stream()
-        .map(MetadataTypeUtils::getTypeId)
+        .map(ExtensionMetadataTypeUtils::getId)
         .filter(Optional::isPresent)
         .map(Optional::get).collect(Collectors.toSet());
 
     importedTypes.forEach(type -> {
-      getTypeId(type).ifPresent(registeredTypeIds::add);
+      getId(type).ifPresent(registeredTypeIds::add);
       serializationContext.registerObjectType(type);
     });
 

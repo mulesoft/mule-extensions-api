@@ -15,6 +15,7 @@ import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
@@ -22,7 +23,6 @@ import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.ANY;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -84,7 +84,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
-import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
@@ -552,11 +551,12 @@ public final class ExtensionModelFactory {
   private Set<ObjectType> toExtensionTypes(Set<ObjectType> types, Set<ImportedTypeModel> importedTypes) {
     Set<String> importedTypesIds = importedTypes.stream()
         .map(ImportedTypeModel::getImportedType)
-        .map(ExtensionMetadataTypeUtils::getId)
+        .map(type -> getId(type).orElse(null))
+        .filter(type -> type != null)
         .collect(toSet());
 
     return types.stream()
-        .filter(t -> !importedTypesIds.contains(getId(t)))
+        .filter(t -> !importedTypesIds.contains(getId(t).orElse("")))
         .collect(toCollection(LinkedHashSet::new));
   }
 }

@@ -7,8 +7,8 @@
 package org.mule.runtime.extension.api.dsl.syntax;
 
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.sanitizeName;
@@ -80,14 +80,7 @@ final class DslSyntaxUtils {
   }
 
   static String getTypeKey(MetadataType type, String namespace, String namespaceUri) {
-    return getId(type) + namespace + namespaceUri;
-  }
-
-  public static String getId(MetadataType type) {
-    return getTypeId(type)
-        .orElseGet(() -> type.getAnnotation(ClassInformationAnnotation.class)
-            .map(ClassInformationAnnotation::getName)
-            .orElse(""));
+    return getId(type).get() + namespace + namespaceUri;
   }
 
   static boolean isText(ParameterModel parameter) {

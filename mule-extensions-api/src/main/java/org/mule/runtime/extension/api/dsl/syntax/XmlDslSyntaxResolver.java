@@ -12,16 +12,6 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isContent;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
-import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
-import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import static org.mule.runtime.extension.api.util.NameUtils.itemize;
-import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
-import static org.mule.runtime.extension.api.util.NameUtils.singularize;
-import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getId;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isExtensible;
@@ -31,6 +21,16 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isText;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isValidBean;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
+import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
+import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import static org.mule.runtime.extension.api.util.NameUtils.itemize;
+import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
+import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -323,8 +323,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         .supportsAttributeDeclaration(false)
         .asWrappedElement(requiresWrapper);
 
-    String typeId = getId(type);
-    if (!typeResolvingStack.contains(typeId)) {
+    String typeId = getId(type).orElse(null);
+    if (typeId != null && !typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
         withStackControl(typeId, () -> declareFieldsAsChilds(builder, type.getFields(), namespace, namespaceUri));
       }
@@ -588,8 +588,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
           if (supportsInlineDeclaration) {
             innerPojoDsl.withElementName(getTopLevelTypeName(objectType))
                 .supportsChildDeclaration(true);
-            withStackControl(getId(objectType),
-                             () -> declareFieldsAsChilds(innerPojoDsl, objectType.getFields(), namespace, namespaceUri));
+
+            getId(objectType)
+                .ifPresent(id -> withStackControl(id, () -> declareFieldsAsChilds(innerPojoDsl, objectType.getFields(), namespace,
+                                                                                  namespaceUri)));
           } else {
             innerPojoDsl.asWrappedElement(true);
           }
@@ -714,11 +716,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
           objectFieldBuilder.withElementName(hyphenize(fieldName))
               .withNamespace(getPrefix(objectType, ownerNamespace), getNamespace(objectType, ownerNamespaceUri));
 
-          String typeId = getId(objectType);
-          if (!typeResolvingStack.contains(typeId)) {
+
+          String typeId = getId(objectType).orElse(null);
+          if (typeId != null && !typeResolvingStack.contains(typeId)) {
             withStackControl(typeId, () -> {
               List<ObjectFieldType> fields = objectType.getFields().stream()
-                  .filter(f -> !typeResolvingStack.contains(getId(f.getValue())))
+                  .filter(f -> getId(f.getValue())
+                      .map(id -> !typeResolvingStack.contains(id))
+                      .orElse(true))
                   .collect(toList());
               addBeanDeclarationSupport(objectType, fields, objectFieldBuilder, ownerNamespace, ownerNamespaceUri, true);
             });

@@ -45,10 +45,7 @@
       "output": {
         "type": {
           "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+          "type": "String"
         },
         "hasDynamicType": true,
         "description": "Message.Payload",
@@ -57,10 +54,7 @@
       "outputAttributes": {
         "type": {
           "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+          "type": "String"
         },
         "hasDynamicType": false,
         "description": "Message.Attributes",
@@ -77,10 +71,7 @@
             {
               "type": {
                 "format": "java",
-                "type": "String",
-                "annotations": {
-                  "typeId": "java.lang.String"
-                }
+                "type": "String"
               },
               "hasDynamicType": true,
               "required": false,
@@ -116,6 +107,7 @@
                 "annotations": {
                   "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                   "classInformation": {
+                    "classname": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                     "hasDefaultConstructor": true,
                     "isInterface": false,
                     "isInstantiable": true,
@@ -138,13 +130,26 @@
                     "model": {
                       "type": "Array",
                       "annotations": {
-                        "typeId": "java.util.List"
+                        "classInformation": {
+                          "classname": "java.util.List",
+                          "hasDefaultConstructor": false,
+                          "isInterface": true,
+                          "isInstantiable": false,
+                          "isAbstract": true,
+                          "isFinal": false,
+                          "implementedInterfaces": [
+                            "java.util.Collection"
+                          ],
+                          "parent": "",
+                          "genericTypes": []
+                        }
                       },
                       "item": {
                         "type": "Object",
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                           "classInformation": {
+                            "classname": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -166,10 +171,7 @@
                               "required": "true"
                             },
                             "model": {
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
+                              "type": "String"
                             },
                             "annotations": {
                               "parameterPurpose": {
@@ -188,7 +190,19 @@
                             "model": {
                               "type": "Number",
                               "annotations": {
-                                "typeId": "java.lang.Integer"
+                                "classInformation": {
+                                  "classname": "java.lang.Integer",
+                                  "hasDefaultConstructor": false,
+                                  "isInterface": false,
+                                  "isInstantiable": false,
+                                  "isAbstract": false,
+                                  "isFinal": true,
+                                  "implementedInterfaces": [
+                                    "java.lang.Comparable"
+                                  ],
+                                  "parent": "java.lang.Number",
+                                  "genericTypes": []
+                                }
                               }
                             },
                             "annotations": {
@@ -208,12 +222,36 @@
                             "model": {
                               "type": "Array",
                               "annotations": {
-                                "typeId": "java.util.List"
+                                "classInformation": {
+                                  "classname": "java.util.List",
+                                  "hasDefaultConstructor": false,
+                                  "isInterface": true,
+                                  "isInstantiable": false,
+                                  "isAbstract": true,
+                                  "isFinal": false,
+                                  "implementedInterfaces": [
+                                    "java.util.Collection"
+                                  ],
+                                  "parent": "",
+                                  "genericTypes": []
+                                }
                               },
                               "item": {
                                 "type": "Number",
                                 "annotations": {
-                                  "typeId": "java.lang.Integer"
+                                  "classInformation": {
+                                    "classname": "java.lang.Integer",
+                                    "hasDefaultConstructor": false,
+                                    "isInterface": false,
+                                    "isInstantiable": false,
+                                    "isAbstract": false,
+                                    "isFinal": true,
+                                    "implementedInterfaces": [
+                                      "java.lang.Comparable"
+                                    ],
+                                    "parent": "java.lang.Number",
+                                    "genericTypes": []
+                                  }
                                 }
                               }
                             },
@@ -262,6 +300,7 @@
                       "annotations": {
                         "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                         "classInformation": {
+                          "classname": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -282,10 +321,7 @@
                             "required": "true"
                           },
                           "model": {
-                            "type": "String",
-                            "annotations": {
-                              "typeId": "java.lang.String"
-                            }
+                            "type": "String"
                           },
                           "annotations": {
                             "parameterPurpose": {
@@ -308,7 +344,19 @@
                           "model": {
                             "type": "Number",
                             "annotations": {
-                              "typeId": "java.lang.Integer"
+                              "classInformation": {
+                                "classname": "java.lang.Integer",
+                                "hasDefaultConstructor": false,
+                                "isInterface": false,
+                                "isInstantiable": false,
+                                "isAbstract": false,
+                                "isFinal": true,
+                                "implementedInterfaces": [
+                                  "java.lang.Comparable"
+                                ],
+                                "parent": "java.lang.Number",
+                                "genericTypes": []
+                              }
                             }
                           },
                           "annotations": {
@@ -326,10 +374,7 @@
                             "required": "true"
                           },
                           "model": {
-                            "type": "String",
-                            "annotations": {
-                              "typeId": "java.lang.String"
-                            }
+                            "type": "String"
                           },
                           "annotations": {
                             "parameterPurpose": {
@@ -367,6 +412,7 @@
                       "annotations": {
                         "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                         "classInformation": {
+                          "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -387,10 +433,7 @@
                             "required": "true"
                           },
                           "model": {
-                            "type": "String",
-                            "annotations": {
-                              "typeId": "java.lang.String"
-                            }
+                            "type": "String"
                           },
                           "annotations": {
                             "parameterPurpose": {
@@ -409,7 +452,19 @@
                           "model": {
                             "type": "Number",
                             "annotations": {
-                              "typeId": "java.lang.Integer"
+                              "classInformation": {
+                                "classname": "java.lang.Integer",
+                                "hasDefaultConstructor": false,
+                                "isInterface": false,
+                                "isInstantiable": false,
+                                "isAbstract": false,
+                                "isFinal": true,
+                                "implementedInterfaces": [
+                                  "java.lang.Comparable"
+                                ],
+                                "parent": "java.lang.Number",
+                                "genericTypes": []
+                              }
                             }
                           },
                           "annotations": {
@@ -442,6 +497,7 @@
                       "annotations": {
                         "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                         "classInformation": {
+                          "classname": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -462,10 +518,7 @@
                             "required": "true"
                           },
                           "model": {
-                            "type": "String",
-                            "annotations": {
-                              "typeId": "java.lang.String"
-                            }
+                            "type": "String"
                           },
                           "annotations": {
                             "parameterPurpose": {
@@ -489,10 +542,7 @@
                             "required": "true"
                           },
                           "model": {
-                            "type": "String",
-                            "annotations": {
-                              "typeId": "java.lang.String"
-                            }
+                            "type": "String"
                           },
                           "annotations": {
                             "parameterPurpose": {
@@ -525,6 +575,7 @@
                       "annotations": {
                         "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                         "classInformation": {
+                          "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -576,6 +627,7 @@
                       "annotations": {
                         "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                         "classInformation": {
+                          "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -711,10 +763,7 @@
       "output": {
         "type": {
           "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+          "type": "String"
         },
         "hasDynamicType": false,
         "description": "Payload",
@@ -726,10 +775,7 @@
             {
               "type": {
                 "format": "java",
-                "type": "String",
-                "annotations": {
-                  "typeId": "java.lang.String"
-                }
+                "type": "String"
               },
               "hasDynamicType": true,
               "required": true,
@@ -889,10 +935,7 @@
             {
               "type": {
                 "format": "java",
-                "type": "String",
-                "annotations": {
-                  "typeId": "java.lang.String"
-                }
+                "type": "String"
               },
               "hasDynamicType": true,
               "required": true,
@@ -924,10 +967,7 @@
             {
               "type": {
                 "format": "java",
-                "type": "String",
-                "annotations": {
-                  "typeId": "java.lang.String"
-                }
+                "type": "String"
               },
               "hasDynamicType": false,
               "required": true,
@@ -960,9 +1000,6 @@
               "type": {
                 "format": "java",
                 "type": "Object",
-                "annotations": {
-                  "typeId": "java.util.HashMap"
-                },
                 "open": {
                   "type": "@ref:test.package.ExportedClass"
                 },
@@ -1027,6 +1064,7 @@
                   "annotations": {
                     "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                     "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
                       "hasDefaultConstructor": true,
                       "isInterface": false,
                       "isInstantiable": true,
@@ -1049,13 +1087,26 @@
                       "model": {
                         "type": "Array",
                         "annotations": {
-                          "typeId": "java.util.List"
+                          "classInformation": {
+                            "classname": "java.util.List",
+                            "hasDefaultConstructor": false,
+                            "isInterface": true,
+                            "isInstantiable": false,
+                            "isAbstract": true,
+                            "isFinal": false,
+                            "implementedInterfaces": [
+                              "java.util.Collection"
+                            ],
+                            "parent": "",
+                            "genericTypes": []
+                          }
                         },
                         "item": {
                           "type": "Object",
                           "annotations": {
                             "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                             "classInformation": {
+                              "classname": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
                               "hasDefaultConstructor": true,
                               "isInterface": false,
                               "isInstantiable": true,
@@ -1077,10 +1128,7 @@
                                 "required": "true"
                               },
                               "model": {
-                                "type": "String",
-                                "annotations": {
-                                  "typeId": "java.lang.String"
-                                }
+                                "type": "String"
                               },
                               "annotations": {
                                 "parameterPurpose": {
@@ -1099,7 +1147,19 @@
                               "model": {
                                 "type": "Number",
                                 "annotations": {
-                                  "typeId": "java.lang.Integer"
+                                  "classInformation": {
+                                    "classname": "java.lang.Integer",
+                                    "hasDefaultConstructor": false,
+                                    "isInterface": false,
+                                    "isInstantiable": false,
+                                    "isAbstract": false,
+                                    "isFinal": true,
+                                    "implementedInterfaces": [
+                                      "java.lang.Comparable"
+                                    ],
+                                    "parent": "java.lang.Number",
+                                    "genericTypes": []
+                                  }
                                 }
                               },
                               "annotations": {
@@ -1119,12 +1179,36 @@
                               "model": {
                                 "type": "Array",
                                 "annotations": {
-                                  "typeId": "java.util.List"
+                                  "classInformation": {
+                                    "classname": "java.util.List",
+                                    "hasDefaultConstructor": false,
+                                    "isInterface": true,
+                                    "isInstantiable": false,
+                                    "isAbstract": true,
+                                    "isFinal": false,
+                                    "implementedInterfaces": [
+                                      "java.util.Collection"
+                                    ],
+                                    "parent": "",
+                                    "genericTypes": []
+                                  }
                                 },
                                 "item": {
                                   "type": "Number",
                                   "annotations": {
-                                    "typeId": "java.lang.Integer"
+                                    "classInformation": {
+                                      "classname": "java.lang.Integer",
+                                      "hasDefaultConstructor": false,
+                                      "isInterface": false,
+                                      "isInstantiable": false,
+                                      "isAbstract": false,
+                                      "isFinal": true,
+                                      "implementedInterfaces": [
+                                        "java.lang.Comparable"
+                                      ],
+                                      "parent": "java.lang.Number",
+                                      "genericTypes": []
+                                    }
                                   }
                                 }
                               },
@@ -1173,6 +1257,7 @@
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                           "classInformation": {
+                            "classname": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1193,10 +1278,7 @@
                               "required": "true"
                             },
                             "model": {
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
+                              "type": "String"
                             },
                             "annotations": {
                               "parameterPurpose": {
@@ -1219,7 +1301,19 @@
                             "model": {
                               "type": "Number",
                               "annotations": {
-                                "typeId": "java.lang.Integer"
+                                "classInformation": {
+                                  "classname": "java.lang.Integer",
+                                  "hasDefaultConstructor": false,
+                                  "isInterface": false,
+                                  "isInstantiable": false,
+                                  "isAbstract": false,
+                                  "isFinal": true,
+                                  "implementedInterfaces": [
+                                    "java.lang.Comparable"
+                                  ],
+                                  "parent": "java.lang.Number",
+                                  "genericTypes": []
+                                }
                               }
                             },
                             "annotations": {
@@ -1237,10 +1331,7 @@
                               "required": "true"
                             },
                             "model": {
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
+                              "type": "String"
                             },
                             "annotations": {
                               "parameterPurpose": {
@@ -1278,6 +1369,7 @@
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                           "classInformation": {
+                            "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1298,10 +1390,7 @@
                               "required": "true"
                             },
                             "model": {
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
+                              "type": "String"
                             },
                             "annotations": {
                               "parameterPurpose": {
@@ -1320,7 +1409,19 @@
                             "model": {
                               "type": "Number",
                               "annotations": {
-                                "typeId": "java.lang.Integer"
+                                "classInformation": {
+                                  "classname": "java.lang.Integer",
+                                  "hasDefaultConstructor": false,
+                                  "isInterface": false,
+                                  "isInstantiable": false,
+                                  "isAbstract": false,
+                                  "isFinal": true,
+                                  "implementedInterfaces": [
+                                    "java.lang.Comparable"
+                                  ],
+                                  "parent": "java.lang.Number",
+                                  "genericTypes": []
+                                }
                               }
                             },
                             "annotations": {
@@ -1353,6 +1454,7 @@
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                           "classInformation": {
+                            "classname": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1373,10 +1475,7 @@
                               "required": "true"
                             },
                             "model": {
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
+                              "type": "String"
                             },
                             "annotations": {
                               "parameterPurpose": {
@@ -1400,10 +1499,7 @@
                               "required": "true"
                             },
                             "model": {
-                              "type": "String",
-                              "annotations": {
-                                "typeId": "java.lang.String"
-                              }
+                              "type": "String"
                             },
                             "annotations": {
                               "parameterPurpose": {
@@ -1436,6 +1532,7 @@
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                           "classInformation": {
+                            "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1487,6 +1584,7 @@
                         "annotations": {
                           "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                           "classInformation": {
+                            "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1584,10 +1682,7 @@
       "output": {
         "type": {
           "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+          "type": "String"
         },
         "hasDynamicType": true,
         "description": "Message.Payload",
@@ -1596,10 +1691,7 @@
       "outputAttributes": {
         "type": {
           "format": "java",
-          "type": "String",
-          "annotations": {
-            "typeId": "java.lang.String"
-          }
+          "type": "String"
         },
         "hasDynamicType": false,
         "description": "Message.Attributes",
@@ -1616,10 +1708,7 @@
             {
               "type": {
                 "format": "java",
-                "type": "String",
-                "annotations": {
-                  "typeId": "java.lang.String"
-                }
+                "type": "String"
               },
               "hasDynamicType": true,
               "required": false,
@@ -1742,6 +1831,7 @@
       "annotations": {
         "typeId": "test.package.ExportedClass",
         "classInformation": {
+          "classname": "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExportedClass",
           "hasDefaultConstructor": true,
           "isInterface": false,
           "isInstantiable": true,

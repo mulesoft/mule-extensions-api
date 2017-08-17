@@ -14,7 +14,8 @@ import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
@@ -38,6 +39,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 
 /**
@@ -265,12 +268,12 @@ public class NameUtils {
   }
 
   public static String getAliasName(MetadataType metadataType) {
+    Supplier<IllegalArgumentException> exceptionSupplier =
+        () -> new IllegalArgumentException("No name available for the given type");
     return metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElseGet(() -> getTypeId(metadataType)
-            .map(typeId -> ExtensionMetadataTypeUtils.getType(metadataType)
-                .map(t -> getAliasName(t))
-                .orElse(typeId))
-            .orElseThrow(() -> new IllegalArgumentException("No name available for the given type")));
+        .orElseGet(() -> getId(metadataType).map(
+                                                 typeId -> getType(metadataType).map(t -> getAliasName(t)).orElse(typeId))
+            .orElseThrow(exceptionSupplier));
   }
 
   public static String getAliasName(Class<?> type) {
@@ -371,6 +374,16 @@ public class NameUtils {
    */
   public static String sanitizeName(String originalName) {
     return originalName.replaceAll("[^\\w|\\.\\-]", EMPTY);
+  }
+
+  /**
+   * Removes everything that's not a word, a dot nor a hyphen
+   *
+   * @param originalName name that needs the removal of invalid characters
+   * @return name without invalid characters or an empty string if {@core originalName} was empty
+   */
+  public static String sanitizeName(Optional<String> originalName) {
+    return originalName.map(name -> sanitizeName(name)).orElse(EMPTY);
   }
 
   private static class Inflection {

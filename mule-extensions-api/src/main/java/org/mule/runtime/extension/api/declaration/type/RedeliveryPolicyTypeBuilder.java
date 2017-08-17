@@ -8,8 +8,6 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-
-import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
@@ -34,8 +32,7 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
    */
   public MetadataType buildRedeliveryPolicyType() {
     ObjectTypeBuilder objectType = create(JAVA).objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(REDELIVERY_POLICY));
+        .id(REDELIVERY_POLICY);
     BaseTypeBuilder typeBuilder = create(JAVA);
 
     objectType.with(new InfrastructureTypeAnnotation());

@@ -9,15 +9,13 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.util.Arrays.stream;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_DATA_UNIT;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_INCREMENT_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_SIZE;
-import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_INCREMENT_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_MAX_BUFFER_SIZE;
-
-import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
@@ -42,7 +40,6 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
   public static final String REPEATABLE_IN_MEMORY_OBJECTS_STREAM_ALIAS = "repeatable-in-memory-iterable";
   public static final String REPEATABLE_FILE_STORE_OBJECTS_STREAM_ALIAS = "repeatable-file-store-iterable";
   public static final String NON_REPEATABLE_OBJECTS_STREAM_ALIAS = "non-repeatable-iterable";
-  private static final String TYPE_ALIAS = "StreamingStrategy";
 
   /**
    * @return a {@link MetadataType} representation of a byte streaming strategy
@@ -54,8 +51,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
         .of(getInMemoryByteStrategy(typeBuilder))
         .of(getFileStoreByteStrategy(typeBuilder))
         .of(getNoStreamingByteStrategy(typeBuilder))
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(TYPE_ALIAS))
+        .id("ByteStreamingStrategy")
         .with(new InfrastructureTypeAnnotation())
         .build();
   }
@@ -70,16 +66,14 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
         .of(getInMemoryObjectStrategy(typeBuilder))
         .of(getFileStoreObjectStrategy(typeBuilder))
         .of(getNoStreamingObjectStrategy(typeBuilder))
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation("StreamingStrategy"))
+        .id("ObjectStreamingStrategy")
         .with(new InfrastructureTypeAnnotation())
         .build();
   }
 
   private MetadataType getFileStoreByteStrategy(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder streamingType = typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(REPEATABLE_FILE_STORE_BYTES_STREAM_ALIAS))
+        .id(REPEATABLE_FILE_STORE_BYTES_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation());
 
     addIntField(streamingType, typeBuilder, "maxInMemorySize",
@@ -95,8 +89,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
 
   private MetadataType getFileStoreObjectStrategy(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder streamingType = typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(REPEATABLE_FILE_STORE_OBJECTS_STREAM_ALIAS))
+        .id(REPEATABLE_FILE_STORE_OBJECTS_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation());
 
     addIntField(streamingType, typeBuilder, "maxInMemorySize",
@@ -111,8 +104,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
 
   private MetadataType getInMemoryByteStrategy(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder streamingType = typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(REPEATABLE_IN_MEMORY_BYTES_STREAM_ALIAS))
+        .id(REPEATABLE_IN_MEMORY_BYTES_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation());
 
     addIntField(streamingType, typeBuilder, INITIAL_BUFFER_SIZE,
@@ -140,8 +132,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
 
   private MetadataType getInMemoryObjectStrategy(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder streamingType = typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(REPEATABLE_IN_MEMORY_OBJECTS_STREAM_ALIAS))
+        .id(REPEATABLE_IN_MEMORY_OBJECTS_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation());
 
     addIntField(streamingType, typeBuilder, INITIAL_BUFFER_SIZE,
@@ -173,8 +164,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
 
   private MetadataType getNoStreamingByteStrategy(BaseTypeBuilder typeBuilder) {
     return typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(NON_REPEATABLE_BYTE_STREAM_ALIAS))
+        .id(NON_REPEATABLE_BYTE_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation())
         .description("This configuration allows the input stream to be read only once. It will not allow to seek randomly " +
             "which will limit the transformations that DW can perform on this stream. " +
@@ -184,8 +174,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
 
   private MetadataType getNoStreamingObjectStrategy(BaseTypeBuilder typeBuilder) {
     return typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(NON_REPEATABLE_OBJECTS_STREAM_ALIAS))
+        .id(NON_REPEATABLE_OBJECTS_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation())
         .description("This configuration allows the stream to be read only once. It will not allow to seek randomly " +
             "which will limit the transformations that DW can perform on this stream. " +

@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentDeclarationTypeName;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.IntersectionType;
@@ -23,6 +23,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
@@ -88,7 +89,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
   }
 
   private void registerType(ExtensionDeclarer declarer, MetadataType type) {
-    if (!getTypeId(type).isPresent()) {
+    if (!getId(type).isPresent() || type.getAnnotation(InfrastructureTypeAnnotation.class).isPresent()) {
       return;
     }
 

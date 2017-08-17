@@ -401,8 +401,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(parameterModels, hasSize(3));
 
     ArrayTypeBuilder arrayTypeBuilder = BaseTypeBuilder.create(JAVA).arrayType();
-    arrayTypeBuilder.id(List.class.getName());
-    arrayTypeBuilder.of(BaseTypeBuilder.create(JAVA).stringType().id(String.class.getTypeName()));
+    arrayTypeBuilder.of(BaseTypeBuilder.create(JAVA).stringType());
     ArrayType arrayType = arrayTypeBuilder.build();
 
     assertParameter(parameterModels.get(0), COLLECTION_PARAMETER, THE_OPERATION_TO_USE, SUPPORTED, true,

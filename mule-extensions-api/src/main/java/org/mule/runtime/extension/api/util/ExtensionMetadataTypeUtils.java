@@ -9,14 +9,11 @@ package org.mule.runtime.extension.api.util;
 import static java.util.Optional.empty;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
-import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
@@ -35,12 +32,16 @@ public final class ExtensionMetadataTypeUtils {
 
   private ExtensionMetadataTypeUtils() {}
 
+  public static Optional<String> getId(MetadataType metadataType) {
+    return JavaTypeUtils.getId(metadataType);
+  }
+
   /**
    * @param metadataType the {@link ObjectType} who's {@link Class type} is required
    * @return the {@link Class type} of the given {@link ObjectType} if one exists in the current classloader,
    * {@link Optional#empty()} otherwise.
    */
-  public static Optional<Class<?>> getType(MetadataType metadataType) {
+  public static <T> Optional<Class<T>> getType(MetadataType metadataType) {
     return getType(metadataType, Thread.currentThread().getContextClassLoader());
   }
 
@@ -50,7 +51,7 @@ public final class ExtensionMetadataTypeUtils {
    * @return the {@link Class type} of the given {@link ObjectType} if one exists in the current classloader,
    * {@link Optional#empty()} otherwise.
    */
-  public static Optional<Class<?>> getType(MetadataType metadataType, ClassLoader classloader) {
+  public static <T> Optional<Class<T>> getType(MetadataType metadataType, ClassLoader classloader) {
     if (!metadataType.getMetadataFormat().equals(JAVA)) {
       return empty();
     }
@@ -86,19 +87,13 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static String getAlias(MetadataType metadataType, String defaultName) {
     return metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElseGet(() -> metadataType.getMetadataFormat().equals(JAVA)
-            ? getAliasName(defaultName, getType(metadataType).map(t -> t.getAnnotation(Alias.class)).orElse(null))
-            : defaultName);
+        .orElseGet(() -> getType(metadataType)
+            .map(type -> getAliasName(defaultName, type.getAnnotation(Alias.class)))
+            .orElse(defaultName));
   }
 
   public static boolean isFinal(MetadataType metadataType) {
-    try {
-      return metadataType.getAnnotation(ClassInformationAnnotation.class).map(ClassInformationAnnotation::isFinal)
-          .orElseGet(() -> metadataType.getMetadataFormat().equals(JAVA) &&
-              getType(metadataType).map(t -> Modifier.isFinal(t.getModifiers())).orElse(false));
-    } catch (Exception e) {
-      return false;
-    }
+    return getType(metadataType).map(type -> Modifier.isFinal(type.getModifiers())).orElse(false);
   }
 
   /**
@@ -106,26 +101,7 @@ public final class ExtensionMetadataTypeUtils {
    * @return whether the {@code metadataType} represents a {@link Map} or not
    */
   public static boolean isMap(MetadataType metadataType) {
-    if (metadataType.getAnnotation(TypeIdAnnotation.class).isPresent()) {
-      if (Map.class.getName().equals(metadataType.getAnnotation(TypeIdAnnotation.class).get().getValue())) {
-        return true;
-      }
-    }
-
-    return metadataType.getAnnotation(ClassInformationAnnotation.class)
-        .map(classInformationAnnotation -> classInformationAnnotation.getImplementedInterfaces().contains(Map.class.getName()))
-        .orElse(false);
-  }
-
-  public static String getId(MetadataType metadataType) {
-    try {
-      return getTypeId(metadataType)
-          .orElseGet(() -> metadataType.getAnnotation(ClassInformationAnnotation.class).map(ClassInformationAnnotation::getName)
-              .orElseGet(() -> ExtensionMetadataTypeUtils.getType(metadataType).map(Class::getName)
-                  .orElse("")));
-    } catch (Exception e) {
-      return "";
-    }
+    return isAssignableFrom(metadataType, Map.class);
   }
 
   /**
@@ -133,11 +109,7 @@ public final class ExtensionMetadataTypeUtils {
    * @return whether the given {@code type} represents an {@link InputStream} or not
    */
   public static boolean isInputStream(MetadataType type) {
-    try {
-      return getType(type).map(InputStream.class::isAssignableFrom).orElse(false);
-    } catch (IllegalArgumentException e) {
-      return false;
-    }
+    return isAssignableFrom(type, InputStream.class);
   }
 
   /**
@@ -145,5 +117,9 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static boolean isFlattenedParameterGroup(MetadataType type) {
     return type.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
+  }
+
+  private static boolean isAssignableFrom(MetadataType metadataType, Class<?> type) {
+    return getType(metadataType).map(clazz -> type.isAssignableFrom(clazz)).orElse(false);
   }
 }

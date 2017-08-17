@@ -14,8 +14,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
-import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
@@ -23,6 +21,8 @@ import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
+import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
+import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
@@ -44,7 +44,6 @@ import org.mule.runtime.extension.api.dsl.model.NonDefaultConstructor;
 import org.mule.runtime.extension.api.dsl.model.SimpleFieldsType;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -305,9 +304,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testMapOfSimpleTypeParameter() {
-    MetadataType valueType = TYPE_BUILDER.stringType().id(String.class.getName()).build();
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
-        .openWith(TYPE_BUILDER.stringType().id(String.class.getName()))
+    MetadataType valueType = TYPE_BUILDER.stringType().build();
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType()
+        .with(new ClassInformationAnnotation(Map.class))
+        .openWith(TYPE_BUILDER.stringType())
         .build());
     final DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     ifContentParameter(() -> {
@@ -343,7 +343,8 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testMapOfComplexTypeParameter() {
     MetadataType valueType = TYPE_LOADER.load(SimpleFieldsType.class);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType()
+        .with(new ClassInformationAnnotation(Map.class))
         .openWith(TYPE_LOADER.load(SimpleFieldsType.class))
         .build());
 
@@ -390,7 +391,8 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testMapOfWrappedTypeParameter() {
     MetadataType valueType = TYPE_LOADER.load(ExtensibleType.class);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType()
+        .with(new ClassInformationAnnotation(Map.class))
         .openWith(valueType)
         .build());
 
@@ -435,7 +437,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   public void testMapOfNonInstantiableValueTypeParameter() {
     MetadataType valueType = TYPE_LOADER.load(InterfaceDeclaration.class);
 
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType()
         .openWith(valueType)
         .with(new ClassInformationAnnotation(Map.class, asList(String.class,
                                                                InterfaceDeclaration.class)))
@@ -465,7 +467,8 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     when(typeCatalog.getSubTypes(valueType))
         .thenReturn(singleton((ObjectType) TYPE_LOADER.load(InterfaceImplementation.class)));
 
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType()
+        .with(new ClassInformationAnnotation(Map.class))
         .openWith(valueType)
         .build());
 
@@ -509,9 +512,9 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testCollectionOfSimpleTypeParameter() {
-    MetadataType itemType = TYPE_BUILDER.stringType().id(String.class.getName()).build();
+    MetadataType itemType = TYPE_BUILDER.stringType().build();
     when(parameterModel.getName()).thenReturn(SINGULARIZABLE_PARAMETER_NAME);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType()
         .of(itemType)
         .build());
 
@@ -523,9 +526,9 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testCollectionWithSameSingularizedChildName() {
-    MetadataType itemType = TYPE_BUILDER.stringType().id(String.class.getName()).build();
+    MetadataType itemType = TYPE_BUILDER.stringType().build();
     when(parameterModel.getName()).thenReturn(PARAMETER_NAME);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType()
         .of(itemType)
         .build());
     ifContentParameter(() -> {
@@ -558,7 +561,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
     MetadataType itemType = TYPE_LOADER.load(SimpleFieldsType.class);
     when(parameterModel.getName()).thenReturn(COLLECTION_NAME);
 
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType()
         .of(itemType)
         .build());
 
@@ -595,7 +598,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   public void testCollectionOfWrappedTypeParameter() {
     MetadataType itemType = TYPE_LOADER.load(ExtensibleType.class);
     when(parameterModel.getName()).thenReturn(COLLECTION_NAME);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType()
         .of(itemType)
         .build());
 
@@ -622,7 +625,7 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   public void testCollectionOfNonInstantiableTypeParameter() {
     MetadataType itemType = TYPE_LOADER.load(InterfaceDeclaration.class);
     when(parameterModel.getName()).thenReturn(COLLECTION_NAME);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType()
         .of(itemType)
         .build());
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
@@ -641,9 +644,10 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testMapOfListOfComplexTypeParameter() {
     MetadataType itemType = TYPE_LOADER.load(ExtensibleType.class);
-    MetadataType valueType = TYPE_BUILDER.arrayType().id(List.class.getName()).of(itemType).build();
+    MetadataType valueType = TYPE_BUILDER.arrayType().of(itemType).build();
 
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType()
+        .with(new ClassInformationAnnotation(Map.class))
         .openWith(valueType)
         .build());
 
@@ -678,10 +682,11 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
   @Test
   public void testMapOfListOfSimpleTypeParameter() {
     MetadataType itemType = TYPE_LOADER.load(String.class);
-    MetadataType valueType = TYPE_BUILDER.arrayType().id(List.class.getName()).of(itemType).build();
+    MetadataType valueType = TYPE_BUILDER.arrayType().of(itemType).build();
 
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType().id(Map.class.getName())
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.objectType()
         .openWith(valueType)
+        .with(new ClassInformationAnnotation(Map.class))
         .build());
     DslElementSyntax mapDsl = getSyntaxResolver().resolve(parameterModel);
 
@@ -711,12 +716,13 @@ public class ParameterXmlDeclarationTestCase extends BaseXmlDeclarationTestCase 
 
   @Test
   public void testListOfMapsParameter() {
-    ObjectType dictionary = TYPE_BUILDER.objectType().id(Map.class.getName())
-        .openWith(TYPE_BUILDER.stringType().id(String.class.getName()))
+    ObjectType dictionary = TYPE_BUILDER.objectType()
+        .with(new ClassInformationAnnotation(Map.class))
+        .openWith(TYPE_BUILDER.stringType())
         .build();
 
     when(parameterModel.getName()).thenReturn(COLLECTION_NAME);
-    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().id(List.class.getName()).of(dictionary).build());
+    when(parameterModel.getType()).thenReturn(TYPE_BUILDER.arrayType().of(dictionary).build());
     DslElementSyntax result = getSyntaxResolver().resolve(parameterModel);
     ifNotContentParameter(() -> {
       assertAttributeName(COLLECTION_NAME, result);

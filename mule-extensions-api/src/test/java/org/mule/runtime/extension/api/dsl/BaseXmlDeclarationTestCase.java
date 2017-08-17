@@ -21,8 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
-import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
@@ -31,6 +30,7 @@ import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
+import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -485,7 +485,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
   protected DslElementSyntax getGenericTypeDsl(MetadataType itemType, DslElementSyntax result) {
     Optional<DslElementSyntax> genericDsl = result.getGeneric(itemType);
-    assertThat("No generic element found for type [" + getTypeId(itemType).orElse("") + "] for element ["
+    assertThat("No generic element found for type [" + getId(itemType).orElse("") + "] for element ["
         + result.getElementName() + "]",
                genericDsl.isPresent(), is(true));
 
