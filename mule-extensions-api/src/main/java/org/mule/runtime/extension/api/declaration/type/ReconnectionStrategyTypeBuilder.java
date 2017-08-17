@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -40,10 +41,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
         .with(new TypeAliasAnnotation(RECONNECTION_CONFIG))
         .with(new InfrastructureTypeAnnotation());
 
-    addBooleanField(type, typeBuilder, "failsDeployment",
-                    "When the application is deployed, a connectivity test is performed on all connectors. If set to " +
-                        "true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy",
-                    false);
+    addBooleanField(type, typeBuilder, "failsDeployment", RECONNECTION_CONFIG_PARAMETER_DESCRIPTION, false);
     type.addField().key("reconnectionStrategy")
         .description("The reconnection strategy to use")
         .value(buildReconnectionStrategyType());
