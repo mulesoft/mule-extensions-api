@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -29,6 +29,25 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   public static final String RECONNECT_FOREVER_ALIAS = "reconnect-forever";
   public static final String BLOCKING = "blocking";
   public static final String RECONNECTION_STRATEGY = "ReconnectionStrategy";
+  public static final String RECONNECTION_CONFIG = "Reconnection";
+
+  /**
+   * @return a {@link MetadataType} representation of a reconnection configuration
+   */
+  public MetadataType buildReconnectionConfigType() {
+    BaseTypeBuilder typeBuilder = create(JAVA);
+    ObjectTypeBuilder type = create(JAVA).objectType()
+        .id(Object.class.getName())
+        .with(new TypeAliasAnnotation(RECONNECTION_CONFIG))
+        .with(new InfrastructureTypeAnnotation());
+
+    addBooleanField(type, typeBuilder, "failsDeployment", RECONNECTION_CONFIG_PARAMETER_DESCRIPTION, false);
+    type.addField().key("reconnectionStrategy")
+        .description("The reconnection strategy to use")
+        .value(buildReconnectionStrategyType());
+
+    return type.build();
+  }
 
   /**
    * @return a {@link MetadataType} representation of a retry policy
@@ -36,9 +55,9 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   public MetadataType buildReconnectionStrategyType() {
     BaseTypeBuilder typeBuilder = create(JAVA);
     return create(JAVA).unionType()
+        .id(Object.class.getName())
         .of(getSimpleRetryType(typeBuilder))
         .of(getForeverRetryType(typeBuilder))
-        .id(Object.class.getName())
         .with(new TypeAliasAnnotation(RECONNECTION_STRATEGY))
         .with(new InfrastructureTypeAnnotation())
         .build();
@@ -52,7 +71,6 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
 
     addFrequencyField(retryType, typeBuilder);
     addIntField(retryType, typeBuilder, COUNT, "How many reconnection attempts to make", 2);
-    addBlockingField(retryType, typeBuilder);
 
     return retryType;
   }
@@ -70,11 +88,4 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
 
     return retryType;
   }
-
-  private void addBlockingField(ObjectTypeBuilder retryType, BaseTypeBuilder typeBuilder) {
-    addBooleanField(retryType, typeBuilder, BLOCKING,
-                    "If false, the reconnection strategy will run in a separate, non-blocking thread",
-                    true);
-  }
-
 }

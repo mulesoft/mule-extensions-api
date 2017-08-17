@@ -58,6 +58,8 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
@@ -319,9 +321,9 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
                     StringType.class, null);
     assertParameter(parameters.get(1), PASSWORD, PASSWORD_DESCRIPTION, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameters.get(2), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+    assertParameter(parameters.get(2), RECONNECTION_CONFIG_PARAMETER_NAME, RECONNECTION_CONFIG_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
-                    false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
+                    false, new ReconnectionStrategyTypeBuilder().buildReconnectionConfigType(), ObjectType.class, null);
   }
 
   @Test

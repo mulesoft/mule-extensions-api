@@ -13,6 +13,7 @@ import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.mule.runtime.internal.dsl.DslConstants.DEFAULT_NAMESPACE_URI_MASK;
 import static org.mule.runtime.internal.dsl.DslConstants.POOLING_PROFILE_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.internal.dsl.DslConstants.RECONNECTION_ELEMENT_IDENTIFIER;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.config.PoolingProfile;
@@ -47,6 +48,12 @@ public final class XmlModelUtils {
    */
   public static final QName MULE_POOLING_PROFILE_TYPE_QNAME =
       new QName(CORE_NAMESPACE, POOLING_PROFILE_ELEMENT_IDENTIFIER, CORE_PREFIX);
+
+  /**
+   * {@link QName} for a reconnection config
+   */
+  public static final QName MULE_ABSTRACT_DEFAULT_RECONNECTION_QNAME =
+      new QName(CORE_NAMESPACE, RECONNECTION_ELEMENT_IDENTIFIER, CORE_PREFIX);
 
   /**
    * {@link QName} for a reconnection strategy

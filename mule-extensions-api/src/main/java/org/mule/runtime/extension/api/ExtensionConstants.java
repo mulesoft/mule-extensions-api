@@ -71,6 +71,18 @@ public final class ExtensionConstants {
       "Configure if repeatable streams should be used and their behaviour";
 
   /**
+   * The name of the parameter for configuring the reconnection configuration
+   */
+  public static final String RECONNECTION_CONFIG_PARAMETER_NAME = "reconnection";
+
+  /**
+   * The description of the parameter which configures reconnection
+   */
+  public static final String RECONNECTION_CONFIG_PARAMETER_DESCRIPTION = "When the application is deployed, a connectivity test "
+      + "is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the "
+      + "associated reconnection strategy";
+
+  /**
    * The name of the parameter for configuring the reconnection strategy parameter
    */
   public static final String RECONNECTION_STRATEGY_PARAMETER_NAME = "reconnectionStrategy";
@@ -154,16 +166,6 @@ public final class ExtensionConstants {
       "The type of beginning action that sources can take regarding transactions.";
 
   /**
-   * The name of the parameter which disables connection validation
-   */
-  public static final String DISABLE_CONNECTION_VALIDATION_PARAMETER_NAME = "disableValidation";
-
-  /**
-   * The description of the parameter which disables connection validation
-   */
-  public static final String DISABLE_CONNECTION_VALIDATION_PARAMETER_DESCRIPTION = "Disables connection validation";
-
-  /**
    * The name of the parameter which configures pooling
    */
   public static final String POOLING_PROFILE_PARAMETER_NAME = "poolingProfile";
@@ -179,7 +181,6 @@ public final class ExtensionConstants {
    */
   public static final List<String> INFRASTRUCTURE_PARAMETER_NAMES = asList(TLS_PARAMETER_NAME,
                                                                            POOLING_PROFILE_PARAMETER_NAME,
-                                                                           DISABLE_CONNECTION_VALIDATION_PARAMETER_NAME,
                                                                            RECONNECTION_STRATEGY_PARAMETER_NAME,
                                                                            REDELIVERY_POLICY_PARAMETER_NAME,
                                                                            TARGET_PARAMETER_NAME,

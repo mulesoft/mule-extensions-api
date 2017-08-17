@@ -6,8 +6,9 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
-import org.mule.runtime.extension.api.annotation.execution.OnError;
-import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
+import org.mule.runtime.api.connection.ConnectionException;
+import org.mule.runtime.extension.api.runtime.connectivity.Reconnectable;
+import org.mule.runtime.extension.api.runtime.connectivity.ReconnectionCallback;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 /**
@@ -50,20 +51,20 @@ public interface SourceCallback<T, A> {
 
   /**
    * Any started {@link Source} must use this method to communicate the runtime that
-   * an exception was found trying to produce messages. Any exceptions that the source
-   * encounters trying to produce messages needs to be channeled through this method
-   * and <b>NOT</b> be thrown.
+   * a {@link ConnectionException}was found trying to produce messages.
    * <p>
-   * Do not confuse the concept of 'exception found producing a message' from a
-   * message which failed to be processed by the flow or an exception thrown by
-   * a method annotated with {@link OnSuccess} or {@link OnError}. Any of those
-   * represent an expected processing failure and need to be treated accordingly
-   * by the source itself. Those are not something that the runtime should be
-   * notified about.
+   * This callback is to be used for connectivity errors that happen <b>after</b>
+   * {@link Source#onStart(SourceCallback)} has successfully returned (otherwise,
+   * you can simply throw the exception there).
    *
-   * @param t a {@link Throwable}
+   * When notified of the exception through this method, the runtime will decide if reconnection is to be
+   * attempted, depending on the configuration. If the related {@link Source} implements the {@link Reconnectable}
+   * interface, then {@link Reconnectable#reconnect(ConnectionException, ReconnectionCallback)} will be invoked,
+   * otherwise the runtime will try to reestablish connection by restarting the owning {@link Source}
+   *
+   * @param e the {@link ConnectionException} we need to recover from.
    */
-  void onSourceException(Throwable t);
+  void onConnectionException(ConnectionException e);
 
   /**
    * @return a new instance of {@link SourceCallbackContext}, only
