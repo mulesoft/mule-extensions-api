@@ -119,6 +119,11 @@ public final class ExtensionConstants {
   public static final String TRANSACTIONAL_ACTION_PARAMETER_NAME = "transactionalAction";
 
   /**
+   * The name of the parameter for configuring the transaction type
+   */
+  public static final String TRANSACTIONAL_TYPE_PARAMETER_NAME = "transactionType";
+
+  /**
    * The default size of the buffer that allows for repeatable streams
    */
   public static final int DEFAULT_BYTE_STREAMING_BUFFER_SIZE = 512;
@@ -164,6 +169,12 @@ public final class ExtensionConstants {
    */
   public static final String SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION =
       "The type of beginning action that sources can take regarding transactions.";
+
+  /**
+   * The description of the parameter for configuring transaction type
+   */
+  public static final String TRANSACTION_TYPE_PARAMETER_DESCRIPTION =
+      "The type of transaction to create. Availability will depend on the runtime version.";
 
   /**
    * The name of the parameter which configures pooling
