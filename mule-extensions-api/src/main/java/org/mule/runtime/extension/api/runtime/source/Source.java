@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.runtime.source;
 
 import org.mule.runtime.api.exception.MuleException;
+import org.mule.runtime.api.meta.AbstractAnnotatedObject;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
@@ -40,7 +41,7 @@ import org.mule.runtime.extension.api.annotation.source.EmitsResponse;
  * @param <A> the generic type for the generated message's attributes
  * @since 1.0
  */
-public abstract class Source<T, A> {
+public abstract class Source<T, A> extends AbstractAnnotatedObject {
 
   /**
    * This method will be invoked by the runtime to make the source start
