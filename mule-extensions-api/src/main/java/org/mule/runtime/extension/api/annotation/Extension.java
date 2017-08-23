@@ -38,11 +38,6 @@ public @interface Extension {
   String name();
 
   /**
-   * Short description about the extension's functionality
-   */
-  String description() default "";
-
-  /**
    * Name of the extension's vendor
    */
   String vendor() default MULESOFT;
