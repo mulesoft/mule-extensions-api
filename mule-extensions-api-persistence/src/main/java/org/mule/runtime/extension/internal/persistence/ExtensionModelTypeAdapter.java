@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.persistence;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
@@ -254,7 +254,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
         throw new IllegalArgumentException(format("Was expecting an object type but %s was found instead",
                                                   type.getClass().getSimpleName()));
       }
-      getTypeId(type)
+      getId(type)
           .orElseThrow(() -> new IllegalArgumentException("Invalid json element found in 'types', only ObjectTypes "
               + "with a 'typeId' can be part of the 'types' catalog"));
 

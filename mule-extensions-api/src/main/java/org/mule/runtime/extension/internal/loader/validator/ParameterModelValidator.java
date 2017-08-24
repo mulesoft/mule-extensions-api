@@ -9,9 +9,9 @@ package org.mule.runtime.extension.internal.loader.validator;
 import static java.lang.String.format;
 import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isBasic;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
 import static org.mule.runtime.extension.api.util.NameUtils.CONNECTION_PROVIDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
@@ -158,7 +158,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                     .ifPresent(c -> problemsReporter.addError(new Problem(parameterModel,
                                                                           format(
                                                                                  "Type '%s' has fields declared as '%s', which is not allowed.",
-                                                                                 getId(objectType),
+                                                                                 getId(objectType).get(),
                                                                                  ConfigOverride.class.getSimpleName()))));
               }
             }

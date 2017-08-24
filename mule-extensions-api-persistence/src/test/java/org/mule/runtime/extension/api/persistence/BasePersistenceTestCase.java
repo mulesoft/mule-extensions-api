@@ -181,7 +181,6 @@ abstract class BasePersistenceTestCase {
     final ImmutableParameterModel objectMap =
         new ImmutableParameterModel(OBJECT_MAP_NAME, "object map",
                                     typeBuilder.objectType()
-                                        .id(HashMap.class.getName())
                                         .openWith(exportedType)
                                         .build(),
                                     false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
@@ -304,8 +303,9 @@ abstract class BasePersistenceTestCase {
     try {
       JSONAssert.assertEquals(expected, serializedResult, true);
     } catch (AssertionError e) {
-      System.out.println("Expected: \n " + expected);
-      System.out.println("\n\nBut Got: \n " + serializedResult);
+      System.out.println("Expected the contents of " + expectedFileName + " but got:\n" + serializedResult);
+
+      throw e;
     }
   }
 

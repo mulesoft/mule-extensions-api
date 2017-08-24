@@ -43,6 +43,7 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportT
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
+import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
 import com.google.common.base.Joiner;
@@ -59,6 +60,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Validates names clashes in the model by comparing:
@@ -205,7 +208,10 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     private void validateTopLevelParameter(ParameterModel parameter, ParameterizedModel owner) {
       DslElementSyntax parameterElement = dslSyntaxResolver.resolve(parameter);
       if (parameterElement.supportsTopLevelDeclaration() && parameterElement.supportsChildDeclaration()) {
-        final Class<?> parameterType = getType(parameter.getType());
+        final Class<?> parameterType = ExtensionMetadataTypeUtils.getType(parameter.getType()).orElse(null);
+        if (parameterType == null) {
+          return;
+        }
         final String ownerName = owner.getName();
         final String ownerType = getComponentModelTypeName(owner);
 
@@ -347,7 +353,10 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
               format("Parameters with name [%s] declared in [%s] with tag name [%s] are declared as Content but have different types [%s]",
                      invalidParams.get(0).model.getName(),
                      invalidParams.stream().map(p -> p.owner.getName()).collect(joining(", ")), tag,
-                     invalidParams.stream().map(p -> getId(p.type)).collect(joining(", ")));
+                     invalidParams.stream()
+                         .map(p -> getId(p.type).orElse(""))
+                         .filter(StringUtils::isBlank)
+                         .collect(joining(", ")));
           problemsReporter.addError(new Problem(extensionModel, msg));
         }
       });

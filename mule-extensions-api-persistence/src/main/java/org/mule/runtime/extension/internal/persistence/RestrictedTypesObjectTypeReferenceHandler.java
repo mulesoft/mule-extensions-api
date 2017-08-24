@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
@@ -56,7 +56,7 @@ public final class RestrictedTypesObjectTypeReferenceHandler implements ObjectTy
    */
   @Override
   public Optional<String> writeReference(ObjectType type, JsonWriter writer) {
-    return getTypeId(type).filter(allowReferenceTypes::contains)
+    return getId(type).filter(allowReferenceTypes::contains)
         .flatMap(s -> delegateReferenceHandler.writeReference(type, writer));
   }
 

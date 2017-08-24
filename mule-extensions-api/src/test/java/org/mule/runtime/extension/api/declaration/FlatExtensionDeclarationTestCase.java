@@ -187,8 +187,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     List<ParameterDeclaration> parameters = assertGroupAndGetParameters(operation, OPERATION_PARAMETER_GROUP);
     assertThat(parameters, hasSize(3));
     assertParameter(parameters.get(0), COLLECTION_PARAMETER, THE_OPERATION_TO_USE, SUPPORTED, true, typeBuilder.arrayType()
-        .id(List.class.getName())
-        .of(typeBuilder.stringType().id(String.class.getName()))
+        .of(typeBuilder.stringType())
         .build(), null);
     assertParameter(parameters.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class), true);
     assertParameter(parameters.get(2), CALLBACK, CALLBACK_DESCRIPTION, REQUIRED, true, typeLoader.load(OperationModel.class),

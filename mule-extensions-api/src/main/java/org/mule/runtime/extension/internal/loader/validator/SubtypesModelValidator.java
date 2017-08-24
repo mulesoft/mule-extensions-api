@@ -9,6 +9,8 @@ package org.mule.runtime.extension.internal.loader.validator;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getAlias;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toSubTypesMap;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import org.mule.metadata.api.model.MetadataType;
@@ -53,7 +55,8 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
                                         ProblemsReporter problemsReporter) {
     List<String> finalBaseTypes = typesMapping.keySet().stream()
         .filter(ExtensionMetadataTypeUtils::isFinal)
-        .map(ExtensionMetadataTypeUtils::getId)
+        .map(type -> getId(type).orElse(null))
+        .filter(type -> type != null)
         .collect(toList());
 
     if (!finalBaseTypes.isEmpty()) {
@@ -68,7 +71,7 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
                                                          Map<ObjectType, Set<ObjectType>> typesMapping,
                                                          ProblemsReporter problemsReporter) {
     for (Map.Entry<ObjectType, Set<ObjectType>> subtypes : typesMapping.entrySet()) {
-      Optional<Class<?>> baseType = ExtensionMetadataTypeUtils.getType(subtypes.getKey());
+      Optional<Class<Object>> baseType = getType(subtypes.getKey());
       if (!baseType.isPresent()) {
         continue;
       }

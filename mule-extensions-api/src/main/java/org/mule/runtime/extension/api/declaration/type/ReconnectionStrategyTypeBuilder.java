@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.declaration.type;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
-import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
@@ -37,8 +36,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   public MetadataType buildReconnectionConfigType() {
     BaseTypeBuilder typeBuilder = create(JAVA);
     ObjectTypeBuilder type = create(JAVA).objectType()
-        .id(Object.class.getName())
-        .with(new TypeAliasAnnotation(RECONNECTION_CONFIG))
+        .id(RECONNECTION_CONFIG)
         .with(new InfrastructureTypeAnnotation());
 
     addBooleanField(type, typeBuilder, "failsDeployment", RECONNECTION_CONFIG_PARAMETER_DESCRIPTION, false);
@@ -55,19 +53,17 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
   public MetadataType buildReconnectionStrategyType() {
     BaseTypeBuilder typeBuilder = create(JAVA);
     return create(JAVA).unionType()
-        .id(Object.class.getName())
+        .id(RECONNECTION_STRATEGY)
         .of(getSimpleRetryType(typeBuilder))
         .of(getForeverRetryType(typeBuilder))
-        .with(new TypeAliasAnnotation(RECONNECTION_STRATEGY))
         .with(new InfrastructureTypeAnnotation())
         .build();
   }
 
   private TypeBuilder getSimpleRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new InfrastructureTypeAnnotation())
-        .with(new TypeAliasAnnotation(RECONNECT_ALIAS));
+        .id(RECONNECT_ALIAS)
+        .with(new InfrastructureTypeAnnotation());
 
     addFrequencyField(retryType, typeBuilder);
     addIntField(retryType, typeBuilder, COUNT, "How many reconnection attempts to make", 2);
@@ -81,9 +77,8 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
 
   private TypeBuilder getForeverRetryType(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder retryType = typeBuilder.objectType()
-        .id(Object.class.getName())
-        .with(new InfrastructureTypeAnnotation())
-        .with(new TypeAliasAnnotation(RECONNECT_FOREVER_ALIAS));
+        .id(RECONNECT_FOREVER_ALIAS)
+        .with(new InfrastructureTypeAnnotation());
     addFrequencyField(retryType, typeBuilder);
 
     return retryType;
