@@ -60,7 +60,9 @@ public interface SourceCallback<T, A> {
    * When notified of the exception through this method, the runtime will decide if reconnection is to be
    * attempted, depending on the configuration. If the related {@link Source} implements the {@link Reconnectable}
    * interface, then {@link Reconnectable#reconnect(ConnectionException, ReconnectionCallback)} will be invoked,
-   * otherwise the runtime will try to reestablish connection by restarting the owning {@link Source}
+   * otherwise the runtime will try to reestablish connection by restarting the owning {@link Source}.
+   * In case that the {@link ConnectionException} communicates which is the connection with connectivity issues,
+   * the runtime will invalidate it, disconnecting and destroying it.
    *
    * @param e the {@link ConnectionException} we need to recover from.
    */
