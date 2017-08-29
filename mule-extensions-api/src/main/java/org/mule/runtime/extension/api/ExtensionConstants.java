@@ -197,6 +197,15 @@ public final class ExtensionConstants {
                                                                            TARGET_PARAMETER_NAME,
                                                                            STREAMING_STRATEGY_PARAMETER_NAME,
                                                                            TRANSACTIONAL_ACTION_PARAMETER_NAME);
+  /**
+   * Namespace prefis for object store type
+   */
+  public static final String OBJECT_STORE_ELEMENT_NAMESPACE = "os";
+
+  /**
+   * object store element name
+   */
+  public static final String OBJECT_STORE_ELEMENT_NAME = "object-store";
 
   private ExtensionConstants() {}
 }
