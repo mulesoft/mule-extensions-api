@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
@@ -51,7 +52,7 @@ public abstract class Source<T, A> {
    * <p>
    * This method should throw an exception if the source fails to start, but
    * any other exception encountered during the process of generating messages,
-   * should be communicated to the runtime through the {@link SourceCallback#onSourceException(Throwable)}
+   * should be communicated to the runtime through the {@link SourceCallback#onConnectionException(ConnectionException)}}
    * method.
    * <p>
    * Only the runtime should invoke this method. Do not do it manually
