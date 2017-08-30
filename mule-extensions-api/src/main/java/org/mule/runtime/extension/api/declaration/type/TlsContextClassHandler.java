@@ -9,12 +9,11 @@ package org.mule.runtime.extension.api.declaration.type;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
-
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
-import org.mule.metadata.api.builder.UnionTypeBuilder;
+import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.java.api.handler.ClassHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
@@ -23,6 +22,7 @@ import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -92,10 +92,9 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField().key("trust-store").required(false).value(trustStoreType);
   }
 
-  private UnionTypeBuilder getStoreMetadataType(BaseTypeBuilder typeBuilder) {
-    return typeBuilder.unionType()
-        .of(getEnumType(create(JAVA), null, "jks", "jceks", "pkcs12"))
-        .of(create(JAVA).stringType());
+  private TypeBuilder<StringType> getStoreMetadataType(BaseTypeBuilder typeBuilder) {
+    return typeBuilder.stringType()
+        .with(new DisplayTypeAnnotation(DisplayModel.builder().example("jks, jceks, pkcs12 or other store type").build()));
   }
 
   private void addKeyStoreField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
