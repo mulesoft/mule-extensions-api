@@ -6,10 +6,15 @@
  */
 package org.mule.runtime.extension.api.runtime.exception;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 import org.mule.runtime.extension.api.exception.ModuleException;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Allows the developer to provide generic logic to
@@ -50,6 +55,35 @@ public abstract class ExceptionHandler {
     return error.isPresent() ? new ModuleException(error.get(), exception) : exception;
   }
 
+  /**
+   * Returns the first cause of {@code throwable} which is an instance of {@code causeType}.
+   *
+   * If {@code throwable} is an instance of {@code causeType} itself, then {@code throwable}
+   * is returned.
+   * 
+   * @param throwable the exception to introspect
+   * @param causeType the cause type
+   * @param <T> the generic type of the expected exception
+   * @return an optional cause
+   */
+  protected <T extends Throwable> Optional<T> getCauseOfType(Throwable throwable, Class<T> causeType) {
+    return getCauseOfType(throwable, causeType, new HashSet<>());
+  }
+
+  private <T extends Throwable> Optional<T> getCauseOfType(Throwable throwable, Class<T> causeType,
+                                                           Set<Reference<Throwable>> visitedCauses) {
+    if (causeType.isInstance(throwable)) {
+      return of((T) throwable);
+    }
+
+    Throwable cause = throwable.getCause();
+    if (cause != null && visitedCauses.add(new Reference<>(cause))) {
+      return getCauseOfType(cause, causeType, visitedCauses);
+    }
+
+    return empty();
+  }
+
   private Optional<ErrorTypeDefinition> getRootCauseErrorType(Throwable exception,
                                                               Optional<ErrorTypeDefinition> errorType) {
     if (exception == null) {
@@ -57,7 +91,7 @@ public abstract class ExceptionHandler {
     }
 
     Optional<ErrorTypeDefinition> error =
-        exception instanceof ModuleException ? Optional.of(((ModuleException) exception).getType()) : errorType;
+        exception instanceof ModuleException ? of(((ModuleException) exception).getType()) : errorType;
     return getRootCauseErrorType(exception.getCause(), error);
   }
 
