@@ -37,6 +37,7 @@ import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.api.stereotype.MuleStereotypeFactory;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -88,7 +89,8 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
                                                                           defaultDisplayModel,
-                                                                          emptySet(), emptySet(), emptySet());
+                                                                          emptySet(), MuleStereotypeFactory.processor(),
+                                                                          emptySet());
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft",

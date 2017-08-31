@@ -69,6 +69,8 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+import org.mule.runtime.extension.api.stereotype.MuleStereotypeFactory;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -202,7 +204,7 @@ abstract class BasePersistenceTestCase {
                                     emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), emptySet(), modelProperties);
+                                    singleton(ERROR_MODEL), MuleStereotypeFactory.processor(), modelProperties);
 
     createCoreOperations();
 
@@ -227,7 +229,8 @@ abstract class BasePersistenceTestCase {
                                                                                         .build(),
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
-                                           DisplayModel.builder().build(), emptySet(), emptySet(), emptySet());
+                                           DisplayModel.builder().build(), MuleStereotypeFactory.source(), emptySet(),
+                                           emptySet());
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",

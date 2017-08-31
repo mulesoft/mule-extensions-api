@@ -15,7 +15,6 @@ import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.operation.ExecutionType;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
-import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.AbstractExecutableComponentModel;
 
@@ -31,7 +30,6 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
 
   private final boolean blocking;
   private final ExecutionType executionType;
-  private final Set<ErrorModel> errors;
 
   /**
    * Creates a new instance with the given state
@@ -50,7 +48,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
    *                             the operation
-   * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
@@ -66,20 +64,13 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  boolean supportsStreaming,
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
-                                 Set<StereotypeModel> stereotypes,
+                                 StereotypeModel stereotype,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
-          displayModel, stereotypes, modelProperties, nestedComponents);
+          displayModel, errors, stereotype, modelProperties, nestedComponents);
     this.blocking = blocking;
     this.executionType = executionType;
-    this.errors = errors;
-  }
 
-  /**
-   * {@inheritDoc}
-   */
-  public Set<ErrorModel> getErrorModels() {
-    return errors;
   }
 
   /**

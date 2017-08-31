@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.model.nested;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
-import org.mule.runtime.api.meta.model.nested.NestableElementModelVisistor;
+import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
@@ -62,7 +62,7 @@ public class ImmutableNestedRouteModel extends AbstractParameterizedModel implem
   }
 
   @Override
-  public void accept(NestableElementModelVisistor visitor) {
+  public void accept(NestableElementModelVisitor visitor) {
     visitor.visit(this);
   }
 

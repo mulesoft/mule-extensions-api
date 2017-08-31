@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.model.nested;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
-import org.mule.runtime.api.meta.model.nested.NestableElementModelVisistor;
+import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 
@@ -41,7 +41,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
   }
 
   @Override
-  public void accept(NestableElementModelVisistor visitor) {
+  public void accept(NestableElementModelVisitor visitor) {
     visitor.visit(this);
   }
 

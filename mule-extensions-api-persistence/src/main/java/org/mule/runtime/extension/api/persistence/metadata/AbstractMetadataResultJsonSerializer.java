@@ -65,6 +65,8 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
+    final DefaultImplementationTypeAdapterFactory<StereotypeModel, ImmutableStereotypeModel> stereotypeModelTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory stereoTypeModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
 
@@ -82,6 +84,7 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(exclusiveParametersTypeAdapterFactory)
         .registerTypeAdapterFactory(operationModelTypeAdapterFactory)
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
         .registerTypeAdapterFactory(errorModelTypeAdapter)
         .registerTypeAdapterFactory(stereoTypeModelTypeAdapterFactory);
 

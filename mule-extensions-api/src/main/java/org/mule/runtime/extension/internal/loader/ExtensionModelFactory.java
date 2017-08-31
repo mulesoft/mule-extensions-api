@@ -15,16 +15,11 @@ import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
-import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.ANY;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
@@ -84,6 +79,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+import org.mule.runtime.extension.api.stereotype.MuleStereotypeFactory;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
@@ -315,8 +311,10 @@ public final class ExtensionModelFactory {
                                                          declaration.getDescription(),
                                                          toParameterGroups(declaration.getParameterGroups()),
                                                          toNestedComponentModels(declaration.getNestedComponents()),
-                                                         declaration.allowsTopLevelDefinition(), declaration.getDisplayModel(),
-                                                         getProcessorStereotypes(declaration.getStereotypes()),
+                                                         declaration.allowsTopLevelDefinition(),
+                                                         declaration.getDisplayModel(),
+                                                         declaration.getErrorModels(),
+                                                         getProcessorStereotype(declaration.getStereotype()),
                                                          declaration.getModelProperties()));
     }
 
@@ -344,13 +342,12 @@ public final class ExtensionModelFactory {
                                                       declaration.getModelProperties()));
     }
 
-    private Set<StereotypeModel> getSourceStereotypes(SourceDeclaration declaration) {
-      if (!declaration.getStereotypes().isEmpty()) {
-        return declaration.getStereotypes();
+    private StereotypeModel getSourceStereotypes(SourceDeclaration declaration) {
+      if (declaration.getStereotype() != null) {
+        return declaration.getStereotype();
       }
 
-      return of(newStereotype(SOURCE.getName(), CORE_PREFIX.toUpperCase())
-          .withParent(newStereotype(ANY.getName(), CORE_PREFIX.toUpperCase()).build()).build());
+      return MuleStereotypeFactory.source();
     }
 
     private Optional<SourceCallbackModel> toSourceCallback(Optional<SourceCallbackDeclaration> callbackDeclaration) {
@@ -367,8 +364,15 @@ public final class ExtensionModelFactory {
         return stereotypeModels;
       }
 
-      return of(newStereotype(PROCESSOR.name(), CORE_PREFIX.toUpperCase())
-          .withParent(newStereotype(ANY.name(), CORE_PREFIX.toUpperCase()).build()).build());
+      return of(MuleStereotypeFactory.processor());
+    }
+
+    private StereotypeModel getProcessorStereotype(StereotypeModel stereotypeModel) {
+      if (stereotypeModel != null) {
+        return stereotypeModel;
+      }
+
+      return MuleStereotypeFactory.processor();
     }
 
     private List<OperationModel> toOperations(List<OperationDeclaration> declarations) {
@@ -392,7 +396,7 @@ public final class ExtensionModelFactory {
                                                 declaration.isSupportsStreaming(),
                                                 declaration.getDisplayModel(),
                                                 declaration.getErrorModels(),
-                                                getProcessorStereotypes(declaration.getStereotypes()),
+                                                getProcessorStereotype(declaration.getStereotype()),
                                                 declaration.getModelProperties());
 
         return operation;

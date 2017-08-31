@@ -40,11 +40,11 @@ public class Result<T, A> {
    * @param <T> the generic type of the output value
    * @param <A> the generic type of the message attributes
    */
-  public static final class Builder<T, A> {
+  public static class Builder<T, A> {
 
     private final Result<T, A> product = new Result<>();
 
-    private Builder() {}
+    protected Builder() {}
 
     /**
      * Sets the output value
@@ -137,31 +137,28 @@ public class Result<T, A> {
         .attributesMediaType(muleMessage.getAttributes().getDataType().getMediaType());
   }
 
-  /**
-   * Creates a new {@link Builder} initialises with a state that matched
-   * the one of the given {@code prototypeResult}
-   *
-   * @param prototypeResult a prototype {@link Result}
-   * @param <T>             the generic type of the output value
-   * @param <A>             the generic type of the message attributes
-   * @return a new {@link Builder}
-   */
-  public static <T, A> Builder<T, A> builder(Result<T, A> prototypeResult) {
-    final Builder<T, A> builder = new Builder<T, A>()
-        .output(prototypeResult.getOutput());
-    prototypeResult.getAttributes().ifPresent(builder::attributes);
-    prototypeResult.getMediaType().ifPresent(builder::mediaType);
-    prototypeResult.getAttributesMediaType().ifPresent(builder::attributesMediaType);
-    return builder;
-  }
-
   private T output;
   private A attributes = null;
   private MediaType mediaType = null;
   private MediaType attributesMediaType = null;
   private long length;
 
-  private Result() {}
+  protected Result() {}
+
+  /**
+   * Creates a new {@link Builder} initialises with a state that matched
+   * {@code this} result
+   *
+   * @return a new {@link Builder}
+   */
+  public Builder<T, A> copy() {
+    final Builder<T, A> builder = new Builder<T, A>()
+        .output(output);
+    this.getAttributes().ifPresent(builder::attributes);
+    this.getMediaType().ifPresent(builder::mediaType);
+    this.getAttributesMediaType().ifPresent(builder::attributesMediaType);
+    return builder;
+  }
 
   /**
    * @return The operation's output

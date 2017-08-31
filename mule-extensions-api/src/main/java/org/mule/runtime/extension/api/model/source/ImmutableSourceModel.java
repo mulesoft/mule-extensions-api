@@ -15,7 +15,6 @@ import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
-import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.AbstractExecutableComponentModel;
 
@@ -34,7 +33,6 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
   private final SourceCallbackModel successCallback;
   private final SourceCallbackModel errorCallback;
   private final SourceCallbackModel terminateCallbackModel;
-  private final Set<ErrorModel> errors;
 
   /**
    * Creates a new instance
@@ -51,7 +49,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param transactional        whether this component supports transactions
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
-   * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    */
   public ImmutableSourceModel(String name,
@@ -67,16 +65,15 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               boolean transactional,
                               boolean supportsStreaming,
                               DisplayModel displayModel,
-                              Set<StereotypeModel> stereotypes,
+                              StereotypeModel stereotype,
                               Set<ErrorModel> errors,
                               Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-          supportsStreaming, displayModel, stereotypes, modelProperties, nestedComponents);
+          supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents);
     this.hasResponse = hasResponse;
     this.successCallback = successCallbackModel.orElse(null);
     this.errorCallback = errorCallbackModel.orElse(null);
     this.terminateCallbackModel = terminateCallbackModel.orElse(null);
-    this.errors = errors;
   }
 
   /**
@@ -111,11 +108,4 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
     return ofNullable(terminateCallbackModel);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Set<ErrorModel> getErrorModels() {
-    return errors;
-  }
 }
