@@ -101,7 +101,7 @@ import org.mule.runtime.extension.internal.loader.validator.ContentParameterMode
 import org.mule.runtime.extension.internal.loader.validator.ExclusiveParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.FunctionModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.NameClashModelValidator;
-import org.mule.runtime.extension.internal.loader.validator.OperationParametersModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.OperationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
@@ -162,7 +162,7 @@ public final class ExtensionModelFactory {
                                                        new ContentParameterModelValidator(),
                                                        new ExclusiveParameterModelValidator(),
                                                        new NameClashModelValidator(),
-                                                       new OperationParametersModelValidator(),
+                                                       new OperationModelValidator(),
                                                        new FunctionModelValidator(),
                                                        new ParameterModelValidator(),
                                                        new SubtypesModelValidator(),
