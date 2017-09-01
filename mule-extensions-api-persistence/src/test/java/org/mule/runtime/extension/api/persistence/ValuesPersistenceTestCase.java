@@ -36,7 +36,8 @@ public class ValuesPersistenceTestCase {
   private static final Value MULTI_LEVEL_VALUE =
       newValue("root").withChild(newValue("level1").withChild(newValue("level2"))).build();
   private static final ValueProviderModel VALUE_PROVIDER_MODEL =
-      new ValueProviderModel(Arrays.asList("param1", "param2"), 1, "Category 1");
+      new ValueProviderModel(Arrays.asList("param1", "param2"), false, false, false, 1,
+                             "Category 1");
   private static final ValueResult MULTI_LEVEL_VALUE_RESULT = resultFrom(singleton(MULTI_LEVEL_VALUE));
 
   private JsonParser jsonParser = new JsonParser();
@@ -55,7 +56,7 @@ public class ValuesPersistenceTestCase {
   public void deserializedPartModelProperty() throws IOException {
     ValueProviderModel valueProviderModel =
         gson.fromJson(loadAsJson("values/values-provider-model.json"), ValueProviderModel.class);
-    assertThat(valueProviderModel, is(this.VALUE_PROVIDER_MODEL));
+    assertThat(valueProviderModel, is(VALUE_PROVIDER_MODEL));
   }
 
   @Test

@@ -69,10 +69,12 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,10 +85,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 abstract class BasePersistenceTestCase {
 
@@ -118,7 +116,7 @@ abstract class BasePersistenceTestCase {
   protected final ParameterDslConfiguration defaultParameterDsl = ParameterDslConfiguration.getDefaultInstance();
   protected final LayoutModel defaultLayoutModel = LayoutModel.builder().build();
   protected final ValueProviderModel defaultValueProviderModel =
-      new ValueProviderModel(emptyList(), 1, "ACategory");
+      new ValueProviderModel(emptyList(), false, false, false, 1, "ACategory");
 
   protected final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   protected final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();

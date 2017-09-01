@@ -6,8 +6,10 @@
  */
 package org.mule.runtime.extension.api.values;
 
+import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.value.Value;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,11 +29,27 @@ public interface ConfigurationParameterValueProvider {
   Set<Value> getConfigValues(String parameterName) throws ValueResolvingException;
 
   /**
+   * Retrieves the list of associated {@link ValueProviderModel} with the given provider name in the configuration
+   *
+   * @param providerName The name of the value provider
+   * @return The associated {@link ValueProviderModel}
+   */
+  List<ValueProviderModel> getConfigModels(String providerName) throws ValueResolvingException;
+
+  /**
    * Resolves the possible {@link Value values} for the Connection Providers's parameter identified by the {@code parameterName}
    *
    * @param parameterName the name of the parameter that has the capability to provide {@link Value values}
    * @return {@link Set} of possible and valid {@link Value values}
    */
   Set<Value> getConnectionValues(String parameterName) throws ValueResolvingException;
+
+  /**
+   * Retrieves the list of associated {@link ValueProviderModel} with the given provider name in the connection
+   *
+   * @param providerName The name of the value provider
+   * @return The associated {@link ValueProviderModel}
+   */
+  List<ValueProviderModel> getConnectionModels(String providerName) throws ValueResolvingException;
 
 }

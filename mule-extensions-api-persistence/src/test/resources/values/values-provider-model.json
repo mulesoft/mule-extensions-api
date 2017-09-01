@@ -4,5 +4,8 @@
     "param2"
   ],
   "partOrder": 1,
-  "providerName": "Category 1"
+  "providerName": "Category 1",
+  "requiresConfiguration": false,
+  "requiresConnection": false,
+  "isOpen": false
 }

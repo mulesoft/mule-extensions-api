@@ -79,7 +79,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -677,7 +680,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
@@ -714,7 +720,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
@@ -783,7 +792,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -943,7 +955,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -975,7 +990,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -1011,7 +1029,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
@@ -1634,7 +1655,10 @@
                 "valueProviderModel": {
                   "actingParameters": [],
                   "partOrder": 1,
-                  "providerName": "ACategory"
+                  "providerName": "ACategory",
+                  "requiresConfiguration": false,
+                  "requiresConnection": false,
+                  "isOpen": false
                 },
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
@@ -1716,7 +1740,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "defaultValue": "",
@@ -1758,7 +1785,10 @@
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
-                "providerName": "ACategory"
+                "providerName": "ACategory",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false
               },
               "expressionSupport": "SUPPORTED",
               "role": "BEHAVIOUR",
