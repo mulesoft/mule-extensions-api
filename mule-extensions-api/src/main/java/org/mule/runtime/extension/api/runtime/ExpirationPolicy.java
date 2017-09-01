@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime;
 
-import org.mule.runtime.api.meta.AnnotatedObject;
+import org.mule.runtime.api.component.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @since 1.0
  */
-public interface ExpirationPolicy extends AnnotatedObject {
+public interface ExpirationPolicy extends Component {
 
   /**
    * Determines if an instance should be expired based on the last time it was used.
