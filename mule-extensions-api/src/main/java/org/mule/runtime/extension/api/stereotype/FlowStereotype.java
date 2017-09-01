@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.stereotype;
 /**
  * {@link StereotypeDefinition} for {@code flow} core components
  *
- * @since 4.0
+ * @since 1.0
  */
 public class FlowStereotype implements MuleStereotypeDefinition {
 

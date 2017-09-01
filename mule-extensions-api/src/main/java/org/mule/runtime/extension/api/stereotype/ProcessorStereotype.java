@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.stereotype;
 /**
  * {@link StereotypeDefinition} for any generic processor that can be executed by mule runtime.
  *
- * @since 4.0
+ * @since 1.0
  */
 public class ProcessorStereotype implements MuleStereotypeDefinition {
 

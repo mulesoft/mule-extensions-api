@@ -24,14 +24,15 @@ import java.util.function.Consumer;
  */
 public interface Chain {
 
-  Chain onSuccess(Consumer<Result> onSuccess);
+  /**
+   *   
+   * @param onSuccess
+   * @param onError
+   */
+  void process(Consumer<Result> onSuccess, BiConsumer<Throwable, Result> onError);
 
-  Chain onError(BiConsumer<Throwable, Result> onError);
+  void process(Object payload, Object attributes, Consumer<Result> onSuccess, BiConsumer<Throwable, Result> onError);
 
-  void process();
-
-  void process(Object payload, Object attributes);
-
-  void process(Result input);
+  void process(Result input, Consumer<Result> onSuccess, BiConsumer<Throwable, Result> onError);
 
 }

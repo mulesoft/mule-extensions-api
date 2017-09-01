@@ -18,6 +18,8 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -79,7 +81,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
-import org.mule.runtime.extension.api.stereotype.MuleStereotypeFactory;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
@@ -347,7 +348,7 @@ public final class ExtensionModelFactory {
         return declaration.getStereotype();
       }
 
-      return MuleStereotypeFactory.source();
+      return SOURCE;
     }
 
     private Optional<SourceCallbackModel> toSourceCallback(Optional<SourceCallbackDeclaration> callbackDeclaration) {
@@ -364,7 +365,7 @@ public final class ExtensionModelFactory {
         return stereotypeModels;
       }
 
-      return of(MuleStereotypeFactory.processor());
+      return of(PROCESSOR);
     }
 
     private StereotypeModel getProcessorStereotype(StereotypeModel stereotypeModel) {
@@ -372,7 +373,7 @@ public final class ExtensionModelFactory {
         return stereotypeModel;
       }
 
-      return MuleStereotypeFactory.processor();
+      return PROCESSOR;
     }
 
     private List<OperationModel> toOperations(List<OperationDeclaration> declarations) {

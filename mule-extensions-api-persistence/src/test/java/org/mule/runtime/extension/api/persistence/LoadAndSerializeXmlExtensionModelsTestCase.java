@@ -19,6 +19,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.json.JsonTypeLoader;
@@ -37,7 +38,6 @@ import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
-import org.mule.runtime.extension.api.stereotype.MuleStereotypeFactory;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -89,7 +89,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
                                                                           defaultDisplayModel,
-                                                                          emptySet(), MuleStereotypeFactory.processor(),
+                                                                          emptySet(), PROCESSOR,
                                                                           emptySet());
 
     originalExtensionModel =

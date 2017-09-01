@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.soap.security.config;
 /**
  * {@link WssStoreConfiguration} implementation for Trust Stores, used for signature verification.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class WssTrustStoreConfiguration implements WssStoreConfiguration {
 

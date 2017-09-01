@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Contains the headers retrieved by the protocol after the request.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class SoapAttributes implements Serializable {
 

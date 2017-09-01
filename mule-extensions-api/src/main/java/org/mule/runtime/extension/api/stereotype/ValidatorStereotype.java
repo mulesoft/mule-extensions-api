@@ -6,13 +6,15 @@
  */
 package org.mule.runtime.extension.api.stereotype;
 
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR_DEFINITION;
+
 import java.util.Optional;
 
 /**
  * {@link StereotypeDefinition} for any {@code validator} component. 
  * A validator is also a {@link ProcessorStereotype processor}
  *
- * @since 4.0
+ * @since 1.0
  */
 public class ValidatorStereotype implements MuleStereotypeDefinition {
 
@@ -23,7 +25,7 @@ public class ValidatorStereotype implements MuleStereotypeDefinition {
 
   @Override
   public Optional<StereotypeDefinition> getParent() {
-    return Optional.of(MuleStereotypeFactory.processorDefinition());
+    return Optional.of(PROCESSOR_DEFINITION);
   }
 
 }

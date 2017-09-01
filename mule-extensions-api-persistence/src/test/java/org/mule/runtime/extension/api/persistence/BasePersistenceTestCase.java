@@ -24,6 +24,8 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.CHOICE_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.FOREACH_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -69,7 +71,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
-import org.mule.runtime.extension.api.stereotype.MuleStereotypeFactory;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -204,7 +205,7 @@ abstract class BasePersistenceTestCase {
                                     emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), MuleStereotypeFactory.processor(), modelProperties);
+                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties);
 
     createCoreOperations();
 
@@ -229,7 +230,7 @@ abstract class BasePersistenceTestCase {
                                                                                         .build(),
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
-                                           DisplayModel.builder().build(), MuleStereotypeFactory.source(), emptySet(),
+                                           DisplayModel.builder().build(), SOURCE, emptySet(),
                                            emptySet());
 
 

@@ -21,15 +21,15 @@ import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.internal.property.TransactionalActionModelProperty;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * {@link ExtensionModelValidator} implementation in charge of validate the set of "Transactional Parameters" for
  * {@link OperationModel} and {@link SourceModel}
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class TransactionalParametersValidator implements ExtensionModelValidator {
 

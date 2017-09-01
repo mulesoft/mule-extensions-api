@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * A simple container object that carries the SOAP envelope information and the attachments bounded to the response.
  *
- * @since 4.0
+ * @since 1.0
  */
 public class SoapOutputPayload {
 
