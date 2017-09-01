@@ -51,7 +51,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
 
       if (!connectable) {
         problemsReporter.addError(new Problem(model, format("Operation '%s' requires a connection but no connection provider was "
-                                                                + "defined at either the configuration or extension level",
+            + "defined at either the configuration or extension level",
                                                             model.getName())));
       }
     }
