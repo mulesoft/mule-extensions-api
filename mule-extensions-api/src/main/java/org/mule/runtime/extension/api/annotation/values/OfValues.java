@@ -32,4 +32,9 @@ public @interface OfValues {
    */
   Class<? extends ValueProvider> value();
 
+  /**
+   * @return a boolean indicating if this values are closed or not
+   */
+  boolean open() default true;
+
 }

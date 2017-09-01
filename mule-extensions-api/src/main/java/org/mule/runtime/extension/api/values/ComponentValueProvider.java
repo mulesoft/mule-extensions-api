@@ -6,8 +6,10 @@
  */
 package org.mule.runtime.extension.api.values;
 
+import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.value.Value;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,9 +20,17 @@ import java.util.Set;
 public interface ComponentValueProvider {
 
   /**
-   * @param parameterName the name of the parameter for which resolve their possible {@link Value values}
+   * @param providerName the name of the parameter for which resolve their possible {@link Value values}
    * @return the resolved {@link Value values}
    */
-  Set<Value> getValues(String parameterName) throws ValueResolvingException;
+  Set<Value> getValues(String providerName) throws ValueResolvingException;
+
+  /**
+   * Retrieves the list of associated {@link ValueProviderModel} with the given provider name in the component
+   *
+   * @param providerName The name of the value provider
+   * @return The associated {@link ValueProviderModel}
+   */
+  List<ValueProviderModel> getModels(String providerName);
 
 }
