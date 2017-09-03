@@ -9,10 +9,13 @@ package org.mule.runtime.extension.api.model;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
+
+import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
 import java.util.Set;
@@ -26,8 +29,9 @@ import java.util.Set;
 public abstract class AbstractComponentModel extends AbstractParameterizedModel
     implements ComponentModel {
 
-  private final Set<StereotypeModel> stereotypes;
+  private final StereotypeModel stereotype;
   private final List<? extends NestableElementModel> nestedComponents;
+  private final Set<ErrorModel> errors;
 
   /**
    * Creates a new instance
@@ -37,28 +41,38 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
-   * @param stereotypes          A {@link Set} of {@link StereotypeModel stereotypes}
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,
                                    String description,
                                    List<ParameterGroupModel> parameterGroupModels,
-                                   List<? extends NestableElementModel> nestedComponents, DisplayModel displayModel,
-                                   Set<StereotypeModel> stereotypes,
+                                   List<? extends NestableElementModel> nestedComponents,
+                                   DisplayModel displayModel,
+                                   Set<ErrorModel> errors,
+                                   StereotypeModel stereotype,
                                    Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
 
-    this.stereotypes = copy(stereotypes);
+    this.stereotype = stereotype;
     this.nestedComponents = copy(nestedComponents);
+    this.errors = ImmutableSet.copyOf(errors);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Set<StereotypeModel> getStereotypes() {
-    return stereotypes;
+  public StereotypeModel getStereotype() {
+    return stereotype;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Set<ErrorModel> getErrorModels() {
+    return errors;
   }
 
   /**

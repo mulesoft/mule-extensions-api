@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.soap.security.config;
 /**
  * {@link WssStoreConfiguration} implementation for Key Stores, used for encryption, decryption and signing.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class WssKeyStoreConfiguration implements WssStoreConfiguration {
 

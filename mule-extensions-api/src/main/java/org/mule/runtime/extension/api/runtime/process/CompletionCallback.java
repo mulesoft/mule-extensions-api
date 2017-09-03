@@ -23,7 +23,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * types.
  * <p>
  * When the non blocking operation has finished, it has to notify the result either by
- * invoking the {@link #success(Result)} or {@link #error(Exception)} methods.
+ * invoking the {@link #success(Result)} or {@link #error(Throwable)} methods.
  * Only then will the operation be considered as completed and the next processor in the
  * pipeline will be executed.
  * <p>
@@ -51,6 +51,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  *
  * @param <T> The generic type of the operation's output value
  * @param <A> The generic type of the operation's output attributes
+ * @since 1.0
  */
 public interface CompletionCallback<T, A> {
 
@@ -68,6 +69,6 @@ public interface CompletionCallback<T, A> {
    *
    * @param e the exception found
    */
-  void error(Exception e);
+  void error(Throwable e);
 
 }

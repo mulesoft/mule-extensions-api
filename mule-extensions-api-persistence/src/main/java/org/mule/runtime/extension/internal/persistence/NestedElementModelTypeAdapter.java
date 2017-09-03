@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.persistence;
 
 import static java.lang.String.format;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
-import org.mule.runtime.api.meta.model.nested.NestableElementModelVisistor;
+import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
@@ -42,7 +42,7 @@ public class NestedElementModelTypeAdapter extends KindEnrichedTypeAdapter<Nesta
   @Override
   protected String getKind(NestableElementModel value) {
     Reference<String> kind = new Reference<>();
-    value.accept(new NestableElementModelVisistor() {
+    value.accept(new NestableElementModelVisitor() {
 
       @Override
       public void visit(NestedComponentModel component) {

@@ -10,7 +10,7 @@ package org.mule.runtime.extension.api.soap.security.config;
 /**
  * Provides methods to access the configuration of a store used to add WS security to the SOAP requests.
  *
- * @since 4.0
+ * @since 1.0
  */
 public interface WssStoreConfiguration {
 

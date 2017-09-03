@@ -46,7 +46,7 @@ import java.util.Optional;
  * If the given {@link ComponentModel} already contains the parameter, this one will be enriched to ensure a cross
  * components transactional parameters UX.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class TransactionalDeclarationEnricher implements DeclarationEnricher {
 

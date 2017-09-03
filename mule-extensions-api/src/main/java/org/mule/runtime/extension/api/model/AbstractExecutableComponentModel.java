@@ -12,9 +12,9 @@ import org.mule.runtime.api.meta.model.ExecutableComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
-import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param transactional        whether this component supports transactions
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
-   * @param stereotypes          A {@link Set} of {@link StereotypeDefinition stereotypes}
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @throws IllegalArgumentException if {@code name} is blank
@@ -60,10 +60,11 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              boolean transactional,
                                              boolean supportsStreaming,
                                              DisplayModel displayModel,
-                                             Set<StereotypeModel> stereotypes,
+                                             Set<ErrorModel> errors,
+                                             StereotypeModel stereotype,
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents) {
-    super(name, description, parameterGroupModels, nestedComponents, displayModel, stereotypes, modelProperties);
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties);
     this.output = output;
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;

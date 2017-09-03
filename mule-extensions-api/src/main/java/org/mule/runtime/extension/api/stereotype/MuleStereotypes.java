@@ -6,39 +6,35 @@
  */
 package org.mule.runtime.extension.api.stereotype;
 
-import static java.util.Optional.ofNullable;
-
-import java.util.Optional;
-
+import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
+import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 
 /**
- * {@link StereotypeDefinition} {@link Enum} which publish the available stereotypes that the Mule Runtime provides
- * to be extended from an extension.
+ * Provides constants for all known implementations of {@link MuleStereotypes}.
  *
  * @since 1.0
  */
-public enum MuleStereotypes implements StereotypeDefinition<MuleStereotypes> {
+public final class MuleStereotypes {
 
-  ANY,
+  private static final String STEREOTYPE_NAMESPACE = CORE_PREFIX.toUpperCase();
 
-  SOURCE(ANY),
+  public static final StereotypeDefinition PROCESSOR_DEFINITION = new ProcessorStereotype();
+  public static final StereotypeDefinition SOURCE_DEFINITION = new SourceStereotype();
+  public static final StereotypeDefinition VALIDATOR_DEFINITION = new ValidatorStereotype();
+  public static final StereotypeDefinition FLOW_DEFINITION = new FlowStereotype();
+  public static final StereotypeDefinition ERROR_HANDLER_DEFINITION = new ErrorHandlerStereotype();
+  public static final StereotypeDefinition CONFIGURATION_DEFINITION = new ConfigurationStereotype();
 
-  PROCESSOR(ANY),
+  public static final StereotypeModel PROCESSOR = newStereotype(PROCESSOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel SOURCE = newStereotype(SOURCE_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel VALIDATOR = newStereotype(VALIDATOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel FLOW = newStereotype(FLOW_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel ERROR_HANDLER =
+      newStereotype(ERROR_HANDLER_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel CONFIGURATION =
+      newStereotype(CONFIGURATION_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
 
-  ERROR_HANDLER,
+  private MuleStereotypes() {}
 
-  FLOW;
-
-  private StereotypeDefinition<MuleStereotypes> parent;
-
-  MuleStereotypes(StereotypeDefinition<MuleStereotypes> parent) {
-    this.parent = parent;
-  }
-
-  MuleStereotypes() {}
-
-  @Override
-  public Optional<StereotypeDefinition<?>> getParent() {
-    return ofNullable(parent);
-  }
 }

@@ -19,6 +19,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.json.JsonTypeLoader;
@@ -88,7 +89,8 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
                                                                           defaultDisplayModel,
-                                                                          emptySet(), emptySet(), emptySet());
+                                                                          emptySet(), PROCESSOR,
+                                                                          emptySet());
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft",

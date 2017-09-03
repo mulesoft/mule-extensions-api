@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Builder pattern implementation for building a new {@link OperationParameters} instance.
  *
- * @since 4.0
+ * @since 1.0
  */
 public final class DefaultOperationParametersBuilder {
 

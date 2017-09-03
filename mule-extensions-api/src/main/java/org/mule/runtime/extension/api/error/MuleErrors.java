@@ -84,6 +84,10 @@ public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
    */
   SOURCE_ERROR_RESPONSE_SEND(SOURCE),
   /**
+   * Indicates that the execution of the current event is stopped
+   */
+  VALIDATION(ANY),
+  /**
    * Indicates that a severe error occurred. Cannot be handled. Top of the error hierarchy for those that do not allow handling.
    */
   CRITICAL;

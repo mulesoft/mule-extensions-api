@@ -16,19 +16,17 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public interface StereotypeDefinition<E extends Enum<E>> {
+public interface StereotypeDefinition {
 
   /**
-   * @return The type of the current error type definition
+   * @return The type of the current Stereotype definition
    */
-  default String getName() {
-    return ((E) this).name();
-  }
+  String getName();
 
   /**
-   * @return The {@link Optional} parent of the current error type definition
+   * @return The {@link Optional} parent of the current Stereotype definition
    */
-  default Optional<StereotypeDefinition<? extends Enum<?>>> getParent() {
+  default Optional<StereotypeDefinition> getParent() {
     return empty();
   }
 
