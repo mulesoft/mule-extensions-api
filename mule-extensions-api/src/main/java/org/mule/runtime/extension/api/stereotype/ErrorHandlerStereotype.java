@@ -17,7 +17,7 @@ public class ErrorHandlerStereotype implements MuleStereotypeDefinition {
 
   @Override
   public String getName() {
-    return "ERROR-HANDLER";
+    return "ERROR_HANDLER";
   }
 
 }
