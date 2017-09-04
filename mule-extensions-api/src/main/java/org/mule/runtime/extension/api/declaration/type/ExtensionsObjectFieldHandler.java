@@ -266,8 +266,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     if (references != null) {
       stream(references.value())
           .map(ref -> new StereotypeTypeAnnotation(newStereotype(ref.name(), ref.namespace())
-                                                       .withParent(CONFIG)
-                                                       .build()))
+              .withParent(CONFIG)
+              .build()))
           .forEach(fieldBuilder::with);
     }
 

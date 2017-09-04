@@ -6,9 +6,13 @@
  */
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
+import static org.mule.runtime.api.util.Preconditions.checkState;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
+import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+
+import java.util.function.Function;
 
 /**
  * A public {@link TypeAnnotation} intended to be used on {@link ObjectFieldType} types in order to
@@ -19,7 +23,17 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 public class StereotypeTypeAnnotation implements TypeAnnotation {
 
   public static final String NAME = "stereotype";
-  private final StereotypeModel stereotypeModel;
+  private StereotypeModel stereotypeModel;
+  private Class<? extends StereotypeDefinition> definitionClass;
+
+  /**
+   * Creates a new instance which only holds a reference to the type class. That class is to later
+   * be resolved into a {@link StereotypeModel} through an invokation to the
+   * @param definitionClass
+   */
+  public StereotypeTypeAnnotation(Class<? extends StereotypeDefinition> definitionClass) {
+    this.definitionClass = definitionClass;
+  }
 
   /**
    * Creates a new instance
@@ -34,7 +48,15 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
    * @return An {@link StereotypeModel}
    */
   public StereotypeModel getStereotypeModel() {
+    checkState(stereotypeModel != null, "The stereotypeModel has not yet been resolved");
     return stereotypeModel;
+  }
+
+  public void resolveStereotype(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
+    checkState(stereotypeModel == null, "The stereotypeModel has already been resolved or provided");
+
+    stereotypeModel = resolver.apply(definitionClass);
+    definitionClass = null;
   }
 
   /**

@@ -11,9 +11,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.CONFIG;
-import static org.mule.runtime.api.meta.model.parameter.ElementReference.ElementType.OBJECT_STORE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.ACCESS_TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUTHORIZATION_URL_PARAMETER_NAME;
@@ -30,6 +29,8 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OBJECT_STORE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.RESOURCE_OWNER_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -37,7 +38,6 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
-import org.mule.runtime.api.meta.model.parameter.ElementReference;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
@@ -139,7 +139,9 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                            "A reference to a <http:listener-config /> to be used in order to create the "
                                                                + "listener that will catch the access token callback endpoint.",
                                                            true, stringType, NOT_SUPPORTED, null);
-      listenerConfig.setAllowedStereotypeModels(singletonList(new ElementReference("http", "listener-config", CONFIG)));
+      listenerConfig.setAllowedStereotypeModels(singletonList(newStereotype("listener-config", "http")
+          .withParent(CONFIG)
+          .build()));
       params.add(listenerConfig);
 
       params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
@@ -168,7 +170,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                               "A reference to the object store that should be used to store " +
                                                                   "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
                                                               false, stringType, NOT_SUPPORTED, null);
-      osParameter.setAllowedStereotypeModels(asList(new ElementReference("os", "objectStore", OBJECT_STORE)));
+      osParameter.setAllowedStereotypeModels(singletonList(OBJECT_STORE));
       addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, declaration);
     }
 
