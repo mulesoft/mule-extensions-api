@@ -13,7 +13,7 @@ import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
-import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
+import org.mule.runtime.extension.api.model.parameter.AbstractStereotypedModel;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -26,10 +26,9 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractComponentModel extends AbstractParameterizedModel
+public abstract class AbstractComponentModel extends AbstractStereotypedModel
     implements ComponentModel {
 
-  private final StereotypeModel stereotype;
   private final List<? extends NestableElementModel> nestedComponents;
   private final Set<ErrorModel> errors;
 
@@ -53,19 +52,10 @@ public abstract class AbstractComponentModel extends AbstractParameterizedModel
                                    Set<ErrorModel> errors,
                                    StereotypeModel stereotype,
                                    Set<ModelProperty> modelProperties) {
-    super(name, description, parameterGroupModels, displayModel, modelProperties);
+    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties);
 
-    this.stereotype = stereotype;
     this.nestedComponents = copy(nestedComponents);
     this.errors = ImmutableSet.copyOf(errors);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public StereotypeModel getStereotype() {
-    return stereotype;
   }
 
   /**

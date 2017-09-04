@@ -11,13 +11,13 @@ package org.mule.runtime.extension.api.stereotype;
  *
  * @since 1.0
  */
-public class ConfigStereotype implements MuleStereotypeDefinition {
+public class ModuleConfigStereotype implements MuleStereotypeDefinition {
 
-  ConfigStereotype() {}
+  ModuleConfigStereotype() {}
 
   @Override
   public String getName() {
-    return "CONFIG";
+    return "MODULE_CONFIG";
   }
 
 }

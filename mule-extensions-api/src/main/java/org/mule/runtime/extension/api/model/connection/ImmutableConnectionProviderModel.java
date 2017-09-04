@@ -13,7 +13,7 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
-import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
+import org.mule.runtime.extension.api.model.parameter.AbstractStereotypedModel;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,9 +24,8 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class ImmutableConnectionProviderModel extends AbstractParameterizedModel implements ConnectionProviderModel {
+public class ImmutableConnectionProviderModel extends AbstractStereotypedModel implements ConnectionProviderModel {
 
-  private final StereotypeModel stereotype;
   private final ConnectionManagementType connectionManagementType;
   private final Set<ExternalLibraryModel> externalLibraryModels;
 
@@ -50,11 +49,10 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
                                           DisplayModel displayModel,
                                           StereotypeModel stereotype,
                                           Set<ModelProperty> modelProperties) {
-    super(name, description, parameterGroupModels, displayModel, modelProperties);
+    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
     this.externalLibraryModels = Collections.unmodifiableSet(externalLibraryModels);
-    this.stereotype = stereotype;
   }
 
   /**
@@ -73,11 +71,4 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
     return externalLibraryModels;
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public StereotypeModel getStereotype() {
-    return stereotype;
-  }
 }
