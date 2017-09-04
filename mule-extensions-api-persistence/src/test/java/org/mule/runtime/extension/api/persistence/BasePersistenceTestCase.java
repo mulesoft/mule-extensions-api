@@ -24,6 +24,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.CHOICE_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestCoreExtensionDeclarer.FOREACH_OPERATION_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -75,9 +76,6 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,6 +86,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 abstract class BasePersistenceTestCase {
 
@@ -216,6 +218,7 @@ abstract class BasePersistenceTestCase {
                                              NONE,
                                              externalLibrarySet(),
                                              defaultDisplayModel,
+                                             CONNECTION,
                                              emptySet());
 
     sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true,

@@ -7,17 +7,17 @@
 package org.mule.runtime.extension.api.stereotype;
 
 /**
- * {@link StereotypeDefinition} for {@code configuration} core components
+ * {@link StereotypeDefinition} for any generic connection.
  *
  * @since 1.0
  */
-public class ConfigurationStereotype implements MuleStereotypeDefinition {
+public class ConnectionStereotype implements MuleStereotypeDefinition {
 
-  ConfigurationStereotype() {}
+  ConnectionStereotype() {}
 
   @Override
   public String getName() {
-    return "APP_CONFIGURATION";
+    return "CONNECTION";
   }
 
 }

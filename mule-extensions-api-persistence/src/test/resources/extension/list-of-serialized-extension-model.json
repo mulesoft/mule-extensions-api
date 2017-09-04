@@ -925,6 +925,10 @@
     ],
     "connectionProviders": [
       {
+        "stereotype": {
+          "type": "CONNECTION",
+          "namespace": "MULE"
+        },
         "connectionManagementType": "NONE",
         "externalLibraryModels": [
           {
@@ -2967,6 +2971,10 @@
     ],
     "connectionProviders": [
       {
+        "stereotype": {
+          "type": "CONNECTION",
+          "namespace": "MULE"
+        },
         "connectionManagementType": "NONE",
         "externalLibraryModels": [
           {

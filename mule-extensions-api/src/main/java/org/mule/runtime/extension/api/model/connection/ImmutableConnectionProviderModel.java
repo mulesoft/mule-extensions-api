@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
 
 import java.util.Collections;
@@ -25,6 +26,7 @@ import java.util.Set;
  */
 public class ImmutableConnectionProviderModel extends AbstractParameterizedModel implements ConnectionProviderModel {
 
+  private final StereotypeModel stereotype;
   private final ConnectionManagementType connectionManagementType;
   private final Set<ExternalLibraryModel> externalLibraryModels;
 
@@ -46,11 +48,13 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
                                           ConnectionManagementType connectionManagementType,
                                           Set<ExternalLibraryModel> externalLibraryModels,
                                           DisplayModel displayModel,
+                                          StereotypeModel stereotype,
                                           Set<ModelProperty> modelProperties) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
     this.externalLibraryModels = Collections.unmodifiableSet(externalLibraryModels);
+    this.stereotype = stereotype;
   }
 
   /**
@@ -67,5 +71,13 @@ public class ImmutableConnectionProviderModel extends AbstractParameterizedModel
   @Override
   public Set<ExternalLibraryModel> getExternalLibraryModels() {
     return externalLibraryModels;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public StereotypeModel getStereotype() {
+    return stereotype;
   }
 }

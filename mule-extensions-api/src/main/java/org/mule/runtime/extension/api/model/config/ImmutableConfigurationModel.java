@@ -13,10 +13,10 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
-import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.AbstractComplexModel;
 
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ import java.util.Set;
  */
 public class ImmutableConfigurationModel extends AbstractComplexModel implements ConfigurationModel {
 
+  private final StereotypeModel stereotype;
   private final List<ParameterGroupModel> parameterGroupModels;
   private final Set<ExternalLibraryModel> externalLibraryModels;
 
@@ -55,10 +56,12 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
                                      List<SourceModel> sourceModels,
                                      Set<ExternalLibraryModel> externalLibraryModels,
                                      DisplayModel displayModel,
+                                     StereotypeModel stereotype,
                                      Set<ModelProperty> modelProperties) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.parameterGroupModels = unmodifiableList(new ArrayList<>(parameterGroupModels));
     this.externalLibraryModels = unmodifiableSet(externalLibraryModels);
+    this.stereotype = stereotype;
   }
 
   /**
@@ -75,5 +78,13 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
   @Override
   public Set<ExternalLibraryModel> getExternalLibraryModels() {
     return externalLibraryModels;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public StereotypeModel getStereotype() {
+    return stereotype;
   }
 }
