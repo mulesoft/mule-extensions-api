@@ -35,7 +35,7 @@ public class ExtensionTypeAnnotationsRegistry implements AnnotationsRegistry {
         .put(LayoutTypeAnnotation.NAME, LayoutTypeAnnotation.class)
         .put(ParameterRoleAnnotation.NAME, ParameterRoleAnnotation.class)
         .put(DefaultImplementingTypeAnnotation.NAME, DefaultImplementingTypeAnnotation.class)
-        .put(ElementReferenceTypeAnnotation.NAME, ElementReferenceTypeAnnotation.class)
+        .put(StereotypeTypeAnnotation.NAME, StereotypeTypeAnnotation.class)
         .build();
   }
 }

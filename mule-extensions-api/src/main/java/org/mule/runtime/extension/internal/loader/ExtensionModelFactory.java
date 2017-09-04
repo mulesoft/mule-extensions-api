@@ -539,7 +539,7 @@ public final class ExtensionModelFactory {
                                          parameter.getDisplayModel(),
                                          parameter.getLayoutModel(),
                                          parameter.getValueProviderModel(),
-                                         parameter.getElementReferences(),
+                                         parameter.getAllowedStereotypeModels(),
                                          parameter.getModelProperties());
     }
 

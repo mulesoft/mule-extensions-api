@@ -139,7 +139,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                            "A reference to a <http:listener-config /> to be used in order to create the "
                                                                + "listener that will catch the access token callback endpoint.",
                                                            true, stringType, NOT_SUPPORTED, null);
-      listenerConfig.setElementReferences(singletonList(new ElementReference("http", "listener-config", CONFIG)));
+      listenerConfig.setAllowedStereotypeModels(singletonList(new ElementReference("http", "listener-config", CONFIG)));
       params.add(listenerConfig);
 
       params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
@@ -168,7 +168,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                               "A reference to the object store that should be used to store " +
                                                                   "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
                                                               false, stringType, NOT_SUPPORTED, null);
-      osParameter.setElementReferences(asList(new ElementReference("os", "objectStore", OBJECT_STORE)));
+      osParameter.setAllowedStereotypeModels(asList(new ElementReference("os", "objectStore", OBJECT_STORE)));
       addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, declaration);
     }
 

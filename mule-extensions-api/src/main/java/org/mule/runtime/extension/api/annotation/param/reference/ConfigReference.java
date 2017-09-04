@@ -11,7 +11,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
-import org.mule.runtime.extension.api.annotation.ElementReferences;
+import org.mule.runtime.extension.api.annotation.ConfigReferences;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Repeatable(ElementReferences.class)
+@Repeatable(ConfigReferences.class)
 public @interface ConfigReference {
 
   /**

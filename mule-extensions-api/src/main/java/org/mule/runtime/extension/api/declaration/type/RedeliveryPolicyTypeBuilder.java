@@ -16,7 +16,7 @@ import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.parameter.ElementReference;
 import org.mule.runtime.api.store.ObjectStore;
-import org.mule.runtime.extension.api.declaration.type.annotation.ElementReferenceTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 
 /**
@@ -65,8 +65,8 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
                    null);
 
     objectType.addField()
-        .with(new ElementReferenceTypeAnnotation(new ElementReference(OBJECT_STORE_ELEMENT_NAMESPACE, OBJECT_STORE_ELEMENT_NAME,
-                                                                      OBJECT_STORE)))
+        .with(new StereotypeTypeAnnotation(new ElementReference(OBJECT_STORE_ELEMENT_NAMESPACE, OBJECT_STORE_ELEMENT_NAME,
+                                                                OBJECT_STORE)))
         .description("The object store where the redelivery counter for each message is going to be stored.")
         .key(OBJECT_STORE_REF)
         .value(ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(ObjectStore.class));

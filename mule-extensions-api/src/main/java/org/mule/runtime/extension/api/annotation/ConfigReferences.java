@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-public @interface ElementReferences {
+public @interface ConfigReferences {
 
   /**
    * @return all the possible {@link ConfigReference}s declarations for the annotated parameter

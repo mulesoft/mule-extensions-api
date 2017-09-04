@@ -8,33 +8,33 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.ObjectFieldType;
-import org.mule.runtime.api.meta.model.parameter.ElementReference;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 
 /**
  * A public {@link TypeAnnotation} intended to be used on {@link ObjectFieldType} types in order to
- * communicate an associated {@link ElementReference}
+ * communicate an associated {@link StereotypeModel}
  *
  * @since 1.0
  */
-public class ElementReferenceTypeAnnotation implements TypeAnnotation {
+public class StereotypeTypeAnnotation implements TypeAnnotation {
 
-  public static final String NAME = "elementReference";
-  private final ElementReference elementReference;
+  public static final String NAME = "stereotype";
+  private final StereotypeModel stereotypeModel;
 
   /**
    * Creates a new instance
    *
-   * @param elementReference the reference to be communicated
+   * @param stereotypeModel the reference to be communicated
    */
-  public ElementReferenceTypeAnnotation(ElementReference elementReference) {
-    this.elementReference = elementReference;
+  public StereotypeTypeAnnotation(StereotypeModel stereotypeModel) {
+    this.stereotypeModel = stereotypeModel;
   }
 
   /**
-   * @return An {@link ElementReference}
+   * @return An {@link StereotypeModel}
    */
-  public ElementReference getElementReference() {
-    return elementReference;
+  public StereotypeModel getStereotypeModel() {
+    return stereotypeModel;
   }
 
   /**
