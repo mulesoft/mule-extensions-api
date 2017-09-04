@@ -616,11 +616,14 @@
                 "text": false,
                 "query": false
               },
-              "elementReferences": [
+              "allowedStereotypeModels": [
                 {
+                  "type": "config",
                   "namespace": "test",
-                  "name": "config",
-                  "type": "CONFIG"
+                  "parent": {
+                    "type": "MODULE_CONFIG",
+                    "namespace": "MULE"
+                  }
                 }
               ],
               "name": "complex",
@@ -646,7 +649,6 @@
       "description": "",
       "modelProperties": {}
     },
-    "errors": [],
     "output": {
       "type": {
         "format": "java",
@@ -668,11 +670,12 @@
     "transactional": false,
     "requiresConnection": false,
     "supportsStreaming": false,
+    "nestedComponents": [],
+    "errors": [],
     "stereotype": {
       "type": "SOURCE",
       "namespace": "MULE"
     },
-    "nestedComponents": [],
     "parameterGroupModels": [
       {
         "parameters": [
@@ -705,7 +708,7 @@
               "text": false,
               "query": false
             },
-            "elementReferences": [],
+            "allowedStereotypeModels": [],
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",
@@ -767,7 +770,7 @@
               "text": false,
               "query": false
             },
-            "elementReferences": [],
+            "allowedStereotypeModels": [],
             "name": "noID",
             "displayModel": {},
             "description": "type to serialize without ID",

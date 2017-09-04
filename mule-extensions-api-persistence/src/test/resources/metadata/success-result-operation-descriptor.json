@@ -19,16 +19,6 @@
   "component": {
     "blocking": true,
     "executionType": "CPU_LITE",
-    "errors": [
-      {
-        "type": "SOME_ERROR",
-        "namespace": "ERROR_NAMESPACE",
-        "parent": {
-          "type": "PARENT_ERROR_MODEL",
-          "namespace": "ERROR_NAMESPACE"
-        }
-      }
-    ],
     "output": {
       "type": {
         "format": "java",
@@ -50,11 +40,21 @@
     "transactional": false,
     "requiresConnection": false,
     "supportsStreaming": false,
+    "nestedComponents": [],
+    "errors": [
+      {
+        "type": "SOME_ERROR",
+        "namespace": "ERROR_NAMESPACE",
+        "parent": {
+          "type": "PARENT_ERROR_MODEL",
+          "namespace": "ERROR_NAMESPACE"
+        }
+      }
+    ],
     "stereotype": {
       "type": "PROCESSOR",
       "namespace": "MULE"
     },
-    "nestedComponents": [],
     "parameterGroupModels": [
       {
         "parameters": [
@@ -87,7 +87,7 @@
               "text": false,
               "query": false
             },
-            "elementReferences": [],
+            "allowedStereotypeModels": [],
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",
@@ -687,11 +687,14 @@
               "text": false,
               "query": false
             },
-            "elementReferences": [
+            "allowedStereotypeModels": [
               {
+                "type": "config",
                 "namespace": "test",
-                "name": "config",
-                "type": "CONFIG"
+                "parent": {
+                  "type": "MODULE_CONFIG",
+                  "namespace": "MULE"
+                }
               }
             ],
             "name": "complex",
@@ -888,7 +891,7 @@
               "text": false,
               "query": false
             },
-            "elementReferences": [],
+            "allowedStereotypeModels": [],
             "name": "loaded",
             "displayModel": {},
             "description": "loaded type from json to serialize",

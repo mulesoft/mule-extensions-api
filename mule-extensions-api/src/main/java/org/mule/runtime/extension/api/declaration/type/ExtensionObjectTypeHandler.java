@@ -92,9 +92,9 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       TypeDsl typeDsl = currentClass.getAnnotation(TypeDsl.class);
       if (typeDsl != null) {
         annotatedBuilder.with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
-                                                                  typeDsl.allowTopLevelDefinition(),
-                                                                  typeDsl.substitutionGroup(),
-                                                                  typeDsl.baseType()));
+                                                    typeDsl.allowTopLevelDefinition(),
+                                                    typeDsl.substitutionGroup(),
+                                                    typeDsl.baseType()));
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);

@@ -273,7 +273,9 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     ConfigReference ref = field.getAnnotation(ConfigReference.class);
     if (ref != null) {
-      fieldBuilder.with(new StereotypeTypeAnnotation(CONFIG));
+      fieldBuilder.with(new StereotypeTypeAnnotation(newStereotype(ref.name(), ref.namespace())
+          .withParent(CONFIG)
+          .build()));
     }
 
     if (field.getAnnotation(FlowReference.class) != null) {
