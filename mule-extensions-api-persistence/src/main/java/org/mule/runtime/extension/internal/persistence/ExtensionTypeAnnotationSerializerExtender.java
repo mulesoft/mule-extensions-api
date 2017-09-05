@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Contributes to the {@link TypeAnnotationSerializerExtender} service to provide a friendly name for the custom annotations used by the
- * {@link ExtensionObjectTypeHandler}
+ * {@link ExtensionObjectTypeHandler} and being able to serialize a {@link StereotypeModel}
  *
  * @since 1.0
  */
@@ -38,7 +38,6 @@ public class ExtensionTypeAnnotationSerializerExtender implements TypeAnnotation
 
   @Override
   public Map<String, Class<? extends TypeAnnotation>> getNameClassMapping() {
-    // TODO MULE-10209 customize how custom type annotations are serialized
     return ImmutableMap.<String, Class<? extends TypeAnnotation>>builder()
         .put(ParameterDslAnnotation.NAME, ParameterDslAnnotation.class).put(TypeDslAnnotation.NAME, TypeDslAnnotation.class)
         .put(TypeAliasAnnotation.NAME, TypeAliasAnnotation.class)
