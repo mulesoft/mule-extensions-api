@@ -44,6 +44,6 @@ public class DefaultImplementingTypeModelProperty implements ModelProperty {
    */
   @Override
   public boolean isPublic() {
-    return true;
+    return false;
   }
 }

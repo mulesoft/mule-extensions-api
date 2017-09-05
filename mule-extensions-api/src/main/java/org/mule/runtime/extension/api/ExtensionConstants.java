@@ -202,10 +202,5 @@ public final class ExtensionConstants {
    */
   public static final String OBJECT_STORE_ELEMENT_NAMESPACE = "os";
 
-  /**
-   * object store element name
-   */
-  public static final String OBJECT_STORE_ELEMENT_NAME = "object-store";
-
   private ExtensionConstants() {}
 }

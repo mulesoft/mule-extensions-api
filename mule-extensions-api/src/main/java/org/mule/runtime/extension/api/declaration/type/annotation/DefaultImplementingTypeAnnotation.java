@@ -44,6 +44,11 @@ public class DefaultImplementingTypeAnnotation implements TypeAnnotation {
   }
 
   @Override
+  public boolean isPublic() {
+    return false;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (o instanceof DefaultImplementingTypeAnnotation) {
       return Objects.equals(this.defaultType, ((DefaultImplementingTypeAnnotation) o).defaultType);

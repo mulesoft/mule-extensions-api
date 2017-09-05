@@ -24,7 +24,7 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
 
   public static final String NAME = "stereotype";
   private StereotypeModel stereotypeModel;
-  private Class<? extends StereotypeDefinition> definitionClass;
+  private transient Class<? extends StereotypeDefinition> definitionClass;
 
   /**
    * Creates a new instance which only holds a reference to the type class. That class is to later
