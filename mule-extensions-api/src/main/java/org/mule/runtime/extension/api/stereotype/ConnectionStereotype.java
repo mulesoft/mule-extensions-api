@@ -7,17 +7,17 @@
 package org.mule.runtime.extension.api.stereotype;
 
 /**
- * {@link StereotypeDefinition} for {@code error-handler} core components
+ * {@link StereotypeDefinition} for any generic connection.
  *
  * @since 1.0
  */
-public class ErrorHandlerStereotype implements MuleStereotypeDefinition {
+public class ConnectionStereotype implements MuleStereotypeDefinition {
 
-  ErrorHandlerStereotype() {}
+  ConnectionStereotype() {}
 
   @Override
   public String getName() {
-    return "ERROR_HANDLER";
+    return "CONNECTION";
   }
 
 }

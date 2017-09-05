@@ -14,16 +14,18 @@ import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.builder.WithAnnotation;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
+import org.mule.metadata.java.api.handler.ObjectHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
-import org.mule.metadata.java.api.handler.ObjectHandler;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
+import org.mule.runtime.extension.api.annotation.param.stereotype.Stereotype;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
@@ -82,20 +84,26 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     }
 
     if (typeBuilder != null && typeBuilder instanceof WithAnnotation) {
+      final WithAnnotation annotatedBuilder = (WithAnnotation) typeBuilder;
       if (currentClass.isAnnotationPresent(Extensible.class)) {
-        ((WithAnnotation) typeBuilder).with(new ExtensibleTypeAnnotation());
+        annotatedBuilder.with(new ExtensibleTypeAnnotation());
       }
 
       TypeDsl typeDsl = currentClass.getAnnotation(TypeDsl.class);
       if (typeDsl != null) {
-        ((WithAnnotation) typeBuilder).with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
-                                                                  typeDsl.allowTopLevelDefinition(),
-                                                                  typeDsl.substitutionGroup(),
-                                                                  typeDsl.baseType()));
+        annotatedBuilder.with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
+                                                    typeDsl.allowTopLevelDefinition(),
+                                                    typeDsl.substitutionGroup(),
+                                                    typeDsl.baseType()));
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);
-      ((WithAnnotation) typeBuilder).with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
+      annotatedBuilder.with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
+
+      Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
+      if (stereotype != null) {
+        annotatedBuilder.with(new StereotypeTypeAnnotation(stereotype.value()));
+      }
     }
     return typeBuilder;
   }

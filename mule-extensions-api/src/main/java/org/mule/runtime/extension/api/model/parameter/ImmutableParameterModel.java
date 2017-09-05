@@ -8,18 +8,18 @@ package org.mule.runtime.extension.api.model.parameter;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
-
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.api.meta.model.parameter.ElementReference;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -41,7 +41,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final ParameterRole role;
   private final ParameterDslConfiguration dslConfiguration;
   private final LayoutModel layoutModel;
-  private final List<ElementReference> elementReferences;
+  private final List<StereotypeModel> allowedStereotypeModels;
 
   /**
    * Creates a new instance with the given state
@@ -57,7 +57,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param dslConfiguration  a model which describes the DSL semantics for this parameter
    * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
    * @param layoutModel       a model which contains directives about the parameter's layout in the UI
-   * @param elementReferences A {@link Set} elements to which this parameter points
+   * @param allowedStereotypeModels  A {@link Set} with the stereotypes of the allowed values
    * @param modelProperties   A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
    */
@@ -74,7 +74,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  DisplayModel displayModel,
                                  LayoutModel layoutModel,
                                  ValueProviderModel valueProviderModel,
-                                 List<ElementReference> elementReferences,
+                                 List<StereotypeModel> allowedStereotypeModels,
                                  Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
     this.type = type;
@@ -87,7 +87,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.layoutModel = layoutModel;
     this.isConfigOverride = isConfigOverride;
     this.valueProviderModel = valueProviderModel;
-    this.elementReferences = unmodifiableList(elementReferences);
+    this.allowedStereotypeModels = unmodifiableList(allowedStereotypeModels);
   }
 
   /**
@@ -163,8 +163,8 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * {@inheritDoc}
    */
   @Override
-  public List<ElementReference> getElementReferences() {
-    return elementReferences;
+  public List<StereotypeModel> getAllowedStereotypes() {
+    return allowedStereotypeModels;
   }
 
   /**

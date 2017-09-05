@@ -54,10 +54,6 @@
         "transactional": false,
         "requiresConnection": false,
         "supportsStreaming": false,
-        "stereotype": {
-          "type": "PROCESSOR",
-          "namespace": "MULE"
-        },
         "nestedComponents": [],
         "errors": [
           {
@@ -69,6 +65,10 @@
             }
           }
         ],
+        "stereotype": {
+          "type": "PROCESSOR",
+          "namespace": "MULE"
+        },
         "parameterGroupModels": [
           {
             "parameters": [
@@ -101,7 +101,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -701,11 +701,14 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [
+                "allowedStereotypeModels": [
                   {
+                    "type": "config",
                     "namespace": "test",
-                    "name": "config",
-                    "type": "CONFIG"
+                    "parent": {
+                      "type": "MODULE_CONFIG",
+                      "namespace": "MULE"
+                    }
                   }
                 ],
                 "name": "complex",
@@ -741,7 +744,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "loaded",
                 "displayModel": {},
                 "description": "loaded type from json to serialize",
@@ -814,7 +817,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -843,12 +846,12 @@
     "constructs": [
       {
         "allowsTopLevelDefinition": false,
+        "nestedComponents": [],
+        "errors": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
         },
-        "nestedComponents": [],
-        "errors": [],
         "parameterGroupModels": [
           {
             "parameters": [
@@ -870,7 +873,7 @@
                   "allowsReferences": true,
                   "allowTopLevelDefinition": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "expression",
                 "description": "",
                 "modelProperties": {}
@@ -890,10 +893,6 @@
       },
       {
         "allowsTopLevelDefinition": false,
-        "stereotype": {
-          "type": "PROCESSOR",
-          "namespace": "MULE"
-        },
         "nestedComponents": [
           {
             "minOccurs": 1,
@@ -916,6 +915,10 @@
           }
         ],
         "errors": [],
+        "stereotype": {
+          "type": "PROCESSOR",
+          "namespace": "MULE"
+        },
         "parameterGroupModels": [],
         "name": "choice",
         "description": "",
@@ -935,6 +938,10 @@
             "type": "JAR"
           }
         ],
+        "stereotype": {
+          "type": "CONNECTION",
+          "namespace": "MULE"
+        },
         "parameterGroupModels": [
           {
             "parameters": [
@@ -967,7 +974,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -1002,7 +1009,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "password",
                 "displayModel": {},
                 "description": "Password",
@@ -1040,7 +1047,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "map",
                 "displayModel": {},
                 "description": "object map",
@@ -1666,11 +1673,14 @@
                     "text": false,
                     "query": false
                   },
-                  "elementReferences": [
+                  "allowedStereotypeModels": [
                     {
+                      "type": "config",
                       "namespace": "test",
-                      "name": "config",
-                      "type": "CONFIG"
+                      "parent": {
+                        "type": "MODULE_CONFIG",
+                        "namespace": "MULE"
+                      }
                     }
                   ],
                   "name": "complex",
@@ -1717,12 +1727,12 @@
         "transactional": false,
         "requiresConnection": false,
         "supportsStreaming": false,
+        "nestedComponents": [],
+        "errors": [],
         "stereotype": {
           "type": "SOURCE",
           "namespace": "MULE"
         },
-        "nestedComponents": [],
-        "errors": [],
         "parameterGroupModels": [
           {
             "parameters": [
@@ -1755,7 +1765,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -1799,7 +1809,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "noID",
                 "displayModel": {},
                 "description": "type to serialize without ID",
@@ -2096,10 +2106,6 @@
         "transactional": false,
         "requiresConnection": false,
         "supportsStreaming": false,
-        "stereotype": {
-          "type": "PROCESSOR",
-          "namespace": "MULE"
-        },
         "nestedComponents": [],
         "errors": [
           {
@@ -2111,6 +2117,10 @@
             }
           }
         ],
+        "stereotype": {
+          "type": "PROCESSOR",
+          "namespace": "MULE"
+        },
         "parameterGroupModels": [
           {
             "parameters": [
@@ -2143,7 +2153,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -2743,11 +2753,14 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [
+                "allowedStereotypeModels": [
                   {
+                    "type": "config",
                     "namespace": "test",
-                    "name": "config",
-                    "type": "CONFIG"
+                    "parent": {
+                      "type": "MODULE_CONFIG",
+                      "namespace": "MULE"
+                    }
                   }
                 ],
                 "name": "complex",
@@ -2783,7 +2796,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "loaded",
                 "displayModel": {},
                 "description": "loaded type from json to serialize",
@@ -2856,7 +2869,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -2885,12 +2898,12 @@
     "constructs": [
       {
         "allowsTopLevelDefinition": false,
+        "nestedComponents": [],
+        "errors": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
         },
-        "nestedComponents": [],
-        "errors": [],
         "parameterGroupModels": [
           {
             "parameters": [
@@ -2912,7 +2925,7 @@
                   "allowsReferences": true,
                   "allowTopLevelDefinition": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "expression",
                 "description": "",
                 "modelProperties": {}
@@ -2932,10 +2945,6 @@
       },
       {
         "allowsTopLevelDefinition": false,
-        "stereotype": {
-          "type": "PROCESSOR",
-          "namespace": "MULE"
-        },
         "nestedComponents": [
           {
             "minOccurs": 1,
@@ -2958,6 +2967,10 @@
           }
         ],
         "errors": [],
+        "stereotype": {
+          "type": "PROCESSOR",
+          "namespace": "MULE"
+        },
         "parameterGroupModels": [],
         "name": "choice",
         "description": "",
@@ -2977,6 +2990,10 @@
             "type": "JAR"
           }
         ],
+        "stereotype": {
+          "type": "CONNECTION",
+          "namespace": "MULE"
+        },
         "parameterGroupModels": [
           {
             "parameters": [
@@ -3009,7 +3026,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -3044,7 +3061,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "password",
                 "displayModel": {},
                 "description": "Password",
@@ -3082,7 +3099,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "map",
                 "displayModel": {},
                 "description": "object map",
@@ -3708,11 +3725,14 @@
                     "text": false,
                     "query": false
                   },
-                  "elementReferences": [
+                  "allowedStereotypeModels": [
                     {
+                      "type": "config",
                       "namespace": "test",
-                      "name": "config",
-                      "type": "CONFIG"
+                      "parent": {
+                        "type": "MODULE_CONFIG",
+                        "namespace": "MULE"
+                      }
                     }
                   ],
                   "name": "complex",
@@ -3759,12 +3779,12 @@
         "transactional": false,
         "requiresConnection": false,
         "supportsStreaming": false,
+        "nestedComponents": [],
+        "errors": [],
         "stereotype": {
           "type": "SOURCE",
           "namespace": "MULE"
         },
-        "nestedComponents": [],
-        "errors": [],
         "parameterGroupModels": [
           {
             "parameters": [
@@ -3797,7 +3817,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -3841,7 +3861,7 @@
                   "text": false,
                   "query": false
                 },
-                "elementReferences": [],
+                "allowedStereotypeModels": [],
                 "name": "noID",
                 "displayModel": {},
                 "description": "type to serialize without ID",

@@ -299,6 +299,7 @@ public final class ExtensionModelFactory {
                                                              toMessageSources(declaration.getMessageSources()),
                                                              declaration.getExternalLibraryModels(),
                                                              declaration.getDisplayModel(),
+                                                             declaration.getStereotype(),
                                                              declaration.getModelProperties()));
     }
 
@@ -457,6 +458,7 @@ public final class ExtensionModelFactory {
                                                                   declaration.getConnectionManagementType(),
                                                                   declaration.getExternalLibraryModels(),
                                                                   declaration.getDisplayModel(),
+                                                                  declaration.getStereotype(),
                                                                   declaration.getModelProperties()));
     }
 
@@ -537,7 +539,7 @@ public final class ExtensionModelFactory {
                                          parameter.getDisplayModel(),
                                          parameter.getLayoutModel(),
                                          parameter.getValueProviderModel(),
-                                         parameter.getElementReferences(),
+                                         parameter.getAllowedStereotypeModels(),
                                          parameter.getModelProperties());
     }
 

@@ -6,18 +6,17 @@
  */
 package org.mule.runtime.extension.api.stereotype;
 
+import org.mule.runtime.api.store.ObjectStore;
+
 /**
- * {@link StereotypeDefinition} for {@code configuration} core components
+ * {@link StereotypeDefinition} for a generic {@link ObjectStore} definition
  *
  * @since 1.0
  */
-public class ConfigurationStereotype implements MuleStereotypeDefinition {
-
-  ConfigurationStereotype() {}
+public class ObjectStoreStereotype implements MuleStereotypeDefinition {
 
   @Override
   public String getName() {
-    return "CONFIGURATION";
+    return "OBJECT_STORE";
   }
-
 }

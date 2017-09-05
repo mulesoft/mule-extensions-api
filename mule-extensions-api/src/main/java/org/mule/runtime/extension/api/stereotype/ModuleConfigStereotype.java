@@ -7,17 +7,17 @@
 package org.mule.runtime.extension.api.stereotype;
 
 /**
- * {@link StereotypeDefinition} for {@code error-handler} core components
+ * {@link StereotypeDefinition} for any generic config global element.
  *
  * @since 1.0
  */
-public class ErrorHandlerStereotype implements MuleStereotypeDefinition {
+public class ModuleConfigStereotype implements MuleStereotypeDefinition {
 
-  ErrorHandlerStereotype() {}
+  ModuleConfigStereotype() {}
 
   @Override
   public String getName() {
-    return "ERROR_HANDLER";
+    return "MODULE_CONFIG";
   }
 
 }
