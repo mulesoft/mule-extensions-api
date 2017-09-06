@@ -6,16 +6,6 @@
  */
 package org.mule.runtime.extension.api.util;
 
-import static java.lang.String.format;
-import static java.util.Collections.sort;
-import static java.util.Comparator.comparing;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
@@ -41,6 +31,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
+
+import static java.lang.String.format;
+import static java.util.Collections.sort;
+import static java.util.Comparator.comparing;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 
 
 /**
@@ -170,14 +171,14 @@ public class NameUtils {
       return camelCaseName;
     }
 
-    String result = "";
-    String[] parts = camelCaseName.split("(?<!^)(?=[A-Z])");
+    StringBuilder result = new StringBuilder();
+    String[] parts = camelCaseName.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
 
     for (int i = 0; i < parts.length; i++) {
-      result += parts[i].toLowerCase() + (i < parts.length - 1 ? "-" : "");
+      result.append(parts[i].trim().toLowerCase() + (i < parts.length - 1 ? "-" : ""));
     }
 
-    return result;
+    return result.toString();
   }
 
   /**

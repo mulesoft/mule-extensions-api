@@ -6,6 +6,16 @@
  */
 package org.mule.runtime.extension.api;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.runtime.extension.api.annotation.Alias;
+
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.hamcrest.CoreMatchers.is;
@@ -17,16 +27,6 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
-import org.mule.metadata.api.annotation.TypeAliasAnnotation;
-import org.mule.metadata.api.annotation.TypeIdAnnotation;
-import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
-import org.mule.runtime.extension.api.annotation.Alias;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
 
 public class NameUtilsTestCase {
 
@@ -79,6 +79,13 @@ public class NameUtilsTestCase {
     assertThat(getTopLevelTypeName(objectType), is(hyphenize(TYPE_ALIAS)));
   }
 
+  @Test
+  public void hyphenization() {
+    assertThat("my-parameter-name", is(hyphenize("My Parameter Name")));
+    assertThat("my-parameter-name", is(hyphenize("MyParameterName")));
+    assertThat("parameter-dsl", is(hyphenize("ParameterDSL")));
+    assertThat("parameter-dsl-name", is(hyphenize("ParameterDSLName")));
+  }
 
   @Alias(TYPE_ALIAS)
   private static class AliasedClass {
