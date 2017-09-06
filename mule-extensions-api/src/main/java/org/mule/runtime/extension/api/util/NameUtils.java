@@ -171,14 +171,14 @@ public class NameUtils {
       return camelCaseName;
     }
 
-    String result = "";
-    String[] parts = camelCaseName.split("(?<!^)(?=[A-Z])");
+    StringBuilder result = new StringBuilder();
+    String[] parts = camelCaseName.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
 
     for (int i = 0; i < parts.length; i++) {
-      result += parts[i].toLowerCase() + (i < parts.length - 1 ? "-" : "");
+      result.append(parts[i].trim().toLowerCase() + (i < parts.length - 1 ? "-" : ""));
     }
 
-    return result;
+    return result.toString();
   }
 
   /**
