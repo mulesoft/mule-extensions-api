@@ -25,6 +25,7 @@ VERSION_TO=$1
 
 # Properties with releaseVersion in the root pom.xml
 propertiesDeps=("muleApiVersion"
+                "muleModuleMavenPluginVersion"
                 "metadataModelApiVersion")
 
 updatePropertiesVersion "$VERSION_TO" pom.xml propertiesDeps[@]
