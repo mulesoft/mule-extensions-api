@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.config;
 
-import org.mule.runtime.api.meta.AnnotatedObject;
+import org.mule.runtime.api.component.Component;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 
@@ -14,13 +14,12 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 /**
  * A component responsible for providing instances which are realizations of a given {@link ConfigurationModel}.
  * <p/>
- * Instances are provided through the {@link #get(Object)} method.
- * When that method is invoked, it's up to each implementation to return a brand
- * new instance or one which has already been returned before.
+ * Instances are provided through the {@link #get(Object)} method. When that method is invoked, it's up to each implementation to
+ * return a brand new instance or one which has already been returned before.
  *
  * @since 1.0
  */
-public interface ConfigurationProvider extends AnnotatedObject {
+public interface ConfigurationProvider extends Component {
 
   /**
    * Returns a {@link ConfigurationInstance}
@@ -30,7 +29,7 @@ public interface ConfigurationProvider extends AnnotatedObject {
    * @param event the event which processing requires the instance
    * @return a {@link ConfigurationInstance}
    */
-  //TODO: MULE-8946
+  // TODO: MULE-8946
   ConfigurationInstance get(Object event);
 
   /**
