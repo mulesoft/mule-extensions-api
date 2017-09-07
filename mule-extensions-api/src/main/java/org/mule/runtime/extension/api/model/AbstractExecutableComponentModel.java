@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.model;
 
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ComponentModel;
-import org.mule.runtime.api.meta.model.ExecutableComponentModel;
+import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -26,7 +26,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractExecutableComponentModel extends AbstractComponentModel implements ExecutableComponentModel {
+public abstract class AbstractExecutableComponentModel extends AbstractComponentModel implements ConnectableComponentModel {
 
   private final OutputModel output;
   private final OutputModel outputAttributes;

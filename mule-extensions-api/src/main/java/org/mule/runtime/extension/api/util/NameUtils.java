@@ -26,6 +26,7 @@ import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
@@ -336,10 +337,13 @@ public class NameUtils {
       return CONNECTION_PROVIDER;
     } else if (declaration instanceof SourceDeclaration) {
       return SOURCE;
+    } else if (declaration instanceof ConstructDeclaration) {
+      return CONSTRUCT;
     }
 
     throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s]",
-                                              declaration.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
+                                              declaration.toString(), CONFIGURATION, CONNECTION_PROVIDER,
+                                              OPERATION, SOURCE, CONSTRUCT));
   }
 
   public static String getModelName(Object model) {

@@ -8,10 +8,12 @@ package org.mule.runtime.extension.api.annotation.param.stereotype;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.extension.api.runtime.process.Chain;
+import org.mule.runtime.extension.api.runtime.route.Chain;
+import org.mule.runtime.extension.api.runtime.route.Route;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
 
 import java.lang.annotation.Documented;
@@ -22,12 +24,15 @@ import java.lang.annotation.Target;
  * Declares an array of {@link Class classes} of an {@link StereotypeDefinition}, to communicate and declare
  * which {@link StereotypeDefinition} the {@link NestedComponentModel nested component} allows to be injected with.
  * <p>
- * This annotation can be applied to {@link ParameterModel parameters} of type {@link Chain}.
+ * This annotation can be applied to {@link ParameterModel parameters} of type {@link Chain},
+ * or to {@link Route} implementations.
  *
  * @since 1.0
  * @see StereotypeDefinition
+ * @see Chain
+ * @see Route
  */
-@Target({FIELD, PARAMETER})
+@Target({FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
 @Documented
 public @interface AllowedStereotypes {
