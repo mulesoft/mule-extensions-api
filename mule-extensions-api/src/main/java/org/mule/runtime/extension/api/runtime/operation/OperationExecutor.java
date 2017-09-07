@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.ComponentModel;
 
 import org.reactivestreams.Publisher;
 
@@ -19,7 +19,7 @@ import org.reactivestreams.Publisher;
  *
  * @since 1.0
  */
-public interface OperationExecutor {
+public interface OperationExecutor<T extends ComponentModel> {
 
   /**
    * Executes the owning operation using the given {@code executionContext}.
@@ -30,5 +30,5 @@ public interface OperationExecutor {
    * @param executionContext a {@link ExecutionContext} with information about the execution
    * @return the operations return value
    */
-  Publisher<Object> execute(ExecutionContext<OperationModel> executionContext);
+  Publisher<Object> execute(ExecutionContext<T> executionContext);
 }

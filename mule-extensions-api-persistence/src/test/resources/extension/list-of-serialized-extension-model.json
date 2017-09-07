@@ -896,7 +896,21 @@
         "nestedComponents": [
           {
             "minOccurs": 1,
-            "childComponents": [],
+            "childComponents": [
+              {
+                "isRequired": false,
+                "allowedStereotypes": [
+                  {
+                    "type": "PROCESSOR",
+                    "namespace": "MULE"
+                  }
+                ],
+                "name": "processors",
+                "description": "",
+                "modelProperties": {},
+                "kind": "chain"
+              }
+            ],
             "parameterGroupModels": [],
             "name": "when",
             "description": "",
@@ -906,7 +920,21 @@
           {
             "minOccurs": 0,
             "maxOccurs": 1,
-            "childComponents": [],
+            "childComponents": [
+              {
+                "isRequired": false,
+                "allowedStereotypes": [
+                  {
+                    "type": "PROCESSOR",
+                    "namespace": "MULE"
+                  }
+                ],
+                "name": "processors",
+                "description": "",
+                "modelProperties": {},
+                "kind": "chain"
+              }
+            ],
             "parameterGroupModels": [],
             "name": "otherwise",
             "description": "",
@@ -2948,7 +2976,21 @@
         "nestedComponents": [
           {
             "minOccurs": 1,
-            "childComponents": [],
+            "childComponents": [
+              {
+                "isRequired": false,
+                "allowedStereotypes": [
+                  {
+                    "type": "PROCESSOR",
+                    "namespace": "MULE"
+                  }
+                ],
+                "name": "processors",
+                "description": "",
+                "modelProperties": {},
+                "kind": "chain"
+              }
+            ],
             "parameterGroupModels": [],
             "name": "when",
             "description": "",
@@ -2958,7 +3000,21 @@
           {
             "minOccurs": 0,
             "maxOccurs": 1,
-            "childComponents": [],
+            "childComponents": [
+              {
+                "isRequired": false,
+                "allowedStereotypes": [
+                  {
+                    "type": "PROCESSOR",
+                    "namespace": "MULE"
+                  }
+                ],
+                "name": "processors",
+                "description": "",
+                "modelProperties": {},
+                "kind": "chain"
+              }
+            ],
             "parameterGroupModels": [],
             "name": "otherwise",
             "description": "",

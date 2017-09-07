@@ -6,20 +6,20 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.ComponentModel;
 
 /**
  * Creates {@link OperationExecutor} instances
  *
  * @since 1.0
  */
-public interface OperationExecutorFactory {
+public interface OperationExecutorFactory<T extends ComponentModel> {
 
   /**
    * Creates a new {@link OperationExecutor}
    *
-   * @param operationModel the model of the operation to be executed
+   * @param componentModel the model of the component to be executed
    * @return a new {@link OperationExecutor}
    */
-  OperationExecutor createExecutor(OperationModel operationModel);
+  OperationExecutor<T> createExecutor(T componentModel);
 }

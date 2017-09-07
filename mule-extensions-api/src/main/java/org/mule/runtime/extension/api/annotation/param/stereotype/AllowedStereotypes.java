@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.annotation.param.stereotype;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -27,7 +28,7 @@ import java.lang.annotation.Target;
  * @since 1.0
  * @see StereotypeDefinition
  */
-@Target({FIELD, PARAMETER})
+@Target({FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
 @Documented
 public @interface AllowedStereotypes {
