@@ -898,7 +898,7 @@
             "minOccurs": 1,
             "childComponents": [
               {
-                "isRequired": false,
+                "isRequired": true,
                 "allowedStereotypes": [
                   {
                     "type": "PROCESSOR",
@@ -922,7 +922,7 @@
             "maxOccurs": 1,
             "childComponents": [
               {
-                "isRequired": false,
+                "isRequired": true,
                 "allowedStereotypes": [
                   {
                     "type": "PROCESSOR",
@@ -2978,7 +2978,7 @@
             "minOccurs": 1,
             "childComponents": [
               {
-                "isRequired": false,
+                "isRequired": true,
                 "allowedStereotypes": [
                   {
                     "type": "PROCESSOR",
@@ -3002,7 +3002,7 @@
             "maxOccurs": 1,
             "childComponents": [
               {
-                "isRequired": false,
+                "isRequired": true,
                 "allowedStereotypes": [
                   {
                     "type": "PROCESSOR",
