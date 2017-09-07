@@ -40,21 +40,20 @@ public final class TransactionalParametersValidator implements ExtensionModelVal
       @Override
       protected void onSource(SourceModel sourceModel) {
         if (sourceModel.isTransactional()) {
-          validateTransactionalParameters(sourceModel, problemsReporter, extensionModel);
+          validateTransactionalParameters(sourceModel, problemsReporter);
         }
       }
 
       @Override
       protected void onOperation(OperationModel operationModel) {
         if (operationModel.isTransactional()) {
-          validateTransactionalParameters(operationModel, problemsReporter, extensionModel);
+          validateTransactionalParameters(operationModel, problemsReporter);
         }
       }
     }.walk(extensionModel);
   }
 
-  private void validateTransactionalParameters(ComponentModel componentModel, ProblemsReporter problemsReporter,
-                                               ExtensionModel extensionModel) {
+  private void validateTransactionalParameters(ComponentModel componentModel, ProblemsReporter problemsReporter) {
     List<Pair<ParameterModel, ParameterGroupModel>> parameters = componentModel.getParameterGroupModels()
         .stream()
         .map(group -> group.getParameterModels().stream()

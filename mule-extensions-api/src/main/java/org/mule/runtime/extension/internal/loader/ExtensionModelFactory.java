@@ -103,6 +103,7 @@ import org.mule.runtime.extension.internal.loader.validator.ParameterModelValida
 import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
+import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -164,7 +165,8 @@ public final class ExtensionModelFactory {
                                                        new ParameterModelValidator(),
                                                        new SubtypesModelValidator(),
                                                        new SourceCallbacksModelValidator(),
-                                                       new TransactionalParametersValidator()));
+                                                       new TransactionalParametersValidator(),
+                                                       new ValidatorModelValidator()));
   }
 
   /**

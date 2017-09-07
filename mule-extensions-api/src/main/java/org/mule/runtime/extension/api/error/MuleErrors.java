@@ -84,7 +84,7 @@ public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
    */
   SOURCE_ERROR_RESPONSE_SEND(SOURCE),
   /**
-   * Indicates that the execution of the current event is stopped
+   * Indicates that a validator failed.
    */
   VALIDATION(ANY),
   /**
