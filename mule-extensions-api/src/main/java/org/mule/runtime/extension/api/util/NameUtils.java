@@ -6,6 +6,16 @@
  */
 package org.mule.runtime.extension.api.util;
 
+import static java.lang.String.format;
+import static java.util.Collections.sort;
+import static java.util.Comparator.comparing;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
@@ -16,6 +26,7 @@ import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
@@ -31,17 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-
-import static java.lang.String.format;
-import static java.util.Collections.sort;
-import static java.util.Comparator.comparing;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 
 
 /**
@@ -337,10 +337,13 @@ public class NameUtils {
       return CONNECTION_PROVIDER;
     } else if (declaration instanceof SourceDeclaration) {
       return SOURCE;
+    } else if (declaration instanceof ConstructDeclaration) {
+      return CONSTRUCT;
     }
 
     throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s]",
-                                              declaration.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE));
+                                              declaration.toString(), CONFIGURATION, CONNECTION_PROVIDER,
+                                              OPERATION, SOURCE, CONSTRUCT));
   }
 
   public static String getModelName(Object model) {

@@ -27,7 +27,7 @@ import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
-import org.mule.runtime.api.meta.model.ExecutableComponentModel;
+import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -153,7 +153,7 @@ public class ExtensionModelUtils {
         collect(model);
       }
 
-      private void collect(ExecutableComponentModel model) {
+      private void collect(ConnectableComponentModel model) {
         if (model.requiresConnection()) {
           connectedModels.add(model);
         }
@@ -188,7 +188,7 @@ public class ExtensionModelUtils {
         collect(owner, model);
       }
 
-      private void collect(Object owner, ExecutableComponentModel model) {
+      private void collect(Object owner, ConnectableComponentModel model) {
         if (owner == configurationModel && model.requiresConnection()) {
           connectedModels.add(model);
         }
@@ -205,11 +205,11 @@ public class ExtensionModelUtils {
    * in order to function
    */
   public static boolean requiresConfig(ExtensionModel extensionModel, NamedObject component) {
-    if (!(component instanceof ExecutableComponentModel)) {
+    if (!(component instanceof ConnectableComponentModel)) {
       return false;
     }
 
-    ExecutableComponentModel model = (ExecutableComponentModel) component;
+    ConnectableComponentModel model = (ConnectableComponentModel) component;
     if (model.requiresConnection()) {
       return true;
     }
@@ -264,7 +264,7 @@ public class ExtensionModelUtils {
       }
     }.walk(extensionModel);
 
-    if (component instanceof ExecutableComponentModel && ((ExecutableComponentModel) component).requiresConnection()) {
+    if (component instanceof ConnectableComponentModel && ((ConnectableComponentModel) component).requiresConnection()) {
       extensionModel.getConfigurationModel(DEFAULT_CONFIG_NAME).ifPresent(result::add);
     }
 

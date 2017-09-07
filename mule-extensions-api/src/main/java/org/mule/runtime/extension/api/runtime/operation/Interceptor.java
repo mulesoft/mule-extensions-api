@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.extension.api.runtime.config.ConfigurationInstance;
 
 /**
@@ -20,7 +20,7 @@ import org.mule.runtime.extension.api.runtime.config.ConfigurationInstance;
  *
  * @since 1.0
  */
-public interface Interceptor {
+public interface Interceptor<T extends ComponentModel> {
 
   /**
    * Executes before the operation is executed.
@@ -33,7 +33,7 @@ public interface Interceptor {
    * @param executionContext the {@link ExecutionContext} for the operation to be executed
    * @throws Exception in case of error
    */
-  default void before(ExecutionContext<OperationModel> executionContext) throws Exception {
+  default void before(ExecutionContext<T> executionContext) throws Exception {
 
   }
 
@@ -49,7 +49,7 @@ public interface Interceptor {
    * @param executionContext the {@link ExecutionContext} that was used to execute the operation
    * @param result           the result of the operation. Can be {@code null} if the operation itself returned that.
    */
-  default void onSuccess(ExecutionContext<OperationModel> executionContext, Object result) {}
+  default void onSuccess(ExecutionContext<T> executionContext, Object result) {}
 
   /**
    * Executes when the execution of an operation threw exception.
@@ -75,7 +75,7 @@ public interface Interceptor {
    * @param exception        the {@link Exception} that was thrown by the failing operation
    * @return the {@link Exception} that should be propagated forward
    */
-  default Throwable onError(ExecutionContext<OperationModel> executionContext, Throwable exception) {
+  default Throwable onError(ExecutionContext<T> executionContext, Throwable exception) {
     return exception;
   }
 
@@ -97,7 +97,7 @@ public interface Interceptor {
    * @param executionContext the {@link ExecutionContext} that was used to execute the operation
    * @param result           the result of the operation. Can be {@code null} if the operation itself returned that or failed.
    */
-  default void after(ExecutionContext<OperationModel> executionContext, Object result) {
+  default void after(ExecutionContext<T> executionContext, Object result) {
 
   }
 
