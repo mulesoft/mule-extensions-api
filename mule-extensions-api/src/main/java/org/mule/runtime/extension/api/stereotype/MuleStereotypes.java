@@ -33,7 +33,8 @@ public final class MuleStereotypes {
   public static final StereotypeModel CONNECTION = newStereotype(CONNECTION_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel PROCESSOR = newStereotype(PROCESSOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel SOURCE = newStereotype(SOURCE_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel VALIDATOR = newStereotype(VALIDATOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel VALIDATOR = newStereotype(VALIDATOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE)
+      .withParent(PROCESSOR).build();
   public static final StereotypeModel OBJECT_STORE =
       newStereotype(OBJECT_STORE_DEFINITION.getName(), OBJECT_STORE_ELEMENT_NAMESPACE.toUpperCase()).build();
   public static final StereotypeModel FLOW = newStereotype(FLOW_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
