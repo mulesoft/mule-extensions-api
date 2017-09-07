@@ -8,9 +8,10 @@ package org.mule.runtime.extension.api.runtime.process;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.runtime.extension.api.runtime.route.Route;
 
 /**
- * This callback is how {@link ComponentModel Operations} receiving {@link Route}s notify their outcome.
+ * This callback is how {@link ComponentModel components} receiving {@link Route}s notify their outcome.
  * <p>
  * In order to implement a Router (that is, an operation that receives one or more {@link Route}s), the method needs to:
  * <p>
@@ -28,7 +29,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  *
  * @since 1.0
  */
-public interface RouterCompletionCallback extends CompletionCallback {
+public interface RouterCompletionCallback extends CompletionCallback<Object, Object> {
 
 
 }

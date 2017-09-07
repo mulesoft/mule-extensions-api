@@ -19,7 +19,7 @@ import org.reactivestreams.Publisher;
  *
  * @since 1.0
  */
-public interface OperationExecutor<T extends ComponentModel> {
+public interface ComponentExecutor<T extends ComponentModel> {
 
   /**
    * Executes the owning operation using the given {@code executionContext}.

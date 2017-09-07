@@ -4,13 +4,14 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.runtime.process;
+package org.mule.runtime.extension.api.runtime.route;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.stereotype.AllowedStereotypes;
+import org.mule.runtime.extension.api.runtime.process.RouterCompletionCallback;
 
 /**
  * A {@link Route} allows a given {@link ComponentModel Operation} to receive a chain of message processors

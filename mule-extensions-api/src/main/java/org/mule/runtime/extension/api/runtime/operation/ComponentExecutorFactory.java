@@ -9,17 +9,17 @@ package org.mule.runtime.extension.api.runtime.operation;
 import org.mule.runtime.api.meta.model.ComponentModel;
 
 /**
- * Creates {@link OperationExecutor} instances
+ * Creates {@link ComponentExecutor} instances
  *
  * @since 1.0
  */
-public interface OperationExecutorFactory<T extends ComponentModel> {
+public interface ComponentExecutorFactory<T extends ComponentModel> {
 
   /**
-   * Creates a new {@link OperationExecutor}
+   * Creates a new {@link ComponentExecutor}
    *
    * @param componentModel the model of the component to be executed
-   * @return a new {@link OperationExecutor}
+   * @return a new {@link ComponentExecutor}
    */
-  OperationExecutor<T> createExecutor(T componentModel);
+  ComponentExecutor<T> createExecutor(T componentModel);
 }
