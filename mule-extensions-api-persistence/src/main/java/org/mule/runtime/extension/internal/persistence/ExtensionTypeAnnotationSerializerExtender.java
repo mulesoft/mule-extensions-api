@@ -20,6 +20,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeA
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
@@ -48,6 +49,7 @@ public class ExtensionTypeAnnotationSerializerExtender implements TypeAnnotation
         .put(ParameterRoleAnnotation.NAME, ParameterRoleAnnotation.class)
         .put(DefaultImplementingTypeAnnotation.NAME, DefaultImplementingTypeAnnotation.class)
         .put(StereotypeTypeAnnotation.NAME, StereotypeTypeAnnotation.class)
+        .put(QNameTypeAnnotation.NAME, QNameTypeAnnotation.class)
         .build();
   }
 

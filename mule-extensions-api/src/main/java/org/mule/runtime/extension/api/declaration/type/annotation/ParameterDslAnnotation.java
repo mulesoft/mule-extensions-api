@@ -21,7 +21,6 @@ public class ParameterDslAnnotation implements TypeAnnotation {
   private final boolean allowInlineDefinition;
   private final boolean allowReferences;
 
-
   /**
    * Creates a new instance
    *

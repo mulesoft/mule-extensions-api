@@ -11,7 +11,6 @@ import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isContent;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isExtensible;
@@ -19,9 +18,11 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlatten
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isInstantiable;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isText;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isValidBean;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportAttributeDeclaration;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
@@ -64,6 +65,7 @@ import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
+import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
@@ -78,6 +80,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.xml.namespace.QName;
 
 /**
  * Default implementation of a {@link DslSyntaxResolver} based on XML.
@@ -173,18 +177,18 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     final ExpressionSupport expressionSupport = parameter.getExpressionSupport();
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     final ParameterDslConfiguration dslConfig = parameter.getDslConfiguration();
+    final boolean isContent = isContent(parameter);
 
     Reference<String> prefix = new Reference<>(languageModel.getPrefix());
     Reference<String> namespace = new Reference<>(languageModel.getNamespace());
     Reference<String> elementName = new Reference<>(hyphenize(parameter.getName()));
 
-    parameter.getModelProperty(QNameModelProperty.class).map(QNameModelProperty::getValue).ifPresent(qName -> {
+    getCustomQName(parameter).ifPresent(qName -> {
       elementName.set(qName.getLocalPart());
       prefix.set(qName.getPrefix());
       namespace.set(qName.getNamespaceURI());
     });
 
-    final boolean isContent = isContent(parameter);
     parameter.getType().accept(
                                new MetadataTypeVisitor() {
 
@@ -242,13 +246,16 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    addAttributeName(builder, parameter, isContent, dslConfig);
                                    builder.withNamespace(prefix.get(), namespace.get());
                                    if (isMap(objectType)) {
-                                     resolveMapDsl(objectType, builder, isContent, expressionSupport, dslConfig,
-                                                   parameter.getName(), prefix.get(), namespace.get());
+                                     resolveMapDslFromParameter(objectType, builder, isContent,
+                                                                expressionSupport, dslConfig, parameter.getName(),
+                                                                prefix.get(), namespace.get());
                                    } else {
                                      builder.withNamespace(prefix.get(), namespace.get())
                                          .withElementName(elementName.get());
 
-                                     resolveObjectDsl(parameter, objectType, builder, isContent, dslConfig, expressionSupport);
+                                     resolveObjectDslFromParameter(parameter, objectType, builder,
+                                                                   isContent, dslConfig, expressionSupport,
+                                                                   prefix.get(), namespace.get());
                                    }
                                  }
 
@@ -306,18 +313,25 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       return Optional.empty();
     }
 
-    final String namespace = getPrefix(type);
-    final String namespaceUri = getNamespace(type);
+    Reference<String> prefix = new Reference<>(getPrefix(type));
+    Reference<String> namespace = new Reference<>(getNamespace(type));
+    Reference<String> elementName = new Reference<>(getTopLevelTypeName(type));
 
-    final String key = getTypeKey(type, namespace, namespaceUri);
+    getCustomQName(type).ifPresent(qName -> {
+      prefix.set(qName.getPrefix());
+      namespace.set(qName.getNamespaceURI());
+      elementName.set(qName.getLocalPart());
+    });
+
+    final String key = getTypeKey(type, prefix.get(), namespace.get());
 
     if (resolvedTypes.containsKey(key)) {
       return Optional.of(resolvedTypes.get(key));
     }
 
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create()
-        .withNamespace(namespace, namespaceUri)
-        .withElementName(getTopLevelTypeName(type))
+        .withNamespace(prefix.get(), namespace.get())
+        .withElementName(elementName.get())
         .supportsTopLevelDeclaration(supportTopLevelElement)
         .supportsChildDeclaration(supportsInlineDeclaration)
         .supportsAttributeDeclaration(false)
@@ -326,7 +340,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     String typeId = getId(type).orElse(null);
     if (typeId != null && !typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
-        withStackControl(typeId, () -> declareFieldsAsChilds(builder, type.getFields(), namespace, namespaceUri));
+        withStackControl(typeId, () -> declareFieldsAsChilds(builder, type.getFields(), prefix.get(), namespace.get()));
       }
 
       DslElementSyntax dsl = builder.build();
@@ -393,8 +407,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     return dsl.build();
   }
 
-  private void resolveObjectDsl(ParameterModel parameter, ObjectType objectType, DslElementSyntaxBuilder builder,
-                                boolean isContent, ParameterDslConfiguration dslConfig, ExpressionSupport expressionSupport) {
+  private void resolveObjectDslFromParameter(ParameterModel parameter, ObjectType objectType, DslElementSyntaxBuilder builder,
+                                             boolean isContent, ParameterDslConfiguration dslConfig,
+                                             ExpressionSupport expressionSupport,
+                                             String prefix, String namespace) {
 
     boolean supportsTopLevel;
     boolean shouldGenerateChild;
@@ -418,16 +434,16 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       } else {
         if (!isContent) {
           declareFieldsAsChilds(builder, objectType.getFields(),
-                                languageModel.getPrefix(), languageModel.getNamespace());
+                                prefix, namespace);
         }
       }
     }
   }
 
-  private void resolveMapDsl(ObjectType objectType, DslElementSyntaxBuilder builder,
-                             boolean isContent, ExpressionSupport expressionSupport,
-                             ParameterDslConfiguration dslModel,
-                             String name, String namespace, String namespaceUri) {
+  private void resolveMapDslFromParameter(ObjectType objectType, DslElementSyntaxBuilder builder,
+                                          boolean isContent, ExpressionSupport expressionSupport,
+                                          ParameterDslConfiguration dslModel,
+                                          String name, String namespace, String namespaceUri) {
 
     final String parameterName = isContent ? name : pluralize(name);
     builder.withElementName(hyphenize(parameterName))
@@ -671,51 +687,31 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private MetadataTypeVisitor getObjectFieldVisitor(final DslElementSyntaxBuilder objectFieldBuilder,
-                                                    final boolean isText,
                                                     final String fieldName,
+                                                    final String fieldElementName,
                                                     final String ownerNamespace,
                                                     final String ownerNamespaceUri) {
     return new MetadataTypeVisitor() {
 
       @Override
       protected void defaultVisit(MetadataType metadataType) {
-        objectFieldBuilder.withAttributeName(fieldName);
-      }
-
-      @Override
-      public void visitString(StringType stringType) {
-        if (isText) {
-          objectFieldBuilder
-              .supportsAttributeDeclaration(false)
-              .supportsChildDeclaration(true)
-              .withElementName(hyphenize(fieldName))
-              .withNamespace(ownerNamespace, ownerNamespaceUri);
-        } else {
-          defaultVisit(stringType);
-        }
+        objectFieldBuilder
+            .withAttributeName(fieldName)
+            .supportsAttributeDeclaration(true)
+            .supportsTopLevelDeclaration(false)
+            .supportsChildDeclaration(false)
+            .requiresConfig(false);
       }
 
       @Override
       public void visitObject(ObjectType objectType) {
         objectFieldBuilder.withAttributeName(fieldName);
         if (isMap(objectType)) {
-          objectFieldBuilder.withElementName(hyphenize(pluralize(fieldName)))
-              .withNamespace(ownerNamespace, ownerNamespaceUri);
-
-          objectFieldBuilder.supportsChildDeclaration(true);
-
-          objectFieldBuilder.withGeneric(typeLoader.load(String.class),
-                                         DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
-          objectFieldBuilder.withAttributeName(KEY_ATTRIBUTE_NAME);
-          objectType.getOpenRestriction()
-              .ifPresent(type -> type.accept(getMapValueTypeVisitor(objectFieldBuilder, fieldName,
-                                                                    ownerNamespace, ownerNamespaceUri,
-                                                                    ParameterDslConfiguration
-                                                                        .getDefaultInstance())));
+          handleMapObject(objectType);
         } else {
-          objectFieldBuilder.withElementName(hyphenize(fieldName))
-              .withNamespace(getPrefix(objectType, ownerNamespace), getNamespace(objectType, ownerNamespaceUri));
-
+          objectFieldBuilder.withElementName(fieldElementName)
+              .withNamespace(getPrefix(objectType, ownerNamespace),
+                             getNamespace(objectType, ownerNamespaceUri));
 
           String typeId = getId(objectType).orElse(null);
           if (typeId != null && !typeResolvingStack.contains(typeId)) {
@@ -733,10 +729,26 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         }
       }
 
+      private void handleMapObject(ObjectType objectType) {
+        objectFieldBuilder.withElementName(hyphenize(pluralize(fieldName)))
+            .withNamespace(ownerNamespace, ownerNamespaceUri);
+
+        objectFieldBuilder.supportsChildDeclaration(true);
+
+        objectFieldBuilder.withGeneric(typeLoader.load(String.class),
+                                       DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
+        objectFieldBuilder.withAttributeName(KEY_ATTRIBUTE_NAME);
+        objectType.getOpenRestriction()
+            .ifPresent(type -> type.accept(getMapValueTypeVisitor(objectFieldBuilder, fieldName,
+                                                                  ownerNamespace, ownerNamespaceUri,
+                                                                  ParameterDslConfiguration
+                                                                      .getDefaultInstance())));
+      }
+
       @Override
       public void visitArrayType(ArrayType arrayType) {
         objectFieldBuilder.withAttributeName(fieldName)
-            .withElementName(hyphenize(fieldName))
+            .withElementName(fieldElementName)
             .withNamespace(ownerNamespace, ownerNamespaceUri);
 
         MetadataType genericType = arrayType.getType();
@@ -756,18 +768,32 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                      String childName = field.getKey().getName().getLocalPart();
                      final MetadataType fieldValue = field.getValue();
 
+                     Reference<String> fieldPrefix = new Reference<>(namespace);
+                     Reference<String> fieldNamespaceUri = new Reference<>(namespaceUri);
+                     Reference<String> elementName = new Reference<>(hyphenize(childName));
+
                      if (isFlattened(field, fieldValue)) {
-                       declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(), namespace, namespaceUri);
+                       declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(),
+                                             fieldPrefix.get(), fieldNamespaceUri.get());
                      } else {
-                       if (isContent(field)) {
+                       if (isContent(field) || isText(field)) {
                          fieldBuilder
                              .supportsAttributeDeclaration(false)
                              .supportsChildDeclaration(true)
-                             .withElementName(hyphenize(childName))
-                             .withNamespace(namespace, namespaceUri);
+                             .withElementName(elementName.get())
+                             .withNamespace(fieldPrefix.get(), fieldNamespaceUri.get());
                        } else {
+
+                         getCustomQName(fieldValue).ifPresent(qName -> {
+                           elementName.set(qName.getLocalPart());
+                           fieldPrefix.set(qName.getPrefix());
+                           fieldNamespaceUri.set(qName.getNamespaceURI());
+                         });
+
                          fieldValue
-                             .accept(getObjectFieldVisitor(fieldBuilder, isText(field), childName, namespace, namespaceUri));
+                             .accept(getObjectFieldVisitor(fieldBuilder, childName,
+                                                           elementName.get(), fieldPrefix.get(), fieldNamespaceUri.get()));
+                         fieldBuilder.supportsAttributeDeclaration(supportAttributeDeclaration(field));
                        }
 
                        objectBuilder.containing(childName, fieldBuilder.build());
@@ -831,5 +857,13 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       action.run();
       typeResolvingStack.pop();
     }
+  }
+
+  private Optional<QName> getCustomQName(ParameterModel parameter) {
+    return parameter.getModelProperty(QNameModelProperty.class).map(QNameModelProperty::getValue);
+  }
+
+  private Optional<QName> getCustomQName(MetadataType type) {
+    return type.getAnnotation(QNameTypeAnnotation.class).map(QNameTypeAnnotation::getValue);
   }
 }
