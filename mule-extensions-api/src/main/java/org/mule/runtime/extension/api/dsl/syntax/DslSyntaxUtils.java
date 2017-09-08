@@ -7,8 +7,11 @@
 package org.mule.runtime.extension.api.dsl.syntax;
 
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.allowsInlineDefinition;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.sanitizeName;
@@ -28,6 +31,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
@@ -105,6 +109,14 @@ final class DslSyntaxUtils {
    */
   public static boolean isExtensible(MetadataType metadataType) {
     return metadataType.getAnnotation(ExtensibleTypeAnnotation.class).isPresent();
+  }
+
+  static boolean supportAttributeDeclaration(MetadataType metadataType) {
+    return metadataType.getAnnotation(ParameterDslAnnotation.class)
+        .map(fieldDsl -> metadataType.getAnnotation(ExpressionSupportAnnotation.class)
+            .map(ExpressionSupportAnnotation::getExpressionSupport)
+            .map(exprSupport -> !(exprSupport.equals(NOT_SUPPORTED) && !fieldDsl.allowsReferences())).orElse(true))
+        .orElse(true);
   }
 
   static boolean supportTopLevelElement(MetadataType metadataType) {
@@ -191,7 +203,8 @@ final class DslSyntaxUtils {
         if (isMap(objectType)) {
           supportsChildDeclaration.set(true);
         } else {
-          supportsChildDeclaration.set(isValidBean(objectType));
+          supportsChildDeclaration.set(isValidBean(objectType)
+              || (isInfrastructure(objectType) && allowsInlineDefinition(objectType)));
         }
       }
 

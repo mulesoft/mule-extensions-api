@@ -7,16 +7,33 @@
 package org.mule.runtime.extension.api.util;
 
 import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
+import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
+import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
+import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterRole;
+import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.declaration.type.annotation.DslBaseType;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
@@ -121,5 +138,148 @@ public final class ExtensionMetadataTypeUtils {
 
   private static boolean isAssignableFrom(MetadataType metadataType, Class<?> type) {
     return getType(metadataType).map(clazz -> type.isAssignableFrom(clazz)).orElse(false);
+  }
+
+  /**
+   * @return {@code true} if the given {@link MetadataType} should support inline definition as child element
+   */
+  public static boolean allowsInlineDefinition(MetadataType type) {
+    Reference<Boolean> supported = new Reference<>(true);
+    type.accept(new MetadataTypeVisitor() {
+
+      @Override
+      protected void defaultVisit(MetadataType metadataType) {
+        metadataType.getAnnotation(ParameterDslAnnotation.class)
+            .map(ParameterDslAnnotation::allowsInlineDefinition)
+            .ifPresent(supported::set);
+      }
+
+      @Override
+      public void visitArrayType(ArrayType arrayType) {
+        arrayType.getType().accept(this);
+      }
+
+      @Override
+      public void visitObject(ObjectType objectType) {
+
+        // Check for parameter-level override
+        Optional<ParameterDslAnnotation> paramDsl = objectType.getAnnotation(ParameterDslAnnotation.class);
+        Optional<TypeDslAnnotation> typeDsl = objectType.getAnnotation(TypeDslAnnotation.class);
+
+        if (typeDsl.isPresent() && paramDsl.isPresent()) {
+          supported.set(typeDsl.get().allowsInlineDefinition() && paramDsl.get().allowsInlineDefinition());
+        } else if (typeDsl.isPresent()) {
+          supported.set(typeDsl.get().allowsInlineDefinition());
+        } else {
+          paramDsl.map(ParameterDslAnnotation::allowsInlineDefinition)
+              .ifPresent(supported::set);
+        }
+      }
+    });
+
+    return supported.get();
+  }
+
+  /**
+   * @return whether the given {@link MetadataType} should support being defined as a top level element
+   */
+  public static boolean allowsTopLevelDefinition(MetadataType type) {
+    return type.getAnnotation(TypeDslAnnotation.class)
+        .map(TypeDslAnnotation::allowsTopLevelDefinition).orElse(false);
+  }
+
+  /**
+   * @return whether the given {@link MetadataType} should support registry references
+   */
+  public static boolean allowsReferences(MetadataType type) {
+    return type.getAnnotation(ParameterDslAnnotation.class)
+        .map(ParameterDslAnnotation::allowsReferences).orElse(true);
+  }
+
+  /**
+   * Checks the given {@code metadataType} for the {@link ExpressionSupportAnnotation}.
+   * <p>
+   * If present, the {@link ExpressionSupportAnnotation#getExpressionSupport()}
+   * value is returned. Otherwise, it defaults to {@link ExpressionSupport#SUPPORTED}
+   *
+   * @param metadataType a {@link MetadataType}
+   * @return a {@link ExpressionSupport}
+   */
+  public static ExpressionSupport getExpressionSupport(MetadataType metadataType) {
+    return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
+        .map(ExpressionSupportAnnotation::getExpressionSupport)
+        .orElse(ExpressionSupport.SUPPORTED);
+  }
+
+  public static ParameterRole getParameterRole(MetadataType metadataType) {
+    return metadataType.getAnnotation(ParameterRoleAnnotation.class)
+        .map(ParameterRoleAnnotation::getRole)
+        .orElse(BEHAVIOUR);
+  }
+
+  public static boolean isContent(MetadataType type) {
+    return ExtensionModelUtils.isContent(getParameterRole(type));
+  }
+
+  /**
+   * @param metadataType a type model
+   * @return a {@link LayoutModel} if the {@code metadataType} contains layout information
+   */
+  public static Optional<LayoutModel> getLayoutModel(MetadataType metadataType) {
+    if (metadataType.getAnnotation(LayoutTypeAnnotation.class).isPresent()) {
+      LayoutTypeAnnotation layoutTypeAnnotation = metadataType.getAnnotation(LayoutTypeAnnotation.class).get();
+      return of(layoutTypeAnnotation.getLayoutModel());
+    }
+
+    return empty();
+  }
+
+  /**
+   * Returns true if the type is an infrastructure type, false otherwise.
+   *
+   * @param type the type to check
+   * @return whether is an infrastructure type or not.
+   */
+  public static boolean isInfrastructure(MetadataType type) {
+    return type.getAnnotation(InfrastructureTypeAnnotation.class).isPresent();
+  }
+
+  /**
+   * @param metadataType a type model
+   * @return whether instances of the given {@code metadataType} accept being referenced to
+   */
+  public static boolean acceptsReferences(MetadataType metadataType) {
+    return metadataType.getAnnotation(ParameterDslAnnotation.class)
+        .map(ParameterDslAnnotation::allowsReferences)
+        .orElse(true);
+  }
+
+  public static boolean isBasic(MetadataType metadataType) {
+    Reference<Boolean> basic = new Reference<>(false);
+    metadataType.accept(new BasicTypeMetadataVisitor() {
+
+      @Override
+      protected void visitBasicType(MetadataType metadataType) {
+        basic.set(true);
+      }
+    });
+
+    return basic.get();
+  }
+
+  /**
+   * @param metadataType
+   * @return the substitutionGroup defined by the user or {@code Optional.empty()} if not present.
+   */
+  public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
+    return metadataType.getAnnotation(TypeDslAnnotation.class).flatMap(TypeDslAnnotation::getSubstitutionGroup);
+  }
+
+  /**
+   * @param metadataType
+   * @return the baseType defined by the user or {Optional.empty()} if not present
+   */
+  public static Optional<DslBaseType> getBaseType(MetadataType metadataType) {
+    return metadataType.getAnnotation(TypeDslAnnotation.class).flatMap(TypeDslAnnotation::getDslBaseType);
   }
 }
