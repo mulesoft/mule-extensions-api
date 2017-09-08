@@ -38,7 +38,9 @@ public class InfrastructureXmlSyntaxDeclarationTestCase extends BaseXmlDeclarati
   public void infrastructureTypeAsFieldDslSyntax() {
     MetadataType type = TYPE_LOADER.load(PojoWithInfraField.class);
     DslElementSyntax container = getSyntaxResolver().resolve(type).get();
-    assertTlsContextDsl(container.getContainedElement("tls").get());
+    DslElementSyntax tls = container.getContainedElement("tls").get();
+    assertTlsContextDsl(tls);
+    assertAttributeName("tls", tls);
   }
 
   @Test
