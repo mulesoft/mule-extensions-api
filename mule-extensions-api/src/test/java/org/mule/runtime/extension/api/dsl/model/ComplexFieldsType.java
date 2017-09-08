@@ -79,4 +79,5 @@ public class ComplexFieldsType {
   public void setSimplePojo(SimpleFieldsType simplePojo) {
     this.simplePojo = simplePojo;
   }
+
 }

@@ -32,7 +32,6 @@ import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
 import org.mule.runtime.extension.api.annotation.metadata.TypeResolver;
 import org.mule.runtime.extension.api.annotation.param.Optional;
-import org.mule.runtime.extension.api.declaration.type.TypeUtils;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
@@ -107,7 +106,7 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
 
           void validateNoContentField(ObjectType objectType) {
             final List<String> contentFields = objectType.getFields().stream()
-                .filter(TypeUtils::isContent)
+                .filter(ExtensionMetadataTypeUtils::isContent)
                 .map(MetadataTypeUtils::getLocalPart)
                 .collect(toList());
 

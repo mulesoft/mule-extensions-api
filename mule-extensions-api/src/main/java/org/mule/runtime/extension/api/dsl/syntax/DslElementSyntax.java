@@ -224,4 +224,18 @@ public class DslElementSyntax {
   public int hashCode() {
     return reflectionHashCode(this);
   }
+
+  @Override
+  public String toString() {
+    return "{ \n" +
+        "AttributeName: " + attributeName + ",\n" +
+        "ElementName: " + elementName + ",\n" +
+        "Prefix: " + prefix + ",\n" +
+        "Namespace: " + namespace + ",\n" +
+        "SupportsAttributeDeclaration: " + supportsAttributeDeclaration + ",\n" +
+        "SupportsChildDeclaration: " + supportsChildDeclaration + ",\n" +
+        "SupportsTopLevelDeclaration: " + supportsTopLevelDeclaration + ",\n" +
+        "RequiresConfig: " + requiresConfig +
+        "}";
+  }
 }

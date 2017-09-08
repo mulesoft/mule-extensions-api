@@ -206,7 +206,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getChild(SIMPLE_PARAMETER).isPresent(), is(false));
     assertAttributeName(SIMPLE_PARAMETER, attributeDsl);
     assertElementName("", attributeDsl);
-    assertElementNamespace("", attributeDsl);
+    assertElementPrefix("", attributeDsl);
     assertChildElementDeclarationIs(false, attributeDsl);
     assertIsWrappedElement(false, attributeDsl);
     assertNoAttributes(attributeDsl);
