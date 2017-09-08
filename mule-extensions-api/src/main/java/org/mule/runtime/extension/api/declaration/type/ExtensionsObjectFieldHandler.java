@@ -69,6 +69,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleA
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
+import org.mule.runtime.extension.api.runtime.route.Chain;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -92,8 +93,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   @Override
   public void handleFields(Class<?> clazz, TypeHandlerManager typeHandlerManager, ParsingContext context,
                            ObjectTypeBuilder builder) {
-    // TODO: MULE-9454
-    if (clazz.getName().equals("org.mule.runtime.core.api.NestedProcessor")) {
+
+    if (clazz.getName().equals(Chain.class.getName())) {
       return;
     }
 

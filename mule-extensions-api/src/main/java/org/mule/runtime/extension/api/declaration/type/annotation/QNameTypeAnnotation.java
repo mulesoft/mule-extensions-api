@@ -4,27 +4,28 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.property;
+package org.mule.runtime.extension.api.declaration.type.annotation;
 
-import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.metadata.api.annotation.TypeAnnotation;
 
 import javax.xml.namespace.QName;
 
 /**
- * A {@link ModelProperty} which indicates that the enriched model
+ * A {@link TypeAnnotation} which indicates that the enriched type
  * relates to a {@link QName} which is not the one the extension belongs to.
  *
  * @since 1.0
  */
-public final class QNameModelProperty implements ModelProperty {
+public final class QNameTypeAnnotation implements TypeAnnotation {
 
+  public static final String NAME = "QName";
   private final QName value;
 
   /**
    * Creates a new instance
    * @param value the referenced {@link QName}
    */
-  public QNameModelProperty(QName value) {
+  public QNameTypeAnnotation(QName value) {
     this.value = value;
   }
 
@@ -40,7 +41,7 @@ public final class QNameModelProperty implements ModelProperty {
    */
   @Override
   public String getName() {
-    return "QName";
+    return NAME;
   }
 
   /**
@@ -49,5 +50,19 @@ public final class QNameModelProperty implements ModelProperty {
   @Override
   public boolean isPublic() {
     return true;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (getClass().isInstance(obj)) {
+      return getName().equals(((TypeAnnotation) obj).getName());
+    }
+
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return getName().hashCode();
   }
 }

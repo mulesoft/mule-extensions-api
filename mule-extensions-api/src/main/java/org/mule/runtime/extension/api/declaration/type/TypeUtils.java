@@ -6,35 +6,17 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
-import org.mule.runtime.api.meta.ExpressionSupport;
-import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterRole;
-import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Ignore;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
-import org.mule.runtime.extension.api.declaration.type.annotation.DslBaseType;
-import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
-import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 
@@ -106,114 +88,4 @@ public final class TypeUtils {
     return name == null || name.length() == 0 ? field.getName() : name;
   }
 
-  /**
-   * @return {@code true} if the given {@link MetadataType} should support inline definition as child element
-   */
-  public static boolean allowsInlineDefinition(MetadataType type) {
-    return type.getAnnotation(ParameterDslAnnotation.class)
-        .map(ParameterDslAnnotation::allowsInlineDefinition).orElse(true);
-  }
-
-  /**
-   * @return whether the given {@link MetadataType} should support being defined as a top level element
-   */
-  public static boolean allowsTopLevelDefinition(MetadataType type) {
-    return type.getAnnotation(TypeDslAnnotation.class)
-        .map(TypeDslAnnotation::allowsTopLevelDefinition).orElse(false);
-  }
-
-  /**
-   * @return whether the given {@link MetadataType} should support registry references
-   */
-  public static boolean allowsReferences(MetadataType type) {
-    return type.getAnnotation(ParameterDslAnnotation.class)
-        .map(ParameterDslAnnotation::allowsReferences).orElse(true);
-  }
-
-  /**
-   * Checks the given {@code metadataType} for the {@link ExpressionSupportAnnotation}.
-   * <p>
-   * If present, the {@link ExpressionSupportAnnotation#getExpressionSupport()}
-   * value is returned. Otherwise, it defaults to {@link ExpressionSupport#SUPPORTED}
-   *
-   * @param metadataType a {@link MetadataType}
-   * @return a {@link ExpressionSupport}
-   */
-  public static ExpressionSupport getExpressionSupport(MetadataType metadataType) {
-    return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
-        .map(ExpressionSupportAnnotation::getExpressionSupport)
-        .orElse(ExpressionSupport.SUPPORTED);
-  }
-
-  public static ParameterRole getParameterRole(MetadataType metadataType) {
-    return metadataType.getAnnotation(ParameterRoleAnnotation.class)
-        .map(ParameterRoleAnnotation::getRole)
-        .orElse(BEHAVIOUR);
-  }
-
-  public static boolean isContent(MetadataType type) {
-    return ExtensionModelUtils.isContent(getParameterRole(type));
-  }
-
-  /**
-   * @param metadataType a type model
-   * @return a {@link LayoutModel} if the {@code metadataType} contains layout information
-   */
-  public static Optional<LayoutModel> getLayoutModel(MetadataType metadataType) {
-    if (metadataType.getAnnotation(LayoutTypeAnnotation.class).isPresent()) {
-      LayoutTypeAnnotation layoutTypeAnnotation = metadataType.getAnnotation(LayoutTypeAnnotation.class).get();
-      return of(layoutTypeAnnotation.getLayoutModel());
-    }
-
-    return empty();
-  }
-
-  /**
-   * Returns true if the type is an infrastructure type, false otherwise.
-   *
-   * @param type the type to check
-   * @return whether is an infrastructure type or not.
-   */
-  public static boolean isInfrastructure(MetadataType type) {
-    return type.getAnnotation(InfrastructureTypeAnnotation.class).isPresent();
-  }
-
-  /**
-   * @param metadataType a type model
-   * @return whether instances of the given {@code metadataType} accept being referenced to
-   */
-  public static boolean acceptsReferences(MetadataType metadataType) {
-    return metadataType.getAnnotation(ParameterDslAnnotation.class)
-        .map(ParameterDslAnnotation::allowsReferences)
-        .orElse(true);
-  }
-
-  public static boolean isBasic(MetadataType metadataType) {
-    Reference<Boolean> basic = new Reference<>(false);
-    metadataType.accept(new BasicTypeMetadataVisitor() {
-
-      @Override
-      protected void visitBasicType(MetadataType metadataType) {
-        basic.set(true);
-      }
-    });
-
-    return basic.get();
-  }
-
-  /**
-   * @param metadataType
-   * @return the substitutionGroup defined by the user or {@code Optional.empty()} if not present.
-   */
-  public static Optional<SubstitutionGroup> getSubstitutionGroup(MetadataType metadataType) {
-    return metadataType.getAnnotation(TypeDslAnnotation.class).flatMap(TypeDslAnnotation::getSubstitutionGroup);
-  }
-
-  /**
-   * @param metadataType
-   * @return the baseType defined by the user or {Optional.empty()} if not present
-   */
-  public static Optional<DslBaseType> getBaseType(MetadataType metadataType) {
-    return metadataType.getAnnotation(TypeDslAnnotation.class).flatMap(TypeDslAnnotation::getDslBaseType);
-  }
 }

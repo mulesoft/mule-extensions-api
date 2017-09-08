@@ -21,11 +21,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.ExtensionModelTestUtils.visitableMock;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
@@ -217,21 +217,22 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   void assertChildElementDeclarationIs(boolean expected, DslElementSyntax result) {
-    assertThat(format("Expected 'supportsChildDeclaration' declaration to be %s", expected), result.supportsChildDeclaration(),
-               is(expected));
+    assertThat(format("Expected 'supportsChildDeclaration' declaration to be [%s] for element: %s", expected, result),
+               result.supportsChildDeclaration(), is(expected));
   }
 
   void assertTopLevelDeclarationSupportIs(boolean expected, DslElementSyntax result) {
-    assertThat(format("Expected 'supportsTopLevelDeclaration' declaration to be %s", expected),
+    assertThat(format("Expected 'supportsTopLevelDeclaration' declaration to be [%s] for element: %s", expected, result),
                result.supportsTopLevelDeclaration(), is(expected));
   }
 
   void assertIsWrappedElement(boolean expected, DslElementSyntax result) {
-    assertThat(format("Expected 'isWrapped' declaration to be %s", expected), result.isWrapped(), is(expected));
+    assertThat(format("Expected 'isWrapped' declaration to be [%s] for element: %s", expected, result),
+               result.isWrapped(), is(expected));
   }
 
   void assertAttributeDeclaration(boolean expected, DslElementSyntax result) {
-    assertThat(format("Expected 'supportsAttributeDeclaration' declaration to be %s", expected),
+    assertThat(format("Expected 'supportsAttributeDeclaration' declaration to be [%s] for element: %s", expected, result),
                result.supportsAttributeDeclaration(), is(expected));
   }
 
@@ -248,7 +249,7 @@ public abstract class BaseXmlDeclarationTestCase {
     assertThat(result.getElementName(), equalTo(expected));
   }
 
-  void assertElementNamespace(String expected, DslElementSyntax result) {
+  void assertElementPrefix(String expected, DslElementSyntax result) {
     assertThat(result.getPrefix(), equalTo(expected));
   }
 
@@ -284,7 +285,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax anotherGroupedFieldDsl = getChildFieldDsl(groupedFieldAsContent, topDsl);
     assertThat(topDsl.getAttribute(groupedFieldAsContent).isPresent(), is(false));
     assertElementName(hyphenize(groupedFieldAsContent), anotherGroupedFieldDsl);
-    assertElementNamespace(PREFIX, anotherGroupedFieldDsl);
+    assertElementPrefix(PREFIX, anotherGroupedFieldDsl);
     assertChildElementDeclarationIs(true, anotherGroupedFieldDsl);
     assertIsWrappedElement(false, anotherGroupedFieldDsl);
     assertNoAttributes(anotherGroupedFieldDsl);
@@ -306,7 +307,7 @@ public abstract class BaseXmlDeclarationTestCase {
     assertThat(topDsl.getAttribute(groupedField).isPresent(), is(false));
     DslElementSyntax groupedFieldDsl = getChildFieldDsl(groupedField, topDsl);
     assertElementName(hyphenize(groupedField), groupedFieldDsl);
-    assertElementNamespace(PREFIX, groupedFieldDsl);
+    assertElementPrefix(PREFIX, groupedFieldDsl);
     assertChildElementDeclarationIs(true, groupedFieldDsl);
     assertIsWrappedElement(false, groupedFieldDsl);
   }
@@ -319,7 +320,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax notGlobalDsl = getChildFieldDsl(notGlobalName, topDsl);
     assertElementName(hyphenize(notGlobalName), notGlobalDsl);
-    assertElementNamespace(PREFIX, notGlobalDsl);
+    assertElementPrefix(PREFIX, notGlobalDsl);
     assertChildElementDeclarationIs(true, notGlobalDsl);
     assertIsWrappedElement(false, notGlobalDsl);
   }
@@ -333,7 +334,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax simplePojoDsl = getChildFieldDsl(simplePojoName, topDsl);
     assertElementName(hyphenize(simplePojoName), simplePojoDsl);
-    assertElementNamespace(PREFIX, simplePojoDsl);
+    assertElementPrefix(PREFIX, simplePojoDsl);
     assertChildElementDeclarationIs(true, simplePojoDsl);
     assertIsWrappedElement(false, simplePojoDsl);
     assertTopElementDeclarationIs(false, simplePojoDsl);
@@ -344,7 +345,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax sampleStringAttrDsl = getAttributeDsl(sampleStringName, simplePojoDsl);
     assertAttributeName(sampleStringName, sampleStringAttrDsl);
     assertElementName("", sampleStringAttrDsl);
-    assertElementNamespace("", sampleStringAttrDsl);
+    assertElementPrefix("", sampleStringAttrDsl);
     assertChildElementDeclarationIs(false, sampleStringAttrDsl);
     assertIsWrappedElement(false, sampleStringAttrDsl);
     assertNoAttributes(sampleStringAttrDsl);
@@ -355,7 +356,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax otherNumberAttrDsl = getAttributeDsl(otherNumberName, simplePojoDsl);
     assertAttributeName(otherNumberName, otherNumberAttrDsl);
     assertElementName("", otherNumberAttrDsl);
-    assertElementNamespace("", otherNumberAttrDsl);
+    assertElementPrefix("", otherNumberAttrDsl);
     assertChildElementDeclarationIs(false, otherNumberAttrDsl);
     assertIsWrappedElement(false, otherNumberAttrDsl);
     assertNoAttributes(otherNumberAttrDsl);
@@ -366,7 +367,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax textFieldDsl = getChildFieldDsl(textFieldName, simplePojoDsl);
     assertAttributeDeclaration(false, textFieldDsl);
     assertElementName(hyphenize(textFieldName), textFieldDsl);
-    assertElementNamespace(PREFIX, textFieldDsl);
+    assertElementPrefix(PREFIX, textFieldDsl);
     assertChildElementDeclarationIs(true, textFieldDsl);
     assertIsWrappedElement(false, textFieldDsl);
     assertTopElementDeclarationIs(false, textFieldDsl);
@@ -386,7 +387,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax recursiveFromGroupDsl = getChildFieldDsl(recursiveFromGroupName, topDsl);
     assertElementName(hyphenize(recursiveFromGroupName), recursiveFromGroupDsl);
-    assertElementNamespace(PREFIX, recursiveFromGroupDsl);
+    assertElementPrefix(PREFIX, recursiveFromGroupDsl);
     assertChildElementDeclarationIs(true, recursiveFromGroupDsl);
     assertTopLevelDeclarationSupportIs(false, recursiveFromGroupDsl);
     assertIsWrappedElement(false, recursiveFromGroupDsl);
@@ -399,14 +400,14 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax listDsl = getChildFieldDsl(EXTENSIBLE_TYPE_LIST_NAME, topDsl);
     assertElementName(hyphenize(EXTENSIBLE_TYPE_LIST_NAME), listDsl);
-    assertElementNamespace(PREFIX, listDsl);
+    assertElementPrefix(PREFIX, listDsl);
     assertChildElementDeclarationIs(true, listDsl);
     assertIsWrappedElement(false, listDsl);
 
     MetadataType listItemType = TYPE_LOADER.load(ExtensibleType.class);
     DslElementSyntax listItemDsl = getGenericTypeDsl(listItemType, listDsl);
     assertElementName(getTopLevelTypeName(listItemType), listItemDsl);
-    assertElementNamespace(PREFIX, listItemDsl);
+    assertElementPrefix(PREFIX, listItemDsl);
     assertChildElementDeclarationIs(true, listItemDsl);
     assertTopElementDeclarationIs(false, listItemDsl);
     assertIsWrappedElement(true, listItemDsl);
@@ -426,7 +427,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax sampleStringAttrDsl = getAttributeDsl(sampleStringName, extensibleTypeDsl);
     assertAttributeName(sampleStringName, sampleStringAttrDsl);
     assertElementName("", sampleStringAttrDsl);
-    assertElementNamespace("", sampleStringAttrDsl);
+    assertElementPrefix("", sampleStringAttrDsl);
     assertChildElementDeclarationIs(false, sampleStringAttrDsl);
     assertIsWrappedElement(false, sampleStringAttrDsl);
     assertNoAttributes(sampleStringAttrDsl);
@@ -437,7 +438,7 @@ public abstract class BaseXmlDeclarationTestCase {
     DslElementSyntax otherNumberAttrDsl = getAttributeDsl(otherNumberName, extensibleTypeDsl);
     assertAttributeName(otherNumberName, otherNumberAttrDsl);
     assertElementName("", otherNumberAttrDsl);
-    assertElementNamespace("", otherNumberAttrDsl);
+    assertElementPrefix("", otherNumberAttrDsl);
     assertChildElementDeclarationIs(false, otherNumberAttrDsl);
     assertIsWrappedElement(false, otherNumberAttrDsl);
     assertThat(otherNumberAttrDsl.getAttributes().isEmpty(), is(true));
@@ -477,7 +478,7 @@ public abstract class BaseXmlDeclarationTestCase {
 
     DslElementSyntax recursiveChildDsl = getChildFieldDsl(recursiveChildName, topDsl);
     assertElementName(hyphenize(recursiveChildName), recursiveChildDsl);
-    assertElementNamespace(PREFIX, recursiveChildDsl);
+    assertElementPrefix(PREFIX, recursiveChildDsl);
     assertChildElementDeclarationIs(true, recursiveChildDsl);
     assertTopLevelDeclarationSupportIs(false, recursiveChildDsl);
     assertIsWrappedElement(false, recursiveChildDsl);

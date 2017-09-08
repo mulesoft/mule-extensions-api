@@ -12,13 +12,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getSubstitutionGroup;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
-import org.mule.runtime.extension.api.declaration.type.TypeUtils;
+import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.GlobalType;
@@ -50,10 +51,10 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     DslElementSyntax typeSyntax = getSyntaxResolver().resolve(type)
         .orElseThrow(() -> new RuntimeException("No dsl declaration found for the given type"));
     DslElementSyntax textFieldSyntax = typeSyntax.getChild("textField").get();
+    assertAttributeDeclaration(false, textFieldSyntax);
     assertThat(textFieldSyntax.getElementName(), is("text-field"));
     assertThat(textFieldSyntax.getAttributeName(), is(""));
   }
-
 
   @Test
   public void testRecursiveTypeAndChain() {
@@ -73,7 +74,6 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
   }
 
-
   @Test
   public void testComplexRecursiveType() {
     MetadataType type = TYPE_LOADER.load(ComplexFieldsType.class);
@@ -81,7 +81,7 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
     assertElementName(getTopLevelTypeName(type), topDsl.get());
-    assertElementNamespace(PREFIX, topDsl.get());
+    assertElementPrefix(PREFIX, topDsl.get());
     assertChildElementDeclarationIs(true, topDsl.get());
     assertIsWrappedElement(false, topDsl.get());
 
@@ -95,7 +95,7 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
     assertElementName(getTopLevelTypeName(type), topDsl.get());
-    assertElementNamespace(PREFIX, topDsl.get());
+    assertElementPrefix(PREFIX, topDsl.get());
     assertChildElementDeclarationIs(true, topDsl.get());
     assertTopElementDeclarationIs(false, topDsl.get());
     assertIsWrappedElement(false, topDsl.get());
@@ -108,7 +108,7 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
     assertElementName(getTopLevelTypeName(type), topDsl.get());
-    assertElementNamespace(PREFIX, topDsl.get());
+    assertElementPrefix(PREFIX, topDsl.get());
     assertChildElementDeclarationIs(true, topDsl.get());
     assertTopElementDeclarationIs(true, topDsl.get());
     assertIsWrappedElement(false, topDsl.get());
@@ -153,7 +153,7 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     // and populating the child fields and DSL information required for writing the type
     Optional<DslElementSyntax> typeResult = getSyntaxResolver().resolve(paramType);
     assertThat(typeResult.isPresent(), is(true));
-    assertElementNamespace(defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML), typeResult.get());
+    assertElementPrefix(defaultNamespace(IMPORT_EXTENSION_NAME_WITH_XML), typeResult.get());
     assertExtensibleTypeDslStructure(typeResult.get());
   }
 
@@ -162,11 +162,12 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     MetadataType type = TYPE_LOADER.load(SubstitutionGroupReferencingType.class);
     Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
 
-    assertThat(TypeUtils.getSubstitutionGroup(type).get().getPrefix(), is("someprefix"));
-    assertThat(TypeUtils.getSubstitutionGroup(type).get().getElement(), is("some-element"));
+    Optional<SubstitutionGroup> substitutionGroup = getSubstitutionGroup(type);
+    assertThat(substitutionGroup.get().getPrefix(), is("someprefix"));
+    assertThat(substitutionGroup.get().getElement(), is("some-element"));
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
     assertElementName(getTopLevelTypeName(type), topDsl.get());
-    assertElementNamespace(PREFIX, topDsl.get());
+    assertElementPrefix(PREFIX, topDsl.get());
     assertChildElementDeclarationIs(true, topDsl.get());
     assertIsWrappedElement(false, topDsl.get());
   }

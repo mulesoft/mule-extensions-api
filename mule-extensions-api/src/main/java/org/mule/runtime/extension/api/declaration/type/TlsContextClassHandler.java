@@ -8,7 +8,10 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_PREFIX;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -21,10 +24,16 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 /**
  * Implementation of {@link ClassHandler} for the {@link TlsContextFactory} class
@@ -57,6 +66,10 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     typeBuilder = create(JAVA);
     type.with(new TypeAliasAnnotation("Tls"));
     type.with(new InfrastructureTypeAnnotation());
+    type.with(new TypeDslAnnotation(true, true, null, null));
+    type.with(new QNameTypeAnnotation(new QName("http://www.mulesoft.org/schema/mule/tls",
+                                                TLS_CONTEXT_ELEMENT_IDENTIFIER,
+                                                TLS_PREFIX)));
     addStringField(type, typeBuilder, "enabledProtocols",
                    "A comma separated list of protocols enabled for this context.", null);
     addStringField(type, typeBuilder, "enabledCipherSuites",
@@ -89,7 +102,10 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
                         + "to attacks. Use at your own risk.",
                     false);
 
-    type.addField().key("trust-store").required(false).value(trustStoreType);
+    type.addField()
+        .with(new ParameterDslAnnotation(true, false))
+        .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
+        .key("trust-store").required(false).value(trustStoreType);
   }
 
   private TypeBuilder<StringType> getStoreMetadataType(BaseTypeBuilder typeBuilder) {
@@ -115,7 +131,10 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     addPasswordField(keyStoreType, typeBuilder, "password", "The password used to protect the key store.", null);
     addStringField(keyStoreType, typeBuilder, "algorithm", "The algorithm used by the key store.", null);
 
-    type.addField().key("key-store").required(false).value(keyStoreType);
+    type.addField()
+        .with(new ParameterDslAnnotation(true, false))
+        .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
+        .key("key-store").required(false).value(keyStoreType);
   }
 
   private DisplayTypeAnnotation filePathDisplayModel() {
