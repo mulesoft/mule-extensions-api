@@ -130,6 +130,9 @@
         <formatterConfigPath>formatter.xml</formatterConfigPath>
         <formatterGoal>validate</formatterGoal>
         <skipCodeFormatting>false</skipCodeFormatting>
+
+        <!-- Empty argLine added for use by the jacoco prepare-agent goal -->
+        <argLine></argLine>
     </properties>
 
     <!--
@@ -310,7 +313,7 @@
                     <version>${maven.surefire.plugin.version}</version>
                     <configuration>
                         <argLine>
-                            -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectjVersion}/aspectjweaver-${aspectjVersion}.jar
+                            @{argLine} -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectjVersion}/aspectjweaver-${aspectjVersion}.jar
                         </argLine>
                         <properties>
                             <property>
