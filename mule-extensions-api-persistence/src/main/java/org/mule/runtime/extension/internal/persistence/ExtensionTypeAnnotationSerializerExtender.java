@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.persistence;
 
 import static java.util.Collections.singletonList;
-import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.persistence.api.TypeAnnotationSerializerExtender;
 import org.mule.runtime.api.meta.model.stereotype.ImmutableStereotypeModel;
@@ -23,7 +22,6 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleA
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
-
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Collection;
@@ -40,8 +38,8 @@ public class ExtensionTypeAnnotationSerializerExtender implements TypeAnnotation
   @Override
   public Map<String, Class<? extends TypeAnnotation>> getNameClassMapping() {
     return ImmutableMap.<String, Class<? extends TypeAnnotation>>builder()
-        .put(ParameterDslAnnotation.NAME, ParameterDslAnnotation.class).put(TypeDslAnnotation.NAME, TypeDslAnnotation.class)
-        .put(TypeAliasAnnotation.NAME, TypeAliasAnnotation.class)
+        .put(ParameterDslAnnotation.NAME, ParameterDslAnnotation.class)
+        .put(TypeDslAnnotation.NAME, TypeDslAnnotation.class)
         .put(ExtensibleTypeAnnotation.NAME, ExtensibleTypeAnnotation.class)
         .put(ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class)
         .put(FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class)
