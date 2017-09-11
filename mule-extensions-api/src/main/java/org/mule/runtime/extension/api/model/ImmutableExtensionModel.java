@@ -41,7 +41,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
 
   private final String vendor;
   private final String version;
-  private final MuleVersion minMuleVersion;
   private final Category category;
   private final List<ConfigurationModel> configurations;
   private final List<ConstructModel> constructModels;
@@ -64,7 +63,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param version               The extension's version
    * @param vendor                The extension's vendor name
    * @param category              The extension's {@link Category}
-   * @param minMuleVersion        The extension's minimum {@link MuleVersion}
    * @param configurationModels   A {@link List} with the extension's {@link ConfigurationModel configurationModels}
    * @param operationModels       A {@link List} with the extension's {@link OperationModel operationModels}
    * @param connectionProviders   A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
@@ -88,7 +86,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  String version,
                                  String vendor,
                                  Category category,
-                                 MuleVersion minMuleVersion,
                                  List<ConfigurationModel> configurationModels,
                                  List<OperationModel> operationModels,
                                  List<ConnectionProviderModel> connectionProviders,
@@ -109,12 +106,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.configurations = unique(configurationModels, "Configurations");
 
     checkModelArgument(version != null && version.length() > 0, "Version cannot be blank");
-    checkModelArgument(minMuleVersion != null, "Extension Minimum Mule Version cannot be null");
     checkModelArgument(category != null, "Extension Category cannot be null");
     checkModelArgument(vendor != null, "Extension Vendor cannot be null");
     checkModelArgument(xmlDslModel != null, "xmlDslModel cannot be null");
 
-    this.minMuleVersion = minMuleVersion;
     this.category = category;
     this.version = version;
     this.vendor = vendor;
