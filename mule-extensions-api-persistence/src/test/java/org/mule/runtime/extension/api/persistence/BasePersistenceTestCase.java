@@ -37,7 +37,6 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.json.api.JsonTypeLoader;
-import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -252,7 +251,7 @@ abstract class BasePersistenceTestCase {
     configureOAuth();
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
-                                    new MuleVersion("4.0"), emptyList(), asList(getCarOperation),
+                                    emptyList(), asList(getCarOperation),
                                     singletonList(basicAuth), singletonList(sourceModel),
                                     singletonList(functionModel),
                                     asList(foreachScope, choiceRouter),
