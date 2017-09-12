@@ -19,6 +19,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
@@ -328,6 +329,23 @@ public class ExtensionModelUtils {
    */
   public static boolean canBeUsedImplicitly(ParameterizedModel parameterizedModel) {
     return parameterizedModel.getAllParameterModels().stream().noneMatch(ParameterModel::isRequired);
+  }
+
+  /**
+   * Returns whether the given {@link ComponentModel} has an associated configuration that can be created implicitly.
+   *
+   * @param extension the extension where the component belongs
+   * @param component the actual component to check for the implicit config
+   * @return true if the component has an implicit associated config, false otherwise.
+   */
+  public static boolean componentHasAnImplicitConfiguration(ExtensionModel extension, ComponentModel component) {
+    List<ConfigurationModel> configs = extension.getConfigurationModels().stream()
+        .filter(config -> config.getOperationModels().contains(component)
+            || config.getSourceModels().contains(component))
+        .filter(config -> canBeUsedImplicitly(config))
+        .collect(toList());
+
+    return configs.stream().anyMatch(config -> config.getConnectionProviders().stream().anyMatch(cp -> canBeUsedImplicitly(cp)));
   }
 
   /**
