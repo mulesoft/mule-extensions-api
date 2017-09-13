@@ -44,24 +44,7 @@ public class ExtensionModelUtilsTestCase {
   }
 
   @Test
-  public void componentWithoutImplicitAssociatedConfig() {
-    ExtensionModel em = mock(ExtensionModel.class);
-    SourceModel source = mock(SourceModel.class);
-    ConfigurationModel c = mock(ConfigurationModel.class);
-    when(c.getAllParameterModels()).thenReturn(emptyList());
-    when(c.getSourceModels()).thenReturn(singletonList(source));
-    when(em.getConfigurationModels()).thenReturn(singletonList(c));
-    ConnectionProviderModel cp = mock(ConnectionProviderModel.class);
-    ParameterModel param = mock(ParameterModel.class);
-    when(param.isRequired()).thenReturn(true);
-    when(cp.getAllParameterModels()).thenReturn(singletonList(param));
-    when(c.getConnectionProviders()).thenReturn(singletonList(cp));
-
-    assertThat(componentHasAnImplicitConfiguration(em, source), is(false));
-  }
-
-  @Test
-  public void componentWithConfigWithoutConnectionProviderHasImplicitConfig() {
+  public void componentWithConfigWithoutConnectionProviders() {
     ExtensionModel em = mock(ExtensionModel.class);
     SourceModel source = mock(SourceModel.class);
     ConfigurationModel c = mock(ConfigurationModel.class);
@@ -70,5 +53,36 @@ public class ExtensionModelUtilsTestCase {
     when(em.getConfigurationModels()).thenReturn(singletonList(c));
 
     assertThat(componentHasAnImplicitConfiguration(em, source), is(true));
+  }
+
+  @Test
+  public void componentWithImplicitConfigWithNonImplicitConnectionProviders() {
+    ExtensionModel em = mock(ExtensionModel.class);
+    OperationModel ope = mock(OperationModel.class);
+    ConfigurationModel c = mock(ConfigurationModel.class);
+    ConnectionProviderModel cp = mock(ConnectionProviderModel.class);
+    ParameterModel param = mock(ParameterModel.class);
+    when(param.isRequired()).thenReturn(true);
+    when(cp.getAllParameterModels()).thenReturn(singletonList(param));
+    when(c.getAllParameterModels()).thenReturn(emptyList());
+    when(c.getOperationModels()).thenReturn(singletonList(ope));
+    when(c.getConnectionProviders()).thenReturn(singletonList(cp));
+    when(em.getConfigurationModels()).thenReturn(singletonList(c));
+
+    assertThat(componentHasAnImplicitConfiguration(em, ope), is(false));
+  }
+
+  @Test
+  public void componentWithNoImplicitConfigs() {
+    ExtensionModel em = mock(ExtensionModel.class);
+    SourceModel source = mock(SourceModel.class);
+    ConfigurationModel c = mock(ConfigurationModel.class);
+    ParameterModel param = mock(ParameterModel.class);
+    when(param.isRequired()).thenReturn(true);
+    when(c.getAllParameterModels()).thenReturn(singletonList(param));
+    when(c.getSourceModels()).thenReturn(singletonList(source));
+    when(em.getConfigurationModels()).thenReturn(singletonList(c));
+
+    assertThat(componentHasAnImplicitConfiguration(em, source), is(false));
   }
 }

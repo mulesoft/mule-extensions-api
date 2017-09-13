@@ -340,13 +340,18 @@ public class ExtensionModelUtils {
    * @return true if the component has an implicit associated config, false otherwise.
    */
   public static boolean componentHasAnImplicitConfiguration(ExtensionModel extension, ComponentModel component) {
-    List<ConfigurationModel> configs = extension.getConfigurationModels().stream()
-        .filter(config -> config.getOperationModels().contains(component)
-            || config.getSourceModels().contains(component))
+    List<ConfigurationModel> configs = extension.getConfigurationModels();
+
+    if (configs.isEmpty()) {
+      return true;
+    }
+
+    List<ConfigurationModel> implicitConfigs = configs.stream()
+        .filter(config -> config.getOperationModels().contains(component) || config.getSourceModels().contains(component))
         .filter(config -> canBeUsedImplicitly(config))
         .collect(toList());
 
-    return configs.isEmpty() || configs.stream().anyMatch(config -> {
+    return implicitConfigs.stream().anyMatch(config -> {
       List<ConnectionProviderModel> providers = config.getConnectionProviders();
       return providers.isEmpty() || providers.stream().anyMatch(cp -> canBeUsedImplicitly(cp));
     });
