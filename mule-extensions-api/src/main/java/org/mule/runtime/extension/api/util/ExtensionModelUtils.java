@@ -32,6 +32,7 @@ import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
+import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -345,7 +346,11 @@ public class ExtensionModelUtils {
         .filter(config -> canBeUsedImplicitly(config))
         .collect(toList());
 
-    return configs.stream().anyMatch(config -> config.getConnectionProviders().stream().anyMatch(cp -> canBeUsedImplicitly(cp)));
+    return configs.isEmpty() || configs.stream().anyMatch(config -> {
+      List<ConnectionProviderModel> providers = config.getConnectionProviders();
+      return providers.isEmpty() || providers.stream().anyMatch(cp -> canBeUsedImplicitly(cp));
+    });
+
   }
 
   /**

@@ -60,4 +60,15 @@ public class ExtensionModelUtilsTestCase {
     assertThat(componentHasAnImplicitConfiguration(em, source), is(false));
   }
 
+  @Test
+  public void componentWithConfigWithoutConnectionProviderHasImplicitConfig() {
+    ExtensionModel em = mock(ExtensionModel.class);
+    SourceModel source = mock(SourceModel.class);
+    ConfigurationModel c = mock(ConfigurationModel.class);
+    when(c.getAllParameterModels()).thenReturn(emptyList());
+    when(c.getSourceModels()).thenReturn(singletonList(source));
+    when(em.getConfigurationModels()).thenReturn(singletonList(c));
+
+    assertThat(componentHasAnImplicitConfiguration(em, source), is(true));
+  }
 }
