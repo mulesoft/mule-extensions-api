@@ -32,7 +32,7 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.exception.IllegalOperationModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.internal.property.LiteralModelProperty;
+import org.mule.runtime.extension.internal.property.TargetModelProperty;
 
 /**
  * A {@link DeclarationEnricher} which adds a {@link ExtensionConstants#TARGET_PARAMETER_NAME} parameter
@@ -99,7 +99,7 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
       parameter.setType(targetValue, false);
       parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_VALUE_PARAMETER_DISPLAY_NAME).build());
       parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-      parameter.addModelProperty(new LiteralModelProperty());
+      parameter.addModelProperty(new TargetModelProperty());
       return parameter;
     }
   }

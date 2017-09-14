@@ -6,28 +6,25 @@
  */
 package org.mule.runtime.extension.internal.property;
 
-import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 
 /**
  * Marker {@link ModelProperty} for {@link ParameterModel}s that indicates that the
- * enriched parameter is of {@link Literal} type and resolve values of the generic type.
- * <p>
- * This model property is required, due that the {@link Literal} wrapper type information
- * is missing once the {@link ExtensionModel} is built.
+ * enriched parameter is considered as a Target type.
+ * This is required to handle the parameter as a {@link Literal} one.
  *
  * @since 1.0
  */
-public class LiteralModelProperty implements ModelProperty {
+public class TargetModelProperty implements ModelProperty {
 
   /**
    * {@inheritDoc}
    */
   @Override
   public String getName() {
-    return "literal";
+    return "target";
   }
 
   /**
