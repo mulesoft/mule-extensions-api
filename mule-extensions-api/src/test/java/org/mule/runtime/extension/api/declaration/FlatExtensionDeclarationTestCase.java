@@ -75,7 +75,6 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(extensionDeclaration.getVersion(), is(VERSION));
     assertThat(extensionDeclaration.getConfigurations(), hasSize(1));
     assertThat(extensionDeclaration.getVendor(), is(MULESOFT));
-    assertThat(extensionDeclaration.getMinMuleVersion(), is(MIN_MULE_VERSION));
     assertThat(extensionDeclaration.getCategory(), is(SELECT));
 
     assertExternalLibraries(extensionDeclaration.getExternalLibraryModels());

@@ -194,7 +194,6 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
           .onVersion("1.0")
           .fromVendor("MuleSoft")
           .withCategory(COMMUNITY)
-          .withMinMuleVersion(MIN_MULE_VERSION)
           .withXmlDsl(XmlDslModel.builder().build());
 
       extensionDeclarer.withConfig(gamma).describedAs(gamma);
@@ -279,15 +278,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
   public void nullCategory() {
     expectIllegalModel("Extension Category cannot be null");
 
-    declare(declarer -> declareBase(declarer).withCategory(null).fromVendor("SomeVendor").withMinMuleVersion(MIN_MULE_VERSION));
-    load();
-  }
-
-  @Test
-  public void nullMinMuleVersion() {
-    expectIllegalModel("Extension Minimum Mule Version cannot be null");
-
-    declare(declarer -> declareBase(declarer).withMinMuleVersion(null).fromVendor("SomeVendor").withCategory(COMMUNITY));
+    declare(declarer -> declareBase(declarer).withCategory(null).fromVendor("SomeVendor"));
     load();
   }
 
@@ -302,8 +293,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
         .onVersion("1.0")
         .fromVendor("MuleSoft")
         .withCategory(COMMUNITY)
-        .withXmlDsl(XmlDslModel.builder().build())
-        .withMinMuleVersion(MIN_MULE_VERSION));
+        .withXmlDsl(XmlDslModel.builder().build()));
 
     load();
   }

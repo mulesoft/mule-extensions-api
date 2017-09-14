@@ -59,7 +59,6 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     assertThat(extensionDeclaration.getVersion(), is(VERSION));
     assertThat(extensionDeclaration.getConfigurations(), hasSize(2));
     assertThat(extensionDeclaration.getVendor(), is(VENDOR));
-    assertThat(extensionDeclaration.getMinMuleVersion(), is(MIN_MULE_VERSION));
     assertThat(extensionDeclaration.getCategory(), is(COMMUNITY));
     assertThat(extensionDeclaration.getOperations(), hasSize(1));
     assertThat(extensionDeclaration.getConnectionProviders(), is(empty()));
