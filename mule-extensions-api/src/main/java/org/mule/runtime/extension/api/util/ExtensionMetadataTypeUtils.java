@@ -10,7 +10,6 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -22,7 +21,6 @@ import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.DslBaseType;
@@ -31,7 +29,6 @@ import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeA
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
@@ -209,16 +206,6 @@ public final class ExtensionMetadataTypeUtils {
     return metadataType.getAnnotation(ExpressionSupportAnnotation.class)
         .map(ExpressionSupportAnnotation::getExpressionSupport)
         .orElse(ExpressionSupport.SUPPORTED);
-  }
-
-  public static ParameterRole getParameterRole(MetadataType metadataType) {
-    return metadataType.getAnnotation(ParameterRoleAnnotation.class)
-        .map(ParameterRoleAnnotation::getRole)
-        .orElse(BEHAVIOUR);
-  }
-
-  public static boolean isContent(MetadataType type) {
-    return ExtensionModelUtils.isContent(getParameterRole(type));
   }
 
   /**

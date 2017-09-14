@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.dsl.model;
 
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
@@ -35,6 +36,10 @@ public class ComplexFieldsType {
   @NullSafe
   private NotGlobalType notGlobalType;
 
+  @Parameter
+  @Content
+  private String fieldAsContent;
+
   @ParameterGroup(name = "ParameterGroupType")
   private ParameterGroupType parameterGroupType;
 
@@ -43,6 +48,14 @@ public class ComplexFieldsType {
 
   @ParameterGroup(name = "Group With Inline Declaration", showInDsl = true)
   private ComplexTypeFieldGroup inlineGroup;
+
+  public String getFieldAsContent() {
+    return fieldAsContent;
+  }
+
+  public void setFieldAsContent(String fieldAsContent) {
+    this.fieldAsContent = fieldAsContent;
+  }
 
   public ComplexTypeFieldGroup getInlineGroup() {
     return inlineGroup;
