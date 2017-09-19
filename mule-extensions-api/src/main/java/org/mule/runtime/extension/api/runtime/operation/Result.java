@@ -93,7 +93,7 @@ public class Result<T, A> {
      * @param length
      * @return
      */
-    public Builder<T, A> length(long length) {
+    public Builder<T, A> length(Long length) {
       product.length = length;
       return this;
     }
