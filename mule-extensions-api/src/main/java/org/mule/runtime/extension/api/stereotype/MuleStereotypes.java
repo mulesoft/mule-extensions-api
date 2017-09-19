@@ -21,6 +21,7 @@ public final class MuleStereotypes {
   private static final String STEREOTYPE_NAMESPACE = CORE_PREFIX.toUpperCase();
 
   public static final StereotypeDefinition CONFIG_DEFINITION = new ModuleConfigStereotype();
+  public static final StereotypeDefinition APP_CONFIG_DEFINITION = new AppConfigStereotype();
   public static final StereotypeDefinition CONNECTION_DEFINITION = new ConnectionStereotype();
   public static final StereotypeDefinition PROCESSOR_DEFINITION = new ProcessorStereotype();
   public static final StereotypeDefinition SOURCE_DEFINITION = new SourceStereotype();
@@ -30,6 +31,7 @@ public final class MuleStereotypes {
   public static final StereotypeDefinition ERROR_HANDLER_DEFINITION = new ErrorHandlerStereotype();
 
   public static final StereotypeModel CONFIG = newStereotype(CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel APP_CONFIG = newStereotype(APP_CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel CONNECTION = newStereotype(CONNECTION_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel PROCESSOR = newStereotype(PROCESSOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel SOURCE = newStereotype(SOURCE_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
