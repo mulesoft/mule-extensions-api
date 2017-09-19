@@ -13,6 +13,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Stream.concat;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
@@ -36,6 +37,7 @@ import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
+import org.mule.runtime.api.util.MultiMap;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
@@ -123,7 +125,6 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           validateOperation(model);
           registerNamedObject(model);
           validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
-
           registerContentParameters(model);
         }
 
@@ -132,7 +133,6 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           validateCallbackNames(model.getSuccessCallback(), model);
           validateCallbackNames(model.getErrorCallback(), model);
           defaultValidation(model);
-
           registerContentParameters(model);
         }
 
@@ -142,7 +142,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         }
 
         private void defaultValidation(ParameterizedModel model) {
-          validateParameterNames(model);
+          validateNamesWithinGroups(model);
           registerNamedObject(model);
           validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
         }
@@ -152,9 +152,9 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         }
 
         private void validateCallbackNames(Optional<SourceCallbackModel> sourceCallback, SourceModel model) {
-          sourceCallback.ifPresent(cb -> validateParameterNames(filterContentParameters(cb.getAllParameterModels()),
-                                                                getComponentModelTypeName(model),
-                                                                model.getName()));
+          sourceCallback.ifPresent(cb -> validateNamesWithinGroups(cb, concat(model.getParameterGroupModels().stream(),
+                                                                              cb.getParameterGroupModels().stream())
+                                                                                  .collect(toList())));
         }
       }.walk(extensionModel);
 
@@ -173,7 +173,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     }
 
     private void validateOperation(OperationModel operation) {
-      validateParameterNames(operation);
+      validateNamesWithinGroups(operation);
       String operationName = dslSyntaxResolver.resolve(operation).getElementName();
       operation.getAllParameterModels().stream().map(parameterModel -> dslSyntaxResolver.resolve(parameterModel))
           .filter(DslElementSyntax::supportsChildDeclaration)
@@ -188,11 +188,6 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
                                                               format("%s named %s with an argument", operationName,
                                                                      getComponentModelTypeName(operation))));
           });
-    }
-
-    private void validateParameterNames(ParameterizedModel model) {
-      validateParameterNames(filterContentParameters(model.getAllParameterModels()), getComponentModelTypeName(model),
-                             model.getName());
     }
 
     private void validateParameterNames(List<ParameterModel> parameterizedModel, String modelTypeName, String modelName) {
@@ -360,6 +355,23 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           problemsReporter.addError(new Problem(extensionModel, msg));
         }
       });
+    }
+
+    private void validateNamesWithinGroups(ParameterizedModel model) {
+      validateNamesWithinGroups(model, model.getParameterGroupModels());
+    }
+
+    private void validateNamesWithinGroups(ParameterizedModel model, List<ParameterGroupModel> groups) {
+      String componentTypeName = getComponentModelTypeName(model);
+      MultiMap<NamedObject, ParameterModel> parametersMap = new MultiMap<>();
+      groups.forEach(group -> {
+        NamedObject parameterContainer = group.isShowInDsl() ? group : model;
+        filterContentParameters(group.getParameterModels())
+            .forEach(parameter -> parametersMap.put(parameterContainer, parameter));
+      });
+      parametersMap.keySet()
+          .forEach(parameterContainer -> validateParameterNames(parametersMap.getAll(parameterContainer), componentTypeName,
+                                                                model.getName()));
     }
 
     private void validateSingularizedNameClash(ParameterizedModel model, String modelElementName) {
