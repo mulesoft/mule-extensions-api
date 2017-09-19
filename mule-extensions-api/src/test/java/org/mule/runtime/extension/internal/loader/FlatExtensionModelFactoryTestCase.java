@@ -58,6 +58,8 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION;
@@ -80,7 +82,6 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.model.VoidType;
-import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -91,6 +92,7 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
+import org.mule.runtime.extension.api.declaration.type.ExpirationPolicyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuilder;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
@@ -109,7 +111,6 @@ import org.junit.rules.ExpectedException;
 
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
-  private static final MuleVersion MIN_MULE_VERSION = new MuleVersion("4.0");
   private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer();
   private final MetadataType voidType = typeLoader.load(void.class);
   private final MetadataType stringType = typeLoader.load(String.class);
@@ -142,14 +143,18 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(configurationModel.getDescription(), equalTo(CONFIG_DESCRIPTION));
 
     List<ParameterModel> parameterModels = configurationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(4));
-    assertParameter(parameterModels.get(0), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, stringType,
+    assertThat(parameterModels, hasSize(5));
+    assertParameter(parameterModels.get(0), EXPIRATION_POLICY_PARAMETER_NAME, EXPIRATION_POLICY_DESCRIPTION_DESCRIPTION,
+                    NOT_SUPPORTED,
+                    false, new ExpirationPolicyTypeBuilder().buildExpirationPolicyType(),
+                    ObjectType.class, null);
+    assertParameter(parameterModels.get(1), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameterModels.get(1), PORT, SERVICE_PORT, SUPPORTED, true, stringType, StringType.class,
+    assertParameter(parameterModels.get(2), PORT, SERVICE_PORT, SUPPORTED, true, stringType, StringType.class,
                     null);
-    assertParameter(parameterModels.get(2), SERVICE, SERVICE_NAME, SUPPORTED, true, stringType,
+    assertParameter(parameterModels.get(3), SERVICE, SERVICE_NAME, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameterModels.get(3), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true,
+    assertParameter(parameterModels.get(4), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true,
                     stringType, StringType.class, null);
   }
 

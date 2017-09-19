@@ -74,6 +74,12 @@ public final class XmlModelUtils {
       new QName(CORE_NAMESPACE, "abstract-object-streaming-strategy", CORE_PREFIX);
 
   /**
+   * {@link QName} for the {@code expiration-policy} element
+   */
+  public static final QName MULE_EXPIRATION_POLICY_QNAME =
+      new QName(CORE_NAMESPACE, "expiration-policy", CORE_PREFIX);
+
+  /**
    * Takes a set of parameters extracted from the extension and generates a {@link XmlDslModel}.
    *
    * @param prefix prefix of the extension. If {@link Optional#empty()} or empty string, then it will default using the {@code extensionName}.

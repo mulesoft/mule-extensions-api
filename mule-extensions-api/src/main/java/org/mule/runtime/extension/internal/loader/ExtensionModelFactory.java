@@ -86,6 +86,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclaratio
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ReconnectionStrategyDeclarationEnricher;
@@ -149,6 +150,7 @@ public final class ExtensionModelFactory {
                                                     new XmlDeclarationEnricher(),
                                                     new TargetParameterDeclarationEnricher(),
                                                     new ConnectionProviderDeclarationEnricher(),
+                                                    new DynamicConfigDeclarationEnricher(),
                                                     new ReconnectionStrategyDeclarationEnricher(),
                                                     new StreamingDeclarationEnricher(),
                                                     new OAuthDeclarationEnricher(),

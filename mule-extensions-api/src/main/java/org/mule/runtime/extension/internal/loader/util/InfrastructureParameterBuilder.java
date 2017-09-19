@@ -10,6 +10,8 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.CONNECTION;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.POOLING_PROFILE_PARAMETER_DESCRIPTION;
@@ -25,14 +27,17 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_DEFAULT_RECONNECTION_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_RECONNECTION_STRATEGY_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_REDELIVERY_POLICY_QNAME;
+import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_EXPIRATION_POLICY_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_POOLING_PROFILE_TYPE_QNAME;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.extension.api.declaration.type.ExpirationPolicyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.PoolingProfileTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
@@ -146,6 +151,28 @@ public final class InfrastructureParameterBuilder {
     markAsInfrastructure(parameter, 2);
 
     declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(parameter);
+
+    return parameter;
+  }
+
+  public static ParameterDeclaration addExpirationPolicy(ConfigurationDeclaration config) {
+    ParameterDeclaration parameter = new ParameterDeclaration(EXPIRATION_POLICY_PARAMETER_NAME);
+    parameter.setDescription(EXPIRATION_POLICY_DESCRIPTION_DESCRIPTION);
+    parameter.setExpressionSupport(NOT_SUPPORTED);
+    parameter.setRequired(false);
+    parameter.setParameterRole(BEHAVIOUR);
+    parameter.setType(new ExpirationPolicyTypeBuilder().buildExpirationPolicyType(), false);
+    parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+    parameter.setDslConfiguration(ParameterDslConfiguration.builder()
+        .allowsInlineDefinition(true)
+        .allowsReferences(false)
+        .allowTopLevelDefinition(false)
+        .build());
+
+    parameter.addModelProperty(new QNameModelProperty(MULE_EXPIRATION_POLICY_QNAME));
+    markAsInfrastructure(parameter, 4);
+
+    config.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(parameter);
 
     return parameter;
   }
