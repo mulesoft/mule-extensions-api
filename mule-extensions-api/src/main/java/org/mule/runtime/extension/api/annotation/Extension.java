@@ -47,11 +47,6 @@ public @interface Extension {
    */
   Category category() default Category.COMMUNITY;
 
-  /**
-   * Min Mule version that the extension requires to work correctly
-   */
-  String minMuleVersion() default "4.0";
-
   String MULESOFT = "Mulesoft";
 
   String DEFAULT_CONFIG_NAME = "config";

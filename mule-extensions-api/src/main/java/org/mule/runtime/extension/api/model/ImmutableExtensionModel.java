@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.model;
 import static java.util.Collections.unmodifiableSet;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.Category;
-import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -41,7 +40,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
 
   private final String vendor;
   private final String version;
-  private final MuleVersion minMuleVersion;
   private final Category category;
   private final List<ConfigurationModel> configurations;
   private final List<ConstructModel> constructModels;
@@ -59,36 +57,36 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   /**
    * Creates a new instance with the given state
    *
-   * @param name                  The extension's name. Cannot be blank
-   * @param description           The extension's description
-   * @param version               The extension's version
-   * @param vendor                The extension's vendor name
-   * @param category              The extension's {@link Category}
-   * @param minMuleVersion        The extension's minimum {@link MuleVersion}
-   * @param configurationModels   A {@link List} with the extension's {@link ConfigurationModel configurationModels}
-   * @param operationModels       A {@link List} with the extension's {@link OperationModel operationModels}
-   * @param connectionProviders   A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-   * @param sourceModels          A {@link List} with the extension's {@link SourceModel message source models}
-   * @param functions             A {@link List} with the extension's {@link FunctionModel function models}
-   * @param displayModel          A model which contains directive about how the extension is displayed in the UI
-   * @param xmlDslModel           The {@link XmlDslModel} which describes the XML language
-   * @param subTypes              A {@link Set} with the sub types defined by this extension
-   * @param types                 A {@link Set} with the custom types defined by this extension
-   * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other extensions
-   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param name The extension's name. Cannot be blank
+   * @param description The extension's description
+   * @param version The extension's version
+   * @param vendor The extension's vendor name
+   * @param category The extension's {@link Category}
+   * @param configurationModels A {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels A {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels A {@link List} with the extension's {@link SourceModel message source models}
+   * @param functions A {@link List} with the extension's {@link FunctionModel function models}
+   * @param displayModel A model which contains directive about how the extension is displayed in the UI
+   * @param xmlDslModel The {@link XmlDslModel} which describes the XML language
+   * @param subTypes A {@link Set} with the sub types defined by this extension
+   * @param types A {@link Set} with the custom types defined by this extension
+   * @param resources A {@link Set} with the paths to all the resources exposed by this extension
+   * @param importedTypes A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
+   *        extensions
+   * @param errors A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
    * @param privilegedPackages a {@link Set} of Java package names to export on the extension's privileged API.
    * @param privilegedArtifacts a {@link Set} of artifact ID that have access to the extension's privileged API.
-   * @param modelProperties       A {@link Set} of custom properties which extend this model
-   * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances with non unique names, or if {@code name} is blank.
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
+   *         with non unique names, or if {@code name} is blank.
    */
   public ImmutableExtensionModel(String name,
                                  String description,
                                  String version,
                                  String vendor,
                                  Category category,
-                                 MuleVersion minMuleVersion,
                                  List<ConfigurationModel> configurationModels,
                                  List<OperationModel> operationModels,
                                  List<ConnectionProviderModel> connectionProviders,
@@ -109,12 +107,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.configurations = unique(configurationModels, "Configurations");
 
     checkModelArgument(version != null && version.length() > 0, "Version cannot be blank");
-    checkModelArgument(minMuleVersion != null, "Extension Minimum Mule Version cannot be null");
     checkModelArgument(category != null, "Extension Category cannot be null");
     checkModelArgument(vendor != null, "Extension Vendor cannot be null");
     checkModelArgument(xmlDslModel != null, "xmlDslModel cannot be null");
 
-    this.minMuleVersion = minMuleVersion;
     this.category = category;
     this.version = version;
     this.vendor = vendor;
@@ -197,14 +193,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Category getCategory() {
     return category;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public MuleVersion getMinMuleVersion() {
-    return minMuleVersion;
   }
 
   /**

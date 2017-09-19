@@ -94,7 +94,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft",
-                                    COMMUNITY, new MuleVersion("4.0"), emptyList(),
+                                    COMMUNITY, emptyList(),
                                     singletonList(getCarOperation),
                                     emptyList(), emptyList(), emptyList(), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),

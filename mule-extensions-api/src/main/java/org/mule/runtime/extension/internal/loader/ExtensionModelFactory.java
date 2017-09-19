@@ -123,14 +123,13 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 
 /**
- * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual
- * {@link ExtensionModel}.
+ * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual {@link ExtensionModel}.
  * <p>
- * This factory is also responsible of applying the {@link DeclarationEnricher} which are default
- * to the runtime plus the ones specified through {@link ExtensionLoadingContext#addCustomValidators(Collection)}
+ * This factory is also responsible of applying the {@link DeclarationEnricher} which are default to the runtime plus the ones
+ * specified through {@link ExtensionLoadingContext#addCustomValidators(Collection)}
  * <p>
- * This class is not part of the API and should not be used by anyone (or anything) but the runtime. Backwards compatibility
- * not guaranteed on this class.
+ * This class is not part of the API and should not be used by anyone (or anything) but the runtime. Backwards compatibility not
+ * guaranteed on this class.
  *
  * @since 1.0
  */
@@ -170,8 +169,8 @@ public final class ExtensionModelFactory {
   }
 
   /**
-   * Transforms the given {@code extensionLoadingContext} into a valid {@link ExtensionModel}
-   * using a specifying {@code describingContext}
+   * Transforms the given {@code extensionLoadingContext} into a valid {@link ExtensionModel} using a specifying
+   * {@code describingContext}
    *
    * @param extensionLoadingContext a {@link ExtensionLoadingContext}, useful to specify custom settings
    * @return an {@link ExtensionModel}
@@ -243,7 +242,7 @@ public final class ExtensionModelFactory {
       ExtensionModel extensionModel =
           new ImmutableExtensionModel(extensionDeclaration.getName(), extensionDeclaration.getDescription(),
                                       extensionDeclaration.getVersion(), extensionDeclaration.getVendor(),
-                                      extensionDeclaration.getCategory(), extensionDeclaration.getMinMuleVersion(),
+                                      extensionDeclaration.getCategory(),
                                       sortConfigurations(toConfigurations(extensionDeclaration.getConfigurations())),
                                       toOperations(extensionDeclaration.getOperations()),
                                       toConnectionProviders(extensionDeclaration.getConnectionProviders()),
@@ -469,7 +468,7 @@ public final class ExtensionModelFactory {
         return ImmutableList.of();
       }
 
-      //copy the list so that executing this doesn't affect the input data
+      // copy the list so that executing this doesn't affect the input data
       declarations = new ArrayList<>(declarations);
       declarations.sort((left, right) -> {
         if (DEFAULT_GROUP_NAME.equals(left.getName())) {
