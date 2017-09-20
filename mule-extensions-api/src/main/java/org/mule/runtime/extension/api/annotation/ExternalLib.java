@@ -63,4 +63,15 @@ public @interface ExternalLib {
    * @return The type of library needed
    */
   ExternalLibraryType type();
+
+  /**
+   * @return If provided, suggests a Maven coordinates where the required library can be found. This coordinates should
+   * follow the Maven convention: {@code [groupId]:[artifactId]:[extension]:[classifier]:[version]}
+   */
+  String coordinates() default "";
+
+  /**
+   * @return Indicates whether the library is not required for the basic functioning of the extension.
+   */
+  boolean optional() default false;
 }
