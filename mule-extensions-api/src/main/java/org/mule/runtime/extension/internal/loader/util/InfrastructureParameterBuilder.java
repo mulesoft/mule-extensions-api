@@ -11,7 +11,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.CONN
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
-import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.POOLING_PROFILE_PARAMETER_DESCRIPTION;
@@ -37,7 +37,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.extension.api.declaration.type.ExpirationPolicyTypeBuilder;
+import org.mule.runtime.extension.api.declaration.type.DynamicConfigExpirationTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.PoolingProfileTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
@@ -157,11 +157,11 @@ public final class InfrastructureParameterBuilder {
 
   public static ParameterDeclaration addExpirationPolicy(ConfigurationDeclaration config) {
     ParameterDeclaration parameter = new ParameterDeclaration(EXPIRATION_POLICY_PARAMETER_NAME);
-    parameter.setDescription(EXPIRATION_POLICY_DESCRIPTION_DESCRIPTION);
+    parameter.setDescription(EXPIRATION_POLICY_DESCRIPTION);
     parameter.setExpressionSupport(NOT_SUPPORTED);
     parameter.setRequired(false);
     parameter.setParameterRole(BEHAVIOUR);
-    parameter.setType(new ExpirationPolicyTypeBuilder().buildExpirationPolicyType(), false);
+    parameter.setType(new DynamicConfigExpirationTypeBuilder().buildExpirationPolicyType(), false);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
     parameter.setDslConfiguration(ParameterDslConfiguration.builder()
         .allowsInlineDefinition(true)

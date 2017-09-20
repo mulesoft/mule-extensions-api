@@ -12,6 +12,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.mule.runtime.internal.dsl.DslConstants.DEFAULT_NAMESPACE_URI_MASK;
+import static org.mule.runtime.internal.dsl.DslConstants.EXPIRATION_POLICY_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.POOLING_PROFILE_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.RECONNECTION_ELEMENT_IDENTIFIER;
 import org.mule.metadata.api.model.MetadataType;
@@ -77,7 +78,7 @@ public final class XmlModelUtils {
    * {@link QName} for the {@code expiration-policy} element
    */
   public static final QName MULE_EXPIRATION_POLICY_QNAME =
-      new QName(CORE_NAMESPACE, "expiration-policy", CORE_PREFIX);
+      new QName(CORE_NAMESPACE, EXPIRATION_POLICY_ELEMENT_IDENTIFIER, CORE_PREFIX);
 
   /**
    * Takes a set of parameters extracted from the extension and generates a {@link XmlDslModel}.

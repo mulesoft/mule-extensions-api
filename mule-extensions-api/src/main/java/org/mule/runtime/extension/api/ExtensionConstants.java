@@ -97,10 +97,16 @@ public final class ExtensionConstants {
   /**
    * The description of the expiration policy of a dynamic configuration
    */
-  public static final String EXPIRATION_POLICY_DESCRIPTION_DESCRIPTION = "Configures the minimum amount of time that a dynamic "
+  public static final String EXPIRATION_POLICY_DESCRIPTION = "Configures the minimum amount of time that a dynamic "
       + "configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean "
       + "that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually "
       + "purge the instances when it sees it fit.";
+
+  /**
+   * Description of the {@code <dynamic-config-expiration>} tag
+   */
+  public static final String DYNAMIC_CONFIG_EXPIRATION_DESCRIPTION =
+      "Configuration about how should the runtime handle the expiration of dynamic configurations";
 
   /**
    * The description of the parameter for configuring the reconnection strategy parameter
