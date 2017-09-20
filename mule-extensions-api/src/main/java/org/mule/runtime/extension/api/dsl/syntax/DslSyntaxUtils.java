@@ -36,6 +36,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleType
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 
 import java.util.Optional;
@@ -76,7 +77,13 @@ final class DslSyntaxUtils {
   }
 
   static boolean isValidBean(ObjectType objectType) {
-    return isInstantiable(objectType) && !objectType.getFields().isEmpty();
+    if (objectType.getAnnotation(ClassInformationAnnotation.class).isPresent()) {
+      return isInstantiable(objectType) && !objectType.getFields().isEmpty();
+    }
+
+    return objectType.getAnnotation(TypeDslAnnotation.class)
+        .map(dsl -> dsl.allowsInlineDefinition() || dsl.allowsTopLevelDefinition())
+        .orElse(false);
   }
 
   public static boolean isFlattened(ObjectFieldType field, MetadataType fieldValue) {
