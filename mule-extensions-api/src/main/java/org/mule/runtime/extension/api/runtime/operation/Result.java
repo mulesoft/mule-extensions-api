@@ -6,10 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
-
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
 
@@ -96,7 +93,7 @@ public class Result<T, A> {
      * @param length
      * @return
      */
-    public Builder<T, A> length(long length) {
+    public Builder<T, A> length(Long length) {
       product.length = length;
       return this;
     }
@@ -141,7 +138,7 @@ public class Result<T, A> {
   private A attributes = null;
   private MediaType mediaType = null;
   private MediaType attributesMediaType = null;
-  private long length;
+  private Long length = null;
 
   protected Result() {}
 
@@ -197,7 +194,7 @@ public class Result<T, A> {
    * @return an {@link Optional} payload length
    */
   public Optional<Long> getLength() {
-    return length >= 0 ? of(length) : empty();
+    return ofNullable(length);
   }
 
   /**
