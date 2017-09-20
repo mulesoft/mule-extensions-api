@@ -41,7 +41,6 @@ import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
 import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.annotation.param.Content;
-import org.mule.runtime.extension.api.annotation.param.DefaultEncoding;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
@@ -57,7 +56,6 @@ import org.mule.runtime.extension.api.annotation.param.reference.ConfigReference
 import org.mule.runtime.extension.api.annotation.param.reference.FlowReference;
 import org.mule.runtime.extension.api.annotation.param.reference.ObjectStoreReference;
 import org.mule.runtime.extension.api.declaration.type.annotation.ConfigOverrideTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.DefaultEncodingAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultImplementingTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
@@ -113,7 +111,6 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       processParameterGroup(field, fieldBuilder);
       processExpressionSupport(field, fieldBuilder);
       processNullSafe(clazz, field, fieldBuilder, typeHandlerManager, context);
-      processDefaultEncoding(field, fieldBuilder);
       processElementStyle(field, fieldBuilder);
       processLayoutAnnotation(field, fieldBuilder);
       processDisplayAnnotation(field, fieldBuilder);
@@ -324,13 +321,6 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       if (getDefaultValue(field) == null && field.getAnnotation(ConfigOverride.class) == null) {
         fieldBuilder.with(new DefaultValueAnnotation(valueOf(FALSE)));
       }
-    }
-  }
-
-  private void processDefaultEncoding(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    if (field.getAnnotation(DefaultEncoding.class) != null) {
-      fieldBuilder.required(false);
-      fieldBuilder.with(new DefaultEncodingAnnotation());
     }
   }
 

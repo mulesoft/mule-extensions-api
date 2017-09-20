@@ -10,7 +10,6 @@ import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
-import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -36,7 +35,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClassMap<ModelProperty>> {
+public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends ModelProperty>, ModelProperty>> {
 
   private static final Map<Class<? extends ModelProperty>, String> classNameMapping;
   private static final Map<String, Class<? extends ModelProperty>> nameClassMapping;
@@ -56,9 +55,9 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClas
   }
 
   @Override
-  public void write(JsonWriter out, HierarchyClassMap<ModelProperty> modelPropertyMap) throws IOException {
+  public void write(JsonWriter out, Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyMap) throws IOException {
     out.beginObject();
-    for (Map.Entry<Class<?>, ModelProperty> entry : modelPropertyMap.entrySet()) {
+    for (Map.Entry<Class<? extends ModelProperty>, ModelProperty> entry : modelPropertyMap.entrySet()) {
       final ModelProperty modelProperty = entry.getValue();
       final Class<?> modelPropertyClass = entry.getKey();
 
@@ -73,8 +72,8 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<HierarchyClas
   }
 
   @Override
-  public HierarchyClassMap<ModelProperty> read(JsonReader in) throws IOException {
-    final HierarchyClassMap<ModelProperty> modelPropertyHashMap = new HierarchyClassMap<>();
+  public Map<Class<? extends ModelProperty>, ModelProperty> read(JsonReader in) throws IOException {
+    final Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyHashMap = new HashMap<>();
 
     in.beginObject();
     while (in.hasNext()) {

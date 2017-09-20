@@ -14,7 +14,6 @@ import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.runtime.api.meta.Category;
-import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -47,6 +46,7 @@ import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -297,8 +297,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   }
 
   private Set<ModelProperty> parseExtensionLevelModelProperties(JsonObject json) {
-    HierarchyClassMap<ModelProperty> properties =
-        gsonDelegate.fromJson(json.get(MODEL_PROPERTIES), new TypeToken<HierarchyClassMap<ModelProperty>>() {
+    Map<Class<? extends ModelProperty>, ModelProperty> properties =
+        gsonDelegate.fromJson(json.get(MODEL_PROPERTIES), new TypeToken<Map<Class<? extends ModelProperty>, ModelProperty>>() {
 
         }.getType());
     return new LinkedHashSet<>(properties.values());
