@@ -7,9 +7,11 @@
 package org.mule.runtime.extension.api;
 
 import static java.util.Arrays.asList;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.mule.runtime.api.util.DataUnit.KB;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.api.time.Time;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.api.util.DataUnit;
 import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
@@ -86,6 +88,25 @@ public final class ExtensionConstants {
    * The name of the parameter for configuring the reconnection strategy parameter
    */
   public static final String RECONNECTION_STRATEGY_PARAMETER_NAME = "reconnectionStrategy";
+
+  /**
+   * The name of the parameter for configuring the expiration policy of a dynamic configuration
+   */
+  public static final String EXPIRATION_POLICY_PARAMETER_NAME = "expirationPolicy";
+
+  /**
+   * The description of the expiration policy of a dynamic configuration
+   */
+  public static final String EXPIRATION_POLICY_DESCRIPTION = "Configures the minimum amount of time that a dynamic "
+      + "configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean "
+      + "that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually "
+      + "purge the instances when it sees it fit.";
+
+  /**
+   * Description of the {@code <dynamic-config-expiration>} tag
+   */
+  public static final String DYNAMIC_CONFIG_EXPIRATION_DESCRIPTION =
+      "Configuration about how should the runtime handle the expiration of dynamic configurations";
 
   /**
    * The description of the parameter for configuring the reconnection strategy parameter
@@ -185,6 +206,11 @@ public final class ExtensionConstants {
    * The description of the parameter which disables connection validation
    */
   public static final String POOLING_PROFILE_PARAMETER_DESCRIPTION = "Characteristics of the connection pool";
+
+  /**
+   * The default frequency at which the runtime checks for dynamic configs which became eligible for expiration
+   */
+  public static final Time DYNAMIC_CONFIG_EXPIRATION_FREQUENCY = new Time(5, MINUTES);
 
   /**
    * Contains all the names of the {@link InfrastructureParameterModelProperty infrastructure} parameters that

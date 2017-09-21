@@ -116,17 +116,6 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * Collects the {@link ParameterModel parameters} from {@code model} which supports or requires expressions
-   *
-   * @param model a {@link ParameterizedModel}
-   * @return a {@link List} of {@link ParameterModel}. Can be empty but will never be {@code null}
-   */
-  public static List<ParameterModel> getDynamicParameters(ParameterizedModel model) {
-    return model.getAllParameterModels().stream().filter(parameter -> acceptsExpressions(parameter.getExpressionSupport()))
-        .collect(toList());
-  }
-
-  /**
    * @param support a {@link ExpressionSupport}
    * @return Whether or not the given {@code support} is one which accepts or requires expressions
    */

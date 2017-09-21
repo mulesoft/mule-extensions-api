@@ -19,6 +19,8 @@ import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 
+import java.util.stream.Stream;
+
 /**
  * Base class for a component capable of creating a {@link MetadataType} to be used
  * in an infrastructure parameter
@@ -32,6 +34,20 @@ abstract class InfrastructureTypeBuilder {
     context.addTypeBuilder(type, objectType);
 
     return objectType;
+  }
+
+  protected <T extends Enum> ObjectFieldTypeBuilder addEnumField(ObjectTypeBuilder objectType,
+                                                                 BaseTypeBuilder typeBuilder,
+                                                                 String name,
+                                                                 String description,
+                                                                 T defaultValue,
+                                                                 T[] values) {
+
+    String[] valueNames = Stream.of(values)
+        .map(e -> e.name())
+        .toArray(String[]::new);
+
+    return addField(objectType, getEnumType(typeBuilder, defaultValue.name(), valueNames), name, description);
   }
 
   protected ObjectFieldTypeBuilder addEnumField(ObjectTypeBuilder objectType,
