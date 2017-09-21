@@ -65,8 +65,19 @@ public @interface ExternalLib {
   ExternalLibraryType type();
 
   /**
-   * @return If provided, suggests a Maven coordinates where the required library can be found. This coordinates should
-   * follow the Maven convention: {@code [groupId]:[artifactId]:[extension]:[classifier]:[version]}
+   * If provided, suggests Maven coordinates where the required library can be found. This coordinates should
+   * follow the Maven convention: {@code groupId:artifactId:packaging:classifier:version}.
+   * <p>
+   * Keep in mind that not all the values of the coordinates are required, for example:
+   * {@code org.mule.modules:a-required-lib:1.0.0} are valid coordinates, which communicates the {@code groupId},
+   * {@code artifactId} and {@code version} of the external library.
+   * <p>
+   * By default, the packaging is {@code jar}, so if is required to use a native library, like a .DLL, you will provide:
+   * {@code org.mule.module:a-native-lib:dll:1.0.0} where {@code dll} is the packaging of the library.
+   * <p>
+   * More information in: <a href="https://maven.apache.org/pom.html#Maven_Coordinates">https://maven.apache.org/pom.html#Maven_Coordinates</a>
+   *
+   * @return The optional maven coordinates.
    */
   String coordinates() default "";
 
