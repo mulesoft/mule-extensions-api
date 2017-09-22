@@ -18,6 +18,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -73,7 +74,7 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? e
 
   @Override
   public Map<Class<? extends ModelProperty>, ModelProperty> read(JsonReader in) throws IOException {
-    final Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyHashMap = new HashMap<>();
+    final Map<Class<? extends ModelProperty>, ModelProperty> modelPropertyHashMap = new LinkedHashMap<>();
 
     in.beginObject();
     while (in.hasNext()) {

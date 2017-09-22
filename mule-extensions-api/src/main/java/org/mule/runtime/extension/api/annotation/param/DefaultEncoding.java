@@ -21,11 +21,8 @@ import java.lang.annotation.Target;
  * This annotation signals that the target field should be injected
  * with Mule's default encoding.
  * <p>
- * This implies the following restrictions:
- * <p>
- * <lu>
- * <li>The field should be of type {@link String}</li>
- * </lu>
+ *
+ * The annotated field should be of type {@link String}
  *
  * @since 1.0
  */
