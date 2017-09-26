@@ -281,9 +281,9 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   private void assertContentInsideGroup(DslElementSyntax topDsl) {
-    String fieldAsContent = "fieldAsContent";
-    assertThat(topDsl.getAttribute(fieldAsContent).isPresent(), is(true));
-    DslElementSyntax groupedFieldDsl = topDsl.getAttribute(fieldAsContent).get();
+    String groupedContent = "groupedContent";
+    assertThat(topDsl.getAttribute(groupedContent).isPresent(), is(true));
+    DslElementSyntax groupedFieldDsl = topDsl.getAttribute(groupedContent).get();
     assertChildElementDeclarationIs(false, groupedFieldDsl);
     assertIsWrappedElement(false, groupedFieldDsl);
     assertAttributeDeclaration(true, groupedFieldDsl);
