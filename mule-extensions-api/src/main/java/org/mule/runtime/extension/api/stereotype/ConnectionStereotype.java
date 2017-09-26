@@ -11,7 +11,7 @@ package org.mule.runtime.extension.api.stereotype;
  *
  * @since 1.0
  */
-public class ConnectionStereotype implements MuleStereotypeDefinition {
+public class ConnectionStereotype extends MuleStereotypeDefinition {
 
   ConnectionStereotype() {}
 
