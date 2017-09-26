@@ -56,14 +56,7 @@
         "supportsStreaming": false,
         "nestedComponents": [],
         "errors": [
-          {
-            "type": "SOME_ERROR",
-            "namespace": "ERROR_NAMESPACE",
-            "parent": {
-              "type": "PARENT_ERROR_MODEL",
-              "namespace": "ERROR_NAMESPACE"
-            }
-          }
+          "ERROR_NAMESPACE:SOME_ERROR"
         ],
         "stereotype": {
           "type": "PROCESSOR",
@@ -1866,16 +1859,7 @@
         "kind": "source"
       }
     ],
-    "errors": [
-      {
-        "type": "SOME_ERROR",
-        "namespace": "ERROR_NAMESPACE",
-        "parent": {
-          "type": "PARENT_ERROR_MODEL",
-          "namespace": "ERROR_NAMESPACE"
-        }
-      }
-    ],
+    "errors": [],
     "modelProperties": {
       "OAuth": {
         "grantTypes": [
@@ -2137,14 +2121,7 @@
         "supportsStreaming": false,
         "nestedComponents": [],
         "errors": [
-          {
-            "type": "SOME_ERROR",
-            "namespace": "ERROR_NAMESPACE",
-            "parent": {
-              "type": "PARENT_ERROR_MODEL",
-              "namespace": "ERROR_NAMESPACE"
-            }
-          }
+          "ERROR_NAMESPACE:SOME_ERROR"
         ],
         "stereotype": {
           "type": "PROCESSOR",
@@ -3949,12 +3926,12 @@
     ],
     "errors": [
       {
-        "type": "SOME_ERROR",
-        "namespace": "ERROR_NAMESPACE",
-        "parent": {
-          "type": "PARENT_ERROR_MODEL",
-          "namespace": "ERROR_NAMESPACE"
-        }
+        "error": "ERROR_NAMESPACE:SOME_ERROR",
+        "parent": "ERROR_NAMESPACE:PARENT_ERROR_MODEL"
+      },
+      {
+        "error": "ERROR_NAMESPACE:PARENT_ERROR_MODEL",
+        "parent": "MULE:CONNECTIVITY"
       }
     ],
     "modelProperties": {

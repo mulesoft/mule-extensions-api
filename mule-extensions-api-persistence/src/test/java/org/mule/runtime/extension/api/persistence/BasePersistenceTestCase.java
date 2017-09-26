@@ -17,6 +17,7 @@ import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
+import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
@@ -28,6 +29,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -46,7 +48,6 @@ import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
-import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -72,10 +73,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -86,6 +83,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -95,10 +96,14 @@ abstract class BasePersistenceTestCase {
   protected static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
   protected static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON =
       "extension/list-of-serialized-extension-model.json";
+  protected static final ErrorModel ANY_ERROR_MODEL = newError("ANY", "MULE").build();
+  protected static final ErrorModel CONNECTIVITY_ERROR_MODEL =
+      newError("CONNECTIVITY", "MULE").withParent(ANY_ERROR_MODEL).build();
   protected static final ErrorModel PARENT_ERROR_MODEL =
-      ErrorModelBuilder.newError("PARENT_ERROR_MODEL", "ERROR_NAMESPACE").build();
+      newError("PARENT_ERROR_MODEL", "ERROR_NAMESPACE").withParent(CONNECTIVITY_ERROR_MODEL).build();
   protected static final ErrorModel ERROR_MODEL =
-      ErrorModelBuilder.newError("SOME_ERROR", "ERROR_NAMESPACE").withParent(PARENT_ERROR_MODEL).build();
+      newError("SOME_ERROR", "ERROR_NAMESPACE").withParent(PARENT_ERROR_MODEL).build();
+
   public static final String CREATE_CUSTOMER_REQUEST_TYPE_SCHEMA_JSON = "schemas/create-customer-request-type-schema.json";
   public static final String TEST_PACKAGE_EXPORTED_CLASS = "test.package.ExportedClass";
   private static final String FUNCTION_NAME = "myFunction";
@@ -258,7 +263,8 @@ abstract class BasePersistenceTestCase {
                                     defaultDisplayModel,
                                     XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
-                                    emptySet(), emptySet(), singleton(ERROR_MODEL),
+                                    emptySet(), emptySet(),
+                                    ImmutableSet.of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
                                     externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);

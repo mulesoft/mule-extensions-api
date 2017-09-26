@@ -1,0 +1,186 @@
+/*
+ * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
+ */
+package org.mule.runtime.extension.internal.persistence;
+
+import static org.mule.runtime.api.component.ComponentIdentifier.buildFromStringRepresentation;
+import static org.mule.runtime.api.component.ComponentIdentifier.builder;
+import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
+import static org.mule.runtime.extension.internal.persistence.ErrorModelToIdentifierSerializer.serialize;
+import static org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter.ERRORS;
+
+import org.mule.runtime.api.component.ComponentIdentifier;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
+import org.mule.runtime.api.util.Pair;
+import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
+import org.mule.runtime.extension.api.error.MuleErrors;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+
+/**
+ * Helper class for {@link ExtensionModelTypeAdapter} which encapsulates the logic of serializing and
+ * deserializing {@link ErrorModel}
+ *
+ * @since 1.0
+ */
+class ErrorModelSerializerDelegate {
+
+  private static final String MULE = "MULE";
+  private static final String ERROR = "error";
+  private static final String PARENT = "parent";
+  private static final String EMPTY = "";
+  private Map<String, ErrorModel> errorModelRespository;
+
+  ErrorModelSerializerDelegate(Map<String, ErrorModel> errorModelRespository) {
+    this.errorModelRespository = errorModelRespository;
+  }
+
+  /**
+   * Serializes a {@link Set} of {@link ErrorModel}. This Serializer will only serialize the identifier of the
+   * proper error model and the identifier of the parent.
+   *
+   * @param errorModels Errors to serialize
+   * @param out         json writer where the serialized set will be written
+   * @throws IOException if an error occurs trying to serialize the errors
+   */
+  void writeErrors(Set<ErrorModel> errorModels, JsonWriter out) throws IOException {
+    Set<ErrorModel> models = flatenizeErrors(errorModels);
+    out.name(ERRORS);
+    out.beginArray();
+    for (ErrorModel errorModel : models) {
+      writeError(out, errorModel);
+    }
+    out.endArray();
+  }
+
+  private void writeError(JsonWriter out, ErrorModel errorModel) throws IOException {
+    String namespace = errorModel.getNamespace();
+    if (!namespace.equals(MULE)) {
+      out.beginObject();
+
+      out.name(ERROR).value(serialize(errorModel));
+      if (errorModel.getParent().isPresent()) {
+        out.name(PARENT).value(serialize(errorModel.getParent().get()));
+      }
+      out.endObject();
+    }
+  }
+
+  /**
+   * Given a {@link JsonArray} representing a {@link Set} of {@link ErrorModel}, it will deserialize them.
+   *
+   * @param errors The json array
+   * @return The {@link Set} of deserialized {@link ErrorModel}
+   */
+  Set<ErrorModel> getErrors(JsonArray errors) {
+    Set<ErrorModel> errorModels = new HashSet<>();
+    errors.iterator()
+        .forEachRemaining(model -> errorModelRespository.get(model.getAsJsonObject().get(ERROR).getAsString()));
+    return errorModels;
+  }
+
+  private Set<ErrorModel> flatenizeErrors(Set<ErrorModel> errorModels) {
+    Set<ErrorModel> models = new HashSet<>();
+    errorModels.forEach(model -> {
+      models.add(model);
+      Optional<ErrorModel> parent = model.getParent();
+      while (parent.isPresent()) {
+        ErrorModel parentModel = parent.get();
+        models.add(parentModel);
+        parent = parentModel.getParent();
+      }
+    });
+    return models;
+  }
+
+  /**
+   * Given a {@link JsonArray} representing a {@link Set} of {@link ErrorModel}, it will deserialize them.
+   * Also contribute with the given {@link this#errorModelRespository}.
+   *
+   * @param errors The json array
+   * @return The a {@link Map} with the Error Identifier as key and the represented {@link ErrorModel}
+   */
+  Map<String, ErrorModel> parseErrors(JsonArray errors) {
+    Map<String, Pair<String, ErrorModelBuilder>> buildingErrors = new HashMap<>();
+
+    errors.iterator().forEachRemaining(element -> {
+      JsonObject error = element.getAsJsonObject();
+      String anError = error.get(ERROR).getAsString();
+      String parentError = EMPTY;
+      if (error.has(PARENT)) {
+        parentError = error.get(PARENT).getAsString();
+      }
+      buildingErrors.put(anError, new Pair<>(parentError, newError(buildFromStringRepresentation(anError))));
+    });
+
+    buildingErrors.keySet().forEach(key -> buildError(key, buildingErrors, errorModelRespository));
+
+    return errorModelRespository;
+  }
+
+  private ErrorModel buildError(String errorIdentifier, Map<String, Pair<String, ErrorModelBuilder>> buildingErrors,
+                                Map<String, ErrorModel> builtErrorModels) {
+    if (builtErrorModels.containsKey(errorIdentifier)) {
+      return builtErrorModels.get(errorIdentifier);
+    } else {
+      Pair<String, ErrorModelBuilder> builderPair = buildingErrors.get(errorIdentifier);
+
+      if (builderPair != null) {
+        String parentError = builderPair.getFirst();
+        ErrorModel errorModel = builderPair
+            .getSecond()
+            .withParent(buildError(parentError, buildingErrors, builtErrorModels)).build();
+        builtErrorModels.put(errorIdentifier, errorModel);
+
+        return errorModel;
+      } else {
+        ComponentIdentifier identifier = buildFromStringRepresentation(errorIdentifier);
+        return identifier.getNamespace().equals(MULE)
+            ? buildMuleError(identifier, builtErrorModels)
+            : buildSimpleError(identifier, builtErrorModels);
+      }
+    }
+  }
+
+  private ErrorModel buildMuleError(ComponentIdentifier identifier, Map<String, ErrorModel> builtErrors) {
+    String errorType = identifier.getName();
+    try {
+      MuleErrors muleErrors = MuleErrors.valueOf(errorType);
+      Optional<ErrorTypeDefinition<?>> parent = muleErrors.getParent();
+      if (parent.isPresent()) {
+        ErrorModel errorModel = newError(errorType,
+                                         identifier.getNamespace()).withParent(buildMuleError(
+                                                                                              builder().namespace(MULE)
+                                                                                                  .name(parent.get().getType())
+                                                                                                  .build(),
+                                                                                              builtErrors))
+                                             .build();
+        builtErrors.put(identifier.toString(), errorModel);
+        return errorModel;
+      } else {
+        return buildSimpleError(identifier, builtErrors);
+      }
+    } catch (IllegalArgumentException e) {
+      return buildSimpleError(identifier, builtErrors);
+    }
+  }
+
+  private ErrorModel buildSimpleError(ComponentIdentifier identifier, Map<String, ErrorModel> builtErrors) {
+    ErrorModel errorModel = newError(identifier).build();
+    builtErrors.put(identifier.toString(), errorModel);
+    return errorModel;
+  }
+}
