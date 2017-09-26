@@ -11,7 +11,7 @@ package org.mule.runtime.extension.api.stereotype;
  *
  * @since 1.0
  */
-public class ErrorHandlerStereotype implements MuleStereotypeDefinition {
+public class ErrorHandlerStereotype extends MuleStereotypeDefinition {
 
   ErrorHandlerStereotype() {}
 

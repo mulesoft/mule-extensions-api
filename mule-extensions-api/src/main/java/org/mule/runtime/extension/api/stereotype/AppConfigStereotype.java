@@ -11,7 +11,7 @@ package org.mule.runtime.extension.api.stereotype;
  *
  * @since 1.0
  */
-public class AppConfigStereotype implements MuleStereotypeDefinition {
+public class AppConfigStereotype extends MuleStereotypeDefinition {
 
   AppConfigStereotype() {}
 

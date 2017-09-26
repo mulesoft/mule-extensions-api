@@ -24,6 +24,18 @@ public interface StereotypeDefinition {
   String getName();
 
   /**
+   * The stereotype's namespace. This method is optional and the Runtime will automatically default
+   * to the extension's namespace. Keep in mind that no extension is allowed to declare a stereotype which
+   * namespace doesn't match its own. However, the extension stereotypes CAN have a parent which belongs
+   * to a different namespace.
+   *
+   * @return The stereotype's namespace.
+   */
+  default String getNamespace() {
+    return "";
+  }
+
+  /**
    * @return The {@link Optional} parent of the current Stereotype definition
    */
   default Optional<StereotypeDefinition> getParent() {
