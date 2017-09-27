@@ -6,13 +6,18 @@
  */
 package org.mule.runtime.extension.api.util;
 
+import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static org.mule.metadata.api.model.MetadataFormat.CSV;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.metadata.api.model.MetadataFormat.JSON;
+import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.ArrayType;
+import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
@@ -21,6 +26,7 @@ import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.DslBaseType;
@@ -34,6 +40,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotat
 
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,6 +50,8 @@ import java.util.Optional;
  * @since 1.0
  */
 public final class ExtensionMetadataTypeUtils {
+
+  private static final List<MetadataFormat> KNOWN_METADATA_FORMATS = asList(JAVA, XML, JSON, CSV);
 
   private ExtensionMetadataTypeUtils() {}
 
@@ -268,5 +277,22 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static Optional<DslBaseType> getBaseType(MetadataType metadataType) {
     return metadataType.getAnnotation(TypeDslAnnotation.class).flatMap(TypeDslAnnotation::getDslBaseType);
+  }
+
+  /**
+   * Returns a {@link MetadataFormat} which represents the given {@code mediaType}.
+   *
+   * If the {@code mediaType} matches any of the well known formats, then it will return one of those.
+   * Otherwise, a new {@link MetadataFormat} will be created and returned
+   *
+   * @param mediaType a {@link MediaType}
+   * @return a {@link MetadataFormat}
+   */
+  public static MetadataFormat toMetadataFormat(MediaType mediaType) {
+    String rfc = mediaType.toRfcString();
+    return KNOWN_METADATA_FORMATS.stream()
+        .filter(f -> f.getValidMimeTypes().stream().anyMatch(rfc::matches))
+        .findFirst()
+        .orElseGet(() -> new MetadataFormat(rfc, rfc, rfc));
   }
 }
