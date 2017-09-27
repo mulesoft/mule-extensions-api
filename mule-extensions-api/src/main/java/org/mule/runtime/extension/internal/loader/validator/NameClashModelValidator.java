@@ -174,27 +174,23 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     private void validateSubtypes(Set<SubTypesModel> subTypes) {
       subTypes.forEach(subTypesModel -> {
         subTypesModel.getSubTypes().forEach(type -> {
-          Class<?> parameterType = getType(type);
+          ExtensionMetadataTypeUtils.getType(type).ifPresent(parameterType -> {
+            dslSyntaxResolver.resolve(type).filter(DslElementSyntax::supportsChildDeclaration).ifPresent(subtypeElement -> {
 
-          if (parameterType == null) {
-            return;
-          }
+              if (elements.containsKey(subtypeElement.getElementName())) {
+                elements.get(subtypeElement.getElementName()).stream()
+                    .filter(element -> !element.type.equals(parameterType))
+                    .findAny().ifPresent(
+                                         tp -> problemsReporter
+                                             .addError(new Problem(extensionModel,
+                                                                   format("An extension subtype '%s' of complex type '%s' is defined. However, there is already an element with the same name "
+                                                                       + "but with a different type (%s). Complex parameter of different types cannot have the same name.",
+                                                                          subtypeElement.getElementName(), parameterType,
+                                                                          tp.toString()))));
+              }
 
-          dslSyntaxResolver.resolve(type).filter(DslElementSyntax::supportsChildDeclaration).ifPresent(subtypeElement -> {
-
-            if (elements.containsKey(subtypeElement.getElementName())) {
-              elements.get(subtypeElement.getElementName()).stream()
-                  .filter(element -> !element.type.equals(parameterType))
-                  .findAny().ifPresent(
-                                       tp -> problemsReporter
-                                           .addError(new Problem(extensionModel,
-                                                                 format("An extension subtype '%s' of complex type '%s' is defined. However, there is already an element with the same name "
-                                                                     + "but with a different type (%s). Complex parameter of different types cannot have the same name.",
-                                                                        subtypeElement.getElementName(), parameterType,
-                                                                        tp.toString()))));
-            }
-
-            validateType(type, parameterType, subtypeElement);
+              validateType(type, parameterType, subtypeElement);
+            });
           });
         });
       });
@@ -295,30 +291,28 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
     private void validateInnerFields(String name, MetadataType fieldType, String parentType, DslElementSyntax parameterElement) {
       if (parameterElement.supportsChildDeclaration()) {
-        final Class<?> parameterType = ExtensionMetadataTypeUtils.getType(fieldType).orElse(null);
-        if (parameterType == null) {
-          return;
-        }
+        ExtensionMetadataTypeUtils.getType(fieldType).ifPresent(parameterType -> {
+          Collection<Element> foundParameters = elements.get(parameterElement.getElementName());
 
-        Collection<Element> foundParameters = elements.get(parameterElement.getElementName());
+          if (foundParameters.isEmpty()) {
+            elements.put(parameterElement.getElementName(), new Element(name, parameterType));
+          } else {
+            foundParameters.stream()
+                .filter(topLevelParameter -> !topLevelParameter.type.equals(parameterType))
+                .findAny().ifPresent(
+                                     tp -> problemsReporter.addError(new Problem(extensionModel, format(
+                                                                                                        "Object of type %s contains a field named '%s' of complex type '%s'. However, there is already an element with the same name "
+                                                                                                            + "but with a different type (%s). Complex parameter of different types cannot have the same name.",
+                                                                                                        parentType,
+                                                                                                        parameterElement
+                                                                                                            .getElementName(),
+                                                                                                        parameterType,
+                                                                                                        tp.toString()))));
 
-        if (foundParameters.isEmpty()) {
-          elements.put(parameterElement.getElementName(), new Element(name, parameterType));
-        } else {
-          foundParameters.stream()
-              .filter(topLevelParameter -> !topLevelParameter.type.equals(parameterType))
-              .findAny().ifPresent(
-                                   tp -> problemsReporter.addError(new Problem(extensionModel, format(
-                                                                                                      "Object of type %s contains a field named '%s' of complex type '%s'. However, there is already an element with the same name "
-                                                                                                          + "but with a different type (%s). Complex parameter of different types cannot have the same name.",
-                                                                                                      parentType, parameterElement
-                                                                                                          .getElementName(),
-                                                                                                      parameterType,
-                                                                                                      tp.toString()))));
+          }
 
-        }
-
-        validateType(fieldType, parameterType, parameterElement);
+          validateType(fieldType, parameterType, parameterElement);
+        });
       }
     }
 
@@ -466,50 +460,47 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
     private void validateSingularizedNameClash(ParameterizedModel model, String modelElementName) {
       List<ParameterModel> parameters = filterContentParameters(model.getAllParameterModels());
-      parameters.forEach(
-                         parameter -> {
-                           parameter.getType().accept(new MetadataTypeVisitor() {
+      parameters.forEach(parameter -> parameter.getType().accept(new MetadataTypeVisitor() {
 
-                             @Override
-                             public void visitObject(ObjectType objectType) {
-                               objectType.getOpenRestriction().ifPresent(this::validateSingularizedChildName);
-                             }
+        @Override
+        public void visitObject(ObjectType objectType) {
+          objectType.getOpenRestriction().ifPresent(this::validateSingularizedChildName);
+        }
 
-                             @Override
-                             public void visitArrayType(ArrayType arrayType) {
-                               validateSingularizedChildName(arrayType.getType());
-                             }
+        @Override
+        public void visitArrayType(ArrayType arrayType) {
+          validateSingularizedChildName(arrayType.getType());
+        }
 
-                             private void validateSingularizedChildName(MetadataType type) {
-                               DslElementSyntax parameterSyntax = dslSyntaxResolver.resolve(parameter);
-                               String describedReference = new DescribedReference<>(model, modelElementName).getDescription();
+        private void validateSingularizedChildName(MetadataType type) {
+          DslElementSyntax parameterSyntax = dslSyntaxResolver.resolve(parameter);
+          String describedReference = new DescribedReference<>(model, modelElementName).getDescription();
 
-                               parameterSyntax.getGeneric(type).filter(t -> parameterSyntax.supportsChildDeclaration())
-                                   .ifPresent(childSyntax -> {
-                                     singularizedObjects.put(childSyntax.getElementName(),
-                                                             new DescribedParameter(parameter, parameterSyntax.getElementName(),
-                                                                                    model, modelElementName, type));
+          parameterSyntax.getGeneric(type).filter(t -> parameterSyntax.supportsChildDeclaration())
+              .ifPresent(childSyntax -> {
+                singularizedObjects.put(childSyntax.getElementName(),
+                                        new DescribedParameter(parameter, parameterSyntax.getElementName(),
+                                                               model, modelElementName, type));
 
-                                     parameters.stream()
-                                         .filter(p -> Objects.equals(dslSyntaxResolver.resolve(p).getElementName(),
-                                                                     childSyntax.getElementName()))
-                                         .filter(p -> !Objects.equals(getType(p.getType()), getType(type))).findAny()
-                                         .ifPresent(clashParam -> {
-                                           problemsReporter.addError(new Problem(extensionModel, format(
-                                                                                                        "Extension '%s' defines an %s of name '%s' which contains a parameter '%s' that when transformed to"
-                                                                                                            + "DSL language clashes with another parameter '%s' in the same %s",
-                                                                                                        extensionModel
-                                                                                                            .getName(),
-                                                                                                        describedReference,
-                                                                                                        model.getName(),
-                                                                                                        parameter.getName(),
-                                                                                                        clashParam.getName(),
-                                                                                                        describedReference)));
-                                         });
-                                   });
-                             }
-                           });
-                         });
+                parameters.stream()
+                    .filter(p -> Objects.equals(dslSyntaxResolver.resolve(p).getElementName(),
+                                                childSyntax.getElementName()))
+                    .filter(p -> !Objects.equals(getType(p.getType()), getType(type))).findAny()
+                    .ifPresent(clashParam -> {
+                      problemsReporter.addError(new Problem(extensionModel, format(
+                                                                                   "Extension '%s' defines an %s of name '%s' which contains a parameter '%s' that when transformed to"
+                                                                                       + "DSL language clashes with another parameter '%s' in the same %s",
+                                                                                   extensionModel
+                                                                                       .getName(),
+                                                                                   describedReference,
+                                                                                   model.getName(),
+                                                                                   parameter.getName(),
+                                                                                   clashParam.getName(),
+                                                                                   describedReference)));
+                    });
+              });
+        }
+      }));
     }
   }
 
