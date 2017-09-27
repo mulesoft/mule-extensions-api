@@ -460,20 +460,6 @@
                     },
                     {
                       "key": {
-                        "name": "fieldAsContent",
-                        "required": "true"
-                      },
-                      "model": {
-                        "type": "String"
-                      },
-                      "annotations": {
-                        "expressionSupport": {
-                          "value": "SUPPORTED"
-                        }
-                      }
-                    },
-                    {
-                      "key": {
                         "name": "parameterGroupType",
                         "required": "true"
                       },
@@ -515,6 +501,20 @@
                                   "text": true,
                                   "query": false
                                 }
+                              }
+                            }
+                          },
+                          {
+                            "key": {
+                              "name": "groupedContent",
+                              "required": "true"
+                            },
+                            "model": {
+                              "type": "String"
+                            },
+                            "annotations": {
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
                               }
                             }
                           }
@@ -1404,20 +1404,6 @@
                       },
                       {
                         "key": {
-                          "name": "fieldAsContent",
-                          "required": "true"
-                        },
-                        "model": {
-                          "type": "String"
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      },
-                      {
-                        "key": {
                           "name": "parameterGroupType",
                           "required": "true"
                         },
@@ -1459,6 +1445,20 @@
                                     "text": true,
                                     "query": false
                                   }
+                                }
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "groupedContent",
+                                "required": "true"
+                              },
+                              "model": {
+                                "type": "String"
+                              },
+                              "annotations": {
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
                                 }
                               }
                             }
@@ -2427,20 +2427,6 @@
                     },
                     {
                       "key": {
-                        "name": "fieldAsContent",
-                        "required": "true"
-                      },
-                      "model": {
-                        "type": "String"
-                      },
-                      "annotations": {
-                        "expressionSupport": {
-                          "value": "SUPPORTED"
-                        }
-                      }
-                    },
-                    {
-                      "key": {
                         "name": "parameterGroupType",
                         "required": "true"
                       },
@@ -2482,6 +2468,20 @@
                                   "text": true,
                                   "query": false
                                 }
+                              }
+                            }
+                          },
+                          {
+                            "key": {
+                              "name": "groupedContent",
+                              "required": "true"
+                            },
+                            "model": {
+                              "type": "String"
+                            },
+                            "annotations": {
+                              "expressionSupport": {
+                                "value": "SUPPORTED"
                               }
                             }
                           }
@@ -3371,20 +3371,6 @@
                       },
                       {
                         "key": {
-                          "name": "fieldAsContent",
-                          "required": "true"
-                        },
-                        "model": {
-                          "type": "String"
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      },
-                      {
-                        "key": {
                           "name": "parameterGroupType",
                           "required": "true"
                         },
@@ -3426,6 +3412,20 @@
                                     "text": true,
                                     "query": false
                                   }
+                                }
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "groupedContent",
+                                "required": "true"
+                              },
+                              "model": {
+                                "type": "String"
+                              },
+                              "annotations": {
+                                "expressionSupport": {
+                                  "value": "SUPPORTED"
                                 }
                               }
                             }
