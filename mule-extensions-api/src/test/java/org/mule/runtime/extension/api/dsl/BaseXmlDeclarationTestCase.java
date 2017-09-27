@@ -281,15 +281,13 @@ public abstract class BaseXmlDeclarationTestCase {
   }
 
   private void assertContentInsideGroup(DslElementSyntax topDsl) {
-    String groupedFieldAsContent = "anotherGroupedFieldAsContent";
-    DslElementSyntax anotherGroupedFieldDsl = getChildFieldDsl(groupedFieldAsContent, topDsl);
-    assertThat(topDsl.getAttribute(groupedFieldAsContent).isPresent(), is(false));
-    assertElementName(hyphenize(groupedFieldAsContent), anotherGroupedFieldDsl);
-    assertElementPrefix(PREFIX, anotherGroupedFieldDsl);
-    assertChildElementDeclarationIs(true, anotherGroupedFieldDsl);
-    assertIsWrappedElement(false, anotherGroupedFieldDsl);
-    assertNoAttributes(anotherGroupedFieldDsl);
-    assertNoChilds(anotherGroupedFieldDsl);
+    String groupedContent = "groupedContent";
+    assertThat(topDsl.getAttribute(groupedContent).isPresent(), is(true));
+    DslElementSyntax groupedFieldDsl = topDsl.getAttribute(groupedContent).get();
+    assertChildElementDeclarationIs(false, groupedFieldDsl);
+    assertIsWrappedElement(false, groupedFieldDsl);
+    assertAttributeDeclaration(true, groupedFieldDsl);
+    assertTopElementDeclarationIs(false, groupedFieldDsl);
   }
 
   private void assertSkippedGroupFields(DslElementSyntax topDsl) {

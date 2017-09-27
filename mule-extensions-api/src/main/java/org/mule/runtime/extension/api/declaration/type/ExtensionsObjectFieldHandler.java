@@ -23,7 +23,6 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.roleOf;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
@@ -63,7 +62,6 @@ import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeA
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.NullSafeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
@@ -297,7 +295,6 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     Optional<Content> contentAnnotation = ofNullable(field.getAnnotation(Content.class));
     Optional<org.mule.runtime.extension.api.annotation.param.Optional> optionalAnnotation =
         ofNullable(field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
-    fieldBuilder.with(new ParameterRoleAnnotation(roleOf(contentAnnotation)));
     fieldBuilder.required(true);
 
     contentAnnotation.ifPresent(content -> {

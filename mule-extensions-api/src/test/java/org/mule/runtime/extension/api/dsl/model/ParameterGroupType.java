@@ -18,5 +18,5 @@ public class ParameterGroupType {
 
   @Parameter
   @Content
-  private String anotherGroupedFieldAsContent;
+  private String groupedContent;
 }

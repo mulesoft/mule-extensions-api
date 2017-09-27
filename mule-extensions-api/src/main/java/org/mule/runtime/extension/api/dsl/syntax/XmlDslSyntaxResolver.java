@@ -22,7 +22,6 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportAt
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
@@ -776,7 +775,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                        declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(),
                                              fieldPrefix.get(), fieldNamespaceUri.get());
                      } else {
-                       if (isContent(field) || isText(field)) {
+                       if (isText(field)) {
                          fieldBuilder
                              .supportsAttributeDeclaration(false)
                              .supportsChildDeclaration(true)

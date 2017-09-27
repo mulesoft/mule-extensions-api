@@ -18,10 +18,10 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleType
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterRoleAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
+
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Collection;
@@ -44,7 +44,6 @@ public class ExtensionTypeAnnotationSerializerExtender implements TypeAnnotation
         .put(ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class)
         .put(FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class)
         .put(LayoutTypeAnnotation.NAME, LayoutTypeAnnotation.class)
-        .put(ParameterRoleAnnotation.NAME, ParameterRoleAnnotation.class)
         .put(DefaultImplementingTypeAnnotation.NAME, DefaultImplementingTypeAnnotation.class)
         .put(StereotypeTypeAnnotation.NAME, StereotypeTypeAnnotation.class)
         .put(QNameTypeAnnotation.NAME, QNameTypeAnnotation.class)

@@ -17,7 +17,6 @@ import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
-import org.mule.metadata.api.utils.MetadataTypeUtils;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -90,7 +89,6 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
 
           @Override
           public void visitObject(ObjectType objectType) {
-            validateNoContentField(objectType);
             validateNoMetadataField(objectType);
           }
 
@@ -102,21 +100,6 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
           @Override
           public void visitUnion(UnionType unionType) {
             unionType.getTypes().forEach(t -> t.accept(this));
-          }
-
-          void validateNoContentField(ObjectType objectType) {
-            final List<String> contentFields = objectType.getFields().stream()
-                .filter(ExtensionMetadataTypeUtils::isContent)
-                .map(MetadataTypeUtils::getLocalPart)
-                .collect(toList());
-
-            if (!contentFields.isEmpty()) {
-              problemsReporter.addError(new Problem(model, String
-                  .format("Parameter '%s' %s in group '%s' contains content fields: [%s]."
-                      + " Content fields are not allowed in complex types.",
-                          model.getName(), toString(objectType), groupModel.getName(),
-                          Joiner.on(", ").join(contentFields))));
-            }
           }
 
           private String toString(MetadataType type) {
