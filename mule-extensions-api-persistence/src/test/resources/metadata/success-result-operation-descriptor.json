@@ -47,7 +47,15 @@
         "namespace": "ERROR_NAMESPACE",
         "parent": {
           "type": "PARENT_ERROR_MODEL",
-          "namespace": "ERROR_NAMESPACE"
+          "namespace": "ERROR_NAMESPACE",
+          "parent": {
+            "type": "CONNECTIVITY",
+            "namespace": "MULE",
+            "parent": {
+              "type": "ANY",
+              "namespace": "MULE"
+            }
+          }
         }
       }
     ],

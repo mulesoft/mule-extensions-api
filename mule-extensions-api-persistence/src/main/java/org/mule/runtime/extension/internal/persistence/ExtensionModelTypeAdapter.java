@@ -9,6 +9,7 @@ package org.mule.runtime.extension.internal.persistence;
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
@@ -25,12 +26,18 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
-import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.util.HierarchyClassMap;
+
+import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -41,13 +48,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
-import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
@@ -77,16 +77,19 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String EXTERNAL_LIBRARIES = "externalLibraries";
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
-  private static final String ERRORS = "errors";
+  static final String ERRORS = "errors";
 
   private final Gson gsonDelegate;
   private final JsonMetadataTypeLoader typeLoader = new JsonMetadataTypeLoader();
   private final JsonMetadataTypeWriter typeWriter = new JsonMetadataTypeWriter();
   private final SerializationContext serializationContext;
+  private final ErrorModelSerializerDelegate errorModelDelegate;
 
-  public ExtensionModelTypeAdapter(Gson gsonDelegate, SerializationContext serializationContext) {
+  public ExtensionModelTypeAdapter(Gson gsonDelegate, SerializationContext serializationContext,
+                                   Map<String, ErrorModel> errorModelMap) {
     this.gsonDelegate = gsonDelegate;
     this.serializationContext = serializationContext;
+    this.errorModelDelegate = new ErrorModelSerializerDelegate(errorModelMap);
   }
 
   @Override
@@ -97,61 +100,28 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     out.name(DESCRIPTION).value(model.getDescription());
     out.name(VERSION).value(model.getVersion());
     out.name(VENDOR).value(model.getVendor());
-    writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {
 
-    });
-    writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {
-
-    });
-    writeWithDelegate(model.getResources(), RESOURCES, out, new TypeToken<Set<String>>() {
-
-    });
-    writeWithDelegate(model.getSubTypes(), SUB_TYPES, out, new TypeToken<Set<SubTypesModel>>() {
-
-    });
-
+    writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
+    writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {});
+    writeWithDelegate(model.getResources(), RESOURCES, out, new TypeToken<Set<String>>() {});
+    writeWithDelegate(model.getSubTypes(), SUB_TYPES, out, new TypeToken<Set<SubTypesModel>>() {});
     writeWithDelegate(model.getPrivilegedPackages(), PRIVILEGED_PACKAGES, out, new TypeToken<Set<String>>() {});
-
     writeWithDelegate(model.getPrivilegedArtifacts(), PRIVILEGED_ARTIFACTS, out, new TypeToken<Set<String>>() {});
-
-    writeWithDelegate(model.getExternalLibraryModels(), EXTERNAL_LIBRARIES, out, new TypeToken<Set<ExternalLibraryModel>>() {
-
-    });
+    writeWithDelegate(model.getExternalLibraryModels(), EXTERNAL_LIBRARIES, out, new TypeToken<Set<ExternalLibraryModel>>() {});
 
     writeImportedTypes(out, model.getImportedTypes());
 
-    writeWithDelegate(model.getDisplayModel().orElse(null), DISPLAY_MODEL, out, new TypeToken<DisplayModel>() {
-
-    });
-
-    writeWithDelegate(model.getConfigurationModels(), CONFIGURATIONS, out, new TypeToken<List<ConfigurationModel>>() {
-
-    });
-    writeWithDelegate(model.getOperationModels(), OPERATIONS, out, new TypeToken<List<OperationModel>>() {
-
-    });
-
-    writeWithDelegate(model.getFunctionModels(), FUNCTIONS, out, new TypeToken<List<FunctionModel>>() {
-
-    });
-
-    writeWithDelegate(model.getConstructModels(), CONSTRUCTS, out, new TypeToken<List<ConstructModel>>() {
-
-    });
-
+    writeWithDelegate(model.getDisplayModel().orElse(null), DISPLAY_MODEL, out, new TypeToken<DisplayModel>() {});
+    writeWithDelegate(model.getConfigurationModels(), CONFIGURATIONS, out, new TypeToken<List<ConfigurationModel>>() {});
+    writeWithDelegate(model.getOperationModels(), OPERATIONS, out, new TypeToken<List<OperationModel>>() {});
+    writeWithDelegate(model.getFunctionModels(), FUNCTIONS, out, new TypeToken<List<FunctionModel>>() {});
+    writeWithDelegate(model.getConstructModels(), CONSTRUCTS, out, new TypeToken<List<ConstructModel>>() {});
     writeWithDelegate(model.getConnectionProviders(), CONNECTION_PROVIDERS, out,
-                      new TypeToken<List<ConnectionProviderModel>>() {
+                      new TypeToken<List<ConnectionProviderModel>>() {});
+    writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {});
 
-                      });
-    writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {
-
-    });
-    writeWithDelegate(model.getErrorModels(), ERRORS, out, new TypeToken<Set<ErrorModel>>() {
-
-    });
-
+    errorModelDelegate.writeErrors(model.getErrorModels(), out);
     writeExtensionLevelModelProperties(out, model);
-
     writeTypes(TYPES, out, model.getTypes());
     out.endObject();
   }
@@ -161,43 +131,25 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
 
     Set<ObjectType> types = parseTypes(TYPES, json);
+
+    JsonArray errors = json.get(ERRORS).getAsJsonArray();
+
+    errorModelDelegate.parseErrors(errors);
+
     Set<ImportedTypeModel> importedTypes = parseImportedTypes(json);
-
-    Set<String> resources = parseWithDelegate(json, RESOURCES, new TypeToken<Set<String>>() {
-
-    });
-    Set<SubTypesModel> subTypes = parseWithDelegate(json, SUB_TYPES, new TypeToken<Set<SubTypesModel>>() {
-
-    });
-
+    Set<String> resources = parseWithDelegate(json, RESOURCES, new TypeToken<Set<String>>() {});
+    Set<SubTypesModel> subTypes = parseWithDelegate(json, SUB_TYPES, new TypeToken<Set<SubTypesModel>>() {});
     Set<String> privilegedPackages = parseWithDelegate(json, PRIVILEGED_PACKAGES, new TypeToken<Set<String>>() {});
     Set<String> privilegedArtifacts = parseWithDelegate(json, PRIVILEGED_ARTIFACTS, new TypeToken<Set<String>>() {});
-
     Set<ExternalLibraryModel> externalLibraries =
-        parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {
-
-        });
-
-    List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {
-
-    });
-    List<OperationModel> operations = parseWithDelegate(json, OPERATIONS, new TypeToken<List<OperationModel>>() {
-
-    });
+        parseWithDelegate(json, EXTERNAL_LIBRARIES, new TypeToken<Set<ExternalLibraryModel>>() {});
+    List<ConfigurationModel> configs = parseWithDelegate(json, CONFIGURATIONS, new TypeToken<List<ConfigurationModel>>() {});
+    List<OperationModel> operations = parseWithDelegate(json, OPERATIONS, new TypeToken<List<OperationModel>>() {});
     List<ConnectionProviderModel> providers =
-        parseWithDelegate(json, CONNECTION_PROVIDERS, new TypeToken<List<ConnectionProviderModel>>() {
-
-        });
-    List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {
-
-    });
-    List<FunctionModel> functions = parseWithDelegate(json, FUNCTIONS, new TypeToken<List<FunctionModel>>() {
-
-    });
-
-    List<ConstructModel> constructs = parseWithDelegate(json, CONSTRUCTS, new TypeToken<List<ConstructModel>>() {
-
-    });
+        parseWithDelegate(json, CONNECTION_PROVIDERS, new TypeToken<List<ConnectionProviderModel>>() {});
+    List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {});
+    List<FunctionModel> functions = parseWithDelegate(json, FUNCTIONS, new TypeToken<List<FunctionModel>>() {});
+    List<ConstructModel> constructs = parseWithDelegate(json, CONSTRUCTS, new TypeToken<List<ConstructModel>>() {});
 
     return new ImmutableExtensionModel(json.get(NAME).getAsString(),
                                        json.get(DESCRIPTION).getAsString(),
@@ -216,10 +168,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        types,
                                        resources,
                                        importedTypes,
-                                       gsonDelegate.fromJson(json.get("errors"),
-                                                             new TypeToken<Set<ImmutableErrorModel>>() {
-
-                                                             }.getType()),
+                                       errorModelDelegate.getErrors(errors),
                                        externalLibraries,
                                        privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json));
   }

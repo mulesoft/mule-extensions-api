@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Collections.emptySet;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
@@ -27,7 +28,6 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
-import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -48,6 +48,7 @@ import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 import org.mule.runtime.extension.internal.persistence.ConstructModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ElementDslModelTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.ErrorModelToIdentifierTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.FunctionModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ImportedTypesModelTypeAdapter;
@@ -60,16 +61,18 @@ import org.mule.runtime.extension.internal.persistence.SourceModelTypeAdapterFac
 import org.mule.runtime.extension.internal.persistence.SubTypesModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.XmlDslModelTypeAdapter;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Serializer that can convert a {@link ExtensionModel} into a readable and processable JSON representation and from a JSON
@@ -116,15 +119,16 @@ public class ExtensionModelJsonSerializer {
   private Gson buildGson() {
     final SerializationContext serializationContext = new SerializationContext();
 
-    Gson gsonDelegate = gsonBuilder(serializationContext, prettyPrint).create();
+    Map<String, ErrorModel> errorModelRepository = new HashMap<>();
+    Gson gsonDelegate = gsonBuilder(serializationContext, prettyPrint, errorModelRepository).create();
 
-    return gsonBuilder(serializationContext, prettyPrint)
+    return gsonBuilder(serializationContext, prettyPrint, errorModelRepository)
         .registerTypeAdapterFactory(new TypeAdapterFactory() {
 
           @Override
           public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
             if (ExtensionModel.class.isAssignableFrom(type.getRawType())) {
-              return (TypeAdapter<T>) new ExtensionModelTypeAdapter(gsonDelegate, serializationContext);
+              return (TypeAdapter<T>) new ExtensionModelTypeAdapter(gsonDelegate, serializationContext, errorModelRepository);
             }
 
             return null;
@@ -133,7 +137,8 @@ public class ExtensionModelJsonSerializer {
         .create();
   }
 
-  private GsonBuilder gsonBuilder(SerializationContext serializationContext, boolean prettyPrint) {
+  private GsonBuilder gsonBuilder(SerializationContext serializationContext, boolean prettyPrint,
+                                  Map<String, ErrorModel> errorModelRepository) {
     Set<String> registeredTypeIds = registeredTypes.stream()
         .map(ExtensionMetadataTypeUtils::getId)
         .filter(Optional::isPresent)
@@ -161,22 +166,20 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(ExclusiveParametersModel.class, ImmutableExclusiveParametersModel.class);
     final DefaultImplementationTypeAdapterFactory outputModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
-    final MuleVersionTypeAdapter muleVersionTypeAdapter = new MuleVersionTypeAdapter();
-    final DefaultImplementationTypeAdapterFactory<ErrorModel, ImmutableErrorModel> errorModelTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(ErrorModel.class, ImmutableErrorModel.class);
     final DefaultImplementationTypeAdapterFactory<StereotypeModel, ImmutableStereotypeModel> stereotypeModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
-        .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
-        .registerTypeAdapter(MuleVersion.class, muleVersionTypeAdapter)
+        .registerTypeAdapter(MuleVersion.class, new MuleVersionTypeAdapter())
         .registerTypeAdapter(ImportedTypeModel.class, new ImportedTypesModelTypeAdapter())
         .registerTypeAdapter(SubTypesModel.class, new SubTypesModelTypeAdapter(referenceHandler))
         .registerTypeAdapter(XmlDslModel.class, new XmlDslModelTypeAdapter())
         .registerTypeAdapter(ParameterDslConfiguration.class, new ElementDslModelTypeAdapter())
+        .registerTypeAdapter(ErrorModel.class, new ErrorModelToIdentifierTypeAdapter(errorModelRepository))
+        .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new SourceModelTypeAdapterFactory())
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
@@ -190,7 +193,6 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new FunctionModelTypeAdapterFactory())
         .registerTypeAdapterFactory(new NestableElementModelTypeAdapterFactory())
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
-        .registerTypeAdapterFactory(errorModelTypeAdapter)
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
         .registerTypeAdapterFactory(oauthGrantTypeAdapter);
 
