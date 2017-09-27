@@ -101,7 +101,7 @@ public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
   MuleErrors() {}
 
   @Override
-  public Optional<ErrorTypeDefinition<?>> getParent() {
+  public Optional<ErrorTypeDefinition<? extends Enum<?>>> getParent() {
     return ofNullable(parentError);
   }
 }
