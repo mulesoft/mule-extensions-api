@@ -14,11 +14,12 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 import org.mule.runtime.api.meta.DescribedObject;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import com.google.common.collect.ImmutableList;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ import java.util.Set;
 public abstract class AbstractImmutableModel implements DescribedObject, EnrichableModel {
 
   protected String description;
-  protected final HierarchyClassMap<ModelProperty> modelProperties = new HierarchyClassMap<>();
+  protected final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
 
   protected static void checkArgument(boolean condition, String message) {
     if (!condition) {
