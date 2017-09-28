@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.model.connection;
 
+import static java.util.Collections.unmodifiableSet;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
@@ -15,7 +16,6 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractStereotypedModel;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -28,23 +28,26 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
 
   private final ConnectionManagementType connectionManagementType;
   private final Set<ExternalLibraryModel> externalLibraryModels;
+  private final boolean supportsConnectivityTesting;
 
   /**
    * Creates a new instance with the given state
    *
-   * @param name                     the provider's name
-   * @param description              the provider's description
-   * @param parameterGroupModels     a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
-   * @param connectionManagementType the type of connection management that the provider performs
-   * @param externalLibraryModels    a {@link Set} with the provider's {@link ExternalLibraryModel external libraries}
-   * @param displayModel             a model which contains directive about how this provider is displayed in the UI
-   * @param modelProperties          A {@link Set} of custom properties which extend this model
+   * @param name                        the provider's name
+   * @param description                 the provider's description
+   * @param parameterGroupModels        a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
+   * @param connectionManagementType    the type of connection management that the provider performs
+   * @param supportsConnectivityTesting whether this provider supports connectivity testing or not
+   * @param externalLibraryModels       a {@link Set} with the provider's {@link ExternalLibraryModel external libraries}
+   * @param displayModel                a model which contains directive about how this provider is displayed in the UI
+   * @param modelProperties             A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType} are {@code null}
    */
   public ImmutableConnectionProviderModel(String name,
                                           String description,
                                           List<ParameterGroupModel> parameterGroupModels,
                                           ConnectionManagementType connectionManagementType,
+                                          boolean supportsConnectivityTesting,
                                           Set<ExternalLibraryModel> externalLibraryModels,
                                           DisplayModel displayModel,
                                           StereotypeModel stereotype,
@@ -52,7 +55,8 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
     super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
-    this.externalLibraryModels = Collections.unmodifiableSet(externalLibraryModels);
+    this.externalLibraryModels = unmodifiableSet(externalLibraryModels);
+    this.supportsConnectivityTesting = supportsConnectivityTesting;
   }
 
   /**
@@ -71,4 +75,11 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
     return externalLibraryModels;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean supportsConnectivityTesting() {
+    return supportsConnectivityTesting;
+  }
 }

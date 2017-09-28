@@ -459,6 +459,7 @@ public final class ExtensionModelFactory {
                                                                   declaration.getDescription(),
                                                                   toParameterGroups(declaration.getParameterGroups()),
                                                                   declaration.getConnectionManagementType(),
+                                                                  declaration.isSupportsConnectivityTesting(),
                                                                   declaration.getExternalLibraryModels(),
                                                                   declaration.getDisplayModel(),
                                                                   declaration.getStereotype(),
