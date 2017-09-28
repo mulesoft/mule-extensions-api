@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.dsl.syntax;
 
 import static com.google.common.collect.ImmutableList.copyOf;
+import static com.google.common.collect.ImmutableMap.copyOf;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -213,6 +214,13 @@ public class DslElementSyntax {
    */
   public List<DslElementSyntax> getContainedElements() {
     return copyOf(containedElements.values());
+  }
+
+  /**
+   * @return the {@link DslElementSyntax dsl} of all the contained elements of this element
+   */
+  public Map<String, DslElementSyntax> getContainedElementsByName() {
+    return copyOf(containedElements);
   }
 
   @Override
