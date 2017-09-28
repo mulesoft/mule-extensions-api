@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * The output value's mimeType will be automatically set to it. Plus, depending on the value of {@link #strict()},
  * the runtime may also add synthetic parameters to allow the user to specify a different one.
  *
- * Operations of sources which return {@link String} or {@link InputStream} and do not carry this annotation
+ * Operations or sources which return {@link String} or {@link InputStream} and do not carry this annotation
  * will fail to compile.
  *
  * For convenience, this class also defines a set of constants with the most common mime types.
