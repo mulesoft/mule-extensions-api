@@ -903,6 +903,7 @@
             "optional": false
           }
         ],
+        "supportsConnectivityTesting": true,
         "stereotype": {
           "type": "CONNECTION",
           "namespace": "MULE"
@@ -2854,6 +2855,7 @@
             "optional": false
           }
         ],
+        "supportsConnectivityTesting": true,
         "stereotype": {
           "type": "CONNECTION",
           "namespace": "MULE"

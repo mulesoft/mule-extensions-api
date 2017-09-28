@@ -19,7 +19,6 @@ import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.EXTE
 import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.LISTENER_CONFIG_DESCRIPTION;
 import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.LISTENER_CONFIG_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.LISTEN_MESSAGE_SOURCE;
-import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.MIN_MULE_VERSION;
 import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.PATH;
 import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.PORT;
 import static org.mule.runtime.api.meta.model.tck.TestHttpConnectorDeclarer.REQUESTER_CONFIG_DESCRIPTION;
@@ -127,6 +126,7 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
   public void connectionProvider() {
     ConnectionProviderDeclaration provider = extensionDeclaration.getConfigurations().get(1).getConnectionProviders().get(0);
     assertThat(provider.getName(), is(REQUESTER_PROVIDER));
+    assertThat(provider.isSupportsConnectivityTesting(), is(false));
   }
 
   @Test

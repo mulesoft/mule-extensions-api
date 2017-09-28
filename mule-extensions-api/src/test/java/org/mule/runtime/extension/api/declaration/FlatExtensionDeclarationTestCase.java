@@ -136,6 +136,7 @@ public class FlatExtensionDeclarationTestCase extends BaseDeclarationTestCase {
     assertThat(connectionProvider, is(notNullValue()));
     assertThat(connectionProvider.getName(), is(CONNECTION_PROVIDER_NAME));
     assertThat(connectionProvider.getDescription(), is(CONNECTION_PROVIDER_DESCRIPTION));
+    assertThat(connectionProvider.isSupportsConnectivityTesting(), is(true));
     assertExternalLibraries(connectionProvider.getExternalLibraryModels());
 
     List<ParameterDeclaration> parameters = assertGroupAndGetParameters(connectionProvider, CONNECTION_PROVIDER_PARAMETER_GROUP);
