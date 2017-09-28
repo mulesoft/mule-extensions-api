@@ -27,7 +27,10 @@ import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -325,6 +328,28 @@ public class NameUtils {
 
     throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s, %s]",
                                               component.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE,
+                                              SOURCE_CALLBACK));
+  }
+
+  public static String getDeclarationTypeName(ParameterizedDeclaration declaration) {
+    if (declaration instanceof OperationDeclaration) {
+      return OPERATION;
+    } else if (declaration instanceof ConfigurationDeclaration) {
+      return CONFIGURATION;
+    } else if (declaration instanceof ConnectionProviderDeclaration) {
+      return CONNECTION_PROVIDER;
+    } else if (declaration instanceof SourceDeclaration) {
+      return SOURCE;
+    } else if (declaration instanceof FunctionDeclaration) {
+      return FUNCTION;
+    } else if (declaration instanceof ConstructDeclaration) {
+      return CONSTRUCT;
+    } else if (declaration instanceof SourceCallbackDeclaration) {
+      return SOURCE_CALLBACK;
+    }
+
+    throw new IllegalArgumentException(format("Declaration '%s' is not an instance of any known model type [%s, %s, %s, %s, %s]",
+                                              declaration.toString(), CONFIGURATION, CONNECTION_PROVIDER, OPERATION, SOURCE,
                                               SOURCE_CALLBACK));
   }
 
