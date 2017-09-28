@@ -158,7 +158,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         }
         if (component instanceof HasConnectionProviderModels) {
           ((HasConnectionProviderModels) component).getConnectionProviders()
-              .forEach(c -> dsl.containing(elementName, resolve(c)));
+              .forEach(c -> dsl.containing(c.getName(), resolve(c)));
         }
       }
       return dsl.build();
