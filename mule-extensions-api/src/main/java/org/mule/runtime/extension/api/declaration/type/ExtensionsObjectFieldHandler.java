@@ -142,8 +142,11 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   private void processParameterGroup(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     if (field.getAnnotation(ParameterGroup.class) != null) {
       fieldBuilder.with(new FlattenedTypeAnnotation());
+      processExclusiveOptionals(field, fieldBuilder);
     }
+  }
 
+  private void processExclusiveOptionals(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     ExclusiveOptionals exclusiveOptionals = field.getType().getAnnotation(ExclusiveOptionals.class);
     if (exclusiveOptionals != null) {
       Set<String> exclusiveParameters = getParameterFields(field.getType()).stream()
