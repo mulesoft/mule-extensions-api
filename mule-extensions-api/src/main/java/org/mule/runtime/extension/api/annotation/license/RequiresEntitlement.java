@@ -34,7 +34,7 @@ public @interface RequiresEntitlement {
   /**
    * @return identifier of the required entitlement in the license
    */
-  String name() default "";
+  String name();
 
   /**
    * @return a description for the entitlement.
