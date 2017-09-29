@@ -13,6 +13,7 @@ import org.mule.runtime.api.meta.model.stereotype.ImmutableStereotypeModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.declaration.type.ExtensionObjectTypeHandler;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultImplementingTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExclusiveOptionalsTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
@@ -43,6 +44,7 @@ public class ExtensionTypeAnnotationSerializerExtender implements TypeAnnotation
         .put(ExtensibleTypeAnnotation.NAME, ExtensibleTypeAnnotation.class)
         .put(ExpressionSupportAnnotation.NAME, ExpressionSupportAnnotation.class)
         .put(FlattenedTypeAnnotation.NAME, FlattenedTypeAnnotation.class)
+        .put(ExclusiveOptionalsTypeAnnotation.NAME, ExclusiveOptionalsTypeAnnotation.class)
         .put(LayoutTypeAnnotation.NAME, LayoutTypeAnnotation.class)
         .put(DefaultImplementingTypeAnnotation.NAME, DefaultImplementingTypeAnnotation.class)
         .put(StereotypeTypeAnnotation.NAME, StereotypeTypeAnnotation.class)

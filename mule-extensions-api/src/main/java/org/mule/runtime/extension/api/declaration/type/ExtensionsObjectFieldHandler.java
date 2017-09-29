@@ -35,11 +35,13 @@ import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
+import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.ConfigReferences;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
 import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.annotation.param.Content;
+import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
@@ -57,6 +59,7 @@ import org.mule.runtime.extension.api.annotation.param.reference.ObjectStoreRefe
 import org.mule.runtime.extension.api.declaration.type.annotation.ConfigOverrideTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DefaultImplementingTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExclusiveOptionalsTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
@@ -71,8 +74,11 @@ import java.beans.Introspector;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -136,6 +142,15 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   private void processParameterGroup(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     if (field.getAnnotation(ParameterGroup.class) != null) {
       fieldBuilder.with(new FlattenedTypeAnnotation());
+    }
+
+    ExclusiveOptionals exclusiveOptionals = field.getType().getAnnotation(ExclusiveOptionals.class);
+    if (exclusiveOptionals != null) {
+      Set<String> exclusiveParameters = getParameterFields(field.getType()).stream()
+          .filter(f -> f.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class))
+          .map(f -> f.getAnnotation(Alias.class) != null ? f.getAnnotation(Alias.class).value() : f.getName())
+          .collect(Collectors.toCollection(LinkedHashSet::new));
+      fieldBuilder.with(new ExclusiveOptionalsTypeAnnotation(exclusiveParameters, exclusiveOptionals.isOneRequired()));
     }
   }
 
