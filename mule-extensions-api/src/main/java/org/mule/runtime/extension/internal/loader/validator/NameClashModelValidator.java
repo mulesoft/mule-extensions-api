@@ -450,7 +450,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       MultiMap<NamedObject, ParameterModel> parametersMap = new MultiMap<>();
       groups.forEach(group -> {
         NamedObject parameterContainer = group.isShowInDsl() ? group : model;
-        group.getParameterModels()
+        filterContentParameters(group.getParameterModels())
             .forEach(parameter -> parametersMap.put(parameterContainer, parameter));
       });
       parametersMap.keySet()
