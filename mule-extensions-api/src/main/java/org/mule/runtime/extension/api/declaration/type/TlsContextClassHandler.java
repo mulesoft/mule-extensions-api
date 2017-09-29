@@ -11,7 +11,9 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_KEY_STORE_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_PREFIX;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_TRUST_STORE_ELEMENT_IDENTIFIER;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -105,7 +107,9 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField()
         .with(new ParameterDslAnnotation(true, false))
         .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
-        .key("trust-store").required(false).value(trustStoreType);
+        .key(TLS_TRUST_STORE_ELEMENT_IDENTIFIER)
+        .required(false)
+        .value(trustStoreType);
   }
 
   private TypeBuilder<StringType> getStoreMetadataType(BaseTypeBuilder typeBuilder) {
@@ -134,7 +138,9 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField()
         .with(new ParameterDslAnnotation(true, false))
         .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
-        .key("key-store").required(false).value(keyStoreType);
+        .key(TLS_KEY_STORE_ELEMENT_IDENTIFIER)
+        .required(false)
+        .value(keyStoreType);
   }
 
   private DisplayTypeAnnotation filePathDisplayModel() {
