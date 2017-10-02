@@ -17,8 +17,8 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
-import org.mule.runtime.extension.internal.property.QNameModelProperty;
+import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.QNameModelProperty;
 
 import com.google.common.collect.ImmutableSet;
 

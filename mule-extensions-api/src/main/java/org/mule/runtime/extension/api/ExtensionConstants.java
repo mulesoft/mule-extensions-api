@@ -14,7 +14,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.time.Time;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.api.util.DataUnit;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.util.List;
 

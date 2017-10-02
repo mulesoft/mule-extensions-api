@@ -68,7 +68,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnot
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
-import org.mule.runtime.extension.internal.property.QNameModelProperty;
+import org.mule.runtime.extension.api.property.QNameModelProperty;
 
 import com.google.common.collect.ImmutableSet;
 

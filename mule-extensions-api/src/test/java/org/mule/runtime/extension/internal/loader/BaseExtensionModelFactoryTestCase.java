@@ -26,7 +26,7 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
