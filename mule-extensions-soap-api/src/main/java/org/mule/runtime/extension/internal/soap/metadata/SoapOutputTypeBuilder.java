@@ -6,6 +6,9 @@
  */
 package org.mule.runtime.extension.internal.soap.metadata;
 
+import static org.mule.runtime.extension.api.soap.MetadataConstants.ATTACHMENTS_FIELD;
+import static org.mule.runtime.extension.api.soap.MetadataConstants.BODY_FIELD;
+import static org.mule.runtime.extension.api.soap.MetadataConstants.HEADERS_FIELD;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
@@ -17,10 +20,6 @@ import org.mule.metadata.api.model.NullType;
  * @since 1.0
  */
 public class SoapOutputTypeBuilder {
-
-  public final static String BODY_FIELD = "body";
-  public final static String HEADERS_FIELD = "headers";
-  public final static String ATTACHMENTS_FIELD = "attachments";
 
   public static MetadataType buildOutputType(MetadataType body, MetadataType headers,
                                              MetadataType attachments, BaseTypeBuilder builder) {
