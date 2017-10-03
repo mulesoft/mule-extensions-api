@@ -46,7 +46,7 @@ import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Collection;

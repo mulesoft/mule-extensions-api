@@ -41,8 +41,8 @@ import org.mule.runtime.extension.api.declaration.type.DynamicConfigExpirationTy
 import org.mule.runtime.extension.api.declaration.type.PoolingProfileTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
-import org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty;
-import org.mule.runtime.extension.internal.property.QNameModelProperty;
+import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.QNameModelProperty;
 
 import javax.xml.namespace.QName;
 
