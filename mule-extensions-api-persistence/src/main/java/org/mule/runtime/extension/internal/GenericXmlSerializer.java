@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.internal;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+import org.mule.apache.xml.serialize.OutputFormat;
+import org.mule.apache.xml.serialize.XMLSerializer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
