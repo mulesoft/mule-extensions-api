@@ -7,9 +7,11 @@
 package org.mule.runtime.extension.internal.property;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.extension.api.ExtensionConstants;
 
 /**
- * Marker {@link ModelProperty} for <module/>s to determine the <reconnection/> element must not be added.
+ * Marker {@link ModelProperty} for XML modules to determine the {@link ExtensionConstants#RECONNECTION_CONFIG_PARAMETER_NAME}
+ * element must not be added.
  *
  * @since 1.0
  */
