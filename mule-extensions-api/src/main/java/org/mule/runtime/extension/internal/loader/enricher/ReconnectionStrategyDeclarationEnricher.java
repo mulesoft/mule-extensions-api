@@ -7,11 +7,14 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionStrategyParameter;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
 
 /**
  * A {@link DeclarationEnricher} which adds the following to all {@link SourceDeclaration}:
@@ -26,19 +29,27 @@ public final class ReconnectionStrategyDeclarationEnricher implements Declaratio
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new IdempotentDeclarationWalker() {
+    final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+    if (!declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent()) {
 
-      @Override
-      protected void onSource(SourceDeclaration declaration) {
-        addReconnectionStrategyParameter(declaration);
-      }
+      new IdempotentDeclarationWalker() {
 
-      @Override
-      protected void onOperation(OperationDeclaration declaration) {
-        if (declaration.isRequiresConnection()) {
-          addReconnectionStrategyParameter(declaration);
+        @Override
+        protected void onSource(SourceDeclaration declaration) {
+          addReconnectionIfRequired(declaration);
         }
-      }
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+
+        @Override
+        protected void onOperation(OperationDeclaration declaration) {
+          addReconnectionIfRequired(declaration);
+        }
+
+        private void addReconnectionIfRequired(ExecutableComponentDeclaration declaration) {
+          if (declaration.isRequiresConnection()) {
+            addReconnectionStrategyParameter(declaration);
+          }
+        }
+      }.walk(declaration);
+    }
   }
 }
