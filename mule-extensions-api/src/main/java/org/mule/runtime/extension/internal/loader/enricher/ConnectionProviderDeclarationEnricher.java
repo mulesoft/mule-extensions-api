@@ -12,9 +12,11 @@ import static org.mule.runtime.extension.internal.loader.util.InfrastructurePara
 import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
 
 /**
  * Enriches all the {@link ConnectionProviderDeclaration} by adding language rules parameters.
@@ -34,18 +36,21 @@ public class ConnectionProviderDeclarationEnricher implements DeclarationEnriche
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new IdempotentDeclarationWalker() {
+    final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+    if (!declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent()) {
+      new IdempotentDeclarationWalker() {
 
-      @Override
-      protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
-        addReconnectionConfigParameter(declaration);
-        ConnectionManagementType managementType = declaration.getConnectionManagementType();
+        @Override
+        protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
+          addReconnectionConfigParameter(declaration);
+          ConnectionManagementType managementType = declaration.getConnectionManagementType();
 
-        if (managementType == POOLING) {
-          addPoolingProfileParameter(declaration);
+          if (managementType == POOLING) {
+            addPoolingProfileParameter(declaration);
+          }
         }
-      }
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+      }.walk(declaration);
+    }
   }
 
 }
