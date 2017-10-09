@@ -13,8 +13,8 @@ import org.mule.runtime.api.metadata.MediaType;
 import java.util.Optional;
 
 /**
- * Represents the result of an operation execution. Extensions can use this class
- * for cases in which the operation not only needs to return a value to be set
+ * Represents the result of a component's execution. Extensions can use this class
+ * for cases in which the component not only needs to return a value to be set
  * on the message payload but also wants to specify message attributes and/or
  * {@link MediaType}.
  * <p>
