@@ -85,8 +85,8 @@ import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ReconnectionStrategyDeclarationEnricher;
@@ -101,7 +101,6 @@ import org.mule.runtime.extension.internal.loader.validator.FunctionModelValidat
 import org.mule.runtime.extension.internal.loader.validator.NameClashModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.OperationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
-import org.mule.runtime.extension.internal.loader.validator.SourceCallbacksModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
@@ -165,7 +164,6 @@ public final class ExtensionModelFactory {
                                                        new FunctionModelValidator(),
                                                        new ParameterModelValidator(),
                                                        new SubtypesModelValidator(),
-                                                       new SourceCallbacksModelValidator(),
                                                        new TransactionalParametersValidator(),
                                                        new ValidatorModelValidator()));
   }
