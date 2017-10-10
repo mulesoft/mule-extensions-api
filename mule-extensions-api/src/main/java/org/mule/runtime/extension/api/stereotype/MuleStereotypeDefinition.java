@@ -13,8 +13,10 @@ package org.mule.runtime.extension.api.stereotype;
  */
 public abstract class MuleStereotypeDefinition implements StereotypeDefinition {
 
+  public static final String NAMESPACE = "MULE";
+
   @Override
   public final String getNamespace() {
-    return "MULE";
+    return NAMESPACE;
   }
 }
