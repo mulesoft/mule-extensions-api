@@ -33,6 +33,6 @@ public class ConfigOverrideTypeAnnotation implements TypeAnnotation {
    */
   @Override
   public boolean isPublic() {
-    return true;
+    return false;
   }
 }
