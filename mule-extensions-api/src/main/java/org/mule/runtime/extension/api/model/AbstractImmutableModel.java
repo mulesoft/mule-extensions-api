@@ -18,10 +18,10 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import com.google.common.collect.ImmutableList;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,7 +34,7 @@ import java.util.Set;
 public abstract class AbstractImmutableModel implements DescribedObject, EnrichableModel {
 
   protected String description;
-  protected final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new HashMap<>();
+  protected final Map<Class<? extends ModelProperty>, ModelProperty> modelProperties = new LinkedHashMap<>();
 
   protected static void checkArgument(boolean condition, String message) {
     if (!condition) {
