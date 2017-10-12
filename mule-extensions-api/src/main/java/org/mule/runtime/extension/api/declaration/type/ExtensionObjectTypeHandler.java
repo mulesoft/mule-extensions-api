@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static java.lang.String.format;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -25,7 +26,6 @@ import org.mule.runtime.extension.api.annotation.param.stereotype.Stereotype;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
@@ -34,6 +34,7 @@ import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 import com.google.common.collect.ImmutableMap;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -102,7 +103,7 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
 
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
       if (stereotype != null) {
-        annotatedBuilder.with(new StereotypeTypeAnnotation(stereotype.value()));
+        annotatedBuilder.with(fromDefinitions(Arrays.asList(stereotype.value())));
       }
     }
     return typeBuilder;

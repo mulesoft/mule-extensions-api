@@ -13,6 +13,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.VALIDATOR;
 import org.mule.metadata.api.model.StringType;
@@ -21,7 +22,6 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.api.meta.model.stereotype.ImmutableStereotypeModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.error.MuleErrors;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
@@ -68,12 +68,14 @@ public class ValidatorModelValidatorTestCase {
   @Before
   public void before() {
     MockitoAnnotations.initMocks(this);
-    StereotypeModel validationStereotype = new ImmutableStereotypeModel(VALIDATOR.getName(), VALIDATOR.getNamespace(),
-                                                                        new ImmutableStereotypeModel(PROCESSOR.getName(),
-                                                                                                     PROCESSOR.getNamespace(),
-                                                                                                     null));
+    StereotypeModel validationStereotype = newStereotype(VALIDATOR.getName(), VALIDATOR.getNamespace())
+        .withParent(newStereotype(PROCESSOR.getName(), PROCESSOR.getNamespace()).build())
+        .build();
+
     if (childStereotype) {
-      validationStereotype = new ImmutableStereotypeModel("customValidator", "customExtension", validationStereotype);
+      validationStereotype = newStereotype("customValidator", "customExtension")
+          .withParent(validationStereotype)
+          .build();
     }
 
     when(operationModel.getStereotype()).thenReturn(validationStereotype);
