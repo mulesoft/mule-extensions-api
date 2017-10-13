@@ -12,6 +12,8 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -23,40 +25,47 @@ import java.util.function.Function;
 public class StereotypeTypeAnnotation implements TypeAnnotation {
 
   public static final String NAME = "stereotype";
-  private StereotypeModel stereotypeModel;
-  private transient Class<? extends StereotypeDefinition> definitionClass;
+  private List<StereotypeModel> allowedStereotypes;
+  private transient List<Class<? extends StereotypeDefinition>> definitionClasses;
 
   /**
-   * Creates a new instance which only holds a reference to the type class. That class is to later
-   * be resolved into a {@link StereotypeModel} through an invokation to the
-   * @param definitionClass
+   * Creates a new instance which only holds a reference to the {@code definitionClasses}.
+   *
+   * Those classes are to later be resolved into {@link StereotypeModel} instances through an invokation to the
+   * {@link #resolveStereotypes(Function)} method
+   *
+   * @param definitionClasses stereotype definitions
    */
-  public StereotypeTypeAnnotation(Class<? extends StereotypeDefinition> definitionClass) {
-    this.definitionClass = definitionClass;
+  public static StereotypeTypeAnnotation fromDefinitions(List<Class<? extends StereotypeDefinition>> definitionClasses) {
+    StereotypeTypeAnnotation annotation = new StereotypeTypeAnnotation(new ArrayList<>(definitionClasses.size()));
+    annotation.definitionClasses = definitionClasses;
+
+    return annotation;
   }
 
   /**
    * Creates a new instance
    *
-   * @param stereotypeModel the reference to be communicated
+   * @param allowedStereotypes the stereotypes models
    */
-  public StereotypeTypeAnnotation(StereotypeModel stereotypeModel) {
-    this.stereotypeModel = stereotypeModel;
+  public StereotypeTypeAnnotation(List<StereotypeModel> allowedStereotypes) {
+    this.allowedStereotypes = allowedStereotypes;
   }
 
   /**
-   * @return An {@link StereotypeModel}
+   * @return The allowed {@link StereotypeModel stereotypes}
    */
-  public StereotypeModel getStereotypeModel() {
-    checkState(stereotypeModel != null, "The stereotypeModel has not yet been resolved");
-    return stereotypeModel;
+  public List<StereotypeModel> getAllowedStereotypes() {
+    return allowedStereotypes;
   }
 
-  public void resolveStereotype(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
-    checkState(stereotypeModel == null, "The stereotypeModel has already been resolved or provided");
+  public void resolveStereotypes(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
+    checkState(allowedStereotypes.isEmpty(), "The stereotypes have already been resolved or provided");
+    for (int i = 0; i < definitionClasses.size(); i++) {
+      allowedStereotypes.set(i, resolver.apply(definitionClasses.get(i)));
+    }
 
-    stereotypeModel = resolver.apply(definitionClass);
-    definitionClass = null;
+    definitionClasses = null;
   }
 
   /**

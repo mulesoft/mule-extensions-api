@@ -10,6 +10,7 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.Arrays.stream;
+import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
@@ -279,25 +280,25 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     ConfigReferences references = field.getAnnotation(ConfigReferences.class);
     if (references != null) {
       stream(references.value())
-          .map(ref -> new StereotypeTypeAnnotation(newStereotype(ref.name(), ref.namespace())
+          .map(ref -> new StereotypeTypeAnnotation(singletonList(newStereotype(ref.name(), ref.namespace())
               .withParent(CONFIG)
-              .build()))
+              .build())))
           .forEach(fieldBuilder::with);
     }
 
     ConfigReference ref = field.getAnnotation(ConfigReference.class);
     if (ref != null) {
-      fieldBuilder.with(new StereotypeTypeAnnotation(newStereotype(ref.name(), ref.namespace())
+      fieldBuilder.with(new StereotypeTypeAnnotation(singletonList(newStereotype(ref.name(), ref.namespace())
           .withParent(CONFIG)
-          .build()));
+          .build())));
     }
 
     if (field.getAnnotation(FlowReference.class) != null) {
-      fieldBuilder.with(new StereotypeTypeAnnotation(FLOW));
+      fieldBuilder.with(new StereotypeTypeAnnotation(singletonList(FLOW)));
     }
 
     if (field.getAnnotation(ObjectStoreReference.class) != null) {
-      fieldBuilder.with(new StereotypeTypeAnnotation(OBJECT_STORE));
+      fieldBuilder.with(new StereotypeTypeAnnotation(singletonList(OBJECT_STORE)));
     }
   }
 
