@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import static java.util.Collections.singletonList;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
@@ -62,7 +63,7 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
                    null);
 
     objectType.addField()
-        .with(new StereotypeTypeAnnotation(OBJECT_STORE))
+        .with(new StereotypeTypeAnnotation(singletonList(OBJECT_STORE)))
         .description("The object store where the redelivery counter for each message is going to be stored.")
         .key(OBJECT_STORE_REF)
         .value(ExtensionsTypeLoaderFactory.getDefault().createTypeLoader().load(ObjectStore.class));

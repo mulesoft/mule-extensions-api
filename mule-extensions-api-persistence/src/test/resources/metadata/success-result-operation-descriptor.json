@@ -640,8 +640,8 @@
             },
             "allowedStereotypeModels": [
               {
-                "type": "config",
-                "namespace": "test",
+                "type": "CONFIG",
+                "namespace": "TEST",
                 "parent": {
                   "type": "MODULE_CONFIG",
                   "namespace": "MULE"

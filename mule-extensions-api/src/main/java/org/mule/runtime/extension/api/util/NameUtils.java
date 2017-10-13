@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.util;
 import static java.lang.String.format;
 import static java.util.Collections.sort;
 import static java.util.Comparator.comparing;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -43,16 +42,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 
 /**
- * Utilities for manipulating names of supported by the DSL. Mostly for validating the configuration content.
+ * Extends {@link org.mule.runtime.api.util.NameUtils} with extensions oriented behavior
  *
  * @since 1.0
  */
-public class NameUtils {
+public class NameUtils extends org.mule.runtime.api.util.NameUtils {
 
   public static final String CONFIGURATION = "configuration";
   public static final String OPERATION = "operation";
@@ -160,29 +158,6 @@ public class NameUtils {
     uncountable.add(word);
   }
 
-  /**
-   * Transforms a camel case value into a hyphenizedone.
-   * <p>
-   * For example:
-   * {@code messageProcessor} would be transformed to {@code message-processor}
-   *
-   * @param camelCaseName a {@link String} in camel case form
-   * @return the {@code camelCaseName} in hypenized form
-   */
-  public static String hyphenize(String camelCaseName) {
-    if (isBlank(camelCaseName)) {
-      return camelCaseName;
-    }
-
-    StringBuilder result = new StringBuilder();
-    String[] parts = camelCaseName.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
-
-    for (int i = 0; i < parts.length; i++) {
-      result.append(parts[i].trim().toLowerCase() + (i < parts.length - 1 ? "-" : ""));
-    }
-
-    return result.toString();
-  }
 
   /**
    * Return the pluralized version of a word.
@@ -393,26 +368,6 @@ public class NameUtils {
 
     sort(list, comparing(NamedObject::getName));
     return list;
-  }
-
-  /**
-   * Removes everything that's not a word, a dot nor a hyphen
-   *
-   * @param originalName name that needs the removal of invalid characters
-   * @return name without invalid characters
-   */
-  public static String sanitizeName(String originalName) {
-    return originalName.replaceAll("[^\\w|\\.\\-]", EMPTY);
-  }
-
-  /**
-   * Removes everything that's not a word, a dot nor a hyphen
-   *
-   * @param originalName name that needs the removal of invalid characters
-   * @return name without invalid characters or an empty string if {@core originalName} was empty
-   */
-  public static String sanitizeName(Optional<String> originalName) {
-    return originalName.map(name -> sanitizeName(name)).orElse(EMPTY);
   }
 
   private static class Inflection {

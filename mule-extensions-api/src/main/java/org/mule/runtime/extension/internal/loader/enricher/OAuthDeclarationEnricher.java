@@ -139,7 +139,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                            "A reference to a <http:listener-config /> to be used in order to create the "
                                                                + "listener that will catch the access token callback endpoint.",
                                                            true, stringType, NOT_SUPPORTED, null);
-      listenerConfig.setAllowedStereotypeModels(singletonList(newStereotype("listener-config", "http")
+      listenerConfig.setAllowedStereotypeModels(singletonList(newStereotype("LISTENER_CONFIG", "HTTP")
           .withParent(CONFIG)
           .build()));
       params.add(listenerConfig);
