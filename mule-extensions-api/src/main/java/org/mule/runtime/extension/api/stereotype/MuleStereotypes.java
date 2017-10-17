@@ -29,15 +29,11 @@ public final class MuleStereotypes {
   public static final StereotypeDefinition OBJECT_STORE_DEFINITION = new ObjectStoreStereotype();
   public static final StereotypeDefinition FLOW_DEFINITION = new FlowStereotype();
   public static final StereotypeDefinition ERROR_HANDLER_DEFINITION = new ErrorHandlerStereotype();
-  public static final StereotypeDefinition ROUTER_DEFINITION = new RouterStereotype();
-  public static final StereotypeDefinition SCOPE_DEFINITION = new ScopeStereotype();
 
   public static final StereotypeModel CONFIG = newStereotype(CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel APP_CONFIG = newStereotype(APP_CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel CONNECTION = newStereotype(CONNECTION_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel PROCESSOR = newStereotype(PROCESSOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel ROUTER = newStereotype(ROUTER_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel SCOPE = newStereotype(SCOPE_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel SOURCE = newStereotype(SOURCE_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel VALIDATOR = newStereotype(VALIDATOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE)
       .withParent(PROCESSOR).build();
