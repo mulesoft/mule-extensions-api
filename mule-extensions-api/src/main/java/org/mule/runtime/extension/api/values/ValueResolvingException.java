@@ -23,6 +23,7 @@ public class ValueResolvingException extends MuleException {
   public final static String CONNECTION_FAILURE = "CONNECTION_FAILURE";
   public final static String INVALID_LOCATION = "INVALID_LOCATION";
   public final static String NOT_VALUE_PROVIDER_ENABLED = "NOT_VALUE_PROVIDER_ENABLED";
+  public final static String MISSING_REQUIRED_PARAMETERS = "MISSING_REQUIRED_PARAMETERS";
 
   private String failureCode = UNKNOWN;
 
