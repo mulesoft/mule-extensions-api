@@ -1747,6 +1747,13 @@
   ],
   "errors": [
     {
+      "error": "MULE:CONNECTIVITY",
+      "parent": "MULE:ANY"
+    },
+    {
+      "error": "MULE:ANY"
+    },
+    {
       "error": "ERROR_NAMESPACE:SOME_ERROR",
       "parent": "ERROR_NAMESPACE:PARENT_ERROR_MODEL"
     },

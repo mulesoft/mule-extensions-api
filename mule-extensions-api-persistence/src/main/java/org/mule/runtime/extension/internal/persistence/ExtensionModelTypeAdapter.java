@@ -33,6 +33,7 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -134,7 +135,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
     JsonArray errors = json.get(ERRORS).getAsJsonArray();
 
-    errorModelDelegate.parseErrors(errors);
+    Map<String, ErrorModel> parsedErrors = errorModelDelegate.parseErrors(errors);
 
     Set<ImportedTypeModel> importedTypes = parseImportedTypes(json);
     Set<String> resources = parseWithDelegate(json, RESOURCES, new TypeToken<Set<String>>() {});
@@ -168,7 +169,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        types,
                                        resources,
                                        importedTypes,
-                                       errorModelDelegate.getErrors(errors),
+                                       new HashSet<>(parsedErrors.values()),
                                        externalLibraries,
                                        privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json));
   }
