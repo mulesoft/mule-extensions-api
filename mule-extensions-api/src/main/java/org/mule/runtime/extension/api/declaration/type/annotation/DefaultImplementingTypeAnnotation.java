@@ -45,7 +45,7 @@ public class DefaultImplementingTypeAnnotation implements TypeAnnotation {
 
   @Override
   public boolean isPublic() {
-    return false;
+    return true;
   }
 
   @Override
