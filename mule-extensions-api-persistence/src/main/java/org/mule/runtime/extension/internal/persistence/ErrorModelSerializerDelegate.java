@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.mule.runtime.api.component.ComponentIdentifier.buildFromStringRepresentation;
-import static org.mule.runtime.api.component.ComponentIdentifier.builder;
 import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.internal.persistence.ErrorModelToIdentifierSerializer.serialize;
 import static org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter.ERRORS;
@@ -16,8 +16,6 @@ import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.util.Pair;
-import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
-import org.mule.runtime.extension.api.error.MuleErrors;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -67,29 +65,12 @@ class ErrorModelSerializerDelegate {
   }
 
   private void writeError(JsonWriter out, ErrorModel errorModel) throws IOException {
-    String namespace = errorModel.getNamespace();
-    if (!namespace.equals(MULE)) {
-      out.beginObject();
-
-      out.name(ERROR).value(serialize(errorModel));
-      if (errorModel.getParent().isPresent()) {
-        out.name(PARENT).value(serialize(errorModel.getParent().get()));
-      }
-      out.endObject();
+    out.beginObject();
+    out.name(ERROR).value(serialize(errorModel));
+    if (errorModel.getParent().isPresent()) {
+      out.name(PARENT).value(serialize(errorModel.getParent().get()));
     }
-  }
-
-  /**
-   * Given a {@link JsonArray} representing a {@link Set} of {@link ErrorModel}, it will deserialize them.
-   *
-   * @param errors The json array
-   * @return The {@link Set} of deserialized {@link ErrorModel}
-   */
-  Set<ErrorModel> getErrors(JsonArray errors) {
-    Set<ErrorModel> errorModels = new HashSet<>();
-    errors.iterator()
-        .forEachRemaining(model -> errorModelRespository.get(model.getAsJsonObject().get(ERROR).getAsString()));
-    return errorModels;
+    out.endObject();
   }
 
   private Set<ErrorModel> flatenizeErrors(Set<ErrorModel> errorModels) {
@@ -140,41 +121,22 @@ class ErrorModelSerializerDelegate {
 
       if (builderPair != null) {
         String parentError = builderPair.getFirst();
-        ErrorModel errorModel = builderPair
-            .getSecond()
-            .withParent(buildError(parentError, buildingErrors, builtErrorModels)).build();
+        ErrorModel errorModel;
+        ErrorModelBuilder errorBuilder = builderPair.getSecond();
+
+        if (!isEmpty(parentError)) {
+          errorModel = errorBuilder.withParent(buildError(parentError, buildingErrors, builtErrorModels)).build();
+        } else {
+          errorModel = errorBuilder.build();
+        }
+
         builtErrorModels.put(errorIdentifier, errorModel);
 
         return errorModel;
       } else {
         ComponentIdentifier identifier = buildFromStringRepresentation(errorIdentifier);
-        return identifier.getNamespace().equals(MULE)
-            ? buildMuleError(identifier, builtErrorModels)
-            : buildSimpleError(identifier, builtErrorModels);
+        return buildSimpleError(identifier, builtErrorModels);
       }
-    }
-  }
-
-  private ErrorModel buildMuleError(ComponentIdentifier identifier, Map<String, ErrorModel> builtErrors) {
-    String errorType = identifier.getName();
-    try {
-      MuleErrors muleErrors = MuleErrors.valueOf(errorType);
-      Optional<ErrorTypeDefinition<?>> parent = muleErrors.getParent();
-      if (parent.isPresent()) {
-        ErrorModel errorModel = newError(errorType,
-                                         identifier.getNamespace()).withParent(buildMuleError(
-                                                                                              builder().namespace(MULE)
-                                                                                                  .name(parent.get().getType())
-                                                                                                  .build(),
-                                                                                              builtErrors))
-                                             .build();
-        builtErrors.put(identifier.toString(), errorModel);
-        return errorModel;
-      } else {
-        return buildSimpleError(identifier, builtErrors);
-      }
-    } catch (IllegalArgumentException e) {
-      return buildSimpleError(identifier, builtErrors);
     }
   }
 
