@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
-import static java.util.Collections.singletonList;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.persistence.api.TypeAnnotationSerializerExtender;
 import org.mule.runtime.api.meta.model.stereotype.ImmutableStereotypeModel;
@@ -23,7 +22,12 @@ import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnot
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Collection;
 import java.util.Map;
@@ -54,6 +58,19 @@ public class ExtensionTypeAnnotationSerializerExtender implements TypeAnnotation
 
   @Override
   public Collection<Object> getAdditionalFeatures() {
-    return singletonList(new DefaultImplementationTypeAdapterFactory(StereotypeModel.class, ImmutableStereotypeModel.class));
+    return ImmutableList.builder()
+        .add(new DefaultImplementationTypeAdapterFactory(StereotypeModel.class, ImmutableStereotypeModel.class))
+        .add(new TypeAdapterFactory() {
+
+          @Override
+          public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (DefaultImplementingTypeAnnotation.class.isAssignableFrom(type.getRawType())) {
+              return (TypeAdapter<T>) new DefaultImplementingTypeAnnotationTypeAdapter();
+            }
+
+            return null;
+          }
+        })
+        .build();
   }
 }
