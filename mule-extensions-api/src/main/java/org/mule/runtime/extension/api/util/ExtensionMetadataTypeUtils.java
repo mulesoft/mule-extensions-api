@@ -14,8 +14,8 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
-import static org.mule.runtime.extension.api.util.NameUtils.getAliasName;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
@@ -23,12 +23,12 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.api.util.Reference;
-import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.declaration.type.annotation.DslBaseType;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
@@ -38,8 +38,6 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAn
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
-import java.io.InputStream;
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -92,7 +90,7 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static String getAlias(ObjectFieldType fieldType) {
     return fieldType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElse(getLocalPart(fieldType));
+        .orElseGet(() -> getLocalPart(fieldType));
   }
 
   /**
@@ -110,13 +108,13 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static String getAlias(MetadataType metadataType, String defaultName) {
     return metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElseGet(() -> getType(metadataType)
-            .map(type -> getAliasName(defaultName, type.getAnnotation(Alias.class)))
-            .orElse(defaultName));
+        .orElse(defaultName);
   }
 
   public static boolean isFinal(MetadataType metadataType) {
-    return getType(metadataType).map(type -> Modifier.isFinal(type.getModifiers())).orElse(false);
+    return metadataType.getAnnotation(ClassInformationAnnotation.class)
+        .map(ClassInformationAnnotation::isFinal)
+        .orElse(false);
   }
 
   /**
@@ -124,15 +122,11 @@ public final class ExtensionMetadataTypeUtils {
    * @return whether the {@code metadataType} represents a {@link Map} or not
    */
   public static boolean isMap(MetadataType metadataType) {
-    return isAssignableFrom(metadataType, Map.class);
-  }
-
-  /**
-   * @param type a {@link MetadataType}
-   * @return whether the given {@code type} represents an {@link InputStream} or not
-   */
-  public static boolean isInputStream(MetadataType type) {
-    return isAssignableFrom(type, InputStream.class);
+    return metadataType.getAnnotation(ClassInformationAnnotation.class)
+        .map(ClassInformationAnnotation::isMap)
+        .orElseGet(() -> metadataType.getAnnotation(TypeIdAnnotation.class)
+          .map(TypeIdAnnotation::getValue)
+          .map(id -> id.equals(Map.class.getName())).orElse(false));
   }
 
   /**
@@ -140,10 +134,6 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static boolean isFlattenedParameterGroup(MetadataType type) {
     return type.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
-  }
-
-  private static boolean isAssignableFrom(MetadataType metadataType, Class<?> type) {
-    return getType(metadataType).map(clazz -> type.isAssignableFrom(clazz)).orElse(false);
   }
 
   /**
