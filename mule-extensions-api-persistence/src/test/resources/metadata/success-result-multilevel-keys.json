@@ -1,7 +1,6 @@
 {
-  "failures": [],
   "keys": {
-    "categoryName":[
+    "categoryName": [
       {
         "id": "firstKey",
         "displayName": "firstKey",
@@ -20,7 +19,15 @@
             "displayName": "secondChild",
             "partName": "",
             "properties": {},
-            "childs": []
+            "childs": [
+              {
+                "id": "3rd Level Child",
+                "displayName": "3rd Level Child",
+                "partName": "",
+                "properties": {},
+                "childs": []
+              }
+            ]
           }
         ]
       },
@@ -32,5 +39,6 @@
         "childs": []
       }
     ]
-  }
+  },
+  "failures": []
 }
