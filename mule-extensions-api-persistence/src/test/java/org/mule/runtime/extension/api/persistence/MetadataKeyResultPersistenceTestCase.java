@@ -18,6 +18,7 @@ import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED
 import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.newFailure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeyBuilder;
 import org.mule.runtime.api.metadata.MetadataKeysContainer;
@@ -30,14 +31,13 @@ import org.mule.runtime.extension.api.metadata.NullMetadataKey;
 import org.mule.runtime.extension.api.persistence.metadata.EntityMetadataResultJsonSerializer;
 import org.mule.runtime.extension.api.persistence.metadata.MetadataKeysResultJsonSerializer;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,6 +57,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   private static final String METADATA_RESULT_ERROR_MESSAGE = "Metadata Failure Error";
   private static final String FIRST_CHILD = "firstChild";
   private static final String SECOND_CHILD = "secondChild";
+  private static final String THIRD_LEVEL_CHILD = "3rd Level Child";
 
   private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
   private final EntityMetadataResultJsonSerializer typeDescriptorResultJsonSerializer =
@@ -125,7 +126,10 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   @Test
   public void serializeSuccessMultilevelMetadataKeyResult() throws IOException {
     Set<MetadataKey> keys = new LinkedHashSet<>();
-    keys.add(newKey(FIRST_KEY_ID).withChild(newKey(FIRST_CHILD)).withChild(newKey(SECOND_CHILD)).build());
+    keys.add(newKey(FIRST_KEY_ID)
+        .withChild(newKey(FIRST_CHILD))
+        .withChild(newKey(SECOND_CHILD).withChild(newKey(THIRD_LEVEL_CHILD)))
+        .build());
     keys.add(newKey(SECOND_KEY_ID).build());
     String serialized = keysResultSerializer.serialize(success(builder.add(CATEGORY_NAME, keys).build()));
     assertSerializedJson(serialized, METADATA_MULTILEVEL_KEYS_RESULT_JSON);

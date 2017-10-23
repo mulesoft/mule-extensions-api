@@ -12,6 +12,8 @@ import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeyBuilder;
 import org.mule.runtime.extension.api.metadata.NullMetadataKey;
 
+import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -20,8 +22,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
-import java.io.IOException;
 
 public class MetadataKeyTypeAdapter extends TypeAdapter<MetadataKey> {
 
@@ -45,6 +45,10 @@ public class MetadataKeyTypeAdapter extends TypeAdapter<MetadataKey> {
   @Override
   public MetadataKey read(JsonReader in) throws IOException {
     JsonElement jsonElement = new JsonParser().parse(in);
+    return toMetadataKey(jsonElement);
+  }
+
+  private MetadataKey toMetadataKey(JsonElement jsonElement) {
     if (jsonElement.isJsonNull()) {
       return null;
     }
@@ -65,7 +69,7 @@ public class MetadataKeyTypeAdapter extends TypeAdapter<MetadataKey> {
           .withPartName(partName.getAsString());
 
       childs.getAsJsonArray()
-          .forEach(child -> key.withChild(gson.fromJson(child, DefaultMetadataKey.class)));
+          .forEach(child -> key.withChild(toMetadataKey(child)));
 
       return key.build();
     }
