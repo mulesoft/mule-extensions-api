@@ -125,8 +125,8 @@ public final class ExtensionMetadataTypeUtils {
     return metadataType.getAnnotation(ClassInformationAnnotation.class)
         .map(ClassInformationAnnotation::isMap)
         .orElseGet(() -> metadataType.getAnnotation(TypeIdAnnotation.class)
-          .map(TypeIdAnnotation::getValue)
-          .map(id -> id.equals(Map.class.getName())).orElse(false));
+            .map(TypeIdAnnotation::getValue)
+            .map(id -> id.equals(Map.class.getName())).orElse(false));
   }
 
   /**
