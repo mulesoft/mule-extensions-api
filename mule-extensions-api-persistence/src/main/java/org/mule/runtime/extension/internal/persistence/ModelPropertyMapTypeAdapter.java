@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.ClassUtils;
+
 /**
  * {@link TypeAdapter} implementation that knows how to serialize and deserialize {@code Map<Class<? extends ModelProperty>, ModelProperty>}.
  * This {@link TypeAdapter} has been created at this level, and not just a {@link TypeAdapter<ModelProperty>}, to be able
@@ -94,7 +96,7 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? e
       modelPropertyClass = nameClassMapping.get(modelPropertyName);
     } else {
       try {
-        modelPropertyClass = (Class<? extends ModelProperty>) Class.forName(modelPropertyName);
+        modelPropertyClass = (Class<? extends ModelProperty>) ClassUtils.getClass(modelPropertyName);
       } catch (ClassNotFoundException e) {
         throw new ExtensionModelSerializationException(String
             .format(
