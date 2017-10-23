@@ -6,16 +6,6 @@
  */
 package org.mule.runtime.extension.api;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-import org.mule.metadata.api.annotation.TypeAliasAnnotation;
-import org.mule.metadata.api.annotation.TypeIdAnnotation;
-import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
-import org.mule.runtime.extension.api.annotation.Alias;
-
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.hamcrest.CoreMatchers.is;
@@ -27,10 +17,21 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.runtime.extension.api.annotation.Alias;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 public class NameUtilsTestCase {
 
   private static final String TYPE_ALIAS = "Batman";
+  public static final String CLASS_NAME = "aliased-class";
 
   private ObjectType objectType;
 
@@ -38,6 +39,7 @@ public class NameUtilsTestCase {
   public void setup() {
     objectType = mock(ObjectType.class);
     when(objectType.getAnnotation(TypeAliasAnnotation.class)).thenReturn(empty());
+    when(objectType.getAnnotation(ClassInformationAnnotation.class)).thenReturn(empty());
     doAnswer(invocation -> {
       MetadataTypeVisitor visitor = (MetadataTypeVisitor) invocation.getArguments()[0];
       visitor.visitObject(objectType);
@@ -61,22 +63,13 @@ public class NameUtilsTestCase {
   }
 
   @Test
-  public void getTopLevelTypeNameByAliasAnnotation() {
-    when(objectType.getMetadataFormat()).thenReturn(JAVA);
-    when(objectType.getAnnotation(TypeIdAnnotation.class)).thenReturn(of(new TypeIdAnnotation(AliasedClass.class.getName())));
-    when(objectType.getAnnotation(ClassInformationAnnotation.class)).thenReturn(empty());
-
-    assertThat(getTopLevelTypeName(objectType), is(hyphenize(TYPE_ALIAS)));
-  }
-
-  @Test
   public void getTopLevelTypeNameByClassInformationAnnotaion() {
     when(objectType.getMetadataFormat()).thenReturn(JAVA);
     when(objectType.getAnnotation(TypeIdAnnotation.class)).thenReturn(empty());
     when(objectType.getAnnotation(ClassInformationAnnotation.class))
         .thenReturn(of(new ClassInformationAnnotation(AliasedClass.class)));
 
-    assertThat(getTopLevelTypeName(objectType), is(hyphenize(TYPE_ALIAS)));
+    assertThat(getTopLevelTypeName(objectType), is(hyphenize(CLASS_NAME)));
   }
 
   @Test

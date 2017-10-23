@@ -14,10 +14,10 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.java.api.utils.JavaTypeUtils;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
@@ -42,7 +42,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 
 /**
@@ -233,11 +232,10 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    * This method will look for the {@link TypeAliasAnnotation} of the {@link MetadataType}
    * to get the type simple name.
    * <p>
-   * As a fallback, it uses {@link JavaTypeUtils#getType(MetadataType)} to obtain the
-   * {@link Class} that the {@code metadataType} represents. Then, it
-   * checks if the  {@link Alias} annotation is present. If so, the
-   * {@link Alias#value()} is used. Otherwise, the {@link Class#getSimpleName} will
-   * be considered.
+   * As a fallback, it uses {@link ClassInformationAnnotation#getClassname()} to obtain the
+   * simple name of the class.
+   * Finally if there is no  ClassInformation, the {@link TypeIdAnnotation} will be used as
+   * Alias, failing if it is not found.
    *
    * @param metadataType the {@link MetadataType} which name you want
    * @return the hypenized name for the given {@code type}
@@ -246,13 +244,25 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     return hyphenize(getAliasName(metadataType));
   }
 
+  /**
+   * This method will look for the {@link TypeAliasAnnotation} of the {@link MetadataType}
+   * to get the type simple name.
+   * <p>
+   * As a fallback, it uses {@link ClassInformationAnnotation#getClassname()} to obtain the
+   * simple name of the class.
+   * Finally if there is no  ClassInformation, the {@link TypeIdAnnotation} will be used as
+   * Alias, failing if it is not found.
+   * @param metadataType the {@link MetadataType} whose Alias is required
+   * @return the alias of the given type
+   */
   public static String getAliasName(MetadataType metadataType) {
-    Supplier<IllegalArgumentException> exceptionSupplier =
-        () -> new IllegalArgumentException("No name available for the given type");
-    return metadataType.getAnnotation(TypeAliasAnnotation.class).map(TypeAliasAnnotation::getValue)
-        .orElseGet(() -> getId(metadataType).map(
-                                                 typeId -> getType(metadataType).map(t -> getAliasName(t)).orElse(typeId))
-            .orElseThrow(exceptionSupplier));
+    return metadataType.getAnnotation(TypeAliasAnnotation.class)
+        .map(TypeAliasAnnotation::getValue)
+        .orElseGet(() -> metadataType.getAnnotation(ClassInformationAnnotation.class)
+            .map(ClassInformationAnnotation::getClassname)
+            .map(canonicalName -> canonicalName.substring(canonicalName.lastIndexOf(".") + 1))
+            .orElseGet(() -> getId(metadataType)
+                .orElseThrow(() -> new IllegalArgumentException("No name information is available for the given type"))));
   }
 
   public static String getAliasName(Class<?> type) {
@@ -267,7 +277,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     return getAliasName(parameter.getName(), parameter.getAnnotation(Alias.class));
   }
 
-  public static String getAliasName(String defaultName, Alias aliasAnnotation) {
+  private static String getAliasName(String defaultName, Alias aliasAnnotation) {
     String alias = aliasAnnotation != null ? aliasAnnotation.value() : null;
     return isEmpty(alias) ? defaultName : alias;
   }
