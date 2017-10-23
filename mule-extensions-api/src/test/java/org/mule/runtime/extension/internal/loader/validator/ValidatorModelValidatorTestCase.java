@@ -68,8 +68,8 @@ public class ValidatorModelValidatorTestCase {
   @Before
   public void before() {
     MockitoAnnotations.initMocks(this);
-    StereotypeModel validationStereotype = newStereotype(VALIDATOR.getName(), VALIDATOR.getNamespace())
-        .withParent(newStereotype(PROCESSOR.getName(), PROCESSOR.getNamespace()).build())
+    StereotypeModel validationStereotype = newStereotype(VALIDATOR.getType(), VALIDATOR.getNamespace())
+        .withParent(newStereotype(PROCESSOR.getType(), PROCESSOR.getNamespace()).build())
         .build();
 
     if (childStereotype) {
