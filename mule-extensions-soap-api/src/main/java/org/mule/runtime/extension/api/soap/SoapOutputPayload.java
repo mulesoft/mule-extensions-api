@@ -19,11 +19,11 @@ public class SoapOutputPayload {
 
   private final TypedValue<InputStream> body;
   private final Map<String, TypedValue<InputStream>> attachments;
-  private final Map<String, String> headers;
+  private final Map<String, TypedValue<String>> headers;
 
   public SoapOutputPayload(TypedValue<InputStream> body,
                            Map<String, TypedValue<InputStream>> attachments,
-                           Map<String, String> headers) {
+                           Map<String, TypedValue<String>> headers) {
     this.body = body;
     this.attachments = attachments;
     this.headers = headers;
@@ -46,7 +46,7 @@ public class SoapOutputPayload {
   /**
    * @return A set of XML SOAP headers. Represents the content inside the <SOAP:HEADERS> element.
    */
-  public Map<String, String> getHeaders() {
+  public Map<String, TypedValue<String>> getHeaders() {
     return headers;
   }
 }
