@@ -18,6 +18,7 @@ import javax.xml.namespace.QName;
  */
 public final class QNameModelProperty implements ModelProperty {
 
+  public static final String NAME = "QName";
   private final QName value;
 
   /**
@@ -40,7 +41,7 @@ public final class QNameModelProperty implements ModelProperty {
    */
   @Override
   public String getName() {
-    return "QName";
+    return NAME;
   }
 
   /**
