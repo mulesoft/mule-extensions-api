@@ -14,6 +14,7 @@ import org.mule.runtime.api.security.SecurityProviderNotFoundException;
 import org.mule.runtime.api.security.UnknownAuthenticationTypeException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This handler allows to configure the current context's authentication, used for encryption and inbound authentication,
@@ -51,7 +52,7 @@ public interface AuthenticationHandler {
   /**
    * @return the {@link Authentication} in the current context
    */
-  Authentication getAuthentication();
+  Optional<Authentication> getAuthentication();
 
   /**
    * @param credentials the {@link Credentials} to be used for {@code this} {@link Authentication}
