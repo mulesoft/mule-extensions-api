@@ -10,17 +10,17 @@ import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
-
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import org.mule.runtime.extension.internal.property.MetadataKeyIdModelProperty;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import org.apache.commons.lang3.ClassUtils;
 
 /**
@@ -46,9 +46,11 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? e
   static {
     classNameMapping = new HashMap<>();
     classNameMapping.put(OAuthModelProperty.class, OAuthModelProperty.NAME);
+    classNameMapping.put(MetadataKeyIdModelProperty.class, MetadataKeyIdModelProperty.NAME);
 
     nameClassMapping = new HashMap<>();
     nameClassMapping.put(OAuthModelProperty.NAME, OAuthModelProperty.class);
+    nameClassMapping.put(MetadataKeyIdModelProperty.NAME, MetadataKeyIdModelProperty.class);
   }
 
   private final Gson gson;

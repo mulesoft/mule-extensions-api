@@ -24,6 +24,7 @@ public final class MetadataKeyIdModelProperty implements ModelProperty {
 
   private final MetadataType type;
   private final String parameterName;
+  public static final String NAME = "metadataKeyId";
 
   /**
    * Creates a new instance.
