@@ -41,6 +41,7 @@ import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.util.MultiMap;
 import org.mule.runtime.api.util.Reference;
+import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
@@ -97,9 +98,9 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     private final ExtensionModel extensionModel;
     private final Set<DescribedReference<NamedObject>> namedObjects = new HashSet<>();
     private final Map<String, DescribedParameter> singularizedObjects = new HashMap<>();
-    private final Multimap<String, TopLevelParameter> topLevelParameters = LinkedListMultimap.create();
     private final Multimap<String, Element> elements = LinkedListMultimap.create();
-    private final List<ParameterReference> allContentParameters = new LinkedList<>();
+    private final List<ParameterReference> contentParameters = new LinkedList<>();
+    private final List<ParameterReference> nonContentParameters = new LinkedList<>();
     private final DslSyntaxResolver dslSyntaxResolver;
     private final ProblemsReporter problemsReporter;
 
@@ -128,7 +129,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           validateOperation(model);
           registerNamedObject(model);
           validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
-          registerContentParameters(model);
+          splitParametersByContent(model);
         }
 
         @Override
@@ -136,7 +137,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           validateCallbackNames(model.getSuccessCallback(), model);
           validateCallbackNames(model.getErrorCallback(), model);
           defaultValidation(model);
-          registerContentParameters(model);
+          splitParametersByContent(model);
         }
 
         @Override
@@ -169,6 +170,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
                               .map(e -> new TypedTopLevelParameter((TopLevelParameter) e)).collect(toSet()));
 
       validateContentNamesMatchType(extensionModel, problemsReporter);
+      validateContentClashes(extensionModel, problemsReporter);
     }
 
     private void validateSubtypes(Set<SubTypesModel> subTypes) {
@@ -215,10 +217,15 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       });
     }
 
-    private void registerContentParameters(ParameterizedModel model) {
-      getContentParameters(model).stream()
-          .map(p -> new ParameterReference(p, model, dslSyntaxResolver.resolve(p)))
-          .forEach(allContentParameters::add);
+    private void splitParametersByContent(ParameterizedModel model) {
+      model.getAllParameterModels().forEach(p -> {
+        ParameterReference reference = new ParameterReference(p, model, dslSyntaxResolver.resolve(p));
+        if (ExtensionModelUtils.isContent(p)) {
+          contentParameters.add(reference);
+        } else {
+          nonContentParameters.add(reference);
+        }
+      });
     }
 
     private void validateOperation(OperationModel operation) {
@@ -415,9 +422,9 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
     private void validateContentNamesMatchType(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
       Map<String, List<ParameterReference>> clashingsByTagName = new HashMap<>();
-      allContentParameters
+      contentParameters
           .forEach(param -> clashingsByTagName.computeIfAbsent(param.dsl.getElementName(), k -> {
-            List<ParameterReference> others = allContentParameters.stream()
+            List<ParameterReference> others = contentParameters.stream()
                 .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName()) && !param.type.equals(other.type))
                 .collect(toList());
             if (!others.isEmpty()) {
@@ -429,13 +436,35 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       clashingsByTagName.forEach((tag, invalidParams) -> {
         if (!invalidParams.isEmpty()) {
           String msg =
-              format("Parameters with name [%s] declared in [%s] with tag name [%s] are declared as Content but have different types [%s]",
+              format("Parameters with name [%s] declared in [%s] with tag name [%s] are declared as @%s but have different types [%s]",
                      invalidParams.get(0).model.getName(),
-                     invalidParams.stream().map(p -> p.owner.getName()).collect(joining(", ")), tag,
+                     invalidParams.stream().map(p -> p.owner.getName()).collect(joining(", ")),
+                     tag,
+                     Content.class.getSimpleName(),
                      invalidParams.stream()
                          .map(p -> getId(p.type).orElse(""))
                          .filter(StringUtils::isBlank)
                          .collect(joining(", ")));
+          problemsReporter.addError(new Problem(extensionModel, msg));
+        }
+      });
+    }
+
+    private void validateContentClashes(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
+      contentParameters.forEach(contentParam -> {
+        List<ParameterReference> clashes = nonContentParameters.stream()
+            .filter(p -> p.dsl.getElementName().equals(contentParam.dsl.getElementName()))
+            .collect(toList());
+
+        if (!clashes.isEmpty()) {
+          String msg =
+              format("Parameter '%s' is declared as @%s in component '%s' but is also declared as non @%s in component(s) [%s]",
+                     contentParam.model.getName(),
+                     Content.class.getSimpleName(),
+                     contentParam.owner.getName(),
+                     Content.class.getSimpleName(),
+                     clashes.stream().map(p -> p.owner.getName()).collect(joining(", ", "'", "'")));
+
           problemsReporter.addError(new Problem(extensionModel, msg));
         }
       });
@@ -502,10 +531,6 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         }
       }));
     }
-  }
-
-  private List<ParameterModel> getContentParameters(ParameterizedModel model) {
-    return model.getAllParameterModels().stream().filter(ExtensionModelUtils::isContent).collect(toList());
   }
 
   private class Element implements NamedObject, DescribedObject {
