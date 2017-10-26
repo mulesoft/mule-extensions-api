@@ -31,7 +31,7 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
   /**
    * Creates a new instance which only holds a reference to the {@code definitionClasses}.
    *
-   * Those classes are to later be resolved into {@link StereotypeModel} instances through an invokation to the
+   * Those classes are to later be resolved into {@link StereotypeModel} instances through an invocation to the
    * {@link #resolveStereotypes(Function)} method
    *
    * @param definitionClasses stereotype definitions
@@ -61,11 +61,7 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
 
   public void resolveStereotypes(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
     checkState(allowedStereotypes.isEmpty(), "The stereotypes have already been resolved or provided");
-    for (int i = 0; i < definitionClasses.size(); i++) {
-      allowedStereotypes.set(i, resolver.apply(definitionClasses.get(i)));
-    }
-
-    definitionClasses = null;
+    definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(clazz)));
   }
 
   /**
