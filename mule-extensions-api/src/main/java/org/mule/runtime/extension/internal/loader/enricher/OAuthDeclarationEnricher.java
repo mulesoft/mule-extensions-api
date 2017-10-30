@@ -23,14 +23,18 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.EXTERNAL_CALLBACK_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.LISTENER_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.LOCAL_AUTHORIZE_PATH_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_AUTHORIZATION_CODE_GROUP_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_AUTHORIZATION_CODE_GROUP_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CALLBACK_GROUP_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CALLBACK_GROUP_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_STORE_CONFIG_GROUP_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OBJECT_STORE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.RESOURCE_OWNER_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -38,6 +42,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
+import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
@@ -130,7 +135,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                 "The name of a flow to be executed right after an accessToken has been received",
                                 false, stringType, NOT_SUPPORTED, null));
 
-      addToGroup(params, OAUTH_AUTHORIZATION_CODE_GROUP_NAME, declaration);
+      addToGroup(params, OAUTH_AUTHORIZATION_CODE_GROUP_NAME, OAUTH_AUTHORIZATION_CODE_GROUP_DISPLAY_NAME, declaration);
     }
 
     private void addOAuthCallbackParameters(ConnectionProviderDeclaration declaration) {
@@ -155,11 +160,13 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
           + "accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use "
           + "to access the callback", false, stringType, NOT_SUPPORTED, null));
 
-      addToGroup(params, OAUTH_CALLBACK_GROUP_NAME, declaration);
+      addToGroup(params, OAUTH_CALLBACK_GROUP_NAME, OAUTH_CALLBACK_GROUP_DISPLAY_NAME, declaration);
     }
 
-    private void addToGroup(List<ParameterDeclaration> params, String groupName, ConnectionProviderDeclaration declaration) {
+    private void addToGroup(List<ParameterDeclaration> params, String groupName, String displayGroupName,
+                            ConnectionProviderDeclaration declaration) {
       ParameterGroupDeclaration group = declaration.getParameterGroup(groupName);
+      group.setDisplayModel(DisplayModel.builder().displayName(displayGroupName).build());
       params.forEach(group::addParameter);
       group.showInDsl(true);
     }
@@ -171,7 +178,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                                   "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
                                                               false, stringType, NOT_SUPPORTED, null);
       osParameter.setAllowedStereotypeModels(singletonList(OBJECT_STORE));
-      addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, declaration);
+      addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME, declaration);
     }
 
     private ParameterDeclaration buildParameter(String name, String description, boolean required, MetadataType type,

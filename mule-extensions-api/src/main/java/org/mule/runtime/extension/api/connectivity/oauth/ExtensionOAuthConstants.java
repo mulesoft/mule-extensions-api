@@ -20,18 +20,34 @@ public final class ExtensionOAuthConstants {
    * related parameters are to be placed.
    */
   public static final String OAUTH_AUTHORIZATION_CODE_GROUP_NAME = "oauthAuthorizationCode";
+  /**
+   * The display name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type
+   * related parameters are to be placed.
+   */
+  public static final String OAUTH_AUTHORIZATION_CODE_GROUP_DISPLAY_NAME = "OAuth Authorization Code";
 
   /**
    * The name of the {@link ParameterGroupModel} in which all the OAuth callback
    * related parameters are to be placed.
    */
   public static final String OAUTH_CALLBACK_GROUP_NAME = "oauthCallbackConfig";
+  /**
+   * The display name of the {@link ParameterGroupModel} in which all the OAuth callback
+   * related parameters are to be placed.
+   */
+  public static final String OAUTH_CALLBACK_GROUP_DISPLAY_NAME = "OAuth Callback Config";
 
   /**
    * The name of the {@link ParameterGroupModel} in which all the store config
    * related parameters are to be placed.
    */
   public static final String OAUTH_STORE_CONFIG_GROUP_NAME = "oauthStoreConfig";
+
+  /**
+   * The display name of the {@link ParameterGroupModel} in which all the store config
+   * related parameters are to be placed.
+   */
+  public static final String OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME = "OAuth Store Config";
 
   /**
    * The name of the parameter on which the consumer key is configured
