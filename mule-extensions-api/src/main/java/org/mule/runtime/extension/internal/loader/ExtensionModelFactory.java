@@ -23,6 +23,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
 import static org.slf4j.LoggerFactory.getLogger;
+
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -104,11 +105,7 @@ import org.mule.runtime.extension.internal.loader.validator.ParameterModelValida
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
-
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.UncheckedExecutionException;
+import org.mule.runtime.extension.internal.loader.validator.NameModelValidator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -120,6 +117,10 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.slf4j.Logger;
 
 /**
@@ -165,7 +166,8 @@ public final class ExtensionModelFactory {
                                                        new ParameterModelValidator(),
                                                        new SubtypesModelValidator(),
                                                        new TransactionalParametersValidator(),
-                                                       new ValidatorModelValidator()));
+                                                       new ValidatorModelValidator(),
+                                                       new NameModelValidator()));
   }
 
   /**
