@@ -65,7 +65,7 @@ public final class ProblemsReporter {
    * @return Whether warnings have been reported
    */
   public boolean hasWarnings() {
-    return !errors.isEmpty();
+    return !warnings.isEmpty();
   }
 
   /**
