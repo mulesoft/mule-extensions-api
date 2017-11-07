@@ -192,9 +192,9 @@ public final class ExtensionModelFactory {
       throw new IllegalModelDefinitionException(format("Extension '%s' has definition errors:\n%s", extensionModel.getName(),
                                                        problemsReporter.toString()));
     } else if (problemsReporter.hasWarnings()) {
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug(format("Extension '%s' has definition warnings:\n%s", extensionModel.getName(),
-                            problemsReporter.getWarningsAsString()));
+      if (LOGGER.isWarnEnabled()) {
+        LOGGER.warn(format("Extension '%s' has definition warnings:\n%s", extensionModel.getName(),
+                           problemsReporter.getWarningsAsString()));
       }
     }
 
