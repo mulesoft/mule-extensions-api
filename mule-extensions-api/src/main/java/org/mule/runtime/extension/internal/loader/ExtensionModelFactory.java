@@ -11,6 +11,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -109,6 +110,8 @@ import org.mule.runtime.extension.internal.loader.validator.NameModelValidator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -227,7 +230,7 @@ public final class ExtensionModelFactory {
   private void enrichModel(ExtensionLoadingContext extensionLoadingContext) {
     List<DeclarationEnricher> enrichers = new LinkedList<>(extensionLoadingContext.getCustomDeclarationEnrichers());
     enrichers.addAll(declarationEnrichers);
-
+    enrichers.sort(comparing(DeclarationEnricher::getExecutionPhase));
     enrichers.forEach(enricher -> enricher.enrich(extensionLoadingContext));
   }
 

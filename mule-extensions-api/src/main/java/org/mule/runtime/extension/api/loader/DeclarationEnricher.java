@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.loader;
 
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE_DECLARATION;
+
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 
 import java.util.Collection;
@@ -23,6 +25,11 @@ import java.util.Collection;
  * @since 1.0
  */
 public interface DeclarationEnricher {
+
+
+  default DeclarationEnricherPhase getExecutionPhase() {
+    return POST_STRUCTURE_DECLARATION;
+  }
 
   /**
    * Enriches the descriptor provided in the given {@code extensionLoadingContext}.

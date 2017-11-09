@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE_DECLARATION;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE_DECLARATION;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.acceptsExpressions;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addExpirationPolicy;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
+import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.runtime.ExpirationPolicy;
 
@@ -20,6 +23,11 @@ import org.mule.runtime.extension.api.runtime.ExpirationPolicy;
  * @since 1.0
  */
 public class DynamicConfigDeclarationEnricher implements DeclarationEnricher {
+
+  @Override
+  public DeclarationEnricherPhase getExecutionPhase() {
+    return STRUCTURE_DECLARATION;
+  }
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
