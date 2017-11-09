@@ -179,7 +179,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     Path path = field.getAnnotation(Path.class);
     if (path != null) {
-      builder.path(new PathModel(path.type(), path.acceptsUrls(), path.acceptedFileExtensions()));
+      builder.path(new PathModel(path.type(), path.acceptsUrls(), path.location(), path.acceptedFileExtensions()));
       shouldAddTypeAnnotation = true;
     }
 

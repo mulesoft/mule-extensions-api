@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.declaration.type;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.api.meta.model.display.PathModel.Location.EMBEDDED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_KEY_STORE_ELEMENT_IDENTIFIER;
@@ -144,7 +145,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
   }
 
   private DisplayTypeAnnotation filePathDisplayModel() {
-    return new DisplayTypeAnnotation(DisplayModel.builder().path(new PathModel(FILE, false, new String[] {})).build());
+    return new DisplayTypeAnnotation(DisplayModel.builder().path(new PathModel(FILE, false, EMBEDDED, new String[] {})).build());
   }
 
 }

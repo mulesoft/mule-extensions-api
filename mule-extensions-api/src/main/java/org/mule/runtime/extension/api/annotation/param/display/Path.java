@@ -12,6 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.ANY;
 
 import org.mule.runtime.api.meta.model.display.PathModel;
+import org.mule.runtime.api.meta.model.display.PathModel.Location;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -38,6 +39,11 @@ public @interface Path {
    * @return whether the path parameter also supports urls.
    */
   boolean acceptsUrls() default false;
+
+  /**
+   * @return a classifier for the path's generic {@link Location}
+   */
+  Location location() default Location.ANY;
 
   /**
    * @return the file extensions that this path handles.
