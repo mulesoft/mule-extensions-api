@@ -26,7 +26,11 @@ import java.util.Collection;
  */
 public interface DeclarationEnricher {
 
-
+  /**
+   * Specifies a {@link DeclarationEnricherPhase phase} for the {@link DeclarationEnricher} to be executed.
+   *
+   * @return the {@link DeclarationEnricherPhase phase} in which the {@link DeclarationEnricher} is going to be executed
+   */
   default DeclarationEnricherPhase getExecutionPhase() {
     return POST_STRUCTURE_DECLARATION;
   }

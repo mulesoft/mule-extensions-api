@@ -26,16 +26,11 @@ public enum DeclarationEnricherPhase {
    * <p>
    * Basic settings that doesn't change the structure of the loaded extension but are required before the
    * structure enrichment phase is executed should go in this phase.
-   */
-  INITIALISE,
-
-  /**
-   * This phase contains all {@link DeclarationEnricher}s that adds data to the extension itself.
    * <p>
    * {@link DeclarationEnricher}s added to this phase should not add or change the structure of the extension nor
    * change/add any configuration to the different elements that were loaded (Connections, Configs, Parameters, Etc)
    */
-  PRE_STRUCTURE_DECLARATION,
+  INITIALIZE,
 
   /**
    * This phase contains all {@link DeclarationEnricher}s that enrich the extension with additional elements, for example adding

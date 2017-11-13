@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.util.Optional.empty;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.INITIALISE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.INITIALIZE;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.createXmlLanguageModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -19,7 +19,7 @@ public final class XmlDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return INITIALISE;
+    return INITIALIZE;
   }
 
   @Override
