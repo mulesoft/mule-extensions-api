@@ -13,8 +13,10 @@ import java.util.Collection;
 
 
 /**
- * This {@link DeclarationEnricherPhase phases} are used to create a {@link DeclarationEnricher}s execution chain,
- * each {@link DeclarationEnricherPhase} describes a particular enrichment state from which {@link DeclarationEnricher}s can
+ * These {@link DeclarationEnricherPhase phases} are use to execute the {@link DeclarationEnricher enrichers} in order, grouping
+ * them by phases.
+ * <p>
+ * Each {@link DeclarationEnricherPhase} describes a particular enrichment state from which {@link DeclarationEnricher}s can
  * take advantage of.
  *
  * @since 1.0
@@ -36,18 +38,18 @@ public enum DeclarationEnricherPhase {
    * This phase contains all {@link DeclarationEnricher}s that enrich the extension with additional elements, for example adding
    * common parameters.
    */
-  STRUCTURE_DECLARATION,
+  STRUCTURE,
 
   /**
    * This phase contains all {@link DeclarationEnricher}s that go over the final extension structure and add metadata and
    * {@link ModelProperty properties} to the declared elements.
    */
-  POST_STRUCTURE_DECLARATION,
+  POST_STRUCTURE,
 
   /**
    * This phase contains all {@link DeclarationEnricher}s that add display elements to the final enriched extension.
    */
-  DISPLAY_ELEMENTS_DECLARATION,
+  LAYOUT,
 
   /**
    * Final phase of {@link DeclarationEnricher}s to be executed, {@link DeclarationEnricher enrichers} that for some reason should

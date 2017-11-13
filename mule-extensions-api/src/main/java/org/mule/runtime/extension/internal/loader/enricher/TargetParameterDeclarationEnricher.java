@@ -19,8 +19,7 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PAR
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE_DECLARATION;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE_DECLARATION;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
@@ -48,7 +47,7 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return STRUCTURE_DECLARATION;
+    return STRUCTURE;
   }
 
   @Override

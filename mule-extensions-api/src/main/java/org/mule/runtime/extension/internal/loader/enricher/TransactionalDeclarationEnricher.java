@@ -15,7 +15,7 @@ import static org.mule.runtime.extension.api.ExtensionConstants.SOURCE_TRANSACTI
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_ACTION_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TYPE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE_DECLARATION;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
 import static org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE;
 import org.mule.metadata.api.ClassTypeLoader;
@@ -54,7 +54,7 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return STRUCTURE_DECLARATION;
+    return STRUCTURE;
   }
 
   @Override

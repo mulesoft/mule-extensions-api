@@ -7,8 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.POOLING;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE_DECLARATION;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE_DECLARATION;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionConfigParameter;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPoolingProfileParameter;
 import org.mule.runtime.api.config.PoolingProfile;
@@ -40,7 +39,7 @@ public class ConnectionProviderDeclarationEnricher implements DeclarationEnriche
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return STRUCTURE_DECLARATION;
+    return STRUCTURE;
   }
 
   @Override

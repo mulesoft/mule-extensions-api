@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader;
 
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE_DECLARATION;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 
@@ -32,7 +32,7 @@ public interface DeclarationEnricher {
    * @return the {@link DeclarationEnricherPhase phase} in which the {@link DeclarationEnricher} is going to be executed
    */
   default DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE_DECLARATION;
+    return POST_STRUCTURE;
   }
 
   /**

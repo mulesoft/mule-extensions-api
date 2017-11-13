@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.BLOCKING;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE_DECLARATION;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 
 import org.mule.runtime.api.meta.model.operation.ExecutionType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
@@ -36,7 +36,7 @@ public final class ExecutionTypeDeclarationEnricher implements DeclarationEnrich
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE_DECLARATION;
+    return POST_STRUCTURE;
   }
 
   @Override
