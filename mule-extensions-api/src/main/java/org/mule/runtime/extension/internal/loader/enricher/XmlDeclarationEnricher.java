@@ -7,8 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.util.Optional.empty;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE_DECLARATION;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.PRE_STRUCTURE_DECLARATION;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.INITIALISE;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.createXmlLanguageModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -20,7 +19,7 @@ public final class XmlDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return PRE_STRUCTURE_DECLARATION;
+    return INITIALISE;
   }
 
   @Override
