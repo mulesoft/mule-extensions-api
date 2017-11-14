@@ -6,8 +6,11 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
+import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
 
@@ -17,6 +20,11 @@ import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
  * @since 1.0
  */
 public class ClassLoaderDeclarationEnricher implements DeclarationEnricher {
+
+  @Override
+  public DeclarationEnricherPhase getExecutionPhase() {
+    return POST_STRUCTURE;
+  }
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
+import static java.util.Collections.sort;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
@@ -123,7 +124,6 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   public ExtensionLoadingContext addCustomDeclarationEnrichers(Collection<DeclarationEnricher> enrichers) {
     checkArgument(enrichers != null, "custom enrichers cannot be null");
     customDeclarationEnrichers.addAll(enrichers);
-
     return this;
   }
 
