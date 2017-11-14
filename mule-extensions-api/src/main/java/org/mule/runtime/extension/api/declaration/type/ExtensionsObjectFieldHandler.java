@@ -24,6 +24,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toClassValueModel;
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectFieldTypeBuilder;
@@ -47,6 +48,7 @@ import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Query;
+import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Example;
 import org.mule.runtime.extension.api.annotation.param.display.Password;
@@ -180,6 +182,12 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     Path path = field.getAnnotation(Path.class);
     if (path != null) {
       builder.path(new PathModel(path.type(), path.acceptsUrls(), path.location(), path.acceptedFileExtensions()));
+      shouldAddTypeAnnotation = true;
+    }
+
+    ClassValue classValue = field.getAnnotation(ClassValue.class);
+    if (classValue != null) {
+      builder.classValue(toClassValueModel(classValue));
       shouldAddTypeAnnotation = true;
     }
 
