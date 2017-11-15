@@ -400,8 +400,13 @@ public class ExtensionModelUtils {
     return group.getParameterModels().stream().anyMatch(ParameterModel::isRequired);
   }
 
-  public static ClassValueModel toClassValueModel(ClassValue classValue) {
-    String[] parents = classValue.extendsOrImplements();
+  /**
+   * Uses the value in the given {@code annotation} and transforms it into a {@link ClassValueModel}
+   * @param annotation an annotation
+   * @return a {@link ClassValueModel}
+   */
+  public static ClassValueModel toClassValueModel(ClassValue annotation) {
+    String[] parents = annotation.extendsOrImplements();
     if (parents != null) {
       return new ClassValueModel(Stream.of(parents).filter(p -> !isBlank(p)).collect(toList()));
     } else {

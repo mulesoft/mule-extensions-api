@@ -75,6 +75,9 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
     return displayModel.getPathModel();
   }
 
+  /**
+   * @return a {@link ClassValueModel} instance if the carrier parameter points to a class. {@link Optional#empty()} otherwise.
+   */
   public Optional<ClassValueModel> getClassValueModel() {
     return displayModel.getClassValueModel();
   }
