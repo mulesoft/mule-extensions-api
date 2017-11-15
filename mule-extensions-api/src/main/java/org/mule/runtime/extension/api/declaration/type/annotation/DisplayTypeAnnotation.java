@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
+import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
@@ -72,6 +73,10 @@ public class DisplayTypeAnnotation implements TypeAnnotation {
    */
   public Optional<PathModel> getPathModel() {
     return displayModel.getPathModel();
+  }
+
+  public Optional<ClassValueModel> getClassValueModel() {
+    return displayModel.getClassValueModel();
   }
 
   @Override

@@ -10,14 +10,26 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import org.mule.runtime.extension.api.annotation.param.Parameter;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * Marks a field or parameter annotated with {@link Parameter} as actually representing a class.
+ * <p/>
+ * This annotation should only be used with {@link String} parameters.
+ *
+ * @since 1.1
+ */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
 public @interface ClassValue {
 
+  /**
+   * @return The FQN of all base classes and interfaces that the referenced class is required to extend or implement.
+   */
   String[] extendsOrImplements() default "";
 }
