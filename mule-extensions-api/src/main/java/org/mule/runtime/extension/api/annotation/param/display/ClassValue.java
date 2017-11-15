@@ -9,7 +9,6 @@ package org.mule.runtime.extension.api.annotation.param.display;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
 import java.lang.annotation.Documented;
@@ -29,7 +28,8 @@ import java.lang.annotation.Target;
 public @interface ClassValue {
 
   /**
-   * @return The FQN of all base classes and interfaces that the referenced class is required to extend or implement.
+   * @return The Fully Qualified Name of all base classes and interfaces that the referenced class is required to extend
+   * or implement.
    */
   String[] extendsOrImplements() default "";
 }
