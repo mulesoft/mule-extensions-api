@@ -7,11 +7,13 @@
 package org.mule.runtime.extension.api.util;
 
 import static java.lang.String.valueOf;
+import static java.util.Collections.emptyList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
@@ -19,7 +21,6 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
-
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
@@ -33,6 +34,7 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -46,6 +48,7 @@ import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
+import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.lang.reflect.AccessibleObject;
@@ -56,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Utility methods for analyzing and decomposing {@link ExtensionModel} instances
@@ -394,5 +398,19 @@ public class ExtensionModelUtils {
    */
   public static boolean isRequired(ParameterGroupModel group) {
     return group.getParameterModels().stream().anyMatch(ParameterModel::isRequired);
+  }
+
+  /**
+   * Uses the value in the given {@code annotation} and transforms it into a {@link ClassValueModel}
+   * @param annotation an annotation
+   * @return a {@link ClassValueModel}
+   */
+  public static ClassValueModel toClassValueModel(ClassValue annotation) {
+    String[] parents = annotation.extendsOrImplements();
+    if (parents != null) {
+      return new ClassValueModel(Stream.of(parents).filter(p -> !isBlank(p)).collect(toList()));
+    } else {
+      return new ClassValueModel(emptyList());
+    }
   }
 }
