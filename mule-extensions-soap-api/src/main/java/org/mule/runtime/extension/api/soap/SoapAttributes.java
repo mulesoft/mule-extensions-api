@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public final class SoapAttributes implements Serializable {
 
+  private static final long serialVersionUID = 4591210489306615571L;
+
   private final Map<String, String> protocolHeaders;
 
   public SoapAttributes(Map<String, String> protocolHeaders) {
