@@ -48,4 +48,9 @@ public interface ConfigurationProvider extends Component {
    * @return this provider's name
    */
   String getName();
+
+  /**
+   * @return Whether the returned config is dynamic or static
+   */
+  boolean isDynamic();
 }
