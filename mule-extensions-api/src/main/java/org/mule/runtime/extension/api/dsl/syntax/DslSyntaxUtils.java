@@ -210,8 +210,8 @@ final class DslSyntaxUtils {
         if (isMap(objectType)) {
           supportsChildDeclaration.set(true);
         } else {
-          supportsChildDeclaration.set(isValidBean(objectType)
-              || (isInfrastructure(objectType) && allowsInlineDefinition(objectType)));
+          supportsChildDeclaration.set((isValidBean(objectType) || isInfrastructure(objectType))
+              && allowsInlineDefinition(objectType));
         }
       }
 
