@@ -76,10 +76,6 @@ public final class ExtensionMetadataTypeUtils {
    * {@link Optional#empty()} otherwise.
    */
   public static <T> Optional<Class<T>> getType(MetadataType metadataType, ClassLoader classloader) {
-    if (!metadataType.getMetadataFormat().equals(JAVA)) {
-      return empty();
-    }
-
     try {
       return Optional.of(JavaTypeUtils.getType(metadataType, classloader));
     } catch (Exception e) {

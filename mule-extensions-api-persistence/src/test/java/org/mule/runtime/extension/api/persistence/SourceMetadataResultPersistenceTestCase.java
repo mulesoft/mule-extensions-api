@@ -42,8 +42,7 @@ public class SourceMetadataResultPersistenceTestCase extends AbstractMetadataPer
   @Test
   public void deserializeSourceMetadataDescriptorResult() throws IOException {
     String resource = getResourceAsString(METADATA_SOURCE_RESULT_JSON);
-    MetadataResult<ComponentMetadataDescriptor<SourceModel>> metadataResult =
-        metadataDescriptorSerializer.deserialize(resource);
+    MetadataResult<ComponentMetadataDescriptor<SourceModel>> metadataResult = metadataDescriptorSerializer.deserialize(resource);
 
     assertThat(metadataResult.isSuccess(), is(true));
     assertThat(metadataResult.get().getModel(), is(sourceModel));
