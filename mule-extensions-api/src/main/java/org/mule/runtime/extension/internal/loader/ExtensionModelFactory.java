@@ -263,7 +263,8 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getErrorModels(),
                                       extensionDeclaration.getExternalLibraryModels(),
                                       extensionDeclaration.getPrivilegedPackages(), extensionDeclaration.getPrivilegedArtifacts(),
-                                      extensionDeclaration.getModelProperties());
+                                      extensionDeclaration.getModelProperties(),
+                                      extensionDeclaration.getNotificationModels());
 
       return extensionModel;
     }
@@ -348,7 +349,8 @@ public final class ExtensionModelFactory {
                                                       declaration.getDisplayModel(),
                                                       getSourceStereotypes(declaration),
                                                       declaration.getErrorModels(),
-                                                      declaration.getModelProperties()));
+                                                      declaration.getModelProperties(),
+                                                      declaration.getNotificationModels()));
     }
 
     private StereotypeModel getSourceStereotypes(SourceDeclaration declaration) {
@@ -406,7 +408,8 @@ public final class ExtensionModelFactory {
                                                 declaration.getDisplayModel(),
                                                 declaration.getErrorModels(),
                                                 getProcessorStereotype(declaration.getStereotype()),
-                                                declaration.getModelProperties());
+                                                declaration.getModelProperties(),
+                                                declaration.getNotificationModels());
 
         return operation;
       });

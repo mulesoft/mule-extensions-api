@@ -14,8 +14,12 @@ import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
+import org.mule.runtime.api.meta.model.notification.FiresNotifications;
+import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
+
+import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
 import java.util.Set;
@@ -26,13 +30,15 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractExecutableComponentModel extends AbstractComponentModel implements ConnectableComponentModel {
+public abstract class AbstractExecutableComponentModel extends AbstractComponentModel implements ConnectableComponentModel,
+    FiresNotifications {
 
   private final OutputModel output;
   private final OutputModel outputAttributes;
   private final boolean transactional;
   private final boolean requiresConnection;
   private final boolean supportsStreaming;
+  private final Set<NotificationModel> notifications;
 
   /**
    * Creates a new instance
@@ -63,13 +69,15 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              Set<ErrorModel> errors,
                                              StereotypeModel stereotype,
                                              Set<ModelProperty> modelProperties,
-                                             List<? extends NestableElementModel> nestedComponents) {
+                                             List<? extends NestableElementModel> nestedComponents,
+                                             Set<NotificationModel> notifications) {
     super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties);
     this.output = output;
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;
     this.transactional = transactional;
     this.supportsStreaming = supportsStreaming;
+    this.notifications = ImmutableSet.copyOf(notifications);
   }
 
   /**
@@ -111,4 +119,8 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
     return supportsStreaming;
   }
 
+  @Override
+  public Set<NotificationModel> getNotificationModels() {
+    return notifications;
+  }
 }

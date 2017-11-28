@@ -9,7 +9,6 @@ package org.mule.runtime.extension.internal.persistence;
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
@@ -27,18 +26,11 @@ import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
+import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.util.HierarchyClassMap;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -49,6 +41,14 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
@@ -79,6 +79,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
   static final String ERRORS = "errors";
+  private static final String NOTIFICATIONS = "notifications";
 
   private final Gson gsonDelegate;
   private final JsonMetadataTypeLoader typeLoader = new JsonMetadataTypeLoader();
@@ -120,6 +121,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeWithDelegate(model.getConnectionProviders(), CONNECTION_PROVIDERS, out,
                       new TypeToken<List<ConnectionProviderModel>>() {});
     writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {});
+    writeWithDelegate(model.getNotificationModels(), NOTIFICATIONS, out, new TypeToken<Set<NotificationModel>>() {});
 
     errorModelDelegate.writeErrors(model.getErrorModels(), out);
     writeExtensionLevelModelProperties(out, model);
@@ -151,6 +153,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {});
     List<FunctionModel> functions = parseWithDelegate(json, FUNCTIONS, new TypeToken<List<FunctionModel>>() {});
     List<ConstructModel> constructs = parseWithDelegate(json, CONSTRUCTS, new TypeToken<List<ConstructModel>>() {});
+    Set<NotificationModel> notifications = parseWithDelegate(json, NOTIFICATIONS, new TypeToken<Set<NotificationModel>>() {});
 
     return new ImmutableExtensionModel(json.get(NAME).getAsString(),
                                        json.get(DESCRIPTION).getAsString(),
@@ -171,7 +174,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        importedTypes,
                                        new HashSet<>(parsedErrors.values()),
                                        externalLibraries,
-                                       privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json));
+                                       privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json),
+                                       notifications);
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {

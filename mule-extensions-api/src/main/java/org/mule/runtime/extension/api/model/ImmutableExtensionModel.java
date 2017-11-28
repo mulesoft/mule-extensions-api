@@ -22,6 +22,7 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.function.HasFunctionModels;
+import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -53,6 +54,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final Set<SubTypesModel> subTypes;
   private final Set<ImportedTypeModel> importedTypes;
   private final Set<ExternalLibraryModel> externalLibraries;
+  private final Set<NotificationModel> notifications;
 
   /**
    * Creates a new instance with the given state
@@ -102,7 +104,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<ErrorModel> errors,
                                  Set<ExternalLibraryModel> externalLibraryModels,
                                  Set<String> privilegedPackages, Set<String> privilegedArtifacts,
-                                 Set<ModelProperty> modelProperties) {
+                                 Set<ModelProperty> modelProperties,
+                                 Set<NotificationModel> notifications) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
     this.configurations = unique(configurationModels, "Configurations");
 
@@ -125,6 +128,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.privilegedArtifacts = privilegedArtifacts;
     this.constructModels = unique(constructModels, "Constructs");
     this.functions = unique(functions, "Functions");
+    this.notifications = notifications;
   }
 
   /**
@@ -257,6 +261,14 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Set<ErrorModel> getErrorModels() {
     return errors;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<NotificationModel> getNotificationModels() {
+    return notifications;
   }
 
   /**

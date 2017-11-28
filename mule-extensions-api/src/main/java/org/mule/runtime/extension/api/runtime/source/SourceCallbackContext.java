@@ -7,8 +7,11 @@
 package org.mule.runtime.extension.api.runtime.source;
 
 import org.mule.runtime.api.connection.ConnectionException;
+import org.mule.runtime.api.metadata.TypedValue;
+import org.mule.runtime.api.notification.ExtensionNotification;
 import org.mule.runtime.api.tx.TransactionException;
 import org.mule.runtime.extension.api.connectivity.TransactionalConnection;
+import org.mule.runtime.extension.api.notification.NotificationActionDefinition;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.tx.TransactionHandle;
 
@@ -112,4 +115,16 @@ public interface SourceCallbackContext {
    * @return The {@link SourceCallback} that generated {@code this} context
    */
   <T, A> SourceCallback<T, A> getSourceCallback();
+
+  /**
+   * Indicates that an {@link ExtensionNotification} should be fired with the desired information when the runtime takes the
+   * source result to process it.
+   *
+   * @param action the {@link NotificationActionDefinition} to use.
+   * @param data the {@link TypedValue} data to use.
+   * @since 4.1
+   */
+  default void fire(NotificationActionDefinition<?> action, TypedValue<?> data) {
+    throw new UnsupportedOperationException();
+  }
 }

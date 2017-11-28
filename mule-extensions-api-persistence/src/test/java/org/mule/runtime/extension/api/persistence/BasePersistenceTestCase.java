@@ -213,7 +213,7 @@ abstract class BasePersistenceTestCase {
                                     emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties);
+                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet());
 
     createCoreOperations();
 
@@ -241,7 +241,7 @@ abstract class BasePersistenceTestCase {
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(), SOURCE, emptySet(),
-                                           emptySet());
+                                           emptySet(), emptySet());
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",
@@ -266,7 +266,7 @@ abstract class BasePersistenceTestCase {
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(),
                                     ImmutableSet.of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
-                                    externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty));
+                                    externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

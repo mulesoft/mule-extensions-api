@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Collections.emptySet;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
@@ -28,6 +27,8 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.notification.ImmutableNotificationModel;
+import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -61,18 +62,18 @@ import org.mule.runtime.extension.internal.persistence.SourceModelTypeAdapterFac
 import org.mule.runtime.extension.internal.persistence.SubTypesModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.XmlDslModelTypeAdapter;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Serializer that can convert a {@link ExtensionModel} into a readable and processable JSON representation and from a JSON
@@ -170,6 +171,8 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
+    final DefaultImplementationTypeAdapterFactory<NotificationModel, ImmutableNotificationModel> notificationModelTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(NotificationModel.class, ImmutableNotificationModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
@@ -194,7 +197,8 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new NestableElementModelTypeAdapterFactory())
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
-        .registerTypeAdapterFactory(oauthGrantTypeAdapter);
+        .registerTypeAdapterFactory(oauthGrantTypeAdapter)
+        .registerTypeAdapterFactory(notificationModelTypeAdapter);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();
