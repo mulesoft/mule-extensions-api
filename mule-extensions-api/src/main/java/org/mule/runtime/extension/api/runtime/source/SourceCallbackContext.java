@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.runtime.source;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.tx.TransactionException;
 import org.mule.runtime.extension.api.connectivity.TransactionalConnection;
+import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.tx.TransactionHandle;
 
 import java.util.Optional;
@@ -25,21 +26,22 @@ public interface SourceCallbackContext {
    * Associates the given {@code connection} to {@code this} context. As a result of this binding,
    * the runtime will automatically take care of releasing the {@code connection} once the source has
    * finished processing the response and will also take care of resolving the associated transaction (if any).
-   *
+   * <p>
    * If the connection is a {@link TransactionalConnection} and the source was configured to be transactional,
    * then this method will start such transaction.
    *
    * @param connection the connection to be bound
    * @return a {@link TransactionHandle} produced as a result of the binding
-   * @throws ConnectionException if the connection is not valid or cannot be used
+   * @throws ConnectionException  if the connection is not valid or cannot be used
    * @throws TransactionException if a transaction was needed but couldn't be started.
    */
   TransactionHandle bindConnection(Object connection) throws ConnectionException, TransactionException;
 
   /**
    * Returns the connection that was bound through {@link #bindConnection(Object)}.
-   *
+   * <p>
    * If that method was not called, then it will throw {@link IllegalStateException}
+   *
    * @param <T> the generic type of the connection
    * @return the bound connection
    * @throws IllegalStateException if no connection bound
@@ -49,11 +51,11 @@ public interface SourceCallbackContext {
   /**
    * A handle to the current on-going transaction. If no transaction is active, then you get a handle
    * which represents a void transaction, but this method will never return null.
-   *
+   * <p>
    * This method can be used without the need for {@link #bindConnection(Object)} to had been invoked on {@code this} instance
    * first. However if it has, then the result of this method will be the exact same instance that
    * {@link #bindConnection(Object)} returned.
-   * 
+   *
    * @return the current {@link TransactionHandle}
    */
   TransactionHandle getTransactionHandle();
@@ -83,6 +85,26 @@ public interface SourceCallbackContext {
    * @param value        the variable's value
    */
   void addVariable(String variableName, Object value);
+
+  /**
+   * Sets the correlationId of the event that will be passed to the flow when the
+   * {@link SourceCallback#handle(Result, SourceCallbackContext)} method is invoked.
+   * <p>
+   * This method can only be invoked <b>BEFORE</b> {@code this} instance has been used on a
+   * {@link SourceCallback#handle(Result, SourceCallbackContext)} operation. Otherwise, an
+   * {@link IllegalStateException} will be thrown.
+   *
+   * @param correlationId a correlationId
+   * @throws IllegalArgumentException if invoked once {@code this} context has already been used to push a message
+   * @since 1.1
+   */
+  void setCorrelationId(String correlationId);
+
+  /**
+   * @return Optionally returns the correlationId set through {@link #setCorrelationId(String)} (if any).
+   * @since 1.1
+   */
+  Optional<String> getCorrelationId();
 
   /**
    * @param <T> the generic type of the output values of the generated results
