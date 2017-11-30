@@ -12,13 +12,19 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Location.EMBEDDED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_CRL_FILE_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_KEY_STORE_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_PREFIX;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.internal.dsl.DslConstants.TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_TRUST_STORE_ELEMENT_IDENTIFIER;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
+import org.mule.metadata.api.builder.UnionTypeBuilder;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.java.api.handler.ClassHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
@@ -81,6 +87,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
     addTrustStoreField(typeBuilder, type);
     addKeyStoreField(typeBuilder, type);
+    addRevocationCheckField(typeBuilder, type);
 
     return type;
   }
@@ -146,6 +153,53 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
   private DisplayTypeAnnotation filePathDisplayModel() {
     return new DisplayTypeAnnotation(DisplayModel.builder().path(new PathModel(FILE, false, EMBEDDED, new String[] {})).build());
+  }
+
+  private void addRevocationCheckField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
+    ObjectTypeBuilder standardRevocationCheck =
+        typeBuilder.objectType().id(TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER)
+            .with(new InfrastructureTypeAnnotation())
+            .description("Uses the standard JVM certificate revocation checks, which depend on the certificate having the "
+                + "corresponding extension points (additional tags for CRLDP or OCSP), and the availability "
+                + "of revocation servers.");
+
+    addBooleanField(standardRevocationCheck, typeBuilder, "onlyEndEntities",
+                    "Only verify the last element of the certificate chain.", false);
+    addBooleanField(standardRevocationCheck, typeBuilder, "preferCrls", "Try CRL instead of OCSP first.", false);
+    addBooleanField(standardRevocationCheck, typeBuilder, "noFallback",
+                    "Do not use the secondary checking method (the one not selected before).", false);
+    addBooleanField(standardRevocationCheck, typeBuilder, "softFail",
+                    "Avoid verification failure when the revocation server can not be reached or is busy.", false);
+
+    ObjectTypeBuilder customOcspResponder = typeBuilder.objectType().id(TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER)
+        .with(new InfrastructureTypeAnnotation())
+        .description("Uses a custom OCSP responder for certificate revocation checks, with a specific trusted certificate for "
+            + "revocating other keys. This ignores extension points (additional tags for CRLDP or OCSP) present in the "
+            + "certificate, if any.");
+
+    addStringField(customOcspResponder, typeBuilder, "url", "The URL of the OCSP responder.", null);
+    addStringField(customOcspResponder, typeBuilder, "certAlias",
+                   "Alias of the signing certificate for the OCSP response (must be in the trust store), if present.", null);
+
+    ObjectTypeBuilder crlFile = typeBuilder.objectType().id(TLS_CRL_FILE_ELEMENT_IDENTIFIER)
+        .with(new InfrastructureTypeAnnotation())
+        .description("Local file based certificate revocation checker, which requires a CRL file to be accessible and ignores "
+            + "extension points (additional tags for CRLDP and OCSP) in the certificate.");
+
+    addStringField(crlFile, typeBuilder, "path", "The path to the CRL file.", null);
+
+    UnionTypeBuilder revocationCheck = typeBuilder.unionType().id("RevocationCheck")
+        .with(new InfrastructureTypeAnnotation())
+        .of(standardRevocationCheck)
+        .of(customOcspResponder)
+        .of(crlFile);
+
+    type.addField()
+        .with(new ParameterDslAnnotation(true, false))
+        .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
+        .key(TLS_REVOCATION_CHECK_ELEMENT_IDENTIFIER)
+        .required(false)
+        .value(revocationCheck);
   }
 
 }
