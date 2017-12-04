@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  * The execution of the Flow is completed either when all the components were invoked successfully or when an error
  * occurs in one processor and it is propagated to the {@link FlowExecutor}
  *
- * @since 1.0
+ * @since 1.1
  */
 public interface FlowExecutor {
 
