@@ -14,6 +14,8 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -285,4 +287,21 @@ public final class ExtensionMetadataTypeUtils {
         .findFirst()
         .orElseGet(() -> new MetadataFormat(rfc, rfc, rfc));
   }
+
+  /**
+   * Returns a {@link Boolean} indicating whether the given {@link MetadataType} is a Java Array or not.
+   *
+   * @param metadataType {@link MetadataType} to introspect
+   * @return a {@link boolean}
+   */
+  public static boolean isJavaArray(MetadataType metadataType) {
+    if (isCollection(metadataType)) {
+      Optional<Class<Object>> type = getType(metadataType);
+      if (type.isPresent()) {
+        return type.get().isArray();
+      }
+    }
+    return false;
+  }
+
 }
