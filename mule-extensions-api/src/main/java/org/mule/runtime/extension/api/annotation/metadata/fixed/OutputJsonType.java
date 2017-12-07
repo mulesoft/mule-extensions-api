@@ -20,7 +20,8 @@ import java.lang.annotation.Target;
 import java.util.Map;
 
 /**
- * Used to set an JSON {@link MetadataType} loaded from a provided schema as output of a {@link ComponentModel}.
+ * Declares the annotated {@link ComponentModel}'s output or/and attributes {@link MetadataType} to the type represented by the
+ * JSON Schema.
  *
  * @since 1.1
  */
@@ -29,7 +30,14 @@ import java.util.Map;
 public @interface OutputJsonType {
 
   /**
-   * @return a JSON schema that describes the type structure. The schema must live in the extension resources in order to be located.
+   * @return a JSON schema that describes the type structure of the output.
+   * The schema must live in the extension resources in order to be located.
    */
-  String schema();
+  String outputSchema() default "";
+
+  /**
+   * @return a JSON schema that describes the type structure of the attributes.
+   * The schema must live in the extension resources in order to be located.
+   */
+  String attributesSchema() default "";
 }

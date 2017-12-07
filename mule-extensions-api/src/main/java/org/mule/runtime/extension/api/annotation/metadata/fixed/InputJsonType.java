@@ -21,7 +21,7 @@ import java.util.Map;
 
 
 /**
- * Used to set an JSON {@link MetadataType} loaded from a provided schema as input of a {@link ParameterModel}.
+ * Declares the annotated {@link ParameterModel}'s {@link MetadataType} to the type represented by the provided JSON Schema.
  * <p>
  * Can only be used on {@link Map}, {@link String} or {@link InputStream} parameters in order to
  * be correctly coerced.

@@ -19,7 +19,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to set an XML {@link MetadataType} loaded from a provided schema as output of a {@link ComponentModel}.
+ * Declares the annotated {@link ComponentModel}'s output or/and attributes {@link MetadataType} to the type represented by the
+ * provided element in the XSD Schema.
  *
  * @since 1.1
  */
@@ -28,12 +29,26 @@ import java.lang.annotation.Target;
 public @interface OutputXmlType {
 
   /**
-   * @return the XSD schema file where the element to be loaded is defined. The schema must live in the extension resources in order to be located.
+   * @return the XSD schema file where the element to be loaded for the output type is defined.
+   * The schema must live in the extension resources in order to be located.
    */
-  String schema();
+  String outputSchema() default "";
 
   /**
-   * @return the qualified name used to reference the element to be loaded within the provided {@link InputXmlType#schema()}.
+   * @return the qualified name used to reference the element to be loaded for the output
+   * within the provided {@link OutputXmlType#outputSchema()} ()}.
    */
-  String qName();
+  String outputQName() default "";
+
+  /**
+   * @return the XSD schema file where the element to be loaded for the attributes type is defined.
+   * The schema must live in the extension resources in order to be located.
+   */
+  String attributesSchema() default "";
+
+  /**
+   * @return the qualified name used to reference the element to be loaded for the attributes
+   * within the provided {@link OutputXmlType#attributesSchema()}.
+   */
+  String attributesQName() default "";
 }
