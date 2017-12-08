@@ -40,6 +40,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAn
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -289,16 +290,16 @@ public final class ExtensionMetadataTypeUtils {
   }
 
   /**
-   * Returns a {@link Boolean} indicating whether the given {@link MetadataType} is a Java Array or not.
+   * Returns a {@link Boolean} indicating whether the given {@link MetadataType} is a Java Collection or not.
    *
    * @param metadataType {@link MetadataType} to introspect
    * @return a {@link boolean}
    */
-  public static boolean isJavaArray(MetadataType metadataType) {
+  public static boolean isJavaCollection(MetadataType metadataType) {
     if (isCollection(metadataType)) {
       Optional<Class<Object>> type = getType(metadataType);
       if (type.isPresent()) {
-        return type.get().isArray();
+        return Collection.class.isAssignableFrom(type.get());
       }
     }
     return false;
