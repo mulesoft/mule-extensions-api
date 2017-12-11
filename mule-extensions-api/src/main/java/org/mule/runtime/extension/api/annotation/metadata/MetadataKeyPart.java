@@ -12,6 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
+import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -34,8 +35,18 @@ import java.lang.annotation.Target;
 public @interface MetadataKeyPart {
 
   /**
+   * The resolution order of this key part, starting from {@code 1}.
+   * 
    * @return the resolution order of this key part during the building of
    * the {@link MetadataKeyId} annotated parameter corresponding to this {@link MetadataKeyPart}.
    */
   int order();
+
+  /**
+   * @return whether or not {@code this} {@link MetadataKeyPart} will be provided by the
+   * {@link TypeKeysResolver} associated to the container of this part, or if {@code this} part
+   * has no predefined values and has to be provided by the user entirely.
+   */
+  boolean providedByKeyResolver() default true;
+
 }

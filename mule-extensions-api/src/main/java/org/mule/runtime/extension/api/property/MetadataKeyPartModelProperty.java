@@ -6,11 +6,13 @@
  */
 package org.mule.runtime.extension.api.property;
 
-import org.mule.runtime.api.metadata.MetadataKey;
+import static java.lang.String.format;
+import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.metadata.MetadataKey;
 
 
 /**
@@ -22,6 +24,7 @@ import org.mule.runtime.api.meta.model.source.SourceModel;
 public final class MetadataKeyPartModelProperty implements ModelProperty {
 
   private final int order;
+  private final boolean providedByKeyResolver;
 
   /**
    * Creates a new instance.
@@ -29,7 +32,21 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    * @param order the order of the parameter in the {@link MetadataKey};
    */
   public MetadataKeyPartModelProperty(int order) {
+    this(order, true);
+  }
+
+  /**
+   * Creates a new instance.
+   *
+   * @param order the order of the parameter in the {@link MetadataKey};
+   * @param providedByKeyResolver whether or not this part will be provided by the
+   *  keys resolver associated to the container of this part
+   */
+  public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
+    checkArgument(order > 0,
+                  format("Invalid [order] for [MetadataKeyPart]. Expected a number greater than zero but found [%s]", order));
     this.order = order;
+    this.providedByKeyResolver = providedByKeyResolver;
   }
 
   /**
@@ -55,5 +72,14 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    */
   public int getOrder() {
     return order;
+  }
+
+  /**
+   * @return whether or not this part will be provided by the
+   * keys resolver associated to the container of this part, or if this part
+   * has no predefined values and has to be provided by the user entirely.
+   */
+  public boolean isProvidedByKeyResolver() {
+    return providedByKeyResolver;
   }
 }
