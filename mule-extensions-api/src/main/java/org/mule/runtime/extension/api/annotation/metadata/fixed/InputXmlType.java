@@ -31,12 +31,12 @@ import java.lang.annotation.Target;
 public @interface InputXmlType {
 
   /**
-   * @return the XSD outputSchema file where the element to be loaded is defined. The outputSchema must live in the extension resources in order to be located.
+   * @return the XSD schema file where the element to be loaded is defined. The schema must live in the extension resources in order to be located.
    */
   String schema();
 
   /**
    * @return the qualified name used to reference the element to be loaded within the provided {@link InputXmlType#schema()}.
    */
-  String qName();
+  String qname();
 }

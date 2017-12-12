@@ -48,7 +48,7 @@ public @interface OutputResolver {
 
   /**
    * Specifies the {@link AttributesTypeResolver} which should be used to resolve the type of
-   * the {@link Message#getAttributes()}of the output message.
+   * the {@link Message#getAttributes()} of the output message.
    * <p>
    * Always consider that this resolver should be consistent with the one returned by
    * {@link #output()}.
