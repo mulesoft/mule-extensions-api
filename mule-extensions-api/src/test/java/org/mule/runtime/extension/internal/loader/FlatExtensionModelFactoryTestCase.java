@@ -71,6 +71,8 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
+
+import org.mule.metadata.api.TypeLoader;
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
@@ -379,8 +381,8 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertByteStreamingStrategyParameter(parameterModels.get(0));
     assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
-                    BooleanType.class, true);
+    assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false,
+                    typeLoader.load(Boolean.class), BooleanType.class, true);
     assertTargetParameter(parameterModels.get(3), parameterModels.get(4));
   }
 
@@ -401,8 +403,8 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     assertParameter(parameterModels.get(0), COLLECTION_PARAMETER, THE_OPERATION_TO_USE, SUPPORTED, true,
                     arrayType, ArrayType.class, null);
-    assertParameter(parameterModels.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false, typeLoader.load(Boolean.class),
-                    BooleanType.class, true);
+    assertParameter(parameterModels.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false,
+                    typeLoader.load(Boolean.class), BooleanType.class, true);
     assertParameter(parameterModels.get(2), CALLBACK, CALLBACK_DESCRIPTION, REQUIRED, true, typeLoader.load(OperationModel.class),
                     ObjectType.class, null);
   }

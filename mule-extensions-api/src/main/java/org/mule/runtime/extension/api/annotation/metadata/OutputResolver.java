@@ -10,6 +10,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.metadata.NullMetadataResolver;
