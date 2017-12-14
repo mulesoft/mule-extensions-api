@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.runtime.config.ConfigurationInstance;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -41,6 +42,17 @@ public interface ExecutionContext<M extends ComponentModel> {
    * @throws NoSuchElementException if the parameter is not present.
    */
   <T> T getParameter(String parameterName);
+
+  /**
+   * Returns an immutable map containing all the parameters associated with this execution. The keys are the parameter names
+   * and the values are... well, the values.
+   * <p>
+   * It is guaranteed that whatever value returned in this map will be the exact same as invoking {@link #getParameter(String)}
+   * with the same key, no matter how many times invoked nor in which order.
+   *
+   * @return an immutable {@link Map} with all the parameters
+   */
+  Map<String, Object> getParameters();
 
   /**
    * Returns the {@link ConfigurationInstance} for the operation being executed.
