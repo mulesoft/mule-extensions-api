@@ -24,7 +24,6 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
 import static org.slf4j.LoggerFactory.getLogger;
-
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -96,22 +95,26 @@ import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationE
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.validator.BackPressureModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ContentParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ExclusiveParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.FunctionModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.NameClashModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.NameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.OperationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
-import org.mule.runtime.extension.internal.loader.validator.NameModelValidator;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,10 +123,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.slf4j.Logger;
 
 /**
@@ -170,7 +169,8 @@ public final class ExtensionModelFactory {
                                                        new SubtypesModelValidator(),
                                                        new TransactionalParametersValidator(),
                                                        new ValidatorModelValidator(),
-                                                       new NameModelValidator()));
+                                                       new NameModelValidator(),
+                                                       new BackPressureModelValidator()));
   }
 
   /**
