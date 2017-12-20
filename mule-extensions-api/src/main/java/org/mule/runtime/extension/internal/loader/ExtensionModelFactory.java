@@ -334,6 +334,7 @@ public final class ExtensionModelFactory {
       return fromCache(declaration,
                        () -> new ImmutableSourceModel(declaration.getName(), declaration.getDescription(),
                                                       declaration.hasResponse(),
+                                                      declaration.isRunsOnPrimaryNodeOnly(),
                                                       toParameterGroups(declaration.getParameterGroups()),
                                                       toNestedComponentModels(declaration.getNestedComponents()),
                                                       toOutputModel(declaration.getOutput()),
