@@ -206,8 +206,9 @@ public final class ExtensionConstants {
 
   public static final String PRIMARY_NODE_ONLY_PARAMETER_NAME = "primaryNodeOnly";
 
-  public static final String PRIMARY_NODE_ONLY_PARAMETER_DESCRIPTION = "Whether this source should only be executed on the primary node "
-      + "when runnning in Cluster";
+  public static final String PRIMARY_NODE_ONLY_PARAMETER_DESCRIPTION =
+      "Whether this source should only be executed on the primary node "
+          + "when runnning in Cluster";
 
   /**
    * The description of the parameter for configuring transaction type

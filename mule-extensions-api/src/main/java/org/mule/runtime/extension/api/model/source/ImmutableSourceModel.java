@@ -59,7 +59,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               String description,
                               boolean hasResponse,
                               boolean runsOnPrimaryNodeOnly,
-                              List<ParameterGroupModel>parameterGroupModels,
+                              List<ParameterGroupModel> parameterGroupModels,
                               List<? extends NestableElementModel> nestedComponents, OutputModel output,
                               OutputModel outputAttributes,
                               Optional<SourceCallbackModel> successCallbackModel,
