@@ -145,6 +145,19 @@ public final class ExtensionConstants {
   public static final String TRANSACTIONAL_TYPE_PARAMETER_NAME = "transactionType";
 
   /**
+   * The name of the parameter for configuring the backpressure strategy
+   * @since 1.1
+   */
+  public static final String BACK_PRESSURE_STRATEGY_PARAMETER_NAME = "backPressureStrategy";
+
+  /**
+   * The description of the parameter for configuring the backpressure strategy
+   * @since 1.1
+   */
+  public static final String BACK_PRESSURE_STRATEGY_PARAMETER_DESCRIPTION =
+      "The strategy that the runtime will use to apply back pressure";
+
+  /**
    * The default size of the buffer that allows for repeatable streams
    */
   public static final int DEFAULT_BYTE_STREAMING_BUFFER_SIZE = 512;

@@ -141,7 +141,9 @@
                             "java.util.Collection"
                           ],
                           "parent": "",
-                          "genericTypes": [],
+                          "genericTypes": [
+                            "org.mule.runtime.extension.api.dsl.model.ExtensibleType"
+                          ],
                           "isMap": false
                         }
                       },
@@ -202,7 +204,8 @@
                                   "parent": "java.lang.Number",
                                   "genericTypes": [],
                                   "isMap": false
-                                }
+                                },
+                                "int": {}
                               }
                             },
                             "annotations": {
@@ -230,7 +233,9 @@
                                     "java.util.Collection"
                                   ],
                                   "parent": "",
-                                  "genericTypes": [],
+                                  "genericTypes": [
+                                    "java.lang.Integer"
+                                  ],
                                   "isMap": false
                                 }
                               },
@@ -250,7 +255,8 @@
                                     "parent": "java.lang.Number",
                                     "genericTypes": [],
                                     "isMap": false
-                                  }
+                                  },
+                                  "int": {}
                                 }
                               }
                             },
@@ -345,7 +351,8 @@
                                 "parent": "java.lang.Number",
                                 "genericTypes": [],
                                 "isMap": false
-                              }
+                              },
+                              "int": {}
                             }
                           },
                           "annotations": {
@@ -443,7 +450,8 @@
                                 "parent": "java.lang.Number",
                                 "genericTypes": [],
                                 "isMap": false
-                              }
+                              },
+                              "int": {}
                             }
                           },
                           "annotations": {
@@ -1099,7 +1107,9 @@
                               "java.util.Collection"
                             ],
                             "parent": "",
-                            "genericTypes": [],
+                            "genericTypes": [
+                              "org.mule.runtime.extension.api.dsl.model.ExtensibleType"
+                            ],
                             "isMap": false
                           }
                         },
@@ -1160,7 +1170,8 @@
                                     "parent": "java.lang.Number",
                                     "genericTypes": [],
                                     "isMap": false
-                                  }
+                                  },
+                                  "int": {}
                                 }
                               },
                               "annotations": {
@@ -1188,7 +1199,9 @@
                                       "java.util.Collection"
                                     ],
                                     "parent": "",
-                                    "genericTypes": [],
+                                    "genericTypes": [
+                                      "java.lang.Integer"
+                                    ],
                                     "isMap": false
                                   }
                                 },
@@ -1208,7 +1221,8 @@
                                       "parent": "java.lang.Number",
                                       "genericTypes": [],
                                       "isMap": false
-                                    }
+                                    },
+                                    "int": {}
                                   }
                                 }
                               },
@@ -1303,7 +1317,8 @@
                                   "parent": "java.lang.Number",
                                   "genericTypes": [],
                                   "isMap": false
-                                }
+                                },
+                                "int": {}
                               }
                             },
                             "annotations": {
@@ -1401,7 +1416,8 @@
                                   "parent": "java.lang.Number",
                                   "genericTypes": [],
                                   "isMap": false
-                                }
+                                },
+                                "int": {}
                               }
                             },
                             "annotations": {
