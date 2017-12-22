@@ -18,6 +18,7 @@
   "type": "SOURCE",
   "component": {
     "hasResponse": true,
+    "runsOnPrimaryNodeOnly": false,
     "successCallback": {
       "parameterGroupModels": [
         {
