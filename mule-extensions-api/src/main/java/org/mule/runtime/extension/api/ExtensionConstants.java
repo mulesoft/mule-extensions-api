@@ -204,8 +204,19 @@ public final class ExtensionConstants {
   public static final String SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION =
       "The type of beginning action that sources can take regarding transactions.";
 
+
+  /**
+   * The name of the parameter which allows to configure if a source should only run on the primary node
+   *
+   * @since 1.1
+   */
   public static final String PRIMARY_NODE_ONLY_PARAMETER_NAME = "primaryNodeOnly";
 
+  /**
+   * The description of the parameter which allows to configure if a source should only run on the primary node
+   *
+   * @since 1.1
+   */
   public static final String PRIMARY_NODE_ONLY_PARAMETER_DESCRIPTION =
       "Whether this source should only be executed on the primary node "
           + "when runnning in Cluster";
