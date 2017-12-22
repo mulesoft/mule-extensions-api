@@ -117,7 +117,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * {@inheritDoc}
    */
   @Override
-  public boolean isRunsOnPrimaryNodeOnly() {
+  public boolean runsOnPrimaryNodeOnly() {
     return runsOnPrimaryNodeOnly;
   }
 }
