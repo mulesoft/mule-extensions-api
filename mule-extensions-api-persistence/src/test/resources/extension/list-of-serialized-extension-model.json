@@ -1062,6 +1062,7 @@
     "messageSources": [
       {
         "hasResponse": true,
+        "runsOnPrimaryNodeOnly": false,
         "successCallback": {
           "parameterGroupModels": [
             {
@@ -3073,6 +3074,7 @@
     "messageSources": [
       {
         "hasResponse": true,
+        "runsOnPrimaryNodeOnly": false,
         "successCallback": {
           "parameterGroupModels": [
             {

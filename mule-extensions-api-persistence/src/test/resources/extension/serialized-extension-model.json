@@ -1061,6 +1061,7 @@
   "messageSources": [
     {
       "hasResponse": true,
+      "runsOnPrimaryNodeOnly": false,
       "successCallback": {
         "parameterGroupModels": [
           {

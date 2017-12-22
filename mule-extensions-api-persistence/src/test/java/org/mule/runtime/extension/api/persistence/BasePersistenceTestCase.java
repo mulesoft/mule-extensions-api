@@ -228,7 +228,7 @@ abstract class BasePersistenceTestCase {
                                              CONNECTION,
                                              emptySet());
 
-    sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true,
+    sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true, false,
                                            asParameterGroup(carNameParameter, noIdParameter),
                                            emptyList(), outputModel, outputAttributesModel,
                                            Optional

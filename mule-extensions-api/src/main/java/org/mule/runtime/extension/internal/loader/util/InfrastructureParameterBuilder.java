@@ -6,12 +6,16 @@
  */
 package org.mule.runtime.extension.internal.loader.util;
 
+import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.CONNECTION;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.PRIMARY_NODE_ONLY_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.PRIMARY_NODE_ONLY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.POOLING_PROFILE_PARAMETER_DESCRIPTION;
@@ -36,6 +40,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclarati
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.declaration.type.DynamicConfigExpirationTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.PoolingProfileTypeBuilder;
@@ -74,6 +79,17 @@ public final class InfrastructureParameterBuilder {
     declaration.getParameterGroup(CONNECTION).addParameter(parameter);
   }
 
+  public static void addPrimaryNodeParameter(SourceDeclaration declaration) {
+    ParameterDeclaration parameter = new ParameterDeclaration(PRIMARY_NODE_ONLY_PARAMETER_NAME);
+    parameter.setDescription(PRIMARY_NODE_ONLY_PARAMETER_DESCRIPTION);
+    parameter.setType(create(JAVA).booleanType().build(), false);
+    parameter.setExpressionSupport(NOT_SUPPORTED);
+    parameter.setRequired(false);
+    parameter.setDefaultValue(false);
+    parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+
+    declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(parameter);
+  }
 
   public static void addReconnectionStrategyParameter(ParameterizedDeclaration declaration) {
     ParameterDeclaration parameter = new ParameterDeclaration(RECONNECTION_STRATEGY_PARAMETER_NAME);
