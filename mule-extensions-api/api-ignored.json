@@ -1,0 +1,52 @@
+{
+  "revapi": {
+    "ignore": [
+      {
+        "code": "java.method.numberOfParametersChanged",
+        "old": "method void org.mule.runtime.extension.api.model.source.ImmutableSourceModel::<init>(java.lang.String, java.lang.String, boolean, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>)",
+        "new": "method void org.mule.runtime.extension.api.model.source.ImmutableSourceModel::<init>(java.lang.String, java.lang.String, boolean, boolean, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>)",
+        "package": "org.mule.runtime.extension.api.model.source",
+        "classSimpleName": "ImmutableSourceModel",
+        "methodName": "<init>",
+        "elementKind": "constructor",
+        "justification": "MULE-14321: API broken by MULE-14288"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method boolean org.mule.runtime.extension.api.runtime.config.ConfigurationProvider::isDynamic()",
+        "package": "org.mule.runtime.extension.api.runtime.config",
+        "classSimpleName": "ConfigurationProvider",
+        "methodName": "isDynamic",
+        "elementKind": "method",
+        "justification": "MULE-14322: API broken by MULE-14124"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method java.util.Map<java.lang.String, java.lang.Object> org.mule.runtime.extension.api.runtime.operation.ExecutionContext<M extends org.mule.runtime.api.meta.model.ComponentModel>::getParameters()",
+        "package": "org.mule.runtime.extension.api.runtime.operation",
+        "classSimpleName": "ExecutionContext",
+        "methodName": "getParameters",
+        "elementKind": "method",
+        "justification": "MULE-14323: API broken by MULE-14048"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method java.util.Optional<java.lang.String> org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::getCorrelationId()",
+        "package": "org.mule.runtime.extension.api.runtime.source",
+        "classSimpleName": "SourceCallbackContext",
+        "methodName": "getCorrelationId",
+        "elementKind": "method",
+        "justification": "MULE-14324 API broken by MULE-13927"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method void org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::setCorrelationId(java.lang.String)",
+        "package": "org.mule.runtime.extension.api.runtime.source",
+        "classSimpleName": "SourceCallbackContext",
+        "methodName": "setCorrelationId",
+        "elementKind": "method",
+        "justification": "MULE-14324 API broken by MULE-13927"
+      }
+    ]
+  }
+}
