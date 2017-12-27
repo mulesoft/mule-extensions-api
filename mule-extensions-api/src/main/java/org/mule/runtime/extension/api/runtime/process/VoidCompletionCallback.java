@@ -6,22 +6,26 @@
  */
 package org.mule.runtime.extension.api.runtime.process;
 
+import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.runtime.extension.api.runtime.route.Route;
+
 /**
- * This callback is how non blocking routers notify the end of its execution when no result is produced.
+ * This callback is how Routers notify the end of its execution when no result is produced.
  * <p>
- * In order to implement a void non blocking router, the method needs to:
+ * In order to implement a Void Router, the method needs to:
  * <p>
  * <ul>
  * <li>Have a void return type</li>
- * <li>Have an argument of this type</li>
+ * <li>Have at least one argument of {@link Route} type</li>
+ * <li>Have an argument of {@link VoidCompletionCallback} type</li>
  * </ul>
  * <p>
- * When the non blocking operation has finished, it has to notify its completion either by
+ * When the processing performed by the Router finishes, it has to notify its completion either by
  * invoking the {@link #success()} or {@link #error(Throwable)} methods.
- * Only then will the operation be considered as completed and the next processor in the
+ * Only then will the execution of the Router be considered as completed and the next processor in the
  * pipeline will be executed.
  * <p>
- * For example, a Void router can be declared as:
+ * For example, a Void Router can be declared as:
  * <p>
  * <pre>
  *
@@ -38,23 +42,23 @@ package org.mule.runtime.extension.api.runtime.process;
  *  }
  * </pre>
  * <p>
- * As you can see, the result of the Route being executed is ignored, and the
+ * As you can see, the result of the Route being executed is ignored, and the {@link VoidCompletionCallback callback}
+ * is notified with a {@link VoidCompletionCallback#success()} or {@link VoidCompletionCallback#error(Throwable)}
  *
  * @since 1.1
  */
 public interface VoidCompletionCallback {
 
   /**
-   * This method is to be invoked when the Operation execution is completed
+   * This method is to be invoked when the Router execution is completed successfully
    */
   void success();
 
   /**
-   * This method is not be invoked when the Operation failed to execute.
+   * This method is to be invoked when the Router execution ends with an error.
    *
    * @param e the exception found
    */
   void error(Throwable e);
-
 
 }
