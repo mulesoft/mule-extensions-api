@@ -6,16 +6,39 @@
  */
 package org.mule.runtime.extension.api.runtime.process;
 
-import org.mule.runtime.api.meta.model.ComponentModel;
-
 /**
- * This callback is how a {@link ComponentModel components} notifies that its execution is completed,
- * without producing any output.
+ * This callback is how non blocking routers notify the end of its execution when no result is produced.
  * <p>
- * When the execution of the component has finished, it has to notify the completion either by
- * invoking {@link #success()} or {@link #error(Throwable)} methods.
- * Only then will the component's execution be considered as completed and the next processor in the
+ * In order to implement a void non blocking router, the method needs to:
+ * <p>
+ * <ul>
+ * <li>Have a void return type</li>
+ * <li>Have an argument of this type</li>
+ * </ul>
+ * <p>
+ * When the non blocking operation has finished, it has to notify its completion either by
+ * invoking the {@link #success()} or {@link #error(Throwable)} methods.
+ * Only then will the operation be considered as completed and the next processor in the
  * pipeline will be executed.
+ * <p>
+ * For example, a Void router can be declared as:
+ * <p>
+ * <pre>
+ *
+ *  public void enricher(WhenRoute when, @Optional DefaultRoute defaultRoute, VoidCompletionCallback callback) {
+ *     if (when.shouldExecute()) {
+ *        when.getChain().process(r -> callback.success(),
+ *                                (e, r) -> callback.error(e));
+ *     } else if (other != null && other.shouldExecute()) {
+ *        other.getChain().process(r -> callback.success(),
+ *                                 (e, r) -> callback.error(e));
+ *     } else {
+ *        callback.error(new IllegalArgumentException("No route executed"));
+ *     }
+ *  }
+ * </pre>
+ * <p>
+ * As you can see, the result of the Route being executed is ignored, and the
  *
  * @since 1.1
  */
