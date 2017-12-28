@@ -1,0 +1,47 @@
+{
+  "revapi": {
+    "ignore": [
+       {
+         "code": "java.class.removed",
+         "old": "interface org.mule.runtime.extension.api.soap.HttpMessageDispatcherProvider",
+         "package": "org.mule.runtime.extension.api.soap",
+         "classSimpleName": "HttpMessageDispatcherProvider",
+         "elementKind": "interface",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.parameterTypeParameterChanged",
+         "old": "parameter void org.mule.runtime.extension.api.soap.SoapOutputPayload::<init>(org.mule.runtime.api.metadata.TypedValue<java.io.InputStream>, java.util.Map<java.lang.String, org.mule.runtime.api.metadata.TypedValue<java.io.InputStream>>, ===java.util.Map<java.lang.String, java.lang.String>===)",
+         "new": "parameter void org.mule.runtime.extension.api.soap.SoapOutputPayload::<init>(org.mule.runtime.api.metadata.TypedValue<java.io.InputStream>, java.util.Map<java.lang.String, org.mule.runtime.api.metadata.TypedValue<java.io.InputStream>>, ===java.util.Map<java.lang.String, org.mule.runtime.api.metadata.TypedValue<java.lang.String>>===)",
+         "oldType": "java.util.Map<java.lang.String, java.lang.String>",
+         "newType": "java.util.Map<java.lang.String, org.mule.runtime.api.metadata.TypedValue<java.lang.String>>",
+         "package": "org.mule.runtime.extension.api.soap",
+         "classSimpleName": "SoapOutputPayload",
+         "methodName": "<init>",
+         "parameterIndex": "2",
+         "elementKind": "parameter",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.returnTypeTypeParametersChanged",
+         "old": "method java.util.Map<java.lang.String, java.lang.String> org.mule.runtime.extension.api.soap.SoapOutputPayload::getHeaders()",
+         "new": "method java.util.Map<java.lang.String, org.mule.runtime.api.metadata.TypedValue<java.lang.String>> org.mule.runtime.extension.api.soap.SoapOutputPayload::getHeaders()",
+         "oldType": "java.util.Map<java.lang.String, java.lang.String>",
+         "newType": "java.util.Map<java.lang.String, org.mule.runtime.api.metadata.TypedValue<java.lang.String>>",
+         "package": "org.mule.runtime.extension.api.soap",
+         "classSimpleName": "SoapOutputPayload",
+         "methodName": "getHeaders",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.class.removed",
+         "old": "class org.mule.runtime.extension.internal.soap.metadata.SoapOutputTypeBuilder",
+         "package": "org.mule.runtime.extension.internal.soap.metadata",
+         "classSimpleName": "SoapOutputTypeBuilder",
+         "elementKind": "class",
+         "justification": "TODO: add JIRA"
+       }
+    ]
+  }
+}
