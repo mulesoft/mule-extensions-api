@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.stereotype;
 /**
  * {@link StereotypeDefinition} for {@code on-error} core components
  *
- * @since 1.0
+ * @since 1.1
  */
 public class OnErrorStereotype extends MuleStereotypeDefinition {
 
