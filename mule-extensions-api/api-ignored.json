@@ -225,8 +225,56 @@
          "classSimpleName": "QNameModelProperty",
          "elementKind": "class",
          "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.numberOfParametersChanged",
+         "old": "method void org.mule.runtime.extension.api.model.AbstractExecutableComponentModel::<init>(java.lang.String, java.lang.String, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>)",
+         "new": "method void org.mule.runtime.extension.api.model.AbstractExecutableComponentModel::<init>(java.lang.String, java.lang.String, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, java.util.Set<org.mule.runtime.api.meta.model.notification.NotificationModel>)",
+         "package": "org.mule.runtime.extension.api.model",
+         "classSimpleName": "AbstractExecutableComponentModel",
+         "methodName": "<init>",
+         "elementKind": "constructor",
+         "justification": "MULE-14342: API broken by MULE-13774"
+       },
+       {
+         "code": "java.method.numberOfParametersChanged",
+         "old": "method void org.mule.runtime.extension.api.model.ImmutableExtensionModel::<init>(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.mule.runtime.api.meta.Category, java.util.List<org.mule.runtime.api.meta.model.config.ConfigurationModel>, java.util.List<org.mule.runtime.api.meta.model.operation.OperationModel>, java.util.List<org.mule.runtime.api.meta.model.connection.ConnectionProviderModel>, java.util.List<org.mule.runtime.api.meta.model.source.SourceModel>, java.util.List<org.mule.runtime.api.meta.model.function.FunctionModel>, java.util.List<org.mule.runtime.api.meta.model.construct.ConstructModel>, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.XmlDslModel, java.util.Set<org.mule.runtime.api.meta.model.SubTypesModel>, java.util.Set<org.mule.metadata.api.model.ObjectType>, java.util.Set<java.lang.String>, java.util.Set<org.mule.runtime.api.meta.model.ImportedTypeModel>, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ExternalLibraryModel>, java.util.Set<java.lang.String>, java.util.Set<java.lang.String>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>)",
+         "new": "method void org.mule.runtime.extension.api.model.ImmutableExtensionModel::<init>(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.mule.runtime.api.meta.Category, java.util.List<org.mule.runtime.api.meta.model.config.ConfigurationModel>, java.util.List<org.mule.runtime.api.meta.model.operation.OperationModel>, java.util.List<org.mule.runtime.api.meta.model.connection.ConnectionProviderModel>, java.util.List<org.mule.runtime.api.meta.model.source.SourceModel>, java.util.List<org.mule.runtime.api.meta.model.function.FunctionModel>, java.util.List<org.mule.runtime.api.meta.model.construct.ConstructModel>, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.XmlDslModel, java.util.Set<org.mule.runtime.api.meta.model.SubTypesModel>, java.util.Set<org.mule.metadata.api.model.ObjectType>, java.util.Set<java.lang.String>, java.util.Set<org.mule.runtime.api.meta.model.ImportedTypeModel>, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ExternalLibraryModel>, java.util.Set<java.lang.String>, java.util.Set<java.lang.String>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>, java.util.Set<org.mule.runtime.api.meta.model.notification.NotificationModel>)",
+         "package": "org.mule.runtime.extension.api.model",
+         "classSimpleName": "ImmutableExtensionModel",
+         "methodName": "<init>",
+         "elementKind": "constructor",
+         "justification": "MULE-14342: API broken by MULE-13774"
+       },
+       {
+         "code": "java.method.numberOfParametersChanged",
+         "old": "method void org.mule.runtime.extension.api.model.operation.ImmutableOperationModel::<init>(java.lang.String, java.lang.String, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, boolean, org.mule.runtime.api.meta.model.operation.ExecutionType, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>)",
+         "new": "method void org.mule.runtime.extension.api.model.operation.ImmutableOperationModel::<init>(java.lang.String, java.lang.String, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, boolean, org.mule.runtime.api.meta.model.operation.ExecutionType, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>, java.util.Set<org.mule.runtime.api.meta.model.notification.NotificationModel>)",
+         "package": "org.mule.runtime.extension.api.model.operation",
+         "classSimpleName": "ImmutableOperationModel",
+         "methodName": "<init>",
+         "elementKind": "constructor",
+         "justification": "MULE-14342: API broken by MULE-13774"
+       },
+       {
+         "code": "java.method.numberOfParametersChanged",
+         "old": "method void org.mule.runtime.extension.api.model.source.ImmutableSourceModel::<init>(java.lang.String, java.lang.String, boolean, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>)",
+         "new": "method void org.mule.runtime.extension.api.model.source.ImmutableSourceModel::<init>(java.lang.String, java.lang.String, boolean, boolean, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>, java.util.Set<org.mule.runtime.api.meta.model.notification.NotificationModel>)",
+         "package": "org.mule.runtime.extension.api.model.source",
+         "classSimpleName": "ImmutableSourceModel",
+         "methodName": "<init>",
+         "elementKind": "constructor",
+         "justification": "MULE-14342: API broken by MULE-13774"
+       },
+       {
+         "code": "java.method.addedToInterface",
+         "new": "method void org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::fireOnHandle(org.mule.runtime.extension.api.notification.NotificationActionDefinition<?>, org.mule.runtime.api.metadata.TypedValue<?>)",
+         "package": "org.mule.runtime.extension.api.runtime.source",
+         "classSimpleName": "SourceCallbackContext",
+         "methodName": "fireOnHandle",
+         "elementKind": "method",
+         "justification": "MULE-14342: API broken by MULE-13774"
        }
-
     ]
   }
 }
