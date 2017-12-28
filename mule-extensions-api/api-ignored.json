@@ -1,0 +1,232 @@
+{
+  "revapi": {
+    "ignore": [
+      {
+        "code": "java.method.numberOfParametersChanged",
+        "old": "method void org.mule.runtime.extension.api.model.source.ImmutableSourceModel::<init>(java.lang.String, java.lang.String, boolean, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>)",
+        "new": "method void org.mule.runtime.extension.api.model.source.ImmutableSourceModel::<init>(java.lang.String, java.lang.String, boolean, boolean, java.util.List<org.mule.runtime.api.meta.model.parameter.ParameterGroupModel>, java.util.List<? extends org.mule.runtime.api.meta.model.nested.NestableElementModel>, org.mule.runtime.api.meta.model.OutputModel, org.mule.runtime.api.meta.model.OutputModel, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, java.util.Optional<org.mule.runtime.api.meta.model.source.SourceCallbackModel>, boolean, boolean, boolean, org.mule.runtime.api.meta.model.display.DisplayModel, org.mule.runtime.api.meta.model.stereotype.StereotypeModel, java.util.Set<org.mule.runtime.api.meta.model.error.ErrorModel>, java.util.Set<org.mule.runtime.api.meta.model.ModelProperty>)",
+        "package": "org.mule.runtime.extension.api.model.source",
+        "classSimpleName": "ImmutableSourceModel",
+        "methodName": "<init>",
+        "elementKind": "constructor",
+        "justification": "MULE-14321: API broken by MULE-14288"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method boolean org.mule.runtime.extension.api.runtime.config.ConfigurationProvider::isDynamic()",
+        "package": "org.mule.runtime.extension.api.runtime.config",
+        "classSimpleName": "ConfigurationProvider",
+        "methodName": "isDynamic",
+        "elementKind": "method",
+        "justification": "MULE-14322: API broken by MULE-14124"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method java.util.Map<java.lang.String, java.lang.Object> org.mule.runtime.extension.api.runtime.operation.ExecutionContext<M extends org.mule.runtime.api.meta.model.ComponentModel>::getParameters()",
+        "package": "org.mule.runtime.extension.api.runtime.operation",
+        "classSimpleName": "ExecutionContext",
+        "methodName": "getParameters",
+        "elementKind": "method",
+        "justification": "MULE-14323: API broken by MULE-14048"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method java.util.Optional<java.lang.String> org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::getCorrelationId()",
+        "package": "org.mule.runtime.extension.api.runtime.source",
+        "classSimpleName": "SourceCallbackContext",
+        "methodName": "getCorrelationId",
+        "elementKind": "method",
+        "justification": "MULE-14324 API broken by MULE-13927"
+      },
+      {
+        "code": "java.method.addedToInterface",
+        "new": "method void org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::setCorrelationId(java.lang.String)",
+        "package": "org.mule.runtime.extension.api.runtime.source",
+        "classSimpleName": "SourceCallbackContext",
+        "methodName": "setCorrelationId",
+        "elementKind": "method",
+        "justification": "MULE-14324 API broken by MULE-13927"
+      },
+       {
+         "code": "java.method.parameterTypeChanged",
+         "old": "parameter void org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation::<init>(===org.mule.runtime.api.meta.model.stereotype.StereotypeModel===)",
+         "new": "parameter void org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation::<init>(===java.util.List<org.mule.runtime.api.meta.model.stereotype.StereotypeModel>===)",
+         "oldType": "org.mule.runtime.api.meta.model.stereotype.StereotypeModel",
+         "newType": "java.util.List<org.mule.runtime.api.meta.model.stereotype.StereotypeModel>",
+         "package": "org.mule.runtime.extension.api.declaration.type.annotation",
+         "classSimpleName": "StereotypeTypeAnnotation",
+         "methodName": "<init>",
+         "parameterIndex": "0",
+         "elementKind": "parameter",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.removed",
+         "old": "method void org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation::<init>(java.lang.Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>)",
+         "package": "org.mule.runtime.extension.api.declaration.type.annotation",
+         "classSimpleName": "StereotypeTypeAnnotation",
+         "methodName": "<init>",
+         "elementKind": "constructor",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.removed",
+         "old": "method org.mule.runtime.api.meta.model.stereotype.StereotypeModel org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation::getStereotypeModel()",
+         "package": "org.mule.runtime.extension.api.declaration.type.annotation",
+         "classSimpleName": "StereotypeTypeAnnotation",
+         "methodName": "getStereotypeModel",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.removed",
+         "old": "method void org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation::resolveStereotype(java.util.function.Function<java.lang.Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, org.mule.runtime.api.meta.model.stereotype.StereotypeModel>)",
+         "package": "org.mule.runtime.extension.api.declaration.type.annotation",
+         "classSimpleName": "StereotypeTypeAnnotation",
+         "methodName": "resolveStereotype",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.addedToInterface",
+         "new": "method org.mule.runtime.api.component.location.Location org.mule.runtime.api.component.Component::getRootContainerLocation() @ org.mule.runtime.extension.api.runtime.ExpirationPolicy",
+         "package": "org.mule.runtime.extension.api.runtime",
+         "classSimpleName": "ExpirationPolicy",
+         "methodName": "getRootContainerLocation",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.removed",
+         "old": "method java.lang.String org.mule.runtime.api.component.Component::getRootContainerName() @ org.mule.runtime.extension.api.runtime.ExpirationPolicy",
+         "package": "org.mule.runtime.extension.api.runtime",
+         "classSimpleName": "ExpirationPolicy",
+         "methodName": "getRootContainerName",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.addedToInterface",
+         "new": "method org.mule.runtime.api.component.location.Location org.mule.runtime.api.component.Component::getRootContainerLocation() @ org.mule.runtime.extension.api.runtime.config.ConfigurationProvider",
+         "package": "org.mule.runtime.extension.api.runtime.config",
+         "classSimpleName": "ConfigurationProvider",
+         "methodName": "getRootContainerLocation",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.removed",
+         "old": "method java.lang.String org.mule.runtime.api.component.Component::getRootContainerName() @ org.mule.runtime.extension.api.runtime.config.ConfigurationProvider",
+         "package": "org.mule.runtime.extension.api.runtime.config",
+         "classSimpleName": "ConfigurationProvider",
+         "methodName": "getRootContainerName",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.addedToInterface",
+         "new": "method org.mule.runtime.api.component.location.Location org.mule.runtime.api.component.Component::getRootContainerLocation() @ org.mule.runtime.extension.api.runtime.config.ExpirableConfigurationProvider",
+         "package": "org.mule.runtime.extension.api.runtime.config",
+         "classSimpleName": "ExpirableConfigurationProvider",
+         "methodName": "getRootContainerLocation",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.removed",
+         "old": "method java.lang.String org.mule.runtime.api.component.Component::getRootContainerName() @ org.mule.runtime.extension.api.runtime.config.ExpirableConfigurationProvider",
+         "package": "org.mule.runtime.extension.api.runtime.config",
+         "classSimpleName": "ExpirableConfigurationProvider",
+         "methodName": "getRootContainerName",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.numberOfParametersChanged",
+         "old": "method org.mule.runtime.extension.api.runtime.operation.ComponentExecutor<T> org.mule.runtime.extension.api.runtime.operation.ComponentExecutorFactory<T extends org.mule.runtime.api.meta.model.ComponentModel>::createExecutor(T)",
+         "new": "method org.mule.runtime.extension.api.runtime.operation.ComponentExecutor<T> org.mule.runtime.extension.api.runtime.operation.ComponentExecutorFactory<T extends org.mule.runtime.api.meta.model.ComponentModel>::createExecutor(T, java.util.Map<java.lang.String, java.lang.Object>)",
+         "package": "org.mule.runtime.extension.api.runtime.operation",
+         "classSimpleName": "ComponentExecutorFactory",
+         "methodName": "createExecutor",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.returnTypeChanged",
+         "old": "method org.mule.runtime.api.security.Authentication org.mule.runtime.extension.api.security.AuthenticationHandler::getAuthentication()",
+         "new": "method java.util.Optional<org.mule.runtime.api.security.Authentication> org.mule.runtime.extension.api.security.AuthenticationHandler::getAuthentication()",
+         "oldType": "org.mule.runtime.api.security.Authentication",
+         "newType": "java.util.Optional<org.mule.runtime.api.security.Authentication>",
+         "package": "org.mule.runtime.extension.api.security",
+         "classSimpleName": "AuthenticationHandler",
+         "methodName": "getAuthentication",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.removed",
+         "old": "method boolean org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils::isInputStream(org.mule.metadata.api.model.MetadataType)",
+         "package": "org.mule.runtime.extension.api.util",
+         "classSimpleName": "ExtensionMetadataTypeUtils",
+         "methodName": "isInputStream",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.method.visibilityReduced",
+         "old": "method java.lang.String org.mule.runtime.extension.api.util.NameUtils::getAliasName(java.lang.String, org.mule.runtime.extension.api.annotation.Alias)",
+         "new": "method java.lang.String org.mule.runtime.extension.api.util.NameUtils::getAliasName(java.lang.String, org.mule.runtime.extension.api.annotation.Alias)",
+         "oldVisibility": "public",
+         "newVisibility": "private",
+         "package": "org.mule.runtime.extension.api.util",
+         "classSimpleName": "NameUtils",
+         "methodName": "getAliasName",
+         "elementKind": "method",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.class.nonFinalClassInheritsFromNewClass",
+         "old": "class org.mule.runtime.extension.api.util.NameUtils",
+         "new": "class org.mule.runtime.extension.api.util.NameUtils",
+         "superClass": "org.mule.runtime.api.util.NameUtils",
+         "package": "org.mule.runtime.extension.api.util",
+         "classSimpleName": "NameUtils",
+         "elementKind": "class",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.class.removed",
+         "old": "class org.mule.runtime.extension.internal.property.InfrastructureParameterModelProperty",
+         "package": "org.mule.runtime.extension.internal.property",
+         "classSimpleName": "InfrastructureParameterModelProperty",
+         "elementKind": "class",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.class.removed",
+         "old": "class org.mule.runtime.extension.internal.property.MetadataKeyIdModelProperty",
+         "package": "org.mule.runtime.extension.internal.property",
+         "classSimpleName": "MetadataKeyIdModelProperty",
+         "elementKind": "class",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.class.removed",
+         "old": "class org.mule.runtime.extension.internal.property.MetadataKeyPartModelProperty",
+         "package": "org.mule.runtime.extension.internal.property",
+         "classSimpleName": "MetadataKeyPartModelProperty",
+         "elementKind": "class",
+         "justification": "TODO: add JIRA"
+       },
+       {
+         "code": "java.class.removed",
+         "old": "class org.mule.runtime.extension.internal.property.QNameModelProperty",
+         "package": "org.mule.runtime.extension.internal.property",
+         "classSimpleName": "QNameModelProperty",
+         "elementKind": "class",
+         "justification": "TODO: add JIRA"
+       }
+
+    ]
+  }
+}
