@@ -128,7 +128,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.privilegedArtifacts = privilegedArtifacts;
     this.constructModels = unique(constructModels, "Constructs");
     this.functions = unique(functions, "Functions");
-    this.notifications = notifications;
+    this.notifications = copy(notifications);
   }
 
   /**

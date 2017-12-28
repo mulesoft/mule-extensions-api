@@ -12,7 +12,7 @@ import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
-import org.mule.runtime.api.meta.model.notification.ImmutableNotificationModel;
+import org.mule.runtime.extension.api.model.notification.ImmutableNotificationModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;

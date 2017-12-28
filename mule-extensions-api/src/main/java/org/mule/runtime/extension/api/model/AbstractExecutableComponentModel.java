@@ -14,7 +14,7 @@ import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
-import org.mule.runtime.api.meta.model.notification.FiresNotifications;
+import org.mule.runtime.api.meta.model.notification.HasNotifications;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
@@ -31,7 +31,7 @@ import java.util.Set;
  * @since 1.0
  */
 public abstract class AbstractExecutableComponentModel extends AbstractComponentModel implements ConnectableComponentModel,
-    FiresNotifications {
+    HasNotifications {
 
   private final OutputModel output;
   private final OutputModel outputAttributes;

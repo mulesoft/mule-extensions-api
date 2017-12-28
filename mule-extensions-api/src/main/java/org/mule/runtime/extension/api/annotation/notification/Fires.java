@@ -32,8 +32,11 @@ import java.lang.annotation.Target;
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
-public @interface EmitsNotifications {
+public @interface Fires {
 
+  /**
+   * @return the {@link NotificationActionProvider} to use
+   */
   Class<? extends NotificationActionProvider>[] value();
 
 }

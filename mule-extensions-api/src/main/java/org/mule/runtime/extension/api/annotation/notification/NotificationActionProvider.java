@@ -11,14 +11,17 @@ import org.mule.runtime.extension.api.notification.NotificationActionDefinition;
 import java.util.Set;
 
 /**
- * A component responsible for providing an idempotent {@link Set} of {@link NotificationActionDefinition}s.
+ * A component responsible for providing an immutable {@link Set} of {@link NotificationActionDefinition}s.
  *
  * @since 1.1
- * @see EmitsNotifications
+ * @see Fires
  * @see NotificationActionDefinition
  */
 public interface NotificationActionProvider {
 
+  /**
+   * @return a {@link Set} of {@link NotificationActionDefinition}.
+   */
   Set<NotificationActionDefinition> getNotificationActions();
 
 }

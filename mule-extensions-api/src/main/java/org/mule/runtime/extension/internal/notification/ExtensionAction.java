@@ -27,7 +27,7 @@ public class ExtensionAction implements Action {
   }
 
   @Override
-  public String getId() {
+  public String getIdentifier() {
     return id;
   }
 

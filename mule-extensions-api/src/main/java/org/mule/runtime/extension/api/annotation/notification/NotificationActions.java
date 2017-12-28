@@ -26,6 +26,9 @@ import java.lang.annotation.Target;
 @Documented
 public @interface NotificationActions {
 
+  /**
+   * @return an {@link Enum} class featuring all {@link NotificationActionDefinition}
+   */
   Class<? extends Enum<? extends NotificationActionDefinition<? extends Enum>>> value();
 
 }

@@ -93,7 +93,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
 
     registerType(declarer, declaration.getOutput().getType());
     registerType(declarer, declaration.getOutputAttributes().getType());
-    declaration.getNotificationModels().forEach(notification -> registerType(declarer, notification.getDataType()));
+    declaration.getNotificationModels().forEach(notification -> registerType(declarer, notification.getType()));
   }
 
   private void registerType(ExtensionDeclarer declarer, MetadataType type) {
