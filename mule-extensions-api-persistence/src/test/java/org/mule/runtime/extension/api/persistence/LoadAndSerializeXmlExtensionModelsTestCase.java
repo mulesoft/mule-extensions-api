@@ -23,7 +23,6 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSO
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.json.api.JsonTypeLoader;
-import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
@@ -88,8 +87,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                                           emptyList(), outputModel,
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
-                                                                          defaultDisplayModel,
-                                                                          emptySet(), PROCESSOR,
+                                                                          defaultDisplayModel, emptySet(), PROCESSOR, emptySet(),
                                                                           emptySet());
 
     originalExtensionModel =
@@ -99,7 +97,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                     emptyList(), emptyList(), emptyList(), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(),
-                                    emptySet(), emptySet(), emptySet());
+                                    emptySet(), emptySet(), emptySet(), emptySet());
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
 

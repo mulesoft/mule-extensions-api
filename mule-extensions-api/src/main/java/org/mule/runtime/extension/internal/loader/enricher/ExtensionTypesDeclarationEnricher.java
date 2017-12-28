@@ -80,7 +80,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
     types.forEach(type -> registerType(declarer, type));
   }
 
-  private void registerType(ExtensionDeclarer declarer, ExecutableComponentDeclaration declaration) {
+  private void registerType(ExtensionDeclarer declarer, ExecutableComponentDeclaration<?> declaration) {
     if (declaration.getOutput() == null) {
       throw new IllegalModelDefinitionException(format("%s '%s' doesn't specify an output type",
                                                        getComponentDeclarationTypeName(declaration), declaration.getName()));
@@ -93,6 +93,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
 
     registerType(declarer, declaration.getOutput().getType());
     registerType(declarer, declaration.getOutputAttributes().getType());
+    declaration.getNotificationModels().forEach(notification -> registerType(declarer, notification.getType()));
   }
 
   private void registerType(ExtensionDeclarer declarer, MetadataType type) {

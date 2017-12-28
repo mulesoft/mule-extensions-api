@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
+import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -71,9 +72,10 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               DisplayModel displayModel,
                               StereotypeModel stereotype,
                               Set<ErrorModel> errors,
-                              Set<ModelProperty> modelProperties) {
+                              Set<ModelProperty> modelProperties,
+                              Set<NotificationModel> notifications) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-          supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents);
+          supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications);
     this.hasResponse = hasResponse;
     this.runsOnPrimaryNodeOnly = runsOnPrimaryNodeOnly;
     this.successCallback = successCallbackModel.orElse(null);

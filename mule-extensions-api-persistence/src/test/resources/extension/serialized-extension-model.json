@@ -53,6 +53,7 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
+      "notifications": [],
       "nestedComponents": [],
       "errors": [
         "ERROR_NAMESPACE:SOME_ERROR"
@@ -1678,6 +1679,7 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
+      "notifications": [],
       "nestedComponents": [],
       "errors": [],
       "stereotype": {
@@ -1788,6 +1790,7 @@
       "kind": "source"
     }
   ],
+  "notifications": [],
   "errors": [
     {
       "error": "MULE:CONNECTIVITY",

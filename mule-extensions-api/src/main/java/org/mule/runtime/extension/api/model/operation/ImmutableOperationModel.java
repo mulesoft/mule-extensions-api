@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
+import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.ExecutionType;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -65,9 +66,10 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
-                                 Set<ModelProperty> modelProperties) {
+                                 Set<ModelProperty> modelProperties,
+                                 Set<NotificationModel> notifications) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
-          displayModel, errors, stereotype, modelProperties, nestedComponents);
+          displayModel, errors, stereotype, modelProperties, nestedComponents, notifications);
     this.blocking = blocking;
     this.executionType = executionType;
 

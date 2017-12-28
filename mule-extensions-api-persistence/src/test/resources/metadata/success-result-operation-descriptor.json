@@ -40,6 +40,7 @@
     "transactional": false,
     "requiresConnection": false,
     "supportsStreaming": false,
+    "notifications": [],
     "nestedComponents": [],
     "errors": [
       {
