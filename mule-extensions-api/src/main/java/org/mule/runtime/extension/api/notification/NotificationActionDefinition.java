@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.notification;
 
+import org.mule.runtime.api.metadata.DataType;
+
 /**
  * Identifies a notification action to be declared by extensions and must be implemented by an {@link Enum}.
  *
@@ -19,6 +21,6 @@ public interface NotificationActionDefinition<E extends Enum<E>> {
    *
    * @return the type of the notification data.
    */
-  Class<?> getDataType();
+  DataType getDataType();
 
 }
