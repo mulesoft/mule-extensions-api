@@ -7,7 +7,7 @@
          "package": "org.mule.runtime.extension.api.soap",
          "classSimpleName": "HttpMessageDispatcherProvider",
          "elementKind": "interface",
-         "justification": "TODO: add JIRA"
+         "justification": "MULE-14340: API broken by MULE-14095"
        },
        {
          "code": "java.method.parameterTypeParameterChanged",
@@ -20,7 +20,7 @@
          "methodName": "<init>",
          "parameterIndex": "2",
          "elementKind": "parameter",
-         "justification": "TODO: add JIRA"
+         "justification": "MULE-14341: API broken by MULE-13599"
        },
        {
          "code": "java.method.returnTypeTypeParametersChanged",
@@ -32,15 +32,7 @@
          "classSimpleName": "SoapOutputPayload",
          "methodName": "getHeaders",
          "elementKind": "method",
-         "justification": "TODO: add JIRA"
-       },
-       {
-         "code": "java.class.removed",
-         "old": "class org.mule.runtime.extension.internal.soap.metadata.SoapOutputTypeBuilder",
-         "package": "org.mule.runtime.extension.internal.soap.metadata",
-         "classSimpleName": "SoapOutputTypeBuilder",
-         "elementKind": "class",
-         "justification": "TODO: add JIRA"
+         "justification": "MULE-14341: API broken by MULE-13599"
        }
     ]
   }
