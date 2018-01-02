@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.model.source;
 
+import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
@@ -39,6 +40,50 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
   /**
    * Creates a new instance
    *
+   * @param name                 the source name. Cannot be blank
+   * @param description          the source description
+   * @param hasResponse          Whether the source emits a response
+   * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param outputAttributes     an {@link OutputModel} which represents the attributes on the output me
+   * @param successCallbackModel an optional model for the source success callback
+   * @param errorCallbackModel   an optional model for the source error callback
+   * @param requiresConnection   whether this component requires connectivity
+   * @param transactional        whether this component supports transactions
+   * @param supportsStreaming    whether this component supports streaming
+   * @param displayModel         a model which contains directive about how this source is displayed in the UI
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
+   * {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set)}
+   * instead
+   */
+  @Deprecated
+  public ImmutableSourceModel(String name,
+                              String description,
+                              boolean hasResponse,
+                              List<ParameterGroupModel> parameterGroupModels,
+                              List<? extends NestableElementModel> nestedComponents, OutputModel output,
+                              OutputModel outputAttributes,
+                              Optional<SourceCallbackModel> successCallbackModel,
+                              Optional<SourceCallbackModel> errorCallbackModel,
+                              Optional<SourceCallbackModel> terminateCallbackModel,
+                              boolean requiresConnection,
+                              boolean transactional,
+                              boolean supportsStreaming,
+                              DisplayModel displayModel,
+                              StereotypeModel stereotype,
+                              Set<ErrorModel> errors,
+                              Set<ModelProperty> modelProperties) {
+    this(name, description, hasResponse, false, parameterGroupModels, nestedComponents, output, outputAttributes,
+         successCallbackModel, errorCallbackModel, terminateCallbackModel, requiresConnection, transactional, supportsStreaming,
+         displayModel, stereotype, errors, modelProperties, emptySet());
+  }
+
+  /**
+   * Creates a new instance
+   *
    * @param name                  the source name. Cannot be blank
    * @param description           the source description
    * @param hasResponse           Whether the source emits a response
@@ -55,6 +100,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param displayModel          a model which contains directive about how this source is displayed in the UI
    * @param stereotype            the {@link StereotypeModel stereotype} of this component
    * @param modelProperties       A {@link Set} of custom properties which extend this model
+   * @param notifications         A {@link Set} of {@link NotificationModel} which describes the source's notifications
    */
   public ImmutableSourceModel(String name,
                               String description,
