@@ -11,22 +11,21 @@ import static org.mule.runtime.api.component.ComponentIdentifier.buildFromString
 import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.internal.persistence.ErrorModelToIdentifierSerializer.serialize;
 import static org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter.ERRORS;
-
 import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ErrorModelBuilder;
 import org.mule.runtime.api.util.Pair;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Helper class for {@link ExtensionModelTypeAdapter} which encapsulates the logic of serializing and
@@ -74,7 +73,7 @@ class ErrorModelSerializerDelegate {
   }
 
   private Set<ErrorModel> flatenizeErrors(Set<ErrorModel> errorModels) {
-    Set<ErrorModel> models = new HashSet<>();
+    Set<ErrorModel> models = new LinkedHashSet<>();
     errorModels.forEach(model -> {
       models.add(model);
       Optional<ErrorModel> parent = model.getParent();
@@ -95,7 +94,7 @@ class ErrorModelSerializerDelegate {
    * @return The a {@link Map} with the Error Identifier as key and the represented {@link ErrorModel}
    */
   Map<String, ErrorModel> parseErrors(JsonArray errors) {
-    Map<String, Pair<String, ErrorModelBuilder>> buildingErrors = new HashMap<>();
+    Map<String, Pair<String, ErrorModelBuilder>> buildingErrors = new LinkedHashMap<>();
 
     errors.iterator().forEachRemaining(element -> {
       JsonObject error = element.getAsJsonObject();

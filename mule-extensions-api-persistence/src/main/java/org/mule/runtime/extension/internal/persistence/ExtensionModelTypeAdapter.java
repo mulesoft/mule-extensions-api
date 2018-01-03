@@ -43,7 +43,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -172,7 +171,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        types,
                                        resources,
                                        importedTypes,
-                                       new HashSet<>(parsedErrors.values()),
+                                       new LinkedHashSet<>(parsedErrors.values()),
                                        externalLibraries,
                                        privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json),
                                        notifications);

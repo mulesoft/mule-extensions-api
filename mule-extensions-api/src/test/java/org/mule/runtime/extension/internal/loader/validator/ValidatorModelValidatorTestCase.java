@@ -80,9 +80,9 @@ public class ValidatorModelValidatorTestCase {
 
     when(operationModel.getStereotype()).thenReturn(validationStereotype);
 
-    ErrorModel errorModel = new ImmutableErrorModel(MuleErrors.VALIDATION.name(), "MULE", null);
+    ErrorModel errorModel = new ImmutableErrorModel(MuleErrors.VALIDATION.name(), "MULE", true, null);
     if (childError) {
-      errorModel = new ImmutableErrorModel("customValidation", "customExtension", errorModel);
+      errorModel = new ImmutableErrorModel("customValidation", "customExtension", true, errorModel);
     }
 
     when(operationModel.getErrorModels()).thenReturn(singleton(errorModel));
@@ -109,7 +109,7 @@ public class ValidatorModelValidatorTestCase {
 
   @Test
   public void nonValidationOrphanError() {
-    ErrorModel errorModel = new ImmutableErrorModel("custom", "custom", null);
+    ErrorModel errorModel = new ImmutableErrorModel("custom", "custom", true, null);
     when(operationModel.getErrorModels()).thenReturn(singleton(errorModel));
 
     assertFail();
@@ -117,8 +117,8 @@ public class ValidatorModelValidatorTestCase {
 
   @Test
   public void nonValidationChildError() {
-    ErrorModel errorModel = new ImmutableErrorModel("custom", "custom", null);
-    errorModel = new ImmutableErrorModel("customChild", "custom", errorModel);
+    ErrorModel errorModel = new ImmutableErrorModel("custom", "custom", true, null);
+    errorModel = new ImmutableErrorModel("customChild", "custom", true, errorModel);
     when(operationModel.getErrorModels()).thenReturn(singleton(errorModel));
 
     assertFail();
