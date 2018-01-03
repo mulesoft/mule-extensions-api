@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
+
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 
@@ -34,6 +36,6 @@ public @interface Configuration {
    * to &quot;config&quot;. Configuration name can't be duplicated.
    * Only one config can use the default config name
    */
-  String name() default "";
+  String name() default DEFAULT_CONFIG_NAME;
 
 }
