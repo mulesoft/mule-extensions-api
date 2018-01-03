@@ -46,15 +46,19 @@
       {
         "type": "SOME_ERROR",
         "namespace": "ERROR_NAMESPACE",
+        "handleable": true,
         "parent": {
           "type": "PARENT_ERROR_MODEL",
           "namespace": "ERROR_NAMESPACE",
+          "handleable": true,
           "parent": {
             "type": "CONNECTIVITY",
             "namespace": "MULE",
+            "handleable": true,
             "parent": {
               "type": "ANY",
-              "namespace": "MULE"
+              "namespace": "MULE",
+              "handleable": true
             }
           }
         }

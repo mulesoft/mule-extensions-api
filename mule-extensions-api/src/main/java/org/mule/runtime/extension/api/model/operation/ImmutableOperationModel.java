@@ -53,7 +53,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
-   * @deprecated This constructor is deprecated in Mule 5. Use
+   * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
    * {@link #ImmutableOperationModel(String, String, List, List, OutputModel, OutputModel, boolean, ExecutionType, boolean, boolean, boolean, DisplayModel, Set, StereotypeModel, Set, Set)}
    * instead
    */
