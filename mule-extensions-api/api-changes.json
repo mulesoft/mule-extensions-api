@@ -1,0 +1,53 @@
+{
+  "1.1.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.addedToInterface",
+          "new": "method boolean org.mule.runtime.extension.api.runtime.config.ConfigurationProvider::isDynamic()",
+          "package": "org.mule.runtime.extension.api.runtime.config",
+          "classSimpleName": "ConfigurationProvider",
+          "methodName": "isDynamic",
+          "elementKind": "method",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.method.addedToInterface",
+          "new": "method java.util.Map<java.lang.String, java.lang.Object> org.mule.runtime.extension.api.runtime.operation.ExecutionContext<M extends org.mule.runtime.api.meta.model.ComponentModel>::getParameters()",
+          "package": "org.mule.runtime.extension.api.runtime.operation",
+          "classSimpleName": "ExecutionContext",
+          "methodName": "getParameters",
+          "elementKind": "method",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.method.addedToInterface",
+          "new": "method java.util.Optional<java.lang.String> org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::getCorrelationId()",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "SourceCallbackContext",
+          "methodName": "getCorrelationId",
+          "elementKind": "method",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.method.addedToInterface",
+          "new": "method void org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::setCorrelationId(java.lang.String)",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "SourceCallbackContext",
+          "methodName": "setCorrelationId",
+          "elementKind": "method",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.method.addedToInterface",
+          "new": "method void org.mule.runtime.extension.api.runtime.source.SourceCallbackContext::fireOnHandle(org.mule.runtime.extension.api.notification.NotificationActionDefinition<?>, org.mule.runtime.api.metadata.TypedValue<?>)",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "SourceCallbackContext",
+          "methodName": "fireOnHandle",
+          "elementKind": "method",
+          "justification": "This interface is not meant to be implemented by the user"
+        }
+      ]
+    }
+  }
+}

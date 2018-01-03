@@ -135,6 +135,7 @@
         <maven.enforcer.plugin.version>1.4.1</maven.enforcer.plugin.version>
         <revapi-maven-plugin.version>0.9.5</revapi-maven-plugin.version>
         <oldMuleArtifactVersion>1.0.0</oldMuleArtifactVersion>
+        <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
     </properties>
 
     <!--
@@ -310,6 +311,20 @@
                     </executions>
                 </plugin>
                 <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build.helper.maven.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>parse-version</id>
+                            <goals>
+                                <goal>parse-version</goal>
+                            </goals>
+                            <phase>validate</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.revapi</groupId>
                     <artifactId>revapi-maven-plugin</artifactId>
                     <version>${revapi-maven-plugin.version}</version>
@@ -347,7 +362,12 @@
                             ]]></analysisConfiguration>
                         <analysisConfigurationFiles combine.children="append">
                             <configurationFile>
-                                <path>api-ignored.json</path>
+                                <path>api-changes.json</path>
+                                <roots>
+                                    <root>
+                                        ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
+                                    </root>
+                                </roots>
                             </configurationFile>
                         </analysisConfigurationFiles>
                     </configuration>
@@ -413,6 +433,10 @@
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-module-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.revapi</groupId>
