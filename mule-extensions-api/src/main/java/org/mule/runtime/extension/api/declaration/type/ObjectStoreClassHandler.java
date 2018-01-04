@@ -27,7 +27,7 @@ public class ObjectStoreClassHandler implements ClassHandler {
 
   @Override
   public TypeBuilder<?> handleClass(Class<?> clazz, List<Type> genericTypes, TypeHandlerManager typeHandlerManager,
-                                              ParsingContext context, BaseTypeBuilder typeBuilder) {
+                                    ParsingContext context, BaseTypeBuilder typeBuilder) {
 
     return typeBuilder.objectType().id(ObjectStore.class.getName())
         .with(new ExtensibleTypeAnnotation())
