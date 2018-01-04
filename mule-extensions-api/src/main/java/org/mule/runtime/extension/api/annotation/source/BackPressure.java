@@ -8,8 +8,6 @@ package org.mule.runtime.extension.api.annotation.source;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.mule.runtime.extension.api.runtime.source.BackPressureMode.DROP;
-import static org.mule.runtime.extension.api.runtime.source.BackPressureMode.FAIL;
 import static org.mule.runtime.extension.api.runtime.source.BackPressureMode.WAIT;
 import org.mule.runtime.extension.api.runtime.source.BackPressureMode;
 import org.mule.runtime.extension.api.runtime.source.Source;
@@ -37,12 +35,13 @@ public @interface BackPressure {
 
   /**
    * The {@link BackPressureMode modes} supported by the annotated modes. Use this option when certain modes do not
-   * apply for a given source (e.g.: There's no sense in supporting the {@link BackPressureMode#WAIT} mode in a http:listener.
+   * apply for a given source (e.g.: There's no sense in supporting the {@link BackPressureMode#WAIT} mode in http:listener.
    * <p>
-   * If not provided, all modes are supported. The {@link #defaultMode()} <b>MUST</b> be contained in array.
+   * If not provided, only the {@link BackPressureMode#WAIT} mode is supported. The {@link #defaultMode()} <b>MUST</b> be
+   * contained in this array.
    *
    * @return the supported {@link BackPressureMode modes}
    */
-  BackPressureMode[] supportedModes() default {WAIT, FAIL, DROP};
+  BackPressureMode[] supportedModes() default {WAIT};
 
 }
