@@ -8,12 +8,9 @@ package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getAlias;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toSubTypesMap;
-import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
-import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -23,11 +20,7 @@ import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 
-import com.google.common.collect.ImmutableList;
-
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -98,21 +91,21 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
   private void validateSubtypesNameClashing(ExtensionModel model, Map<ObjectType, Set<ObjectType>> typesMapping,
                                             ProblemsReporter problemsReporter) {
 
-    ImmutableList<MetadataType> mappedTypes = ImmutableList.<MetadataType>builder()
-        .addAll(typesMapping.keySet())
-        .addAll(typesMapping.values().stream().flatMap(Collection::stream).collect(toList()))
-        .build();
-
-    Map<String, MetadataType> typesByName = new HashMap<>();
-    for (MetadataType type : mappedTypes) {
-      MetadataType previousType = typesByName.put(getTopLevelTypeName(type), type);
-      if (previousType != null && !previousType.equals(type)) {
-        problemsReporter.addError(new Problem(model, format(
-                                                            "Subtypes mapped Type [%s] with alias [%s] in extension [%s] should have a"
-                                                                + " different alias name than the previous mapped type [%s]",
-                                                            getAlias(type), getTopLevelTypeName(type), model.getName(),
-                                                            getAlias(previousType))));
-      }
-    }
+    // ImmutableList<MetadataType> mappedTypes = ImmutableList.<MetadataType>builder()
+    //     .addAll(typesMapping.keySet())
+    //     .addAll(typesMapping.values().stream().flatMap(Collection::stream).collect(toList()))
+    //     .build();
+    //
+    // Map<String, MetadataType> typesByName = new HashMap<>();
+    // for (MetadataType type : mappedTypes) {
+    //   MetadataType previousType = typesByName.put(getTopLevelTypeName(type), type);
+    //   if (previousType != null && !previousType.equals(type)) {
+    //     problemsReporter.addError(new Problem(model, format(
+    //                                                         "Subtypes mapped Type [%s] with alias [%s] in extension [%s] should have a"
+    //                                                             + " different alias name than the previous mapped type [%s]",
+    //                                                         getAlias(type), getTopLevelTypeName(type), model.getName(),
+    //                                                         getAlias(previousType))));
+    //   }
+    // }
   }
 }

@@ -8,15 +8,12 @@ package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
 import static java.util.Collections.singleton;
-import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isBasic;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
 import static org.mule.runtime.extension.api.util.NameUtils.CONNECTION_PROVIDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
-import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
-import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
@@ -44,7 +41,6 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -86,10 +82,6 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
           String ownerModelType = getComponentModelTypeName(owner);
           validateParameter(model, ownerName, ownerModelType, problemsReporter);
           validateOAuthParameter(model, ownerName, ownerModelType, problemsReporter);
-          validateNameCollisionWithTypes(model, ownerName, ownerModelType,
-                                         owner.getAllParameterModels().stream().map(p -> hyphenize(p.getName()))
-                                             .collect(toList()),
-                                         problemsReporter);
         }
       }.walk(extensionModel);
     }
@@ -164,23 +156,6 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
             }
           }
         });
-      }
-    }
-
-    private void validateNameCollisionWithTypes(ParameterModel parameterModel, String ownerName, String ownerModelType,
-                                                List<String> parameterNames, ProblemsReporter problemsReporter) {
-      if (parameterModel.getType() instanceof ObjectType) {
-        typeCatalog.getSubTypes((ObjectType) parameterModel.getType())
-            .stream()
-            .filter(subtype -> parameterNames.contains(getTopLevelTypeName(subtype)))
-            .findFirst()
-            .ifPresent(metadataType -> problemsReporter.addError(
-                                                                 new Problem(parameterModel, format(
-                                                                                                    "Parameter '%s' in the %s [%s] can't have the same name as the ClassName or Alias of the declared subType [%s] for parameter [%s]",
-                                                                                                    getTopLevelTypeName(metadataType),
-                                                                                                    ownerModelType, ownerName,
-                                                                                                    getId(metadataType),
-                                                                                                    parameterModel.getName()))));
       }
     }
 
