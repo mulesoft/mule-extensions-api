@@ -41,7 +41,6 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
     final Map<ObjectType, Set<ObjectType>> typesMapping = toSubTypesMap(model.getSubTypes());
     validateBaseTypeNotFinal(model, typesMapping, problemsReporter);
     validateSubtypesExtendOrImplementBaseType(model, typesMapping, problemsReporter);
-    validateSubtypesNameClashing(model, typesMapping, problemsReporter);
   }
 
   private void validateBaseTypeNotFinal(ExtensionModel model, Map<ObjectType, Set<ObjectType>> typesMapping,
@@ -86,26 +85,5 @@ public final class SubtypesModelValidator implements ExtensionModelValidator {
                                          baseType.get().getSimpleName())));
       }
     }
-  }
-
-  private void validateSubtypesNameClashing(ExtensionModel model, Map<ObjectType, Set<ObjectType>> typesMapping,
-                                            ProblemsReporter problemsReporter) {
-
-    // ImmutableList<MetadataType> mappedTypes = ImmutableList.<MetadataType>builder()
-    //     .addAll(typesMapping.keySet())
-    //     .addAll(typesMapping.values().stream().flatMap(Collection::stream).collect(toList()))
-    //     .build();
-    //
-    // Map<String, MetadataType> typesByName = new HashMap<>();
-    // for (MetadataType type : mappedTypes) {
-    //   MetadataType previousType = typesByName.put(getTopLevelTypeName(type), type);
-    //   if (previousType != null && !previousType.equals(type)) {
-    //     problemsReporter.addError(new Problem(model, format(
-    //                                                         "Subtypes mapped Type [%s] with alias [%s] in extension [%s] should have a"
-    //                                                             + " different alias name than the previous mapped type [%s]",
-    //                                                         getAlias(type), getTopLevelTypeName(type), model.getName(),
-    //                                                         getAlias(previousType))));
-    //   }
-    // }
   }
 }

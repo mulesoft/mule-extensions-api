@@ -31,6 +31,7 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
   public TypeHandlerManager createTypeHandlerManager() {
     return TypeHandlerManager.create(
                                      new TlsContextClassHandler(),
+                                     new ObjectStoreClassHandler(),
                                      new ExtensionObjectTypeHandler(new ExtensionsObjectFieldHandler()));
   }
 }
