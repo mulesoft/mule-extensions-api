@@ -148,14 +148,14 @@ public final class ExtensionConstants {
    * The name of the parameter for configuring the backpressure strategy
    * @since 1.1
    */
-  public static final String BACK_PRESSURE_STRATEGY_PARAMETER_NAME = "backPressureStrategy";
+  public static final String BACK_PRESSURE_STRATEGY_PARAMETER_NAME = "onCapacityOverload";
 
   /**
    * The description of the parameter for configuring the backpressure strategy
    * @since 1.1
    */
   public static final String BACK_PRESSURE_STRATEGY_PARAMETER_DESCRIPTION =
-      "The strategy that the runtime will use to apply back pressure";
+      "Strategy that the runtime will apply when the flow receives more messages than it has the capacity to handle";
 
   /**
    * The default size of the buffer that allows for repeatable streams
