@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
@@ -36,6 +37,7 @@ public class ObjectStoreClassHandler implements ClassHandler {
 
     return typeBuilder.objectType().id(ObjectStore.class.getName())
         .with(new ExtensibleTypeAnnotation())
+        .with(new TypeAliasAnnotation(ObjectStore.class.getSimpleName()))
         .with(new ClassInformationAnnotation(ObjectStore.class));
   }
 }
