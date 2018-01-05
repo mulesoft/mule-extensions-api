@@ -18,6 +18,11 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleType
 import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * Implementation of {@link ClassHandler} for the {@link ObjectStore} interface
+ *
+ * @since 1.1
+ */
 public class ObjectStoreClassHandler implements ClassHandler {
 
   @Override
