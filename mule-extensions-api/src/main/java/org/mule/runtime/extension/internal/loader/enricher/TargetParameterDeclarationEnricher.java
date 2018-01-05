@@ -39,6 +39,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.internal.property.TargetModelProperty;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,9 +66,7 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
     String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
-    Set<String> blacklistedOperationsNames =
-        blacklistedExtensionsOperations.entrySet().stream().filter(entry -> entry.getKey().equals(extensionName))
-            .map(entry -> entry.getValue()).findFirst().orElse(ImmutableSet.of());
+    Set<String> blacklistedOperationsNames = blacklistedExtensionsOperations.getOrDefault(extensionName, Collections.emptySet());
     new EnricherDelegate(blacklistedOperationsNames).enrich(extensionLoadingContext);
   }
 
