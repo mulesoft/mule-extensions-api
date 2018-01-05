@@ -48,6 +48,7 @@ import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Query;
+import org.mule.runtime.extension.api.annotation.param.RefName;
 import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Example;
@@ -74,6 +75,7 @@ import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionE
 import org.mule.runtime.extension.api.runtime.route.Chain;
 
 import java.beans.Introspector;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -131,7 +133,11 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     final String annotationsPackageName = Parameter.class.getPackage().getName();
     List<String> illegalFieldNames = getAllFields(clazz).stream()
         .filter(field -> Stream.of(field.getAnnotations())
-            .anyMatch(a -> a.annotationType().getName().contains(annotationsPackageName)))
+            .anyMatch(a -> {
+              final Class<? extends Annotation> annotationType = a.annotationType();
+              return annotationType.getName().contains(annotationsPackageName)
+                  && !annotationType.getSimpleName().equals(RefName.class.getSimpleName());
+            }))
         .map(Field::getName)
         .collect(toList());
 

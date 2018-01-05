@@ -412,21 +412,21 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                              String prefix, String namespace) {
 
     boolean supportsTopLevel;
-    boolean shouldGenerateChild;
+    boolean supportsInline;
     boolean requiresWrapper;
 
     if (isInfrastructure(parameter)) {
       supportsTopLevel = dslConfig.allowTopLevelDefinition();
-      shouldGenerateChild = dslConfig.allowsInlineDefinition();
+      supportsInline = dslConfig.allowsInlineDefinition();
       requiresWrapper = false;
     } else {
       supportsTopLevel = supportTopLevelElement(objectType, dslConfig);
-      shouldGenerateChild = supportsInlineDeclaration(objectType, expressionSupport, dslConfig, isContent);
+      supportsInline = supportsInlineDeclaration(objectType, expressionSupport, dslConfig, isContent);
       requiresWrapper = typeRequiresWrapperElement(objectType);
     }
 
     builder.supportsTopLevelDeclaration(supportsTopLevel);
-    if (shouldGenerateChild || requiresWrapper) {
+    if ((supportsInline || requiresWrapper) && dslConfig.allowsInlineDefinition()) {
       builder.supportsChildDeclaration(true);
       if (requiresWrapper) {
         builder.asWrappedElement(true);

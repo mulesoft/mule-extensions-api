@@ -7,7 +7,10 @@
 package org.mule.runtime.extension.api.dsl.syntax.resolver;
 
 import static java.lang.String.format;
-import org.mule.metadata.api.annotation.TypeIdAnnotation;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
+import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
+import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.internal.dsl.DslConstants.CORE_SCHEMA_LOCATION;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -16,13 +19,21 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Default {@link ImportTypesStrategy} implementation that fails if an extension could not be located in the current context.
- * 
+ *
  * @since 1.0
  */
 public class DefaultImportTypesStrategy implements ImportTypesStrategy {
+
+  private static final XmlDslModel MULE_XML_MODEL = XmlDslModel.builder()
+      .setPrefix(CORE_PREFIX)
+      .setNamespace(CORE_NAMESPACE)
+      .setXsdFileName(CORE_PREFIX + ".xsd")
+      .setSchemaLocation(CORE_SCHEMA_LOCATION)
+      .build();
 
   private final ExtensionModel extensionModel;
   private final DslResolvingContext context;
@@ -36,14 +47,20 @@ public class DefaultImportTypesStrategy implements ImportTypesStrategy {
 
   private Map<MetadataType, XmlDslModel> generateImportedTypes() {
     Map<MetadataType, XmlDslModel> types = new HashMap<>();
-    extensionModel.getImportedTypes().stream().map(ImportedTypeModel::getImportedType).forEach(importedType -> {
-      importedType.getAnnotation(TypeIdAnnotation.class).map(TypeIdAnnotation::getValue).ifPresent(typeId -> {
-        ExtensionModel extensionModel = context.getExtensionForType(typeId)
-            .orElseThrow(() -> new IllegalArgumentException(format("Couldn't load type '%s' because its declaring extension wasn't present in the current context",
-                                                                   typeId)));
-        types.put(importedType, extensionModel.getXmlDslModel());
-      });
-    });
+    extensionModel.getImportedTypes().stream()
+        .map(ImportedTypeModel::getImportedType)
+        .forEach(importedType -> getTypeId(importedType)
+            .ifPresent(typeId -> {
+              Optional<ExtensionModel> extension = context.getExtensionForType(typeId);
+
+              if (!extension.isPresent() && !isProvidedByMule(typeId)) {
+                throw new IllegalArgumentException(format("Couldn't find type '%s' definition because its declaring "
+                    + "extension wasn't present in the current context",
+                                                          typeId));
+              }
+
+              types.put(importedType, extension.map(ExtensionModel::getXmlDslModel).orElse(MULE_XML_MODEL));
+            }));
 
     return types;
   }
@@ -51,5 +68,9 @@ public class DefaultImportTypesStrategy implements ImportTypesStrategy {
   @Override
   public Map<MetadataType, XmlDslModel> getImportedTypes() {
     return importedTypes;
+  }
+
+  private boolean isProvidedByMule(String typeId) {
+    return typeId.startsWith("org.mule.runtime") || typeId.startsWith("com.mulesoft.mule.runtime.");
   }
 }

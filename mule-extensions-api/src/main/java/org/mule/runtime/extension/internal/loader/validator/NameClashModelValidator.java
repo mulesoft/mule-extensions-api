@@ -175,26 +175,30 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
     private void validateSubtypes(Set<SubTypesModel> subTypes) {
       subTypes.forEach(subTypesModel -> {
-        subTypesModel.getSubTypes().forEach(type -> {
-          ExtensionMetadataTypeUtils.getType(type).ifPresent(parameterType -> {
-            dslSyntaxResolver.resolve(type).filter(DslElementSyntax::supportsChildDeclaration).ifPresent(subtypeElement -> {
+        subTypesModel.getSubTypes()
+            .forEach(type -> ExtensionMetadataTypeUtils.getType(type)
+                .ifPresent(objectElementType -> dslSyntaxResolver.resolve(type)
+                    .filter(dsl -> dsl.supportsChildDeclaration() || dsl.supportsTopLevelDeclaration())
+                    .ifPresent(subtypeDsl -> {
 
-              if (elements.containsKey(subtypeElement.getElementName())) {
-                elements.get(subtypeElement.getElementName()).stream()
-                    .filter(element -> !element.type.equals(parameterType))
-                    .findAny().ifPresent(
-                                         tp -> problemsReporter
-                                             .addError(new Problem(extensionModel,
-                                                                   format("An extension subtype '%s' of complex type '%s' is defined. However, there is already an element with the same name "
-                                                                       + "but with a different type (%s). Complex parameter of different types cannot have the same name.",
-                                                                          subtypeElement.getElementName(), parameterType,
-                                                                          tp.toString()))));
-              }
+                      Collection<Element> sameNameElements = this.elements.get(subtypeDsl.getElementName());
+                      if (sameNameElements != null) {
+                        sameNameElements.stream()
+                            .filter(element -> !element.type.equals(objectElementType))
+                            .findAny()
+                            .ifPresent(tp -> problemsReporter
+                                .addError(new Problem(extensionModel,
+                                                      format(
+                                                             "An extension subtype '%s' of complex type '%s' is defined. However, there is already an element with the same name "
+                                                                 + "but with a different type (%s). Complex parameter of different types cannot have the same name.",
+                                                             subtypeDsl.getElementName(), objectElementType,
+                                                             tp.toString()))));
+                      } else {
+                        elements.put(subtypeDsl.getElementName(), new Element(subtypeDsl.getElementName(), objectElementType));
+                      }
 
-              validateType(type, parameterType, subtypeElement);
-            });
-          });
-        });
+                      validateType(type, objectElementType, subtypeDsl);
+                    })));
       });
     }
 
@@ -436,7 +440,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       clashingsByTagName.forEach((tag, invalidParams) -> {
         if (!invalidParams.isEmpty()) {
           String msg =
-              format("Parameters with name [%s] declared in [%s] with tag name [%s] are declared as @%s but have different types [%s]",
+              format(
+                     "Parameters with name [%s] declared in [%s] with tag name [%s] are declared as @%s but have different types [%s]",
                      invalidParams.get(0).model.getName(),
                      invalidParams.stream().map(p -> p.owner.getName()).collect(joining(", ")),
                      tag,
@@ -533,6 +538,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     }
   }
 
+
   private class Element implements NamedObject, DescribedObject {
 
     protected final String name;
@@ -558,6 +564,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       return format("element %s of type %s", name, type.getSimpleName());
     }
   }
+
 
   private class TopLevelParameter extends Element {
 
@@ -667,6 +674,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       return describedType;
     }
   }
+
 
   private static class ParameterReference {
 
