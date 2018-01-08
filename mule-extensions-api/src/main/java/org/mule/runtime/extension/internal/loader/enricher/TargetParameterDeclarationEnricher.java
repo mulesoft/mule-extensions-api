@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptySet;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.OUTPUT;
@@ -21,6 +22,8 @@ import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
@@ -37,6 +40,9 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.internal.property.TargetModelProperty;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * A {@link DeclarationEnricher} which adds a {@link ExtensionConstants#TARGET_PARAMETER_NAME} parameter
  * to all non void operations
@@ -45,6 +51,13 @@ import org.mule.runtime.extension.internal.property.TargetModelProperty;
  */
 public final class TargetParameterDeclarationEnricher implements DeclarationEnricher {
 
+  /**
+   * This map holds as key the names of the extensions that have Operations that will not be enriched and as value a {@link Set}
+   * with the names of the Operations.
+   */
+  private static final Map<String, Set<String>> blacklistedExtensionsOperations =
+      ImmutableMap.of("ee", ImmutableSet.of("transform"));
+
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
     return STRUCTURE;
@@ -52,18 +65,22 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new EnricherDelegate().enrich(extensionLoadingContext);
+    String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
+    Set<String> blacklistedOperationsNames = blacklistedExtensionsOperations.getOrDefault(extensionName, emptySet());
+    new EnricherDelegate(blacklistedOperationsNames).enrich(extensionLoadingContext);
   }
 
   private class EnricherDelegate implements DeclarationEnricher {
 
+    private final Set<String> blacklistedOperationsNames;
     private MetadataType attributeType;
     private MetadataType targetValue;
 
-    private EnricherDelegate() {
+    private EnricherDelegate(Set<String> blacklistedOperationsNames) {
       ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
       this.attributeType = typeLoader.load(String.class);
       this.targetValue = typeLoader.load(String.class);
+      this.blacklistedOperationsNames = blacklistedOperationsNames;
     }
 
     @Override
@@ -72,6 +89,9 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
 
         @Override
         protected void onOperation(OperationDeclaration declaration) {
+          if (blacklistedOperationsNames.contains(declaration.getName())) {
+            return;
+          }
           final MetadataType outputType = declaration.getOutput().getType();
           if (outputType == null) {
             throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",
