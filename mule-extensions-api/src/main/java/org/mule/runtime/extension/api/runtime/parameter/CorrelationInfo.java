@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.runtime.parameter;
 
 import org.mule.runtime.api.event.Event;
-import org.mule.runtime.api.message.GroupCorrelation;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
 
@@ -37,9 +36,4 @@ public interface CorrelationInfo {
    * @return The correlation id of the {@link Event} currently being processed
    */
   String getCorrelationId();
-
-  /**
-   * @return the {@link GroupCorrelation} of the event regarding it's relationship with other events in the same group.
-   */
-  GroupCorrelation getGroupCorrelation();
 }
