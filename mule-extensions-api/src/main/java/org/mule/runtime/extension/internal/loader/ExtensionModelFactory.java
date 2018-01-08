@@ -23,7 +23,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSO
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
-import static org.slf4j.LoggerFactory.getLogger;
+
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -108,11 +108,6 @@ import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidat
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.UncheckedExecutionException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -123,7 +118,10 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
-import org.slf4j.Logger;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual {@link ExtensionModel}.
@@ -138,7 +136,7 @@ import org.slf4j.Logger;
  */
 public final class ExtensionModelFactory {
 
-  private final Logger LOGGER = getLogger(ExtensionModelFactory.class);
+  public static final String PROBLEMS_HANDLER = "PROBLEMS_HANDLER";
 
   private final List<DeclarationEnricher> declarationEnrichers;
   private final List<ExtensionModelValidator> extensionModelValidators;
@@ -191,15 +189,7 @@ public final class ExtensionModelFactory {
 
     validate(extensionModel, problemsReporter, extensionLoadingContext);
 
-    if (problemsReporter.hasErrors()) {
-      throw new IllegalModelDefinitionException(format("Extension '%s' has definition errors:\n%s", extensionModel.getName(),
-                                                       problemsReporter.toString()));
-    } else if (problemsReporter.hasWarnings()) {
-      if (LOGGER.isWarnEnabled()) {
-        LOGGER.warn(format("Extension '%s' has definition warnings:\n%s", extensionModel.getName(),
-                           problemsReporter.getWarningsAsString()));
-      }
-    }
+    getProblemsHandler(extensionLoadingContext, extensionModel).handleProblems(problemsReporter);
 
     return extensionModel;
   }
@@ -576,5 +566,10 @@ public final class ExtensionModelFactory {
     return types.stream()
         .filter(t -> !importedTypesIds.contains(getId(t).orElse("")))
         .collect(toCollection(LinkedHashSet::new));
+  }
+
+  private ProblemsHandler getProblemsHandler(ExtensionLoadingContext extensionLoadingContext, ExtensionModel extensionModel) {
+    return (ProblemsHandler) extensionLoadingContext.getParameter(PROBLEMS_HANDLER)
+        .orElseGet(() -> new DefaultProblemsHandler(extensionModel));
   }
 }
