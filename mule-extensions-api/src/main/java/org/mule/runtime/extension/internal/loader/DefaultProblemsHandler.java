@@ -34,14 +34,15 @@ public final class DefaultProblemsHandler implements ProblemsHandler {
    */
   @Override
   public void handleProblems(ProblemsReporter problemsReporter) {
-    if (problemsReporter.hasErrors()) {
-      throw new IllegalModelDefinitionException(format("Extension '%s' has definition errors:\n%s", extensionModel.getName(),
-                                                       problemsReporter.toString()));
-    } else if (problemsReporter.hasWarnings()) {
+    if (problemsReporter.hasWarnings()) {
       if (LOGGER.isWarnEnabled()) {
         LOGGER.warn(format("Extension '%s' has definition warnings:\n%s", extensionModel.getName(),
                            problemsReporter.getWarningsAsString()));
       }
+    }
+    if (problemsReporter.hasErrors()) {
+      throw new IllegalModelDefinitionException(format("Extension '%s' has definition errors:\n%s", extensionModel.getName(),
+                                                       problemsReporter.toString()));
     }
   }
 }
