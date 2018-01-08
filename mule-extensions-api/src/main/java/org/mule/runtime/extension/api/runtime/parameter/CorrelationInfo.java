@@ -7,8 +7,11 @@
 package org.mule.runtime.extension.api.runtime.parameter;
 
 import org.mule.runtime.api.event.Event;
+import org.mule.runtime.api.message.ItemSequenceInfo;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
+
+import java.util.Optional;
 
 /**
  * Provides message correlation information. Operations and source callbacks (such as methods annotated with
@@ -36,4 +39,9 @@ public interface CorrelationInfo {
    * @return The correlation id of the {@link Event} currently being processed
    */
   String getCorrelationId();
+
+  /**
+   * @return The item sequence information of the {@link Event} currently being processed
+   */
+  Optional<ItemSequenceInfo> getItemSequenceInfo();
 }
