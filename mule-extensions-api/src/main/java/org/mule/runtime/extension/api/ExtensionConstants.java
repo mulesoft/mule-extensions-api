@@ -73,6 +73,11 @@ public final class ExtensionConstants {
       "Configure if repeatable streams should be used and their behaviour";
 
   /**
+   * The description of the parameter for configuring the scheduling strategy parameter
+   */
+  public static final String SCHEDULING_STRATEGY_PARAMETER_DESCRIPTION = "A placeholder for scheduling strategies";
+
+  /**
    * The name of the parameter for configuring the reconnection configuration
    */
   public static final String RECONNECTION_CONFIG_PARAMETER_NAME = "reconnection";
@@ -133,6 +138,11 @@ public final class ExtensionConstants {
    * The name of an attribute which allows referencing a {@link TlsContextFactory}
    */
   public static final String TLS_PARAMETER_NAME = "tlsContext";
+
+  /**
+   * The name of an attribute which allows referencing an Scheduler
+   */
+  public static final String SCHEDULING_STRATEGY_PARAMETER_NAME = "schedulingStrategy";
 
   /**
    * The name of the parameter for configuring transactional actions
