@@ -31,15 +31,17 @@ public abstract class PollingSource<T, A> extends Source<T, A> {
 
   protected abstract void doStop();
 
-  protected abstract List<Result<T, A>> poll();
+  public abstract List<Result<T, A>> poll();
 
-  protected void onResult(Result<T, A> result, SourceCallbackContext sourceCallbackContext) {}
+  public abstract void releaseRejectedResource(Result<T, A> result);
 
-  protected Optional<Function<Result<T, A>, Serializable>> getIdentityResolver() {
+  public void onResult(Result<T, A> result, SourceCallbackContext sourceCallbackContext) {}
+
+  public Optional<Function<Result<T, A>, String>> getIdentityResolver() {
     return empty();
   }
 
-  protected Optional<Function<Result<T, A>, Comparable<?>>> getWatermarkExtractor() {
+  public <W extends Serializable> Optional<WatermarkHandler<T, A, W>> getWatermarkHandler() {
     return empty();
   }
 }
