@@ -72,15 +72,6 @@ public final class ExtensionConstants {
   public static final String STREAMING_STRATEGY_PARAMETER_DESCRIPTION =
       "Configure if repeatable streams should be used and their behaviour";
 
-  public static final String SCHEDULER_STRATEGY_PARAMETER_NAME = "schedulingStrategy";
-
-  public static final String SCHEDULER_STRATEGY_PARAMETER_DESCRIPTION = "Configures the scheduler that triggers the polling";
-
-  /**
-   * The description of the parameter for configuring the scheduling strategy parameter
-   */
-  public static final String SCHEDULING_STRATEGY_PARAMETER_DESCRIPTION = "A placeholder for scheduling strategies";
-
   /**
    * The name of the parameter for configuring the reconnection configuration
    */
@@ -147,6 +138,11 @@ public final class ExtensionConstants {
    * The name of an attribute which allows referencing an Scheduler
    */
   public static final String SCHEDULING_STRATEGY_PARAMETER_NAME = "schedulingStrategy";
+
+  /**
+   * The description of the parameter for configuring the scheduling strategy parameter
+   */
+  public static final String SCHEDULING_STRATEGY_PARAMETER_DESCRIPTION = "Configures the scheduler that triggers the polling";
 
   /**
    * The name of the parameter for configuring transactional actions
@@ -266,7 +262,8 @@ public final class ExtensionConstants {
                                                                            REDELIVERY_POLICY_PARAMETER_NAME,
                                                                            TARGET_PARAMETER_NAME,
                                                                            STREAMING_STRATEGY_PARAMETER_NAME,
-                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME);
+                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME,
+                                                                           SCHEDULING_STRATEGY_PARAMETER_NAME);
   /**
    * Namespace prefis for object store type
    */
