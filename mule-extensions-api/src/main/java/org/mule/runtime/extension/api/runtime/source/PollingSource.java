@@ -6,14 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
-import static java.util.Optional.empty;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
 public abstract class PollingSource<T, A> extends Source<T, A> {
 
@@ -31,17 +25,8 @@ public abstract class PollingSource<T, A> extends Source<T, A> {
 
   protected abstract void doStop();
 
-  public abstract List<Result<T, A>> poll();
+  public abstract void poll(PollContext<T, A> pollContext);
 
   public abstract void releaseRejectedResource(Result<T, A> result);
 
-  public void onResult(Result<T, A> result, SourceCallbackContext sourceCallbackContext) {}
-
-  public Optional<Function<Result<T, A>, String>> getIdentityResolver() {
-    return empty();
-  }
-
-  public <W extends Serializable> Optional<WatermarkHandler<T, A, W>> getWatermarkHandler() {
-    return empty();
-  }
 }
