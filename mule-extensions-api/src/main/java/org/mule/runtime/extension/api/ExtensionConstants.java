@@ -72,6 +72,10 @@ public final class ExtensionConstants {
   public static final String STREAMING_STRATEGY_PARAMETER_DESCRIPTION =
       "Configure if repeatable streams should be used and their behaviour";
 
+  public static final String SCHEDULER_STRATEGY_PARAMETER_NAME = "schedulingStrategy";
+
+  public static final String SCHEDULER_STRATEGY_PARAMETER_DESCRIPTION = "Configures the scheduler that triggers the polling";
+
   /**
    * The description of the parameter for configuring the scheduling strategy parameter
    */
