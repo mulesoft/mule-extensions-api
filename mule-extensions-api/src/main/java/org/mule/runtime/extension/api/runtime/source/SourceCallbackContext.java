@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.api.notification.ExtensionNotification;
@@ -26,6 +27,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoImplement
 public interface SourceCallbackContext {
 
   /**

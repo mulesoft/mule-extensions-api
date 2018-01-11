@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.runtime.source;
 
 import static java.util.Optional.ofNullable;
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.message.Error;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
@@ -22,6 +23,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoImplement
 public final class SourceResult {
 
   private final Error invocationError;

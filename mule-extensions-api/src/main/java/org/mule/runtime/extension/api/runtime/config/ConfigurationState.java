@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.config;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ConfigurationState {
 
   /**
