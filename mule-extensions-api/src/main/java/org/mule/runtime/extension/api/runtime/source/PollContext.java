@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.io.Serializable;
@@ -15,11 +16,23 @@ import java.util.function.Consumer;
 
 public interface PollContext<T, A> {
 
-  void accept(Consumer<PollItem<T, A>> consumer);
+  enum PollItemStatus {
+
+    ACCEPTED,
+    FILTERED_BY_WATERMARK,
+    ALREADY_IN_PROCESS,
+    SOURCE_STOPPING
+  }
+  
+  PollItemStatus accept(Consumer<PollItem<T, A>> consumer);
 
   Optional<Serializable> getWatermark();
 
+  boolean isSourceStopping();
+
   void setWatermarkComparator(Comparator<? extends Serializable> comparator);
+
+  void onConnectionException(ConnectionException e);
 
   interface PollItem<T, A> {
 

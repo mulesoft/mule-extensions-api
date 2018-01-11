@@ -27,6 +27,6 @@ public abstract class PollingSource<T, A> extends Source<T, A> {
 
   public abstract void poll(PollContext<T, A> pollContext);
 
-  public abstract void releaseRejectedResource(Result<T, A> result);
+  public abstract void releaseRejectedResource(Result<T, A> result, SourceCallbackContext callbackContext);
 
 }
