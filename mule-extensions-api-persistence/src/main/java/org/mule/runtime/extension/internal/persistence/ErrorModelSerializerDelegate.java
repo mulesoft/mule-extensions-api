@@ -35,7 +35,6 @@ import java.util.Set;
  */
 class ErrorModelSerializerDelegate {
 
-  private static final boolean DEFAULT_HANDLEABLE = true;
   private static final String MULE = "MULE";
   private static final String ERROR = "error";
   private static final String PARENT = "parent";
@@ -106,8 +105,10 @@ class ErrorModelSerializerDelegate {
       if (error.has(PARENT)) {
         parentError = error.get(PARENT).getAsString();
       }
-      ErrorModelBuilder errorModelBuilder = newError(buildFromStringRepresentation(anError))
-          .handleable(error.has(HANDLEABLE) ? error.get(HANDLEABLE).getAsBoolean() : DEFAULT_HANDLEABLE);
+      ErrorModelBuilder errorModelBuilder = newError(buildFromStringRepresentation(anError));
+      if (error.has(HANDLEABLE)) {
+        errorModelBuilder.handleable(error.get(HANDLEABLE).getAsBoolean());
+      }
       buildingErrors.put(anError, new Pair<>(parentError, errorModelBuilder));
     });
 
