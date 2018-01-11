@@ -38,6 +38,7 @@ class ErrorModelSerializerDelegate {
   private static final String MULE = "MULE";
   private static final String ERROR = "error";
   private static final String PARENT = "parent";
+  private static final String HANDLEABLE = "handleable";
   private static final String EMPTY = "";
   private Map<String, ErrorModel> errorModelRespository;
 
@@ -69,6 +70,7 @@ class ErrorModelSerializerDelegate {
     if (errorModel.getParent().isPresent()) {
       out.name(PARENT).value(serialize(errorModel.getParent().get()));
     }
+    out.name(HANDLEABLE).value(errorModel.isHandleable());
     out.endObject();
   }
 
@@ -103,7 +105,11 @@ class ErrorModelSerializerDelegate {
       if (error.has(PARENT)) {
         parentError = error.get(PARENT).getAsString();
       }
-      buildingErrors.put(anError, new Pair<>(parentError, newError(buildFromStringRepresentation(anError))));
+      ErrorModelBuilder errorModelBuilder = newError(buildFromStringRepresentation(anError));
+      if (error.has(HANDLEABLE)) {
+        errorModelBuilder.handleable(error.get(HANDLEABLE).getAsBoolean());
+      }
+      buildingErrors.put(anError, new Pair<>(parentError, errorModelBuilder));
     });
 
     buildingErrors.keySet().forEach(key -> buildError(key, buildingErrors, errorModelRespository));

@@ -1794,18 +1794,22 @@
   "errors": [
     {
       "error": "ERROR_NAMESPACE:SOME_ERROR",
-      "parent": "ERROR_NAMESPACE:PARENT_ERROR_MODEL"
+      "parent": "ERROR_NAMESPACE:PARENT_ERROR_MODEL",
+      "handleable": true
     },
     {
       "error": "ERROR_NAMESPACE:PARENT_ERROR_MODEL",
-      "parent": "MULE:CONNECTIVITY"
+      "parent": "MULE:CONNECTIVITY",
+      "handleable": true
     },
     {
       "error": "MULE:CONNECTIVITY",
-      "parent": "MULE:ANY"
+      "parent": "MULE:ANY",
+      "handleable": true
     },
     {
-      "error": "MULE:ANY"
+      "error": "MULE:ANY",
+      "handleable": true
     }
   ],
   "modelProperties": {
