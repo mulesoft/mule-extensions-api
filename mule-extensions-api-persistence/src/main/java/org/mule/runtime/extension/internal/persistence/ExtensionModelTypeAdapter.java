@@ -78,19 +78,21 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
   static final String ERRORS = "errors";
-  private static final String NOTIFICATIONS = "notifications";
+  static final String NOTIFICATIONS = "notifications";
 
   private final Gson gsonDelegate;
   private final JsonMetadataTypeLoader typeLoader = new JsonMetadataTypeLoader();
   private final JsonMetadataTypeWriter typeWriter = new JsonMetadataTypeWriter();
   private final SerializationContext serializationContext;
   private final ErrorModelSerializerDelegate errorModelDelegate;
+  private final NotificationModelSerializerDelegate notificationModelDelegate;
 
   public ExtensionModelTypeAdapter(Gson gsonDelegate, SerializationContext serializationContext,
-                                   Map<String, ErrorModel> errorModelMap) {
+                                   Map<String, ErrorModel> errorModelMap, Map<String, NotificationModel> notificationModelMap) {
     this.gsonDelegate = gsonDelegate;
     this.serializationContext = serializationContext;
     this.errorModelDelegate = new ErrorModelSerializerDelegate(errorModelMap);
+    this.notificationModelDelegate = new NotificationModelSerializerDelegate(notificationModelMap, gsonDelegate);
   }
 
   @Override
@@ -120,8 +122,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     writeWithDelegate(model.getConnectionProviders(), CONNECTION_PROVIDERS, out,
                       new TypeToken<List<ConnectionProviderModel>>() {});
     writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {});
-    writeWithDelegate(model.getNotificationModels(), NOTIFICATIONS, out, new TypeToken<Set<NotificationModel>>() {});
 
+    notificationModelDelegate.writeNotifications(model.getNotificationModels(), out);
     errorModelDelegate.writeErrors(model.getErrorModels(), out);
     writeExtensionLevelModelProperties(out, model);
     writeTypes(TYPES, out, model.getTypes());
@@ -134,6 +136,10 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
     Set<ObjectType> types = parseTypes(TYPES, json);
 
+    JsonArray notifications = json.get(NOTIFICATIONS).getAsJsonArray();
+
+    Map<String, NotificationModel> parsedNotifications = notificationModelDelegate.parseNotifications(notifications);
+    
     JsonArray errors = json.get(ERRORS).getAsJsonArray();
 
     Map<String, ErrorModel> parsedErrors = errorModelDelegate.parseErrors(errors);
@@ -152,7 +158,6 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {});
     List<FunctionModel> functions = parseWithDelegate(json, FUNCTIONS, new TypeToken<List<FunctionModel>>() {});
     List<ConstructModel> constructs = parseWithDelegate(json, CONSTRUCTS, new TypeToken<List<ConstructModel>>() {});
-    Set<NotificationModel> notifications = parseWithDelegate(json, NOTIFICATIONS, new TypeToken<Set<NotificationModel>>() {});
 
     return new ImmutableExtensionModel(json.get(NAME).getAsString(),
                                        json.get(DESCRIPTION).getAsString(),
@@ -174,7 +179,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        new LinkedHashSet<>(parsedErrors.values()),
                                        externalLibraries,
                                        privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json),
-                                       notifications);
+                                       new LinkedHashSet<>(parsedNotifications.values()));
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {
