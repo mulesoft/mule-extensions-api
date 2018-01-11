@@ -18,12 +18,9 @@ public interface PollContext<T, A> {
 
   enum PollItemStatus {
 
-    ACCEPTED,
-    FILTERED_BY_WATERMARK,
-    ALREADY_IN_PROCESS,
-    SOURCE_STOPPING
+    ACCEPTED, FILTERED_BY_WATERMARK, ALREADY_IN_PROCESS, SOURCE_STOPPING
   }
-  
+
   PollItemStatus accept(Consumer<PollItem<T, A>> consumer);
 
   Optional<Serializable> getWatermark();
