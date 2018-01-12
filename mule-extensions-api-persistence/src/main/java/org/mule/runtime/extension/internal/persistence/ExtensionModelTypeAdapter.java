@@ -139,7 +139,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     JsonArray notifications = json.get(NOTIFICATIONS).getAsJsonArray();
 
     Map<String, NotificationModel> parsedNotifications = notificationModelDelegate.parseNotifications(notifications);
-    
+
     JsonArray errors = json.get(ERRORS).getAsJsonArray();
 
     Map<String, ErrorModel> parsedErrors = errorModelDelegate.parseErrors(errors);
