@@ -6,6 +6,10 @@
  */
 package org.mule.runtime.extension.api.model.notification;
 
+import org.mule.metadata.api.builder.BaseTypeBuilder;
+import org.mule.metadata.api.builder.TypeBuilder;
+import org.mule.metadata.api.builder.VoidTypeBuilder;
+import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
@@ -60,6 +64,7 @@ public final class NotificationModelBuilder {
    * @return a new {@link NotificationModel} instance
    */
   public NotificationModel build() {
-    return new ImmutableNotificationModel(namespace, identifier, type);
+    return new ImmutableNotificationModel(namespace, identifier,
+                                          type == null ? new VoidTypeBuilder(MetadataFormat.JAVA).build() : type);
   }
 }

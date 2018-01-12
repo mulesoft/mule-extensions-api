@@ -43,6 +43,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -136,9 +137,13 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
     Set<ObjectType> types = parseTypes(TYPES, json);
 
-    JsonArray notifications = json.get(NOTIFICATIONS).getAsJsonArray();
-
-    Map<String, NotificationModel> parsedNotifications = notificationModelDelegate.parseNotifications(notifications);
+    Map<String, NotificationModel> parsedNotifications;
+    if (json.has(NOTIFICATIONS)) {
+      JsonArray notifications = json.get(NOTIFICATIONS).getAsJsonArray();
+      parsedNotifications = notificationModelDelegate.parseNotifications(notifications);
+    } else {
+      parsedNotifications = Collections.emptyMap();
+    }
 
     JsonArray errors = json.get(ERRORS).getAsJsonArray();
 

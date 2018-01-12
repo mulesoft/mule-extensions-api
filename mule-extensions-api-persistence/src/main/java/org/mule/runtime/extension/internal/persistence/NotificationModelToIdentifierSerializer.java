@@ -32,12 +32,7 @@ public class NotificationModelToIdentifierSerializer {
    */
   public static NotificationModel deserialize(String notificationIdentifier,
                                               Map<String, NotificationModel> notificationModelRepository) {
-    boolean exists = notificationModelRepository.containsKey(notificationIdentifier);
-    if (exists) {
-      return notificationModelRepository.get(notificationIdentifier);
-    } else {
-      return createNotificationModel(notificationIdentifier);
-    }
+    return notificationModelRepository.get(notificationIdentifier);
   }
 
   /**
@@ -58,10 +53,5 @@ public class NotificationModelToIdentifierSerializer {
    */
   public static String serialize(NotificationModel notificationModel) {
     return notificationModel.getNamespace() + ":" + notificationModel.getIdentifier();
-  }
-
-  private static NotificationModel createNotificationModel(String notificationIdentifier) {
-    ComponentIdentifier componentIdentifier = buildFromStringRepresentation(notificationIdentifier);
-    return newNotification(componentIdentifier).build();
   }
 }

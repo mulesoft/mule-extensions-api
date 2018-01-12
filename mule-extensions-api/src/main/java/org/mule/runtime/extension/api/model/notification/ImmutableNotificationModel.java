@@ -6,8 +6,11 @@
  */
 package org.mule.runtime.extension.api.model.notification;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 
@@ -30,6 +33,9 @@ public final class ImmutableNotificationModel implements NotificationModel {
    * @param metadataType the type of data the notification provides
    */
   public ImmutableNotificationModel(String namespace, String identifier, MetadataType metadataType) {
+    checkArgument(!isBlank(namespace), "namespace cannot be blank");
+    checkArgument(!isBlank(identifier), "identifier cannot be blank");
+    checkArgument(metadataType != null, "type cannot be null");
     this.namespace = namespace;
     this.identifier = identifier;
     this.metadataType = metadataType;
