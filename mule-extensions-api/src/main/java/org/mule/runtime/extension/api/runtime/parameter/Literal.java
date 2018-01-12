@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.parameter;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 import java.util.Optional;
@@ -30,7 +29,6 @@ import java.util.Optional;
  * @param <T> the generic type of the actual parameter type
  *           @since 1.0
  */
-@NoImplement
 public interface Literal<T> {
 
   /**

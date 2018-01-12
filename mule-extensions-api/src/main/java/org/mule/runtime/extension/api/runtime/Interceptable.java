@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.runtime.operation.Interceptor;
 
 import java.util.List;
@@ -27,7 +26,6 @@ import java.util.List;
  *
  * @since 1.0
  */
-@NoImplement
 public interface Interceptable {
 
   /**

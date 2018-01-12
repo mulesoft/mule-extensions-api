@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.process;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 /**
@@ -54,7 +53,6 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <A> The generic type of the operation's output attributes
  * @since 1.0
  */
-@NoImplement
 public interface CompletionCallback<T, A> {
 
   /**

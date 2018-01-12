@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -23,7 +22,6 @@ import java.util.Optional;
  * @param <M> the generic type of of the model which represents the component beign executed
  * @since 1.0
  */
-@NoImplement
 public interface ExecutionContext<M extends ComponentModel> {
 
   /**

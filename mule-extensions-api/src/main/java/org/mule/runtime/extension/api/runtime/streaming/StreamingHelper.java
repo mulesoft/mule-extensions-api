@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.streaming;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.streaming.Cursor;
 import org.mule.runtime.api.streaming.CursorProvider;
 import org.mule.runtime.api.streaming.bytes.CursorStreamProvider;
@@ -35,7 +34,6 @@ import java.util.Map;
  * @see CursorIteratorProvider
  * @since 1.0
  */
-@NoImplement
 public interface StreamingHelper {
 
   /**

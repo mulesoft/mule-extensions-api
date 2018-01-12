@@ -103,7 +103,6 @@ public interface PollContext<T, A> {
    * @param <A> the generic type for the generated message's attributes
    * @since 1.1
    */
-  @NoImplement
   interface PollItem<T, A> {
 
     /**

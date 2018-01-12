@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.tx;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.tx.TransactionException;
 import org.mule.runtime.extension.api.runtime.source.SourceCallbackContext;
 
@@ -15,7 +14,6 @@ import org.mule.runtime.extension.api.runtime.source.SourceCallbackContext;
  *
  * @since 1.0
  */
-@NoImplement
 public interface TransactionHandle {
 
   /**

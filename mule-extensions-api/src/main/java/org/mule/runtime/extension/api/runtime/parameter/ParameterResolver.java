@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.parameter;
 
-import org.mule.api.annotation.NoImplement;
-
 import java.util.Optional;
 
 /**
@@ -24,7 +22,6 @@ import java.util.Optional;
  * @param <T> The type of the value to resolve
  * @since 1.0
  */
-@NoImplement
 public interface ParameterResolver<T> {
 
   /**

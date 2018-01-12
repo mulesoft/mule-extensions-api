@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.parameter;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.event.Event;
 import org.mule.runtime.api.message.ItemSequenceInfo;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
@@ -21,7 +20,6 @@ import java.util.Optional;
  *
  * @since 1.1
  */
-@NoImplement
 public interface CorrelationInfo {
 
   /**

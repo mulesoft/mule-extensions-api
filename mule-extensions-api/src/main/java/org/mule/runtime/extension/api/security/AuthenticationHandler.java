@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.security;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.security.Authentication;
 import org.mule.runtime.api.security.Credentials;
 import org.mule.runtime.api.security.CredentialsBuilder;
@@ -23,7 +22,6 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-@NoImplement
 public interface AuthenticationHandler {
 
   /**

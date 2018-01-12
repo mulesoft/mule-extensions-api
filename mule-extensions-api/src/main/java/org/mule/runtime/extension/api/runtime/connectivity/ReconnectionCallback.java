@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.connectivity;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionException;
 
 /**
@@ -14,7 +13,6 @@ import org.mule.runtime.api.connection.ConnectionException;
  *
  * @since 1.0
  */
-@NoImplement
 public interface ReconnectionCallback {
 
   /**

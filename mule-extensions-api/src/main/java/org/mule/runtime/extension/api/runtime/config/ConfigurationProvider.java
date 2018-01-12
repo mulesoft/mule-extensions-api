@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.config;
 
-import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.component.Component;
 import org.mule.runtime.api.event.Event;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -21,7 +20,6 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
  *
  * @since 1.0
  */
-@NoImplement
 public interface ConfigurationProvider extends Component {
 
   /**
