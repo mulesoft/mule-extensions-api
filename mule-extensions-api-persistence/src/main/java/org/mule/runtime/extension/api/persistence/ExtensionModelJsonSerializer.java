@@ -56,6 +56,7 @@ import org.mule.runtime.extension.internal.persistence.ImportedTypesModelTypeAda
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.NestableElementModelTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.NotificationModelToIdentifierTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.OperationModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.RestrictedTypesObjectTypeReferenceHandler;
 import org.mule.runtime.extension.internal.persistence.SourceModelTypeAdapterFactory;
@@ -121,15 +122,18 @@ public class ExtensionModelJsonSerializer {
     final SerializationContext serializationContext = new SerializationContext();
 
     Map<String, ErrorModel> errorModelRepository = new HashMap<>();
-    Gson gsonDelegate = gsonBuilder(serializationContext, prettyPrint, errorModelRepository).create();
+    Map<String, NotificationModel> notificationModelRepository = new HashMap<>();
+    Gson gsonDelegate =
+        gsonBuilder(serializationContext, prettyPrint, errorModelRepository, notificationModelRepository).create();
 
-    return gsonBuilder(serializationContext, prettyPrint, errorModelRepository)
+    return gsonBuilder(serializationContext, prettyPrint, errorModelRepository, notificationModelRepository)
         .registerTypeAdapterFactory(new TypeAdapterFactory() {
 
           @Override
           public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
             if (ExtensionModel.class.isAssignableFrom(type.getRawType())) {
-              return (TypeAdapter<T>) new ExtensionModelTypeAdapter(gsonDelegate, serializationContext, errorModelRepository);
+              return (TypeAdapter<T>) new ExtensionModelTypeAdapter(gsonDelegate, serializationContext, errorModelRepository,
+                                                                    notificationModelRepository);
             }
 
             return null;
@@ -139,7 +143,8 @@ public class ExtensionModelJsonSerializer {
   }
 
   private GsonBuilder gsonBuilder(SerializationContext serializationContext, boolean prettyPrint,
-                                  Map<String, ErrorModel> errorModelRepository) {
+                                  Map<String, ErrorModel> errorModelRepository,
+                                  Map<String, NotificationModel> notificationModelRepository) {
     Set<String> registeredTypeIds = registeredTypes.stream()
         .map(ExtensionMetadataTypeUtils::getId)
         .filter(Optional::isPresent)
@@ -171,8 +176,6 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
-    final DefaultImplementationTypeAdapterFactory<NotificationModel, ImmutableNotificationModel> notificationModelTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(NotificationModel.class, ImmutableNotificationModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
@@ -182,6 +185,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapter(XmlDslModel.class, new XmlDslModelTypeAdapter())
         .registerTypeAdapter(ParameterDslConfiguration.class, new ElementDslModelTypeAdapter())
         .registerTypeAdapter(ErrorModel.class, new ErrorModelToIdentifierTypeAdapter(errorModelRepository))
+        .registerTypeAdapter(NotificationModel.class, new NotificationModelToIdentifierTypeAdapter(notificationModelRepository))
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new SourceModelTypeAdapterFactory())
@@ -197,8 +201,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new NestableElementModelTypeAdapterFactory())
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
-        .registerTypeAdapterFactory(oauthGrantTypeAdapter)
-        .registerTypeAdapterFactory(notificationModelTypeAdapter);
+        .registerTypeAdapterFactory(oauthGrantTypeAdapter);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();
