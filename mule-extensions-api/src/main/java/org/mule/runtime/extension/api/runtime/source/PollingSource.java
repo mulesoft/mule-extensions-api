@@ -72,6 +72,6 @@ public abstract class PollingSource<T, A> extends Source<T, A> {
    * @param result          a rejected item
    * @param callbackContext the associated {@link SourceCallbackContext}
    */
-  public abstract void releaseRejectedResource(Result<T, A> result, SourceCallbackContext callbackContext);
+  public abstract void onRejectedItem(Result<T, A> result, SourceCallbackContext callbackContext);
 
 }

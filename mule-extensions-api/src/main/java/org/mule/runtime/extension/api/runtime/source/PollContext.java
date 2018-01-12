@@ -81,7 +81,7 @@ public interface PollContext<T, A> {
 
   /**
    * Allows to set a custom {@link Comparator} to evaluate watermark values. If not specified and {@link Comparable} values are
-   * used as watermarks, then this method is only optional. Otherwise, exceptions will be thrown in a proper comparator was
+   * used as watermarks, then this method is only optional. Otherwise, exceptions will be thrown if a proper comparator was
    * not set.
    *
    * @param comparator a custom {@link Comparator}
