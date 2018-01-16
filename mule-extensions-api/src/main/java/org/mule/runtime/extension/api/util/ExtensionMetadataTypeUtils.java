@@ -15,7 +15,6 @@ import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
-
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -30,6 +29,7 @@ import org.mule.metadata.java.api.utils.JavaTypeUtils;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.declaration.type.annotation.DslBaseType;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
@@ -39,6 +39,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnno
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 
 import java.util.Collection;
 import java.util.List;
@@ -299,6 +300,13 @@ public final class ExtensionMetadataTypeUtils {
       }
     }
     return false;
+  }
+
+  /**
+   * @return {@code true} if the given {@link MetadataType} is representing the generic of a {@link TypedValue}
+   */
+  public static boolean isTypedValue(MetadataType metadataType) {
+    return metadataType.getAnnotation(TypedValueTypeAnnotation.class).isPresent();
   }
 
 }
