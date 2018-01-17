@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.runtime</groupId>
     <artifactId>mule-extensions-api-parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Mule Extensions API Parent</name>
     <description>Parent POM for Mule Extensions API modules</description>
@@ -136,7 +136,7 @@
         <revapi-maven-plugin.version>0.9.5</revapi-maven-plugin.version>
         <oldMuleArtifactVersion>1.0.0</oldMuleArtifactVersion>
 
-        <muleRevapiExtensionVersion>1.1.0-SNAPSHOT</muleRevapiExtensionVersion>
+        <muleRevapiExtensionVersion>1.2.0-SNAPSHOT</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
     </properties>
