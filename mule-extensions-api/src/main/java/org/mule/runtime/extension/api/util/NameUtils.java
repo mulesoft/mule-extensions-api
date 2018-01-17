@@ -49,7 +49,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class NameUtils extends org.mule.runtime.api.util.NameUtils {
+public class NameUtils extends org.mule.runtime.api.util.NameUtils {
 
   public static final String CONFIGURATION = "configuration";
   public static final String OPERATION = "operation";
