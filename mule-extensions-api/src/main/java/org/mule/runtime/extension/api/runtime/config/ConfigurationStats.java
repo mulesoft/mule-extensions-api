@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.config;
 
+import org.mule.api.annotation.NoImplement;
+
 /**
  * Usage statistics about a {@link ConfigurationInstance}.
  * <p/>
@@ -13,6 +15,7 @@ package org.mule.runtime.extension.api.runtime.config;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ConfigurationStats {
 
   /**

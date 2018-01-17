@@ -66,7 +66,7 @@ import java.util.stream.Stream;
  *
  * @since 1.0
  */
-public class ExtensionModelUtils {
+public final class ExtensionModelUtils {
 
   private ExtensionModelUtils() {}
 
