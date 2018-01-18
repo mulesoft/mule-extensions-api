@@ -147,7 +147,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         public void onParameter(ParameterizedModel owner, ParameterGroupModel groupModel, ParameterModel model) {
           validateTopLevelParameter(model, owner);
         }
-        
+
         @Override
         public void onConstruct(HasConstructModels owner, ConstructModel model) {
           validateComponent(model);
@@ -178,9 +178,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       validateSingularizeNameClashesWithNamedObjects();
       validateNameClashes(namedObjects, elements.values(),
                           elements.values().stream().filter(e -> (e instanceof TopLevelParameter))
-                              .map(e -> new TypedTopLevelParameter((TopLevelParameter) e)).collect(toSet()),
-                          contentParameters.stream().map(contentParameter -> new Element(contentParameter.dsl.getElementName(),
-                                                                                         getType(contentParameter.type))).collect(toSet()));
+                              .map(e -> new TypedTopLevelParameter((TopLevelParameter) e)).collect(toSet()));
+
       validateContentNamesMatchType(extensionModel, problemsReporter);
       validateContentClashes(extensionModel, problemsReporter);
     }
