@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -24,6 +25,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ExtensionLoadingContext {
 
   /**

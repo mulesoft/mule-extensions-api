@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.api.annotation.NoImplement;
+
 /**
  * Factory object for instances of {@link Source}.
  * <p>
@@ -13,6 +15,7 @@ package org.mule.runtime.extension.api.runtime.source;
  *
  * @since 1.0
  */
+@NoImplement
 public interface SourceFactory {
 
   /**

@@ -13,7 +13,7 @@ import org.mule.runtime.api.store.ObjectStore;
  *
  * @since 1.0
  */
-public class ObjectStoreStereotype extends MuleStereotypeDefinition {
+public final class ObjectStoreStereotype extends MuleStereotypeDefinition {
 
   @Override
   public String getName() {

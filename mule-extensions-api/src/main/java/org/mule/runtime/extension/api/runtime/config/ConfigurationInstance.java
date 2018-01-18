@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.config;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 
@@ -33,6 +34,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ConfigurationInstance {
 
   /**

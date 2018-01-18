@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.metadata;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
 import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
@@ -20,6 +21,7 @@ import java.util.Collection;
  *
  * @since 1.0
  */
+@NoImplement
 public interface MetadataResolverFactory {
 
   /**

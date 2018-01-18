@@ -16,7 +16,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public class ValidatorStereotype extends MuleStereotypeDefinition {
+public final class ValidatorStereotype extends MuleStereotypeDefinition {
 
   @Override
   public String getName() {

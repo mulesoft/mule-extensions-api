@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.metadata.api.ClassTypeLoader;
 
 /**
@@ -17,6 +18,7 @@ import org.mule.metadata.api.ClassTypeLoader;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ExtensionsTypeLoaderFactory {
 
   /**

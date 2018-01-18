@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.route;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.extension.api.runtime.operation.Result;
@@ -24,6 +25,7 @@ import java.util.function.Consumer;
  *
  * @since 1.0
  */
+@NoImplement
 public interface Chain {
 
   /**

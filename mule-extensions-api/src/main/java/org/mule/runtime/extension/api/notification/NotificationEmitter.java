@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.notification;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.api.notification.ExtensionNotification;
 
@@ -15,6 +16,7 @@ import org.mule.runtime.api.notification.ExtensionNotification;
  *
  * @since 1.1
  */
+@NoImplement
 public interface NotificationEmitter {
 
   /**
