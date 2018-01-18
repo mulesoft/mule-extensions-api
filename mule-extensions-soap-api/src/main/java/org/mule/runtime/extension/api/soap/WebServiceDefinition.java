@@ -6,11 +6,9 @@
  */
 package org.mule.runtime.extension.api.soap;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Representation of a web service, carrying the WSDL that can be accessible either locally or remotely, a Service, a Port.
@@ -102,12 +100,25 @@ public final class WebServiceDefinition {
   }
 
   @Override
-  public int hashCode() {
-    return reflectionHashCode(this);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    WebServiceDefinition that = (WebServiceDefinition) o;
+    return Objects.equals(serviceId, that.serviceId) &&
+        Objects.equals(friendlyName, that.friendlyName) &&
+        Objects.equals(wsdlUrl, that.wsdlUrl) &&
+        Objects.equals(address, that.address) &&
+        Objects.equals(service, that.service) &&
+        Objects.equals(port, that.port);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    return reflectionEquals(obj, this, "excludedOperationNames");
+  public int hashCode() {
+    return Objects.hash(serviceId, friendlyName, wsdlUrl, address, service, port);
   }
 }

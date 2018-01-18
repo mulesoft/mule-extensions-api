@@ -10,13 +10,14 @@ import static com.google.common.collect.ImmutableList.copyOf;
 import static com.google.common.collect.ImmutableMap.copyOf;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import org.mule.api.annotation.NoExtend;
+import org.mule.api.annotation.NoInstantiate;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.NamedObject;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -25,6 +26,8 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoExtend
+@NoInstantiate
 public class DslElementSyntax {
 
   private final String attributeName;
@@ -225,12 +228,34 @@ public class DslElementSyntax {
 
   @Override
   public boolean equals(Object o) {
-    return reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof DslElementSyntax)) {
+      return false;
+    }
+
+    DslElementSyntax that = (DslElementSyntax) o;
+    return isWrapped == that.isWrapped &&
+        supportsAttributeDeclaration == that.supportsAttributeDeclaration &&
+        supportsChildDeclaration == that.supportsChildDeclaration &&
+        supportsTopLevelDeclaration == that.supportsTopLevelDeclaration &&
+        requiresConfig == that.requiresConfig &&
+        Objects.equals(attributeName, that.attributeName) &&
+        Objects.equals(elementName, that.elementName) &&
+        Objects.equals(prefix, that.prefix) &&
+        Objects.equals(namespace, that.namespace) &&
+        Objects.equals(genericsDsl, that.genericsDsl) &&
+        Objects.equals(childs, that.childs) &&
+        Objects.equals(attributes, that.attributes) &&
+        Objects.equals(containedElements, that.containedElements);
   }
 
   @Override
   public int hashCode() {
-    return reflectionHashCode(this);
+    return Objects.hash(attributeName, elementName, prefix, namespace, isWrapped, supportsAttributeDeclaration,
+                        supportsChildDeclaration, supportsTopLevelDeclaration, requiresConfig, genericsDsl,
+                        childs, attributes, containedElements);
   }
 
   @Override
