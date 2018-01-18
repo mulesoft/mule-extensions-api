@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.soap;
 
+import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.soap.message.MessageDispatcher;
 
