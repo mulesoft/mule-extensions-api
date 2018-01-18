@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.values;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.value.Value;
 
@@ -17,6 +18,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ComponentValueProvider {
 
   /**

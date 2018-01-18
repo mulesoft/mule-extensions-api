@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.process;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.runtime.route.Route;
 
@@ -44,6 +45,7 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  *
  * @since 1.0
  */
+@NoImplement
 public interface RouterCompletionCallback extends CompletionCallback<Object, Object> {
 
 

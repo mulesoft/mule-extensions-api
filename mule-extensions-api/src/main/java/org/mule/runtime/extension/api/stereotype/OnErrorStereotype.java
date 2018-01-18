@@ -11,7 +11,7 @@ package org.mule.runtime.extension.api.stereotype;
  *
  * @since 1.1
  */
-public class OnErrorStereotype extends MuleStereotypeDefinition {
+public final class OnErrorStereotype extends MuleStereotypeDefinition {
 
   OnErrorStereotype() {}
 

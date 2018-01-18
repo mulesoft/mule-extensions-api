@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.config;
 
+import org.mule.api.annotation.NoImplement;
+
 import java.util.Optional;
 
 /**
@@ -13,6 +15,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ConfiguredComponent {
 
   /**

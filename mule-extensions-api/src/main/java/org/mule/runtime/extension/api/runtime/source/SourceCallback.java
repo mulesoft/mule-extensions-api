@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.extension.api.runtime.connectivity.Reconnectable;
 import org.mule.runtime.extension.api.runtime.connectivity.ReconnectionCallback;
@@ -23,6 +24,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <A> the generic type of the attributes of the generated results
  * @since 1.0
  */
+@NoImplement
 public interface SourceCallback<T, A> {
 
   /**
