@@ -25,11 +25,14 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.DescribedObject;
 import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
+import org.mule.runtime.api.meta.model.construct.HasConstructModels;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -126,7 +129,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
         @Override
         public void onOperation(HasOperationModels owner, OperationModel model) {
-          validateOperation(model);
+          validateComponent(model);
           registerNamedObject(model);
           validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
           splitParametersByContent(model);
@@ -143,6 +146,14 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         @Override
         public void onParameter(ParameterizedModel owner, ParameterGroupModel groupModel, ParameterModel model) {
           validateTopLevelParameter(model, owner);
+        }
+
+        @Override
+        public void onConstruct(HasConstructModels owner, ConstructModel model) {
+          validateComponent(model);
+          registerNamedObject(model);
+          validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
+          splitParametersByContent(model);
         }
 
         private void defaultValidation(ParameterizedModel model) {
@@ -232,21 +243,21 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       });
     }
 
-    private void validateOperation(OperationModel operation) {
-      validateNamesWithinGroups(operation);
-      String operationName = dslSyntaxResolver.resolve(operation).getElementName();
-      operation.getAllParameterModels().stream().map(parameterModel -> dslSyntaxResolver.resolve(parameterModel))
+    private void validateComponent(ComponentModel component) {
+      validateNamesWithinGroups(component);
+      String componentName = dslSyntaxResolver.resolve(component).getElementName();
+      component.getAllParameterModels().stream().map(parameterModel -> dslSyntaxResolver.resolve(parameterModel))
           .filter(DslElementSyntax::supportsChildDeclaration)
           .forEach(parameterElement -> {
 
-            validateClash(operationName,
+            validateClash(componentName,
                           parameterElement.getElementName(),
-                          getComponentModelTypeName(operation), "argument");
+                          getComponentModelTypeName(component), "argument");
 
             namedObjects.forEach(namedObject -> validateClash(namedObject.getName(), parameterElement.getElementName(),
                                                               namedObject.getDescription(),
-                                                              format("%s named %s with an argument", operationName,
-                                                                     getComponentModelTypeName(operation))));
+                                                              format("%s named %s with an argument", componentName,
+                                                                     getComponentModelTypeName(component))));
           });
     }
 
@@ -635,6 +646,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
         return "message source";
       } else if (value instanceof ConnectionProviderModel) {
         return "connection provider";
+      } else if (value instanceof ConstructModel) {
+        return "construct";
       }
 
       return "";
