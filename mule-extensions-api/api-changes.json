@@ -29,6 +29,304 @@
           "new": "interface org.mule.runtime.extension.api.runtime.operation.ExecutionContext<M extends org.mule.runtime.api.meta.model.ComponentModel>",
           "annotationType": "org.mule.api.annotation.NoImplement",
           "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "new": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "annotationType": "org.mule.api.annotation.NoExtend",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "new": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "annotationType": "org.mule.api.annotation.NoInstantiate",
+          "justification": "This class is not meant to be instantiated by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.values.ImmutableValue",
+          "new": "class org.mule.runtime.extension.api.values.ImmutableValue",
+          "annotationType": "org.mule.api.annotation.NoExtend",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.client.ExtensionsClient",
+          "new": "interface org.mule.runtime.extension.api.client.ExtensionsClient",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.client.OperationParameters",
+          "new": "interface org.mule.runtime.extension.api.client.OperationParameters",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory",
+          "new": "interface org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.loader.ExtensionLoadingContext",
+          "new": "interface org.mule.runtime.extension.api.loader.ExtensionLoadingContext",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.metadata.MetadataResolverFactory",
+          "new": "interface org.mule.runtime.extension.api.metadata.MetadataResolverFactory",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.Interceptable",
+          "new": "interface org.mule.runtime.extension.api.runtime.Interceptable",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.config.ConfigurationInstance",
+          "new": "interface org.mule.runtime.extension.api.runtime.config.ConfigurationInstance",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.config.ConfigurationState",
+          "new": "interface org.mule.runtime.extension.api.runtime.config.ConfigurationState",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.config.ConfigurationStats",
+          "new": "interface org.mule.runtime.extension.api.runtime.config.ConfigurationStats",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.config.ConfiguredComponent",
+          "new": "interface org.mule.runtime.extension.api.runtime.config.ConfiguredComponent",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.config.ExpirableConfigurationProvider",
+          "new": "interface org.mule.runtime.extension.api.runtime.config.ExpirableConfigurationProvider",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.connectivity.ReconnectionCallback",
+          "new": "interface org.mule.runtime.extension.api.runtime.connectivity.ReconnectionCallback",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.operation.FlowListener",
+          "new": "interface org.mule.runtime.extension.api.runtime.operation.FlowListener",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.parameter.Literal<T extends java.lang.Object>",
+          "new": "interface org.mule.runtime.extension.api.runtime.parameter.Literal<T extends java.lang.Object>",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.parameter.ParameterResolver<T extends java.lang.Object>",
+          "new": "interface org.mule.runtime.extension.api.runtime.parameter.ParameterResolver<T extends java.lang.Object>",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.process.CompletionCallback<T extends java.lang.Object, A extends java.lang.Object>",
+          "new": "interface org.mule.runtime.extension.api.runtime.process.CompletionCallback<T extends java.lang.Object, A extends java.lang.Object>",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.process.RouterCompletionCallback",
+          "new": "interface org.mule.runtime.extension.api.runtime.process.RouterCompletionCallback",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.route.Chain",
+          "new": "interface org.mule.runtime.extension.api.runtime.route.Chain",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.source.ParameterizedSource",
+          "new": "interface org.mule.runtime.extension.api.runtime.source.ParameterizedSource",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.source.SourceCallback<T extends java.lang.Object, A extends java.lang.Object>",
+          "new": "interface org.mule.runtime.extension.api.runtime.source.SourceCallback<T extends java.lang.Object, A extends java.lang.Object>",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.source.SourceCompletionCallback",
+          "new": "interface org.mule.runtime.extension.api.runtime.source.SourceCompletionCallback",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.source.SourceFactory",
+          "new": "interface org.mule.runtime.extension.api.runtime.source.SourceFactory",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.runtime.streaming.StreamingHelper",
+          "new": "interface org.mule.runtime.extension.api.runtime.streaming.StreamingHelper",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.security.AuthenticationHandler",
+          "new": "interface org.mule.runtime.extension.api.security.AuthenticationHandler",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.AppConfigStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.AppConfigStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.ConnectionStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.ConnectionStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.ErrorHandlerStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.ErrorHandlerStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.FlowStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.FlowStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.ModuleConfigStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.ModuleConfigStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.ObjectStoreStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.ObjectStoreStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.ProcessorStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.ProcessorStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.SourceStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.SourceStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.stereotype.ValidatorStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.ValidatorStereotype",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.tx.TransactionHandle",
+          "new": "interface org.mule.runtime.extension.api.tx.TransactionHandle",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.util.ExtensionModelUtils",
+          "new": "class org.mule.runtime.extension.api.util.ExtensionModelUtils",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.class.nowFinal",
+          "old": "class org.mule.runtime.extension.api.util.NameUtils",
+          "new": "class org.mule.runtime.extension.api.util.NameUtils",
+          "oldModifiers": "public",
+          "newModifiers": "public final",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.values.ComponentValueProvider",
+          "new": "interface org.mule.runtime.extension.api.values.ComponentValueProvider",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.values.ConfigurationParameterValueProvider",
+          "new": "interface org.mule.runtime.extension.api.values.ConfigurationParameterValueProvider",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "justification": "This interface is not meant to be implemented by the user"
         }
       ]
     }

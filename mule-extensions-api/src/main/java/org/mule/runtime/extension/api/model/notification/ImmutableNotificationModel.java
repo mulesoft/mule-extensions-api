@@ -7,12 +7,11 @@
 package org.mule.runtime.extension.api.model.notification;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
+
+import java.util.Objects;
 
 /**
  * Default and immutable implementation of {@link NotificationModel}
@@ -67,11 +66,20 @@ public final class ImmutableNotificationModel implements NotificationModel {
 
   @Override
   public boolean equals(Object o) {
-    return reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof ImmutableNotificationModel)) {
+      return false;
+    }
+    ImmutableNotificationModel that = (ImmutableNotificationModel) o;
+    return Objects.equals(namespace, that.namespace) &&
+        Objects.equals(identifier, that.identifier) &&
+        Objects.equals(metadataType, that.metadataType);
   }
 
   @Override
   public int hashCode() {
-    return reflectionHashCode(this);
+    return Objects.hash(namespace, identifier, metadataType);
   }
 }

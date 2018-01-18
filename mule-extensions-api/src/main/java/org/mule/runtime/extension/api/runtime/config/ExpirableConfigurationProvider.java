@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.config;
 
+import org.mule.api.annotation.NoImplement;
+
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ import java.util.List;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ExpirableConfigurationProvider extends ConfigurationProvider {
 
   /**

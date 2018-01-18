@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.event.Event;
 
 /**
@@ -13,6 +14,7 @@ import org.mule.runtime.api.event.Event;
  *
  * @since 1.1
  */
+@NoImplement
 public interface BackPressureContext {
 
   /**
