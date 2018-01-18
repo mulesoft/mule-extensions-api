@@ -7,13 +7,10 @@
 package org.mule.runtime.extension.api.values;
 
 import static java.util.Collections.unmodifiableSet;
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
-
+import org.mule.api.annotation.NoExtend;
 import org.mule.runtime.api.value.Value;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -21,6 +18,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
+@NoExtend
 public class ImmutableValue implements Value {
 
   private final String id;
@@ -28,8 +26,7 @@ public class ImmutableValue implements Value {
   private final String partName;
   private final Set<Value> childs;
 
-  ImmutableValue(String id, String displayName, Set<Value> childs,
-                 String partName) {
+  ImmutableValue(String id, String displayName, Set<Value> childs, String partName) {
     this.id = id;
     this.displayName = displayName;
     this.childs = childs;
@@ -69,17 +66,33 @@ public class ImmutableValue implements Value {
   }
 
   @Override
-  public int hashCode() {
-    return reflectionHashCode(this);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    ImmutableValue that = (ImmutableValue) o;
+    return Objects.equals(id, that.id) &&
+        Objects.equals(displayName, that.displayName) &&
+        Objects.equals(partName, that.partName) &&
+        Objects.equals(childs, that.childs);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    return reflectionEquals(this, obj);
+  public int hashCode() {
+    return Objects.hash(id, displayName, partName, childs);
   }
 
   @Override
   public String toString() {
-    return reflectionToString(this, JSON_STYLE);
+    return "{" +
+        "id:'" + id + '\'' +
+        ", displayName:'" + displayName + '\'' +
+        ", partName:'" + partName + '\'' +
+        ", childs:" + childs +
+        '}';
   }
 }

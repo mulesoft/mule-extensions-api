@@ -32,6 +32,27 @@
         },
         {
           "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "new": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "annotationType": "org.mule.api.annotation.NoExtend",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "new": "class org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax",
+          "annotationType": "org.mule.api.annotation.NoInstantiate",
+          "justification": "This class is not meant to be instantiated by the user"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.values.ImmutableValue",
+          "new": "class org.mule.runtime.extension.api.values.ImmutableValue",
+          "annotationType": "org.mule.api.annotation.NoExtend",
+          "justification": "This class is not meant to be extended by the user"
+        },
+        {
+          "code": "java.annotation.added",
           "old": "interface org.mule.runtime.extension.api.client.ExtensionsClient",
           "new": "interface org.mule.runtime.extension.api.client.ExtensionsClient",
           "annotationType": "org.mule.api.annotation.NoImplement",
