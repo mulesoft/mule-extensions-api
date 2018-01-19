@@ -154,7 +154,9 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
         @Override
         public void onParameter(ParameterizedModel owner, ParameterGroupModel groupModel, ParameterModel model) {
-          validateTopLevelParameter(model, owner);
+          if (!(owner instanceof FunctionModel)) {
+            validateTopLevelParameter(model, owner);
+          }
         }
 
         @Override
