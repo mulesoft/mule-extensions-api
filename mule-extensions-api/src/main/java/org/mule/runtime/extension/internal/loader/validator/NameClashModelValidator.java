@@ -19,6 +19,7 @@ import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
+
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -33,6 +34,8 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.construct.HasConstructModels;
+import org.mule.runtime.api.meta.model.function.FunctionModel;
+import org.mule.runtime.api.meta.model.function.HasFunctionModels;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -104,6 +107,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     private final Multimap<String, Element> elements = LinkedListMultimap.create();
     private final List<ParameterReference> contentParameters = new LinkedList<>();
     private final List<ParameterReference> nonContentParameters = new LinkedList<>();
+    private final MultiMap<String, FunctionModel> functionNames = new MultiMap<>();
     private final DslSyntaxResolver dslSyntaxResolver;
     private final ProblemsReporter problemsReporter;
 
@@ -133,6 +137,11 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           registerNamedObject(model);
           validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
           splitParametersByContent(model);
+        }
+
+        @Override
+        public void onFunction(HasFunctionModels owner, FunctionModel model) {
+          functionNames.put(model.getName(), model);
         }
 
         @Override
@@ -182,6 +191,15 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
       validateContentNamesMatchType(extensionModel, problemsReporter);
       validateContentClashes(extensionModel, problemsReporter);
+      validateFunctionNameClashes(extensionModel, problemsReporter);
+    }
+
+    private void validateFunctionNameClashes(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
+      functionNames.toListValuesMap().entrySet().stream().filter(entry -> entry.getValue().size() > 1).forEach(entry -> {
+        problemsReporter
+            .addError(new Problem(extensionModel, format("There are %d functions with name '%s'. Function names must be unique.",
+                                                         entry.getValue().size(), entry.getKey())));
+      });
     }
 
     private void validateSubtypes(Set<SubTypesModel> subTypes) {

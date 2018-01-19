@@ -55,9 +55,9 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
                               DisplayModel displayModel,
                               Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, modelProperties);
-    this.operations = unique(operationModels, "Operations");
-    this.connectionProviders = unique(connectionProviders, "Connection Providers");
-    this.messageSources = unique(sourceModels, "Message Sources");
+    this.operations = copy(operationModels);
+    this.connectionProviders = copy(connectionProviders);
+    this.messageSources = copy(sourceModels);
 
   }
 

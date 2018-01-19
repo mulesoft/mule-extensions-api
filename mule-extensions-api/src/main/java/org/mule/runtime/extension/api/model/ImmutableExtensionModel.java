@@ -186,8 +186,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.externalLibraries = unmodifiableSet(externalLibraryModels);
     this.privilegedPackages = privilegedPackages;
     this.privilegedArtifacts = privilegedArtifacts;
-    this.constructModels = unique(constructModels, "Constructs");
-    this.functions = unique(functions, "Functions");
+    this.constructModels = copy(constructModels);
+    this.functions = copy(functions);
     this.notifications = copy(notifications);
   }
 
