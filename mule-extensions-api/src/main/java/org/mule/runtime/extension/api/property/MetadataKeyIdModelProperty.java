@@ -6,12 +6,16 @@
  */
 package org.mule.runtime.extension.api.property;
 
+import static java.util.Optional.ofNullable;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
+
+import java.util.Optional;
 
 
 /**
@@ -24,6 +28,7 @@ public final class MetadataKeyIdModelProperty implements ModelProperty {
 
   private final MetadataType type;
   private final String parameterName;
+  private final String categoryName;
   public static final String NAME = "metadataKeyId";
 
   /**
@@ -31,9 +36,15 @@ public final class MetadataKeyIdModelProperty implements ModelProperty {
    *
    * @param type of the {@link ParameterModel} annotated with {@link MetadataKeyId}.
    */
+  @Deprecated
   public MetadataKeyIdModelProperty(MetadataType type, String parameterName) {
+    this(type, parameterName, null);
+  }
+
+  public MetadataKeyIdModelProperty(MetadataType type, String parameterName, String categoryName) {
     this.type = type;
     this.parameterName = parameterName;
+    this.categoryName = categoryName;
   }
 
   /**
@@ -64,5 +75,12 @@ public final class MetadataKeyIdModelProperty implements ModelProperty {
    */
   public String getParameterName() {
     return parameterName;
+  }
+
+  /**
+   * @return The category name where the current {@link MetadataKeyId} belongs.
+   */
+  public Optional<String> getCategoryName() {
+    return ofNullable(categoryName);
   }
 }
