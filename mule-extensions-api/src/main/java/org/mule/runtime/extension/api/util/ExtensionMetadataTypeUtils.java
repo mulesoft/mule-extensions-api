@@ -79,7 +79,7 @@ public final class ExtensionMetadataTypeUtils {
   public static <T> Optional<Class<T>> getType(MetadataType metadataType, ClassLoader classloader) {
     try {
       return Optional.of(JavaTypeUtils.getType(metadataType, classloader));
-    } catch (Exception e) {
+    } catch (Throwable e) {
       return empty();
     }
   }
