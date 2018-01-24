@@ -7,6 +7,7 @@
 
 package org.mule.runtime.extension.api.soap;
 
+import org.mule.runtime.api.service.ServiceProvider;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.soap.message.MessageDispatcher;
 
