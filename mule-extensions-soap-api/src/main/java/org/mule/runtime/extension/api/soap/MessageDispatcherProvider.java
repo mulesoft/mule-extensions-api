@@ -28,6 +28,8 @@ public interface MessageDispatcherProvider<T extends MessageDispatcher> extends 
    * @param connection a non {@code null} {@link T}.
    * @return a {@link ConnectionValidationResult} indicating if the connection
    * is valid or not.
+   *
+   * @since 1.1
    */
   default ConnectionValidationResult validate(T connection, SoapServiceProvider provider) {
     return ConnectionValidationResult.success();
