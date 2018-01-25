@@ -167,7 +167,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<ModelProperty> modelProperties,
                                  Set<NotificationModel> notifications) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
-    this.configurations = unique(configurationModels, "Configurations");
+    this.configurations = copy(configurationModels);
 
     checkModelArgument(version != null && version.length() > 0, "Version cannot be blank");
     checkModelArgument(category != null, "Extension Category cannot be null");
@@ -186,8 +186,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.externalLibraries = unmodifiableSet(externalLibraryModels);
     this.privilegedPackages = privilegedPackages;
     this.privilegedArtifacts = privilegedArtifacts;
-    this.constructModels = unique(constructModels, "Constructs");
-    this.functions = unique(functions, "Functions");
+    this.constructModels = copy(constructModels);
+    this.functions = copy(functions);
     this.notifications = copy(notifications);
   }
 
