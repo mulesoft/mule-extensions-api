@@ -52,7 +52,10 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
   }
 
   private void declareSubTypes(ExtensionDeclarer declarer) {
-    declarer.getDeclaration().getSubTypes().forEach(type -> registerTypes(declarer, type.getSubTypes()));
+    declarer.getDeclaration().getSubTypes().forEach(type -> {
+      registerType(declarer, type.getBaseType());
+      registerTypes(declarer, type.getSubTypes());
+    });
   }
 
   private void declareDefaultTypes(final ExtensionDeclarer declarer) {
