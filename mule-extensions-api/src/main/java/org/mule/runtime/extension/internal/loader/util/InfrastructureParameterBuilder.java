@@ -79,13 +79,13 @@ public final class InfrastructureParameterBuilder {
     declaration.getParameterGroup(CONNECTION).addParameter(parameter);
   }
 
-  public static void addPrimaryNodeParameter(SourceDeclaration declaration) {
+  public static void addPrimaryNodeParameter(SourceDeclaration declaration, boolean defaultValue) {
     ParameterDeclaration parameter = new ParameterDeclaration(PRIMARY_NODE_ONLY_PARAMETER_NAME);
     parameter.setDescription(PRIMARY_NODE_ONLY_PARAMETER_DESCRIPTION);
     parameter.setType(create(JAVA).booleanType().build(), false);
     parameter.setExpressionSupport(NOT_SUPPORTED);
     parameter.setRequired(false);
-    parameter.setDefaultValue(false);
+    parameter.setDefaultValue(defaultValue);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
 
     declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(parameter);

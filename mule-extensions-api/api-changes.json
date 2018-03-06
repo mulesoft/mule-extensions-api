@@ -327,6 +327,28 @@
           "new": "interface org.mule.runtime.extension.api.values.ConfigurationParameterValueProvider",
           "annotationType": "org.mule.api.annotation.NoImplement",
           "justification": "This interface is not meant to be implemented by the user"
+        },
+        {
+          "code": "java.annotation.noLongerPresent",
+          "old": "@interface org.mule.runtime.extension.api.annotation.source.PrimaryNodeOnly",
+          "package": "org.mule.runtime.extension.api.annotation.source",
+          "classSimpleName": "PrimaryNodeOnly",
+          "elementKind": "@interface",
+          "justification": "Unused and badly defined"
+        }
+      ]
+    }
+  },
+  "1.2.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.annotation.noLongerPresent",
+          "old": "@interface org.mule.runtime.extension.api.annotation.source.PrimaryNodeOnly",
+          "package": "org.mule.runtime.extension.api.annotation.source",
+          "classSimpleName": "PrimaryNodeOnly",
+          "elementKind": "@interface",
+          "justification": "Unused and badly defined"
         }
       ]
     }
