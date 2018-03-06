@@ -6,7 +6,27 @@
  */
 package org.mule.runtime.extension.api.annotation.source;
 
+import org.mule.runtime.extension.api.runtime.source.Source;
+
+/**
+ * Describes the operation modes that a {@link Source} can have when running in cluster mode.
+ *
+ * @since 1.1
+ */
 public enum SourceClusterSupport {
 
-  NOT_SUPPORTED, DEFAULT_ALL_NODES, DEFAULT_PRIMARY_NODE_ONLY
+  /**
+   * The source doesn't support cluster mode and hence only runs on the primary node.
+   */
+  NOT_SUPPORTED,
+
+  /**
+   * Runs on all the cluster nodes by default, but the user can choose to only run on the primary one
+   */
+  DEFAULT_ALL_NODES,
+
+  /**
+   * Only runs on the primary node by default, but the user can choose to run on all the nodes
+   */
+  DEFAULT_PRIMARY_NODE_ONLY
 }

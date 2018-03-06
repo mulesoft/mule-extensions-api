@@ -17,10 +17,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Indicates that the annotated {@link Source} should only run on the primary node, when running in cluster mode.
- * <p>
- * A parameter of name {@link ExtensionConstants#PRIMARY_NODE_ONLY_PARAMETER_NAME} will not be added automatically and the
- * runtime will only start the source when the mule instance becomes the primary node.
+ * Indicates the {@link SourceClusterSupport} that a {@link Source} should have when running in cluster mode.
+ *
+ * When the selected value is other than {@link SourceClusterSupport#NOT_SUPPORTED}, a parameter named
+ * {@link ExtensionConstants#PRIMARY_NODE_ONLY_PARAMETER_NAME} is addeed automatically to allow the user to configure whether
+ * the source should run in all nodes or just the primary ones.
+ *
+ * Notice that when this parameter is in fact added, it will be optional and its default value will depend on the
+ * {@link SourceClusterSupport}
  *
  * @since 1.1
  */
