@@ -339,6 +339,70 @@
       ]
     }
   },
+  "1.1.1": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.annotation.noLongerPresent",
+          "old": "@interface org.mule.runtime.extension.api.annotation.source.PrimaryNodeOnly",
+          "package": "org.mule.runtime.extension.api.annotation.source",
+          "classSimpleName": "PrimaryNodeOnly",
+          "elementKind": "@interface",
+          "justification": "Unused and badly defined"
+        },
+        {
+          "code": "java.class.added",
+          "new": "@interface org.mule.runtime.extension.api.annotation.source.ClusterSupport",
+          "package": "org.mule.runtime.extension.api.annotation.source",
+          "classSimpleName": "ClusterSupport",
+          "elementKind": "@interface",
+          "justification": "PrimaryNodeOnly unused and badly defined"
+        },
+        {
+          "code": "java.class.added",
+          "new": "enum org.mule.runtime.extension.api.annotation.source.SourceClusterSupport",
+          "package": "org.mule.runtime.extension.api.annotation.source",
+          "classSimpleName": "SourceClusterSupport",
+          "elementKind": "enum",
+          "justification": "PrimaryNodeOnly unused and badly defined"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method java.lang.String org.mule.runtime.api.util.NameUtils::titleize(java.lang.String) @ org.mule.runtime.extension.api.util.NameUtils",
+          "package": "org.mule.runtime.extension.api.util",
+          "classSimpleName": "NameUtils",
+          "methodName": "titleize",
+          "elementKind": "method",
+          "justification": "Needed"
+        },
+        {
+          "code": "java.method.parameterTypeChanged",
+          "old": "parameter org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A> org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A>::length(===java.lang.Long===)",
+          "new": "parameter org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A> org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A>::length(===long===)",
+          "oldType": "java.lang.Long",
+          "newType": "long",
+          "package": "org.mule.runtime.extension.api.runtime.operation",
+          "classSimpleName": "Builder",
+          "methodName": "length",
+          "parameterIndex": "0",
+          "elementKind": "parameter",
+          "justification": "There are no external users of this field yet"
+        },
+        {
+          "code": "java.method.returnTypeChanged",
+          "old": "method java.util.Optional<java.lang.Long> org.mule.runtime.extension.api.runtime.operation.Result<T, A>::getLength()",
+          "new": "method java.util.OptionalLong org.mule.runtime.extension.api.runtime.operation.Result<T, A>::getLength()",
+          "oldType": "java.util.Optional<java.lang.Long>",
+          "newType": "java.util.OptionalLong",
+          "package": "org.mule.runtime.extension.api.runtime.operation",
+          "classSimpleName": "Result",
+          "methodName": "getLength",
+          "elementKind": "method",
+          "justification": "There are no external users of this field yet"
+        }
+      ]
+    }
+  },
   "1.2.0": {
     "revapi": {
       "ignore": [
