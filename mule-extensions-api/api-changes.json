@@ -386,19 +386,16 @@
           "methodName": "length",
           "parameterIndex": "0",
           "elementKind": "parameter",
-          "justification": "There are no external users of this field yet"
+          "justification": "Avoid autoboxing/unboxing where possible"
         },
         {
-          "code": "java.method.returnTypeChanged",
-          "old": "method java.util.Optional<java.lang.Long> org.mule.runtime.extension.api.runtime.operation.Result<T, A>::getLength()",
-          "new": "method java.util.OptionalLong org.mule.runtime.extension.api.runtime.operation.Result<T, A>::getLength()",
-          "oldType": "java.util.Optional<java.lang.Long>",
-          "newType": "java.util.OptionalLong",
+          "code": "java.method.added",
+          "new": "method java.util.OptionalLong org.mule.runtime.extension.api.runtime.operation.Result<T, A>::getByteLength()",
           "package": "org.mule.runtime.extension.api.runtime.operation",
           "classSimpleName": "Result",
-          "methodName": "getLength",
+          "methodName": "getByteLength",
           "elementKind": "method",
-          "justification": "There are no external users of this field yet"
+          "justification": "Avoid autoboxing/unboxing where possible"
         }
       ]
     }

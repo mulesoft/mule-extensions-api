@@ -194,8 +194,24 @@ public class Result<T, A> {
    * The length of the payload in bytes if known.
    *
    * @return an {@link Optional} payload length
+   *
+   * @deprecated Use {@link #getByteLength()} instead.
    */
-  public OptionalLong getLength() {
+  @Deprecated
+  public Optional<Long> getLength() {
+    if (length.isPresent()) {
+      return Optional.of(length.getAsLong());
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * The length of the payload in bytes if known.
+   *
+   * @return an {@link Optional} payload length
+   */
+  public OptionalLong getByteLength() {
     return length;
   }
 
