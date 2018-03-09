@@ -343,39 +343,6 @@
     "revapi": {
       "ignore": [
         {
-          "code": "java.annotation.noLongerPresent",
-          "old": "@interface org.mule.runtime.extension.api.annotation.source.PrimaryNodeOnly",
-          "package": "org.mule.runtime.extension.api.annotation.source",
-          "classSimpleName": "PrimaryNodeOnly",
-          "elementKind": "@interface",
-          "justification": "Unused and badly defined"
-        },
-        {
-          "code": "java.class.added",
-          "new": "@interface org.mule.runtime.extension.api.annotation.source.ClusterSupport",
-          "package": "org.mule.runtime.extension.api.annotation.source",
-          "classSimpleName": "ClusterSupport",
-          "elementKind": "@interface",
-          "justification": "PrimaryNodeOnly unused and badly defined"
-        },
-        {
-          "code": "java.class.added",
-          "new": "enum org.mule.runtime.extension.api.annotation.source.SourceClusterSupport",
-          "package": "org.mule.runtime.extension.api.annotation.source",
-          "classSimpleName": "SourceClusterSupport",
-          "elementKind": "enum",
-          "justification": "PrimaryNodeOnly unused and badly defined"
-        },
-        {
-          "code": "java.method.added",
-          "new": "method java.lang.String org.mule.runtime.api.util.NameUtils::titleize(java.lang.String) @ org.mule.runtime.extension.api.util.NameUtils",
-          "package": "org.mule.runtime.extension.api.util",
-          "classSimpleName": "NameUtils",
-          "methodName": "titleize",
-          "elementKind": "method",
-          "justification": "Needed"
-        },
-        {
           "code": "java.method.parameterTypeChanged",
           "old": "parameter org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A> org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A>::length(===java.lang.Long===)",
           "new": "parameter org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A> org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A>::length(===long===)",
