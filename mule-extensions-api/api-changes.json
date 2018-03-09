@@ -339,6 +339,34 @@
       ]
     }
   },
+  "1.1.1": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.parameterTypeChanged",
+          "old": "parameter org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A> org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A>::length(===java.lang.Long===)",
+          "new": "parameter org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A> org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A>::length(===long===)",
+          "oldType": "java.lang.Long",
+          "newType": "long",
+          "package": "org.mule.runtime.extension.api.runtime.operation",
+          "classSimpleName": "Builder",
+          "methodName": "length",
+          "parameterIndex": "0",
+          "elementKind": "parameter",
+          "justification": "Avoid autoboxing/unboxing where possible"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method java.util.OptionalLong org.mule.runtime.extension.api.runtime.operation.Result<T, A>::getByteLength()",
+          "package": "org.mule.runtime.extension.api.runtime.operation",
+          "classSimpleName": "Result",
+          "methodName": "getByteLength",
+          "elementKind": "method",
+          "justification": "Avoid autoboxing/unboxing where possible"
+        }
+      ]
+    }
+  },
   "1.2.0": {
     "revapi": {
       "ignore": [
