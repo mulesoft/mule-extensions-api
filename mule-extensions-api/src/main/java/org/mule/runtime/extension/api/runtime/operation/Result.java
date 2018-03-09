@@ -7,10 +7,12 @@
 package org.mule.runtime.extension.api.runtime.operation;
 
 import static java.util.Optional.ofNullable;
+
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
 
 import java.util.Optional;
+import java.util.OptionalLong;
 
 /**
  * Represents the result of a component's execution. Extensions can use this class
@@ -93,8 +95,8 @@ public class Result<T, A> {
      * @param length
      * @return
      */
-    public Builder<T, A> length(Long length) {
-      product.length = length;
+    public Builder<T, A> length(long length) {
+      product.length = OptionalLong.of(length);
       return this;
     }
 
@@ -138,7 +140,7 @@ public class Result<T, A> {
   private A attributes = null;
   private MediaType mediaType = null;
   private MediaType attributesMediaType = null;
-  private Long length = null;
+  private OptionalLong length = OptionalLong.empty();
 
   protected Result() {}
 
@@ -192,9 +194,25 @@ public class Result<T, A> {
    * The length of the payload in bytes if known.
    *
    * @return an {@link Optional} payload length
+   *
+   * @deprecated Use {@link #getByteLength()} instead.
    */
+  @Deprecated
   public Optional<Long> getLength() {
-    return ofNullable(length);
+    if (length.isPresent()) {
+      return Optional.of(length.getAsLong());
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * The length of the payload in bytes if known.
+   *
+   * @return an {@link Optional} payload length
+   */
+  public OptionalLong getByteLength() {
+    return length;
   }
 
   /**
