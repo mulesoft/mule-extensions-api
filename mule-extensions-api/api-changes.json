@@ -388,6 +388,15 @@
           "methodName": "getByteLength",
           "elementKind": "method",
           "justification": "Avoid autoboxing/unboxing where possible"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A> org.mule.runtime.extension.api.runtime.operation.Result.Builder<T, A>::length(long)",
+          "package": "org.mule.runtime.extension.api.runtime.operation",
+          "classSimpleName": "Builder",
+          "methodName": "length",
+          "elementKind": "method",
+          "justification": "Avoid autoboxing/unboxing where possible"
         }
       ]
     }
