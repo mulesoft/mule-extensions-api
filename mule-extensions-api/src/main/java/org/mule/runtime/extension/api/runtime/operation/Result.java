@@ -94,6 +94,25 @@ public class Result<T, A> {
      *
      * @param length
      * @return
+     *
+     * @deprecated Use {@link #length(long)} instead.
+     */
+    @Deprecated
+    public Builder<T, A> length(Long length) {
+      if (length != null) {
+        product.length = OptionalLong.of(length);
+      } else {
+        product.length = OptionalLong.empty();
+      }
+
+      return this;
+    }
+
+    /**
+     * Sets the length in bytes of the payload
+     *
+     * @param length
+     * @return
      */
     public Builder<T, A> length(long length) {
       product.length = OptionalLong.of(length);
