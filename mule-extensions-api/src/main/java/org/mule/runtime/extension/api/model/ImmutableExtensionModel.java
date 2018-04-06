@@ -23,6 +23,7 @@ import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.function.HasFunctionModels;
+import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -32,6 +33,7 @@ import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Immutable implementation of {@link ExtensionModel}
@@ -56,6 +58,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final Set<ImportedTypeModel> importedTypes;
   private final Set<ExternalLibraryModel> externalLibraries;
   private final Set<NotificationModel> notifications;
+  private final List<NestableElementModel> nestableElementModels;
 
   /**
    * Creates a new instance with the given state
@@ -189,6 +192,21 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.constructModels = copy(constructModels);
     this.functions = copy(functions);
     this.notifications = copy(notifications);
+    this.nestableElementModels = retrieveNestableElementModels();
+  }
+
+  private List<NestableElementModel> retrieveNestableElementModels() {
+    return constructModels.stream().flatMap(constructModel -> constructModel.getNestedComponents().stream()).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<NestableElementModel> getNestableElementModels() {
+    return nestableElementModels;
+  }
+
+  @Override
+  public Optional<NestableElementModel> getNestableElementModel(String name) {
+    return nestableElementModels.stream().filter(nestableElementModel -> nestableElementModel.getName().equals(name)).findFirst();
   }
 
   /**
