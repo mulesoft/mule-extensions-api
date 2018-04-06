@@ -196,7 +196,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   }
 
   private List<NestableElementModel> retrieveNestableElementModels() {
-    return constructModels.stream().flatMap(constructModel -> constructModel.getNestedComponents().stream()).collect(Collectors.toList());
+    return constructModels.stream().flatMap(constructModel -> constructModel.getNestedComponents().stream())
+        .collect(Collectors.toList());
   }
 
   @Override
