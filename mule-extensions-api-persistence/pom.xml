@@ -17,7 +17,6 @@
     <url>https://github.com/mulesoft/mule-extensions-api</url>
 
     <properties>
-        <dom4jVersion>1.6.1</dom4jVersion>
         <formatterConfigPath>../formatter.xml</formatterConfigPath>
         <jsonassert.version>1.5.0</jsonassert.version>
     </properties>
