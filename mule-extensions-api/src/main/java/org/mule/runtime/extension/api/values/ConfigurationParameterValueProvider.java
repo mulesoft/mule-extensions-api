@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.values;
 
+import static java.util.Collections.emptyList;
+
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.value.Value;
@@ -36,7 +38,10 @@ public interface ConfigurationParameterValueProvider {
    * @param providerName The name of the value provider
    * @return The associated {@link ValueProviderModel}
    */
-  List<ValueProviderModel> getConfigModels(String providerName) throws ValueResolvingException;
+  @Deprecated
+  default List<ValueProviderModel> getConfigModels(String providerName) throws ValueResolvingException {
+    return emptyList();
+  }
 
   /**
    * Resolves the possible {@link Value values} for the Connection Providers's parameter identified by the {@code parameterName}
@@ -52,6 +57,9 @@ public interface ConfigurationParameterValueProvider {
    * @param providerName The name of the value provider
    * @return The associated {@link ValueProviderModel}
    */
-  List<ValueProviderModel> getConnectionModels(String providerName) throws ValueResolvingException;
+  @Deprecated
+  default List<ValueProviderModel> getConnectionModels(String providerName) throws ValueResolvingException {
+    return emptyList();
+  }
 
 }
