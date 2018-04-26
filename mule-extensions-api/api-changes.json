@@ -386,7 +386,35 @@
           "classSimpleName": "PrimaryNodeOnly",
           "elementKind": "@interface",
           "justification": "Unused and badly defined"
+        },
+        {
+          "code": "java.method.removed",
+          "old": "method java.util.List<org.mule.runtime.api.meta.model.parameter.ValueProviderModel> org.mule.runtime.extension.api.values.ComponentValueProvider::getModels(java.lang.String)",
+          "package": "org.mule.runtime.extension.api.values",
+          "classSimpleName": "ComponentValueProvider",
+          "methodName": "getModels",
+          "elementKind": "method",
+          "justification": "Dead code"
+        },
+        {
+          "code": "java.method.removed",
+          "old": "method java.util.List<org.mule.runtime.api.meta.model.parameter.ValueProviderModel> org.mule.runtime.extension.api.values.ConfigurationParameterValueProvider::getConfigModels(java.lang.String) throws org.mule.runtime.extension.api.values.ValueResolvingException",
+          "package": "org.mule.runtime.extension.api.values",
+          "classSimpleName": "ConfigurationParameterValueProvider",
+          "methodName": "getConfigModels",
+          "elementKind": "method",
+          "justification":"Dead code"
+        },
+        {
+          "code": "java.method.removed",
+          "old": "method java.util.List<org.mule.runtime.api.meta.model.parameter.ValueProviderModel> org.mule.runtime.extension.api.values.ConfigurationParameterValueProvider::getConnectionModels(java.lang.String) throws org.mule.runtime.extension.api.values.ValueResolvingException",
+          "package": "org.mule.runtime.extension.api.values",
+          "classSimpleName": "ConfigurationParameterValueProvider",
+          "methodName": "getConnectionModels",
+          "elementKind": "method",
+          "justification": "Dead code"
         }
+
       ]
     }
   }
