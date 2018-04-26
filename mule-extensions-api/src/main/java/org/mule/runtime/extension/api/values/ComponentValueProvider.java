@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.values;
 
+import static java.util.Collections.emptyList;
+
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.value.Value;
@@ -33,6 +35,9 @@ public interface ComponentValueProvider {
    * @param providerName The name of the value provider
    * @return The associated {@link ValueProviderModel}
    */
-  List<ValueProviderModel> getModels(String providerName);
+  @Deprecated
+  default List<ValueProviderModel> getModels(String providerName) {
+    return emptyList();
+  }
 
 }
