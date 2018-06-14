@@ -31,6 +31,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
@@ -47,7 +48,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @since 1.0
  */
-final class DslSyntaxUtils {
+public final class DslSyntaxUtils {
 
   private final static String CONNECTION_PROVIDER_SUFFIX = "connection";
   private final static String CONFIGURATION_SUFFIX = "config";
@@ -86,7 +87,7 @@ final class DslSyntaxUtils {
         .orElse(false);
   }
 
-  public static boolean isFlattened(ObjectFieldType field, MetadataType fieldValue) {
+  static boolean isFlattened(ObjectFieldType field, MetadataType fieldValue) {
     return fieldValue instanceof ObjectType && field.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
   }
 
@@ -114,7 +115,7 @@ final class DslSyntaxUtils {
    * @param metadataType the {@link MetadataType} to verify for it's extensibility
    * @return {@code true} if the given type is annotated with {@link ExtensibleTypeAnnotation}
    */
-  public static boolean isExtensible(MetadataType metadataType) {
+  static boolean isExtensible(MetadataType metadataType) {
     return metadataType.getAnnotation(ExtensibleTypeAnnotation.class).isPresent();
   }
 
@@ -160,8 +161,8 @@ final class DslSyntaxUtils {
     return supportsInlineDeclaration(metadataType, expressionSupport, ParameterDslConfiguration.getDefaultInstance(), isContent);
   }
 
-  static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport,
-                                           ParameterDslConfiguration dslModel, boolean isContent) {
+  public static boolean supportsInlineDeclaration(MetadataType metadataType, ExpressionSupport expressionSupport,
+                                                  ParameterDslConfiguration dslModel, boolean isContent) {
     final AtomicBoolean supportsChildDeclaration = new AtomicBoolean(false);
 
     if (isContent) {
@@ -222,6 +223,11 @@ final class DslSyntaxUtils {
     });
 
     return supportsChildDeclaration.get();
+  }
+
+  public static boolean typeRequiresWrapperElement(MetadataType metadataType, TypeCatalog typeCatalog) {
+    return metadataType instanceof ObjectType &&
+        (isExtensible(metadataType) || typeCatalog.containsBaseType((ObjectType) metadataType));
   }
 
 }
