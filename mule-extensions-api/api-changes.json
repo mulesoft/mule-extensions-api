@@ -400,5 +400,20 @@
         }
       ]
     }
+  },
+  "1.1.3": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.added",
+          "new": "method boolean org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils::typeRequiresWrapperElement(org.mule.metadata.api.model.MetadataType, org.mule.runtime.api.meta.type.TypeCatalog)",
+          "package": "org.mule.runtime.extension.api.dsl.syntax",
+          "classSimpleName": "DslSyntaxUtils",
+          "methodName": "typeRequiresWrapperElement",
+          "elementKind": "method",
+          "justification": "Utility method refactor"
+        }
+      ]
+    }
   }
 }
