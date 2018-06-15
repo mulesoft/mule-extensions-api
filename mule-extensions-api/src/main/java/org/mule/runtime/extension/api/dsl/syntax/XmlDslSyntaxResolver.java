@@ -13,7 +13,6 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
-import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isExtensible;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlattened;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isInstantiable;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isText;
@@ -21,6 +20,7 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isValidBe
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportAttributeDeclaration;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
@@ -228,7 +228,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    MetadataType genericType = arrayType.getType();
                                    boolean supportsInline = supportsInlineDeclaration(arrayType, expressionSupport,
                                                                                       dslConfig, isContent);
-                                   boolean requiresWrapper = typeRequiresWrapperElement(genericType);
+                                   boolean requiresWrapper = typeRequiresWrapperElement(genericType, typeCatalog);
                                    if (supportsInline || requiresWrapper) {
                                      builder.supportsChildDeclaration(true);
                                      if (!isContent) {
@@ -304,7 +304,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
     boolean isSubtype = !typeCatalog.getSuperTypes(type).isEmpty();
 
-    boolean requiresWrapper = typeRequiresWrapperElement(type);
+    boolean requiresWrapper = typeRequiresWrapperElement(type, typeCatalog);
     boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED) || (isInstantiable(type) && isSubtype);
     boolean supportTopLevelElement = supportTopLevelElement(type);
 
@@ -422,7 +422,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     } else {
       supportsTopLevel = supportTopLevelElement(objectType, dslConfig);
       supportsInline = supportsInlineDeclaration(objectType, expressionSupport, dslConfig, isContent);
-      requiresWrapper = typeRequiresWrapperElement(objectType);
+      requiresWrapper = typeRequiresWrapperElement(objectType, typeCatalog);
     }
 
     builder.supportsTopLevelDeclaration(supportsTopLevel);
@@ -480,7 +480,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
           return;
         }
 
-        if (typeRequiresWrapperElement(objectType)) {
+        if (typeRequiresWrapperElement(objectType, typeCatalog)) {
           listBuilder.withGeneric(objectType,
                                   DslElementSyntaxBuilder.create()
                                       .withNamespace(getPrefix(objectType), getNamespace(objectType))
@@ -507,7 +507,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         MetadataType genericType = arrayType.getType();
 
         boolean supportsInline = supportsInlineDeclaration(genericType, SUPPORTED);
-        boolean requiresWrapper = typeRequiresWrapperElement(genericType);
+        boolean requiresWrapper = typeRequiresWrapperElement(genericType, typeCatalog);
         if (supportsInline || requiresWrapper) {
           genericBuilder.supportsChildDeclaration(true);
           genericType.accept(getArrayItemTypeVisitor(genericBuilder, parameterName, namespace, namespaceUri, true));
@@ -588,7 +588,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         }
 
         boolean supportsInlineDeclaration = supportsInlineDeclaration(objectType, SUPPORTED, dslModel, false);
-        boolean requiresWrapperElement = typeRequiresWrapperElement(objectType);
+        boolean requiresWrapperElement = typeRequiresWrapperElement(objectType, typeCatalog);
 
         if (supportsInlineDeclaration || requiresWrapperElement) {
           final DslElementSyntaxBuilder valueEntry = createBaseValueEntryDefinition();
@@ -650,7 +650,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
         MetadataType genericType = arrayType.getType();
         boolean genericSupportsInline = supportsInlineDeclaration(genericType, SUPPORTED, dslModel, false);
-        boolean genericRequiresWrapper = typeRequiresWrapperElement(genericType);
+        boolean genericRequiresWrapper = typeRequiresWrapperElement(genericType, typeCatalog);
         if (genericSupportsInline || genericRequiresWrapper) {
           genericType.accept(getArrayItemTypeVisitor(valueEntry, parameterName, namespace, namespaceUri, true));
         }
@@ -678,7 +678,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
     builder.supportsChildDeclaration(supportsChildDeclaration)
         .supportsTopLevelDeclaration(supportsTopDeclaration)
-        .asWrappedElement(typeRequiresWrapperElement(objectType));
+        .asWrappedElement(typeRequiresWrapperElement(objectType, typeCatalog));
 
     if (introspectObjectFields && (supportsChildDeclaration || supportsTopDeclaration)) {
       declareFieldsAsChilds(builder, childFields, namespace, namespaceUri);
@@ -812,11 +812,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private boolean supportsAttributeDeclaration(ParameterModel parameter, boolean isContent, ParameterDslConfiguration dslModel) {
     return !isContent && (dslModel.allowsReferences() || !NOT_SUPPORTED.equals(parameter.getExpressionSupport()));
-  }
-
-  private boolean typeRequiresWrapperElement(MetadataType metadataType) {
-    return metadataType instanceof ObjectType &&
-        (isExtensible(metadataType) || typeCatalog.containsBaseType((ObjectType) metadataType));
   }
 
   private String getPrefix(MetadataType type) {
