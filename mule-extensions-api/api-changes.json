@@ -386,6 +386,17 @@
           "classSimpleName": "PrimaryNodeOnly",
           "elementKind": "@interface",
           "justification": "Unused and badly defined"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.stereotype.MuleStereotypeDefinition",
+          "new": "class org.mule.runtime.extension.api.stereotype.MuleStereotypeDefinition",
+          "annotationType": "org.mule.api.annotation.NoExtend",
+          "annotation": "@org.mule.api.annotation.NoExtend",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "MuleStereotypeDefinition",
+          "elementKind": "class",
+          "justification": "Clarify that this Class should not be extended by third parties"
         }
       ]
     }
