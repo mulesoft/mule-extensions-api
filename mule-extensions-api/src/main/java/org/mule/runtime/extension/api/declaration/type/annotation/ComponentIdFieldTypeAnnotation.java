@@ -7,10 +7,11 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
+import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 /**
- * Marker annotation for a {@link } that represents a {@link ParameterModel ::isComponentId componentId}.
+ * Marker annotation for a {@link ObjectFieldType} that represents a {@link ParameterModel ::isComponentId componentId}.
  *
  * @since 1.2.0
  */
