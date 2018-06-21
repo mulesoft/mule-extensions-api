@@ -7,8 +7,9 @@
 package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
-import static java.util.Collections.singleton;
+import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isBasic;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
@@ -16,10 +17,8 @@ import static org.mule.runtime.extension.api.util.NameUtils.CONNECTION_PROVIDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.ObjectFieldType;
-import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.model.UnionType;
-import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.api.model.StringType;
+import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
@@ -28,19 +27,13 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
-import org.mule.runtime.api.meta.type.TypeCatalog;
-import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
-import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
-import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
-import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
-import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -55,7 +48,7 @@ import java.util.Set;
  * reserved name.
  * </ul>
  *
- * @since 1.0
+ * @since 1.0.0
  */
 public final class ParameterModelValidator implements ExtensionModelValidator {
 
@@ -66,13 +59,12 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
 
   private class ValidatorDelegate implements ExtensionModelValidator {
 
-    private TypeCatalog typeCatalog;
-    private DslSyntaxResolver dsl;
+    private ProblemsReporter problemsReporter;
+    private Set<String> validatedComponentIdContainers = new HashSet<>();
 
     @Override
     public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
-      typeCatalog = TypeCatalog.getDefault(singleton(extensionModel));
-      dsl = DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy());
+      this.problemsReporter = problemsReporter;
 
       new ExtensionWalker() {
 
@@ -80,110 +72,140 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
         public void onParameter(ParameterizedModel owner, ParameterGroupModel groupModel, ParameterModel model) {
           String ownerName = owner.getName();
           String ownerModelType = getComponentModelTypeName(owner);
-          validateParameter(model, ownerName, ownerModelType, problemsReporter);
-          validateOAuthParameter(model, ownerName, ownerModelType, problemsReporter);
+          validateParameter(model, ownerName, ownerModelType, owner);
+          validateOAuthParameter(model, ownerName, ownerModelType);
         }
       }.walk(extensionModel);
     }
 
-    private void validateParameter(ParameterModel parameterModel, String ownerName,
-                                   String ownerModelType, ProblemsReporter problemsReporter) {
+    private void validateParameter(ParameterModel parameterModel, String ownerName, String ownerModelType,
+                                   ParameterizedModel owner) {
       if (parameterModel.getType() == null) {
-        problemsReporter.addError(new Problem(parameterModel, format("Parameter '%s' in the %s '%s' must provide a type",
-                                                                     parameterModel.getName(),
-                                                                     ownerModelType, ownerName)));
+        addError(parameterModel, "Parameter '%s' in the %s '%s' must provide a type",
+                 parameterModel.getName(), ownerModelType, ownerName);
       }
 
       if (parameterModel.getDefaultValue() != null) {
         if (parameterModel.isOverrideFromConfig() &&
             !ownerModelType.equals(CONFIGURATION) && !ownerModelType.equals(CONNECTION_PROVIDER)) {
           // We skip failing for configs and connection here since a different error is thrown in their own validators
-          problemsReporter
-              .addError(new Problem(parameterModel,
-                                    format("Parameter '%s' in the %s '%s' is declared as a config override,"
-                                        + " and must not provide a default value since one is already provided by the declared"
-                                        + " value in the config parameter",
-                                           parameterModel.getName(), ownerModelType, ownerName)));
+          addError(parameterModel,
+                   "Parameter '%s' in the %s '%s' is declared as a config override,"
+                       + " and must not provide a default value since one is already provided by the value"
+                       + " declared in the config parameter",
+                   parameterModel.getName(), ownerModelType, ownerName);
         } else if (parameterModel.isRequired()) {
-          problemsReporter
-              .addError(new Problem(parameterModel,
-                                    format("Parameter '%s' in the %s '%s' is required, and must not provide a default value",
-                                           parameterModel.getName(), ownerModelType, ownerName)));
+          addError(parameterModel,
+                   "Parameter '%s' in the %s '%s' is required, and must not provide a default value",
+                   parameterModel.getName(), ownerModelType, ownerName);
         }
       }
 
-      if (parameterModel.getType() == null) {
-        problemsReporter
-            .addError(new Problem(parameterModel,
-                                  format("Parameter '%s' in the %s '%s' doesn't specify a return type",
-                                         parameterModel.getName(), ownerModelType, ownerName)));
-      } else {
-
-        parameterModel.getType().accept(new MetadataTypeVisitor() {
-
-          private Set<MetadataType> visitedTypes = new HashSet<>();
-
-          @Override
-          public void visitUnion(UnionType unionType) {
-            unionType.getTypes().forEach(t -> t.accept(this));
-          }
-
-          @Override
-          public void visitArrayType(ArrayType arrayType) {
-            arrayType.getType().accept(this);
-          }
-
-          @Override
-          public void visitObject(ObjectType objectType) {
-            DslElementSyntax paramDsl = dsl.resolve(parameterModel);
-            if (objectType.isOpen()) {
-              objectType.getOpenRestriction().get().accept(this);
-            } else if ((paramDsl.supportsTopLevelDeclaration() || paramDsl.supportsChildDeclaration())
-                && visitedTypes.add(objectType)) {
-              for (ObjectFieldType field : objectType.getFields()) {
-                if (supportsGlobalReferences(field)) {
-                  field.getValue().accept(this);
-                }
-
-                ExtensionMetadataTypeUtils.getType(field.getValue())
-                    .filter(c -> c.getAnnotation(ConfigOverride.class) != null)
-                    .ifPresent(c -> problemsReporter.addError(new Problem(parameterModel,
-                                                                          format(
-                                                                                 "Type '%s' has fields declared as '%s', which is not allowed.",
-                                                                                 getId(objectType).get(),
-                                                                                 ConfigOverride.class.getSimpleName()))));
-              }
-            }
-          }
-        });
+      if (parameterModel.isComponentId()) {
+        validateComponentId(parameterModel, ownerName, ownerModelType, owner);
       }
+
     }
 
-    private boolean supportsGlobalReferences(ObjectFieldType field) {
-      return dsl.resolve(field.getValue()).map(DslElementSyntax::supportsTopLevelDeclaration)
-          .orElseGet(() -> field.getAnnotation(ParameterDslAnnotation.class).map(ParameterDslAnnotation::allowsReferences)
-              .orElse(true));
+    private void validateComponentId(ParameterModel parameterModel, String ownerName, String ownerModelType,
+                                     ParameterizedModel owner) {
+      if (!parameterModel.isRequired()) {
+        addError(parameterModel,
+                 "Parameter '%s' in the %s '%s' is declared as a Component ID, but is also marked as Optional. "
+                     + "Only a required parameter can serve as Component ID",
+                 parameterModel.getName(), ownerModelType, ownerName);
+      }
+
+      if (parameterModel.getType() instanceof StringType && !validatedComponentIdContainers.contains(ownerName)) {
+        validatedComponentIdContainers.add(ownerName);
+        List<String> componentIdParameters = owner.getAllParameterModels().stream()
+            .filter(ParameterModel::isComponentId)
+            .map(NamedObject::getName)
+            .collect(toList());
+
+        if (componentIdParameters.size() > 1) {
+          addError(owner,
+                   "The %s '%s' declares multiple parameters as Component ID. "
+                       + "Only one parameter can serve as ID for a given Component. "
+                       + "Affected parameters are: %s",
+                   ownerModelType, ownerName, componentIdParameters);
+        }
+
+      } else {
+        addError(parameterModel,
+                 "Parameter '%s' in the %s '%s' is declared as a Component ID, but is of type '%s'. "
+                     + "Only String parameters are allowed as Component ID",
+                 parameterModel.getName(), ownerModelType, ownerName, getId(parameterModel.getType()).orElse("Unknown"));
+      }
+
+      if (!NOT_SUPPORTED.equals(parameterModel.getExpressionSupport())) {
+        addError(parameterModel,
+                 "Parameter '%s' in the %s '%s' is declared as a Component ID, but declares its expression support as '%s'. "
+                     + "Dynamic values are not allowed for a Component ID parameter",
+                 parameterModel.getName(), ownerModelType, ownerName, parameterModel.getExpressionSupport().name());
+      }
+
+      if (!BEHAVIOUR.equals(parameterModel.getRole())) {
+        addError(parameterModel,
+                 "Parameter '%s' in the %s '%s' is declared as a Component ID, but is also declared as '%s'. "
+                     + "A parameter can't be declared both as Component ID and Content.",
+                 parameterModel.getName(), ownerModelType, ownerName, parameterModel.getRole().name());
+      }
+
+      if (parameterModel.isOverrideFromConfig()) {
+        addError(parameterModel,
+                 "Parameter '%s' in the %s '%s' is declared as a Component ID, but is also declared as a ConfigOverride. "
+                     + "A Component ID can't be declared as a ConfigOverride since it describe the ID of each individual component "
+                     + "and no common global value should be used here.",
+                 parameterModel.getName(), ownerModelType, ownerName);
+      }
+
+      parameterModel.getLayoutModel()
+          .ifPresent(layout -> {
+            if (layout.isText()) {
+              addError(parameterModel,
+                       "Parameter '%s' in the %s '%s' is declared as a Component ID, but is also declared as 'Text'. "
+                           + "A Component ID can't be declared as a Text parameter.",
+                       parameterModel.getName(), ownerModelType, ownerName);
+            }
+
+            if (layout.isPassword()) {
+              addError(parameterModel,
+                       "Parameter '%s' in the %s '%s' is declared as a Component ID, but is also declared as 'Password'. "
+                           + "A Component ID can't be declared as a Password parameter.",
+                       parameterModel.getName(), ownerModelType, ownerName);
+            }
+
+            if (layout.isQuery()) {
+              addError(parameterModel,
+                       "Parameter '%s' in the %s '%s' is declared as a Component ID, but is also declared as 'Query'. "
+                           + "A Component ID can't be declared as a Query parameter.",
+                       parameterModel.getName(), ownerModelType, ownerName);
+            }
+          });
+
     }
 
-    private void validateOAuthParameter(ParameterModel parameterModel, String ownerName, String ownerModelType,
-                                        ProblemsReporter problemsReporter) {
+    private void validateOAuthParameter(ParameterModel parameterModel, String ownerName, String ownerModelType) {
       parameterModel.getModelProperty(OAuthParameterModelProperty.class).ifPresent(p -> {
         if (parameterModel.getExpressionSupport() != NOT_SUPPORTED) {
-          problemsReporter
-              .addError(new Problem(parameterModel,
-                                    format("Parameter '%s' in the %s [%s] is an OAuth parameter yet it supports expressions. "
-                                        + "Expressions are not supported on OAuth parameters",
-                                           parameterModel.getName(), ownerModelType, ownerName)));
+          addError(parameterModel,
+                   "Parameter '%s' in the %s [%s] is an OAuth parameter yet it supports expressions. "
+                       + "Expressions are not supported on OAuth parameters",
+                   parameterModel.getName(), ownerModelType, ownerName);
         }
 
         if (!isBasic(parameterModel.getType())) {
-          problemsReporter
-              .addError(new Problem(parameterModel, format("Parameter '%s' in the %s [%s] is an OAuth parameter but is a %s. "
-                  + "Only basic types are supported on OAuth parameters",
-                                                           parameterModel.getName(), ownerModelType, ownerName,
-                                                           parameterModel.getType().getClass().getSimpleName())));
+          addError(parameterModel,
+                   "Parameter '%s' in the %s [%s] is an OAuth parameter but is a %s. "
+                       + "Only basic types are supported on OAuth parameters",
+                   parameterModel.getName(), ownerModelType, ownerName, parameterModel.getType().getClass().getSimpleName());
         }
       });
+    }
+
+    private void addError(NamedObject object, String msg, Object... args) {
+      problemsReporter.addError(new Problem(object, format(msg, args)));
     }
   }
 }
