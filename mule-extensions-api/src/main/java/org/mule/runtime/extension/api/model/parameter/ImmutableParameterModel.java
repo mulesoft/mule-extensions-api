@@ -10,6 +10,7 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -35,6 +36,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final boolean hasDynamicType;
   private final boolean required;
   private final boolean isConfigOverride;
+  private final boolean isComponentId;
   private final ValueProviderModel valueProviderModel;
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
@@ -61,12 +63,54 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param modelProperties   A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
    */
+  @Deprecated
   public ImmutableParameterModel(String name,
                                  String description,
                                  MetadataType type,
                                  boolean hasDynamicType,
                                  boolean required,
                                  boolean isConfigOverride,
+                                 ExpressionSupport expressionSupport,
+                                 Object defaultValue,
+                                 ParameterRole role,
+                                 ParameterDslConfiguration dslConfiguration,
+                                 DisplayModel displayModel,
+                                 LayoutModel layoutModel,
+                                 ValueProviderModel valueProviderModel,
+                                 List<StereotypeModel> allowedStereotypeModels,
+                                 Set<ModelProperty> modelProperties) {
+    this(name, description, type, hasDynamicType, required, isConfigOverride,
+         false, expressionSupport, defaultValue, role, dslConfiguration,
+         displayModel, layoutModel, valueProviderModel, allowedStereotypeModels, modelProperties);
+  }
+
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name              the parameter's name. Cannot be blank.
+   * @param description       the parameter's description
+   * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required          whether this parameter is required or not
+   * @param isConfigOverride  whether this parameter is a configuration override or not
+   * @param isComponentId     whether this parameter serves as a {@link ComponentModel} ID or not
+   * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue      this parameter's default value
+   * @param role              this parameter's purpose
+   * @param dslConfiguration  a model which describes the DSL semantics for this parameter
+   * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel       a model which contains directives about the parameter's layout in the UI
+   * @param allowedStereotypeModels  A {@link Set} with the stereotypes of the allowed values
+   * @param modelProperties   A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
+   */
+  public ImmutableParameterModel(String name,
+                                 String description,
+                                 MetadataType type,
+                                 boolean hasDynamicType,
+                                 boolean required,
+                                 boolean isConfigOverride,
+                                 boolean isComponentId,
                                  ExpressionSupport expressionSupport,
                                  Object defaultValue,
                                  ParameterRole role,
@@ -86,6 +130,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.dslConfiguration = dslConfiguration;
     this.layoutModel = layoutModel;
     this.isConfigOverride = isConfigOverride;
+    this.isComponentId = isComponentId;
     this.valueProviderModel = valueProviderModel;
     this.allowedStereotypeModels = unmodifiableList(allowedStereotypeModels);
   }
@@ -173,5 +218,10 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   @Override
   public Optional<ValueProviderModel> getValueProviderModel() {
     return ofNullable(valueProviderModel);
+  }
+
+  @Override
+  public boolean isComponentId() {
+    return this.isComponentId;
   }
 }

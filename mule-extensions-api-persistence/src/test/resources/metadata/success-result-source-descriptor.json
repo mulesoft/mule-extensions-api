@@ -561,6 +561,7 @@
               "hasDynamicType": false,
               "required": true,
               "isConfigOverride": false,
+              "isComponentId": false,
               "valueProviderModel": {
                 "actingParameters": [],
                 "partOrder": 1,
@@ -653,6 +654,7 @@
             "hasDynamicType": true,
             "required": false,
             "isConfigOverride": false,
+            "isComponentId": false,
             "valueProviderModel": {
               "actingParameters": [],
               "partOrder": 1,
@@ -717,6 +719,7 @@
             "hasDynamicType": false,
             "required": true,
             "isConfigOverride": false,
+            "isComponentId": false,
             "valueProviderModel": {
               "actingParameters": [],
               "partOrder": 1,

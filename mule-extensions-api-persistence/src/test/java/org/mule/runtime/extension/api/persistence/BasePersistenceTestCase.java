@@ -150,16 +150,17 @@ abstract class BasePersistenceTestCase {
   @Before
   public void setUp() throws IOException {
     final ImmutableParameterModel carNameParameter =
-        new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, false, false, SUPPORTED, "",
+        new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, false, false, false, SUPPORTED,
+                                    "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
                                     defaultValueProviderModel, emptyList(), emptySet());
 
     final ImmutableParameterModel usernameParameter =
-        new ImmutableParameterModel("username", "Username", stringType, true, true, false, SUPPORTED, "",
+        new ImmutableParameterModel("username", "Username", stringType, true, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
                                     defaultValueProviderModel, emptyList(), emptySet());
     final ImmutableParameterModel passwordParameter =
-        new ImmutableParameterModel("password", "Password", stringType, false, true, false, SUPPORTED, "",
+        new ImmutableParameterModel("password", "Password", stringType, false, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
                                     defaultValueProviderModel, emptyList(), emptySet());
     final ImmutableParameterModel complexParameter =
@@ -167,7 +168,7 @@ abstract class BasePersistenceTestCase {
                                     ExtensionsTypeLoaderFactory.getDefault()
                                         .createTypeLoader()
                                         .load(ComplexFieldsType.class),
-                                    false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    false, true, false, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel,
                                     singletonList(newStereotype("config", "test")
                                         .withParent(CONFIG).build()),
@@ -180,7 +181,7 @@ abstract class BasePersistenceTestCase {
     final ImmutableParameterModel loadedParameter =
         new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
                                     jsonLoadedType,
-                                    false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    false, true, false, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
 
     exportedType = typeBuilder.objectType().id(TEST_PACKAGE_EXPORTED_CLASS)
@@ -192,7 +193,7 @@ abstract class BasePersistenceTestCase {
                                     typeBuilder.objectType()
                                         .openWith(exportedType)
                                         .build(),
-                                    false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    false, true, false, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
 
     ObjectTypeBuilder typeNoId = typeBuilder.objectType();
@@ -200,7 +201,7 @@ abstract class BasePersistenceTestCase {
     final ImmutableParameterModel noIdParameter =
         new ImmutableParameterModel(NO_ID_PARAMETER_NAME, "type to serialize without ID",
                                     typeNoId.build(),
-                                    false, true, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
+                                    false, true, false, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
                                     defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
 
     final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());
