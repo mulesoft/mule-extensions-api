@@ -412,6 +412,17 @@
           "methodName": "typeRequiresWrapperElement",
           "elementKind": "method",
           "justification": "Utility method refactor"
+        },
+        {
+          "code": "java.method.defaultValueAdded",
+          "old": "method java.lang.String org.mule.runtime.extension.api.annotation.param.MediaType::value()",
+          "new": "method java.lang.String org.mule.runtime.extension.api.annotation.param.MediaType::value()",
+          "value": "\"\"",
+          "package": "org.mule.runtime.extension.api.annotation.param",
+          "classSimpleName": "MediaType",
+          "methodName": "value",
+          "elementKind": "method",
+          "justification": "The option of not providing a value for this annotation must be given for cases where a Static Resolver is provided."
         }
       ]
     }
