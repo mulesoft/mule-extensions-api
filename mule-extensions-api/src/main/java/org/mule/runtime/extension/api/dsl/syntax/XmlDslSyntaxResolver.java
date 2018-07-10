@@ -646,7 +646,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       @Override
       public void visitArrayType(ArrayType arrayType) {
         final DslElementSyntaxBuilder valueEntry = createBaseValueEntryDefinition()
-            .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
+            .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(VALUE_ATTRIBUTE_NAME).build());
 
         MetadataType genericType = arrayType.getType();
         boolean genericSupportsInline = supportsInlineDeclaration(genericType, SUPPORTED, dslModel, false);
@@ -736,7 +736,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
         objectFieldBuilder.withGeneric(typeLoader.load(String.class),
                                        DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
-        objectFieldBuilder.withAttributeName(KEY_ATTRIBUTE_NAME);
         objectType.getOpenRestriction()
             .ifPresent(type -> type.accept(getMapValueTypeVisitor(objectFieldBuilder, fieldName,
                                                                   ownerNamespace, ownerNamespaceUri,
