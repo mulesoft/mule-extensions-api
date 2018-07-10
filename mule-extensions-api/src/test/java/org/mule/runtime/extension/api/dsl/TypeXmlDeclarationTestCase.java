@@ -63,6 +63,14 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
 
+    DslElementSyntax mappedChilds = topDsl.get().getChild("mappedChilds").get();
+
+    assertAttributeName("mappedChilds", mappedChilds);
+    assertElementName("mapped-childs", mappedChilds);
+    assertChildElementDeclarationIs(true, mappedChilds);
+    assertThat(mappedChilds.getGenerics().size(), is(2));
+    assertThat(mappedChilds.getGenerics().containsKey(type), is(true));
+
     type = TYPE_LOADER.load(RecursiveChainA.class);
     topDsl = getSyntaxResolver().resolve(type);
 
