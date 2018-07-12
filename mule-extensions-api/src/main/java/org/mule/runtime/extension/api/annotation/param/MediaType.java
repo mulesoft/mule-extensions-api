@@ -43,7 +43,7 @@ public @interface MediaType {
    * The mime type in RFC format. This needs to be a mime type without any custom parameters nor encoding. If specified,
    * those will be ignored. The runtime will only consider the primary and sub types.
    */
-  String value();
+  String value() default "";
 
   /**
    * Whether the component must only return values of the given mimeType ({@code true}), or if the user should be
