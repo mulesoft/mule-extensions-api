@@ -175,6 +175,7 @@ public class Result<T, A> {
     this.getAttributes().ifPresent(builder::attributes);
     this.getMediaType().ifPresent(builder::mediaType);
     this.getAttributesMediaType().ifPresent(builder::attributesMediaType);
+    this.getByteLength().ifPresent(builder::length);
     return builder;
   }
 
