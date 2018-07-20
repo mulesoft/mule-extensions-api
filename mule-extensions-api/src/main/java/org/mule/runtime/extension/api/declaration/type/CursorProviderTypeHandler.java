@@ -19,11 +19,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Implementation of {@link ClassHandler} for the {@link CursorProvider}s
+ * Implementation of {@link ClassHandler} for the {@link CursorProvider cursor providers}
  *
- * @since 1.2
+ * @since 1.2.0
  */
-
 public class CursorProviderTypeHandler implements ClassHandler {
 
   @Override
