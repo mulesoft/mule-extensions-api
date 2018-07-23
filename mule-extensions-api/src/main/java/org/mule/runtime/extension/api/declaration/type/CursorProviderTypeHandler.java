@@ -37,5 +37,4 @@ public class CursorProviderTypeHandler implements ClassHandler {
         .with(new TypeAliasAnnotation(clazz.getSimpleName()))
         .with(new ClassInformationAnnotation(clazz));
   }
-
 }
