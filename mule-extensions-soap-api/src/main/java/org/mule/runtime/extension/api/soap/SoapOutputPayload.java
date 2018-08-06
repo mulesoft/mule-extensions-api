@@ -6,9 +6,19 @@
  */
 package org.mule.runtime.extension.api.soap;
 
+import org.apache.commons.io.IOUtils;
+import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.TypedValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Map;
+
+import static java.nio.charset.Charset.forName;
+import static java.util.stream.Collectors.joining;
 
 /**
  * A simple container object that carries the SOAP envelope information and the attachments bounded to the response.
@@ -16,6 +26,8 @@ import java.util.Map;
  * @since 1.0
  */
 public class SoapOutputPayload {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SoapOutputPayload.class.getName());
 
   private final TypedValue<InputStream> body;
   private final Map<String, TypedValue<InputStream>> attachments;
@@ -48,5 +60,27 @@ public class SoapOutputPayload {
    */
   public Map<String, TypedValue<String>> getHeaders() {
     return headers;
+  }
+
+  @Override
+  public String toString() {
+    try {
+      String hs = headers.values().stream().map(v -> "\"" + v.getValue() + "\"").collect(joining(",\n  "));
+      String as = String.join(", ", attachments.keySet());
+      String bodyString = IOUtils.toString(body.getValue(), getBodyCharset());
+      return "{\n" +
+          "body:" + bodyString + ",\n" +
+          "headers: [" + hs + "]" + ",\n" +
+          "attachments: [" + as + "]" + "\n" +
+          "}";
+    } catch (IOException e) {
+      return "Error building SoapResponse string";
+    }
+  }
+
+  private Charset getBodyCharset() {
+    DataType dataType = body.getDataType();
+    Charset defaultCharset = forName("UTF-8");
+    return dataType != null ? dataType.getMediaType().getCharset().orElse(defaultCharset) : defaultCharset;
   }
 }
