@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.soap;
 import org.apache.commons.io.IOUtils;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.TypedValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +26,8 @@ import static java.util.stream.Collectors.joining;
  * @since 1.0
  */
 public class SoapOutputPayload {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SoapOutputPayload.class.getName());
 
   private final TypedValue<InputStream> body;
   private final Map<String, TypedValue<InputStream>> attachments;
@@ -70,7 +74,7 @@ public class SoapOutputPayload {
           "attachments: [" + as + "]" + "\n" +
           "}";
     } catch (IOException e) {
-      throw new RuntimeException("Cannot transform body to string");
+      return "Error building SoapResponse string";
     }
   }
 
