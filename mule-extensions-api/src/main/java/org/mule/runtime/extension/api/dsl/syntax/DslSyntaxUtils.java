@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax;
 
+import static java.util.regex.Pattern.compile;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -42,6 +43,7 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
 
 /**
  * Utils class with helper methods for the {@link DslSyntaxResolver}
@@ -52,6 +54,7 @@ public final class DslSyntaxUtils {
 
   private final static String CONNECTION_PROVIDER_SUFFIX = "connection";
   private final static String CONFIGURATION_SUFFIX = "config";
+  private final static Pattern SANITIZE_PATTERN = compile("\\s+");
 
   private DslSyntaxUtils() {}
 
@@ -63,7 +66,7 @@ public final class DslSyntaxUtils {
    * @return a sanitized, hyphenized, space-free name that can be used as an XML element-name
    */
   static String getSanitizedElementName(NamedObject component) {
-    String name = hyphenize(sanitizeName(capitalize(component.getName()))).replaceAll("\\s+", "");
+    String name = SANITIZE_PATTERN.matcher(hyphenize(sanitizeName(capitalize(component.getName())))).replaceAll("");
     if (component instanceof ConfigurationModel) {
       return appendSuffix(name, CONFIGURATION_SUFFIX);
     }
