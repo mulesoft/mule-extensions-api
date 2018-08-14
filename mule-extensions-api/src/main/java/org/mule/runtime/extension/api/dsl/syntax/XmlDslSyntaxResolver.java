@@ -74,11 +74,13 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.xml.namespace.QName;
 
@@ -141,7 +143,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    */
   public DslElementSyntax resolve(final NamedObject component) {
     final String elementName = getSanitizedElementName(component);
-    return resolvedTypes.computeIfAbsent(elementName, key -> {
+    return computeIfAbsent(resolvedTypes, elementName, key -> {
       DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
           .withElementName(elementName)
           .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
@@ -163,6 +165,22 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
       return dsl.build();
     });
+  }
+
+  /**
+   * Use this method instead if {@link Map#computeIfAbsent(Object, Function)} when the mapping functions are recursive and/or
+   * will end up accessing the same {@code map} again. This is necessary because starting with JDK9
+   * {@link Map#computeIfAbsent(Object, Function)} throws {@link ConcurrentModificationException} if used in concurrent,
+   * recursive, or nested fashion.
+   */
+  private <K, V> V computeIfAbsent(Map<K, V> map, K key, Function<K, V> mappingFunction) {
+    V value = map.get(key);
+    if (value == null) {
+      value = mappingFunction.apply(key);
+      map.put(key, value);
+    }
+
+    return value;
   }
 
   /**
