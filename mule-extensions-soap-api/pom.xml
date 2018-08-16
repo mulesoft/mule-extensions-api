@@ -18,6 +18,7 @@
 
     <properties>
         <formatterConfigPath>../formatter.xml</formatterConfigPath>
+        <commons.io.version>2.6</commons.io.version>
     </properties>
 
     <dependencies>
@@ -45,6 +46,11 @@
             <groupId>org.mule.runtime</groupId>
             <artifactId>mule-extensions-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
         </dependency>
     </dependencies>
 
