@@ -19,6 +19,8 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
+import static org.mule.runtime.api.util.MuleSystemProperties.isForceExtensionValidation;
+import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
@@ -139,6 +141,7 @@ public final class ExtensionModelFactory {
 
   private final List<DeclarationEnricher> declarationEnrichers;
   private final List<ExtensionModelValidator> extensionModelValidators;
+  private final boolean validate;
 
   public ExtensionModelFactory() {
     declarationEnrichers = unmodifiableList((asList(
@@ -168,6 +171,8 @@ public final class ExtensionModelFactory {
                                                        new ValidatorModelValidator(),
                                                        new NameModelValidator(),
                                                        new BackPressureModelValidator()));
+
+    validate = isTestingMode() || isForceExtensionValidation();
   }
 
   /**
@@ -184,11 +189,11 @@ public final class ExtensionModelFactory {
     ExtensionModel extensionModel =
         new FactoryDelegate().toExtension(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
 
-    ProblemsReporter problemsReporter = new ProblemsReporter(extensionModel);
-
-    validate(extensionModel, problemsReporter, extensionLoadingContext);
-
-    getProblemsHandler(extensionLoadingContext, extensionModel).handleProblems(problemsReporter);
+    if (validate) {
+      ProblemsReporter problemsReporter = new ProblemsReporter(extensionModel);
+      validate(extensionModel, problemsReporter, extensionLoadingContext);
+      getProblemsHandler(extensionLoadingContext, extensionModel).handleProblems(problemsReporter);
+    }
 
     return extensionModel;
   }
