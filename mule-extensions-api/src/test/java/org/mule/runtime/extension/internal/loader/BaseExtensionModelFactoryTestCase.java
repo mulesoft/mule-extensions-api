@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
+import static org.mule.runtime.api.util.MuleSystemProperties.TESTING_MODE_PROPERTY_NAME;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -31,12 +32,24 @@ import org.mule.runtime.extension.api.property.InfrastructureParameterModelPrope
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseExtensionModelFactoryTestCase {
+
+  @BeforeClass
+  public static void beforeClass() {
+    System.setProperty(TESTING_MODE_PROPERTY_NAME, "true");
+  }
+
+  @AfterClass
+  public static void afterClass() {
+    System.clearProperty(TESTING_MODE_PROPERTY_NAME);
+  }
 
   protected ExtensionModel extensionModel;
   private Consumer<ExtensionDeclarer> declarerConsumer = d -> {
