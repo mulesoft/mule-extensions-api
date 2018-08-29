@@ -253,6 +253,11 @@ public final class ExtensionConstants {
   public static final Time DYNAMIC_CONFIG_EXPIRATION_FREQUENCY = new Time(5, MINUTES);
 
   /**
+   * The description of the global elements name parameter.
+   */
+  public static final String NAME_PARAM_DESCRIPTION = "The identifier of this element used to reference it in other components";
+
+  /**
    * Contains all the names of the {@link InfrastructureParameterModelProperty infrastructure} parameters that
    * may appear in a {@link ParameterizedModel}
    */

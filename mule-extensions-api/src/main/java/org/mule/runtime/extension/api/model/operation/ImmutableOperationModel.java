@@ -181,4 +181,9 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
   public ExecutionType getExecutionType() {
     return executionType;
   }
+
+  @Override
+  public String toString() {
+    return getName() + " {" + super.toString() + "}";
+  }
 }

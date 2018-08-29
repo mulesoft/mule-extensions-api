@@ -84,18 +84,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
-import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.ReconnectionStrategyDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.*;
 import org.mule.runtime.extension.internal.loader.validator.BackPressureModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ContentParameterModelValidator;
@@ -156,6 +145,8 @@ public final class ExtensionModelFactory {
                                                     new ReconnectionStrategyDeclarationEnricher(),
                                                     new StreamingDeclarationEnricher(),
                                                     new OAuthDeclarationEnricher(),
+                                                    new ConfigRefDeclarationEnricher(),
+                                                    new NamedObjectDeclarationEnricher(),
                                                     new TransactionalDeclarationEnricher())));
 
     extensionModelValidators = unmodifiableList(asList(

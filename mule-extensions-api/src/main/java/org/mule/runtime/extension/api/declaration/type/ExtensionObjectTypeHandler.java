@@ -23,11 +23,7 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.annotation.param.stereotype.Stereotype;
-import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
-import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.*;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 
@@ -80,8 +76,7 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
-      typeBuilder = super.handleClass(currentClass, genericTypes,
-                                      typeHandlerManager, context, baseTypeBuilder);
+      typeBuilder = super.handleClass(currentClass, genericTypes, typeHandlerManager, context, baseTypeBuilder);
     }
 
     if (typeBuilder != null && typeBuilder instanceof WithAnnotation) {
@@ -96,6 +91,10 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
                                                     typeDsl.allowTopLevelDefinition(),
                                                     typeDsl.substitutionGroup(),
                                                     typeDsl.baseType()));
+
+        if (typeDsl.allowTopLevelDefinition()) {
+          annotatedBuilder.with(new ComponentIdFieldTypeAnnotation());
+        }
       }
 
       Alias alias = currentClass.getAnnotation(Alias.class);

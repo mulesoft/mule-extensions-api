@@ -60,6 +60,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.NAME_PARAM_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION;
@@ -145,18 +146,21 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(configurationModel.getDescription(), equalTo(CONFIG_DESCRIPTION));
 
     List<ParameterModel> parameterModels = configurationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(5));
-    assertParameter(parameterModels.get(0), EXPIRATION_POLICY_PARAMETER_NAME, EXPIRATION_POLICY_DESCRIPTION,
+    assertThat(parameterModels, hasSize(6));
+    assertParameter(parameterModels.get(0), "name", NAME_PARAM_DESCRIPTION,
+                    NOT_SUPPORTED, true, stringType, StringType.class, null);
+    assertThat(parameterModels.get(0).isComponentId(), is(true));
+    assertParameter(parameterModels.get(1), EXPIRATION_POLICY_PARAMETER_NAME, EXPIRATION_POLICY_DESCRIPTION,
                     NOT_SUPPORTED,
                     false, new DynamicConfigExpirationTypeBuilder().buildExpirationPolicyType(),
                     ObjectType.class, null);
-    assertParameter(parameterModels.get(1), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, stringType,
+    assertParameter(parameterModels.get(2), ADDRESS, SERVICE_ADDRESS, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameterModels.get(2), PORT, SERVICE_PORT, SUPPORTED, true, stringType, StringType.class,
+    assertParameter(parameterModels.get(3), PORT, SERVICE_PORT, SUPPORTED, true, stringType, StringType.class,
                     null);
-    assertParameter(parameterModels.get(3), SERVICE, SERVICE_NAME, SUPPORTED, true, stringType,
+    assertParameter(parameterModels.get(4), SERVICE, SERVICE_NAME, SUPPORTED, true, stringType,
                     StringType.class, null);
-    assertParameter(parameterModels.get(4), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true,
+    assertParameter(parameterModels.get(5), WSDL_LOCATION, URI_TO_FIND_THE_WSDL, NOT_SUPPORTED, true,
                     stringType, StringType.class, null);
   }
 

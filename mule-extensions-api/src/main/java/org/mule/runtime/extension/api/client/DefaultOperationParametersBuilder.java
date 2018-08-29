@@ -11,6 +11,8 @@ import org.mule.runtime.extension.internal.client.ComplexParameter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
+
 /**
  * Builder pattern implementation for building a new {@link OperationParameters} instance.
  *
@@ -28,6 +30,7 @@ public final class DefaultOperationParametersBuilder {
    */
   public DefaultOperationParametersBuilder configName(String configRef) {
     this.configRef = configRef;
+    addParameter(CONFIG_ATTRIBUTE_NAME, configRef);
     return this;
   }
 
