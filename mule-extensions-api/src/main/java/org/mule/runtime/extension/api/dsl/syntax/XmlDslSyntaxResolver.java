@@ -11,6 +11,7 @@ import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.util.FunctionalUtils.computeIfAbsent;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlattened;
@@ -165,22 +166,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
       return dsl.build();
     });
-  }
-
-  /**
-   * Use this method instead if {@link Map#computeIfAbsent(Object, Function)} when the mapping functions are recursive and/or
-   * will end up accessing the same {@code map} again. This is necessary because starting with JDK9
-   * {@link Map#computeIfAbsent(Object, Function)} throws {@link ConcurrentModificationException} if used in concurrent,
-   * recursive, or nested fashion.
-   */
-  private <K, V> V computeIfAbsent(Map<K, V> map, K key, Function<K, V> mappingFunction) {
-    V value = map.get(key);
-    if (value == null) {
-      value = mappingFunction.apply(key);
-      map.put(key, value);
-    }
-
-    return value;
   }
 
   /**
