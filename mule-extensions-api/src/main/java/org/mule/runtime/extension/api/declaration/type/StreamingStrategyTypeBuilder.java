@@ -76,7 +76,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
         .id(REPEATABLE_FILE_STORE_BYTES_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation());
 
-    addIntField(streamingType, typeBuilder, "maxInMemorySize",
+    addIntField(streamingType, typeBuilder, "inMemorySize",
                 "Defines the maximum memory that the stream should use to keep data in memory. If more than that is consumed then "
                     +
                     "it will start to buffer the content on disk.",
@@ -92,7 +92,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
         .id(REPEATABLE_FILE_STORE_OBJECTS_STREAM_ALIAS)
         .with(new InfrastructureTypeAnnotation());
 
-    addIntField(streamingType, typeBuilder, "maxInMemorySize",
+    addIntField(streamingType, typeBuilder, "inMemoryObjects",
                 "This is the maximum amount of instances that will be kept in memory. If more than that is required, then " +
                     "it will start to buffer the content on disk.",
                 DEFAULT_OBJECT_STREAMING_BUFFER_SIZE);
