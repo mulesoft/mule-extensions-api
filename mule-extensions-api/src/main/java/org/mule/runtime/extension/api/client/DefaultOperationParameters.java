@@ -23,7 +23,14 @@ public class DefaultOperationParameters implements OperationParameters {
 
   private final Map<String, Object> parameters;
 
-  // config ref param is not deleted to avoid breaking API, but is now bundled in the parameters
+  DefaultOperationParameters(Map<String, Object> parameters) {
+    this.parameters = ImmutableMap.copyOf(parameters);
+  }
+
+  /**
+   * Deprecated constructor, the config-ref param is not deleted to avoid breaking API, but is now bundled in the parameters
+   */
+  @Deprecated
   DefaultOperationParameters(String configRef, Map<String, Object> parameters) {
     this.parameters = ImmutableMap.copyOf(parameters);
   }

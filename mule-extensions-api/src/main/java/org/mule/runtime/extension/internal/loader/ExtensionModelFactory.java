@@ -25,6 +25,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSO
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
+
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -84,7 +85,20 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
-import org.mule.runtime.extension.internal.loader.enricher.*;
+import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.NamedObjectDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ReconnectionStrategyDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.validator.BackPressureModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ContentParameterModelValidator;
@@ -434,8 +448,9 @@ public final class ExtensionModelFactory {
                                                declaration.getDescription(),
                                                declaration.getDisplayModel(),
                                                declaration.isRequired(),
-                                               getProcessorStereotypes(((NestedComponentDeclaration<NestedComponentDeclaration>) declaration)
-                                                   .getAllowedStereotypes()),
+                                               getProcessorStereotypes(
+                                                                       ((NestedComponentDeclaration<NestedComponentDeclaration>) declaration)
+                                                                           .getAllowedStereotypes()),
                                                declaration.getModelProperties());
     }
 
@@ -551,7 +566,8 @@ public final class ExtensionModelFactory {
       return unmodifiableList(expressionFunctions.stream()
           .map(declaration -> new ImmutableFunctionModel(declaration.getName(),
                                                          declaration.getDescription(),
-                                                         toParameterGroups(declaration.getParameterGroups()),
+                                                         toParameterGroups(
+                                                                           declaration.getParameterGroups()),
                                                          toOutputModel(declaration.getOutput()),
                                                          declaration.getDisplayModel(),
                                                          declaration.getModelProperties(),

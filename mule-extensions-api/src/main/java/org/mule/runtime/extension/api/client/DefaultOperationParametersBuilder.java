@@ -20,7 +20,6 @@ import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
  */
 public final class DefaultOperationParametersBuilder {
 
-  private String configRef;
   private Map<String, Object> parameters = new LinkedHashMap<>();
 
   DefaultOperationParametersBuilder() {}
@@ -29,7 +28,6 @@ public final class DefaultOperationParametersBuilder {
    * Sets the name of the config used to execute an operation.
    */
   public DefaultOperationParametersBuilder configName(String configRef) {
-    this.configRef = configRef;
     addParameter(CONFIG_ATTRIBUTE_NAME, configRef);
     return this;
   }
@@ -55,6 +53,6 @@ public final class DefaultOperationParametersBuilder {
    * Builds a new {@link OperationParameters} instance with all the configured parameters.
    */
   public DefaultOperationParameters build() {
-    return new DefaultOperationParameters(configRef, parameters);
+    return new DefaultOperationParameters(parameters);
   }
 }

@@ -32,6 +32,14 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory.getDefault;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
+/**
+ * Enriches component models that depends on a configuration adding the `config-ref` parameter to the model.
+ * <p>
+ * The "config-ref" parameter points to a connector configuration that will be used to execute the component, this parameter
+ * is always required unless an implicit one can be created.
+ *
+ * @since 1.2
+ */
 public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
 
   private static final String CONFIG_REF_NAME = "config-ref";

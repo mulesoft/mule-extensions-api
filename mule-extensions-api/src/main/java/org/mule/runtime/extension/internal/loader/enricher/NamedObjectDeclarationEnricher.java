@@ -21,6 +21,14 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.ExtensionConstants.NAME_PARAM_DESCRIPTION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
+/**
+ * Enriches constructs models with the synthetic "name" parameter.
+ * <p>
+ * This name parameter is the Component ID of the construct meaning that the value associated to it can be used to reference the
+ * construct in a mule application uniquely across all the instances of the same.
+ *
+ * @since 1.2
+ */
 public class NamedObjectDeclarationEnricher implements DeclarationEnricher {
 
   private static final MetadataType STRING_TYPE = BaseTypeBuilder.create(JAVA).stringType().build();
