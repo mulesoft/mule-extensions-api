@@ -43,7 +43,7 @@ import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STR
 public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
 
   private static final String CONFIG_REF_NAME = "config-ref";
-  private static final MetadataType CONFIG_TYPE = getDefault().createTypeLoader().load(ConfigurationProvider.class);
+  private static final MetadataType CONFIG_TYPE = buildConfigRefType();
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -97,5 +97,9 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
 
   private boolean canBeUsedImplicitly(ParameterizedDeclaration<?> parameterized) {
     return parameterized.getAllParameters().stream().noneMatch(ParameterDeclaration::isRequired);
+  }
+
+  private static MetadataType buildConfigRefType() {
+    return BaseTypeBuilder.create(JAVA).objectType().id(ConfigurationProvider.class.getName()).build();
   }
 }
