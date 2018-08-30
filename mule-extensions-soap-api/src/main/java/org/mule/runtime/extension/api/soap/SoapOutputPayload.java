@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.soap;
 import org.apache.commons.io.IOUtils;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.TypedValue;
+import org.mule.runtime.api.streaming.CursorProvider;
+import org.mule.runtime.api.streaming.bytes.CursorStreamProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,15 +69,21 @@ public class SoapOutputPayload {
     try {
       String hs = headers.values().stream().map(v -> "\"" + v.getValue() + "\"").collect(joining(",\n  "));
       String as = String.join(", ", attachments.keySet());
-      String bodyString = IOUtils.toString(body.getValue(), getBodyCharset());
       return "{\n" +
-          "body:" + bodyString + ",\n" +
+          "body:" + getBodyString() + ",\n" +
           "headers: [" + hs + "]" + ",\n" +
           "attachments: [" + as + "]" + "\n" +
           "}";
-    } catch (IOException e) {
+    } catch (Exception e) {
+      LOGGER.error("Error building SoapResponse string: " + e.getMessage(), e);
       return "Error building SoapResponse string";
     }
+  }
+
+  private String getBodyString() throws IOException {
+    InputStream bodyVal = body.getValue();
+    InputStream bodyStream = bodyVal instanceof CursorStreamProvider ? ((CursorStreamProvider) bodyVal).openCursor() : bodyVal;
+    return IOUtils.toString(bodyStream, getBodyCharset());
   }
 
   private Charset getBodyCharset() {
