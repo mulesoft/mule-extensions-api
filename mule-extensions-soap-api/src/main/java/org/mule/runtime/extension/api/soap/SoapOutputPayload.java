@@ -81,9 +81,10 @@ public class SoapOutputPayload {
   }
 
   private String getBodyString() throws IOException {
-    InputStream bodyVal = body.getValue();
-    InputStream bodyStream = bodyVal instanceof CursorStreamProvider ? ((CursorStreamProvider) bodyVal).openCursor() : bodyVal;
-    return IOUtils.toString(bodyStream, getBodyCharset());
+    Object value = body.getValue();
+    InputStream inputStream =
+        value instanceof CursorStreamProvider ? ((CursorStreamProvider) value).openCursor() : ((InputStream) value);
+    return IOUtils.toString(inputStream, getBodyCharset());
   }
 
   private Charset getBodyCharset() {
