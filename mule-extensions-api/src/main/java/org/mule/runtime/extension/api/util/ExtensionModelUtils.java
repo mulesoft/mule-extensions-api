@@ -194,6 +194,16 @@ public class ExtensionModelUtils {
   }
 
   /**
+   * @param extensionModel a {@link ExtensionModel}
+   * @param configurationModel a {@link ConfigurationModel}
+   * @return Whether at least one of the models have a {@link ConnectionProviderModel}
+   * @since 1.1.4
+   */
+  public static boolean supportsConnectivity(ExtensionModel extensionModel, ConfigurationModel configurationModel) {
+    return !extensionModel.getConnectionProviders().isEmpty() || !configurationModel.getConnectionProviders().isEmpty();
+  }
+
+  /**
    * @param extensionModel the model which owns the {@code component}
    * @param component      a component
    * @return Whether the given {@code component} needs to be provided with a config
