@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.property;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Links an {@link EnrichableModel} with a {@link ClassLoader}.
  *
@@ -16,7 +18,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
  */
 public class ClassLoaderModelProperty implements ModelProperty {
 
-  private final ClassLoader classLoader;
+  private final WeakReference<ClassLoader> classLoader;
 
   /**
    * Creates a new instance
@@ -24,7 +26,7 @@ public class ClassLoaderModelProperty implements ModelProperty {
    * @param classLoader the {@link ClassLoader} that {@code this} instance references
    */
   public ClassLoaderModelProperty(ClassLoader classLoader) {
-    this.classLoader = classLoader;
+    this.classLoader = new WeakReference<>(classLoader);
   }
 
   /**
@@ -47,6 +49,6 @@ public class ClassLoaderModelProperty implements ModelProperty {
    * @return The referenced {@link ClassLoader}
    */
   public ClassLoader getClassLoader() {
-    return classLoader;
+    return classLoader.get();
   }
 }
