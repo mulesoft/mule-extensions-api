@@ -36,6 +36,8 @@ public interface NotificationEmitter {
    * @param action the {@link NotificationActionDefinition} to use.
    * @param dataValue a supplier for the the {@link Object} to use as value of the generated {@link DataType}.
    * @param dataType the type of the data returned by the provided supplier.
+   *
+   * @since 4.2.0
    */
   default void fireLazy(NotificationActionDefinition action, Supplier<?> dataValue, DataType dataType) {
     fire(action, new TypedValue<>(dataValue.get(), dataType));
