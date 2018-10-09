@@ -22,8 +22,6 @@ import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
@@ -40,12 +38,15 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.internal.property.TargetModelProperty;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+
 import java.util.Map;
 import java.util.Set;
 
 /**
- * A {@link DeclarationEnricher} which adds a {@link ExtensionConstants#TARGET_PARAMETER_NAME} parameter
- * to all non void operations
+ * A {@link DeclarationEnricher} which adds a {@link ExtensionConstants#TARGET_PARAMETER_NAME} parameter to all non void
+ * operations
  *
  * @since 1.0
  */
@@ -56,7 +57,9 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
    * with the names of the Operations.
    */
   private static final Map<String, Set<String>> blacklistedExtensionsOperations =
-      ImmutableMap.of("ee", ImmutableSet.of("transform"));
+      ImmutableMap.of("ee", ImmutableSet.of("transform"),
+                      "cxf", ImmutableSet.of("simpleService", "jaxwsService", "proxyService",
+                                             "simpleClient", "jaxwsClient", "proxyClient"));
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
