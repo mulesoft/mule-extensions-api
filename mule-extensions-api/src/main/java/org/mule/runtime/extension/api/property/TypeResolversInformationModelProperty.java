@@ -33,15 +33,19 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
   private final Map<String, String> inputResolvers;
   private final String outputResolver;
   private final String attributesResolver;
+  private final String keysResolver;
 
   public TypeResolversInformationModelProperty(String category,
                                                Map<String, String> parameters,
-                                               String outputResolver, String attributesResolver) {
+                                               String outputResolver,
+                                               String attributesResolver,
+                                               String keysResolver) {
     checkArgument(isNotBlank(category), "A Category name is required for a group of resolvers");
     this.category = category;
     this.inputResolvers = parameters != null && parameters.isEmpty() ? null : parameters;
     this.outputResolver = sanitizeResolverName(outputResolver);
     this.attributesResolver = sanitizeResolverName(attributesResolver);
+    this.keysResolver = sanitizeResolverName(keysResolver);
   }
 
   /**
@@ -95,6 +99,15 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
    */
   public Optional<String> getAttributesResolverName() {
     return ofNullable(attributesResolver);
+  }
+
+  /**
+   * Provides the name of the metadata keys resolver (if any) associated to the Component.
+   *
+   * @return output resolver's name
+   */
+  public Optional<String> getKeysResolverName() {
+    return ofNullable(keysResolver);
   }
 
   private String sanitizeResolverName(String resolverName) {
