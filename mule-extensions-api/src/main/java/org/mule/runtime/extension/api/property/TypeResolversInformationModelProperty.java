@@ -24,7 +24,7 @@ import java.util.Optional;
  * A {@link ModelProperty} for a of {@link ComponentModel} that contains all the information regarding
  * which dynamic {@link TypeResolver}s are used by this component.
  *
- * @since 1.0
+ * @since 1.2.0
  */
 public class TypeResolversInformationModelProperty implements ModelProperty {
 
