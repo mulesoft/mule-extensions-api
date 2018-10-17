@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import static java.util.Optional.ofNullable;
+import static org.slf4j.LoggerFactory.getLogger;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -21,8 +23,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.slf4j.Logger;
 
 /**
  * {@link TypeAdapter} implementation that knows how to serialize and deserialize {@code Map<Class<? extends ModelProperty>, ModelProperty>}.
@@ -40,6 +44,8 @@ import org.apache.commons.lang3.ClassUtils;
  * @since 1.0
  */
 public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? extends ModelProperty>, ModelProperty>> {
+
+  private static final Logger LOGGER = getLogger(ModelPropertyMapTypeAdapter.class);
 
   private static final Map<Class<? extends ModelProperty>, String> classNameMapping;
   private static final Map<String, Class<? extends ModelProperty>> nameClassMapping;
@@ -84,31 +90,34 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? e
     in.beginObject();
     while (in.hasNext()) {
 
-      final Class<? extends ModelProperty> type = getClassForModelProperty(in.nextName());
-      final TypeAdapter<?> adapter = gson.getAdapter(type);
-      final ModelProperty read = (ModelProperty) adapter.read(in);
-      modelPropertyHashMap.put(type, read);
+      final Optional<Class<? extends ModelProperty>> typeOptional = getClassForModelProperty(in.nextName());
+      if (typeOptional.isPresent()) {
+        final Class<? extends ModelProperty> type = typeOptional.get();
+        final TypeAdapter<?> adapter = gson.getAdapter(type);
+        final ModelProperty read = (ModelProperty) adapter.read(in);
+        modelPropertyHashMap.put(type, read);
+      }
     }
     in.endObject();
     return modelPropertyHashMap;
   }
 
-  private Class<? extends ModelProperty> getClassForModelProperty(String modelPropertyName) {
-    Class<? extends ModelProperty> modelPropertyClass;
+  private Optional<Class<? extends ModelProperty>> getClassForModelProperty(String modelPropertyName) {
+    Class<? extends ModelProperty> modelPropertyClass = null;
     if (nameClassMapping.containsKey(modelPropertyName)) {
       modelPropertyClass = nameClassMapping.get(modelPropertyName);
     } else {
       try {
         modelPropertyClass = (Class<? extends ModelProperty>) ClassUtils.getClass(modelPropertyName);
       } catch (ClassNotFoundException e) {
-        throw new ExtensionModelSerializationException(String
+        LOGGER.warn(String
             .format(
                     "Error loading [%s] ModelProperty. Class not found in the current classloader",
-                    modelPropertyName), e);
+                    modelPropertyName));
       }
     }
 
-    return modelPropertyClass;
+    return ofNullable(modelPropertyClass);
   }
 
   private String getSerializableModelPropertyName(Class<?> modelPropertyClass) {
