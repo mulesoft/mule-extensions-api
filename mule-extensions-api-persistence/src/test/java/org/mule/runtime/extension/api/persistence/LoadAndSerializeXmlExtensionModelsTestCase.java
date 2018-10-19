@@ -10,8 +10,11 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
@@ -55,6 +58,8 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
 
   public static final String SCHEMAS_GET_JOB_JSON = "schemas/greenhouse-get-job.json";
   public static final String XML_BASED_EXT_MODEL_JSON = "extension/xml-based-ext-model.json";
+  public static final String XML_BASED_EXT_MODEL_NON_EXISTENT_MODEL_PROPERTY_JSON =
+      "extension/xml-based-ext-model-non-existent-model-property.json";
   protected final String LOADED_PARAMETER_NAME = "loaded";
   protected final String GET_CAR_OPERATION_NAME = "getCar";
   protected final DisplayModel defaultDisplayModel = DisplayModel.builder().build();
@@ -111,6 +116,18 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
     String serializedResult = extensionModelJsonSerializer.serialize(externalModel);
 
     JSONAssert.assertEquals(external, serializedResult, true);
+  }
+
+  @Test
+  public void deserializeExternalModelWithNonExistentModelProperty() throws IOException {
+    String external =
+        IOUtils.toString(Thread.currentThread().getContextClassLoader()
+            .getResourceAsStream(XML_BASED_EXT_MODEL_NON_EXISTENT_MODEL_PROPERTY_JSON));
+    ExtensionModel externalModel = extensionModelJsonSerializer.deserialize(external);
+
+    assertThat(externalModel.getModelProperties(), hasSize(1));
+    assertThat(externalModel.getModelProperty(org.mule.runtime.extension.api.property.XmlExtensionModelProperty.class),
+               not(empty()));
   }
 
   @Test
