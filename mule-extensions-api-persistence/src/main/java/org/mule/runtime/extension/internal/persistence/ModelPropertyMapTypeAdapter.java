@@ -96,6 +96,8 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? e
         final TypeAdapter<?> adapter = gson.getAdapter(type);
         final ModelProperty read = (ModelProperty) adapter.read(in);
         modelPropertyHashMap.put(type, read);
+      } else {
+        in.skipValue();
       }
     }
     in.endObject();

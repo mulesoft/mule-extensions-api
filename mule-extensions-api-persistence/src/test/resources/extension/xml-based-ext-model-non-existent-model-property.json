@@ -1,0 +1,44 @@
+{
+  "name": "ExtensionNonExistentModelProperty",
+  "description": "",
+  "version": "4.0",
+  "vendor": "MuleSoft",
+  "category": "COMMUNITY",
+  "xmlDsl": {
+    "prefix": "extensionnonexistentmodelproperty",
+    "namespace": "http://www.mulesoft.org/schema/mule/extensionnonexistentmodelproperty",
+    "schemaLocation": "http://www.mulesoft.org/schema/mule/github/current/mule-extensionnonexistentmodelproperty.xsd",
+    "schemaVersion": "4.0",
+    "xsdFileName": "mule-extensionnonexistentmodelproperty.xsd"
+  },
+  "resources": [],
+  "subTypes": [],
+  "privilegedPackages": [],
+  "privilegedArtifacts": [],
+  "externalLibraries": [],
+  "importedTypes": [],
+  "configurations": [],
+  "operations": [],
+  "functions": [],
+  "constructs": [],
+  "connectionProviders": [],
+  "messageSources": [],
+  "notifications": [],
+  "errors": [],
+  "modelProperties": {
+    "org.mule.runtime.extension.api.property.NonExistentModelProperty": {
+      "value": {
+        "name": "This model property should not exists"
+      }
+    },
+    "org.mule.runtime.extension.api.property.XmlExtensionModelProperty": {
+      "namespacesDependencies": [
+        "http://www.mulesoft.org/schema/mule/documentation",
+        "http://www.mulesoft.org/schema/mule/http",
+        "http://www.w3.org/2001/XMLSchema-instance",
+        "http://www.mulesoft.org/schema/mule/core"
+      ]
+    }
+  },
+  "types": []
+}
