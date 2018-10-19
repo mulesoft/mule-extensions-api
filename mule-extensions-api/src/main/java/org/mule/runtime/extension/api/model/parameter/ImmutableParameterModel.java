@@ -13,6 +13,8 @@ import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
+import org.mule.runtime.api.meta.model.deprecated.DeprecatableModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -44,24 +46,26 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final ParameterDslConfiguration dslConfiguration;
   private final LayoutModel layoutModel;
   private final List<StereotypeModel> allowedStereotypeModels;
+  private final DeprecatedModel deprecatedModel;
 
   /**
    * Creates a new instance with the given state
    *
-   * @param name              the parameter's name. Cannot be blank.
-   * @param description       the parameter's description
-   * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
-   * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
-   * @param required          whether this parameter is required or not
+   * @param name the parameter's name. Cannot be blank.
+   * @param description the parameter's description
+   * @param type the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required whether this parameter is required or not
    * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
-   * @param defaultValue      this parameter's default value
-   * @param role              this parameter's purpose
-   * @param dslConfiguration  a model which describes the DSL semantics for this parameter
-   * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
-   * @param layoutModel       a model which contains directives about the parameter's layout in the UI
-   * @param allowedStereotypeModels  A {@link Set} with the stereotypes of the allowed values
-   * @param modelProperties   A {@link Set} of custom properties which extend this model
-   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
+   * @param defaultValue this parameter's default value
+   * @param role this parameter's purpose
+   * @param dslConfiguration a model which describes the DSL semantics for this parameter
+   * @param displayModel a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel a model which contains directives about the parameter's layout in the UI
+   * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
+   *         time
    */
   @Deprecated
   public ImmutableParameterModel(String name,
@@ -87,23 +91,25 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   /**
    * Creates a new instance with the given state
    *
-   * @param name              the parameter's name. Cannot be blank.
-   * @param description       the parameter's description
-   * @param type              the parameter's {@link MetadataType}. Cannot be {@code null}
-   * @param hasDynamicType    if the given {@code type} is of dynamic kind and has to be discovered during design time
-   * @param required          whether this parameter is required or not
-   * @param isConfigOverride  whether this parameter is a configuration override or not
-   * @param isComponentId     whether this parameter serves as a {@link ComponentModel} ID or not
+   * @param name the parameter's name. Cannot be blank.
+   * @param description the parameter's description
+   * @param type the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required whether this parameter is required or not
+   * @param isConfigOverride whether this parameter is a configuration override or not
+   * @param isComponentId whether this parameter serves as a {@link ComponentModel} ID or not
    * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
-   * @param defaultValue      this parameter's default value
-   * @param role              this parameter's purpose
-   * @param dslConfiguration  a model which describes the DSL semantics for this parameter
-   * @param displayModel      a model which contains directive about how the parameter is displayed in the UI
-   * @param layoutModel       a model which contains directives about the parameter's layout in the UI
-   * @param allowedStereotypeModels  A {@link Set} with the stereotypes of the allowed values
-   * @param modelProperties   A {@link Set} of custom properties which extend this model
-   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same time
+   * @param defaultValue this parameter's default value
+   * @param role this parameter's purpose
+   * @param dslConfiguration a model which describes the DSL semantics for this parameter
+   * @param displayModel a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel a model which contains directives about the parameter's layout in the UI
+   * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
+   *         time
    */
+  @Deprecated
   public ImmutableParameterModel(String name,
                                  String description,
                                  MetadataType type,
@@ -120,6 +126,49 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  ValueProviderModel valueProviderModel,
                                  List<StereotypeModel> allowedStereotypeModels,
                                  Set<ModelProperty> modelProperties) {
+    this(name, description, type, hasDynamicType, required, isConfigOverride, isComponentId, expressionSupport, defaultValue,
+         role, dslConfiguration, displayModel, layoutModel, valueProviderModel, allowedStereotypeModels, modelProperties, null);
+  }
+
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name the parameter's name. Cannot be blank.
+   * @param description the parameter's description
+   * @param type the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required whether this parameter is required or not
+   * @param isConfigOverride whether this parameter is a configuration override or not
+   * @param isComponentId whether this parameter serves as a {@link ComponentModel} ID or not
+   * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue this parameter's default value
+   * @param role this parameter's purpose
+   * @param dslConfiguration a model which describes the DSL semantics for this parameter
+   * @param displayModel a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel a model which contains directives about the parameter's layout in the UI
+   * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   *                        ADD JAVA DOC
+   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
+   *         time
+   */
+  public ImmutableParameterModel(String name,
+                                 String description,
+                                 MetadataType type,
+                                 boolean hasDynamicType,
+                                 boolean required,
+                                 boolean isConfigOverride,
+                                 boolean isComponentId,
+                                 ExpressionSupport expressionSupport,
+                                 Object defaultValue,
+                                 ParameterRole role,
+                                 ParameterDslConfiguration dslConfiguration,
+                                 DisplayModel displayModel,
+                                 LayoutModel layoutModel,
+                                 ValueProviderModel valueProviderModel,
+                                 List<StereotypeModel> allowedStereotypeModels,
+                                 Set<ModelProperty> modelProperties,
+                                 DeprecatedModel deprecatedModel) {
     super(name, description, displayModel, modelProperties);
     this.type = type;
     this.required = required;
@@ -133,6 +182,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.isComponentId = isComponentId;
     this.valueProviderModel = valueProviderModel;
     this.allowedStereotypeModels = unmodifiableList(allowedStereotypeModels);
+    this.deprecatedModel = deprecatedModel;
   }
 
   /**
@@ -223,5 +273,15 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   @Override
   public boolean isComponentId() {
     return this.isComponentId;
+  }
+
+  @Override
+  public Optional<DeprecatedModel> getDeprecatedModel() {
+    return ofNullable(deprecatedModel);
+  }
+
+  @Override
+  public boolean isDeprecated() {
+    return deprecatedModel != null;
   }
 }

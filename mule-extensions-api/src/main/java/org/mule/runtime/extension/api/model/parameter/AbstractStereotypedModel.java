@@ -7,12 +7,15 @@
 package org.mule.runtime.extension.api.model.parameter;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.deprecated.DeprecatableModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.HasStereotypeModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -20,17 +23,30 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public abstract class AbstractStereotypedModel extends AbstractParameterizedModel implements HasStereotypeModel {
+public abstract class AbstractStereotypedModel extends AbstractParameterizedModel
+    implements HasStereotypeModel, DeprecatableModel {
 
   private final StereotypeModel stereotype;
+  private final DeprecatedModel deprecatedModel;
 
+  @Deprecated
   public AbstractStereotypedModel(String name, String description,
                                   List<ParameterGroupModel> parameterGroupModels,
                                   DisplayModel displayModel,
                                   StereotypeModel stereotype,
                                   Set<ModelProperty> modelProperties) {
+    this(name, description, parameterGroupModels, displayModel, stereotype, modelProperties, null);
+  }
+
+  public AbstractStereotypedModel(String name, String description,
+                                  List<ParameterGroupModel> parameterGroupModels,
+                                  DisplayModel displayModel,
+                                  StereotypeModel stereotype,
+                                  Set<ModelProperty> modelProperties,
+                                  DeprecatedModel deprecatedModel) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
     this.stereotype = stereotype;
+    this.deprecatedModel = deprecatedModel;
   }
 
   /**
@@ -40,4 +56,14 @@ public abstract class AbstractStereotypedModel extends AbstractParameterizedMode
   public StereotypeModel getStereotype() {
     return stereotype;
   }
+
+    @Override
+    public Optional<DeprecatedModel> getDeprecatedModel() {
+        return Optional.ofNullable(deprecatedModel);
+    }
+
+    @Override
+    public boolean isDeprecated() {
+        return deprecatedModel != null;
+    }
 }

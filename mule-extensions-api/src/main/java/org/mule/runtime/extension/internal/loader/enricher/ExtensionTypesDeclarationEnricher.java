@@ -17,12 +17,7 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
-import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.*;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
@@ -62,18 +57,36 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
     new IdempotentDeclarationWalker() {
 
       @Override
-      protected void onParameter(ParameterGroupDeclaration parameterGroup, ParameterDeclaration declaration) {
-        registerType(declarer, declaration.getType());
-      }
-
-      @Override
       public void onSource(SourceDeclaration declaration) {
+        registerParametersType(declaration);
         registerType(declarer, declaration);
       }
 
       @Override
       public void onOperation(OperationDeclaration declaration) {
+        registerParametersType(declaration);
         registerType(declarer, declaration);
+      }
+
+      @Override
+      protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
+        registerParametersType(declaration);
+      }
+
+      @Override
+      protected void onConfiguration(ConfigurationDeclaration declaration) {
+        registerParametersType(declaration);
+      }
+
+      @Override
+      protected void onConstruct(ConstructDeclaration declaration) {
+        registerParametersType(declaration);
+      }
+
+      private void registerParametersType(ParameterizedDeclaration<? extends ParameterizedDeclaration> parameterizedDeclaration) {
+        for (ParameterDeclaration parameterDeclaration : parameterizedDeclaration.getAllParameters()) {
+          registerType(declarer, parameterDeclaration.getType());
+        }
       }
 
     }.walk(declarer.getDeclaration());

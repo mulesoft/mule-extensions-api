@@ -25,8 +25,10 @@ import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecatedModel;
 import org.mule.runtime.extension.api.model.notification.ImmutableNotificationModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
@@ -82,8 +84,8 @@ import java.util.stream.Collectors;
  * <p>
  * <b>Considerations:</b>
  * <ul>
- * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that
- * {@link ModelProperty#isPublic()} returns {@code true}, will be serialized</li>
+ * <li>Only {@link ModelProperty}s that are considered as <b>externalizable</b>, the ones that {@link ModelProperty#isPublic()}
+ * returns {@code true}, will be serialized</li>
  * <li>Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only the
  * already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel} is going to be
  * identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized tagging it with the full
@@ -176,6 +178,8 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
+    final DefaultImplementationTypeAdapterFactory<DeprecatedModel, ImmutableDeprecatedModel> deprecatedModelTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(DeprecatedModel.class, ImmutableDeprecatedModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
@@ -201,7 +205,8 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new NestableElementModelTypeAdapterFactory())
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
-        .registerTypeAdapterFactory(oauthGrantTypeAdapter);
+        .registerTypeAdapterFactory(oauthGrantTypeAdapter)
+        .registerTypeAdapterFactory(deprecatedModelTypeAdapter);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();

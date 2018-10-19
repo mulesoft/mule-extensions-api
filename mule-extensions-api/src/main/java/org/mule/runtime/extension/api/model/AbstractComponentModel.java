@@ -8,17 +8,23 @@ package org.mule.runtime.extension.api.model;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.deprecated.DeprecatableModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecatedModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractStereotypedModel;
 
 import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import static java.util.Optional.ofNullable;
 
 
 /**
@@ -35,13 +41,38 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
   /**
    * Creates a new instance
    *
-   * @param name                 the model's name
-   * @param description          the model's description
+   * @param name the model's name
+   * @param description the model's description
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-   * @param nestedComponents     a {@link List} with the components contained by this model
-   * @param displayModel         a model which contains directive about how this component is displayed in the UI
-   * @param stereotype           the {@link StereotypeModel stereotype} of this component
-   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param nestedComponents a {@link List} with the components contained by this model
+   * @param displayModel a model which contains directive about how this component is displayed in the UI
+   * @param stereotype the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code name} is blank
+   */
+  @Deprecated
+  protected AbstractComponentModel(String name,
+                                   String description,
+                                   List<ParameterGroupModel> parameterGroupModels,
+                                   List<? extends NestableElementModel> nestedComponents,
+                                   DisplayModel displayModel,
+                                   Set<ErrorModel> errors,
+                                   StereotypeModel stereotype,
+                                   Set<ModelProperty> modelProperties) {
+    this(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties, null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name the model's name
+   * @param description the model's description
+   * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents a {@link List} with the components contained by this model
+   * @param displayModel a model which contains directive about how this component is displayed in the UI
+   * @param stereotype the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   *                        // ADD JAVA DOC
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,
@@ -51,8 +82,9 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
                                    DisplayModel displayModel,
                                    Set<ErrorModel> errors,
                                    StereotypeModel stereotype,
-                                   Set<ModelProperty> modelProperties) {
-    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties);
+                                   Set<ModelProperty> modelProperties,
+                                   DeprecatedModel deprecatedModel) {
+    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties, deprecatedModel);
 
     this.nestedComponents = copy(nestedComponents);
     this.errors = ImmutableSet.copyOf(errors);
