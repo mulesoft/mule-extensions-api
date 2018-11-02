@@ -67,7 +67,8 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
    * @param displayModel a model which contains directive about how this operation is displayed in the UI
    * @param stereotype the {@link StereotypeModel stereotype} of this component
    * @param modelProperties A {@link Set} of custom properties which extend this model
-   * @param deprecatedModel ADD JAVA DOC
+   * @param deprecatedModel a {@link DeprecatedModel} describing if the construct is deprecated. A null value means it is not
+   *        deprecated.
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableConstructModel(String name,

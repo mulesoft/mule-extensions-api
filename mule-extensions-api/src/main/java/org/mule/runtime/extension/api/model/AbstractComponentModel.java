@@ -72,7 +72,8 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    * @param displayModel a model which contains directive about how this component is displayed in the UI
    * @param stereotype the {@link StereotypeModel stereotype} of this component
    * @param modelProperties A {@link Set} of custom properties which extend this model
-   *                        // ADD JAVA DOC
+   * @param deprecatedModel a {@link DeprecatedModel} describing if the component is deprecated. A null value means it is not
+   *        deprecated.
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,

@@ -148,7 +148,8 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param layoutModel a model which contains directives about the parameter's layout in the UI
    * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
    * @param modelProperties A {@link Set} of custom properties which extend this model
-   *                        ADD JAVA DOC
+   * @param deprecatedModel a {@link DeprecatedModel} describing if the parameter is deprecated. A null value means it is not
+   *        deprecated.
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
    *         time
    */

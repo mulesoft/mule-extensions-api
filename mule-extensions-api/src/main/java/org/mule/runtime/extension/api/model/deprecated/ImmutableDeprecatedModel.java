@@ -9,8 +9,8 @@ package org.mule.runtime.extension.api.model.deprecated;
 import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
 
 /**
- * ADD JAVA DOC
- *
+ * Immutable implementation of {@link DeprecatedModel}
+ * 
  * @since 1.2
  */
 public class ImmutableDeprecatedModel implements DeprecatedModel {
@@ -18,9 +18,7 @@ public class ImmutableDeprecatedModel implements DeprecatedModel {
   private final String message;
 
   /**
-   * ADD JAVA DOC
-   *
-   * @param message
+   * {@inheritDoc}
    */
   public ImmutableDeprecatedModel(String message) {
     this.message = message;

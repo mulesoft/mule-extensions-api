@@ -140,7 +140,8 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param stereotype the {@link StereotypeModel stereotype} of this component
    * @param modelProperties A {@link Set} of custom properties which extend this model
    * @param notifications A {@link Set} of {@link NotificationModel} which describes the operation's notifications
-   * @param deprecatedModel ADD JAVA DOC
+   * @param deprecatedModel a {@link DeprecatedModel} describing if the operation is deprecated. A null value means it is not
+   *        deprecated.
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableOperationModel(String name,

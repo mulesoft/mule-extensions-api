@@ -39,7 +39,7 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
    * @param output an {@link OutputModel} which represents the operation's output content
    * @param displayModel a model which contains directive about how this operation is displayed in the UI
-   * @param modelProperties A {@link Set} of custom properties which extend this model ADD JAVA DOC
+   * @param modelProperties A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   @Deprecated
@@ -60,7 +60,9 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
    * @param output an {@link OutputModel} which represents the operation's output content
    * @param displayModel a model which contains directive about how this operation is displayed in the UI
-   * @param modelProperties A {@link Set} of custom properties which extend this model ADD JAVA DOC
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param deprecatedModel a {@link DeprecatedModel} describing if the function is deprecated. A null value means it is not
+   *        deprecated.
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableFunctionModel(String name,

@@ -138,7 +138,8 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param modelProperties A {@link Set} of custom properties which extend this model
    * @param nestedComponents a {@link List} with the components contained by this model
    * @param notifications A {@link Set} of {@link NotificationModel} which describes the component's notifications
-   * @param deprecatedModel ADD JAVA DOC
+   * @param deprecatedModel a {@link DeprecatedModel} describing if the component is deprecated. A null value means it is not
+   *        deprecated.
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractExecutableComponentModel(String name,

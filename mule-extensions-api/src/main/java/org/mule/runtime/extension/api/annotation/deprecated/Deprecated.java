@@ -13,7 +13,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ADD JAVA DOC
+ * Indicated that the current annotated member is deprecated from the extension.
+ * 
+ * This annotation can be applied to: Operations, Parameters, Sources, Scopes, Routers, Functions, Configuration, Connection
+ * Providers and Extensions.
  *
  * @since 1.2
  */
@@ -24,9 +27,7 @@ public @interface Deprecated {
 
 
   /**
-   * ADD JAVA DOC
-   * 
-   * @return
+   * @return a {@link String} that describes why something was deprecated, what can be used as substitute, or both.
    */
   String message();
 
