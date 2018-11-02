@@ -130,27 +130,27 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
          transactional, supportsStreaming, displayModel, stereotype, errors, modelProperties, notifications, null);
   }
 
-    /**
-     * Creates a new instance
-     *
-     * @param name                  the source name. Cannot be blank
-     * @param description           the source description
-     * @param hasResponse           Whether the source emits a response
-     * @param runsOnPrimaryNodeOnly Whether the source should only run on the primary node or all nodes
-     * @param parameterGroupModels  a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-     * @param nestedComponents      a {@link List} with the components contained by this model
-     * @param output                an {@link OutputModel} which represents the operation's output content
-     * @param outputAttributes      an {@link OutputModel} which represents the attributes on the output me
-     * @param successCallbackModel  an optional model for the source success callback
-     * @param errorCallbackModel    an optional model for the source error callback
-     * @param requiresConnection    whether this component requires connectivity
-     * @param transactional         whether this component supports transactions
-     * @param supportsStreaming     whether this component supports streaming
-     * @param displayModel          a model which contains directive about how this source is displayed in the UI
-     * @param stereotype            the {@link StereotypeModel stereotype} of this component
-     * @param modelProperties       A {@link Set} of custom properties which extend this model
-     * @param notifications         A {@link Set} of {@link NotificationModel} which describes the source's notifications
-     */
+  /**
+   * Creates a new instance
+   *
+   * @param name                  the source name. Cannot be blank
+   * @param description           the source description
+   * @param hasResponse           Whether the source emits a response
+   * @param runsOnPrimaryNodeOnly Whether the source should only run on the primary node or all nodes
+   * @param parameterGroupModels  a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents      a {@link List} with the components contained by this model
+   * @param output                an {@link OutputModel} which represents the operation's output content
+   * @param outputAttributes      an {@link OutputModel} which represents the attributes on the output me
+   * @param successCallbackModel  an optional model for the source success callback
+   * @param errorCallbackModel    an optional model for the source error callback
+   * @param requiresConnection    whether this component requires connectivity
+   * @param transactional         whether this component supports transactions
+   * @param supportsStreaming     whether this component supports streaming
+   * @param displayModel          a model which contains directive about how this source is displayed in the UI
+   * @param stereotype            the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties       A {@link Set} of custom properties which extend this model
+   * @param notifications         A {@link Set} of {@link NotificationModel} which describes the source's notifications
+   */
   public ImmutableSourceModel(String name,
                               String description,
                               boolean hasResponse,

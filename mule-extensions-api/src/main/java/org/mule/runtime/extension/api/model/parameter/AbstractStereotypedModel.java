@@ -57,13 +57,13 @@ public abstract class AbstractStereotypedModel extends AbstractParameterizedMode
     return stereotype;
   }
 
-    @Override
-    public Optional<DeprecatedModel> getDeprecatedModel() {
-        return Optional.ofNullable(deprecatedModel);
-    }
+  @Override
+  public Optional<DeprecatedModel> getDeprecatedModel() {
+    return Optional.ofNullable(deprecatedModel);
+  }
 
-    @Override
-    public boolean isDeprecated() {
-        return deprecatedModel != null;
-    }
+  @Override
+  public boolean isDeprecated() {
+    return deprecatedModel != null;
+  }
 }

@@ -152,12 +152,12 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
    */
   protected void onConstruct(ConstructDeclaration declaration) {}
 
-    /**
-     * Invoked when an {@link FunctionDeclaration} is found in the traversed {@code extensionModel}.
-     * <p>
-     * This method will only be invoked once per each found instance
-     *
-     * @param declaration the {@link FunctionDeclaration}
-     */
-    protected void onFunction(FunctionDeclaration declaration) {}
+  /**
+   * Invoked when an {@link FunctionDeclaration} is found in the traversed {@code extensionModel}.
+   * <p>
+   * This method will only be invoked once per each found instance
+   *
+   * @param declaration the {@link FunctionDeclaration}
+   */
+  protected void onFunction(FunctionDeclaration declaration) {}
 }
