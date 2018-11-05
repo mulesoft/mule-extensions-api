@@ -45,8 +45,8 @@
             <version>${java.xml.bind.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
             <version>${javax.activation.version}</version>
         </dependency>
 
