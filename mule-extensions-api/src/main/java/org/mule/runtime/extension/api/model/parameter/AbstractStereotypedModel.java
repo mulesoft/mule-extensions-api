@@ -7,8 +7,8 @@
 package org.mule.runtime.extension.api.model.parameter;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatableModel;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
+import org.mule.runtime.api.meta.model.deprecated.Deprecable;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.HasStereotypeModel;
@@ -24,12 +24,11 @@ import java.util.Set;
  * @since 1.0
  */
 public abstract class AbstractStereotypedModel extends AbstractParameterizedModel
-    implements HasStereotypeModel, DeprecatableModel {
+    implements HasStereotypeModel, Deprecable {
 
   private final StereotypeModel stereotype;
-  private final DeprecatedModel deprecatedModel;
+  private final DeprecationModel deprecationModel;
 
-  @Deprecated
   public AbstractStereotypedModel(String name, String description,
                                   List<ParameterGroupModel> parameterGroupModels,
                                   DisplayModel displayModel,
@@ -43,10 +42,10 @@ public abstract class AbstractStereotypedModel extends AbstractParameterizedMode
                                   DisplayModel displayModel,
                                   StereotypeModel stereotype,
                                   Set<ModelProperty> modelProperties,
-                                  DeprecatedModel deprecatedModel) {
+                                  DeprecationModel deprecationModel) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
     this.stereotype = stereotype;
-    this.deprecatedModel = deprecatedModel;
+    this.deprecationModel = deprecationModel;
   }
 
   /**
@@ -58,12 +57,12 @@ public abstract class AbstractStereotypedModel extends AbstractParameterizedMode
   }
 
   @Override
-  public Optional<DeprecatedModel> getDeprecatedModel() {
-    return Optional.ofNullable(deprecatedModel);
+  public Optional<DeprecationModel> getDeprecationModel() {
+    return Optional.ofNullable(deprecationModel);
   }
 
   @Override
   public boolean isDeprecated() {
-    return deprecatedModel != null;
+    return deprecationModel != null;
   }
 }

@@ -11,7 +11,7 @@ import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
@@ -79,8 +79,8 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
                                           DisplayModel displayModel,
                                           StereotypeModel stereotype,
                                           Set<ModelProperty> modelProperties,
-                                          DeprecatedModel deprecatedModel) {
-    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties, deprecatedModel);
+                                          DeprecationModel deprecationModel) {
+    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties, deprecationModel);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
     this.externalLibraryModels = unmodifiableSet(externalLibraryModels);

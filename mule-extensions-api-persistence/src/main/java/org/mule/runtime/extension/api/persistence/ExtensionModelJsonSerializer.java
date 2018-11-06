@@ -25,11 +25,10 @@ import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
-import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecatedModel;
-import org.mule.runtime.extension.api.model.notification.ImmutableNotificationModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -178,8 +177,8 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
-    final DefaultImplementationTypeAdapterFactory<DeprecatedModel, ImmutableDeprecatedModel> deprecatedModelTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(DeprecatedModel.class, ImmutableDeprecatedModel.class);
+    final DefaultImplementationTypeAdapterFactory<DeprecationModel, ImmutableDeprecationModel> deprecationModelTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(DeprecationModel.class, ImmutableDeprecationModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
@@ -206,7 +205,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
         .registerTypeAdapterFactory(oauthGrantTypeAdapter)
-        .registerTypeAdapterFactory(deprecatedModelTypeAdapter);
+        .registerTypeAdapterFactory(deprecationModelTypeAdapter);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();

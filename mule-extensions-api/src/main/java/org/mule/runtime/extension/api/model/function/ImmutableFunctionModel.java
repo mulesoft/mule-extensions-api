@@ -8,8 +8,7 @@ package org.mule.runtime.extension.api.model.function;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatableModel;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -29,20 +28,19 @@ import static java.util.Optional.ofNullable;
 public class ImmutableFunctionModel extends AbstractParameterizedModel implements FunctionModel {
 
   private final OutputModel output;
-  private final DeprecatedModel deprecatedModel;
+  private final DeprecationModel deprecationModel;
 
   /**
    * Creates a new instance with the given state
    *
-   * @param name the operation's name. Cannot be blank
-   * @param description the operation's descriptor
+   * @param name                 the operation's name. Cannot be blank
+   * @param description          the operation's descriptor
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
-   * @param output an {@link OutputModel} which represents the operation's output content
-   * @param displayModel a model which contains directive about how this operation is displayed in the UI
-   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param displayModel         a model which contains directive about how this operation is displayed in the UI
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
-  @Deprecated
   public ImmutableFunctionModel(String name,
                                 String description,
                                 List<ParameterGroupModel> parameterGroupModels,
@@ -55,14 +53,14 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
   /**
    * Creates a new instance with the given state
    *
-   * @param name the operation's name. Cannot be blank
-   * @param description the operation's descriptor
+   * @param name                 the operation's name. Cannot be blank
+   * @param description          the operation's descriptor
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
-   * @param output an {@link OutputModel} which represents the operation's output content
-   * @param displayModel a model which contains directive about how this operation is displayed in the UI
-   * @param modelProperties A {@link Set} of custom properties which extend this model
-   * @param deprecatedModel a {@link DeprecatedModel} describing if the function is deprecated. A null value means it is not
-   *        deprecated.
+   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param displayModel         a model which contains directive about how this operation is displayed in the UI
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the function is deprecated. A null value means it is not
+   *                             deprecated.
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableFunctionModel(String name,
@@ -71,10 +69,10 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
                                 OutputModel output,
                                 DisplayModel displayModel,
                                 Set<ModelProperty> modelProperties,
-                                DeprecatedModel deprecatedModel) {
+                                DeprecationModel deprecationModel) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
     this.output = output;
-    this.deprecatedModel = deprecatedModel;
+    this.deprecationModel = deprecationModel;
   }
 
   @Override
@@ -83,12 +81,12 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
   }
 
   @Override
-  public Optional<DeprecatedModel> getDeprecatedModel() {
-    return ofNullable(deprecatedModel);
+  public Optional<DeprecationModel> getDeprecationModel() {
+    return ofNullable(deprecationModel);
   }
 
   @Override
   public boolean isDeprecated() {
-    return deprecatedModel != null;
+    return deprecationModel != null;
   }
 }

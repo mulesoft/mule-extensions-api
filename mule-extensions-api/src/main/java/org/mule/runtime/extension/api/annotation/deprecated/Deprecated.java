@@ -31,4 +31,14 @@ public @interface Deprecated {
    */
   String message();
 
+  /**
+   * @return a {@link String} which is the version of the extension in which the annotated member was deprecated.
+   */
+  String since();
+
+  /**
+   * @return a {@link String} which is the version of the extension in which the annotated member will be removed or is removed.
+   */
+  String removedIn() default "";
+
 }

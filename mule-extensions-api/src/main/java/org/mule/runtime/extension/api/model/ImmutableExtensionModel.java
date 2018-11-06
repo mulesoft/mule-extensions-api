@@ -19,7 +19,7 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
@@ -145,7 +145,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
    *                                  with non unique names, or if {@code name} is blank.
    */
-  @Deprecated
   public ImmutableExtensionModel(String name,
                                  String description,
                                  String version,
@@ -199,7 +198,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
    * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param notifications         A {@link Set} of {@link NotificationModel} which describes the extension's notifications
-   * @param deprecatedModel       a {@link DeprecatedModel} describing if the extension is deprecated. A null value means
+   * @param deprecationModel       a {@link DeprecationModel} describing if the extension is deprecated. A null value means
    *                              it is not deprecated.
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
    *                                  with non unique names, or if {@code name} is blank.
@@ -226,8 +225,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<String> privilegedPackages, Set<String> privilegedArtifacts,
                                  Set<ModelProperty> modelProperties,
                                  Set<NotificationModel> notifications,
-                                 DeprecatedModel deprecatedModel) {
-    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, deprecatedModel);
+                                 DeprecationModel deprecationModel) {
+    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, deprecationModel);
     this.configurations = copy(configurationModels);
 
     checkModelArgument(version != null && version.length() > 0, "Version cannot be blank");

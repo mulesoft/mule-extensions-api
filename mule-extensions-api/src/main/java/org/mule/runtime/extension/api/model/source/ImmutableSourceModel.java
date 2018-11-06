@@ -10,7 +10,7 @@ import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
-import org.mule.runtime.api.meta.model.deprecated.DeprecatedModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
@@ -103,10 +103,9 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param notifications         A {@link Set} of {@link NotificationModel} which describes the source's notifications
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
-   * {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set, DeprecatedModel)}
+   * {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set, DeprecationModel)}
    * instead
    */
-  @Deprecated
   public ImmutableSourceModel(String name,
                               String description,
                               boolean hasResponse,
@@ -169,9 +168,10 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               Set<ErrorModel> errors,
                               Set<ModelProperty> modelProperties,
                               Set<NotificationModel> notifications,
-                              DeprecatedModel deprecatedModel) {
+                              DeprecationModel deprecationModel) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-          supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications, deprecatedModel);
+          supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+          deprecationModel);
     this.hasResponse = hasResponse;
     this.runsOnPrimaryNodeOnly = runsOnPrimaryNodeOnly;
     this.successCallback = successCallbackModel.orElse(null);

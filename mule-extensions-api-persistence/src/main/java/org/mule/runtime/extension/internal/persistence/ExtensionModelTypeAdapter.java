@@ -78,7 +78,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String EXTERNAL_LIBRARIES = "externalLibraries";
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
-  private static final String DEPRECATED_MODEL = "deprecatedModel";
+  private static final String DEPRECATION_MODEL = "deprecationModel";
   static final String ERRORS = "errors";
   static final String NOTIFICATIONS = "notifications";
 
