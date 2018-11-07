@@ -6,10 +6,20 @@
  */
 package org.mule.runtime.extension.api.declaration.fluent.util;
 
-import org.mule.runtime.api.meta.model.declaration.fluent.*;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithConstructsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithFunctionsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
-import org.mule.runtime.api.meta.model.function.FunctionModel;
-import org.mule.runtime.api.meta.model.function.HasFunctionModels;
 import org.mule.runtime.api.util.Reference;
 
 import java.util.HashSet;
