@@ -67,7 +67,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param deprecationModel        a {@link DeprecationModel} describing if the component is deprecated. A null value means
-   *                               it is not deprecated.
+   *                                it is not deprecated.
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,

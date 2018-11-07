@@ -75,8 +75,8 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
    * @param externalLibraryModels a {@link Set} with the configuration's {@link ExternalLibraryModel external libraries}
    * @param displayModel          a model which contains directive about how this configuration is displayed in the UI
    * @param modelProperties       a {@link Set} of custom properties which extend this model
-   * @param deprecationModel a {@link DeprecationModel} describing if the configuration is deprecated. A null value means
-   *                         it is not deprecated.
+   * @param deprecationModel      a {@link DeprecationModel} describing if the configuration is deprecated. A null value means
+   *                              it is not deprecated.
    * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
    */
   public ImmutableConfigurationModel(String name,
