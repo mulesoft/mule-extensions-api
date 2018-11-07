@@ -64,6 +64,7 @@ import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.extension.api.model.function.ImmutableFunctionModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
@@ -153,7 +154,8 @@ abstract class BasePersistenceTestCase {
         new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, false, false, false, SUPPORTED,
                                     "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptyList(), emptySet(), null);
+                                    defaultValueProviderModel, emptyList(), emptySet(),
+                                    new ImmutableDeprecationModel("This is deprecated", "1.3.0", null));
 
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, false, false, SUPPORTED, "",
@@ -162,7 +164,8 @@ abstract class BasePersistenceTestCase {
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptyList(), emptySet(), null);
+                                    defaultValueProviderModel, emptyList(), emptySet(),
+                                    new ImmutableDeprecationModel("This parameter is deprecated", "1.5.0", null));
     final ImmutableParameterModel complexParameter =
         new ImmutableParameterModel(COMPLEX_PARAMETER_NAME, "complex type to serialize",
                                     ExtensionsTypeLoaderFactory.getDefault()
@@ -217,7 +220,8 @@ abstract class BasePersistenceTestCase {
                                     emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet(), null);
+                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet(),
+                                    new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"));
 
     createCoreOperations();
 

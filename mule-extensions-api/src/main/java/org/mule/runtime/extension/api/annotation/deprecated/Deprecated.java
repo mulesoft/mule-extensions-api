@@ -6,8 +6,12 @@
  */
 package org.mule.runtime.extension.api.annotation.deprecated;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+
 import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -20,7 +24,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.2
  */
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
+@Target({TYPE, FIELD, METHOD, PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Deprecated {
@@ -39,6 +43,6 @@ public @interface Deprecated {
   /**
    * @return a {@link String} which is the version of the extension in which the annotated member will be removed or is removed.
    */
-  String removedIn() default "";
+  String toRemoveIn() default "";
 
 }

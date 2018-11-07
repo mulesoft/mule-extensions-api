@@ -21,12 +21,12 @@ public class ImmutableDeprecationModel implements DeprecationModel {
 
   private final String message;
   private final String deprecatedSince;
-  private final String removedIn;
+  private final String toRemoveIn;
 
-  public ImmutableDeprecationModel(String message, String deprecatedSince, String removedIn) {
+  public ImmutableDeprecationModel(String message, String deprecatedSince, String toRemoveIn) {
     this.message = message;
     this.deprecatedSince = deprecatedSince;
-    this.removedIn = removedIn;
+    this.toRemoveIn = toRemoveIn;
   }
 
   /**
@@ -49,7 +49,7 @@ public class ImmutableDeprecationModel implements DeprecationModel {
    * {@inheritDoc}
    */
   @Override
-  public Optional<String> getRemovedIn() {
-    return ofNullable(removedIn);
+  public Optional<String> getToRemoveIn() {
+    return ofNullable(toRemoveIn);
   }
 }
