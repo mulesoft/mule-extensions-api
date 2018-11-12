@@ -49,6 +49,11 @@
             <artifactId>javax.activation</artifactId>
             <version>${javax.activation.version}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>javax.transaction-api</artifactId>
+            <version>1.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.mule.runtime</groupId>
