@@ -121,7 +121,6 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
 
           @Override
           public void visitString(StringType type) {
-            super.visitString(type);
             type.getAnnotation(EnumAnnotation.class).ifPresent(enumAnnotation -> {
               List<String> values = Stream.of(enumAnnotation.getValues()).map(Object::toString).collect(toList());
               if (!values.contains(parameterModel.getDefaultValue().toString())) {
