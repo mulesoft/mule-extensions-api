@@ -123,10 +123,11 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
           public void visitString(StringType type) {
             type.getAnnotation(EnumAnnotation.class).ifPresent(enumAnnotation -> {
               List<String> values = Stream.of(enumAnnotation.getValues()).map(Object::toString).collect(toList());
-              if (!values.contains(parameterModel.getDefaultValue().toString())) {
+              String stringValue = parameterModel.getDefaultValue().toString();
+              if (!values.contains(stringValue)) {
                 addError(parameterModel,
-                         "Parameter '%s' in the %s '%s' has a default value which is not listed as an available option",
-                         parameterModel.getName(), ownerModelType, ownerName);
+                         "Parameter '%s' in the %s '%s' has '%s' as default value which is not listed as an available option (i.e.: %s).",
+                         parameterModel.getName(), ownerModelType, ownerName, stringValue, String.join(", ", values));
               }
             });
           }
