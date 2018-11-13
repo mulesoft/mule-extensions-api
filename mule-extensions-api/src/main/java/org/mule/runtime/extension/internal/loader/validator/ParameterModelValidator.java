@@ -12,12 +12,17 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isBasic;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.hasExpressionDefaultValue;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
 import static org.mule.runtime.extension.api.util.NameUtils.CONNECTION_PROVIDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
+
+import org.mule.metadata.api.annotation.EnumAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.StringType;
+import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -35,6 +40,7 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Validates that all {@link ParameterModel parameters} provided by the {@link ConfigurationModel configurations},
@@ -85,26 +91,48 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                  parameterModel.getName(), ownerModelType, ownerName);
       }
 
-      if (parameterModel.getDefaultValue() != null) {
-        if (parameterModel.isOverrideFromConfig() &&
-            !ownerModelType.equals(CONFIGURATION) && !ownerModelType.equals(CONNECTION_PROVIDER)) {
-          // We skip failing for configs and connection here since a different error is thrown in their own validators
-          addError(parameterModel,
-                   "Parameter '%s' in the %s '%s' is declared as a config override,"
-                       + " and must not provide a default value since one is already provided by the value"
-                       + " declared in the config parameter",
-                   parameterModel.getName(), ownerModelType, ownerName);
-        } else if (parameterModel.isRequired()) {
-          addError(parameterModel,
-                   "Parameter '%s' in the %s '%s' is required, and must not provide a default value",
-                   parameterModel.getName(), ownerModelType, ownerName);
-        }
+      if (getDefaultValue(parameterModel).isPresent()) {
+        validateDefaultValue(parameterModel, ownerName, ownerModelType);
       }
 
       if (parameterModel.isComponentId()) {
         validateComponentId(parameterModel, ownerName, ownerModelType, owner);
       }
 
+    }
+
+    private void validateDefaultValue(ParameterModel parameterModel, String ownerName, String ownerModelType) {
+      if (parameterModel.isOverrideFromConfig() &&
+          !ownerModelType.equals(CONFIGURATION) && !ownerModelType.equals(CONNECTION_PROVIDER)) {
+        // We skip failing for configs and connection here since a different error is thrown in their own validators
+        addError(parameterModel,
+                 "Parameter '%s' in the %s '%s' is declared as a config override,"
+                     + " and must not provide a default value since one is already provided by the value"
+                     + " declared in the config parameter",
+                 parameterModel.getName(), ownerModelType, ownerName);
+      } else if (parameterModel.isRequired()) {
+        addError(parameterModel,
+                 "Parameter '%s' in the %s '%s' is required, and must not provide a default value",
+                 parameterModel.getName(), ownerModelType, ownerName);
+      }
+
+      if (!hasExpressionDefaultValue(parameterModel)) {
+        parameterModel.getType().accept(new MetadataTypeVisitor() {
+
+          @Override
+          public void visitString(StringType type) {
+            super.visitString(type);
+            type.getAnnotation(EnumAnnotation.class).ifPresent(enumAnnotation -> {
+              List<String> values = Stream.of(enumAnnotation.getValues()).map(Object::toString).collect(toList());
+              if (!values.contains(parameterModel.getDefaultValue().toString())) {
+                addError(parameterModel,
+                         "Parameter '%s' in the %s '%s' has a default value which is not listed as an available option",
+                         parameterModel.getName(), ownerModelType, ownerName);
+              }
+            });
+          }
+        });
+      }
     }
 
     private void validateComponentId(ParameterModel parameterModel, String ownerName, String ownerModelType,

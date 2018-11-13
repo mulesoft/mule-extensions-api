@@ -68,6 +68,9 @@ import java.util.stream.Stream;
  */
 public class ExtensionModelUtils {
 
+  private static final String EXPRESSION_PREFIX = "#[";
+  private static final String EXPRESSION_POSTFIX = "]";
+
   private ExtensionModelUtils() {}
 
   /**
@@ -77,6 +80,21 @@ public class ExtensionModelUtils {
   public static Optional<String> getDefaultValue(ParameterModel model) {
     Object defaultValue = model.getDefaultValue();
     return defaultValue == null ? empty() : of(valueOf(defaultValue));
+  }
+
+  /**
+   * @param model the {@link ParameterModel parameter} who's default value is analyzed
+   * @return Whether or not the default value is an expression
+   * @since 1.2
+   */
+  public static boolean hasExpressionDefaultValue(ParameterModel model) {
+    Object defaultValue = model.getDefaultValue();
+    if (defaultValue instanceof String) {
+      String trim = ((String) defaultValue).trim();
+      return trim.startsWith(EXPRESSION_PREFIX) && trim.endsWith(EXPRESSION_POSTFIX);
+    } else {
+      return false;
+    }
   }
 
   /**
