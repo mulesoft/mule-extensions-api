@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.model.parameter;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.meta.model.deprecated.Deprecable;
+import org.mule.runtime.api.meta.model.deprecated.DeprecableModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -24,7 +24,7 @@ import java.util.Set;
  * @since 1.0
  */
 public abstract class AbstractStereotypedModel extends AbstractParameterizedModel
-    implements HasStereotypeModel, Deprecable {
+    implements HasStereotypeModel, DeprecableModel {
 
   private final StereotypeModel stereotype;
   private final DeprecationModel deprecationModel;

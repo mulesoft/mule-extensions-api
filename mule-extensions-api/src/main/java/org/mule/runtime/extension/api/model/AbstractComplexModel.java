@@ -17,7 +17,7 @@ import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
-import org.mule.runtime.api.meta.model.deprecated.Deprecable;
+import org.mule.runtime.api.meta.model.deprecated.DeprecableModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
  * @since 1.0
  */
 public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
-    implements HasConnectionProviderModels, HasSourceModels, HasOperationModels, Deprecable {
+    implements HasConnectionProviderModels, HasSourceModels, HasOperationModels, DeprecableModel {
 
   private final List<OperationModel> operations;
   private final List<ConnectionProviderModel> connectionProviders;
