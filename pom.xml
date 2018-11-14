@@ -137,6 +137,7 @@
         <oldMuleArtifactVersion>1.1.2</oldMuleArtifactVersion>
         <java.xml.bind.version>2.3.0-MULE-001</java.xml.bind.version>
         <javax.activation.version>1.2.0</javax.activation.version>
+        <javax.transaction-api.version>1.3</javax.transaction-api.version>
         <reactive-streams.version>1.0.2</reactive-streams.version>
 
         <muleRevapiExtensionVersion>1.2.0-SNAPSHOT</muleRevapiExtensionVersion>
