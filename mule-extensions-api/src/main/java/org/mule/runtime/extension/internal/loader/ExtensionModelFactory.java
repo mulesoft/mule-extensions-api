@@ -258,7 +258,8 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getExternalLibraryModels(),
                                       extensionDeclaration.getPrivilegedPackages(), extensionDeclaration.getPrivilegedArtifacts(),
                                       extensionDeclaration.getModelProperties(),
-                                      extensionDeclaration.getNotificationModels());
+                                      extensionDeclaration.getNotificationModels(),
+                                      extensionDeclaration.getDeprecation().orElse(null));
 
       return extensionModel;
     }
@@ -301,7 +302,8 @@ public final class ExtensionModelFactory {
                                                              declaration.getExternalLibraryModels(),
                                                              declaration.getDisplayModel(),
                                                              declaration.getStereotype(),
-                                                             declaration.getModelProperties()));
+                                                             declaration.getModelProperties(),
+                                                             declaration.getDeprecation().orElse(null)));
     }
 
     private List<ConstructModel> toConstructs(List<ConstructDeclaration> constructs) {
@@ -318,7 +320,8 @@ public final class ExtensionModelFactory {
                                                          declaration.getDisplayModel(),
                                                          declaration.getErrorModels(),
                                                          getProcessorStereotype(declaration.getStereotype()),
-                                                         declaration.getModelProperties()));
+                                                         declaration.getModelProperties(),
+                                                         declaration.getDeprecation().orElse(null)));
     }
 
     private List<SourceModel> toMessageSources(List<SourceDeclaration> declarations) {
@@ -344,7 +347,8 @@ public final class ExtensionModelFactory {
                                                       getSourceStereotypes(declaration),
                                                       declaration.getErrorModels(),
                                                       declaration.getModelProperties(),
-                                                      declaration.getNotificationModels()));
+                                                      declaration.getNotificationModels(),
+                                                      declaration.getDeprecation().orElse(null)));
     }
 
     private StereotypeModel getSourceStereotypes(SourceDeclaration declaration) {
@@ -403,7 +407,8 @@ public final class ExtensionModelFactory {
                                                 declaration.getErrorModels(),
                                                 getProcessorStereotype(declaration.getStereotype()),
                                                 declaration.getModelProperties(),
-                                                declaration.getNotificationModels());
+                                                declaration.getNotificationModels(),
+                                                declaration.getDeprecation().orElse(null));
 
         return operation;
       });
@@ -464,7 +469,8 @@ public final class ExtensionModelFactory {
                                                                   declaration.getExternalLibraryModels(),
                                                                   declaration.getDisplayModel(),
                                                                   declaration.getStereotype(),
-                                                                  declaration.getModelProperties()));
+                                                                  declaration.getModelProperties(),
+                                                                  declaration.getDeprecation().orElse(null)));
     }
 
     private List<ParameterGroupModel> toParameterGroups(List<ParameterGroupDeclaration> declarations) {
@@ -546,7 +552,8 @@ public final class ExtensionModelFactory {
                                          parameter.getLayoutModel(),
                                          parameter.getValueProviderModel(),
                                          parameter.getAllowedStereotypeModels(),
-                                         parameter.getModelProperties());
+                                         parameter.getModelProperties(),
+                                         parameter.getDeprecation().orElse(null));
     }
 
     private List<FunctionModel> toFunctions(List<FunctionDeclaration> expressionFunctions) {
@@ -556,7 +563,8 @@ public final class ExtensionModelFactory {
                                                          toParameterGroups(declaration.getParameterGroups()),
                                                          toOutputModel(declaration.getOutput()),
                                                          declaration.getDisplayModel(),
-                                                         declaration.getModelProperties()))
+                                                         declaration.getModelProperties(),
+                                                         declaration.getDeprecation().orElse(null)))
           .collect(toList()));
     }
   }

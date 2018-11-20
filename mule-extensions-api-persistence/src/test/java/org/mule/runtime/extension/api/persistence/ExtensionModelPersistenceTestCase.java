@@ -13,6 +13,8 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -57,6 +59,23 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
         .findFirst().get();
 
     assertComplexParameter(complexParameter);
+  }
+
+  @Test
+  public void deprecationCorrectlyDeserialized() {
+    OperationModel operation = deserializedExtensionModel.getOperationModel(GET_CAR_OPERATION_NAME).get();
+    ParameterModel parameterModel = operation.getAllParameterModels().get(0);
+
+    assertTrue(operation.getDeprecationModel().isPresent());
+    assertThat(operation.getDeprecationModel().get().getMessage(), is("This operation is deprecated"));
+    assertThat(operation.getDeprecationModel().get().getDeprecatedSince(), is("1.3.0"));
+    assertTrue(operation.getDeprecationModel().get().getToRemoveIn().isPresent());
+    assertThat(operation.getDeprecationModel().get().getToRemoveIn().get(), is("2.0.0"));
+
+    assertTrue(parameterModel.getDeprecationModel().isPresent());
+    assertThat(parameterModel.getDeprecationModel().get().getMessage(), is("This is deprecated"));
+    assertThat(parameterModel.getDeprecationModel().get().getDeprecatedSince(), is("1.3.0"));
+    assertFalse(parameterModel.getDeprecationModel().get().getToRemoveIn().isPresent());
   }
 
   @Test

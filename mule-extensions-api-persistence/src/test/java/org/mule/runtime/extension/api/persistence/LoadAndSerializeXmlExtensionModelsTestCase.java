@@ -81,7 +81,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
         new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
                                     jsonLoadedType,
                                     false, true, false, true, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, null, emptyList(), emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, null, emptyList(), emptySet(), null);
 
     final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());
     final ImmutableOutputModel outputAttributesModel =
@@ -93,7 +93,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
                                                                           defaultDisplayModel, emptySet(), PROCESSOR, emptySet(),
-                                                                          emptySet());
+                                                                          emptySet(), null);
 
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft",
@@ -102,7 +102,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                     emptyList(), emptyList(), emptyList(), emptyList(),
                                     defaultDisplayModel, XmlDslModel.builder().build(),
                                     emptySet(), emptySet(), emptySet(), emptySet(), emptySet(), emptySet(),
-                                    emptySet(), emptySet(), emptySet(), emptySet());
+                                    emptySet(), emptySet(), emptySet(), emptySet(), null);
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
 

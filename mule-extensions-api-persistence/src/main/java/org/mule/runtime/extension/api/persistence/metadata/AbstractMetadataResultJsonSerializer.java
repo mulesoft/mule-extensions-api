@@ -10,8 +10,10 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
 import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.extension.api.model.notification.ImmutableNotificationModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -73,6 +75,8 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
     final DefaultImplementationTypeAdapterFactory notificationModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(NotificationModel.class, ImmutableNotificationModel.class);
+    final DefaultImplementationTypeAdapterFactory<DeprecationModel, ImmutableDeprecationModel> deprecationModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(DeprecationModel.class, ImmutableDeprecationModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
@@ -91,7 +95,8 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
         .registerTypeAdapterFactory(errorModelTypeAdapter)
         .registerTypeAdapterFactory(stereoTypeModelTypeAdapterFactory)
-        .registerTypeAdapterFactory(notificationModelTypeAdapterFactory);
+        .registerTypeAdapterFactory(notificationModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(deprecationModelTypeAdapterFactory);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();

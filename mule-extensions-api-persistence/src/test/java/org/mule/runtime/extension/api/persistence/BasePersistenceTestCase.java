@@ -64,6 +64,7 @@ import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.extension.api.model.function.ImmutableFunctionModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
@@ -153,16 +154,18 @@ abstract class BasePersistenceTestCase {
         new ImmutableParameterModel(CAR_NAME_PARAMETER_NAME, "Name of the car", stringType, true, false, false, false, SUPPORTED,
                                     "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptyList(), emptySet());
+                                    defaultValueProviderModel, emptyList(), emptySet(),
+                                    new ImmutableDeprecationModel("This is deprecated", "1.3.0", null));
 
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptyList(), emptySet());
+                                    defaultValueProviderModel, emptyList(), emptySet(), null);
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptyList(), emptySet());
+                                    defaultValueProviderModel, emptyList(), emptySet(),
+                                    new ImmutableDeprecationModel("This parameter is deprecated", "1.5.0", null));
     final ImmutableParameterModel complexParameter =
         new ImmutableParameterModel(COMPLEX_PARAMETER_NAME, "complex type to serialize",
                                     ExtensionsTypeLoaderFactory.getDefault()
@@ -172,7 +175,7 @@ abstract class BasePersistenceTestCase {
                                     defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel,
                                     singletonList(newStereotype("config", "test")
                                         .withParent(CONFIG).build()),
-                                    emptySet());
+                                    emptySet(), null);
 
     String schema = IOUtils
         .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(
@@ -182,7 +185,8 @@ abstract class BasePersistenceTestCase {
         new ImmutableParameterModel(LOADED_PARAMETER_NAME, "loaded type from json to serialize",
                                     jsonLoadedType,
                                     false, true, false, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet(),
+                                    null);
 
     exportedType = typeBuilder.objectType().id(TEST_PACKAGE_EXPORTED_CLASS)
         .with(new ClassInformationAnnotation(ExportedClass.class, emptyList()))
@@ -194,7 +198,8 @@ abstract class BasePersistenceTestCase {
                                         .openWith(exportedType)
                                         .build(),
                                     false, true, false, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet(),
+                                    null);
 
     ObjectTypeBuilder typeNoId = typeBuilder.objectType();
     typeNoId.addField().key("fieldName").value(exportedType).build();
@@ -202,7 +207,8 @@ abstract class BasePersistenceTestCase {
         new ImmutableParameterModel(NO_ID_PARAMETER_NAME, "type to serialize without ID",
                                     typeNoId.build(),
                                     false, true, false, false, SUPPORTED, null, BEHAVIOUR, defaultParameterDsl,
-                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet());
+                                    defaultDisplayModel, defaultLayoutModel, defaultValueProviderModel, emptyList(), emptySet(),
+                                    null);
 
     final ImmutableOutputModel outputModel = new ImmutableOutputModel("Message.Payload", stringType, true, emptySet());
     final ImmutableOutputModel outputAttributesModel =
@@ -214,7 +220,8 @@ abstract class BasePersistenceTestCase {
                                     emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet());
+                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet(),
+                                    new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"));
 
     createCoreOperations();
 
@@ -227,7 +234,8 @@ abstract class BasePersistenceTestCase {
                                              externalLibrarySet(),
                                              defaultDisplayModel,
                                              CONNECTION,
-                                             emptySet());
+                                             emptySet(),
+                                             null);
 
     sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true, false,
                                            asParameterGroup(carNameParameter, noIdParameter),
@@ -242,14 +250,14 @@ abstract class BasePersistenceTestCase {
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(), SOURCE, emptySet(),
-                                           emptySet(), emptySet());
+                                           emptySet(), emptySet(), null);
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",
                                                asParameterGroup(usernameParameter),
                                                new ImmutableOutputModel("Payload", stringType, false, emptySet()),
                                                DisplayModel.builder().build(),
-                                               emptySet());
+                                               emptySet(), null);
 
     LinkedHashSet<ObjectType> typesCatalog = new LinkedHashSet<>();
     typesCatalog.add(exportedType);
@@ -267,7 +275,8 @@ abstract class BasePersistenceTestCase {
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(),
                                     ImmutableSet.of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
-                                    externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet());
+                                    externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet(),
+                                    null);
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -58,7 +59,38 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
                                      DisplayModel displayModel,
                                      StereotypeModel stereotype,
                                      Set<ModelProperty> modelProperties) {
-    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties);
+    this(name, description, parameterGroupModels, operationModels, connectionProviders, sourceModels, externalLibraryModels,
+         displayModel, stereotype, modelProperties, null);
+  }
+
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name                  the configuration's name
+   * @param description           the configuration's description
+   * @param parameterGroupModels  a {@link List} with the configuration's {@link ParameterGroupModel parameter group models}
+   * @param operationModels       a {@link List} with the configuration's {@link OperationModel operationModels}
+   * @param connectionProviders   a {@link List} with the configuration's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels          a {@link List} with the configuration's {@link SourceModel message source models}
+   * @param externalLibraryModels a {@link Set} with the configuration's {@link ExternalLibraryModel external libraries}
+   * @param displayModel          a model which contains directive about how this configuration is displayed in the UI
+   * @param modelProperties       a {@link Set} of custom properties which extend this model
+   * @param deprecationModel      a {@link DeprecationModel} describing if the configuration is deprecated. A null value means
+   *                              it is not deprecated.
+   * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
+   */
+  public ImmutableConfigurationModel(String name,
+                                     String description,
+                                     List<ParameterGroupModel> parameterGroupModels,
+                                     List<OperationModel> operationModels,
+                                     List<ConnectionProviderModel> connectionProviders,
+                                     List<SourceModel> sourceModels,
+                                     Set<ExternalLibraryModel> externalLibraryModels,
+                                     DisplayModel displayModel,
+                                     StereotypeModel stereotype,
+                                     Set<ModelProperty> modelProperties,
+                                     DeprecationModel deprecationModel) {
+    super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, deprecationModel);
     this.parameterGroupModels = unmodifiableList(new ArrayList<>(parameterGroupModels));
     this.externalLibraryModels = unmodifiableSet(externalLibraryModels);
     this.stereotype = stereotype;

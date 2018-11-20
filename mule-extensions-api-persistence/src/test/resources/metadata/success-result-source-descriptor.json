@@ -677,6 +677,10 @@
               "query": false
             },
             "allowedStereotypeModels": [],
+            "deprecationModel": {
+              "message": "This is deprecated",
+              "deprecatedSince": "1.3.0"
+            },
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",

@@ -9,17 +9,20 @@ package org.mule.runtime.extension.api.declaration.fluent.util;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithConstructsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithFunctionsDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.util.Reference;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -39,6 +42,7 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
   private Set<Reference<ParameterDeclaration>> parameters = new LinkedHashSet<>();
   private Set<Reference<ParameterGroupDeclaration>> parameterGroups = new LinkedHashSet<>();
   private Set<Reference<OperationDeclaration>> operations = new LinkedHashSet<>();
+  private Set<Reference<FunctionDeclaration>> functions = new HashSet<>();
   private Set<Reference<ConstructDeclaration>> constructs = new LinkedHashSet<>();
   private Set<Reference<ConnectionProviderDeclaration>> connectionProviders = new LinkedHashSet<>();
 
@@ -77,6 +81,11 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
   @Override
   protected void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
     doOnce(operations, declaration, this::onOperation);
+  }
+
+  @Override
+  protected void onFunction(WithFunctionsDeclaration owner, FunctionDeclaration model) {
+    doOnce(functions, model, this::onFunction);
   }
 
   @Override
@@ -131,7 +140,7 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
    * This method will only be invoked once per each found instance
    *
    * @param parameterGroup the {@link ParameterGroupDeclaration} in which the {@code declaration} is contained
-   * @param declaration    the {@link ParameterDeclaration}
+   * @param declaration the {@link ParameterDeclaration}
    */
   protected void onParameter(ParameterGroupDeclaration parameterGroup, ParameterDeclaration declaration) {}
 
@@ -153,4 +162,12 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
    */
   protected void onConstruct(ConstructDeclaration declaration) {}
 
+  /**
+   * Invoked when an {@link FunctionDeclaration} is found in the traversed {@code extensionModel}.
+   * <p>
+   * This method will only be invoked once per each found instance
+   *
+   * @param declaration the {@link FunctionDeclaration}
+   */
+  protected void onFunction(FunctionDeclaration declaration) {}
 }
