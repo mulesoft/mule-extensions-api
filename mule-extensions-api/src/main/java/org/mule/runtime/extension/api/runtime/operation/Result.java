@@ -120,6 +120,17 @@ public class Result<T, A> {
     }
 
     /**
+     * Sets the length in bytes of the payload
+     *
+     * @param length
+     * @return
+     */
+    private Builder<T, A> length(OptionalLong length) {
+      product.length = length;
+      return this;
+    }
+
+    /**
      * @return the build {@link Result}
      */
     public Result<T, A> build() {
@@ -170,12 +181,13 @@ public class Result<T, A> {
    * @return a new {@link Builder}
    */
   public Builder<T, A> copy() {
-    final Builder<T, A> builder = new Builder<T, A>()
-        .output(output);
-    this.getAttributes().ifPresent(builder::attributes);
-    this.getMediaType().ifPresent(builder::mediaType);
-    this.getAttributesMediaType().ifPresent(builder::attributesMediaType);
-    this.getByteLength().ifPresent(builder::length);
+    final Builder<T, A> builder = new Builder<T, A>().output(output);
+
+    builder.attributes(attributes);
+    builder.mediaType(mediaType);
+    builder.attributesMediaType(attributesMediaType);
+    builder.attributesMediaType(attributesMediaType);
+    builder.length(getByteLength());
     return builder;
   }
 
