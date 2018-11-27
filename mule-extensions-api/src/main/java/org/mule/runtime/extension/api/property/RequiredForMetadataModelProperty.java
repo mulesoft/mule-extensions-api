@@ -18,13 +18,13 @@ import java.util.List;
  *
  * @since 1.2.0
  */
-public class MetadataImpactModelProperty implements ModelProperty {
+public class RequiredForMetadataModelProperty implements ModelProperty {
 
-  public static final String NAME = "metadataImpact";
+  public static final String NAME = "requiredForMetadata";
 
   private final List<String> requiredParameters;
 
-  public MetadataImpactModelProperty(List<String> requiredParameters) {
+  public RequiredForMetadataModelProperty(List<String> requiredParameters) {
     this.requiredParameters = requiredParameters;
   }
 
