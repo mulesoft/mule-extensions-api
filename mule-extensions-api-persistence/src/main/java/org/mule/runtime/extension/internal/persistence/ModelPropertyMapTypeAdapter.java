@@ -8,16 +8,14 @@ package org.mule.runtime.extension.internal.persistence;
 
 import static java.util.Optional.ofNullable;
 import static org.slf4j.LoggerFactory.getLogger;
+
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
+import org.mule.runtime.extension.api.property.RequiredForMetadataModelProperty;
 import org.mule.runtime.extension.api.property.MetadataKeyIdModelProperty;
-
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import org.mule.runtime.extension.api.property.TypeResolversInformationModelProperty;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +23,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import org.apache.commons.lang3.ClassUtils;
 import org.slf4j.Logger;
 
@@ -54,10 +56,14 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? e
     classNameMapping = new HashMap<>();
     classNameMapping.put(OAuthModelProperty.class, OAuthModelProperty.NAME);
     classNameMapping.put(MetadataKeyIdModelProperty.class, MetadataKeyIdModelProperty.NAME);
+    classNameMapping.put(TypeResolversInformationModelProperty.class, TypeResolversInformationModelProperty.NAME);
+    classNameMapping.put(RequiredForMetadataModelProperty.class, RequiredForMetadataModelProperty.NAME);
 
     nameClassMapping = new HashMap<>();
     nameClassMapping.put(OAuthModelProperty.NAME, OAuthModelProperty.class);
     nameClassMapping.put(MetadataKeyIdModelProperty.NAME, MetadataKeyIdModelProperty.class);
+    nameClassMapping.put(TypeResolversInformationModelProperty.NAME, TypeResolversInformationModelProperty.class);
+    nameClassMapping.put(RequiredForMetadataModelProperty.NAME, RequiredForMetadataModelProperty.class);
   }
 
   private final Gson gson;

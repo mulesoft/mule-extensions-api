@@ -12,10 +12,12 @@ import static org.apache.commons.lang3.StringUtils.isAllBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.metadata.NullMetadataResolver.NULL_RESOLVER_NAME;
+
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.extension.api.annotation.metadata.TypeResolver;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,24 +30,40 @@ import java.util.Optional;
  */
 public class TypeResolversInformationModelProperty implements ModelProperty {
 
-  public static final String NAME = "TypeResolversInformation";
+  public static final String NAME = "typeResolversInformation";
+
   private final String category;
-  private final Map<String, String> inputResolvers;
-  private final String outputResolver;
-  private final String attributesResolver;
-  private final String keysResolver;
+  private final ResolverInformation outputResolver;
+  private final ResolverInformation attributesResolver;
+  private final ResolverInformation keysResolver;
+  private final Map<String, ResolverInformation> inputResolvers;
+  private final transient boolean requiresConnection;
+  private final transient boolean requiresConfiguration;
 
   public TypeResolversInformationModelProperty(String category,
                                                Map<String, String> parameters,
                                                String outputResolver,
                                                String attributesResolver,
-                                               String keysResolver) {
+                                               String keysResolver,
+                                               boolean requiresConnection,
+                                               boolean requiresConfiguration) {
+    this.requiresConnection = requiresConnection;
+    this.requiresConfiguration = requiresConfiguration;
     checkArgument(isNotBlank(category), "A Category name is required for a group of resolvers");
     this.category = category;
-    this.inputResolvers = parameters != null && parameters.isEmpty() ? null : parameters;
-    this.outputResolver = sanitizeResolverName(outputResolver);
-    this.attributesResolver = sanitizeResolverName(attributesResolver);
-    this.keysResolver = sanitizeResolverName(keysResolver);
+    Map<String, String> paramResolvers = parameters != null && parameters.isEmpty() ? null : parameters;
+
+    this.outputResolver = getResolverInformation(outputResolver);
+    this.attributesResolver = getResolverInformation(attributesResolver);
+    this.keysResolver = getResolverInformation(keysResolver);
+
+    if (paramResolvers != null) {
+      this.inputResolvers = new HashMap<>();
+      paramResolvers
+          .forEach((paramName, resolverName) -> this.inputResolvers.put(paramName, getResolverInformation(resolverName)));
+    } else {
+      this.inputResolvers = null;
+    }
   }
 
   /**
@@ -74,44 +92,53 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
   }
 
   /**
-   * Provides the name of the resolver (if any) associated to a given parameter.
+   * Provides information of the output resolver (if any) associated to the Component.
    *
-   * @param parameterName name of the parameter
-   * @return Name of the resolver associated to the parameter, if one exists.
+   * @return output resolver's {@link ResolverInformation}
    */
-  public Optional<String> getParameterResolverName(String parameterName) {
-    return inputResolvers == null ? empty() : ofNullable(inputResolvers.get(parameterName));
-  }
-
-  /**
-   * Provides the name of the output resolver (if any) associated to the Component.
-   *
-   * @return output resolver's name
-   */
-  public Optional<String> getOutputResolverName() {
+  public Optional<ResolverInformation> getOutputResolver() {
     return ofNullable(outputResolver);
   }
 
   /**
-   * Provides the name of the output attributes resolver (if any) associated to the Component.
+   * Provides information the output attributes resolver (if any) associated to the Component.
    *
-   * @return output resolver's name
+   * @return output attributes resolver's {@link ResolverInformation}
    */
-  public Optional<String> getAttributesResolverName() {
+  public Optional<ResolverInformation> getAttributesResolver() {
     return ofNullable(attributesResolver);
   }
 
   /**
-   * Provides the name of the metadata keys resolver (if any) associated to the Component.
+   * Provides information of the metadata keys resolver (if any) associated to the Component.
    *
-   * @return output resolver's name
+   * @return keys resolver's {@link ResolverInformation}
    */
-  public Optional<String> getKeysResolverName() {
+  public Optional<ResolverInformation> getKeysResolver() {
     return ofNullable(keysResolver);
+  }
+
+  /**
+   * Provides information of the resolver (if any) associated to a given parameter.
+   *
+   * @param parameterName name of the parameter
+   * @return {@link ResolverInformation} of the resolver associated to the parameter, if one exists.
+   */
+  public Optional<ResolverInformation> getParameterResolver(String parameterName) {
+    return inputResolvers != null ? ofNullable(inputResolvers.get(parameterName)) : empty();
   }
 
   private String sanitizeResolverName(String resolverName) {
     return isAllBlank(resolverName) || NULL_RESOLVER_NAME.equals(resolverName) ? null : resolverName;
+  }
+
+  private ResolverInformation getResolverInformation(String resolverName) {
+    ResolverInformation resolverInformation = null;
+    String sanatizedName = sanitizeResolverName(resolverName);
+    if (sanatizedName != null) {
+      resolverInformation = new ResolverInformation(sanatizedName, requiresConnection, requiresConfiguration);
+    }
+    return resolverInformation;
   }
 
   @Override
@@ -126,12 +153,13 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
     return Objects.equals(category, that.category) &&
         Objects.equals(inputResolvers, that.inputResolvers) &&
         Objects.equals(outputResolver, that.outputResolver) &&
+        Objects.equals(keysResolver, that.keysResolver) &&
         Objects.equals(attributesResolver, that.attributesResolver);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(category, inputResolvers, outputResolver, attributesResolver);
+    return Objects.hash(category, inputResolvers, outputResolver, keysResolver, attributesResolver);
   }
 
   @Override
@@ -140,6 +168,7 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
         "category='" + category + '\'' +
         ", parameters=" + inputResolvers +
         ", outputResolver='" + outputResolver + '\'' +
+        ", keysResolver='" + keysResolver + '\'' +
         ", attributesResolver='" + attributesResolver + '\'' +
         '}';
   }
