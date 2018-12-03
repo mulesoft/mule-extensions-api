@@ -37,15 +37,18 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
   private final ResolverInformation attributesResolver;
   private final ResolverInformation keysResolver;
   private final Map<String, ResolverInformation> inputResolvers;
-  private final boolean requiresConnection;
+  private final transient boolean requiresConnection;
+  private final transient boolean requiresConfiguration;
 
   public TypeResolversInformationModelProperty(String category,
                                                Map<String, String> parameters,
                                                String outputResolver,
                                                String attributesResolver,
                                                String keysResolver,
-                                               boolean requiresConnection) {
+                                               boolean requiresConnection,
+                                               boolean requiresConfiguration) {
     this.requiresConnection = requiresConnection;
+    this.requiresConfiguration = requiresConfiguration;
     checkArgument(isNotBlank(category), "A Category name is required for a group of resolvers");
     this.category = category;
     Map<String, String> paramResolvers = parameters != null && parameters.isEmpty() ? null : parameters;
@@ -133,8 +136,7 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
     ResolverInformation resolverInformation = null;
     String sanatizedName = sanitizeResolverName(resolverName);
     if (sanatizedName != null) {
-      //TODO MULE-15638 - Once Metadata API 2.0 is implemented we will know better if the resolver requires or not a connection of config.
-      resolverInformation = new ResolverInformation(sanatizedName, requiresConnection, requiresConnection);
+      resolverInformation = new ResolverInformation(sanatizedName, requiresConnection, requiresConfiguration);
     }
     return resolverInformation;
   }
