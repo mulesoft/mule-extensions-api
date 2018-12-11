@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -69,7 +69,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseXmlDeclarationTestCase {
@@ -103,31 +103,31 @@ public abstract class BaseXmlDeclarationTestCase {
     });
   }
 
-  @Mock
+  @Mock(lenient = true)
   protected ExtensionModel extension;
 
-  @Mock
+  @Mock(lenient = true)
   protected ConfigurationModel configuration;
 
-  @Mock
+  @Mock(lenient = true)
   protected OperationModel operation;
 
-  @Mock
+  @Mock(lenient = true)
   protected ConnectionProviderModel connectionProvider;
 
-  @Mock
+  @Mock(lenient = true)
   protected ParameterModel parameterModel;
 
-  @Mock
+  @Mock(lenient = true)
   protected ParameterGroupModel parameterGroupModel;
 
-  @Mock(answer = RETURNS_DEEP_STUBS)
+  @Mock(answer = RETURNS_DEEP_STUBS, lenient = true)
   protected SourceModel source;
 
-  @Mock
+  @Mock(lenient = true)
   protected DslResolvingContext dslContext;
 
-  @Mock
+  @Mock(lenient = true)
   protected TypeCatalog typeCatalog;
 
 
