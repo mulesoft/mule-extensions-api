@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.persistence.metadata;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
+import org.mule.metadata.persistence.reduced.ReducedMetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -80,7 +81,7 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
-        .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter())
+        .registerTypeAdapter(MetadataType.class, new ReducedMetadataTypeGsonTypeAdapter())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentResultTypeAdapterFactory())

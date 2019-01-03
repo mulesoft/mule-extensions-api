@@ -21,8 +21,10 @@
     "executionType": "CPU_LITE",
     "output": {
       "type": {
-        "format": "java",
-        "type": "String"
+        "value": {
+          "format": "java",
+          "type": "String"
+        }
       },
       "hasDynamicType": true,
       "description": "Message.Payload",
@@ -30,8 +32,10 @@
     },
     "outputAttributes": {
       "type": {
-        "format": "java",
-        "type": "String"
+        "value": {
+          "format": "java",
+          "type": "String"
+        }
       },
       "hasDynamicType": false,
       "description": "Message.Attributes",
@@ -78,8 +82,10 @@
         "parameters": [
           {
             "type": {
-              "format": "java",
-              "type": "String"
+              "value": {
+                "format": "java",
+                "type": "String"
+              }
             },
             "hasDynamicType": true,
             "required": false,
@@ -118,241 +124,353 @@
           },
           {
             "type": {
-              "format": "java",
-              "type": "Object",
-              "annotations": {
-                "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
-                "classInformation": {
-                  "classname": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
-                  "hasDefaultConstructor": true,
-                  "isInterface": false,
-                  "isInstantiable": true,
-                  "isAbstract": false,
-                  "isFinal": false,
-                  "implementedInterfaces": [],
-                  "parent": "",
-                  "genericTypes": [],
-                  "isMap": false
-                },
-                "typeAlias": {
-                  "value": "complex-alias"
-                }
+              "value": {
+                "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexFieldsType"
               },
-              "fields": [
-                {
-                  "key": {
-                    "name": "extensibleTypeList",
-                    "required": "true"
-                  },
-                  "model": {
-                    "type": "Array",
-                    "annotations": {
-                      "classInformation": {
-                        "classname": "java.util.List",
-                        "hasDefaultConstructor": false,
-                        "isInterface": true,
-                        "isInstantiable": false,
-                        "isAbstract": true,
-                        "isFinal": false,
-                        "implementedInterfaces": [
-                          "java.util.Collection"
-                        ],
-                        "parent": "",
-                        "genericTypes": [
-                          "org.mule.runtime.extension.api.dsl.model.ExtensibleType"
-                        ],
-                        "isMap": false
-                      }
+              "catalog": {
+                "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
                     },
-                    "item": {
-                      "type": "Object",
+                    "typeAlias": {
+                      "value": "complex-alias"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "extensibleTypeList",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Array",
+                        "annotations": {
+                          "classInformation": {
+                            "classname": "java.util.List",
+                            "hasDefaultConstructor": false,
+                            "isInterface": true,
+                            "isInstantiable": false,
+                            "isAbstract": true,
+                            "isFinal": false,
+                            "implementedInterfaces": [
+                              "java.util.Collection"
+                            ],
+                            "parent": "",
+                            "genericTypes": [
+                              "org.mule.runtime.extension.api.dsl.model.ExtensibleType"
+                            ],
+                            "isMap": false
+                          }
+                        },
+                        "item": {
+                          "type": "@ref:org.mule.runtime.extension.api.dsl.model.ExtensibleType"
+                        }
+                      },
                       "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
-                        "classInformation": {
-                          "classname": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
-                          "hasDefaultConstructor": true,
-                          "isInterface": false,
-                          "isInstantiable": true,
-                          "isAbstract": false,
-                          "isFinal": false,
-                          "implementedInterfaces": [],
-                          "parent": "",
-                          "genericTypes": [],
-                          "isMap": false
-                        },
-                        "extensibleType": {},
-                        "typeAlias": {
-                          "value": "aliasedExtensible"
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
                         }
-                      },
-                      "fields": [
-                        {
-                          "key": {
-                            "name": "sampleString",
-                            "required": "true"
-                          },
-                          "model": {
-                            "type": "String"
-                          },
-                          "annotations": {
-                            "expressionSupport": {
-                              "value": "SUPPORTED"
-                            }
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "otherNumber",
-                            "required": "true"
-                          },
-                          "model": {
-                            "type": "Number",
-                            "annotations": {
-                              "classInformation": {
-                                "classname": "java.lang.Integer",
-                                "hasDefaultConstructor": false,
-                                "isInterface": false,
-                                "isInstantiable": false,
-                                "isAbstract": false,
-                                "isFinal": true,
-                                "implementedInterfaces": [
-                                  "java.lang.Comparable"
-                                ],
-                                "parent": "java.lang.Number",
-                                "genericTypes": [],
-                                "isMap": false
-                              },
-                              "int": {}
-                            }
-                          },
-                          "annotations": {
-                            "expressionSupport": {
-                              "value": "SUPPORTED"
-                            }
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "childNumbers",
-                            "required": "true"
-                          },
-                          "model": {
-                            "type": "Array",
-                            "annotations": {
-                              "classInformation": {
-                                "classname": "java.util.List",
-                                "hasDefaultConstructor": false,
-                                "isInterface": true,
-                                "isInstantiable": false,
-                                "isAbstract": true,
-                                "isFinal": false,
-                                "implementedInterfaces": [
-                                  "java.util.Collection"
-                                ],
-                                "parent": "",
-                                "genericTypes": [
-                                  "java.lang.Integer"
-                                ],
-                                "isMap": false
-                              }
-                            },
-                            "item": {
-                              "type": "Number",
-                              "annotations": {
-                                "classInformation": {
-                                  "classname": "java.lang.Integer",
-                                  "hasDefaultConstructor": false,
-                                  "isInterface": false,
-                                  "isInstantiable": false,
-                                  "isAbstract": false,
-                                  "isFinal": true,
-                                  "implementedInterfaces": [
-                                    "java.lang.Comparable"
-                                  ],
-                                  "parent": "java.lang.Number",
-                                  "genericTypes": [],
-                                  "isMap": false
-                                },
-                                "int": {}
-                              }
-                            }
-                          },
-                          "annotations": {
-                            "expressionSupport": {
-                              "value": "SUPPORTED"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "recursiveChild"
-                  },
-                  "model": "#..",
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "simplePojo",
-                    "required": "true"
-                  },
-                  "model": {
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
-                      "classInformation": {
-                        "classname": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": [],
-                        "isMap": false
-                      },
-                      "typeAlias": {
-                        "value": "SimpleFieldsType"
                       }
                     },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "sampleString",
-                          "required": "true"
-                        },
-                        "model": {
-                          "type": "String"
-                        },
+                    {
+                      "key": {
+                        "name": "recursiveChild"
+                      },
+                      "model": "#..",
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "simplePojo",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.SimpleFieldsType"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "notGlobalType"
+                      },
+                      "model": {
+                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.NotGlobalType"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "parameterGroupType",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ParameterGroupType"
+                      },
+                      "annotations": {
+                        "flattened": {},
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "complexTypeFieldGroup",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup"
+                      },
+                      "annotations": {
+                        "flattened": {},
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "inlineGroup",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup"
+                      },
+                      "annotations": {
+                        "flattened": {},
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "org.mule.runtime.extension.api.dsl.model.NotGlobalType": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
+                    },
+                    "typeAlias": {
+                      "value": "NotGlobalType"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "sampleString",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "String"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "otherNumber",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Number",
                         "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
+                          "classInformation": {
+                            "classname": "java.lang.Integer",
+                            "hasDefaultConstructor": false,
+                            "isInterface": false,
+                            "isInstantiable": false,
+                            "isAbstract": false,
+                            "isFinal": true,
+                            "implementedInterfaces": [
+                              "java.lang.Comparable"
+                            ],
+                            "parent": "java.lang.Number",
+                            "genericTypes": [],
+                            "isMap": false
                           },
-                          "parameterDsl": {
-                            "allowInlineDefinition": true,
-                            "allowReferences": false
-                          }
+                          "int": {}
                         }
                       },
-                      {
-                        "key": {
-                          "name": "otherNumber",
-                          "required": "true"
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
+                    },
+                    "typeAlias": {
+                      "value": "ComplexTypeFieldGroup"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "complexFieldsType",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexFieldsType"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "org.mule.runtime.extension.api.dsl.model.ExtensibleType": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
+                    },
+                    "extensibleType": {},
+                    "typeAlias": {
+                      "value": "aliasedExtensible"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "sampleString",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "String"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "otherNumber",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Number",
+                        "annotations": {
+                          "classInformation": {
+                            "classname": "java.lang.Integer",
+                            "hasDefaultConstructor": false,
+                            "isInterface": false,
+                            "isInstantiable": false,
+                            "isAbstract": false,
+                            "isFinal": true,
+                            "implementedInterfaces": [
+                              "java.lang.Comparable"
+                            ],
+                            "parent": "java.lang.Number",
+                            "genericTypes": [],
+                            "isMap": false
+                          },
+                          "int": {}
+                        }
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "childNumbers",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Array",
+                        "annotations": {
+                          "classInformation": {
+                            "classname": "java.util.List",
+                            "hasDefaultConstructor": false,
+                            "isInterface": true,
+                            "isInstantiable": false,
+                            "isAbstract": true,
+                            "isFinal": false,
+                            "implementedInterfaces": [
+                              "java.util.Collection"
+                            ],
+                            "parent": "",
+                            "genericTypes": [
+                              "java.lang.Integer"
+                            ],
+                            "isMap": false
+                          }
                         },
-                        "model": {
+                        "item": {
                           "type": "Number",
                           "annotations": {
                             "classInformation": {
@@ -371,285 +489,170 @@
                             },
                             "int": {}
                           }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
                         }
                       },
-                      {
-                        "key": {
-                          "name": "textField",
-                          "required": "true"
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
+                    },
+                    "typeAlias": {
+                      "value": "SimpleFieldsType"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "sampleString",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "String"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
                         },
-                        "model": {
-                          "type": "String"
-                        },
+                        "parameterDsl": {
+                          "allowInlineDefinition": true,
+                          "allowReferences": false
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "otherNumber",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Number",
                         "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
+                          "classInformation": {
+                            "classname": "java.lang.Integer",
+                            "hasDefaultConstructor": false,
+                            "isInterface": false,
+                            "isInstantiable": false,
+                            "isAbstract": false,
+                            "isFinal": true,
+                            "implementedInterfaces": [
+                              "java.lang.Comparable"
+                            ],
+                            "parent": "java.lang.Number",
+                            "genericTypes": [],
+                            "isMap": false
                           },
-                          "layout": {
-                            "layoutModel": {
-                              "password": false,
-                              "text": true,
-                              "query": false
-                            }
-                          }
+                          "int": {}
                         }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "notGlobalType"
-                  },
-                  "model": {
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
-                      "classInformation": {
-                        "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": [],
-                        "isMap": false
                       },
-                      "typeAlias": {
-                        "value": "NotGlobalType"
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
                       }
                     },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "sampleString",
-                          "required": "true"
-                        },
-                        "model": {
-                          "type": "String"
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
+                    {
+                      "key": {
+                        "name": "textField",
+                        "required": "true"
                       },
-                      {
-                        "key": {
-                          "name": "otherNumber",
-                          "required": "true"
+                      "model": {
+                        "type": "String"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
                         },
-                        "model": {
-                          "type": "Number",
-                          "annotations": {
-                            "classInformation": {
-                              "classname": "java.lang.Integer",
-                              "hasDefaultConstructor": false,
-                              "isInterface": false,
-                              "isInstantiable": false,
-                              "isAbstract": false,
-                              "isFinal": true,
-                              "implementedInterfaces": [
-                                "java.lang.Comparable"
-                              ],
-                              "parent": "java.lang.Number",
-                              "genericTypes": [],
-                              "isMap": false
-                            },
-                            "int": {}
-                          }
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
+                        "layout": {
+                          "layoutModel": {
+                            "password": false,
+                            "text": true,
+                            "query": false
                           }
                         }
                       }
-                    ]
-                  },
-                  "annotations": {
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
                     }
-                  }
+                  ]
                 },
-                {
-                  "key": {
-                    "name": "parameterGroupType",
-                    "required": "true"
+                "org.mule.runtime.extension.api.dsl.model.ParameterGroupType": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
+                    },
+                    "typeAlias": {
+                      "value": "ParameterGroupType"
+                    }
                   },
-                  "model": {
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
-                      "classInformation": {
-                        "classname": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": [],
-                        "isMap": false
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "groupedField",
+                        "required": "true"
                       },
-                      "typeAlias": {
-                        "value": "ParameterGroupType"
+                      "model": {
+                        "type": "String"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        },
+                        "layout": {
+                          "layoutModel": {
+                            "password": false,
+                            "text": true,
+                            "query": false
+                          }
+                        }
                       }
                     },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "groupedField",
-                          "required": "true"
-                        },
-                        "model": {
-                          "type": "String"
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          },
-                          "layout": {
-                            "layoutModel": {
-                              "password": false,
-                              "text": true,
-                              "query": false
-                            }
-                          }
-                        }
+                    {
+                      "key": {
+                        "name": "groupedContent",
+                        "required": "true"
                       },
-                      {
-                        "key": {
-                          "name": "groupedContent",
-                          "required": "true"
-                        },
-                        "model": {
-                          "type": "String"
-                        },
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "flattened": {},
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "complexTypeFieldGroup",
-                    "required": "true"
-                  },
-                  "model": {
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
-                      "classInformation": {
-                        "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": [],
-                        "isMap": false
+                      "model": {
+                        "type": "String"
                       },
-                      "typeAlias": {
-                        "value": "ComplexTypeFieldGroup"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "complexFieldsType",
-                          "required": "true"
-                        },
-                        "model": "#../..",
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
                         }
                       }
-                    ]
-                  },
-                  "annotations": {
-                    "flattened": {},
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
                     }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "inlineGroup",
-                    "required": "true"
-                  },
-                  "model": {
-                    "type": "Object",
-                    "annotations": {
-                      "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
-                      "classInformation": {
-                        "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
-                        "hasDefaultConstructor": true,
-                        "isInterface": false,
-                        "isInstantiable": true,
-                        "isAbstract": false,
-                        "isFinal": false,
-                        "implementedInterfaces": [],
-                        "parent": "",
-                        "genericTypes": [],
-                        "isMap": false
-                      },
-                      "typeAlias": {
-                        "value": "ComplexTypeFieldGroup"
-                      }
-                    },
-                    "fields": [
-                      {
-                        "key": {
-                          "name": "complexFieldsType",
-                          "required": "true"
-                        },
-                        "model": "#../..",
-                        "annotations": {
-                          "expressionSupport": {
-                            "value": "SUPPORTED"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "annotations": {
-                    "flattened": {},
-                    "expressionSupport": {
-                      "value": "SUPPORTED"
-                    }
-                  }
+                  ]
                 }
-              ]
+              }
             },
             "hasDynamicType": false,
             "required": true,
@@ -692,169 +695,180 @@
           },
           {
             "type": {
-              "format": "json",
-              "type": "Object",
-              "annotations": {
-                "typeId": "http://example.com/create-customer-request-type-schema.json"
+              "value": {
+                "type": "@ref:http://example.com/create-customer-request-type-schema.json"
               },
-              "open": {
-                "type": "Any"
-              },
-              "fields": [
-                {
-                  "key": {
-                    "name": "phone"
+              "catalog": {
+                "/properties/shippingAddress/items": {
+                  "format": "json",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "/properties/shippingAddress/items"
                   },
-                  "model": {
-                    "type": "String"
-                  }
-                },
-                {
-                  "key": {
-                    "name": "name"
+                  "open": {
+                    "type": "Any"
                   },
-                  "model": {
-                    "type": "String"
-                  }
-                },
-                {
-                  "key": {
-                    "name": "shippingAddress"
-                  },
-                  "model": {
-                    "type": "Array",
-                    "item": {
-                      "type": "Object",
-                      "annotations": {
-                        "typeId": "/properties/shippingAddress/items"
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "country"
                       },
-                      "open": {
-                        "type": "Any"
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "address"
                       },
-                      "fields": [
-                        {
-                          "key": {
-                            "name": "country"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "address"
-                          },
-                          "model": {
-                            "type": "Array",
-                            "item": {
-                              "type": "String"
-                            }
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "city"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "postalCode"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "state"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
+                      "model": {
+                        "type": "Array",
+                        "item": {
+                          "type": "String"
                         }
-                      ]
-                    }
-                  }
-                },
-                {
-                  "key": {
-                    "name": "billingAddress"
-                  },
-                  "model": {
-                    "type": "Array",
-                    "item": {
-                      "type": "Object",
-                      "open": {
-                        "type": "Any"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "city"
                       },
-                      "fields": [
-                        {
-                          "key": {
-                            "name": "country"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "address"
-                          },
-                          "model": {
-                            "type": "Array",
-                            "item": {
-                              "type": "String"
-                            }
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "city"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "postalCode"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
-                        },
-                        {
-                          "key": {
-                            "name": "state"
-                          },
-                          "model": {
-                            "type": "String"
-                          }
-                        }
-                      ]
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "postalCode"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "state"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
                     }
-                  }
+                  ]
                 },
-                {
-                  "key": {
-                    "name": "id"
+                "http://example.com/create-customer-request-type-schema.json": {
+                  "format": "json",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "http://example.com/create-customer-request-type-schema.json"
                   },
-                  "model": {
-                    "type": "String"
-                  }
-                },
-                {
-                  "key": {
-                    "name": "email"
+                  "open": {
+                    "type": "Any"
                   },
-                  "model": {
-                    "type": "String"
-                  }
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "phone"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "name"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "shippingAddress"
+                      },
+                      "model": {
+                        "type": "Array",
+                        "item": {
+                          "type": "@ref:/properties/shippingAddress/items"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "billingAddress"
+                      },
+                      "model": {
+                        "type": "Array",
+                        "item": {
+                          "type": "Object",
+                          "open": {
+                            "type": "Any"
+                          },
+                          "fields": [
+                            {
+                              "key": {
+                                "name": "country"
+                              },
+                              "model": {
+                                "type": "String"
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "address"
+                              },
+                              "model": {
+                                "type": "Array",
+                                "item": {
+                                  "type": "String"
+                                }
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "city"
+                              },
+                              "model": {
+                                "type": "String"
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "postalCode"
+                              },
+                              "model": {
+                                "type": "String"
+                              }
+                            },
+                            {
+                              "key": {
+                                "name": "state"
+                              },
+                              "model": {
+                                "type": "String"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "id"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "email"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    }
+                  ]
                 }
-              ]
+              }
             },
             "hasDynamicType": false,
             "required": true,
