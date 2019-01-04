@@ -41,6 +41,7 @@ import org.mule.runtime.extension.internal.persistence.metadata.FailureCodeTypeA
 import org.mule.runtime.extension.internal.persistence.metadata.MetadataKeyTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
 
 /**
  * Abstract implementation of a serializer that can convert a {@link MetadataResult} of some payload type into a readable and
@@ -53,6 +54,10 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
   protected final Gson gson;
 
   AbstractMetadataResultJsonSerializer(boolean prettyPrint) {
+    this(prettyPrint, false);
+  }
+
+  AbstractMetadataResultJsonSerializer(boolean prettyPrint, boolean reduced) {
 
     final DefaultImplementationTypeAdapterFactory operationModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(OperationModel.class, ImmutableOperationModel.class);
@@ -81,7 +86,7 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
-        .registerTypeAdapter(MetadataType.class, new ReducedMetadataTypeGsonTypeAdapter())
+        .registerTypeAdapter(MetadataType.class, getMetadataTypeAdapterFactory(reduced))
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentResultTypeAdapterFactory())
@@ -104,6 +109,10 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
     }
 
     this.gson = gsonBuilder.create();
+  }
+
+  private TypeAdapter getMetadataTypeAdapterFactory(boolean reduced) {
+    return reduced ? new ReducedMetadataTypeGsonTypeAdapter() : new MetadataTypeGsonTypeAdapter();
   }
 
   /**

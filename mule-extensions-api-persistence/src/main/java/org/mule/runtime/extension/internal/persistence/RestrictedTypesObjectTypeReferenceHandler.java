@@ -50,14 +50,18 @@ public final class RestrictedTypesObjectTypeReferenceHandler implements ObjectTy
     return delegateReferenceHandler.readReference(typeReference);
   }
 
+  @Override
+  public boolean shouldWriteReference(ObjectType type) {
+    return getId(type).filter(allowReferenceTypes::contains).isPresent();
+  }
+
   /**
    * If the {@code type} allows references, it is resolved through
    * {@link DefaultObjectTypeReferenceHandler#writeReference(ObjectType, JsonWriter)}. Returns {@link Optional#empty()} otherwise.
    */
   @Override
   public Optional<String> writeReference(ObjectType type, JsonWriter writer) {
-    return getId(type).filter(allowReferenceTypes::contains)
-        .flatMap(s -> delegateReferenceHandler.writeReference(type, writer));
+    return delegateReferenceHandler.writeReference(type, writer);
   }
 
 }

@@ -687,6 +687,7 @@
               },
               {
                 "type": {
+                  "format": "json",
                   "type": "@ref:http://example.com/create-customer-request-type-schema.json"
                 },
                 "hasDynamicType": false,
@@ -2733,6 +2734,7 @@
               },
               {
                 "type": {
+                  "format": "json",
                   "type": "@ref:http://example.com/create-customer-request-type-schema.json"
                 },
                 "hasDynamicType": false,
