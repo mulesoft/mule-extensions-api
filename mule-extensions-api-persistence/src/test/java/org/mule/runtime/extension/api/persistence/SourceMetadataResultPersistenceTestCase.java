@@ -24,7 +24,8 @@ public class SourceMetadataResultPersistenceTestCase extends AbstractMetadataPer
   private static final String METADATA_SOURCE_RESULT_JSON = "metadata/success-result-source-descriptor.json";
 
   private ComponentMetadataDescriptor<SourceModel> sourceMetadataDescriptor;
-  private ComponentResultJsonSerializer<SourceModel> metadataDescriptorSerializer = new ComponentResultJsonSerializer<>(true);
+  private ComponentResultJsonSerializer<SourceModel> metadataDescriptorSerializer =
+      new ComponentResultJsonSerializer<>(true, true);
 
   @Before
   public void setUp() throws IOException {
