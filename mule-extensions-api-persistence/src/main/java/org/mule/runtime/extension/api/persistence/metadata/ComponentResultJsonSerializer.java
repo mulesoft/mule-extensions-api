@@ -27,7 +27,11 @@ public class ComponentResultJsonSerializer<T extends ComponentModel>
   }
 
   public ComponentResultJsonSerializer(boolean prettyPrint) {
-    super(prettyPrint);
+    this(prettyPrint, false);
+  }
+
+  public ComponentResultJsonSerializer(boolean prettyPrint, boolean reduced) {
+    super(prettyPrint, reduced);
   }
 
   /**
