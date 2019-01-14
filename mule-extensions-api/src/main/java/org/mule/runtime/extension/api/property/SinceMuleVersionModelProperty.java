@@ -19,12 +19,12 @@ import org.mule.runtime.api.meta.model.ModelProperty;
  */
 public class SinceMuleVersionModelProperty implements ModelProperty {
 
-  public static final String NAME = "Since MuleVersion";
+  public static final String NAME = "sinceMuleVersion";
 
-  private final MuleVersion sinceMuleVersion;
+  private final MuleVersion version;
 
-  public SinceMuleVersionModelProperty(String sinceMuleVersion) {
-    this.sinceMuleVersion = new MuleVersion(sinceMuleVersion);
+  public SinceMuleVersionModelProperty(String version) {
+    this.version = new MuleVersion(version);
   }
 
   /**
@@ -32,8 +32,8 @@ public class SinceMuleVersionModelProperty implements ModelProperty {
    * @return a {@link MuleVersion} from which the enriched model should appear in the
    *         {@link org.mule.runtime.api.meta.model.ExtensionModel}
    */
-  public MuleVersion getSinceMuleVersion() {
-    return sinceMuleVersion;
+  public MuleVersion getVersion() {
+    return version;
   }
 
   /**
