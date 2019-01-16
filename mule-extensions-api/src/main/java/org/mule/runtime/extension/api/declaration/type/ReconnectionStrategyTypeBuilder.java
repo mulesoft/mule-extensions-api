@@ -66,6 +66,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
         .with(new InfrastructureTypeAnnotation());
 
     addFrequencyField(retryType, typeBuilder);
+    addBlockingField(retryType, typeBuilder);
     addIntField(retryType, typeBuilder, COUNT, "How many reconnection attempts to make", 2);
 
     return retryType;
@@ -80,7 +81,14 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
         .id(RECONNECT_FOREVER_ALIAS)
         .with(new InfrastructureTypeAnnotation());
     addFrequencyField(retryType, typeBuilder);
+    addBlockingField(retryType, typeBuilder);
 
     return retryType;
+  }
+
+  private void addBlockingField(ObjectTypeBuilder retryType, BaseTypeBuilder typeBuilder) {
+    addBooleanField(retryType, typeBuilder, BLOCKING,
+                    "If false, the reconnection strategy will run in a separate, non-blocking thread",
+                    true);
   }
 }
