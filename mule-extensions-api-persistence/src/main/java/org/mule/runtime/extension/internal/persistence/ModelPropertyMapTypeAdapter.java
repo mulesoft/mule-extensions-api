@@ -15,6 +15,7 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
 import org.mule.runtime.extension.api.property.RequiredForMetadataModelProperty;
 import org.mule.runtime.extension.api.property.MetadataKeyIdModelProperty;
+import org.mule.runtime.extension.api.property.SinceMuleVersionModelProperty;
 import org.mule.runtime.extension.api.property.TypeResolversInformationModelProperty;
 
 import java.io.IOException;
@@ -58,12 +59,14 @@ public final class ModelPropertyMapTypeAdapter extends TypeAdapter<Map<Class<? e
     classNameMapping.put(MetadataKeyIdModelProperty.class, MetadataKeyIdModelProperty.NAME);
     classNameMapping.put(TypeResolversInformationModelProperty.class, TypeResolversInformationModelProperty.NAME);
     classNameMapping.put(RequiredForMetadataModelProperty.class, RequiredForMetadataModelProperty.NAME);
+    classNameMapping.put(SinceMuleVersionModelProperty.class, SinceMuleVersionModelProperty.NAME);
 
     nameClassMapping = new HashMap<>();
     nameClassMapping.put(OAuthModelProperty.NAME, OAuthModelProperty.class);
     nameClassMapping.put(MetadataKeyIdModelProperty.NAME, MetadataKeyIdModelProperty.class);
     nameClassMapping.put(TypeResolversInformationModelProperty.NAME, TypeResolversInformationModelProperty.class);
     nameClassMapping.put(RequiredForMetadataModelProperty.NAME, RequiredForMetadataModelProperty.class);
+    nameClassMapping.put(SinceMuleVersionModelProperty.NAME, SinceMuleVersionModelProperty.class);
   }
 
   private final Gson gson;
