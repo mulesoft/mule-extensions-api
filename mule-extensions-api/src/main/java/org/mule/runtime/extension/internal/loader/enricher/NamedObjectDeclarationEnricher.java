@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
 
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
@@ -54,6 +55,7 @@ public class NamedObjectDeclarationEnricher implements DeclarationEnricher {
     ParameterDeclaration nameParameter = new ParameterDeclaration("name");
     nameParameter.setExpressionSupport(NOT_SUPPORTED);
     nameParameter.setParameterRole(BEHAVIOUR);
+    nameParameter.addModelProperty(new SyntheticModelModelProperty());
     nameParameter.setDescription(NAME_PARAM_DESCRIPTION);
     nameParameter.setType(STRING_TYPE, false);
     nameParameter.setRequired(true);
