@@ -135,7 +135,7 @@
         <maven.enforcer.plugin.version>1.4.1</maven.enforcer.plugin.version>
         <revapi-maven-plugin.version>0.9.5</revapi-maven-plugin.version>
         <oldMuleArtifactVersion>1.1.2</oldMuleArtifactVersion>
-        <java.xml.bind.version>2.3.0-MULE-001</java.xml.bind.version>
+        <java.xml.bind.version>2.3.1-MULE-001</java.xml.bind.version>
         <javax.activation.version>1.2.0</javax.activation.version>
         <javax.transaction-api.version>1.3</javax.transaction-api.version>
         <reactive-streams.version>1.0.2</reactive-streams.version>
