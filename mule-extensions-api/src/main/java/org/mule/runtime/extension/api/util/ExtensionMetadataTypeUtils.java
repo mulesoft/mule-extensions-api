@@ -41,6 +41,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGr
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -309,4 +310,10 @@ public final class ExtensionMetadataTypeUtils {
     return metadataType.getAnnotation(TypedValueTypeAnnotation.class).isPresent();
   }
 
+  /**
+   * @return {@code true} if the given type can receive the result of a registry reference
+   */
+  public static boolean isReferableType(MetadataType type) {
+    return JavaTypeUtils.getType(type).equals(Object.class) || JavaTypeUtils.getType(type).equals(Serializable.class);
+  }
 }
