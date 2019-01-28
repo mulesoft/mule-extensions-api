@@ -265,8 +265,7 @@ public class ExtensionModelUtils {
    * @param component a component
    * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside with the {@code component}
    */
-  public static Set<ConfigurationModel> getConfigurationForComponent(ExtensionModel extensionModel,
-                                                                     ComponentModel component) {
+  public static Set<ConfigurationModel> getConfigurationForComponent(ExtensionModel extensionModel, ComponentModel component) {
     Set<ConfigurationModel> result = new HashSet<>();
     new ExtensionWalker() {
 
@@ -350,7 +349,7 @@ public class ExtensionModelUtils {
    * @return whether the given model can be used implicitly or not.
    */
   public static boolean canBeUsedImplicitly(ParameterizedModel parameterizedModel) {
-    return parameterizedModel.getAllParameterModels().stream().noneMatch(ParameterModel::isRequired);
+    return parameterizedModel.getAllParameterModels().stream().filter(p -> !p.isComponentId()).noneMatch(p -> p.isRequired());
   }
 
   /**

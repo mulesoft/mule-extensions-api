@@ -10,12 +10,16 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
+import java.util.Objects;
+
 /**
  * Marker annotation for a {@link ObjectFieldType} that represents a {@link ParameterModel#isComponentId() componentId}.
  *
  * @since 1.2.0
  */
 public class ComponentIdFieldTypeAnnotation implements TypeAnnotation {
+
+  public static final String NAME = "isComponentId";
 
   /**
    * Creates a new instance
@@ -24,7 +28,16 @@ public class ComponentIdFieldTypeAnnotation implements TypeAnnotation {
 
   @Override
   public String getName() {
-    return "isComponentId";
+    return NAME;
   }
 
+  @Override
+  public int hashCode() {
+    return NAME.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj != null && this.getClass().equals(obj.getClass());
+  }
 }

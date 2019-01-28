@@ -267,6 +267,9 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     return ofNullable(valueProviderModel);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean isComponentId() {
     return this.isComponentId;
@@ -280,5 +283,20 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   @Override
   public boolean isDeprecated() {
     return deprecationModel != null;
+  }
+
+  public String toString() {
+    return getName() + " {" +
+        "\n type=" + type +
+        ",\n hasDynamicType=" + hasDynamicType +
+        ",\n required=" + required +
+        ",\n isConfigOverride=" + isConfigOverride +
+        ",\n isComponentId=" + isComponentId +
+        ",\n expressionSupport=" + expressionSupport +
+        ",\n defaultValue=" + defaultValue +
+        ",\n role=" + role +
+        ",\n allowedStereotypeModels=" + allowedStereotypeModels +
+        ",\n description='" + description + '\'' +
+        "\n}";
   }
 }

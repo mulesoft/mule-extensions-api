@@ -6,7 +6,10 @@
  */
 package org.mule.runtime.extension.api.client;
 
+import com.google.common.collect.ImmutableMap;
+
 import static java.util.Optional.ofNullable;
+import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
 
 import java.util.Map;
 import java.util.Optional;
@@ -18,12 +21,18 @@ import java.util.Optional;
  */
 public class DefaultOperationParameters implements OperationParameters {
 
-  private final String configRef;
   private final Map<String, Object> parameters;
 
+  DefaultOperationParameters(Map<String, Object> parameters) {
+    this.parameters = ImmutableMap.copyOf(parameters);
+  }
+
+  /**
+   * Deprecated constructor, the config-ref param is not deleted to avoid breaking API, but is now bundled in the parameters
+   */
+  @Deprecated
   DefaultOperationParameters(String configRef, Map<String, Object> parameters) {
-    this.configRef = configRef;
-    this.parameters = parameters;
+    this.parameters = ImmutableMap.copyOf(parameters);
   }
 
   /**
@@ -38,7 +47,7 @@ public class DefaultOperationParameters implements OperationParameters {
    */
   @Override
   public Optional<String> getConfigName() {
-    return ofNullable(configRef);
+    return ofNullable(((String) parameters.get(CONFIG_ATTRIBUTE_NAME)));
   }
 
   /**
