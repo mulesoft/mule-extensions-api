@@ -314,6 +314,11 @@ public final class ExtensionMetadataTypeUtils {
    * @return {@code true} if the given type can receive the result of a registry reference
    */
   public static boolean isReferableType(MetadataType type) {
-    return JavaTypeUtils.getType(type).equals(Object.class) || JavaTypeUtils.getType(type).equals(Serializable.class);
+    try {
+      Class<Object> clazz = JavaTypeUtils.getType(type);
+      return Object.class.equals(clazz) || Serializable.class.equals(clazz);
+    } catch (Exception e) {
+      return false;
+    }
   }
 }
