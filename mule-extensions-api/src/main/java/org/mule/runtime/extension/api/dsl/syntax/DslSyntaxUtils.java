@@ -94,8 +94,8 @@ public final class DslSyntaxUtils {
     return fieldValue instanceof ObjectType && field.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
   }
 
-  static String getTypeKey(MetadataType type, String namespace, String namespaceUri) {
-    return getId(type).get() + namespace + namespaceUri;
+  static Optional<String> getTypeKey(MetadataType type, String namespace, String namespaceUri) {
+    return getId(type).isPresent() ? Optional.of(getId(type).get() + namespace + namespaceUri) : Optional.empty();
   }
 
   static boolean isText(ParameterModel parameter) {

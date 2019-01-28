@@ -325,10 +325,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       elementName.set(qName.getLocalPart());
     });
 
-    final String key = getTypeKey(type, prefix.get(), namespace.get());
+    final Optional<String> key = getTypeKey(type, prefix.get(), namespace.get());
 
-    if (resolvedTypes.containsKey(key)) {
-      return Optional.of(resolvedTypes.get(key));
+    if (!key.isPresent()) {
+      System.out.println("aaaa");
+    }
+
+    if (key.isPresent() && resolvedTypes.containsKey(key.get())) {
+      return Optional.of(resolvedTypes.get(key.get()));
     }
 
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create()
@@ -346,7 +350,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
 
       DslElementSyntax dsl = builder.build();
-      resolvedTypes.put(key, dsl);
+      resolvedTypes.put(key.get(), dsl);
 
       return Optional.of(dsl);
     }
