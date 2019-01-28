@@ -22,6 +22,7 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportAt
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getAlias;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
@@ -328,10 +329,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     final Optional<String> key = getTypeKey(type, prefix.get(), namespace.get());
 
     if (!key.isPresent()) {
-      System.out.println("aaaa");
+      return Optional.empty();
     }
 
-    if (key.isPresent() && resolvedTypes.containsKey(key.get())) {
+    if (resolvedTypes.containsKey(key.get())) {
       return Optional.of(resolvedTypes.get(key.get()));
     }
 
@@ -343,7 +344,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         .supportsAttributeDeclaration(false)
         .asWrappedElement(requiresWrapper);
 
-    String typeId = getId(type).orElse(null);
+    String typeId = getId(type).orElseGet(() -> !"".equals(getAlias(type)) ? getAlias(type) : null);
     if (typeId != null && !typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
         withStackControl(typeId, () -> declareFieldsAsChilds(builder, type.getFields(), prefix.get(), namespace.get()));

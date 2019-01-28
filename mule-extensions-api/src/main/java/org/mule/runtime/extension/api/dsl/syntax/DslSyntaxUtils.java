@@ -11,6 +11,7 @@ import static org.apache.commons.lang3.text.WordUtils.capitalize;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.allowsInlineDefinition;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getAlias;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
@@ -95,7 +96,10 @@ public final class DslSyntaxUtils {
   }
 
   static Optional<String> getTypeKey(MetadataType type, String namespace, String namespaceUri) {
-    return getId(type).isPresent() ? Optional.of(getId(type).get() + namespace + namespaceUri) : Optional.empty();
+    if (getId(type).isPresent()) {
+      return Optional.of(getId(type).get() + namespace + namespaceUri);
+    }
+    return !"".equals(getAlias(type)) ? Optional.of(getAlias(type) + namespace + namespaceUri) : Optional.empty();
   }
 
   static boolean isText(ParameterModel parameter) {
