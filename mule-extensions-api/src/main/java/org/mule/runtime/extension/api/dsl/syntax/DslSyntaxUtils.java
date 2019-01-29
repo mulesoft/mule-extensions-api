@@ -96,8 +96,9 @@ public final class DslSyntaxUtils {
   }
 
   static Optional<String> getTypeKey(MetadataType type, String namespace, String namespaceUri) {
-    if (getId(type).isPresent()) {
-      return Optional.of(getId(type).get() + namespace + namespaceUri);
+    Optional<String> id = getId(type);
+    if (id.isPresent()) {
+      return Optional.of(id.get() + namespace + namespaceUri);
     }
     return !"".equals(getAlias(type)) ? Optional.of(getAlias(type) + namespace + namespaceUri) : Optional.empty();
   }
