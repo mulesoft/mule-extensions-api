@@ -6,10 +6,9 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax;
 
-import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.compile;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static java.util.Optional.of;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -99,11 +98,11 @@ public final class DslSyntaxUtils {
   }
 
   static Optional<String> getTypeKey(MetadataType type, String namespace, String namespaceUri) {
-    Optional<String> id = getId(type);
-    if (id.isPresent()) {
-      return of(id.get() + namespace + namespaceUri);
-    }
-    return !isEmpty(getAlias(type)) ? of(getAlias(type) + namespace + namespaceUri) : empty();
+    return getTypeId(type).map(typeId -> typeId + namespace + namespaceUri);
+  }
+
+  static Optional<String> getTypeId(MetadataType type) {
+    return ofNullable(getId(type).orElse(!isEmpty(getAlias(type)) ? getAlias(type) : null));
   }
 
   static boolean isText(ParameterModel parameter) {

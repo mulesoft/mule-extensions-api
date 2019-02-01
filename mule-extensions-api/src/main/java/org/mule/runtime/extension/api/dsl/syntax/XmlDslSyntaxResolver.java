@@ -11,11 +11,11 @@ import static java.util.Collections.singleton;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.util.FunctionalUtils.computeIfAbsent;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeId;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlattened;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isInstantiable;
@@ -25,7 +25,6 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportAt
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportTopLevelElement;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getAlias;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
@@ -79,13 +78,11 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 
 import javax.xml.namespace.QName;
 
@@ -347,10 +344,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         .supportsAttributeDeclaration(false)
         .asWrappedElement(requiresWrapper);
 
-    String typeId = getId(type).orElseGet(() -> !isEmpty(getAlias(type)) ? getAlias(type) : null);
-    if (typeId != null && !typeResolvingStack.contains(typeId)) {
+    Optional<String> typeId = getTypeId(type);
+    if (typeId.isPresent() && !typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
-        withStackControl(typeId, () -> declareFieldsAsChilds(builder, type.getFields(), prefix.get(), namespace.get()));
+        withStackControl(typeId.get(), () -> declareFieldsAsChilds(builder, type.getFields(), prefix.get(), namespace.get()));
       }
 
       DslElementSyntax dsl = builder.build();
