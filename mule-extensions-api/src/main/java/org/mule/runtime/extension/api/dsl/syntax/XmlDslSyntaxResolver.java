@@ -8,7 +8,10 @@ package org.mule.runtime.extension.api.dsl.syntax;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singleton;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.util.FunctionalUtils.computeIfAbsent;
@@ -301,7 +304,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * {@link Optional#empty} if the {@code type} is not supported as an standalone element
    */
   public Optional<DslElementSyntax> resolve(MetadataType type) {
-    return type instanceof ObjectType ? resolvePojoDsl((ObjectType) type) : Optional.empty();
+    return type instanceof ObjectType ? resolvePojoDsl((ObjectType) type) : empty();
   }
 
   private Optional<DslElementSyntax> resolvePojoDsl(ObjectType type) {
@@ -313,7 +316,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     boolean supportTopLevelElement = supportTopLevelElement(type);
 
     if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper && !isSubtype) {
-      return Optional.empty();
+      return empty();
     }
 
     Reference<String> prefix = new Reference<>(getPrefix(type));
@@ -329,11 +332,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     final Optional<String> key = getTypeKey(type, prefix.get(), namespace.get());
 
     if (!key.isPresent()) {
-      return Optional.empty();
+      return empty();
     }
 
     if (resolvedTypes.containsKey(key.get())) {
-      return Optional.of(resolvedTypes.get(key.get()));
+      return of(resolvedTypes.get(key.get()));
     }
 
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create()
@@ -344,7 +347,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         .supportsAttributeDeclaration(false)
         .asWrappedElement(requiresWrapper);
 
-    String typeId = getId(type).orElseGet(() -> !"".equals(getAlias(type)) ? getAlias(type) : null);
+    String typeId = getId(type).orElseGet(() -> !isEmpty(getAlias(type)) ? getAlias(type) : null);
     if (typeId != null && !typeResolvingStack.contains(typeId)) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
         withStackControl(typeId, () -> declareFieldsAsChilds(builder, type.getFields(), prefix.get(), namespace.get()));
@@ -353,10 +356,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       DslElementSyntax dsl = builder.build();
       resolvedTypes.put(key.get(), dsl);
 
-      return Optional.of(dsl);
+      return of(dsl);
     }
 
-    return Optional.of(builder.build());
+    return of(builder.build());
   }
 
   private void resolveComponentDsl(ComponentModel component, final DslElementSyntaxBuilder dsl) {
