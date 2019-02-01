@@ -345,7 +345,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         .asWrappedElement(requiresWrapper);
 
     Optional<String> typeId = getTypeId(type);
-    if (typeId.isPresent() && !typeResolvingStack.contains(typeId)) {
+    if (typeId.isPresent() && !typeResolvingStack.contains(typeId.get())) {
       if (supportTopLevelElement || supportsInlineDeclaration) {
         withStackControl(typeId.get(), () -> declareFieldsAsChilds(builder, type.getFields(), prefix.get(), namespace.get()));
       }
