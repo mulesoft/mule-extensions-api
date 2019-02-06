@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax;
 
+import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.compile;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.allowsInlineDefinition;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getAlias;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
@@ -94,8 +97,12 @@ public final class DslSyntaxUtils {
     return fieldValue instanceof ObjectType && field.getAnnotation(FlattenedTypeAnnotation.class).isPresent();
   }
 
-  static String getTypeKey(MetadataType type, String namespace, String namespaceUri) {
-    return getId(type).get() + namespace + namespaceUri;
+  static Optional<String> getTypeKey(MetadataType type, String namespace, String namespaceUri) {
+    return getTypeId(type).map(typeId -> typeId + namespace + namespaceUri);
+  }
+
+  static Optional<String> getTypeId(MetadataType type) {
+    return ofNullable(getId(type).orElse(!isEmpty(getAlias(type)) ? getAlias(type) : null));
   }
 
   static boolean isText(ParameterModel parameter) {

@@ -15,11 +15,16 @@ import static org.mockito.Mockito.when;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getSubstitutionGroup;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
+
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
+import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.GlobalType;
@@ -178,6 +183,37 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
     assertElementPrefix(PREFIX, topDsl.get());
     assertChildElementDeclarationIs(true, topDsl.get());
     assertIsWrappedElement(false, topDsl.get());
+  }
+
+  @Test
+  public void testFallbackToAliasIfTypeIdAndClassNameNotPresent() {
+    ObjectType type = TYPE_BUILDER.objectType().with(new TypeAliasAnnotation("aliasName"))
+        .with(new TypeDslAnnotation(true, true, null, null)).build();
+    Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
+    assertElementName(getTopLevelTypeName(type), topDsl.get());
+    assertElementPrefix(PREFIX, topDsl.get());
+  }
+
+  @Test
+  public void testTypeWithFieldsFallbackToAlias() {
+    ObjectTypeBuilder builder = TYPE_BUILDER.objectType().with(new TypeAliasAnnotation("aliasName"))
+        .with(new TypeDslAnnotation(true, true, null, null));
+
+    builder.addField().key("fieldName").value().stringType().defaultValue("fieldValue");
+
+    ObjectType type = builder.build();
+
+    Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
+    assertElementName(getTopLevelTypeName(type), topDsl.get());
+    assertElementPrefix(PREFIX, topDsl.get());
+    assertThat(topDsl.get().getAttribute("fieldName").get().getAttributeName(), is("fieldName"));
+
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testTypeWithoutNameAliasAndTypeId() {
+    ObjectType type = TYPE_BUILDER.objectType().with(new TypeDslAnnotation(true, true, null, null)).build();
+    getSyntaxResolver().resolve(type);
   }
 
 }
