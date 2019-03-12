@@ -8,19 +8,9 @@ package org.mule.runtime.extension.api.runtime.operation;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 
-import org.reactivestreams.Publisher;
+import java.util.concurrent.CompletableFuture;
 
-/**
- * A facade interface which hides the details of how an
- * operation is actually executed. It aims to decouple
- * the abstract introspection model that the extension's
- * API proposes from the implementation details of the
- * underlying environment.
- *
- * @since 1.0
- */
-@Deprecated
-public interface ComponentExecutor<T extends ComponentModel> {
+public interface CompletableComponentExecutor<T extends ComponentModel> {
 
   /**
    * Executes the owning operation using the given {@code executionContext}.
@@ -31,5 +21,6 @@ public interface ComponentExecutor<T extends ComponentModel> {
    * @param executionContext a {@link ExecutionContext} with information about the execution
    * @return the operations return value
    */
-  Publisher<Object> execute(ExecutionContext<T> executionContext);
+  CompletableFuture<Object> execute(ExecutionContext<T> executionContext);
+
 }
