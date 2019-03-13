@@ -10,7 +10,7 @@ import org.mule.runtime.api.meta.model.ComponentModel;
 
 import java.util.Map;
 
-public interface CompletableComponentExecutionFactory <T extends ComponentModel> {
+public interface CompletableComponentExecutionFactory<T extends ComponentModel> {
 
   /**
    * Creates a new {@link CompletableComponentExecutor}

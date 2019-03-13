@@ -11,20 +11,18 @@ import org.mule.runtime.api.meta.model.ComponentModel;
 import java.util.Map;
 
 /**
- * Creates {@link ComponentExecutor} instances
+ * Creates {@link CompletableComponentExecutor} instances
  *
- * @since 1.0
- * @deprecated since 1.2.0. Use {@link CompletableComponentExecutorFactory} instead
+ * @since 1.2.0
  */
-@Deprecated
-public interface ComponentExecutorFactory<T extends ComponentModel> {
+public interface CompletableComponentExecutorFactory<T extends ComponentModel> {
 
   /**
-   * Creates a new {@link ComponentExecutor}
+   * Creates a new {@link CompletableComponentExecutor}
    *
    * @param componentModel the model of the component to be executed
    * @param parameters     parameters for initializing the executor
-   * @return a new {@link ComponentExecutor}
+   * @return a new {@link CompletableComponentExecutor}
    */
-  ComponentExecutor<T> createExecutor(T componentModel, Map<String, Object> parameters);
+  CompletableComponentExecutor<T> createExecutor(T componentModel, Map<String, Object> parameters);
 }
