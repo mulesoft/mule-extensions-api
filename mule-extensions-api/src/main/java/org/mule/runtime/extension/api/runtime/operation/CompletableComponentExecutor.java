@@ -8,9 +8,7 @@ package org.mule.runtime.extension.api.runtime.operation;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 
-import java.util.concurrent.CompletableFuture;
-
-public interface CompletableComponentExecutor<T extends ComponentModel> {
+public interface CompletableComponentExecutor<M extends ComponentModel> {
 
   /**
    * Executes the owning operation using the given {@code executionContext}.
@@ -21,6 +19,18 @@ public interface CompletableComponentExecutor<T extends ComponentModel> {
    * @param executionContext a {@link ExecutionContext} with information about the execution
    * @return the operations return value
    */
-  CompletableFuture<Object> execute(ExecutionContext<T> executionContext);
+  void execute(ExecutionContext<M> executionContext, ExecutorCallback callback);
+
+  interface ExecutorCallback {
+
+    void complete(Object value);
+
+    /**
+     * This method is not be invoked when the operation failed to execute.
+     *
+     * @param e the exception found
+     */
+    void error(Throwable e);
+  }
 
 }
