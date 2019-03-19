@@ -23,7 +23,8 @@
         "regexMatcher": "*.jar",
         "requiredClassName": "org.my.Library",
         "type": "JAR",
-        "optional": false
+        "optional": false,
+        "allowDeclarationAsAdditionalDependency": true
       }
     ],
     "importedTypes": [],
@@ -936,7 +937,8 @@
             "regexMatcher": "*.jar",
             "requiredClassName": "org.my.Library",
             "type": "JAR",
-            "optional": false
+            "optional": false,
+            "allowDeclarationAsAdditionalDependency": true
           }
         ],
         "supportsConnectivityTesting": true,
@@ -2070,7 +2072,8 @@
         "regexMatcher": "*.jar",
         "requiredClassName": "org.my.Library",
         "type": "JAR",
-        "optional": false
+        "optional": false,
+        "allowDeclarationAsAdditionalDependency": true
       }
     ],
     "importedTypes": [],
@@ -2983,7 +2986,8 @@
             "regexMatcher": "*.jar",
             "requiredClassName": "org.my.Library",
             "type": "JAR",
-            "optional": false
+            "optional": false,
+            "allowDeclarationAsAdditionalDependency": true
           }
         ],
         "supportsConnectivityTesting": true,
