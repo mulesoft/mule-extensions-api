@@ -38,4 +38,6 @@ public interface TransactionHandle {
    * @throws TransactionException if the transaction fails to roll back
    */
   void rollback() throws TransactionException;
+
+  void resolve() throws TransactionException;
 }
