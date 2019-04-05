@@ -24,7 +24,7 @@ public interface TransactionHandle {
   boolean isTransacted();
 
   /**
-   * Commits the transaction. This method is idempotent and thread-safe. If will do nothing if this method
+   * Commits the transaction. This method is idempotent and thread-safe. It will do nothing if this method
    * or {@link #rollback()} have already been invoked on {@code this} instance.
    *
    * @throws TransactionException if the transaction fails to commit
@@ -32,10 +32,17 @@ public interface TransactionHandle {
   void commit() throws TransactionException;
 
   /**
-   * Rolls the transaction back. This method is idempotent and thread-safe. If will do nothing if this method
+   * Rolls the transaction back. This method is idempotent and thread-safe. It will do nothing if this method
    * or {@link #commit()} have already been invoked on {@code this} instance.
    *
    * @throws TransactionException if the transaction fails to roll back
    */
   void rollback() throws TransactionException;
+
+  /**
+   * If the actual transaction is marked as RollbackOnly, then rollbacks the transaction. In other case, commit
+   * the transaction
+   * @throws TransactionException
+   */
+  void resolve() throws TransactionException;
 }
