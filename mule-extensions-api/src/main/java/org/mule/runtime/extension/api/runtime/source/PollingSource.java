@@ -26,6 +26,16 @@ import java.util.function.Consumer;
  */
 public abstract class PollingSource<T, A> extends Source<T, A> {
 
+  public static final String OS_NAME_PREFIX = "_pollingSource_";
+  public static final String OS_NAME_MASK = OS_NAME_PREFIX + "%s/%s";
+
+  public static final String WATERMARK_OS_NAME_SUFFIX = "watermark";
+  public static final String RECENTLY_PROCESSED_IDS_OS_NAME_SUFFIX = "recently-processed-ids";
+  public static final String IDS_ON_UPDATED_WATERMARK_OS_NAME_SUFFIX = "ids-on-updated-watermark";
+
+  public static final String WATERMARK_ITEM_OS_KEY = "watermark";
+  public static final String UPDATED_WATERMARK_ITEM_OS_KEY = "updatedWatermark";
+
   /**
    * {@inheritDoc}
    */
