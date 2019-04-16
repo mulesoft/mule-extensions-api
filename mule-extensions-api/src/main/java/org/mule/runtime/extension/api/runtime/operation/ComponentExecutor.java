@@ -18,7 +18,9 @@ import org.reactivestreams.Publisher;
  * underlying environment.
  *
  * @since 1.0
+ * @deprecated since 1.3.0. Use {@link CompletableComponentExecutor} instead
  */
+@Deprecated
 public interface ComponentExecutor<T extends ComponentModel> {
 
   /**
