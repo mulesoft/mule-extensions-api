@@ -14,7 +14,7 @@ import java.util.Map;
  * Creates {@link ComponentExecutor} instances
  *
  * @since 1.0
- * @deprecated since 1.2.0. Use {@link CompletableComponentExecutorFactory} instead
+ * @deprecated since 1.3.0. Use {@link CompletableComponentExecutorFactory} instead
  */
 @Deprecated
 public interface ComponentExecutorFactory<T extends ComponentModel> {

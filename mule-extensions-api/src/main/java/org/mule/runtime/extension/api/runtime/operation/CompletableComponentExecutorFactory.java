@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Creates {@link CompletableComponentExecutor} instances
  *
- * @since 1.2.0
+ * @since 1.3.0
  */
 public interface CompletableComponentExecutorFactory<T extends ComponentModel> {
 
