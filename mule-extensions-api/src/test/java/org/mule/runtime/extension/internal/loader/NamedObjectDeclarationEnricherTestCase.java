@@ -62,4 +62,18 @@ public class NamedObjectDeclarationEnricherTestCase {
     assertThat(parameterDeclaration.getName(), is("name"));
     assertThat(parameterDeclaration.getModelProperty(SyntheticModelModelProperty.class), is(notNullValue()));
   }
+
+  @Test
+  public void blacklistedConfigurationDoesntHaveNameParameter() {
+    configurationDeclaration = new ExtensionDeclarer().withConfig("wsSecurity").getDeclaration();
+
+    when(extensionLoadingContext.getExtensionDeclarer()).thenReturn(extensionDeclarer);
+    when(extensionDeclarer.getDeclaration()).thenReturn(extensionDeclaration);
+    when(extensionDeclaration.getConfigurations()).thenReturn(singletonList(configurationDeclaration));
+    when(extensionDeclaration.getName()).thenReturn("cxf");
+
+    enricher.enrich(extensionLoadingContext);
+
+    assertThat(configurationDeclaration.getAllParameters().isEmpty(), is(true));
+  }
 }
