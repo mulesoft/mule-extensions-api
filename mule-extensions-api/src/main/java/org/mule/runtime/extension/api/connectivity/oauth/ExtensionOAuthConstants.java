@@ -20,11 +20,24 @@ public final class ExtensionOAuthConstants {
    * related parameters are to be placed.
    */
   public static final String OAUTH_AUTHORIZATION_CODE_GROUP_NAME = "oauthAuthorizationCode";
+
+  /**
+   * The name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type
+   * related parameters are to be placed.
+   */
+  public static final String OAUTH_CLIENT_CREDENTIALS_GROUP_NAME = "oauthClientCredentials";
+
   /**
    * The display name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type
    * related parameters are to be placed.
    */
   public static final String OAUTH_AUTHORIZATION_CODE_GROUP_DISPLAY_NAME = "OAuth Authorization Code";
+
+  /**
+   * The display name of the {@link ParameterGroupModel} in which all the Client Credentials grant type
+   * related parameters are to be placed.
+   */
+  public static final String OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME = "OAuth Client Credentials";
 
   /**
    * The name of the {@link ParameterGroupModel} in which all the OAuth callback
@@ -50,14 +63,24 @@ public final class ExtensionOAuthConstants {
   public static final String OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME = "OAuth Store Config";
 
   /**
-   * The name of the parameter on which the consumer key is configured
+   * The name of the parameter on which the OAuth consumer key is configured
    */
   public static final String CONSUMER_KEY_PARAMETER_NAME = "consumerKey";
 
   /**
-   * The name of the parameter on which the consumer secret is configured
+   * The name of the parameter on which the OAuth consumer secret is configured
    */
   public static final String CONSUMER_SECRET_PARAMETER_NAME = "consumerSecret";
+
+  /**
+   * The name of the parameter on which the OAuth client id is configured
+   */
+  public static final String CLIENT_ID_PARAMETER_NAME = "clientId";
+
+  /**
+   * The name of the parameter on which the OAuth client secret is configured
+   */
+  public static final String CLIENT_SECRET_PARAMETER_NAME = "clientSecret";
 
   /**
    * The name of the parameter on which the authorization Url is configured
@@ -68,6 +91,11 @@ public final class ExtensionOAuthConstants {
    * The name of the parameter on which the access token Url is configured
    */
   public static final String ACCESS_TOKEN_URL_PARAMETER_NAME = "accessTokenUrl";
+
+  /**
+   * The name of the parameter on which the OAuth token Url is configured
+   */
+  public static final String TOKEN_URL_PARAMETER_NAME = "tokenUrl";
 
   /**
    * The name of the parameter on which the scopes are configured

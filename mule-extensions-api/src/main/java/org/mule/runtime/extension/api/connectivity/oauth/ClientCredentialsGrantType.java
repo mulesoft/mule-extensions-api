@@ -8,50 +8,56 @@ package org.mule.runtime.extension.api.connectivity.oauth;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.mule.runtime.extension.api.security.CredentialsPlacement.BASIC_AUTH_HEADER;
+
+import org.mule.runtime.extension.api.security.CredentialsPlacement;
 
 import java.util.Optional;
 
 /**
- * Implementation of {@Link OAuthGrantType} which contains information about how to use the
- * Authorization-Code grant type against a particular OAuth provider
+ * Implementation of {@link OAuthGrantType} which contains information about how to use the
+ * Client Credentials grant type against a particular OAuth provider
  *
- * @since 1.0
+ * @since 1.2.1
  */
-public final class AuthorizationCodeGrantType implements OAuthGrantType {
+public final class ClientCredentialsGrantType implements OAuthGrantType {
 
-  public static final String NAME = "Authorization Code";
+  public static final String NAME = "Client Credentials";
 
-  private final String accessTokenUrl;
-  private final String authorizationUrl;
+  private final String tokenUrl;
   private final String accessTokenExpr;
   private final String expirationRegex;
   private final String refreshTokenExpr;
-  private final String defaultScope;
+  private final String defaultScopes;
+  private final CredentialsPlacement credentialsPlacement;
 
   /**
    * Creates a new instance
    *
-   * @param accessTokenUrl   The url of the access token endpoint
-   * @param authorizationUrl The url of the authorization endpoint which initiates the dance
+   * @param tokenUrl         The url of the access token endpoint
    * @param accessTokenExpr  Expression used to extract the access token from the {@code accessTokenUrl} response
    * @param expirationRegex  Expression used to extract the expiration from the {@code accessTokenUrl} response
    * @param refreshTokenExpr Expression used to extract the refresh token from the {@code accessTokenUrl} response
-   * @param defaultScope     The default scopes to be request
+   * @param defaultScopes    The default scopes to be request
    */
-  public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
-                                    String expirationRegex, String refreshTokenExpr, String defaultScope) {
-    notBlank(accessTokenUrl, "accessTokenUrl");
-    notBlank(authorizationUrl, "authorizationUrl");
+  public ClientCredentialsGrantType(String tokenUrl,
+                                    String accessTokenExpr,
+                                    String expirationRegex,
+                                    String refreshTokenExpr,
+                                    String defaultScopes,
+                                    CredentialsPlacement credentialsPlacement) {
+
+    notBlank(tokenUrl, "tokenUrl");
     notBlank(accessTokenExpr, "accessTokenExpr");
     notBlank(expirationRegex, "expirationRegex");
     notBlank(expirationRegex, "expirationRegex");
 
-    this.accessTokenUrl = accessTokenUrl;
-    this.authorizationUrl = authorizationUrl;
+    this.tokenUrl = tokenUrl;
     this.accessTokenExpr = accessTokenExpr;
     this.expirationRegex = expirationRegex;
     this.refreshTokenExpr = refreshTokenExpr;
-    this.defaultScope = isBlank(defaultScope) ? null : defaultScope;
+    this.defaultScopes = isBlank(defaultScopes) ? null : defaultScopes;
+    this.credentialsPlacement = credentialsPlacement != null ? credentialsPlacement : BASIC_AUTH_HEADER;
   }
 
   @Override
@@ -76,15 +82,8 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   /**
    * @return The url of the access token endpoint
    */
-  public String getAccessTokenUrl() {
-    return accessTokenUrl;
-  }
-
-  /**
-   * @return The url of the authorization endpoint which initiates the dance
-   */
-  public String getAuthorizationUrl() {
-    return authorizationUrl;
+  public String getTokenUrl() {
+    return tokenUrl;
   }
 
   /**
@@ -111,7 +110,11 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   /**
    * @return The default scopes to be requested
    */
-  public Optional<String> getDefaultScope() {
-    return ofNullable(defaultScope);
+  public Optional<String> getDefaultScopes() {
+    return ofNullable(defaultScopes);
+  }
+
+  public CredentialsPlacement getCredentialsPlacement() {
+    return credentialsPlacement;
   }
 }

@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
@@ -18,6 +17,8 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUTHORIZATION_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.BEFORE_FLOW_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CALLBACK_PATH_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CLIENT_ID_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CLIENT_SECRET_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CONSUMER_KEY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CONSUMER_SECRET_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.EXTERNAL_CALLBACK_URL_PARAMETER_NAME;
@@ -27,15 +28,17 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_AUTHORIZATION_CODE_GROUP_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CALLBACK_GROUP_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CALLBACK_GROUP_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CLIENT_CREDENTIALS_GROUP_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_STORE_CONFIG_GROUP_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OBJECT_STORE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.RESOURCE_OWNER_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
-
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -45,11 +48,12 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
+import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
+import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantTypeVisitor;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.runtime.extension.api.exception.IllegalConnectionProviderModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
@@ -72,41 +76,72 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new EnricherDelegate().enrich(extensionLoadingContext);
+    ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+    new IdempotentDeclarationWalker() {
+
+      @Override
+      protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
+        declaration.getModelProperty(OAuthModelProperty.class).ifPresent(
+            property -> new EnricherDelegate(extensionDeclaration, declaration, property.getGrantTypes()).enrich()
+        );
+      }
+    }.walk(extensionDeclaration);
+
   }
 
-  private class EnricherDelegate implements DeclarationEnricher {
+  private class EnricherDelegate implements OAuthGrantTypeVisitor {
+
+    private final ExtensionDeclaration extensionDeclaration;
+    private final ConnectionProviderDeclaration declaration;
+    private final List<OAuthGrantType> grantTypes;
 
     private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     private final MetadataType stringType = typeLoader.load(String.class);
 
-    @Override
-    public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-      ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-      new IdempotentDeclarationWalker() {
-
-        @Override
-        protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
-          declaration.getModelProperty(OAuthModelProperty.class)
-              .ifPresent(property -> enrich(extensionDeclaration, declaration, property.getGrantTypes()));
-        }
-      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    private EnricherDelegate(ExtensionDeclaration extensionDeclaration,
+                            ConnectionProviderDeclaration declaration,
+                            List<OAuthGrantType> grantTypes) {
+      this.extensionDeclaration = extensionDeclaration;
+      this.declaration = declaration;
+      this.grantTypes = grantTypes;
     }
 
-    private void enrich(ExtensionDeclaration extension, ConnectionProviderDeclaration declaration,
-                        List<OAuthGrantType> grantTypes) {
-      grantTypes.forEach(type -> {
-        if (AuthorizationCodeGrantType.NAME.equals(type.getName())) {
-          addOAuthAuthorizationCodeParameters(declaration, (AuthorizationCodeGrantType) type);
-          addOAuthCallbackParameters(declaration);
-          addOAuthStoreConfigParameter(declaration);
-        } else {
-          throw new IllegalConnectionProviderModelDefinitionException(
-                                                                      format("Extension '%s' defines connection provider '%s' with unsupported OAuth GrantType '%s'",
-                                                                             extension.getName(), declaration.getName(),
-                                                                             type.getName()));
-        }
-      });
+    private void enrich() {
+      grantTypes.forEach(type -> type.accept(this));
+    }
+
+    @Override
+    public void visit(AuthorizationCodeGrantType grantType) {
+      addOAuthAuthorizationCodeParameters(declaration, grantType);
+      addOAuthCallbackParameters(declaration);
+      addOAuthStoreConfigParameter(declaration);
+    }
+
+    @Override
+    public void visit(ClientCredentialsGrantType grantType) {
+      addOAuthClientCredentialsParameters(declaration, grantType);
+      addOAuthStoreConfigParameter(declaration);
+    }
+
+    private void addOAuthClientCredentialsParameters(ConnectionProviderDeclaration declaration,
+                                                     ClientCredentialsGrantType grantType) {
+      List<ParameterDeclaration> params = new LinkedList<>();
+      params.add(buildParameter(CLIENT_ID_PARAMETER_NAME, "The OAuth client id as registered with the service provider",
+                                true, stringType, NOT_SUPPORTED, null));
+
+      params
+          .add(buildParameter(CLIENT_SECRET_PARAMETER_NAME, "The OAuth client secret as registered with the service provider",
+                              true, stringType, NOT_SUPPORTED, null));
+
+      params.add(buildParameter(TOKEN_URL_PARAMETER_NAME, "The service provider's token endpoint URL",
+                                false, stringType, NOT_SUPPORTED, grantType.getTokenUrl()));
+
+      params.add(buildParameter(SCOPES_PARAMETER_NAME,
+                                "The OAuth scopes to be requested during the dance. If not provided, it will default "
+                                    + "to those in the annotation",
+                                false, stringType, NOT_SUPPORTED, grantType.getDefaultScopes().orElse(null)));
+
+      addToGroup(params, OAUTH_CLIENT_CREDENTIALS_GROUP_NAME, OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME, declaration);
     }
 
     private void addOAuthAuthorizationCodeParameters(ConnectionProviderDeclaration declaration,
@@ -152,8 +187,8 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                                + "listener that will catch the access token callback endpoint.",
                                                            true, stringType, NOT_SUPPORTED, null);
       listenerConfig.setAllowedStereotypeModels(singletonList(newStereotype("LISTENER_CONFIG", "HTTP")
-          .withParent(CONFIG)
-          .build()));
+                                                                  .withParent(CONFIG)
+                                                                  .build()));
       params.add(listenerConfig);
 
       params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
@@ -180,10 +215,10 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
     private void addOAuthStoreConfigParameter(ConnectionProviderDeclaration declaration) {
       final ParameterDeclaration osParameter = buildParameter(
-                                                              OBJECT_STORE_PARAMETER_NAME,
-                                                              "A reference to the object store that should be used to store " +
-                                                                  "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
-                                                              false, stringType, NOT_SUPPORTED, null);
+          OBJECT_STORE_PARAMETER_NAME,
+          "A reference to the object store that should be used to store " +
+              "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
+          false, stringType, NOT_SUPPORTED, null);
       osParameter.setAllowedStereotypeModels(singletonList(OBJECT_STORE));
       addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME, declaration);
     }

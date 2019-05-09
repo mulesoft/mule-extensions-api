@@ -18,4 +18,5 @@ import org.mule.runtime.api.meta.NamedObject;
  */
 public interface OAuthGrantType extends NamedObject {
 
+  void accept(OAuthGrantTypeVisitor visitor);
 }
