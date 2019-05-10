@@ -81,11 +81,8 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
       @Override
       protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
-        declaration.getModelProperty(OAuthModelProperty.class).ifPresent(
-                                                                         property -> new EnricherDelegate(declaration,
-                                                                                                          property
-                                                                                                              .getGrantTypes())
-                                                                                                                  .enrich());
+        declaration.getModelProperty(OAuthModelProperty.class)
+            .ifPresent(property -> new EnricherDelegate(declaration, property.getGrantTypes()).enrich());
       }
     }.walk(extensionDeclaration);
 
