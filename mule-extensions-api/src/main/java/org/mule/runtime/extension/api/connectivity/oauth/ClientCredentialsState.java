@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.connectivity.oauth;
 
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCredentials;
 
@@ -22,6 +23,7 @@ import java.util.Optional;
  *
  * @since 1.2.1
  */
+@NoImplement
 public interface ClientCredentialsState {
 
   /**

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.NamedObject;
 
 /**
@@ -16,6 +17,7 @@ import org.mule.runtime.api.meta.NamedObject;
  *
  * @since 1.0
  */
+@NoImplement
 public interface OAuthGrantType extends NamedObject {
 
   void accept(OAuthGrantTypeVisitor visitor);

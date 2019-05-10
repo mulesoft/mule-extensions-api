@@ -82,8 +82,10 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
       @Override
       protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
         declaration.getModelProperty(OAuthModelProperty.class).ifPresent(
-            property -> new EnricherDelegate(extensionDeclaration, declaration, property.getGrantTypes()).enrich()
-        );
+                                                                         property -> new EnricherDelegate(declaration,
+                                                                                                          property
+                                                                                                              .getGrantTypes())
+                                                                                                                  .enrich());
       }
     }.walk(extensionDeclaration);
 
@@ -91,17 +93,13 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
   private class EnricherDelegate implements OAuthGrantTypeVisitor {
 
-    private final ExtensionDeclaration extensionDeclaration;
     private final ConnectionProviderDeclaration declaration;
     private final List<OAuthGrantType> grantTypes;
 
     private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
     private final MetadataType stringType = typeLoader.load(String.class);
 
-    private EnricherDelegate(ExtensionDeclaration extensionDeclaration,
-                            ConnectionProviderDeclaration declaration,
-                            List<OAuthGrantType> grantTypes) {
-      this.extensionDeclaration = extensionDeclaration;
+    private EnricherDelegate(ConnectionProviderDeclaration declaration, List<OAuthGrantType> grantTypes) {
       this.declaration = declaration;
       this.grantTypes = grantTypes;
     }
@@ -187,8 +185,8 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                                + "listener that will catch the access token callback endpoint.",
                                                            true, stringType, NOT_SUPPORTED, null);
       listenerConfig.setAllowedStereotypeModels(singletonList(newStereotype("LISTENER_CONFIG", "HTTP")
-                                                                  .withParent(CONFIG)
-                                                                  .build()));
+          .withParent(CONFIG)
+          .build()));
       params.add(listenerConfig);
 
       params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
@@ -215,10 +213,10 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
     private void addOAuthStoreConfigParameter(ConnectionProviderDeclaration declaration) {
       final ParameterDeclaration osParameter = buildParameter(
-          OBJECT_STORE_PARAMETER_NAME,
-          "A reference to the object store that should be used to store " +
-              "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
-          false, stringType, NOT_SUPPORTED, null);
+                                                              OBJECT_STORE_PARAMETER_NAME,
+                                                              "A reference to the object store that should be used to store " +
+                                                                  "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
+                                                              false, stringType, NOT_SUPPORTED, null);
       osParameter.setAllowedStereotypeModels(singletonList(OBJECT_STORE));
       addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME, declaration);
     }
