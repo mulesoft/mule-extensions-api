@@ -32,11 +32,6 @@ public interface ClientCredentialsState {
   String getAccessToken();
 
   /**
-   * @return The obtained refresh token
-   */
-  Optional<String> getRefreshToken();
-
-  /**
    * @return The access token's expiration. The actual format of it depends on the OAuth provider
    */
   Optional<String> getExpiresIn();

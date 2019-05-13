@@ -27,7 +27,6 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
   private final String tokenUrl;
   private final String accessTokenExpr;
   private final String expirationRegex;
-  private final String refreshTokenExpr;
   private final String defaultScopes;
   private final CredentialsPlacement credentialsPlacement;
 
@@ -37,13 +36,11 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
    * @param tokenUrl         The url of the access token endpoint
    * @param accessTokenExpr  Expression used to extract the access token from the {@code accessTokenUrl} response
    * @param expirationRegex  Expression used to extract the expiration from the {@code accessTokenUrl} response
-   * @param refreshTokenExpr Expression used to extract the refresh token from the {@code accessTokenUrl} response
    * @param defaultScopes    The default scopes to be request
    */
   public ClientCredentialsGrantType(String tokenUrl,
                                     String accessTokenExpr,
                                     String expirationRegex,
-                                    String refreshTokenExpr,
                                     String defaultScopes,
                                     CredentialsPlacement credentialsPlacement) {
 
@@ -55,7 +52,6 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
     this.tokenUrl = tokenUrl;
     this.accessTokenExpr = accessTokenExpr;
     this.expirationRegex = expirationRegex;
-    this.refreshTokenExpr = refreshTokenExpr;
     this.defaultScopes = isBlank(defaultScopes) ? null : defaultScopes;
     this.credentialsPlacement = credentialsPlacement != null ? credentialsPlacement : BASIC_AUTH_HEADER;
   }
@@ -98,13 +94,6 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
    */
   public String getExpirationRegex() {
     return expirationRegex;
-  }
-
-  /**
-   * @return Expression used to extract the refresh token from the {@code accessTokenUrl} response
-   */
-  public String getRefreshTokenExpr() {
-    return refreshTokenExpr;
   }
 
   /**

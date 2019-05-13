@@ -51,11 +51,6 @@ public @interface ClientCredentials {
   String expirationExpr() default "#[payload.expires_in]";
 
   /**
-   * @return Expression to be used on the response of {@link #tokenUrl()} to extract the refresh token
-   */
-  String refreshTokenExpr() default "#[payload.refresh_token]";
-
-  /**
    * @return The default set of scopes to be requested, as a comma separated list. Empty string means no default scopes.
    */
   String defaultScopes() default "";
