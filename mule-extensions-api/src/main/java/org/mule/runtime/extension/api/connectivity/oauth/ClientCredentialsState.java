@@ -11,8 +11,6 @@ import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCredentials;
 
-import java.util.Optional;
-
 /**
  * {@link ConnectionProvider} implementations which are also annotated with {@link ClientCredentials}
  * <b>MUST</b> have a field of this type. When the authorization dance is completed, the runtime will
@@ -24,16 +22,7 @@ import java.util.Optional;
  * @since 1.2.1
  */
 @NoImplement
-public interface ClientCredentialsState {
+public interface ClientCredentialsState extends OAuthState{
 
-  /**
-   * @return The obtained access token
-   */
-  String getAccessToken();
-
-  /**
-   * @return The access token's expiration. The actual format of it depends on the OAuth provider
-   */
-  Optional<String> getExpiresIn();
 
 }

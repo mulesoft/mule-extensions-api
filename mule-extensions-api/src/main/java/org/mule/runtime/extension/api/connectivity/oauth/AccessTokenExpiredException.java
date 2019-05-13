@@ -22,6 +22,10 @@ public class AccessTokenExpiredException extends MuleRuntimeException {
 
   private final String resourceOwnerId;
 
+  public AccessTokenExpiredException() {
+    this("default");
+  }
+
   /**
    * Creates a new instance
    *
