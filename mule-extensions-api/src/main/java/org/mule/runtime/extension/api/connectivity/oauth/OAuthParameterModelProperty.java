@@ -6,9 +6,11 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
+import static org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.QUERY_PARAMS;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.OAuthParameter;
+import org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement;
 
 /**
  * A private {@link ModelProperty} used on {@link ParameterModel} instances, indicating that such
@@ -19,13 +21,19 @@ import org.mule.runtime.extension.api.annotation.connectivity.oauth.OAuthParamet
 public class OAuthParameterModelProperty implements ModelProperty {
 
   private final String requestAlias;
+  private final HttpParameterPlacement placement;
 
   /**
    * Creates a new instance
    * @param requestAlias the name under which the parameter is sent to the OAuth provider during the authentication dance
    */
   public OAuthParameterModelProperty(String requestAlias) {
+    this(requestAlias, QUERY_PARAMS);
+  }
+
+  public OAuthParameterModelProperty(String requestAlias, HttpParameterPlacement placement) {
     this.requestAlias = requestAlias;
+    this.placement = placement;
   }
 
   /**
@@ -42,6 +50,10 @@ public class OAuthParameterModelProperty implements ModelProperty {
   @Override
   public String getName() {
     return "oauthParameter";
+  }
+
+  public HttpParameterPlacement getPlacement() {
+    return placement;
   }
 
   /**

@@ -56,7 +56,8 @@ public final class ExtensionMetadataTypeUtils {
 
   private static final List<MetadataFormat> KNOWN_METADATA_FORMATS = asList(JAVA, XML, JSON, CSV);
 
-  private ExtensionMetadataTypeUtils() {}
+  private ExtensionMetadataTypeUtils() {
+  }
 
   public static Optional<String> getId(MetadataType metadataType) {
     return JavaTypeUtils.getId(metadataType);
@@ -73,7 +74,7 @@ public final class ExtensionMetadataTypeUtils {
 
   /**
    * @param metadataType the {@link ObjectType} who's {@link Class type} is required
-   * @param classloader the {@link ClassLoader} to use when looking for the {@link Class}
+   * @param classloader  the {@link ClassLoader} to use when looking for the {@link Class}
    * @return the {@link Class type} of the given {@link ObjectType} if one exists in the current classloader,
    * {@link Optional#empty()} otherwise.
    */
@@ -128,6 +129,18 @@ public final class ExtensionMetadataTypeUtils {
         .orElseGet(() -> metadataType.getAnnotation(TypeIdAnnotation.class)
             .map(TypeIdAnnotation::getValue)
             .map(id -> id.equals(Map.class.getName())).orElse(false));
+  }
+
+  public static boolean isMapOfStrings(MetadataType metadataType) {
+    return metadataType.getAnnotation(ClassInformationAnnotation.class)
+        .map(info -> {
+               if (info.isMap() && info.getGenericTypes().size() == 2) {
+                 String string = String.class.getName();
+                 return string.equals(info.getGenericTypes().get(0)) && string.equals(info.getGenericTypes().get(1));
+               }
+               return false;
+             }
+        ).orElse(false);
   }
 
   /**
@@ -272,7 +285,7 @@ public final class ExtensionMetadataTypeUtils {
 
   /**
    * Returns a {@link MetadataFormat} which represents the given {@code mediaType}.
-   *
+   * <p>
    * If the {@code mediaType} matches any of the well known formats, then it will return one of those.
    * Otherwise, a new {@link MetadataFormat} will be created and returned
    *

@@ -8,11 +8,13 @@ package org.mule.runtime.extension.api.annotation.connectivity.oauth;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.QUERY_PARAMS;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -53,4 +55,6 @@ public @interface OAuthParameter {
    * @return the name of the parameter during the OAuth dance
    */
   String requestAlias() default "";
+
+  HttpParameterPlacement placement() default QUERY_PARAMS;
 }
