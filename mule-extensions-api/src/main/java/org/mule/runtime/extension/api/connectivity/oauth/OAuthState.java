@@ -8,6 +8,11 @@ package org.mule.runtime.extension.api.connectivity.oauth;
 
 import java.util.Optional;
 
+/**
+ * An  object which holds information about an OAuth authorization
+ *
+ * @since 1.2.1
+ */
 public interface OAuthState {
 
   /**

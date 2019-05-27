@@ -56,5 +56,9 @@ public @interface OAuthParameter {
    */
   String requestAlias() default "";
 
+  /**
+   * @return The parameter's placement in the resulting HTTP request
+   * @since 1.2.1
+   */
   HttpParameterPlacement placement() default QUERY_PARAMS;
 }

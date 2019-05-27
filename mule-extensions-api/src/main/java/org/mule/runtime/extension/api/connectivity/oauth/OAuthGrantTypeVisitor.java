@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
+/**
+ * Implementation of the visitor pattern for {@link OAuthGrantType} implemenetations
+ *
+ * @since 1.2.1
+ */
 public interface OAuthGrantTypeVisitor {
 
 

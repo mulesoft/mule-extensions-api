@@ -24,9 +24,12 @@ public class OAuthParameterModelProperty implements ModelProperty {
   private final HttpParameterPlacement placement;
 
   /**
-   * Creates a new instance
+   * Creates a new instance using {@link HttpParameterPlacement#QUERY_PARAMS} as the default placement.
+   *
    * @param requestAlias the name under which the parameter is sent to the OAuth provider during the authentication dance
+   * @deprecated since 1.2.1. Use {@link #OAuthParameterModelProperty(String, HttpParameterPlacement)} instead
    */
+  @Deprecated
   public OAuthParameterModelProperty(String requestAlias) {
     this(requestAlias, QUERY_PARAMS);
   }
@@ -45,6 +48,7 @@ public class OAuthParameterModelProperty implements ModelProperty {
 
   /**
    * {@inheritDoc}
+   *
    * @return {@code oauthParameter}
    */
   @Override
@@ -52,12 +56,17 @@ public class OAuthParameterModelProperty implements ModelProperty {
     return "oauthParameter";
   }
 
+  /**
+   * @return The parameter's placement
+   * @since 1.2.1
+   */
   public HttpParameterPlacement getPlacement() {
     return placement;
   }
 
   /**
    * {@inheritDoc}
+   *
    * @return {@code false}
    */
   @Override

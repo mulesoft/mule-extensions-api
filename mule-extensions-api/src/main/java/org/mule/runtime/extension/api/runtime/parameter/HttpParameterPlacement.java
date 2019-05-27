@@ -6,7 +6,20 @@
  */
 package org.mule.runtime.extension.api.runtime.parameter;
 
+/**
+ * Describes the possible placements a parameter can have inside a HTTP request
+ *
+ * @since 1.2.1
+ */
 public enum HttpParameterPlacement {
 
-  QUERY_PARAMS, HEADERS
+  /**
+   * The parameter will be sent as a query parameter
+   */
+  QUERY_PARAMS,
+
+  /**
+   * The parameter will be sent as a header
+   */
+  HEADERS
 }

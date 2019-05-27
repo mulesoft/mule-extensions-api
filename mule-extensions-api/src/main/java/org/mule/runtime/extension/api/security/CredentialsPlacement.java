@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.api.security;
 
+/**
+ * Describes the possible placements credentials can have inside a HTTP request
+ *
+ * @since 1.2.1
+ */
 public enum CredentialsPlacement {
 
   /**
