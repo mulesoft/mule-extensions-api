@@ -22,7 +22,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCreden
  * @since 1.2.1
  */
 @NoImplement
-public interface ClientCredentialsState extends OAuthState{
+public interface ClientCredentialsState extends OAuthState {
 
 
 }

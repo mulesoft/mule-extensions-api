@@ -56,8 +56,7 @@ public final class ExtensionMetadataTypeUtils {
 
   private static final List<MetadataFormat> KNOWN_METADATA_FORMATS = asList(JAVA, XML, JSON, CSV);
 
-  private ExtensionMetadataTypeUtils() {
-  }
+  private ExtensionMetadataTypeUtils() {}
 
   public static Optional<String> getId(MetadataType metadataType) {
     return JavaTypeUtils.getId(metadataType);
@@ -134,13 +133,12 @@ public final class ExtensionMetadataTypeUtils {
   public static boolean isMapOfStrings(MetadataType metadataType) {
     return metadataType.getAnnotation(ClassInformationAnnotation.class)
         .map(info -> {
-               if (info.isMap() && info.getGenericTypes().size() == 2) {
-                 String string = String.class.getName();
-                 return string.equals(info.getGenericTypes().get(0)) && string.equals(info.getGenericTypes().get(1));
-               }
-               return false;
-             }
-        ).orElse(false);
+          if (info.isMap() && info.getGenericTypes().size() == 2) {
+            String string = String.class.getName();
+            return string.equals(info.getGenericTypes().get(0)) && string.equals(info.getGenericTypes().get(1));
+          }
+          return false;
+        }).orElse(false);
   }
 
   /**

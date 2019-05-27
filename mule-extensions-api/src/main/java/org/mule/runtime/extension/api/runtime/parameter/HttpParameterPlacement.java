@@ -8,6 +8,5 @@ package org.mule.runtime.extension.api.runtime.parameter;
 
 public enum HttpParameterPlacement {
 
-  QUERY_PARAMS,
-  HEADERS
+  QUERY_PARAMS, HEADERS
 }
