@@ -27,4 +27,11 @@ public interface ConfigurationStats {
    * @return How many currently executing operations are making use of the referenced configuration
    */
   int getInflightOperations();
+
+  /**
+   * @return How many currently running sources are making use of the referenced configuration
+   */
+  default int getRunningSources() {
+    return 0;
+  }
 }
