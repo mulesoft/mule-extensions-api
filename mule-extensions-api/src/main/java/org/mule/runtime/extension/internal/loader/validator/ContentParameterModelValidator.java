@@ -13,6 +13,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CO
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
+
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -37,10 +38,10 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
-import com.google.common.base.Joiner;
-
 import java.lang.reflect.Field;
 import java.util.List;
+
+import com.google.common.base.Joiner;
 
 /**
  * Validates that all content parameters are property configured.
@@ -192,11 +193,7 @@ public class ContentParameterModelValidator implements ExtensionModelValidator {
         .filter(p -> p.getRole() == PRIMARY_CONTENT)
         .collect(toList());
 
-    if (primaryContents.isEmpty()) {
-      problemsReporter
-          .addError(problem(model,
-                            format("contains %d content parameters but none of them is primary", contentParameters.size())));
-    } else if (primaryContents.size() > 1) {
+    if (primaryContents.size() > 1) {
       problemsReporter.addError(problem(model, format("contains %d content parameters marked as primary. Only one primary "
           + "content parameter is allowed. Offending parameters are [%s]",
                                                       primaryContents.size(),
