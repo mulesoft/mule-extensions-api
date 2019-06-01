@@ -10,7 +10,7 @@
            "methodName": "getRunningSources",
            "elementKind": "method",
            "justification": "Added to provide a fix for issue MULE-16786"
-         },
+        },
         {
           "code": "java.class.added",
           "new": "@interface org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCredentials",
