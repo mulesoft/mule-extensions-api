@@ -1,7 +1,61 @@
 {
-  "1.3.0": {
+  "1.2.2": {
     "revapi": {
-      "ignore": [
+      "ignore":[
+        {
+          "code": "java.class.added",
+          "new": "@interface org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCredentials",
+          "package": "org.mule.runtime.extension.api.annotation.connectivity.oauth",
+          "classSimpleName": "ClientCredentials",
+          "elementKind": "@interface",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.method.attributeWithDefaultAddedToAnnotationType",
+          "new": "method org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement org.mule.runtime.extension.api.annotation.connectivity.oauth.OAuthParameter::placement()",
+          "package": "org.mule.runtime.extension.api.annotation.connectivity.oauth",
+          "classSimpleName": "OAuthParameter",
+          "methodName": "placement",
+          "elementKind": "method",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.method.attributeWithDefaultAddedToAnnotationType",
+          "new": "method org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement org.mule.runtime.extension.api.annotation.connectivity.oauth.OAuthParameter::placement()",
+          "package": "org.mule.runtime.extension.api.annotation.connectivity.oauth",
+          "classSimpleName": "OAuthParameter",
+          "methodName": "placement",
+          "elementKind": "method",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method void org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException::<init>()",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AccessTokenExpiredException",
+          "methodName": "<init>",
+          "elementKind": "constructor",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method void org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType::accept(org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantTypeVisitor)",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AuthorizationCodeGrantType",
+          "methodName": "accept",
+          "elementKind": "method",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.class.nowImplementsInterface",
+          "old": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "interface": "org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AuthorizationCodeState",
+          "elementKind": "interface",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
         {
           "code": "java.annotation.added",
           "old": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
@@ -11,7 +65,68 @@
           "package": "org.mule.runtime.extension.api.connectivity.oauth",
           "classSimpleName": "AuthorizationCodeState",
           "elementKind": "interface",
-          "justification": "Annotation was missing"
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.class.added",
+          "new": "class org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantType",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "ClientCredentialsGrantType",
+          "elementKind": "class",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.class.added",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsState",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "ClientCredentialsState",
+          "elementKind": "interface",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CLIENT_ID_PARAMETER_NAME",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "ExtensionOAuthConstants",
+          "fieldName": "CLIENT_ID_PARAMETER_NAME",
+          "elementKind": "field",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.CLIENT_SECRET_PARAMETER_NAME",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "ExtensionOAuthConstants",
+          "fieldName": "CLIENT_SECRET_PARAMETER_NAME",
+          "elementKind": "field",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "ExtensionOAuthConstants",
+          "fieldName": "OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME",
+          "elementKind": "field",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_CLIENT_CREDENTIALS_GROUP_NAME",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "ExtensionOAuthConstants",
+          "fieldName": "OAUTH_CLIENT_CREDENTIALS_GROUP_NAME",
+          "elementKind": "field",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.TOKEN_URL_PARAMETER_NAME",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "ExtensionOAuthConstants",
+          "fieldName": "TOKEN_URL_PARAMETER_NAME",
+          "elementKind": "field",
+          "justification": "Critical new feature. Making a SEMVER exception"
         },
         {
           "code": "java.annotation.added",
@@ -22,7 +137,66 @@
           "package": "org.mule.runtime.extension.api.connectivity.oauth",
           "classSimpleName": "OAuthGrantType",
           "elementKind": "interface",
-          "justification": "Annotation was missing"
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.class.added",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantTypeVisitor",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "OAuthGrantTypeVisitor",
+          "elementKind": "interface",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method void org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty::<init>(java.lang.String, org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement)",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "OAuthParameterModelProperty",
+          "methodName": "<init>",
+          "elementKind": "constructor",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty::getPlacement()",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "OAuthParameterModelProperty",
+          "methodName": "getPlacement",
+          "elementKind": "method",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.class.added",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "OAuthState",
+          "elementKind": "interface",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.class.added",
+          "new": "enum org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement",
+          "package": "org.mule.runtime.extension.api.runtime.parameter",
+          "classSimpleName": "HttpParameterPlacement",
+          "elementKind": "enum",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.class.added",
+          "new": "enum org.mule.runtime.extension.api.security.CredentialsPlacement",
+          "package": "org.mule.runtime.extension.api.security",
+          "classSimpleName": "CredentialsPlacement",
+          "elementKind": "enum",
+          "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.method.added",
+          "new": "method boolean org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils::isMapOfStrings(org.mule.metadata.api.model.MetadataType)",
+          "package": "org.mule.runtime.extension.api.util",
+          "classSimpleName": "ExtensionMetadataTypeUtils",
+          "methodName": "isMapOfStrings",
+          "elementKind": "method",
+          "justification": "Critical new feature. Making a SEMVER exception"
         }
       ]
     }
