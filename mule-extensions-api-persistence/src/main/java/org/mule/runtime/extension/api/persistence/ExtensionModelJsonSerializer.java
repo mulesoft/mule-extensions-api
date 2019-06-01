@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Collections.emptySet;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
@@ -28,8 +29,6 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
-import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantType;
-import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -37,12 +36,11 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.stereotype.ImmutableStereotypeModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
-import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
-import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
@@ -59,17 +57,12 @@ import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapt
 import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.NestableElementModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.NotificationModelToIdentifierTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.OAuthGrantTypeTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.OperationModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.RestrictedTypesObjectTypeReferenceHandler;
 import org.mule.runtime.extension.internal.persistence.SourceModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.SubTypesModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.XmlDslModelTypeAdapter;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +70,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Serializer that can convert a {@link ExtensionModel} into a readable and processable JSON representation and from a JSON
@@ -176,10 +175,6 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final DefaultImplementationTypeAdapterFactory<StereotypeModel, ImmutableStereotypeModel> stereotypeModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
-    final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> authCodeOAuthGrantTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
-    final DefaultImplementationTypeAdapterFactory<OAuthGrantType, ClientCredentialsGrantType> clientCredentialsOAuthGrantTypeAdapter =
-        new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, ClientCredentialsGrantType.class);
     final DefaultImplementationTypeAdapterFactory<DeprecationModel, ImmutableDeprecationModel> deprecationModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(DeprecationModel.class, ImmutableDeprecationModel.class);
 
@@ -205,10 +200,9 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new ConstructModelTypeAdapterFactory())
         .registerTypeAdapterFactory(new FunctionModelTypeAdapterFactory())
         .registerTypeAdapterFactory(new NestableElementModelTypeAdapterFactory())
+        .registerTypeAdapterFactory(new OAuthGrantTypeTypeAdapterFactory())
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
-        .registerTypeAdapterFactory(authCodeOAuthGrantTypeAdapter)
-        .registerTypeAdapterFactory(clientCredentialsOAuthGrantTypeAdapter)
         .registerTypeAdapterFactory(deprecationModelTypeAdapter);
 
     if (prettyPrint) {
