@@ -28,6 +28,7 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantType;
 import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
@@ -175,8 +176,10 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(OutputModel.class, ImmutableOutputModel.class);
     final DefaultImplementationTypeAdapterFactory<StereotypeModel, ImmutableStereotypeModel> stereotypeModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(StereotypeModel.class, ImmutableStereotypeModel.class);
-    final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> oauthGrantTypeAdapter =
+    final DefaultImplementationTypeAdapterFactory<OAuthGrantType, AuthorizationCodeGrantType> authCodeOAuthGrantTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, AuthorizationCodeGrantType.class);
+    final DefaultImplementationTypeAdapterFactory<OAuthGrantType, ClientCredentialsGrantType> clientCredentialsOAuthGrantTypeAdapter =
+        new DefaultImplementationTypeAdapterFactory<>(OAuthGrantType.class, ClientCredentialsGrantType.class);
     final DefaultImplementationTypeAdapterFactory<DeprecationModel, ImmutableDeprecationModel> deprecationModelTypeAdapter =
         new DefaultImplementationTypeAdapterFactory<>(DeprecationModel.class, ImmutableDeprecationModel.class);
 
@@ -204,7 +207,8 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new NestableElementModelTypeAdapterFactory())
         .registerTypeAdapterFactory(outputModelTypeAdapterFactory)
         .registerTypeAdapterFactory(stereotypeModelTypeAdapter)
-        .registerTypeAdapterFactory(oauthGrantTypeAdapter)
+        .registerTypeAdapterFactory(authCodeOAuthGrantTypeAdapter)
+        .registerTypeAdapterFactory(clientCredentialsOAuthGrantTypeAdapter)
         .registerTypeAdapterFactory(deprecationModelTypeAdapter);
 
     if (prettyPrint) {

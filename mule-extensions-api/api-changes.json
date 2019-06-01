@@ -1,4 +1,32 @@
 {
+  "1.3.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AuthorizationCodeState",
+          "elementKind": "interface",
+          "justification": "Annotation was missing"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "OAuthGrantType",
+          "elementKind": "interface",
+          "justification": "Annotation was missing"
+        }
+      ]
+    }
+  },
   "1.1.0": {
     "revapi": {
       "ignore": [
