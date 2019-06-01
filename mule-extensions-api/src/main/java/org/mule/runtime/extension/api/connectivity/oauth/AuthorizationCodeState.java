@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.connectivity.oauth;
 
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.AuthorizationCode;
 
@@ -22,12 +23,8 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public interface AuthorizationCodeState {
-
-  /**
-   * @return The obtained access token
-   */
-  String getAccessToken();
+@NoImplement
+public interface AuthorizationCodeState extends OAuthState {
 
   /**
    * @return The obtained refresh token
@@ -38,11 +35,6 @@ public interface AuthorizationCodeState {
    * @return The id of the user that was authenticated
    */
   String getResourceOwnerId();
-
-  /**
-   * @return The access token's expiration. The actual format of it depends on the OAuth provider
-   */
-  Optional<String> getExpiresIn();
 
   /**
    * @return The OAuth state that was originally sent
