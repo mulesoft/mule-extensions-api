@@ -13,6 +13,11 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * A {@link TypeAdapterFactory} which produces type adapters capable of serializing the {@link OAuthGrantType} hierarchy
+ *
+ * @since 1.2.1
+ */
 public class OAuthGrantTypeTypeAdapterFactory implements TypeAdapterFactory {
 
   @Override

@@ -21,6 +21,11 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * A {@link TypeAdapter} for the {@link OAuthGrantType} hierarchy
+ *
+ * @since 1.2.1
+ */
 public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
 
   private static final String GRANT_TYPE = "grantType";
