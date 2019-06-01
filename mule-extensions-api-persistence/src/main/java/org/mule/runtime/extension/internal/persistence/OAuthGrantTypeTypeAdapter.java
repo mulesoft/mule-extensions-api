@@ -94,9 +94,9 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
 
     // consider grant type could not be there for backwards compatibility
-    String grantType = json.has(GRANT_TYPE) ? json.get(GRANT_TYPE).getAsString() : null;
+    String grantType = getOptionalValue(json, GRANT_TYPE, AUTH_CODE);
 
-    if (grantType == null || AUTH_CODE.equals(grantType)) {
+    if (AUTH_CODE.equals(grantType)) {
       return new AuthorizationCodeGrantType(json.get(ACCESS_TOKEN_URL).getAsString(),
                                             json.get(AUTHORIZATION_URL).getAsString(),
                                             json.get(ACCESS_TOKEN_EXPR).getAsString(),
@@ -116,7 +116,11 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
   }
 
   private String getOptionalValue(JsonObject json, String property) {
-    return json.has(property) ? json.get(property).getAsString() : "";
+    return getOptionalValue(json, property, "");
+  }
+
+  private String getOptionalValue(JsonObject json, String property, String defaultValue) {
+    return json.has(property) ? json.get(property).getAsString() : defaultValue;
   }
 
   private void writeOptional(JsonWriter out, String property, Optional<String> value) throws IOException {
