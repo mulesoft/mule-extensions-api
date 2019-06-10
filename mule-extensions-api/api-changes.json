@@ -2,6 +2,15 @@
   "1.2.1": {
     "revapi": {
       "ignore":[
+		{
+		  "code": "java.method.defaultMethodAddedToInterface",
+		  "new": "method int org.mule.runtime.extension.api.runtime.config.ConfigurationStats::getRunningSources()",
+		  "package": "org.mule.runtime.extension.api.runtime.config",
+		  "classSimpleName": "ConfigurationStats",
+		  "methodName": "getRunningSources",
+		  "elementKind": "method",
+		  "justification": "MULE-16786"
+		},
         {
           "code": "java.class.added",
           "new": "@interface org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCredentials",
