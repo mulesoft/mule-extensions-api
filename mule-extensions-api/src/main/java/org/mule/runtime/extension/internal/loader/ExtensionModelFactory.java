@@ -111,6 +111,7 @@ import org.mule.runtime.extension.internal.loader.validator.ParameterModelValida
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.spi.ExternalValidatorFinder;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -123,6 +124,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
@@ -141,6 +143,7 @@ import java.util.function.Supplier;
 public final class ExtensionModelFactory {
 
   public static final String PROBLEMS_HANDLER = "PROBLEMS_HANDLER";
+  public static final String COMPILATION_MODE_FLAG = "COMPILATION_MODE";
 
   private final List<DeclarationEnricher> declarationEnrichers;
   private final List<ExtensionModelValidator> extensionModelValidators;
@@ -206,6 +209,7 @@ public final class ExtensionModelFactory {
   private void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter,
                         ExtensionLoadingContext extensionLoadingContext) {
     List<ExtensionModelValidator> validators = new LinkedList<>(extensionModelValidators);
+    validators.addAll(ExternalValidatorFinder.find(extensionLoadingContext));
     validators.addAll(extensionLoadingContext.getCustomValidators());
 
     validators.forEach(v -> v.validate(extensionModel, problemsReporter));
