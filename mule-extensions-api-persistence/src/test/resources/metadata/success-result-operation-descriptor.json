@@ -723,6 +723,9 @@
                       },
                       "model": {
                         "type": "Array",
+                        "annotations": {
+                          "typeId": "/properties/shippingAddress/items/properties/address"
+                        },
                         "item": {
                           "type": "String"
                         }
@@ -786,6 +789,9 @@
                       },
                       "model": {
                         "type": "Array",
+                        "annotations": {
+                          "typeId": "/properties/shippingAddress"
+                        },
                         "item": {
                           "type": "@ref:/properties/shippingAddress/items"
                         }
