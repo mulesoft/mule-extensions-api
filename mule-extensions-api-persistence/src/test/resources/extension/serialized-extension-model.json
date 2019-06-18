@@ -1911,6 +1911,9 @@
           },
           "model": {
             "type": "Array",
+            "annotations": {
+              "typeId": "/properties/shippingAddress"
+            },
             "item": {
               "type": "Object",
               "annotations": {
@@ -1934,6 +1937,9 @@
                   },
                   "model": {
                     "type": "Array",
+                    "annotations": {
+                      "typeId": "/properties/shippingAddress/items/properties/address"
+                    },
                     "item": {
                       "type": "String"
                     }
