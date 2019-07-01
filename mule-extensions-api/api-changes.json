@@ -206,6 +206,69 @@
           "methodName": "isMapOfStrings",
           "elementKind": "method",
           "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.IDS_ON_UPDATED_WATERMARK_OS_NAME_SUFFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "IDS_ON_UPDATED_WATERMARK_OS_NAME_SUFFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.OS_NAME_MASK",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "OS_NAME_MASK",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.OS_NAME_PREFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "OS_NAME_PREFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.RECENTLY_PROCESSED_IDS_OS_NAME_SUFFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "RECENTLY_PROCESSED_IDS_OS_NAME_SUFFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.UPDATED_WATERMARK_ITEM_OS_KEY",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "UPDATED_WATERMARK_ITEM_OS_KEY",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.WATERMARK_ITEM_OS_KEY",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "WATERMARK_ITEM_OS_KEY",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.WATERMARK_OS_NAME_SUFFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "WATERMARK_OS_NAME_SUFFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
         }
       ]
     }
@@ -608,75 +671,6 @@
           "classSimpleName": "MuleStereotypeDefinition",
           "elementKind": "class",
           "justification": "Clarify that this Class should not be extended by third parties"
-        }
-      ]
-    }
-  },
-  "1.2.1": {
-    "revapi": {
-      "ignore": [
-        {
-          "code": "java.field.addedStaticField",
-          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.IDS_ON_UPDATED_WATERMARK_OS_NAME_SUFFIX",
-          "package": "org.mule.runtime.extension.api.runtime.source",
-          "classSimpleName": "PollingSource",
-          "fieldName": "IDS_ON_UPDATED_WATERMARK_OS_NAME_SUFFIX",
-          "elementKind": "field",
-          "justification": "Making hardcoded constant part of the API"
-        },
-        {
-          "code": "java.field.addedStaticField",
-          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.OS_NAME_MASK",
-          "package": "org.mule.runtime.extension.api.runtime.source",
-          "classSimpleName": "PollingSource",
-          "fieldName": "OS_NAME_MASK",
-          "elementKind": "field",
-          "justification": "Making hardcoded constant part of the API"
-        },
-        {
-          "code": "java.field.addedStaticField",
-          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.OS_NAME_PREFIX",
-          "package": "org.mule.runtime.extension.api.runtime.source",
-          "classSimpleName": "PollingSource",
-          "fieldName": "OS_NAME_PREFIX",
-          "elementKind": "field",
-          "justification": "Making hardcoded constant part of the API"
-        },
-        {
-          "code": "java.field.addedStaticField",
-          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.RECENTLY_PROCESSED_IDS_OS_NAME_SUFFIX",
-          "package": "org.mule.runtime.extension.api.runtime.source",
-          "classSimpleName": "PollingSource",
-          "fieldName": "RECENTLY_PROCESSED_IDS_OS_NAME_SUFFIX",
-          "elementKind": "field",
-          "justification": "Making hardcoded constant part of the API"
-        },
-        {
-          "code": "java.field.addedStaticField",
-          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.UPDATED_WATERMARK_ITEM_OS_KEY",
-          "package": "org.mule.runtime.extension.api.runtime.source",
-          "classSimpleName": "PollingSource",
-          "fieldName": "UPDATED_WATERMARK_ITEM_OS_KEY",
-          "elementKind": "field",
-          "justification": "Making hardcoded constant part of the API"
-        },
-        {
-          "code": "java.field.addedStaticField",
-          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.WATERMARK_ITEM_OS_KEY",
-          "package": "org.mule.runtime.extension.api.runtime.source",
-          "classSimpleName": "PollingSource",
-          "fieldName": "WATERMARK_ITEM_OS_KEY",
-          "elementKind": "field",
-          "justification": "Making hardcoded constant part of the API"
-        },
-        {
-          "code": "java.field.addedStaticField",
-          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.WATERMARK_OS_NAME_SUFFIX",
-          "package": "org.mule.runtime.extension.api.runtime.source",
-          "classSimpleName": "PollingSource",
-          "fieldName": "WATERMARK_OS_NAME_SUFFIX",
-          "elementKind": "field",
-          "justification": "Making hardcoded constant part of the API"
         }
       ]
     }
