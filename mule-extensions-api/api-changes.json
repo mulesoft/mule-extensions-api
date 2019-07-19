@@ -1,4 +1,39 @@
 {
+  "1.1.8": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.class.nowImplementsInterface",
+          "old": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "interface": "org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AuthorizationCodeState",
+          "elementKind": "interface",
+          "justification": "Fixing MULE-17210"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AuthorizationCodeState",
+          "elementKind": "interface",
+          "justification": "Fixing MULE-17210"
+        },
+        {
+          "code": "java.class.added",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "OAuthState",
+          "elementKind": "interface",
+          "justification": "Fixing MULE-17210"
+        }
+      ]
+    }
+  },
   "1.1.4": {
     "revapi": {
       "ignore": [
