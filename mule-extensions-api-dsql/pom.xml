@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mule-extensions-api-dsql</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.1-SP1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Mule Extensions API DSQL</name>
     <description>API for Mule Extensions to add DateSense Query Language support.</description>

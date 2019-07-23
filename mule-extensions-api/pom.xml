@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>mule-extensions-api</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.1-SP1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Mule Extensions API</name>
     <description>API for Mule Extensions to integrate with the Mule Runtime in a decoupled way</description>
