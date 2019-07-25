@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.runtime</groupId>
     <artifactId>mule-extensions-api-parent</artifactId>
-    <version>1.2.1-SP1-SNAPSHOT</version>
+    <version>1.2.1</version>
     <packaging>pom</packaging>
     <name>Mule Extensions API Parent</name>
     <description>Parent POM for Mule Extensions API modules</description>
@@ -115,7 +115,7 @@
         <javaVersion>1.8</javaVersion>
         <xDocLint>-Xdoclint:none</xDocLint>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-        <muleApiVersion>1.2.1-SP1-SNAPSHOT</muleApiVersion>
+        <muleApiVersion>1.2.1</muleApiVersion>
         <metadataModelApiVersion>1.2.1</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.1.0</muleModuleMavenPluginVersion>
         <mockitoVersion>2.23.4</mockitoVersion>
