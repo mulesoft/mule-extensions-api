@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>mule-extensions-api-persistence</artifactId>
-    <version>1.2.1-SP1-SNAPSHOT</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
     <name>Mule Extensions API Persistence</name>
     <description>Persistence API for Mule Extensions</description>
