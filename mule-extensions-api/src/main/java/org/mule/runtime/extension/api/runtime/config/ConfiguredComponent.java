@@ -19,7 +19,7 @@ import java.util.Optional;
 public interface ConfiguredComponent {
 
   /**
-   * @return The {@link ConfigurationInstance} which may optinally be associated to {@code this} component
+   * @return The {@link ConfigurationInstance} which may optionally be associated to {@code this} component
    */
   Optional<ConfigurationInstance> getConfigurationInstance();
 }

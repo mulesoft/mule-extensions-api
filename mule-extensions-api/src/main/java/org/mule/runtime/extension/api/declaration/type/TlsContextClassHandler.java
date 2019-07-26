@@ -6,11 +6,13 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import static java.util.Arrays.asList;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Location.EMBEDDED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
+import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CRL_FILE_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER;
@@ -37,6 +39,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupp
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 
 import java.lang.reflect.Type;
@@ -58,7 +61,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
    */
   @Override
   public boolean handles(Class<?> clazz) {
-    return TlsContextFactory.class.equals(clazz);
+    return TlsContextFactory.class.isAssignableFrom(clazz);
   }
 
   /**
@@ -79,6 +82,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.with(new QNameTypeAnnotation(new QName("http://www.mulesoft.org/schema/mule/tls",
                                                 TLS_CONTEXT_ELEMENT_IDENTIFIER,
                                                 TLS_PREFIX)));
+    type.with(new StereotypeTypeAnnotation(asList(newStereotype(TLS_CONTEXT_ELEMENT_IDENTIFIER, TLS_PREFIX).build())));
     addStringField(type, typeBuilder, "enabledProtocols",
                    "A comma separated list of protocols enabled for this context.", null);
     addStringField(type, typeBuilder, "enabledCipherSuites",
