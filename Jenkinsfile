@@ -1,4 +1,4 @@
-def UPSTREAM_PROJECTS_LIST = [ "Mule-runtime/mule-api/1.2.1" ]
+def UPSTREAM_PROJECTS_LIST = [ "Mule-runtime/mule-api/1.2.1-SPX" ]
 
 Map pipelineParams = [ "upstreamProjects" : UPSTREAM_PROJECTS_LIST.join(',') ]
 
