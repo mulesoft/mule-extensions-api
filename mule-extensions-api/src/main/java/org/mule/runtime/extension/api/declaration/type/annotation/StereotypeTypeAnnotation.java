@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import static org.mule.runtime.api.util.Preconditions.checkState;
+
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
@@ -25,7 +26,7 @@ import java.util.function.Function;
 public class StereotypeTypeAnnotation implements TypeAnnotation {
 
   public static final String NAME = "stereotype";
-  private List<StereotypeModel> allowedStereotypes;
+  private final List<StereotypeModel> allowedStereotypes;
   private transient List<Class<? extends StereotypeDefinition>> definitionClasses;
 
   /**
@@ -83,4 +84,32 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
   public boolean isPublic() {
     return true;
   }
+
+  @Override
+  public int hashCode() {
+    return allowedStereotypes.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    StereotypeTypeAnnotation other = (StereotypeTypeAnnotation) obj;
+    if (allowedStereotypes == null) {
+      if (other.allowedStereotypes != null) {
+        return false;
+      }
+    } else if (!allowedStereotypes.equals(other.allowedStereotypes)) {
+      return false;
+    }
+    return true;
+  }
+
 }
