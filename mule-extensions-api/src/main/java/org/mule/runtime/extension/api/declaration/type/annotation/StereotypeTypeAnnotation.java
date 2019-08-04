@@ -60,6 +60,14 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
     return allowedStereotypes;
   }
 
+  /**
+   * @return the definitions, available before the enrichment is performed.
+   * @since 1.3
+   */
+  public List<Class<? extends StereotypeDefinition>> getDefinitionClasses() {
+    return definitionClasses;
+  }
+
   public void resolveStereotypes(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
     checkState(allowedStereotypes.isEmpty(),
                () -> "The stereotypes have already been resolved or provided: " + allowedStereotypes);

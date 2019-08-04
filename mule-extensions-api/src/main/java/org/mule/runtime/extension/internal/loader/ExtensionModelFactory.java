@@ -109,7 +109,9 @@ import org.mule.runtime.extension.internal.loader.validator.NameClashModelValida
 import org.mule.runtime.extension.internal.loader.validator.NameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.OperationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.StereotypesHierarchyConsistentValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.TopLevelPojoWithStereotypeValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
 
@@ -177,7 +179,9 @@ public final class ExtensionModelFactory {
                                                        new TransactionalParametersValidator(),
                                                        new ValidatorModelValidator(),
                                                        new NameModelValidator(),
-                                                       new BackPressureModelValidator()));
+                                                       new BackPressureModelValidator(),
+                                                       new TopLevelPojoWithStereotypeValidator(),
+                                                       new StereotypesHierarchyConsistentValidator()));
 
     validate = isTestingMode() || isForceExtensionValidation();
   }

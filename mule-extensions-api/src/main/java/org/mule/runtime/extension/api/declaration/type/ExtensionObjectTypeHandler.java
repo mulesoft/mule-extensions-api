@@ -8,8 +8,10 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -24,21 +26,26 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.annotation.param.stereotype.Stereotype;
-import org.mule.runtime.extension.api.declaration.type.annotation.*;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
+import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 /**
- * An implementation of {@link ObjectHandler} which allows the type to me enriched with custom
- * type annotations of the Extensions API.
+ * An implementation of {@link ObjectHandler} which allows the type to me enriched with custom type annotations of the Extensions
+ * API.
  *
  * @since 1.0
  */
@@ -101,9 +108,42 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
       if (stereotype != null) {
         annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
+      } else {
+        calculateInheritedStereotype(currentClass).ifPresent(inh -> {
+          annotatedBuilder.with(fromDefinitions(singletonList(inh)));
+        });
       }
     }
     return typeBuilder;
+  }
+
+  private Optional<Class<? extends StereotypeDefinition>> calculateInheritedStereotype(Class<?> currentClass) {
+    if (currentClass == null) {
+      return empty();
+    }
+
+    AtomicReference<Class<? extends StereotypeDefinition>> inheritedStereotype = new AtomicReference<>();
+    Class<?> cls = currentClass;
+
+    for (Class<?> iface : cls.getInterfaces()) {
+      calculateInheritedStereotype(iface).ifPresent(inheritedStereotype::set);
+    }
+
+    while (cls != null && cls.getSuperclass() != Object.class) {
+      calculateInheritedStereotype(cls.getSuperclass()).ifPresent(inheritedStereotype::set);
+      cls = cls.getSuperclass();
+    }
+
+    if (inheritedStereotype.get() != null) {
+      return Optional.of(inheritedStereotype.get());
+    } else {
+      Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
+      if (stereotype != null) {
+        return Optional.of(stereotype.value());
+      } else {
+        return Optional.empty();
+      }
+    }
   }
 
   private Class<?> getGenericClass(List<Type> genericTypes, int position) {
