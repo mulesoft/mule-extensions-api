@@ -33,6 +33,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotat
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
+import org.mule.runtime.extension.api.stereotype.ImplicitStereotypeDefinition;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
 
 import java.lang.reflect.Type;
@@ -94,10 +95,13 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
         annotatedBuilder.with(new ExtensibleTypeAnnotation());
       }
 
+      boolean allowTopLevelDefinition = false;
+
       TypeDsl typeDsl = currentClass.getAnnotation(TypeDsl.class);
       if (typeDsl != null) {
+        allowTopLevelDefinition = typeDsl.allowTopLevelDefinition();
         annotatedBuilder.with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
-                                                    typeDsl.allowTopLevelDefinition(),
+                                                    allowTopLevelDefinition,
                                                     typeDsl.substitutionGroup(),
                                                     typeDsl.baseType()));
       }
@@ -109,9 +113,13 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       if (stereotype != null) {
         annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
       } else {
-        calculateInheritedStereotype(currentClass).ifPresent(inh -> {
-          annotatedBuilder.with(fromDefinitions(singletonList(inh)));
-        });
+        if (currentClass.isInterface() || allowTopLevelDefinition) {
+          annotatedBuilder.with(fromDefinitions(singletonList(ImplicitStereotypeDefinition.class)));
+        } else {
+          calculateInheritedStereotype(currentClass).ifPresent(inh -> {
+            annotatedBuilder.with(fromDefinitions(singletonList(inh)));
+          });
+        }
       }
     }
     return typeBuilder;
@@ -139,7 +147,7 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     } else {
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
       if (stereotype != null) {
-        return Optional.of(stereotype.value());
+        return Optional.of(ImplicitStereotypeDefinition.class);
       } else {
         return Optional.empty();
       }

@@ -6,13 +6,18 @@
  */
 package org.mule.runtime.extension.internal.loader.validator;
 
+import static java.util.Optional.empty;
+
 import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
+import org.mule.runtime.extension.api.stereotype.ImplicitStereotypeDefinition;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+
+import java.util.Optional;
 
 /**
  * Validates that when stereotypes are defined in a type and a subtype, the stereotype in the subtype is a descendant of the one
@@ -27,13 +32,13 @@ public class StereotypesHierarchyConsistentValidator implements ExtensionModelVa
     model.getSubTypes().forEach(stm -> {
       stm.getBaseType().getAnnotation(StereotypeTypeAnnotation.class)
           .flatMap(stAnn -> stAnn.getDefinitionClasses().stream().findFirst())
-          .map(this::instantiateSteretypeDefinition)
+          .flatMap(this::instantiateSteretypeDefinition)
           .ifPresent(baseStereotype -> {
             stm.getSubTypes().forEach(subType -> {
               subType.getAnnotation(StereotypeTypeAnnotation.class).ifPresent(stAnn -> {
                 if (stAnn.getDefinitionClasses().stream()
                     .map(this::instantiateSteretypeDefinition)
-                    .anyMatch(s -> !isAncestor(s, baseStereotype))) {
+                    .anyMatch(s -> s.map(sd -> !isAncestor(sd, baseStereotype)).orElse(false))) {
                   problemsReporter.addWarning(new Problem(model, "Type '" + subType
                       + "' has a @Stereotype which is not a descendant from the @Stereotype defined in a superclass/superinterface '"
                       + stm.getBaseType() + "'"));
@@ -44,11 +49,15 @@ public class StereotypesHierarchyConsistentValidator implements ExtensionModelVa
     });
   }
 
-  private StereotypeDefinition instantiateSteretypeDefinition(Class<? extends StereotypeDefinition> def) {
-    try {
-      return def.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
-      throw new MuleRuntimeException(e);
+  private Optional<StereotypeDefinition> instantiateSteretypeDefinition(Class<? extends StereotypeDefinition> def) {
+    if (def.equals(ImplicitStereotypeDefinition.class)) {
+      return empty();
+    } else {
+      try {
+        return Optional.of(def.newInstance());
+      } catch (InstantiationException | IllegalAccessException e) {
+        throw new MuleRuntimeException(e);
+      }
     }
   }
 
