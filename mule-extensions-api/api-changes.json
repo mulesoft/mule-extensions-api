@@ -23,7 +23,43 @@
           "classSimpleName": "OAuthGrantType",
           "elementKind": "interface",
           "justification": "Annotation was missing"
-        }
+        },
+        {
+          "code": "java.field.enumConstantOrderChanged",
+          "old": "field org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.FINALIZE",
+          "new": "field org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.FINALIZE",
+          "oldOrdinal": "4",
+          "newOrdinal": "5",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "DeclarationEnricherPhase",
+          "fieldName": "FINALIZE",
+          "elementKind": "enumConstant",
+          "justification": "Added a phase between STRUCTURE and POST_STRUCTURE. No access by index should be done to this enum."
+        },
+        {
+          "code": "java.field.enumConstantOrderChanged",
+          "old": "field org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.LAYOUT",
+          "new": "field org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.LAYOUT",
+          "oldOrdinal": "3",
+          "newOrdinal": "4",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "DeclarationEnricherPhase",
+          "fieldName": "LAYOUT",
+          "elementKind": "enumConstant",
+          "justification": "Added a phase between STRUCTURE and POST_STRUCTURE. No access by index should be done to this enum."
+        },
+        {
+          "code": "java.field.enumConstantOrderChanged",
+          "old": "field org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE",
+          "new": "field org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE",
+          "oldOrdinal": "2",
+          "newOrdinal": "3",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "DeclarationEnricherPhase",
+          "fieldName": "POST_STRUCTURE",
+          "elementKind": "enumConstant",
+          "justification": "Added a phase between STRUCTURE and POST_STRUCTURE. No access by index should be done to this enum."
+        }        
       ]
     }
   },
