@@ -7,9 +7,10 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentDeclarationTypeName;
+
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.IntersectionType;
 import org.mule.metadata.api.model.MetadataType;
@@ -42,9 +43,12 @@ import java.util.Set;
  */
 public final class ExtensionTypesDeclarationEnricher implements DeclarationEnricher {
 
+  /**
+   * This has to run before {@link StereotypesDeclarationEnricher}.
+   */
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE;
+    return STRUCTURE;
   }
 
   @Override
