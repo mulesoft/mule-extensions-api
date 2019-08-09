@@ -41,7 +41,7 @@ public enum DeclarationEnricherPhase {
    * This phase contains all {@link DeclarationEnricher}s that ensure consistency among elements, required by enrichers in the
    * {@value #POST_STRUCTURE} phase.
    */
-  CONSISTENCY,
+  WIRING,
 
   /**
    * This phase contains all {@link DeclarationEnricher}s that go over the final extension structure and add metadata and
