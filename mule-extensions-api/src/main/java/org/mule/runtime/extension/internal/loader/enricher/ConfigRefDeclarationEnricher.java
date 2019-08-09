@@ -25,6 +25,7 @@ import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarat
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
 import org.mule.runtime.extension.api.runtime.config.ConfigurationProvider;
 
@@ -99,6 +100,10 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
   }
 
   private boolean canBeUsedImplicitly(ParameterizedDeclaration<?> parameterized) {
+    if (parameterized.getModelProperty(NoImplicitModelProperty.class).isPresent()) {
+      return false;
+    }
+
     return parameterized.getAllParameters().stream().noneMatch(ParameterDeclaration::isRequired);
   }
 
