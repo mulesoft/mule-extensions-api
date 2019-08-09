@@ -6,19 +6,25 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static com.google.common.base.Functions.identity;
+import static java.util.stream.Collectors.toMap;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isReferableType;
 
+import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
+import org.mule.metadata.api.model.impl.DefaultObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
@@ -26,10 +32,13 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclarat
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
+
+import java.util.Map;
 
 /**
  * Enhances the declaration of the {@link ParameterDslConfiguration} taking into account the type of the parameter as well as the
@@ -66,72 +75,96 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
           boolean isContent = !declaration.getRole().equals(ParameterRole.BEHAVIOUR);
           ParameterDslConfiguration dslConfiguration = declaration.getDslConfiguration();
 
-          declaration.getType().accept(new MetadataTypeVisitor() {
+          getTypeId(declaration.getType())
+              // Get the type instance from the extension types to keep the flyweight working correctly
+              .flatMap(typeId -> typeCatalog.getType(typeId))
+              .map((MetadataType type) -> {
+                if (type instanceof ObjectType) {
+                  final Map<Class<? extends TypeAnnotation>, TypeAnnotation> normalizedAnnotationsByClass =
+                      type.getAnnotations().stream()
+                          .collect(toMap(ann -> ann.getClass(), identity()));
 
-            @Override
-            protected void defaultVisit(MetadataType metadataType) {
-              builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() && isContent)
-                  .allowTopLevelDefinition(false)
-                  .allowsReferences(false);
-            }
+                  // the type to be processed has to have the annotations that were specifically set for this type as a parameter
+                  declaration.getType().getAnnotation(ClassInformationAnnotation.class)
+                      .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ClassInformationAnnotation.class,
+                                                                                    paramClassInfo));
+                  declaration.getType().getAnnotation(ParameterDslAnnotation.class)
+                      .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ParameterDslAnnotation.class,
+                                                                                    paramClassInfo));
+                  return new DefaultObjectType(((ObjectType) type).getFields(), ((ObjectType) type).isOrdered(),
+                                               ((ObjectType) type).getOpenRestriction().orElse(null),
+                                               type.getMetadataFormat(), normalizedAnnotationsByClass);
+                } else {
+                  return type;
+                }
+              })
+              .orElse(declaration.getType())
+              .accept(new MetadataTypeVisitor() {
 
-            @Override
-            public void visitString(StringType stringType) {
-              boolean isText = declaration.getLayoutModel() != null && declaration.getLayoutModel().isText();
-              builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() && (isText || isContent))
-                  .allowTopLevelDefinition(false)
-                  .allowsReferences(false);
-            }
+                @Override
+                protected void defaultVisit(MetadataType metadataType) {
+                  builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() && isContent)
+                      .allowTopLevelDefinition(false)
+                      .allowsReferences(false);
+                }
 
-            @Override
-            public void visitArrayType(ArrayType arrayType) {
-              MetadataType genericType = arrayType.getType();
-              boolean supportsInline = supportsInlineDeclaration(arrayType, declaration.getExpressionSupport(),
-                                                                 dslConfiguration, isContent);
-              boolean isWrapped = allowsInlineAsWrappedType(genericType, typeCatalog);
+                @Override
+                public void visitString(StringType stringType) {
+                  boolean isText = declaration.getLayoutModel() != null && declaration.getLayoutModel().isText();
+                  builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() && (isText || isContent))
+                      .allowTopLevelDefinition(false)
+                      .allowsReferences(false);
+                }
 
-              builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() && (supportsInline || isWrapped))
-                  .allowTopLevelDefinition(dslConfiguration.allowTopLevelDefinition())
-                  .allowsReferences(dslConfiguration.allowsReferences());
-            }
+                @Override
+                public void visitArrayType(ArrayType arrayType) {
+                  MetadataType genericType = arrayType.getType();
+                  boolean supportsInline = supportsInlineDeclaration(arrayType, declaration.getExpressionSupport(),
+                                                                     dslConfiguration, isContent);
+                  boolean isWrapped = allowsInlineAsWrappedType(genericType, typeCatalog);
 
-            @Override
-            public void visitAnyType(AnyType anyType) {
-              if (isReferableType(anyType)) {
-                builder.allowsReferences(dslConfiguration.allowsReferences())
-                    .allowTopLevelDefinition(false)
-                    .allowsInlineDefinition(false);
-              } else {
-                defaultVisit(anyType);
-              }
-            }
+                  builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() && (supportsInline || isWrapped))
+                      .allowTopLevelDefinition(dslConfiguration.allowTopLevelDefinition())
+                      .allowsReferences(dslConfiguration.allowsReferences());
+                }
 
-            @Override
-            public void visitObject(ObjectType objectType) {
-              if (isMap(objectType)) {
-                builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition());
+                @Override
+                public void visitAnyType(AnyType anyType) {
+                  if (isReferableType(anyType)) {
+                    builder.allowsReferences(dslConfiguration.allowsReferences())
+                        .allowTopLevelDefinition(false)
+                        .allowsInlineDefinition(false);
+                  } else {
+                    defaultVisit(anyType);
+                  }
+                }
 
-              } else if (!declaration.getModelProperty(InfrastructureParameterModelProperty.class).isPresent()) {
+                @Override
+                public void visitObject(ObjectType objectType) {
+                  if (isMap(objectType)) {
+                    builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition());
 
-                boolean supportsInline = supportsInlineDeclaration(objectType, declaration.getExpressionSupport(),
-                                                                   dslConfiguration, isContent);
+                  } else if (!declaration.getModelProperty(InfrastructureParameterModelProperty.class).isPresent()) {
 
-                boolean isWrapped = allowsInlineAsWrappedType(objectType, typeCatalog);
+                    boolean supportsInline = supportsInlineDeclaration(objectType, declaration.getExpressionSupport(),
+                                                                       dslConfiguration, isContent);
 
-                builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() &&
-                    (supportsInline || isWrapped));
-              }
+                    boolean isWrapped = allowsInlineAsWrappedType(objectType, typeCatalog);
 
-              builder.allowTopLevelDefinition(dslConfiguration.allowTopLevelDefinition())
-                  .allowsReferences(dslConfiguration.allowsReferences());
-            }
+                    builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() &&
+                        (supportsInline || isWrapped));
+                  }
 
-            @Override
-            public void visitUnion(UnionType unionType) {
-              unionType.getTypes().forEach(type -> type.accept(this));
-            }
+                  builder.allowTopLevelDefinition(dslConfiguration.allowTopLevelDefinition())
+                      .allowsReferences(dslConfiguration.allowsReferences());
+                }
 
-          });
+                @Override
+                public void visitUnion(UnionType unionType) {
+                  unionType.getTypes().forEach(type -> type.accept(this));
+                }
+
+              });
 
           declaration.setDslConfiguration(builder.build());
         }
