@@ -21,6 +21,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
@@ -30,6 +31,7 @@ import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ConnectableComponentModel;
+import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -50,6 +52,7 @@ import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Collection;
@@ -349,6 +352,11 @@ public class ExtensionModelUtils {
    * @return whether the given model can be used implicitly or not.
    */
   public static boolean canBeUsedImplicitly(ParameterizedModel parameterizedModel) {
+    if (parameterizedModel instanceof EnrichableModel) {
+      if (((EnrichableModel) parameterizedModel).getModelProperty(NoImplicitModelProperty.class).isPresent()) {
+        return false;
+      }
+    }
     return parameterizedModel.getAllParameterModels().stream().filter(p -> !p.isComponentId()).noneMatch(p -> p.isRequired());
   }
 
