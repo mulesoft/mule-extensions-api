@@ -39,7 +39,7 @@ public enum DeclarationEnricherPhase {
 
   /**
    * This phase contains all {@link DeclarationEnricher}s that ensure consistency among elements, required by enrichers in the
-   * {@value #POST_STRUCTURE} phase.
+   * {@value #POST_STRUCTURE} phase, linking objects created by the {@link #STRUCTURE} phase together.
    */
   WIRING,
 
