@@ -269,6 +269,22 @@
           "fieldName": "WATERMARK_OS_NAME_SUFFIX",
           "elementKind": "field",
           "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.class.added",
+          "new": "@interface org.mule.runtime.extension.api.annotation.NoImplicit",
+          "package": "org.mule.runtime.extension.api.annotation",
+          "classSimpleName": "NoImplicit",
+          "elementKind": "@interface",
+          "justification": "Necessary to fix EE-6859"
+        },
+        {
+          "code": "java.class.added",
+          "new": "class org.mule.runtime.extension.api.property.NoImplicitModelProperty",
+          "package": "org.mule.runtime.extension.api.property",
+          "classSimpleName": "NoImplicitModelProperty",
+          "elementKind": "class",
+          "justification": "Necessary to fix EE-6859"
         }
       ]
     }
