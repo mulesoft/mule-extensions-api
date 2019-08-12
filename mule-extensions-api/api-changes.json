@@ -206,6 +206,104 @@
           "methodName": "isMapOfStrings",
           "elementKind": "method",
           "justification": "Critical new feature. Making a SEMVER exception"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.IDS_ON_UPDATED_WATERMARK_OS_NAME_SUFFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "IDS_ON_UPDATED_WATERMARK_OS_NAME_SUFFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.OS_NAME_MASK",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "OS_NAME_MASK",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.OS_NAME_PREFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "OS_NAME_PREFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.RECENTLY_PROCESSED_IDS_OS_NAME_SUFFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "RECENTLY_PROCESSED_IDS_OS_NAME_SUFFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.UPDATED_WATERMARK_ITEM_OS_KEY",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "UPDATED_WATERMARK_ITEM_OS_KEY",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.WATERMARK_ITEM_OS_KEY",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "WATERMARK_ITEM_OS_KEY",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.runtime.source.PollingSource<T, A>.WATERMARK_OS_NAME_SUFFIX",
+          "package": "org.mule.runtime.extension.api.runtime.source",
+          "classSimpleName": "PollingSource",
+          "fieldName": "WATERMARK_OS_NAME_SUFFIX",
+          "elementKind": "field",
+          "justification": "Making hardcoded constant part of the API"
+        },
+        {
+          "code": "java.class.added",
+          "new": "@interface org.mule.runtime.extension.api.annotation.NoImplicit",
+          "package": "org.mule.runtime.extension.api.annotation",
+          "classSimpleName": "NoImplicit",
+          "elementKind": "@interface",
+          "justification": "Necessary to fix EE-6859"
+        },
+        {
+          "code": "java.class.added",
+          "new": "class org.mule.runtime.extension.api.property.NoImplicitModelProperty",
+          "package": "org.mule.runtime.extension.api.property",
+          "classSimpleName": "NoImplicitModelProperty",
+          "elementKind": "class",
+          "justification": "Necessary to fix EE-6859"
+        },
+        {
+          "code": "java.annotation.noLongerPresent",
+          "old": "@interface org.mule.runtime.extension.api.annotation.source.PrimaryNodeOnly",
+          "package": "org.mule.runtime.extension.api.annotation.source",
+          "classSimpleName": "PrimaryNodeOnly",
+          "elementKind": "@interface",
+          "justification": "Unused and badly defined"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.stereotype.MuleStereotypeDefinition",
+          "new": "class org.mule.runtime.extension.api.stereotype.MuleStereotypeDefinition",
+          "annotationType": "org.mule.api.annotation.NoExtend",
+          "annotation": "@org.mule.api.annotation.NoExtend",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "MuleStereotypeDefinition",
+          "elementKind": "class",
+          "justification": "Clarify that this Class should not be extended by third parties"
         }
       ]
     }
@@ -583,31 +681,6 @@
           "methodName": "length",
           "elementKind": "method",
           "justification": "Avoid autoboxing/unboxing where possible"
-        }
-      ]
-    }
-  },
-  "1.2.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "code": "java.annotation.noLongerPresent",
-          "old": "@interface org.mule.runtime.extension.api.annotation.source.PrimaryNodeOnly",
-          "package": "org.mule.runtime.extension.api.annotation.source",
-          "classSimpleName": "PrimaryNodeOnly",
-          "elementKind": "@interface",
-          "justification": "Unused and badly defined"
-        },
-        {
-          "code": "java.annotation.added",
-          "old": "class org.mule.runtime.extension.api.stereotype.MuleStereotypeDefinition",
-          "new": "class org.mule.runtime.extension.api.stereotype.MuleStereotypeDefinition",
-          "annotationType": "org.mule.api.annotation.NoExtend",
-          "annotation": "@org.mule.api.annotation.NoExtend",
-          "package": "org.mule.runtime.extension.api.stereotype",
-          "classSimpleName": "MuleStereotypeDefinition",
-          "elementKind": "class",
-          "justification": "Clarify that this Class should not be extended by third parties"
         }
       ]
     }
