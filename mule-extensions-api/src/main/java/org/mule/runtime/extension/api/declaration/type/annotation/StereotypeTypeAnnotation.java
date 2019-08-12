@@ -61,7 +61,8 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
   }
 
   public void resolveStereotypes(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
-    checkState(allowedStereotypes.isEmpty(), "The stereotypes have already been resolved or provided");
+    checkState(allowedStereotypes.isEmpty(),
+               () -> "The stereotypes have already been resolved or provided: " + allowedStereotypes);
     definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(clazz)));
   }
 

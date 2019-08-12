@@ -7,9 +7,6 @@
 package org.mule.runtime.extension.api.loader;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
-
-import java.util.Collection;
 
 
 /**
@@ -39,6 +36,12 @@ public enum DeclarationEnricherPhase {
    * common parameters.
    */
   STRUCTURE,
+
+  /**
+   * This phase contains all {@link DeclarationEnricher}s that ensure consistency among elements, required by enrichers in the
+   * {@value #POST_STRUCTURE} phase, linking objects created by the {@link #STRUCTURE} phase together.
+   */
+  WIRING,
 
   /**
    * This phase contains all {@link DeclarationEnricher}s that go over the final extension structure and add metadata and
