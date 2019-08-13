@@ -125,10 +125,10 @@
           {
             "type": {
               "value": {
-                "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexFieldsType"
+                "type": "@ref:0x1"
               },
               "catalog": {
-                "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType": {
+                "0x1": {
                   "format": "java",
                   "type": "Object",
                   "annotations": {
@@ -176,7 +176,7 @@
                           }
                         },
                         "item": {
-                          "type": "@ref:org.mule.runtime.extension.api.dsl.model.ExtensibleType"
+                          "type": "@ref:0x2"
                         }
                       },
                       "annotations": {
@@ -202,7 +202,7 @@
                         "required": "true"
                       },
                       "model": {
-                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.SimpleFieldsType"
+                        "type": "@ref:0x3"
                       },
                       "annotations": {
                         "expressionSupport": {
@@ -215,7 +215,7 @@
                         "name": "notGlobalType"
                       },
                       "model": {
-                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.NotGlobalType"
+                        "type": "@ref:0x4"
                       },
                       "annotations": {
                         "expressionSupport": {
@@ -229,7 +229,7 @@
                         "required": "true"
                       },
                       "model": {
-                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ParameterGroupType"
+                        "type": "@ref:0x5"
                       },
                       "annotations": {
                         "flattened": {},
@@ -244,7 +244,7 @@
                         "required": "true"
                       },
                       "model": {
-                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup"
+                        "type": "@ref:0x6"
                       },
                       "annotations": {
                         "flattened": {},
@@ -259,7 +259,7 @@
                         "required": "true"
                       },
                       "model": {
-                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup"
+                        "type": "@ref:0x6"
                       },
                       "annotations": {
                         "flattened": {},
@@ -270,114 +270,7 @@
                     }
                   ]
                 },
-                "org.mule.runtime.extension.api.dsl.model.NotGlobalType": {
-                  "format": "java",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
-                    "classInformation": {
-                      "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
-                      "hasDefaultConstructor": true,
-                      "isInterface": false,
-                      "isInstantiable": true,
-                      "isAbstract": false,
-                      "isFinal": false,
-                      "implementedInterfaces": [],
-                      "parent": "",
-                      "genericTypes": [],
-                      "isMap": false
-                    },
-                    "typeAlias": {
-                      "value": "NotGlobalType"
-                    }
-                  },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "sampleString",
-                        "required": "true"
-                      },
-                      "model": {
-                        "type": "String"
-                      },
-                      "annotations": {
-                        "expressionSupport": {
-                          "value": "SUPPORTED"
-                        }
-                      }
-                    },
-                    {
-                      "key": {
-                        "name": "otherNumber",
-                        "required": "true"
-                      },
-                      "model": {
-                        "type": "Number",
-                        "annotations": {
-                          "classInformation": {
-                            "classname": "java.lang.Integer",
-                            "hasDefaultConstructor": false,
-                            "isInterface": false,
-                            "isInstantiable": false,
-                            "isAbstract": false,
-                            "isFinal": true,
-                            "implementedInterfaces": [
-                              "java.lang.Comparable"
-                            ],
-                            "parent": "java.lang.Number",
-                            "genericTypes": [],
-                            "isMap": false
-                          },
-                          "int": {}
-                        }
-                      },
-                      "annotations": {
-                        "expressionSupport": {
-                          "value": "SUPPORTED"
-                        }
-                      }
-                    }
-                  ]
-                },
-                "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup": {
-                  "format": "java",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
-                    "classInformation": {
-                      "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
-                      "hasDefaultConstructor": true,
-                      "isInterface": false,
-                      "isInstantiable": true,
-                      "isAbstract": false,
-                      "isFinal": false,
-                      "implementedInterfaces": [],
-                      "parent": "",
-                      "genericTypes": [],
-                      "isMap": false
-                    },
-                    "typeAlias": {
-                      "value": "ComplexTypeFieldGroup"
-                    }
-                  },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "complexFieldsType",
-                        "required": "true"
-                      },
-                      "model": {
-                        "type": "@ref:org.mule.runtime.extension.api.dsl.model.ComplexFieldsType"
-                      },
-                      "annotations": {
-                        "expressionSupport": {
-                          "value": "SUPPORTED"
-                        }
-                      }
-                    }
-                  ]
-                },
-                "org.mule.runtime.extension.api.dsl.model.ExtensibleType": {
+                "0x2": {
                   "format": "java",
                   "type": "Object",
                   "annotations": {
@@ -499,7 +392,7 @@
                     }
                   ]
                 },
-                "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType": {
+                "0x3": {
                   "format": "java",
                   "type": "Object",
                   "annotations": {
@@ -593,7 +486,76 @@
                     }
                   ]
                 },
-                "org.mule.runtime.extension.api.dsl.model.ParameterGroupType": {
+                "0x4": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
+                    },
+                    "typeAlias": {
+                      "value": "NotGlobalType"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "sampleString",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "String"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "otherNumber",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Number",
+                        "annotations": {
+                          "classInformation": {
+                            "classname": "java.lang.Integer",
+                            "hasDefaultConstructor": false,
+                            "isInterface": false,
+                            "isInstantiable": false,
+                            "isAbstract": false,
+                            "isFinal": true,
+                            "implementedInterfaces": [
+                              "java.lang.Comparable"
+                            ],
+                            "parent": "java.lang.Number",
+                            "genericTypes": [],
+                            "isMap": false
+                          },
+                          "int": {}
+                        }
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "0x5": {
                   "format": "java",
                   "type": "Object",
                   "annotations": {
@@ -651,6 +613,44 @@
                       }
                     }
                   ]
+                },
+                "0x6": {
+                  "format": "java",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                    "classInformation": {
+                      "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                      "hasDefaultConstructor": true,
+                      "isInterface": false,
+                      "isInstantiable": true,
+                      "isAbstract": false,
+                      "isFinal": false,
+                      "implementedInterfaces": [],
+                      "parent": "",
+                      "genericTypes": [],
+                      "isMap": false
+                    },
+                    "typeAlias": {
+                      "value": "ComplexTypeFieldGroup"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "complexFieldsType",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "@ref:0x1"
+                      },
+                      "annotations": {
+                        "expressionSupport": {
+                          "value": "SUPPORTED"
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             },
@@ -696,10 +696,79 @@
           {
             "type": {
               "value": {
-                "type": "@ref:http://example.com/create-customer-request-type-schema.json"
+                "type": "@ref:0x1"
               },
               "catalog": {
-                "/properties/shippingAddress/items": {
+                "0x1": {
+                  "format": "json",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "http://example.com/create-customer-request-type-schema.json"
+                  },
+                  "open": {
+                    "type": "Any"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "phone"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "name"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "shippingAddress"
+                      },
+                      "model": {
+                        "type": "Array",
+                        "annotations": {
+                          "typeId": "/properties/shippingAddress"
+                        },
+                        "item": {
+                          "type": "@ref:0x2"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "billingAddress"
+                      },
+                      "model": {
+                        "type": "Array",
+                        "item": {
+                          "type": "@ref:0x3"
+                        }
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "id"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "email"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    }
+                  ]
+                },
+                "0x2": {
                   "format": "json",
                   "type": "Object",
                   "annotations": {
@@ -757,19 +826,16 @@
                     }
                   ]
                 },
-                "http://example.com/create-customer-request-type-schema.json": {
+                "0x3": {
                   "format": "json",
                   "type": "Object",
-                  "annotations": {
-                    "typeId": "http://example.com/create-customer-request-type-schema.json"
-                  },
                   "open": {
                     "type": "Any"
                   },
                   "fields": [
                     {
                       "key": {
-                        "name": "phone"
+                        "name": "country"
                       },
                       "model": {
                         "type": "String"
@@ -777,88 +843,18 @@
                     },
                     {
                       "key": {
-                        "name": "name"
-                      },
-                      "model": {
-                        "type": "String"
-                      }
-                    },
-                    {
-                      "key": {
-                        "name": "shippingAddress"
+                        "name": "address"
                       },
                       "model": {
                         "type": "Array",
-                        "annotations": {
-                          "typeId": "/properties/shippingAddress"
-                        },
                         "item": {
-                          "type": "@ref:/properties/shippingAddress/items"
+                          "type": "String"
                         }
                       }
                     },
                     {
                       "key": {
-                        "name": "billingAddress"
-                      },
-                      "model": {
-                        "type": "Array",
-                        "item": {
-                          "type": "Object",
-                          "open": {
-                            "type": "Any"
-                          },
-                          "fields": [
-                            {
-                              "key": {
-                                "name": "country"
-                              },
-                              "model": {
-                                "type": "String"
-                              }
-                            },
-                            {
-                              "key": {
-                                "name": "address"
-                              },
-                              "model": {
-                                "type": "Array",
-                                "item": {
-                                  "type": "String"
-                                }
-                              }
-                            },
-                            {
-                              "key": {
-                                "name": "city"
-                              },
-                              "model": {
-                                "type": "String"
-                              }
-                            },
-                            {
-                              "key": {
-                                "name": "postalCode"
-                              },
-                              "model": {
-                                "type": "String"
-                              }
-                            },
-                            {
-                              "key": {
-                                "name": "state"
-                              },
-                              "model": {
-                                "type": "String"
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "key": {
-                        "name": "id"
+                        "name": "city"
                       },
                       "model": {
                         "type": "String"
@@ -866,7 +862,15 @@
                     },
                     {
                       "key": {
-                        "name": "email"
+                        "name": "postalCode"
+                      },
+                      "model": {
+                        "type": "String"
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "state"
                       },
                       "model": {
                         "type": "String"
