@@ -32,6 +32,11 @@ public final class TypedValueTypeAnnotation implements TypeAnnotation {
     return obj instanceof TypedValueTypeAnnotation;
   }
 
+  @Override
+  public int hashCode() {
+    return TypedValueTypeAnnotation.class.hashCode();
+  }
+
   /**
    * @return false
    */
