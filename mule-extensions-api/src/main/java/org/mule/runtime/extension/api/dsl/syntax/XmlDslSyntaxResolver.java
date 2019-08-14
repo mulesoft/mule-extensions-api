@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.util.FunctionalUtils.computeIfAbsent;
+import static org.mule.runtime.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeId;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
@@ -31,12 +32,12 @@ import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
-import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
@@ -74,8 +75,6 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -85,6 +84,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.xml.namespace.QName;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Default implementation of a {@link DslSyntaxResolver} based on XML.
@@ -143,6 +144,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @param component the {@link NamedObject} element to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link NamedObject model}
    */
+  @Override
   public DslElementSyntax resolve(final NamedObject component) {
     final String elementName = getSanitizedElementName(component);
     return computeIfAbsent(resolvedTypes, elementName, key -> {
@@ -176,6 +178,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @param parameter the {@link ParameterModel} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link ParameterModel parameter}
    */
+  @Override
   public DslElementSyntax resolve(final ParameterModel parameter) {
     final ExpressionSupport expressionSupport = parameter.getExpressionSupport();
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
@@ -280,6 +283,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @param group the {@link ParameterGroupModel} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link ParameterGroupModel group}
    */
+  @Override
   public DslElementSyntax resolveInline(ParameterGroupModel group) {
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     builder.withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
@@ -300,6 +304,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType} or
    * {@link Optional#empty} if the {@code type} is not supported as an standalone element
    */
+  @Override
   public Optional<DslElementSyntax> resolve(MetadataType type) {
     return type instanceof ObjectType ? resolvePojoDsl((ObjectType) type) : empty();
   }
@@ -826,7 +831,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private String getPrefix(MetadataType type, String prefix) {
-    XmlDslModel originXml = importedTypes.get(type);
+    XmlDslModel originXml = lookupOriginXml(type);
     return originXml != null ? originXml.getPrefix() : prefix;
   }
 
@@ -835,8 +840,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private String getNamespace(MetadataType type, String defaultNamespace) {
-    XmlDslModel originXml = importedTypes.get(type);
+    XmlDslModel originXml = lookupOriginXml(type);
     return originXml != null ? originXml.getNamespace() : defaultNamespace;
+  }
+
+  private XmlDslModel lookupOriginXml(MetadataType type) {
+    XmlDslModel originXml = getTypeId(type).flatMap(id -> typeCatalog.getType(id))
+        .map(normalizedType -> importedTypes.get(normalizedType)).orElse(importedTypes.get(type));
+    return originXml;
   }
 
   private String resolveItemName(String parameterName, boolean forceItemize) {
