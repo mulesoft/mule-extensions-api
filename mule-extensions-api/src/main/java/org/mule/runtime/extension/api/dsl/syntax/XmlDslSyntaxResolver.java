@@ -108,11 +108,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *                                  {@link ImportedTypeModel}
+   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *         {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
     this.extensionModel = model;
@@ -124,12 +124,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model               the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param importTypesStrategy the {@link ImportTypesStrategy} used for external types resolution
    * @return the default implementation of a {@link DslSyntaxResolver}
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *                                  {@link ImportedTypeModel}
+   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *         {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
     this.extensionModel = model;
@@ -277,8 +277,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   /**
-   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has
-   * to be shown as an inline element of the DSL
+   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has to be shown as an inline element of the DSL
    *
    * @param group the {@link ParameterGroupModel} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link ParameterGroupModel group}
@@ -302,7 +301,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    *
    * @param type the {@link MetadataType} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType} or
-   * {@link Optional#empty} if the {@code type} is not supported as an standalone element
+   *         {@link Optional#empty} if the {@code type} is not supported as an standalone element
    */
   @Override
   public Optional<DslElementSyntax> resolve(MetadataType type) {
@@ -386,12 +385,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
           @Override
           public void visit(NestedComponentModel component) {
-            //no-op
+            // no-op
           }
 
           @Override
           public void visit(NestedChainModel component) {
-            //no-op
+            // no-op
           }
 
           @Override
@@ -570,18 +569,16 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
 
       /**
-       * Builds the {@code map-element} that allows to represent complex objects both as
-       * a {@code value} attribute or as an inline definition if the given {@code objectType} supports it.
+       * Builds the {@code map-element} that allows to represent complex objects both as a {@code value} attribute or as an inline
+       * definition if the given {@code objectType} supports it.
        *
-       * Value attribute representation:
-       * {@code
+       * Value attribute representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="one" value="#[myPojoVar]"/>
        * </ns:map-elements>
        * }
        *
-       * Inline object representation:
-       * {@code
+       * Inline object representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="one">
        *        <ns:complex-type-name attr="">
@@ -633,18 +630,16 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
 
       /**
-       * Builds the {@code map-element} that allows to represent a list of elements both as
-       * a {@code value} attribute or as an inline definition.
+       * Builds the {@code map-element} that allows to represent a list of elements both as a {@code value} attribute or as an
+       * inline definition.
        *
-       * Value attribute representation:
-       * {@code
+       * Value attribute representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="one" value="#[myListVar]"/>
        * </ns:map-elements>
        * }
        *
-       * Inline list representation:
-       * {@code
+       * Inline list representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="">
        *        <ns:map-element-item value="one"/>
@@ -653,8 +648,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
        * </ns:map-elements>
        * }
        *
-       * List items may also be complex elements like objects or nested lists, in that case the {@code value}
-       * attribute of the item is replaced by inline content inside the {@code map-element-item} entry.
+       * List items may also be complex elements like objects or nested lists, in that case the {@code value} attribute of the
+       * item is replaced by inline content inside the {@code map-element-item} entry.
        */
       @Override
       public void visitArrayType(ArrayType arrayType) {
@@ -845,9 +840,10 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private XmlDslModel lookupOriginXml(MetadataType type) {
-    XmlDslModel originXml = getTypeId(type).flatMap(id -> typeCatalog.getType(id))
-        .map(normalizedType -> importedTypes.get(normalizedType)).orElse(importedTypes.get(type));
-    return originXml;
+    return getTypeId(type)
+        .flatMap(id -> typeCatalog.getType(id))
+        .map(normalizedType -> importedTypes.get(normalizedType))
+        .orElse(importedTypes.get(type));
   }
 
   private String resolveItemName(String parameterName, boolean forceItemize) {
