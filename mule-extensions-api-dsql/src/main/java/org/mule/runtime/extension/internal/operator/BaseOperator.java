@@ -18,7 +18,11 @@ abstract class BaseOperator implements Operator {
    */
   @Override
   public boolean equals(Object obj) {
-    return this.getClass() == obj.getClass();
+    return obj != null && this.getClass() == obj.getClass();
   }
 
+  @Override
+  public int hashCode() {
+    return this.getClass().hashCode();
+  }
 }
