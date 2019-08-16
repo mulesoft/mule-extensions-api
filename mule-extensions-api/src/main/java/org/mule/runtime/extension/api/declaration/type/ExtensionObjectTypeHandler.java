@@ -113,12 +113,11 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       if (stereotype != null) {
         annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
       } else {
-        if (currentClass.isInterface() || allowTopLevelDefinition) {
+        if ((!currentClass.getName().startsWith("java.") && !currentClass.getName().startsWith("org.mule.runtime.")
+            && currentClass.isInterface()) || allowTopLevelDefinition) {
           annotatedBuilder.with(fromDefinitions(singletonList(ImplicitStereotypeDefinition.class)));
         } else {
-          calculateInheritedStereotype(currentClass).ifPresent(inh -> {
-            annotatedBuilder.with(fromDefinitions(singletonList(inh)));
-          });
+          calculateInheritedStereotype(currentClass).ifPresent(inh -> annotatedBuilder.with(fromDefinitions(singletonList(inh))));
         }
       }
     }
