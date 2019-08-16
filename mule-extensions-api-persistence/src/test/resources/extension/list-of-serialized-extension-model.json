@@ -841,8 +841,8 @@
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
-                  "allowsInlineDefinition": true,
-                  "allowsReferences": true,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false,
                   "allowTopLevelDefinition": false
                 },
                 "allowedStereotypeModels": [],
@@ -2895,8 +2895,8 @@
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
-                  "allowsInlineDefinition": true,
-                  "allowsReferences": true,
+                  "allowsInlineDefinition": false,
+                  "allowsReferences": false,
                   "allowTopLevelDefinition": false
                 },
                 "allowedStereotypeModels": [],

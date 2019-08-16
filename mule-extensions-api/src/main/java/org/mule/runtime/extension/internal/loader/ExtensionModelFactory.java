@@ -94,6 +94,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarat
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.NamedObjectDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ParameterDslDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ReconnectionStrategyDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
@@ -112,11 +113,6 @@ import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidat
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.UncheckedExecutionException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -126,6 +122,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual {@link ExtensionModel}.
@@ -148,6 +149,7 @@ public final class ExtensionModelFactory {
 
   public ExtensionModelFactory() {
     declarationEnrichers = unmodifiableList((asList(
+                                                    new ParameterDslDeclarationEnricher(),
                                                     new ClassLoaderDeclarationEnricher(),
                                                     new ContentParameterDeclarationEnricher(),
                                                     new ExecutionTypeDeclarationEnricher(),
@@ -239,7 +241,7 @@ public final class ExtensionModelFactory {
 
   private class FactoryDelegate {
 
-    private Cache<ParameterizedDeclaration, ParameterizedModel> modelCache = CacheBuilder.newBuilder().build();
+    private final Cache<ParameterizedDeclaration, ParameterizedModel> modelCache = CacheBuilder.newBuilder().build();
 
     private ExtensionModel toExtension(ExtensionDeclaration extensionDeclaration) {
       validateMuleVersion(extensionDeclaration);
