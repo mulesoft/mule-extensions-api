@@ -103,6 +103,11 @@ public final class ExtensionOAuthConstants {
   public static final String SCOPES_PARAMETER_NAME = "scopes";
 
   /**
+   * The name of the parameter on which the audience are configured
+   */
+  public static final String AUDIENCE_PARAMETER_NAME = "audience";
+
+  /**
    * The name of the parameter on which the id of the user to be authenticated is configured
    */
   public static final String RESOURCE_OWNER_ID_PARAMETER_NAME = "resourceOwnerId";

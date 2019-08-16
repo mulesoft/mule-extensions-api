@@ -29,6 +29,7 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
   private final String expirationRegex;
   private final String defaultScopes;
   private final CredentialsPlacement credentialsPlacement;
+  private final String defaultAudience;
 
   /**
    * Creates a new instance
@@ -42,7 +43,8 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
                                     String accessTokenExpr,
                                     String expirationRegex,
                                     String defaultScopes,
-                                    CredentialsPlacement credentialsPlacement) {
+                                    CredentialsPlacement credentialsPlacement,
+                                    String defaultAudience) {
 
     notBlank(tokenUrl, "tokenUrl");
     notBlank(accessTokenExpr, "accessTokenExpr");
@@ -54,6 +56,7 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
     this.expirationRegex = expirationRegex;
     this.defaultScopes = isBlank(defaultScopes) ? null : defaultScopes;
     this.credentialsPlacement = credentialsPlacement != null ? credentialsPlacement : BASIC_AUTH_HEADER;
+    this.defaultAudience = isBlank(defaultAudience) ? null : defaultAudience;
   }
 
   @Override
@@ -105,5 +108,12 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
 
   public CredentialsPlacement getCredentialsPlacement() {
     return credentialsPlacement;
+  }
+
+  /**
+   * @return The default audience to be requested
+   */
+  public Optional<String> getDefaultAudience() {
+    return ofNullable(defaultAudience);
   }
 }

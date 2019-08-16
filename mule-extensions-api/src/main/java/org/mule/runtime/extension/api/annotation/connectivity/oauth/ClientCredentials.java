@@ -62,4 +62,9 @@ public @interface ClientCredentials {
    */
   CredentialsPlacement credentialsPlacement() default BASIC_AUTH_HEADER;
 
+  /**
+   * @return The default audience to be requested. Empty string means no default audience.
+   */
+  String defaultAudience() default "";
+
 }

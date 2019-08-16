@@ -36,6 +36,7 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.RESOURCE_OWNER_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.TOKEN_URL_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUDIENCE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
@@ -135,6 +136,11 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                 "The OAuth scopes to be requested during the dance. If not provided, it will default "
                                     + "to those in the annotation",
                                 false, stringType, NOT_SUPPORTED, grantType.getDefaultScopes().orElse(null)));
+
+      params.add(buildParameter(AUDIENCE_PARAMETER_NAME,
+                                "The OAuth audience to be requested during the dance. If not provided, it will default "
+                                    + "to those in the annotation",
+                                false, stringType, NOT_SUPPORTED, grantType.getDefaultAudience().orElse(null)));
 
       addToGroup(params, OAUTH_CLIENT_CREDENTIALS_GROUP_NAME, OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME, declaration);
     }
