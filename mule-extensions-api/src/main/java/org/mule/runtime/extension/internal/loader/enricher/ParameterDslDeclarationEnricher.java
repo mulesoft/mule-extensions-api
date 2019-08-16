@@ -38,7 +38,9 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Enhances the declaration of the {@link ParameterDslConfiguration} taking into account the type of the parameter as well as the
@@ -66,6 +68,15 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
     public void apply(ExtensionLoadingContext extensionLoadingContext) {
       extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
       TypeCatalog typeCatalog = extensionLoadingContext.getDslResolvingContext().getTypeCatalog();
+
+      Map<String, ObjectType> typesById = new HashMap<>();
+      final Set<ObjectType> types = extensionDeclaration.getTypes();
+      for (ObjectType type : types) {
+        getTypeId(type).ifPresent(typeId -> {
+          typesById.put(typeId, type);
+        });
+      }
+
       new IdempotentDeclarationWalker() {
 
         @Override
@@ -77,7 +88,7 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
 
           getTypeId(declaration.getType())
               // Get the type instance from the extension types to keep the flyweight working correctly
-              .flatMap(typeId -> typeCatalog.getType(typeId))
+              .map(typeId -> typeCatalog.getType(typeId).orElse(typesById.get(typeId)))
               .map((MetadataType type) -> {
                 if (type instanceof ObjectType) {
                   final Map<Class<? extends TypeAnnotation>, TypeAnnotation> normalizedAnnotationsByClass =
