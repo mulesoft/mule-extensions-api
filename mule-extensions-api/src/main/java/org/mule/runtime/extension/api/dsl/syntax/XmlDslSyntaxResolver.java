@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.util.FunctionalUtils.computeIfAbsent;
+import static org.mule.runtime.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeId;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
@@ -31,12 +32,12 @@ import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
-import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
@@ -74,8 +75,6 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -85,6 +84,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.xml.namespace.QName;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Default implementation of a {@link DslSyntaxResolver} based on XML.
@@ -107,11 +108,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *                                  {@link ImportedTypeModel}
+   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *         {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
     this.extensionModel = model;
@@ -123,12 +124,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model               the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param importTypesStrategy the {@link ImportTypesStrategy} used for external types resolution
    * @return the default implementation of a {@link DslSyntaxResolver}
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *                                  {@link ImportedTypeModel}
+   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *         {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
     this.extensionModel = model;
@@ -143,6 +144,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @param component the {@link NamedObject} element to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link NamedObject model}
    */
+  @Override
   public DslElementSyntax resolve(final NamedObject component) {
     final String elementName = getSanitizedElementName(component);
     return computeIfAbsent(resolvedTypes, elementName, key -> {
@@ -176,6 +178,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    * @param parameter the {@link ParameterModel} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link ParameterModel parameter}
    */
+  @Override
   public DslElementSyntax resolve(final ParameterModel parameter) {
     final ExpressionSupport expressionSupport = parameter.getExpressionSupport();
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
@@ -274,12 +277,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   /**
-   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has
-   * to be shown as an inline element of the DSL
+   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has to be shown as an inline element of the DSL
    *
    * @param group the {@link ParameterGroupModel} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link ParameterGroupModel group}
    */
+  @Override
   public DslElementSyntax resolveInline(ParameterGroupModel group) {
     final DslElementSyntaxBuilder builder = DslElementSyntaxBuilder.create();
     builder.withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
@@ -298,8 +301,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    *
    * @param type the {@link MetadataType} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType} or
-   * {@link Optional#empty} if the {@code type} is not supported as an standalone element
+   *         {@link Optional#empty} if the {@code type} is not supported as an standalone element
    */
+  @Override
   public Optional<DslElementSyntax> resolve(MetadataType type) {
     return type instanceof ObjectType ? resolvePojoDsl((ObjectType) type) : empty();
   }
@@ -381,12 +385,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
           @Override
           public void visit(NestedComponentModel component) {
-            //no-op
+            // no-op
           }
 
           @Override
           public void visit(NestedChainModel component) {
-            //no-op
+            // no-op
           }
 
           @Override
@@ -565,18 +569,16 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
 
       /**
-       * Builds the {@code map-element} that allows to represent complex objects both as
-       * a {@code value} attribute or as an inline definition if the given {@code objectType} supports it.
+       * Builds the {@code map-element} that allows to represent complex objects both as a {@code value} attribute or as an inline
+       * definition if the given {@code objectType} supports it.
        *
-       * Value attribute representation:
-       * {@code
+       * Value attribute representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="one" value="#[myPojoVar]"/>
        * </ns:map-elements>
        * }
        *
-       * Inline object representation:
-       * {@code
+       * Inline object representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="one">
        *        <ns:complex-type-name attr="">
@@ -628,18 +630,16 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       }
 
       /**
-       * Builds the {@code map-element} that allows to represent a list of elements both as
-       * a {@code value} attribute or as an inline definition.
+       * Builds the {@code map-element} that allows to represent a list of elements both as a {@code value} attribute or as an
+       * inline definition.
        *
-       * Value attribute representation:
-       * {@code
+       * Value attribute representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="one" value="#[myListVar]"/>
        * </ns:map-elements>
        * }
        *
-       * Inline list representation:
-       * {@code
+       * Inline list representation: {@code
        * <ns:map-elements>
        *    <ns:map-element key="">
        *        <ns:map-element-item value="one"/>
@@ -648,8 +648,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
        * </ns:map-elements>
        * }
        *
-       * List items may also be complex elements like objects or nested lists, in that case the {@code value}
-       * attribute of the item is replaced by inline content inside the {@code map-element-item} entry.
+       * List items may also be complex elements like objects or nested lists, in that case the {@code value} attribute of the
+       * item is replaced by inline content inside the {@code map-element-item} entry.
        */
       @Override
       public void visitArrayType(ArrayType arrayType) {
@@ -826,7 +826,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private String getPrefix(MetadataType type, String prefix) {
-    XmlDslModel originXml = importedTypes.get(type);
+    XmlDslModel originXml = lookupOriginXml(type);
     return originXml != null ? originXml.getPrefix() : prefix;
   }
 
@@ -835,8 +835,15 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private String getNamespace(MetadataType type, String defaultNamespace) {
-    XmlDslModel originXml = importedTypes.get(type);
+    XmlDslModel originXml = lookupOriginXml(type);
     return originXml != null ? originXml.getNamespace() : defaultNamespace;
+  }
+
+  private XmlDslModel lookupOriginXml(MetadataType type) {
+    return getTypeId(type)
+        .flatMap(id -> typeCatalog.getType(id))
+        .map(normalizedType -> importedTypes.get(normalizedType))
+        .orElse(importedTypes.get(type));
   }
 
   private String resolveItemName(String parameterName, boolean forceItemize) {
