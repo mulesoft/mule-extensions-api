@@ -21,5 +21,10 @@ public enum HttpParameterPlacement {
   /**
    * The parameter will be sent as a header
    */
-  HEADERS
+  HEADERS,
+
+  /**
+   * The parameter will be sent as a form parameter
+   */
+  FORM_PARAMS
 }
