@@ -39,6 +39,7 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Enhances the declaration of the {@link ParameterDslConfiguration} taking into account the type of the parameter as well as the
@@ -174,7 +175,16 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
     }
 
     boolean allowsInlineAsWrappedType(MetadataType type, TypeCatalog typeCatalog) {
-      return extensionDeclaration.getSubTypes().stream().anyMatch(s -> s.getBaseType().equals(type))
+      final Optional<String> typeIdOptional = getTypeId(type);
+
+      return extensionDeclaration.getSubTypes()
+          .stream()
+          .map(subType -> subType.getBaseType())
+          .anyMatch(baseType -> typeIdOptional
+              .map(typeId -> getTypeId(baseType)
+                  .map(baseTypeId -> typeId.equals(baseTypeId))
+                  .orElse(false))
+              .orElseGet(() -> baseType.equals(type)))
           || typeRequiresWrapperElement(type, typeCatalog);
     }
 
