@@ -38,6 +38,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 
@@ -77,30 +78,7 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
           boolean isContent = !declaration.getRole().equals(ParameterRole.BEHAVIOUR);
           ParameterDslConfiguration dslConfiguration = declaration.getDslConfiguration();
 
-          getTypeId(declaration.getType())
-              // Get the type instance from the extension types to keep the flyweight working correctly
-              .map(typeId -> typeCatalog.getType(typeId).orElse(extensionDeclaration.getTypeById(typeId)))
-              .map((MetadataType type) -> {
-                if (type instanceof ObjectType) {
-                  final Map<Class<? extends TypeAnnotation>, TypeAnnotation> normalizedAnnotationsByClass =
-                      type.getAnnotations().stream()
-                          .collect(toMap(ann -> ann.getClass(), identity()));
-
-                  // the type to be processed has to have the annotations that were specifically set for this type as a parameter
-                  declaration.getType().getAnnotation(ClassInformationAnnotation.class)
-                      .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ClassInformationAnnotation.class,
-                                                                                    paramClassInfo));
-                  declaration.getType().getAnnotation(ParameterDslAnnotation.class)
-                      .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ParameterDslAnnotation.class,
-                                                                                    paramClassInfo));
-                  return new DefaultObjectType(((ObjectType) type).getFields(), ((ObjectType) type).isOrdered(),
-                                               ((ObjectType) type).getOpenRestriction().orElse(null),
-                                               type.getMetadataFormat(), normalizedAnnotationsByClass);
-                } else {
-                  return type;
-                }
-              })
-              .orElse(declaration.getType())
+          resolveType(typeCatalog, declaration)
               .accept(new MetadataTypeVisitor() {
 
                 @Override
@@ -174,7 +152,53 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
 
     }
 
+    /**
+     * Resolves the MetadataType that represents the type of the parameter {@code declaration}, removing any information from it
+     * that is specific to its role as parameter.
+     * <p>
+     * For instance, A {@link MetadataType} representing an object defined in a JSON schema may be declared as an
+     * {@link InputStream} in one parameter or as a {@link Map} in another one, but the type both reference is the same. This
+     * method causes both uses to be considered the same type.
+     */
+    private MetadataType resolveType(TypeCatalog typeCatalog, ParameterDeclaration declaration) {
+      return getTypeId(declaration.getType())
+          // Get the type instance from the extension types to keep the flyweight working correctly
+          .map(typeId -> typeCatalog.getType(typeId).orElse(extensionDeclaration.getTypeById(typeId)))
+          .map((MetadataType type) -> {
+            if (type instanceof ObjectType) {
+              final Map<Class<? extends TypeAnnotation>, TypeAnnotation> normalizedAnnotationsByClass =
+                  type.getAnnotations().stream()
+                      .collect(toMap(ann -> ann.getClass(), identity()));
+
+              // the type to be processed has to have the annotations that were specifically set for this type as a parameter
+              declaration.getType().getAnnotation(ClassInformationAnnotation.class)
+                  .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ClassInformationAnnotation.class,
+                                                                                paramClassInfo));
+              declaration.getType().getAnnotation(ParameterDslAnnotation.class)
+                  .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ParameterDslAnnotation.class,
+                                                                                paramClassInfo));
+              return new DefaultObjectType(((ObjectType) type).getFields(), ((ObjectType) type).isOrdered(),
+                                           ((ObjectType) type).getOpenRestriction().orElse(null),
+                                           type.getMetadataFormat(), normalizedAnnotationsByClass);
+            } else {
+              return type;
+            }
+          })
+          .orElse(declaration.getType());
+    }
+
     boolean allowsInlineAsWrappedType(MetadataType type, TypeCatalog typeCatalog) {
+      return isSubTypeBase(type)
+          || typeRequiresWrapperElement(type, typeCatalog);
+    }
+
+    /**
+     * Checks if the given {@code type} is a base type for subtypes of the extension.
+     * <p>
+     * This method checks by type id rather than equality, since different instances of MetadataType may refer to the same type,
+     * some already enriched and others not.
+     */
+    private boolean isSubTypeBase(MetadataType type) {
       final Optional<String> typeIdOptional = getTypeId(type);
 
       return extensionDeclaration.getSubTypes()
@@ -184,8 +208,7 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
               .map(typeId -> getTypeId(baseType)
                   .map(baseTypeId -> typeId.equals(baseTypeId))
                   .orElse(false))
-              .orElseGet(() -> baseType.equals(type)))
-          || typeRequiresWrapperElement(type, typeCatalog);
+              .orElseGet(() -> baseType.equals(type)));
     }
 
   }
