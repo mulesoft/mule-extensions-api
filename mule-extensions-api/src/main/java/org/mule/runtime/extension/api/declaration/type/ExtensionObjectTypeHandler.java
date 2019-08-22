@@ -110,18 +110,35 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       annotatedBuilder.with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
 
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
-      if (stereotype != null) {
-        annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
-      } else {
-        if ((!currentClass.getName().startsWith("java.") && !currentClass.getName().startsWith("org.mule.runtime.")
-            && currentClass.isInterface()) || allowTopLevelDefinition) {
-          annotatedBuilder.with(fromDefinitions(singletonList(ImplicitStereotypeDefinition.class)));
-        } else {
-          calculateInheritedStereotype(currentClass).ifPresent(inh -> annotatedBuilder.with(fromDefinitions(singletonList(inh))));
-        }
-      }
+      handleStereotype(currentClass, annotatedBuilder, allowTopLevelDefinition, stereotype);
     }
     return typeBuilder;
+  }
+
+  private void handleStereotype(Class<?> currentClass, final WithAnnotation annotatedBuilder, boolean allowTopLevelDefinition,
+                                Stereotype stereotype) {
+    if (stereotype != null) {
+      annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
+    } else {
+      // We need to generate implicit stereotypes for top level elements and their interfaces. Thing is, we don't know if an
+      // interface is implemented only by top level elements when processing that interface, so to be safe, an implicit stereotype
+      // is defined for all interfaces.
+      if (isInterfaceFromThisExtension(currentClass) || allowTopLevelDefinition) {
+        annotatedBuilder.with(fromDefinitions(singletonList(ImplicitStereotypeDefinition.class)));
+      } else {
+        calculateInheritedStereotype(currentClass).ifPresent(inh -> annotatedBuilder.with(fromDefinitions(singletonList(inh))));
+      }
+    }
+  }
+
+  /**
+   * Now, the interfaces found for an extension may be not from the extension, it may be something from the JDK (i.e.:
+   * Serializable) or something from the Mule runtime (i.e.: org.mule.runtime.extension.api.runtime.route.Chain). To avoid
+   * generating stereotypes that have no chance of being needed, those cases are filtered out.
+   */
+  private boolean isInterfaceFromThisExtension(Class<?> currentClass) {
+    return !currentClass.getName().startsWith("java.") && !currentClass.getName().startsWith("org.mule.runtime.")
+        && currentClass.isInterface();
   }
 
   private Optional<Class<? extends StereotypeDefinition>> calculateInheritedStereotype(Class<?> currentClass) {

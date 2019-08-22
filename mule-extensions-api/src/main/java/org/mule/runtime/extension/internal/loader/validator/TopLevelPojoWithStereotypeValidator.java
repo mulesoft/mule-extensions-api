@@ -20,7 +20,7 @@ import java.util.Set;
 
 /**
  * Validates that any element (not a config) that is allowed to be defined as topLevel has stereotypes assigned.
- * 
+ *
  * @since 1.3.0
  */
 public class TopLevelPojoWithStereotypeValidator implements ExtensionModelValidator {
@@ -36,19 +36,17 @@ public class TopLevelPojoWithStereotypeValidator implements ExtensionModelValida
     final Set<ObjectType> types = model.getTypes();
 
     types.stream()
-        .filter(ot -> ot.getAnnotation(TypeDslAnnotation.class).map(dsl -> dsl.allowsTopLevelDefinition()).orElse(false))
+        .filter(ot -> ot.getAnnotation(TypeDslAnnotation.class).map(TypeDslAnnotation::allowsTopLevelDefinition).orElse(false))
         .filter(ot -> !ot.getAnnotation(StereotypeTypeAnnotation.class).isPresent()
             && (!subTypeToParentType.containsKey(ot)
                 || !subTypeToParentType.get(ot).getAnnotation(StereotypeTypeAnnotation.class).isPresent()))
-        .forEach(ot -> {
-          problemsReporter.addWarning(new Problem(model, "Type '" + ot
-              + (subTypeToParentType.containsKey(ot)
-                  ? "' (or its parent type, '" + subTypeToParentType.get(ot) + "')"
-                  : "")
-              + " is allowed as a top-level element but does not have a @Stereotype assigned. Add the @Stereotype annotation to it"
-              + (subTypeToParentType.containsKey(ot) ? "(or its parent)" : "")
-              + " with a meaningful value."));
-        });
+        .forEach(ot -> problemsReporter.addWarning(new Problem(model, "Type '" + ot
+            + (subTypeToParentType.containsKey(ot)
+                ? "' (or its parent type, '" + subTypeToParentType.get(ot) + "')"
+                : "")
+            + " is allowed as a top-level element but does not have a @Stereotype assigned. Add the @Stereotype annotation to it"
+            + (subTypeToParentType.containsKey(ot) ? "(or its parent)" : "")
+            + " with a meaningful value.")));
   }
 
 }

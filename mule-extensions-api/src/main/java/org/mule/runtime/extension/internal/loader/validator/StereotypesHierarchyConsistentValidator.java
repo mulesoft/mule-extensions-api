@@ -29,24 +29,19 @@ public class StereotypesHierarchyConsistentValidator implements ExtensionModelVa
 
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
-    model.getSubTypes().forEach(stm -> {
-      stm.getBaseType().getAnnotation(StereotypeTypeAnnotation.class)
-          .flatMap(stAnn -> stAnn.getDefinitionClasses().stream().findFirst())
-          .flatMap(this::instantiateSteretypeDefinition)
-          .ifPresent(baseStereotype -> {
-            stm.getSubTypes().forEach(subType -> {
-              subType.getAnnotation(StereotypeTypeAnnotation.class).ifPresent(stAnn -> {
-                if (stAnn.getDefinitionClasses().stream()
-                    .map(this::instantiateSteretypeDefinition)
-                    .anyMatch(s -> s.map(sd -> !isAncestor(sd, baseStereotype)).orElse(false))) {
-                  problemsReporter.addWarning(new Problem(model, "Type '" + subType
-                      + "' has a @Stereotype which is not a descendant from the @Stereotype defined in a superclass/superinterface '"
-                      + stm.getBaseType() + "'"));
-                }
-              });
-            });
-          });
-    });
+    model.getSubTypes().forEach(stm -> stm.getBaseType().getAnnotation(StereotypeTypeAnnotation.class)
+        .flatMap(stAnn -> stAnn.getDefinitionClasses().stream().findFirst())
+        .flatMap(this::instantiateSteretypeDefinition)
+        .ifPresent(baseStereotype -> stm.getSubTypes()
+            .forEach(subType -> subType.getAnnotation(StereotypeTypeAnnotation.class).ifPresent(stAnn -> {
+              if (stAnn.getDefinitionClasses().stream()
+                  .map(this::instantiateSteretypeDefinition)
+                  .anyMatch(s -> s.map(sd -> !isAncestor(sd, baseStereotype)).orElse(false))) {
+                problemsReporter.addWarning(new Problem(model, "Type '" + subType
+                    + "' has a @Stereotype which is not a descendant from the @Stereotype defined in a superclass/superinterface '"
+                    + stm.getBaseType() + "'"));
+              }
+            }))));
   }
 
   private Optional<StereotypeDefinition> instantiateSteretypeDefinition(Class<? extends StereotypeDefinition> def) {
