@@ -12,8 +12,14 @@ import static java.util.Optional.ofNullable;
 import java.util.Optional;
 
 /**
- * A special kind of stereotype definition, the model from which it is created will depend of the type that contains this
- * definition.
+ * A special kind of stereotype definition, to be automatically added to top level pojos and interfaces form an extension that do
+ * not already have an associated stereotype.
+ * <p>
+ * The idea behind this is to make all referenceable types have a stereotype, so it is the primary method of managing references
+ * between objects defined in the DSL.
+ * <p>
+ * The namespace is not provided, since it will be set when this object is processed, as explained in
+ * {@link StereotypeDefinition#getNamespace()}.
  *
  * @since 1.3
  */

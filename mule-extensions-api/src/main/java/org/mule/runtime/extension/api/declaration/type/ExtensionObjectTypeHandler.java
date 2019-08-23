@@ -137,7 +137,10 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
    * generating stereotypes that have no chance of being needed, those cases are filtered out.
    */
   private boolean isInterfaceFromThisExtension(Class<?> currentClass) {
-    return !currentClass.getName().startsWith("java.") && !currentClass.getName().startsWith("org.mule.runtime.")
+    return !currentClass.getName().startsWith("java.")
+        && !currentClass.getName().startsWith("javax.")
+        && !currentClass.getName().startsWith("org.mule.runtime.")
+        && !currentClass.getName().startsWith("com.mulesoft.mule.runtime.")
         && currentClass.isInterface();
   }
 
