@@ -8,8 +8,10 @@ package org.mule.runtime.extension.api.declaration.type;
 
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -24,21 +26,27 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.annotation.param.stereotype.Stereotype;
-import org.mule.runtime.extension.api.declaration.type.annotation.*;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
+import org.mule.runtime.extension.api.stereotype.ImplicitStereotypeDefinition;
+import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 /**
- * An implementation of {@link ObjectHandler} which allows the type to me enriched with custom
- * type annotations of the Extensions API.
+ * An implementation of {@link ObjectHandler} which allows the type to me enriched with custom type annotations of the Extensions
+ * API.
  *
  * @since 1.0
  */
@@ -87,10 +95,13 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
         annotatedBuilder.with(new ExtensibleTypeAnnotation());
       }
 
+      boolean allowTopLevelDefinition = false;
+
       TypeDsl typeDsl = currentClass.getAnnotation(TypeDsl.class);
       if (typeDsl != null) {
+        allowTopLevelDefinition = typeDsl.allowTopLevelDefinition();
         annotatedBuilder.with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
-                                                    typeDsl.allowTopLevelDefinition(),
+                                                    allowTopLevelDefinition,
                                                     typeDsl.substitutionGroup(),
                                                     typeDsl.baseType()));
       }
@@ -99,11 +110,67 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       annotatedBuilder.with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
 
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
-      if (stereotype != null) {
-        annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
-      }
+      handleStereotype(currentClass, annotatedBuilder, allowTopLevelDefinition, stereotype);
     }
     return typeBuilder;
+  }
+
+  private void handleStereotype(Class<?> currentClass, final WithAnnotation annotatedBuilder, boolean allowTopLevelDefinition,
+                                Stereotype stereotype) {
+    if (stereotype != null) {
+      annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
+    } else {
+      // We need to generate implicit stereotypes for top level elements and their interfaces. Thing is, we don't know if an
+      // interface is implemented only by top level elements when processing that interface, so to be safe, an implicit stereotype
+      // is defined for all interfaces.
+      if (isInterfaceFromThisExtension(currentClass) || allowTopLevelDefinition) {
+        annotatedBuilder.with(fromDefinitions(singletonList(ImplicitStereotypeDefinition.class)));
+      } else {
+        calculateInheritedStereotype(currentClass).ifPresent(inh -> annotatedBuilder.with(fromDefinitions(singletonList(inh))));
+      }
+    }
+  }
+
+  /**
+   * Now, the interfaces found for an extension may be not from the extension, it may be something from the JDK (i.e.:
+   * Serializable) or something from the Mule runtime (i.e.: org.mule.runtime.extension.api.runtime.route.Chain). To avoid
+   * generating stereotypes that have no chance of being needed, those cases are filtered out.
+   */
+  private boolean isInterfaceFromThisExtension(Class<?> currentClass) {
+    return !currentClass.getName().startsWith("java.")
+        && !currentClass.getName().startsWith("javax.")
+        && !currentClass.getName().startsWith("org.mule.runtime.")
+        && !currentClass.getName().startsWith("com.mulesoft.mule.runtime.")
+        && currentClass.isInterface();
+  }
+
+  private Optional<Class<? extends StereotypeDefinition>> calculateInheritedStereotype(Class<?> currentClass) {
+    if (currentClass == null) {
+      return empty();
+    }
+
+    AtomicReference<Class<? extends StereotypeDefinition>> inheritedStereotype = new AtomicReference<>();
+    Class<?> cls = currentClass;
+
+    for (Class<?> iface : cls.getInterfaces()) {
+      calculateInheritedStereotype(iface).ifPresent(inheritedStereotype::set);
+    }
+
+    while (cls != null && cls.getSuperclass() != Object.class) {
+      calculateInheritedStereotype(cls.getSuperclass()).ifPresent(inheritedStereotype::set);
+      cls = cls.getSuperclass();
+    }
+
+    if (inheritedStereotype.get() != null) {
+      return Optional.of(inheritedStereotype.get());
+    } else {
+      Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
+      if (stereotype != null) {
+        return Optional.of(ImplicitStereotypeDefinition.class);
+      } else {
+        return Optional.empty();
+      }
+    }
   }
 
   private Class<?> getGenericClass(List<Type> genericTypes, int position) {

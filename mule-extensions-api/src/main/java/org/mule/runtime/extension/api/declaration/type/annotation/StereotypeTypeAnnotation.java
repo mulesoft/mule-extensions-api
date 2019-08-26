@@ -6,15 +6,15 @@
  */
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
-import static org.mule.runtime.api.util.Preconditions.checkState;
-
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.ObjectFieldType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -61,9 +61,16 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
   }
 
   public void resolveStereotypes(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
-    checkState(allowedStereotypes.isEmpty(),
-               () -> "The stereotypes have already been resolved or provided: " + allowedStereotypes);
-    definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(clazz)));
+    if (allowedStereotypes.isEmpty()) {
+      definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(clazz)));
+    }
+  }
+
+  public void resolveStereotypes(ObjectType objectType,
+                                 BiFunction<ObjectType, Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
+    if (allowedStereotypes.isEmpty()) {
+      definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(objectType, clazz)));
+    }
   }
 
   /**
