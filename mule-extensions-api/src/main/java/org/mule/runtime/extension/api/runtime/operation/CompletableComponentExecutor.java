@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.runtime.operation;
 
+import org.mule.runtime.api.component.execution.CompletableCallback;
 import org.mule.runtime.api.meta.model.ComponentModel;
 
 /**
@@ -33,13 +34,14 @@ public interface CompletableComponentExecutor<M extends ComponentModel> {
   /**
    * Callback to notify the operation's result.
    */
-  interface ExecutorCallback {
+  interface ExecutorCallback extends CompletableCallback<Object> {
 
     /**
      * Invoked when the operation completed successfully. If the operation is void, a {@code null} value should be passed
      *
      * @param value the operation's result
      */
+    @Override
     void complete(Object value);
 
     /**
@@ -47,6 +49,7 @@ public interface CompletableComponentExecutor<M extends ComponentModel> {
      *
      * @param e the exception found
      */
+    @Override
     void error(Throwable e);
   }
 
