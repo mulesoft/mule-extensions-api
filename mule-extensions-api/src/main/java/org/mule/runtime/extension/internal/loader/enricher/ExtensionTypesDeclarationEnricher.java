@@ -35,6 +35,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -139,12 +140,8 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
         declarer.withType(objectType);
         objectType.getOpenRestriction().ifPresent(type -> type.accept(this));
         if (objectType instanceof MessageMetadataType) {
-          if (((MessageMetadataType) objectType).getPayloadType().isPresent()) {
-            ((MessageMetadataType) objectType).getPayloadType().get().accept(this);
-          }
-          if (((MessageMetadataType) objectType).getAttributesType().isPresent()) {
-            ((MessageMetadataType) objectType).getAttributesType().get().accept(this);
-          }
+          ((MessageMetadataType) objectType).getPayloadType().ifPresent(metadataType -> metadataType.accept(this));
+          ((MessageMetadataType) objectType).getAttributesType().ifPresent(metadataType -> metadataType.accept(this));
         }
       }
 
