@@ -139,8 +139,12 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
         declarer.withType(objectType);
         objectType.getOpenRestriction().ifPresent(type -> type.accept(this));
         if (objectType instanceof MessageMetadataType) {
-          ((MessageMetadataType) objectType).getPayloadType().get().accept(this);
-          ((MessageMetadataType) objectType).getAttributesType().get().accept(this);
+          if (((MessageMetadataType) objectType).getPayloadType().isPresent()) {
+            ((MessageMetadataType) objectType).getPayloadType().get().accept(this);
+          }
+          if (((MessageMetadataType) objectType).getAttributesType().isPresent()) {
+            ((MessageMetadataType) objectType).getAttributesType().get().accept(this);
+          }
         }
       }
 
