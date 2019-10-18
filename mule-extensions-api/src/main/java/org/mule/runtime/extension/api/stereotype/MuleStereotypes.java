@@ -25,7 +25,6 @@ public final class MuleStereotypes {
   public static final StereotypeDefinition APP_CONFIG_DEFINITION = new AppConfigStereotype();
   public static final StereotypeDefinition CONNECTION_DEFINITION = new ConnectionStereotype();
   public static final StereotypeDefinition PROCESSOR_DEFINITION = new ProcessorStereotype();
-  public static final StereotypeDefinition OBJECT_DEFINITION = new ObjectStereotype();
   public static final StereotypeDefinition SOURCE_DEFINITION = new SourceStereotype();
   public static final StereotypeDefinition VALIDATOR_DEFINITION = new ValidatorStereotype();
   public static final StereotypeDefinition OBJECT_STORE_DEFINITION = new ObjectStoreStereotype();
@@ -44,7 +43,6 @@ public final class MuleStereotypes {
   public static final StereotypeModel OBJECT_STORE =
       newStereotype(OBJECT_STORE_DEFINITION.getName(), OBJECT_STORE_ELEMENT_NAMESPACE.toUpperCase()).build();
   public static final StereotypeModel FLOW = newStereotype(FLOW_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel OBJECT = newStereotype(OBJECT_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel SUB_FLOW = newStereotype(SUB_FLOW_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel ERROR_HANDLER =
       newStereotype(ERROR_HANDLER_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
