@@ -17,8 +17,8 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
-import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.message.api.MessageMetadataType;
+import org.mule.metadata.message.api.MuleMetadataTypeVisitor;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
@@ -35,7 +35,6 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -133,16 +132,18 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
       return;
     }
 
-    type.accept(new MetadataTypeVisitor() {
+    type.accept(new MuleMetadataTypeVisitor() {
+
+      @Override
+      public void visitMuleMessage(MessageMetadataType messageMetadataType) {
+        messageMetadataType.getPayloadType().ifPresent(metadataType -> metadataType.accept(this));
+        messageMetadataType.getAttributesType().ifPresent(metadataType -> metadataType.accept(this));
+      }
 
       @Override
       public void visitObject(ObjectType objectType) {
         declarer.withType(objectType);
         objectType.getOpenRestriction().ifPresent(type -> type.accept(this));
-        if (objectType instanceof MessageMetadataType) {
-          ((MessageMetadataType) objectType).getPayloadType().ifPresent(metadataType -> metadataType.accept(this));
-          ((MessageMetadataType) objectType).getAttributesType().ifPresent(metadataType -> metadataType.accept(this));
-        }
       }
 
       @Override
