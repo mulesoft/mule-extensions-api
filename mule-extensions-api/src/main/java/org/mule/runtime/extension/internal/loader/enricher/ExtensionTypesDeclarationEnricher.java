@@ -17,7 +17,8 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
-import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.message.api.MessageMetadataType;
+import org.mule.metadata.message.api.MuleMetadataTypeVisitor;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
@@ -131,7 +132,13 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
       return;
     }
 
-    type.accept(new MetadataTypeVisitor() {
+    type.accept(new MuleMetadataTypeVisitor() {
+
+      @Override
+      public void visitMuleMessage(MessageMetadataType messageMetadataType) {
+        messageMetadataType.getPayloadType().ifPresent(metadataType -> metadataType.accept(this));
+        messageMetadataType.getAttributesType().ifPresent(metadataType -> metadataType.accept(this));
+      }
 
       @Override
       public void visitObject(ObjectType objectType) {
