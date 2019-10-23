@@ -11,14 +11,14 @@ import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STR
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentDeclarationTypeName;
 
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.IntersectionType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
-import org.mule.metadata.message.api.MessageMetadataType;
-import org.mule.metadata.message.api.MuleMetadataTypeVisitor;
+import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
@@ -132,16 +132,19 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
       return;
     }
 
-    type.accept(new MuleMetadataTypeVisitor() {
+    type.accept(new MetadataTypeVisitor() {
 
-      @Override
-      public void visitMuleMessage(MessageMetadataType messageMetadataType) {
-        messageMetadataType.getPayloadType().ifPresent(metadataType -> metadataType.accept(this));
-        messageMetadataType.getAttributesType().ifPresent(metadataType -> metadataType.accept(this));
-      }
+      TypeIdAnnotation messageTypeId = new TypeIdAnnotation("org.mule.runtime.api.message.Message");
 
       @Override
       public void visitObject(ObjectType objectType) {
+        objectType.getAnnotation(TypeIdAnnotation.class).ifPresent(typeId -> {
+          if (typeId.equals(messageTypeId)) {
+            for (ObjectFieldType field : objectType.getFields()) {
+              field.accept(this);
+            }
+          }
+        });
         declarer.withType(objectType);
         objectType.getOpenRestriction().ifPresent(type -> type.accept(this));
       }
