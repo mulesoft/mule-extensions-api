@@ -44,6 +44,8 @@ import java.util.Set;
  */
 public final class ExtensionTypesDeclarationEnricher implements DeclarationEnricher {
 
+  private static String messageTypeId = "org.mule.runtime.api.message.Message";
+
   /**
    * This has to run before {@link StereotypesDeclarationEnricher}.
    */
@@ -137,7 +139,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
       @Override
       public void visitObject(ObjectType objectType) {
         objectType.getAnnotation(TypeIdAnnotation.class).ifPresent(typeId -> {
-          if (typeId.getValue().equals("org.mule.runtime.api.message.Message")) {
+          if (typeId.getValue().equals(messageTypeId)) {
             for (ObjectFieldType field : objectType.getFields()) {
               field.accept(this);
             }
