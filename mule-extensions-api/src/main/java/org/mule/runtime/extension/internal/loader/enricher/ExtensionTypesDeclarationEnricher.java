@@ -134,12 +134,10 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
 
     type.accept(new MetadataTypeVisitor() {
 
-      TypeIdAnnotation messageTypeId = new TypeIdAnnotation("org.mule.runtime.api.message.Message");
-
       @Override
       public void visitObject(ObjectType objectType) {
         objectType.getAnnotation(TypeIdAnnotation.class).ifPresent(typeId -> {
-          if (typeId.equals(messageTypeId)) {
+          if (typeId.getValue().equals("org.mule.runtime.api.message.Message")) {
             for (ObjectFieldType field : objectType.getFields()) {
               field.accept(this);
             }
