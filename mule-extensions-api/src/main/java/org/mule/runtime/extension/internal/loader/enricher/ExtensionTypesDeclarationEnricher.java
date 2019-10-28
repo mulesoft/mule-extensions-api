@@ -19,6 +19,8 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
+import org.mule.metadata.message.api.MessageMetadataType;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
@@ -43,8 +45,6 @@ import java.util.Set;
  * @since 1.0
  */
 public final class ExtensionTypesDeclarationEnricher implements DeclarationEnricher {
-
-  private static String messageTypeId = "org.mule.runtime.api.message.Message";
 
   /**
    * This has to run before {@link StereotypesDeclarationEnricher}.
@@ -139,10 +139,10 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
       @Override
       public void visitObject(ObjectType objectType) {
         objectType.getAnnotation(TypeIdAnnotation.class).ifPresent(typeId -> {
-          if (typeId.getValue().equals(messageTypeId)) {
-            for (ObjectFieldType field : objectType.getFields()) {
-              field.accept(this);
-            }
+          if (typeId.getValue().equals(Message.class.getName())) {
+            MessageMetadataType messageType = (MessageMetadataType) objectType;
+            messageType.getPayloadType().ifPresent(type -> type.accept(this));
+            messageType.getAttributesType().ifPresent(type -> type.accept(this));
           }
         });
         declarer.withType(objectType);
