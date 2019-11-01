@@ -11,6 +11,7 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
@@ -32,6 +33,8 @@ import org.mule.runtime.extension.api.runtime.config.ConfigurationProvider;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 
@@ -44,6 +47,8 @@ import com.google.common.collect.Multimap;
  * @since 1.2
  */
 public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
+
+  private static final Logger LOGGER = getLogger(ConfigRefDeclarationEnricher.class);
 
   private static final String CONFIG_REF_NAME = "config-ref";
   private static final MetadataType CONFIG_TYPE = buildConfigRefType();
@@ -58,7 +63,16 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
     final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
     Multimap<ComponentDeclaration, ConfigurationDeclaration> componentsConfigs = getComponentConfigsMap(declaration);
     componentsConfigs.asMap()
-        .forEach((component, configs) -> component.getDefaultParameterGroup().addParameter(buildConfigRefParameter(configs)));
+        .forEach((component, configs) -> {
+          if (component.getDefaultParameterGroup().getParameters().stream()
+              .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
+            LOGGER.warn("Component '" + component.getName() + "' in extension '" + declaration.getName() + "' already has a '"
+                + CONFIG_REF_NAME + "' parameter defined. Skipping ConfigRefDeclarationEnricher for it.");
+            return;
+          }
+
+          component.getDefaultParameterGroup().addParameter(buildConfigRefParameter(configs));
+        });
   }
 
   private Multimap<ComponentDeclaration, ConfigurationDeclaration> getComponentConfigsMap(ExtensionDeclaration declaration) {
