@@ -64,7 +64,10 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
     Multimap<ComponentDeclaration, ConfigurationDeclaration> componentsConfigs = getComponentConfigsMap(declaration);
     componentsConfigs.asMap()
         .forEach((component, configs) -> {
-          if (component.getDefaultParameterGroup().getParameters().stream()
+          // This is ugly, but is needed so that in the rare case than an extension other than apikit happens to define a
+          // config-ref parameter that is valid, the behavior is not affected.
+          if ("APIKit".equals(declaration.getName())
+              && component.getDefaultParameterGroup().getParameters().stream()
               .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
             LOGGER.warn("Component '" + component.getName() + "' in extension '" + declaration.getName() + "' already has a '"
                 + CONFIG_REF_NAME + "' parameter defined. Skipping ConfigRefDeclarationEnricher for it.");
