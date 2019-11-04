@@ -41,8 +41,8 @@ import com.google.common.collect.Multimap;
 /**
  * Enriches component models that depends on a configuration adding the `config-ref` parameter to the model.
  * <p>
- * The "config-ref" parameter points to a connector configuration that will be used to execute the component, this parameter
- * is always required unless an implicit one can be created.
+ * The "config-ref" parameter points to a connector configuration that will be used to execute the component, this parameter is
+ * always required unless an implicit one can be created.
  *
  * @since 1.2
  */
@@ -68,7 +68,7 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
           // config-ref parameter that is valid, the behavior is not affected.
           if ("APIKit".equals(declaration.getName())
               && component.getDefaultParameterGroup().getParameters().stream()
-              .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
+                  .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
             LOGGER.warn("Component '" + component.getName() + "' in extension '" + declaration.getName() + "' already has a '"
                 + CONFIG_REF_NAME + "' parameter defined. Skipping ConfigRefDeclarationEnricher for it.");
             return;
