@@ -136,6 +136,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
 
     type.accept(new MetadataTypeVisitor() {
 
+      // Run this
       @Override
       public void visitObject(ObjectType objectType) {
         objectType.getAnnotation(TypeIdAnnotation.class).ifPresent(typeId -> {
