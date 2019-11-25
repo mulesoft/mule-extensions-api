@@ -271,7 +271,9 @@ public final class ExtensionConstants {
                                                                            SCHEDULING_STRATEGY_PARAMETER_NAME);
   /**
    * Namespace prefis for object store type
+   * @deprecated Do not use this namespace, ObjecStore Stereotype is defined under Mule namespace
    */
+  @Deprecated
   public static final String OBJECT_STORE_ELEMENT_NAMESPACE = "os";
 
   private ExtensionConstants() {}

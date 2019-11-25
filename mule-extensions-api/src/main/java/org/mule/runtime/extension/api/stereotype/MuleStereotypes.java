@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.stereotype;
 
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
-import static org.mule.runtime.extension.api.ExtensionConstants.OBJECT_STORE_ELEMENT_NAMESPACE;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
@@ -41,7 +40,7 @@ public final class MuleStereotypes {
   public static final StereotypeModel VALIDATOR = newStereotype(VALIDATOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE)
       .withParent(PROCESSOR).build();
   public static final StereotypeModel OBJECT_STORE =
-      newStereotype(OBJECT_STORE_DEFINITION.getName(), OBJECT_STORE_ELEMENT_NAMESPACE.toUpperCase()).build();
+      newStereotype(OBJECT_STORE_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel FLOW = newStereotype(FLOW_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel SUB_FLOW = newStereotype(SUB_FLOW_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel ERROR_HANDLER =
