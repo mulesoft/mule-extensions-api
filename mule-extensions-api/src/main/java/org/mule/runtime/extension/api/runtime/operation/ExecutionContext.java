@@ -45,6 +45,8 @@ public interface ExecutionContext<M extends ComponentModel> {
    */
   <T> T getParameter(String parameterName);
 
+  <T> T getParameterOrDefault(String parameterName, T defaultValue);
+
   /**
    * Returns an immutable map containing all the parameters associated with this execution. The keys are the parameter names
    * and the values are... well, the values.
