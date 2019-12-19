@@ -26,8 +26,10 @@ import java.util.List;
  * as little as possible or convenient
  *
  * @since 1.0
+ * @deprecated since 1.3.0. Do not use.
  */
 @NoImplement
+@Deprecated
 public interface Interceptable {
 
   /**

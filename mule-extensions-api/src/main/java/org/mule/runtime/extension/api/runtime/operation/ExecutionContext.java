@@ -45,6 +45,16 @@ public interface ExecutionContext<M extends ComponentModel> {
    */
   <T> T getParameter(String parameterName);
 
+  /**
+   * Returns the value associated to a parameter of name {@code parameterName} or {@code defaultValue} if such parameter is not
+   * present.
+   *
+   * @param parameterName the name of a {@link ParameterModel} of the {@link ComponentModel} being executed
+   * @param defaultValue  the default value to return in case the parameter is not present
+   * @param <T>           the returned value's generic type
+   * @return @return the parameter's value or {@code defaultValue}
+   * @since 1.3.0
+   */
   <T> T getParameterOrDefault(String parameterName, T defaultValue);
 
   /**

@@ -14,8 +14,10 @@ import org.mule.runtime.extension.api.runtime.operation.Interceptor;
  * Implementations are to be reusable and thread-safe
  *
  * @since 1.0
+ * @deprecated since 1.3.0. Do not use.
  */
 @FunctionalInterface
+@Deprecated
 public interface InterceptorFactory {
 
   /**
