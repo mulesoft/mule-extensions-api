@@ -27,5 +27,5 @@ public interface ChainState {
 
   ChainState getRoot();
 
-  ChainState getParent();
+  Optional<ChainState> getParent();
 }
