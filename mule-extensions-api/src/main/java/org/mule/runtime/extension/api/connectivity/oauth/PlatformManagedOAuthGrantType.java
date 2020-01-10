@@ -6,16 +6,17 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
-/**
- * Implementation of the visitor pattern for {@link OAuthGrantType} implementations
- *
- * @since 1.2.1
- */
-public interface OAuthGrantTypeVisitor {
+public class PlatformManagedOAuthGrantType implements OAuthGrantType {
 
-  void visit(AuthorizationCodeGrantType grantType);
+  public static final String NAME = "Platform Managed";
 
-  void visit(ClientCredentialsGrantType grantType);
+  @Override
+  public String getName() {
+    return NAME;
+  }
 
-  void visit(PlatformManagedOAuthGrantType grantType);
+  @Override
+  public void accept(OAuthGrantTypeVisitor visitor) {
+    visitor.visit(this);
+  }
 }

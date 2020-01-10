@@ -6,7 +6,8 @@
  */
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static java.util.Objects.hash;
+
 import org.mule.metadata.api.annotation.TypeAnnotation;
 
 /**
@@ -56,7 +57,7 @@ public class ParameterDslAnnotation implements TypeAnnotation {
 
   @Override
   public int hashCode() {
-    return reflectionHashCode(this);
+    return hash(allowInlineDefinition, allowReferences);
   }
 
   @Override
