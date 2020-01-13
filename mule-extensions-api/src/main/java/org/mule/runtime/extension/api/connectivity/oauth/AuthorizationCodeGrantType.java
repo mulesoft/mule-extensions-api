@@ -90,6 +90,7 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   /**
    * @return Expression used to extract the access token from the {@code accessTokenUrl} response
    */
+  @Override
   public String getAccessTokenExpr() {
     return accessTokenExpr;
   }
@@ -97,6 +98,7 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   /**
    * @return Expression used to extract the expiration from the {@code accessTokenUrl} response
    */
+  @Override
   public String getExpirationRegex() {
     return expirationRegex;
   }

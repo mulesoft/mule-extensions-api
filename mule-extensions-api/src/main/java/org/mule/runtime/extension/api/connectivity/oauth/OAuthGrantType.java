@@ -20,6 +20,10 @@ import org.mule.runtime.api.meta.NamedObject;
 @NoImplement
 public interface OAuthGrantType extends NamedObject {
 
+  String getAccessTokenExpr();
+
+  String getExpirationRegex();
+
   /**
    * Accepts a visitor
    *
