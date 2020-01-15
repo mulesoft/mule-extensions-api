@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
+import org.mule.api.annotation.Experimental;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 
 /**
@@ -147,15 +148,18 @@ public final class ExtensionOAuthConstants {
    */
   public static final String UNAUTHORIZE_OPERATION_NAME = "unauthorize";
 
-  //public static final String PLATFORM_MANAGED_CONNECTION_URI = "connectionUri";
-
+  @Experimental
   public static final String PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME = "platformManagedOauth";
 
+  @Experimental
   public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_NAME = "connectionUri";
 
+  @Experimental
   public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME = "Connection URI";
 
-  public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION = "The URI of the connection definition in the Anypoint Platform";
+  @Experimental
+  public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION =
+      "The URI of the connection definition in the Anypoint Platform";
 
   private ExtensionOAuthConstants() {}
 }

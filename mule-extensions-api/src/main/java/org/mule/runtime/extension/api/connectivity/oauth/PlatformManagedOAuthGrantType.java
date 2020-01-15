@@ -6,13 +6,26 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
-public class PlatformManagedOAuthGrantType implements OAuthGrantType {
+import org.mule.api.annotation.Experimental;
+
+@Experimental
+public final class PlatformManagedOAuthGrantType implements OAuthGrantType {
 
   public static final String NAME = "Platform Managed";
 
   @Override
   public String getName() {
     return NAME;
+  }
+
+  @Override
+  public String getAccessTokenExpr() {
+    return "#[payload.access_token]";
+  }
+
+  @Override
+  public String getExpirationRegex() {
+    return "#[payload.expires_in]";
   }
 
   @Override

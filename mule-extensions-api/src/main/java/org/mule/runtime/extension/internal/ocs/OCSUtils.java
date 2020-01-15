@@ -21,6 +21,5 @@ public final class OCSUtils {
     return configurationProperties.resolveStringProperty(OCS_SERVICE_URL).isPresent();
   }
 
-  private OCSUtils() {
-  }
+  private OCSUtils() {}
 }

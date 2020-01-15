@@ -124,11 +124,11 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
             .withExpressionSupport(NOT_SUPPORTED)
             .withRole(BEHAVIOUR)
             .withDisplayModel(DisplayModel.builder()
-                                  .displayName(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME)
-                                  //TODO: Add real example
-                                  .example("ocs:348573-495273958273-924852945/salesforce/john-sfdc-1k87kmjt")
-                                  .summary(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION)
-                                  .build());
+                .displayName(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME)
+                //TODO: Add real example
+                .example("ocs:348573-495273958273-924852945/salesforce/john-sfdc-1k87kmjt")
+                .summary(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION)
+                .build());
       }
     }.walk(extensionDeclaration);
   }
@@ -232,8 +232,8 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                                + "listener that will catch the access token callback endpoint.",
                                                            true, stringType, NOT_SUPPORTED, null);
       listenerConfig.setAllowedStereotypeModels(singletonList(newStereotype("LISTENER_CONFIG", "HTTP")
-                                                                  .withParent(CONFIG)
-                                                                  .build()));
+          .withParent(CONFIG)
+          .build()));
       params.add(listenerConfig);
 
       params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
@@ -260,10 +260,10 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
     private void addOAuthStoreConfigParameter(ConnectionProviderDeclaration declaration) {
       final ParameterDeclaration osParameter = buildParameter(
-          OBJECT_STORE_PARAMETER_NAME,
-          "A reference to the object store that should be used to store " +
-              "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
-          false, stringType, NOT_SUPPORTED, null);
+                                                              OBJECT_STORE_PARAMETER_NAME,
+                                                              "A reference to the object store that should be used to store " +
+                                                                  "each resource owner id's data. If not specified, runtime will automatically provision the default one.",
+                                                              false, stringType, NOT_SUPPORTED, null);
       osParameter.setAllowedStereotypeModels(singletonList(OBJECT_STORE));
       addToGroup(asList(osParameter), OAUTH_STORE_CONFIG_GROUP_NAME, OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME, declaration);
     }
