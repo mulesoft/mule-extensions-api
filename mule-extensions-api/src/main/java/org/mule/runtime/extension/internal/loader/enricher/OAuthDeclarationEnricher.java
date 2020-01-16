@@ -35,6 +35,7 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OAUTH_STORE_CONFIG_GROUP_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OBJECT_STORE_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME;
@@ -45,7 +46,7 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
-import static org.mule.runtime.extension.internal.ocs.OCSUtils.isOCSEnabled;
+import static org.mule.runtime.extension.internal.ocs.PlatformManagedOAuthUtils.isPlatformManagedOAuthEnabled;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
@@ -68,6 +69,7 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.internal.ocs.PlatformManagedOAuthUtils;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -92,7 +94,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
     ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
     final Set<Integer> visitedOwners = new HashSet<>();
     final Set<Integer> visitedProviders = new HashSet<>();
-    final boolean ocsEnabled = isOCSEnabled(extensionLoadingContext);
+    final boolean ocsEnabled = PlatformManagedOAuthUtils.isPlatformManagedOAuthEnabled(extensionLoadingContext);
 
     new DeclarationWalker() {
 
@@ -117,7 +119,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
         declarer.withConnectionManagementType(CACHED)
             .supportsConnectivityTesting(true)
             .withModelProperty(new OAuthModelProperty(singletonList(new PlatformManagedOAuthGrantType())))
-            .describedAs("TODO")
+            .describedAs(PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION)
             .onDefaultParameterGroup().withRequiredParameter(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_NAME)
             .describedAs(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION)
             .ofType(typeLoader.load(String.class))
@@ -125,7 +127,6 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
             .withRole(BEHAVIOUR)
             .withDisplayModel(DisplayModel.builder()
                 .displayName(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME)
-                //TODO: Add real example
                 .example("ocs:348573-495273958273-924852945/salesforce/john-sfdc-1k87kmjt")
                 .summary(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION)
                 .build());

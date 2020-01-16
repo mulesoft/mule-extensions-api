@@ -124,5 +124,9 @@ public interface ExtensionLoadingContext {
    */
   DslResolvingContext getDslResolvingContext();
 
+  /**
+   * @return The application's {@link ConfigurationProperties}
+   * @since 1.3.0
+   */
   Optional<ConfigurationProperties> getConfigurationProperties();
 }

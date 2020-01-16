@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.ocs;
 
+import org.mule.api.annotation.Experimental;
 import org.mule.runtime.api.component.ConfigurationProperties;
 
 /**
@@ -25,9 +26,13 @@ import org.mule.runtime.api.component.ConfigurationProperties;
  * If any of these properties are missing, {@link IllegalStateException} will be thrown when using this client.
  * Because this feature is at the moment experimental, the presence of these properties also act as a feature flag. If any is
  * absent, the feature will not work
+ * <p>
+ * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
+ * Backwards compatibility is not guaranteed.
  *
- * @since 4.3.0
+ * @since 1.3.0
  */
+@Experimental
 public final class OCSConstants {
 
   /**

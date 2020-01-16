@@ -148,15 +148,60 @@ public final class ExtensionOAuthConstants {
    */
   public static final String UNAUTHORIZE_OPERATION_NAME = "unauthorize";
 
+  /**
+   * The name of the synthetic connection provider which allows to use Platform Managed OAuth Connections
+   * <p>
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
+   * Backwards compatibility is not guaranteed.
+   *
+   * @since 1.3.0
+   */
   @Experimental
   public static final String PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME = "platformManagedOauth";
 
+  /**
+   * The description of the synthetic connection provider which allows to use Platform Managed OAuth Connections
+   * <p>
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
+   * Backwards compatibility is not guaranteed.
+   *
+   * @since 1.3.0
+   */
+  @Experimental
+  public static final String PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION =
+      "Connect through a connection defined and managed "
+          + "in the Anypoint Platform";
+
+  /**
+   * The name of the ConnectionProvider parameter for the URI that identifies a Platform Managed OAuth connection.
+   * <p>
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
+   * Backwards compatibility is not guaranteed.
+   *
+   * @since 1.3.0
+   */
   @Experimental
   public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_NAME = "connectionUri";
 
+  /**
+   * The display name of the ConnectionProvider parameter for the URI that identifies a Platform Managed OAuth connection.
+   * <p>
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
+   * Backwards compatibility is not guaranteed.
+   *
+   * @since 1.3.0
+   */
   @Experimental
   public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME = "Connection URI";
 
+  /**
+   * The description of the ConnectionProvider parameter for the URI that identifies a Platform Managed OAuth connection.
+   * <p>
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
+   * Backwards compatibility is not guaranteed.
+   *
+   * @since 1.3.0
+   */
   @Experimental
   public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION =
       "The URI of the connection definition in the Anypoint Platform";

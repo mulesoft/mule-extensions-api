@@ -20,8 +20,16 @@ import org.mule.runtime.api.meta.NamedObject;
 @NoImplement
 public interface OAuthGrantType extends NamedObject {
 
+  /**
+   * @return The expression to be used to extract the access token from the service provider response
+   * @since 1.3.0
+   */
   String getAccessTokenExpr();
 
+  /**
+   * @return The regular expression to be used to extract the expiration time from the service provider response
+   * @since 1.3.0
+   */
   String getExpirationRegex();
 
   /**
