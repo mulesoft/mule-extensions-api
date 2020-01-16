@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.loader;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.runtime.api.component.ConfigurationProperties;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -122,4 +123,10 @@ public interface ExtensionLoadingContext {
    * @return the {@link DslResolvingContext} with all the dependencies to load an {@link ExtensionModel}
    */
   DslResolvingContext getDslResolvingContext();
+
+  /**
+   * @return The application's {@link ConfigurationProperties}
+   * @since 1.3.0
+   */
+  Optional<ConfigurationProperties> getConfigurationProperties();
 }

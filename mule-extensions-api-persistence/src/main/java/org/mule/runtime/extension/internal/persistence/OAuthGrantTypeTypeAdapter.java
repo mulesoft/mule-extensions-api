@@ -10,6 +10,7 @@ import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantT
 import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantTypeVisitor;
+import org.mule.runtime.extension.api.connectivity.oauth.PlatformManagedOAuthGrantType;
 import org.mule.runtime.extension.api.security.CredentialsPlacement;
 
 import java.io.IOException;
@@ -73,6 +74,17 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
             out.name(EXPIRATION_REGEX).value(grantType.getExpirationRegex());
             writeOptional(out, DEFAULT_SCOPES, grantType.getDefaultScopes());
             out.name(CREDENTIALS_PLACEMENT).value(grantType.getCredentialsPlacement().name());
+            out.endObject();
+          } catch (Exception e) {
+            throw new RuntimeException(e);
+          }
+        }
+
+        @Override
+        public void visit(PlatformManagedOAuthGrantType grantType) {
+          try {
+            out.beginObject();
+            out.name(GRANT_TYPE).value(PlatformManagedOAuthGrantType.NAME);
             out.endObject();
           } catch (Exception e) {
             throw new RuntimeException(e);

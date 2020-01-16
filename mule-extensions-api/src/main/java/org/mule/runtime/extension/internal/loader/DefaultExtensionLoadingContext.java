@@ -10,6 +10,7 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
+import org.mule.runtime.api.component.ConfigurationProperties;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -37,19 +38,29 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   private final List<DeclarationEnricher> customDeclarationEnrichers = new LinkedList<>();
   private final Map<String, Object> customParameters = new HashMap<>();
   private final DslResolvingContext dslResolvingContext;
+  private final ConfigurationProperties configurationProperties;
 
   public DefaultExtensionLoadingContext(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     this(new ExtensionDeclarer(), extensionClassLoader, dslResolvingContext);
   }
 
-  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer, ClassLoader extensionClassLoader,
+  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer,
+                                        ClassLoader extensionClassLoader,
                                         DslResolvingContext dslResolvingContext) {
+    this(extensionDeclarer, extensionClassLoader, dslResolvingContext, null);
+  }
+
+  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer,
+                                        ClassLoader extensionClassLoader,
+                                        DslResolvingContext dslResolvingContext,
+                                        ConfigurationProperties configurationProperties) {
     checkArgument(extensionDeclarer != null, "extension declarer cannot be null");
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
     checkArgument(dslResolvingContext != null, "Dsl resolving context cannot be null");
     this.extensionDeclarer = extensionDeclarer;
     this.extensionClassLoader = extensionClassLoader;
     this.dslResolvingContext = dslResolvingContext;
+    this.configurationProperties = configurationProperties;
   }
 
   /**
@@ -157,5 +168,13 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   @Override
   public List<ExtensionModelValidator> getCustomValidators() {
     return unmodifiableList(customValidators);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<ConfigurationProperties> getConfigurationProperties() {
+    return ofNullable(configurationProperties);
   }
 }
