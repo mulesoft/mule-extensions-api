@@ -54,7 +54,7 @@ public final class OCSConstants {
   /**
    * Key to obtain the organization id to be used when accessing the the OCS API
    */
-  public static final String OCS_ORG_ID = "orgId";
+  public static final String OCS_ORG_ID = "csorganization.id";
 
   private OCSConstants() {}
 }
