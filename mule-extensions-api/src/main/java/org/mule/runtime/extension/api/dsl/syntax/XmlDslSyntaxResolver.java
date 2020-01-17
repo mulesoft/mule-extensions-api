@@ -758,7 +758,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
             .withNamespace(ownerNamespace, ownerNamespaceUri);
 
         MetadataType genericType = arrayType.getType();
-        if (supportsInlineDeclaration(genericType, SUPPORTED)) {
+        if (supportsInlineDeclaration(genericType, SUPPORTED)
+            || (genericType instanceof ObjectType && !typeCatalog.getSubTypes((ObjectType) genericType).isEmpty())) {
           objectFieldBuilder.supportsChildDeclaration(true);
           genericType.accept(getArrayItemTypeVisitor(objectFieldBuilder, fieldName, ownerNamespace, ownerNamespaceUri, false));
         }
