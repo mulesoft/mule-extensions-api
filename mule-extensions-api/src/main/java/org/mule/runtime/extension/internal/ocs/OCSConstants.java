@@ -61,5 +61,10 @@ public final class OCSConstants {
    */
   public static final String OCS_ORG_ID = "csorganization.id";
 
+  /**
+   * Key to obtain the environment id to be used when accessing the the OCS API
+   */
+  public static final String OCS_ENVIRONMENT_ID = "environment.id";
+
   private OCSConstants() {}
 }
