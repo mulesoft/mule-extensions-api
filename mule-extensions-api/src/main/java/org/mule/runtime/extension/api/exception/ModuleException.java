@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.exception;
 
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.i18n.I18nMessage;
 import org.mule.runtime.api.message.Error;
@@ -63,7 +64,7 @@ public class ModuleException extends MuleRuntimeException {
    * @param <T> Type of the {@link ErrorTypeDefinition}
    */
   public <T extends Enum<T>> ModuleException(I18nMessage message, ErrorTypeDefinition<T> errorTypeDefinition) {
-    super(message, new MuleRuntimeException(message));
+    super(message);
     checkArgument(errorTypeDefinition != null, "The 'errorTypeDefinition' argument can not be null");
     this.type = errorTypeDefinition;
   }
@@ -81,5 +82,12 @@ public class ModuleException extends MuleRuntimeException {
    */
   public ErrorTypeDefinition getType() {
     return type;
+  }
+
+  @Override
+  public String toString() {
+    return getCause() != null
+        ? getCause().toString()
+        : getMessage();
   }
 }
