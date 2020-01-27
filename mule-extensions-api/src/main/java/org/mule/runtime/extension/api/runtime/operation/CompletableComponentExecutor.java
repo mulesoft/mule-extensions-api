@@ -22,7 +22,7 @@ public interface CompletableComponentExecutor<M extends ComponentModel> {
 
   /**
    * Executes the operation using the given {@code executionContext}.
-   * The outcome will be informed by calling the appropiate method in the {@code callback}.
+   * The outcome will be informed by calling the appropriate method in the {@code callback}.
    * Although this pattern is optimized for non blocking execution, notice that using this interface doesn't guarantee
    * that non blocking execution will take place. The callback can always be completed synchronously.
    *
