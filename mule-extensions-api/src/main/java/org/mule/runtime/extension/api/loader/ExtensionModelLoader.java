@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.loader;
 
 
 import static java.lang.Thread.currentThread;
+
+import org.mule.runtime.api.component.ConfigurationProperties;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -17,6 +19,8 @@ import org.mule.runtime.extension.internal.loader.DefaultExtensionLoadingContext
 import org.mule.runtime.extension.internal.loader.ExtensionModelFactory;
 
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /**
  * Loader of an {@link ExtensionModel} for a Mule plugin artifact from a set of attributes read by the {@link MulePluginModel}.

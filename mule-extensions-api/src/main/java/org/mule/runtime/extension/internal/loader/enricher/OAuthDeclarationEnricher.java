@@ -69,6 +69,7 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -117,6 +118,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
         final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
         declarer.withConnectionManagementType(CACHED)
             .supportsConnectivityTesting(true)
+            .withModelProperty(new SyntheticModelModelProperty())
             .withModelProperty(new OAuthModelProperty(singletonList(new PlatformManagedOAuthGrantType())))
             .describedAs(PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION)
             .onDefaultParameterGroup().withRequiredParameter(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_NAME)
