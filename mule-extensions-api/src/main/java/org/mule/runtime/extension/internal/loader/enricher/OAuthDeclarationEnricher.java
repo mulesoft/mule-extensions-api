@@ -37,9 +37,9 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.OBJECT_STORE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME;
-import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION;
-import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME;
-import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DISPLAY_NAME;
+import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.RESOURCE_OWNER_ID_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.TOKEN_URL_PARAMETER_NAME;
@@ -120,15 +120,15 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
             .supportsConnectivityTesting(true)
             .withModelProperty(new OAuthModelProperty(singletonList(new PlatformManagedOAuthGrantType())))
             .describedAs(PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION)
-            .onDefaultParameterGroup().withRequiredParameter(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_NAME)
-            .describedAs(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION)
+            .onDefaultParameterGroup().withRequiredParameter(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_NAME)
+            .describedAs(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION)
             .ofType(typeLoader.load(String.class))
             .withExpressionSupport(NOT_SUPPORTED)
             .withRole(BEHAVIOUR)
             .withDisplayModel(DisplayModel.builder()
-                .displayName(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME)
+                .displayName(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DISPLAY_NAME)
                 .example("ocs:348573-495273958273-924852945/salesforce/john-sfdc-1k87kmjt")
-                .summary(PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION)
+                .summary(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION)
                 .build());
       }
     }.walk(extensionDeclaration);
