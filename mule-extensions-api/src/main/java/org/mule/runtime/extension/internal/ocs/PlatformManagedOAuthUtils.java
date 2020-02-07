@@ -29,8 +29,7 @@ public final class PlatformManagedOAuthUtils {
    * @return Whether the feature is enabled or not
    */
   public static boolean isPlatformManagedOAuthEnabled(ExtensionLoadingContext loadingContext) {
-    return loadingContext.getConfigurationProperties().map(PlatformManagedOAuthUtils::isPlatformManagedOAuthEnabled)
-        .orElse(false);
+    return loadingContext.getConfigurationProperties().map(p -> isPlatformManagedOAuthEnabled(p)).orElse(false);
   }
 
   /**
