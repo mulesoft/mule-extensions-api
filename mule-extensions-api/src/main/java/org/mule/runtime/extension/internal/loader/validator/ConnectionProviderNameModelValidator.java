@@ -39,9 +39,8 @@ public class ConnectionProviderNameModelValidator implements ExtensionModelValid
 
       @Override
       public void onConnectionProvider(ConnectionProviderModel model) {
-        if (models.add(model)) {
-          names.add(model.getName());
-        }
+        models.add(model);
+        names.add(model.getName());
       }
     }.walk(model);
 

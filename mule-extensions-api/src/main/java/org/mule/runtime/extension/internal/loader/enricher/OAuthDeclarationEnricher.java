@@ -59,6 +59,8 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.util.LazyValue;
+import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
@@ -94,8 +96,8 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
     ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
     final Set<Integer> visitedOwners = new HashSet<>();
     final Set<Integer> visitedProviders = new HashSet<>();
+    final Reference<ConnectionProviderDeclaration> ocsConnectionProvider = new Reference<>(null);
     final boolean ocsEnabled = isPlatformManagedOAuthEnabled(extensionLoadingContext);
-
     new DeclarationWalker() {
 
       @Override
@@ -112,25 +114,31 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
       }
 
       private void addOCSConnectionProvider(ConnectedDeclaration owner, ExtensionLoadingContext context) {
-        ConnectionProviderDeclarer declarer =
-            context.getExtensionDeclarer().withConnectionProvider(owner, PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME);
+        if (ocsConnectionProvider.get() == null) {
+          ConnectionProviderDeclarer declarer =
+              context.getExtensionDeclarer().withConnectionProvider(owner, PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME);
 
-        final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-        declarer.withConnectionManagementType(CACHED)
-            .supportsConnectivityTesting(true)
-            .withModelProperty(new SyntheticModelModelProperty())
-            .withModelProperty(new OAuthModelProperty(singletonList(new PlatformManagedOAuthGrantType())))
-            .describedAs(PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION)
-            .onDefaultParameterGroup().withRequiredParameter(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_NAME)
-            .describedAs(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION)
-            .ofType(typeLoader.load(String.class))
-            .withExpressionSupport(NOT_SUPPORTED)
-            .withRole(BEHAVIOUR)
-            .withDisplayModel(DisplayModel.builder()
-                .displayName(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DISPLAY_NAME)
-                .example("ocs:348573-495273958273-924852945/salesforce/john-sfdc-1k87kmjt")
-                .summary(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION)
-                .build());
+          // TODO - MULE-18043: OCS Connection Provider's Management Type must be set correctly.
+          final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+          declarer.withConnectionManagementType(CACHED)
+              .supportsConnectivityTesting(true)
+              .withModelProperty(new SyntheticModelModelProperty())
+              .withModelProperty(new OAuthModelProperty(singletonList(new PlatformManagedOAuthGrantType())))
+              .describedAs(PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION)
+              .onDefaultParameterGroup().withRequiredParameter(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_NAME)
+              .describedAs(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION)
+              .ofType(typeLoader.load(String.class))
+              .withExpressionSupport(NOT_SUPPORTED)
+              .withRole(BEHAVIOUR)
+              .withDisplayModel(DisplayModel.builder()
+                  .displayName(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DISPLAY_NAME)
+                  .example("ocs:348573-495273958273-924852945/salesforce/john-sfdc-1k87kmjt")
+                  .summary(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION)
+                  .build());
+          ocsConnectionProvider.set(declarer.getDeclaration());
+        } else {
+          owner.addConnectionProvider(ocsConnectionProvider.get());
+        }
       }
     }.walk(extensionDeclaration);
   }
