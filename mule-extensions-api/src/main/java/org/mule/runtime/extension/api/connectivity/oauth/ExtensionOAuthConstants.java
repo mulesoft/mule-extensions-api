@@ -173,7 +173,7 @@ public final class ExtensionOAuthConstants {
           + "in the Anypoint Platform";
 
   /**
-   * The name of the ConnectionProvider parameter for the URI that identifies a Platform Managed OAuth connection.
+   * The name of the ConnectionProvider parameter for the ID that identifies a Platform Managed OAuth connection.
    * <p>
    * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
    * Backwards compatibility is not guaranteed.
@@ -181,10 +181,10 @@ public final class ExtensionOAuthConstants {
    * @since 1.3.0
    */
   @Experimental
-  public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_NAME = "connectionUri";
+  public static final String PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_NAME = "connectionId";
 
   /**
-   * The display name of the ConnectionProvider parameter for the URI that identifies a Platform Managed OAuth connection.
+   * The display name of the ConnectionProvider parameter for the ID that identifies a Platform Managed OAuth connection.
    * <p>
    * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
    * Backwards compatibility is not guaranteed.
@@ -192,10 +192,10 @@ public final class ExtensionOAuthConstants {
    * @since 1.3.0
    */
   @Experimental
-  public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DISPLAY_NAME = "Connection URI";
+  public static final String PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DISPLAY_NAME = "Connection ID";
 
   /**
-   * The description of the ConnectionProvider parameter for the URI that identifies a Platform Managed OAuth connection.
+   * The description of the ConnectionProvider parameter for the ID that identifies a Platform Managed OAuth connection.
    * <p>
    * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
    * Backwards compatibility is not guaranteed.
@@ -203,8 +203,8 @@ public final class ExtensionOAuthConstants {
    * @since 1.3.0
    */
   @Experimental
-  public static final String PLATFORM_MANAGED_CONNECTION_URI_PARAMETER_DESCRIPTION =
-      "The URI of the connection definition in the Anypoint Platform";
+  public static final String PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DESCRIPTION =
+      "The ID of the connection definition in the Anypoint Platform";
 
   private ExtensionOAuthConstants() {}
 }
