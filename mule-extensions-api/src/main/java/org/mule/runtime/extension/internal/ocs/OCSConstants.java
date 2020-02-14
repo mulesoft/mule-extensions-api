@@ -38,22 +38,22 @@ public final class OCSConstants {
   /**
    * Key to obtain the URL of the OCS API
    */
-  public static final String OCS_SERVICE_URL = "ocsServiceUrl";
+  public static final String OCS_SERVICE_URL = "ocs.service.url";
 
   /**
    * Key to obtain the URL of the OAuth service provider that grants access tokens to the OCS API
    */
-  public static final String OCS_PLATFORM_AUTH_URL = "ocsPlatformAuthenticationUrl";
+  public static final String OCS_PLATFORM_AUTH_URL = "ocs.platform.authentication.url";
 
   /**
    * Key to obtain the client id to obtain an access token for the OCS API
    */
-  public static final String OCS_CLIENT_ID = "ocsServiceClientId";
+  public static final String OCS_CLIENT_ID = "ocs.service.client.id";
 
   /**
    * Key to obtain the client secret to obtain an access token to the OCS API
    */
-  public static final String OCS_CLIENT_SECRET = "ocsServiceClientSecret";
+  public static final String OCS_CLIENT_SECRET = "ocs.service.client.secret";
 
   /**
    * Key to obtain the organization id to be used when accessing the OCS API
