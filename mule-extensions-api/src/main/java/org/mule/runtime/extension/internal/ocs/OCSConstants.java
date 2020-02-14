@@ -41,7 +41,6 @@ public final class OCSConstants {
   public static final String OCS_SERVICE_URL = "ocsServiceUrl";
 
   /**
-   * PlatformManagedDancerTestCase.setupServices
    * Key to obtain the URL of the OAuth service provider that grants access tokens to the OCS API
    */
   public static final String OCS_PLATFORM_AUTH_URL = "ocsPlatformAuthenticationUrl";
