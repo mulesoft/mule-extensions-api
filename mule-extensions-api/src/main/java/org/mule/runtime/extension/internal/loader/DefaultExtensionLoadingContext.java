@@ -10,7 +10,6 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
-import org.mule.runtime.api.component.ConfigurationProperties;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;

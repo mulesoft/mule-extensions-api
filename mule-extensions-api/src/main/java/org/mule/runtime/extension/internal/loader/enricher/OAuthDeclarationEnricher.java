@@ -59,7 +59,6 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
-import org.mule.runtime.api.util.LazyValue;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantType;
