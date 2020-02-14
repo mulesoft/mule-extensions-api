@@ -108,11 +108,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
+   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *                                  {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
     this.extensionModel = model;
@@ -124,12 +124,12 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model               the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param importTypesStrategy the {@link ImportTypesStrategy} used for external types resolution
    * @return the default implementation of a {@link DslSyntaxResolver}
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
+   *                                  present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
+   *                                  {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
     this.extensionModel = model;
@@ -301,7 +301,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    *
    * @param type the {@link MetadataType} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the top level element associated to the {@link MetadataType} or
-   *         {@link Optional#empty} if the {@code type} is not supported as an standalone element
+   * {@link Optional#empty} if the {@code type} is not supported as an standalone element
    */
   @Override
   public Optional<DslElementSyntax> resolve(MetadataType type) {
@@ -758,13 +758,24 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
             .withNamespace(ownerNamespace, ownerNamespaceUri);
 
         MetadataType genericType = arrayType.getType();
-        if (supportsInlineDeclaration(genericType, SUPPORTED)
-            || (genericType instanceof ObjectType && !typeCatalog.getSubTypes((ObjectType) genericType).isEmpty())) {
+        if (supportsInlineDeclaration(genericType, SUPPORTED) || isBaseType(genericType)) {
           objectFieldBuilder.supportsChildDeclaration(true);
           genericType.accept(getArrayItemTypeVisitor(objectFieldBuilder, fieldName, ownerNamespace, ownerNamespaceUri, false));
         }
       }
     };
+  }
+
+  private boolean isBaseType(MetadataType type) {
+    Reference<Boolean> isBaseType = new Reference<>(false);
+    type.accept(new MetadataTypeVisitor() {
+
+      @Override
+      public void visitObject(ObjectType objectType) {
+        isBaseType.set(typeCatalog.containsBaseType(objectType));
+      }
+    });
+    return isBaseType.get();
   }
 
   private void declareFieldsAsChilds(final DslElementSyntaxBuilder objectBuilder, Collection<ObjectFieldType> fields,
