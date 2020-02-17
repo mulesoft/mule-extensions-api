@@ -57,7 +57,7 @@ public final class OCSConstants {
   public static final String OCS_CLIENT_SECRET = "ocsServiceClientSecret";
 
   /**
-   * Key to obtain the organization id to be used when accessing the the OCS API
+   * Key to obtain the organization id to be used when accessing the OCS API
    */
   public static final String OCS_ORG_ID = "csorganization.id";
 
