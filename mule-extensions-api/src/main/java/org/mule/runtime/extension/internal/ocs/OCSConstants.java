@@ -21,7 +21,6 @@ import org.mule.runtime.api.component.ConfigurationProperties;
  *  <li>{@link OCSConstants#OCS_CLIENT_ID}</li>
  *  <li>{@link OCSConstants#OCS_CLIENT_SECRET}</li>
  *  <li>{@link OCSConstants#OCS_ORG_ID}</li>
- *  <li>{@link OCSConstants#OCS_ENVIRONMENT_ID}</li>
  *  </ul>
  * <p>
  * If any of these properties are missing, {@link IllegalStateException} will be thrown when using this client.
@@ -61,11 +60,6 @@ public final class OCSConstants {
    * Key to obtain the organization id to be used when accessing the OCS API
    */
   public static final String OCS_ORG_ID = "csorganization.id";
-
-  /**
-   * Key to obtain the environment id to be used when accessing the OCS API
-   */
-  public static final String OCS_ENVIRONMENT_ID = "environment.id";
 
   private OCSConstants() {}
 }
