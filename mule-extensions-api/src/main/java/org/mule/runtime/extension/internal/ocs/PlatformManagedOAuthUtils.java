@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.internal.ocs;
 
 import static java.lang.System.getProperty;
-import static org.mule.runtime.extension.internal.ocs.OCSConstants.OCS_SERVICE_SUPPORTED;
+import static org.mule.runtime.extension.internal.ocs.OCSConstants.OCS_ENABLED;
 
 import org.mule.runtime.api.component.ConfigurationProperties;
 
@@ -28,7 +28,7 @@ public final class PlatformManagedOAuthUtils {
    * @return Whether the feature is enabled or not
    */
   public static boolean isPlatformManagedOAuthEnabled() {
-    return getProperty(OCS_SERVICE_SUPPORTED) != null;
+    return getProperty(OCS_ENABLED) != null;
   }
 
   private PlatformManagedOAuthUtils() {}

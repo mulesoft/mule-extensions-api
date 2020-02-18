@@ -60,5 +60,10 @@ public final class OCSConstants {
    */
   public static final String OCS_ORG_ID = "csorganization.id";
 
+  /**
+   * Property that if set signals that OCS is supported.
+   */
+  public static final String OCS_ENABLED = "ocs.enabled";
+
   private OCSConstants() {}
 }
