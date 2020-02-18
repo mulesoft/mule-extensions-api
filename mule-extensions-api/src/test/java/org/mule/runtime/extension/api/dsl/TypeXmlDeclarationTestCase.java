@@ -10,8 +10,10 @@ import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getSubstitutionGroup;
 import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
@@ -25,10 +27,12 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
+import org.mule.runtime.extension.api.dsl.model.AbstractType;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.dsl.model.GlobalType;
 import org.mule.runtime.extension.api.dsl.model.InterfaceDeclaration;
+import org.mule.runtime.extension.api.dsl.model.ListOfAbstracType;
 import org.mule.runtime.extension.api.dsl.model.NotGlobalType;
 import org.mule.runtime.extension.api.dsl.model.RecursiveChainA;
 import org.mule.runtime.extension.api.dsl.model.RecursiveChainB;
@@ -86,6 +90,29 @@ public class TypeXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
 
     assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
   }
+
+  @Test
+  public void testListOfAbstractClassType() {
+    MetadataType type = TYPE_LOADER.load(ListOfAbstracType.class);
+    when(typeCatalog.containsBaseType(argThat(objectType -> getTypeId(objectType)
+        .map(typeId -> AbstractType.class.getName().equals(typeId)).isPresent()))).thenReturn(true);
+
+    Optional<DslElementSyntax> topDsl = getSyntaxResolver().resolve(type);
+    assertThat("Type dsl declaration expected but none applied", topDsl.isPresent(), is(true));
+    DslElementSyntax dslElementSyntax = topDsl.get();
+    assertElementName(getTopLevelTypeName(type), dslElementSyntax);
+    assertChildElementDeclarationIs(true, dslElementSyntax);
+
+    Optional<DslElementSyntax> abstractTypes = dslElementSyntax.getChild("abstractTypes");
+    assertThat("Type dsl declaration expected but none applied", abstractTypes.isPresent(), is(true));
+    assertThat(abstractTypes.get().isWrapped(), is(false));
+
+    assertThat(abstractTypes.get().getGenerics().size(), is(1));
+    MetadataType genericType = TYPE_LOADER.load(AbstractType.class);
+    assertThat(abstractTypes.get().getGenerics().containsKey(genericType), is(true));
+    assertIsWrappedElement(true, abstractTypes.get().getGeneric(genericType).get());
+  }
+
 
   @Test
   public void testComplexRecursiveType() {
