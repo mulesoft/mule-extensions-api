@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.loader;
 
 
 import static java.lang.Thread.currentThread;
+
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;

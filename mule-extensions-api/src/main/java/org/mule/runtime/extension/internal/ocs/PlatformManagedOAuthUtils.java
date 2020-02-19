@@ -7,10 +7,9 @@
 package org.mule.runtime.extension.internal.ocs;
 
 import static java.lang.System.getProperty;
-import static org.mule.runtime.extension.internal.ocs.OCSConstants.OCS_SERVICE_URL;
+import static org.mule.runtime.extension.internal.ocs.OCSConstants.OCS_ENABLED;
 
 import org.mule.runtime.api.component.ConfigurationProperties;
-import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
 /**
  * Utilities for Platform Managed OAuth Connections
@@ -25,22 +24,11 @@ public final class PlatformManagedOAuthUtils {
   /**
    * Determines if the Platform Managed OAuth connections feature is enabled
    *
-   * @param loadingContext the {@link ExtensionLoadingContext}
-   * @return Whether the feature is enabled or not
-   */
-  public static boolean isPlatformManagedOAuthEnabled(ExtensionLoadingContext loadingContext) {
-    return loadingContext.getConfigurationProperties().map(p -> isPlatformManagedOAuthEnabled(p)).orElse(false);
-  }
-
-  /**
-   * Determines if the Platform Managed OAuth connections feature is enabled
-   *
    * @param configurationProperties the application's {@link ConfigurationProperties}
    * @return Whether the feature is enabled or not
    */
-  public static boolean isPlatformManagedOAuthEnabled(ConfigurationProperties configurationProperties) {
-    return configurationProperties.resolveStringProperty(OCS_SERVICE_URL)
-        .orElseGet(() -> getProperty(OCS_SERVICE_URL)) != null;
+  public static boolean isPlatformManagedOAuthEnabled() {
+    return getProperty(OCS_ENABLED) != null;
   }
 
   private PlatformManagedOAuthUtils() {}
