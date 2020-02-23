@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.mule.runtime.api.util.DataUnit.KB;
+
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.time.Time;
@@ -156,12 +157,14 @@ public final class ExtensionConstants {
 
   /**
    * The name of the parameter for configuring the backpressure strategy
+   *
    * @since 1.1
    */
   public static final String BACK_PRESSURE_STRATEGY_PARAMETER_NAME = "onCapacityOverload";
 
   /**
    * The description of the parameter for configuring the backpressure strategy
+   *
    * @since 1.1
    */
   public static final String BACK_PRESSURE_STRATEGY_PARAMETER_DESCRIPTION =
@@ -271,9 +274,7 @@ public final class ExtensionConstants {
                                                                            SCHEDULING_STRATEGY_PARAMETER_NAME);
   /**
    * Namespace prefis for object store type
-   * @deprecated Do not use this namespace, ObjecStore Stereotype is defined under Mule namespace
    */
-  @Deprecated
   public static final String OBJECT_STORE_ELEMENT_NAMESPACE = "os";
 
   private ExtensionConstants() {}

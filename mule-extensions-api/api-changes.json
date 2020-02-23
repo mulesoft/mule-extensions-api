@@ -3,6 +3,16 @@
     "revapi": {
       "ignore": [
         {
+          "code": "java.class.noLongerInheritsFromClass",
+          "old": "class org.mule.runtime.extension.api.stereotype.ObjectStoreStereotype",
+          "new": "class org.mule.runtime.extension.api.stereotype.ObjectStoreStereotype",
+          "superClass": "org.mule.runtime.extension.api.stereotype.MuleStereotypeDefinition",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "ObjectStoreStereotype",
+          "elementKind": "class",
+          "justification": "Consistency between namespaces for OBJECT_STORE stereotype"
+        },
+        {
           "code": "java.annotation.added",
           "old": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
           "new": "interface org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeState",
@@ -59,7 +69,7 @@
           "fieldName": "POST_STRUCTURE",
           "elementKind": "enumConstant",
           "justification": "Added a phase between STRUCTURE and POST_STRUCTURE. No access by index should be done to this enum."
-        }        
+        }
       ]
     }
   },
