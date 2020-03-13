@@ -51,6 +51,11 @@ public final class OCSConstants {
   public static final String OCS_PLATFORM_AUTH_URL_PATH = "ocs.platform.authentication.url.path";
 
   /**
+   * Default value of the path of the URL of the OAuth service provider that grants access tokens to the OCS API
+   */
+  public static final String OCS_PLATFORM_AUTH_URL_PATH_DEFAULT = "/oauth2/token";
+
+  /**
    * Key to obtain the client id to obtain an access token for the OCS API
    */
   public static final String OCS_CLIENT_ID = "ocs.service.client.id";
