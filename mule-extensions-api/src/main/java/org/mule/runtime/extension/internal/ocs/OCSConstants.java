@@ -46,9 +46,9 @@ public final class OCSConstants {
   public static final String OCS_PLATFORM_AUTH_URL = "ocs.platform.authentication.url";
 
   /**
-   * Key to obtain the suffix of the URL of the OAuth service provider that grants access tokens to the OCS API
+   * Key to obtain the path of the URL of the OAuth service provider that grants access tokens to the OCS API
    */
-  public static final String OCS_PLATFORM_AUTH_URL_SUFFIX = "ocs.platform.authentication.url.suffix";
+  public static final String OCS_PLATFORM_AUTH_URL_PATH = "ocs.platform.authentication.url.path";
 
   /**
    * Key to obtain the client id to obtain an access token for the OCS API
