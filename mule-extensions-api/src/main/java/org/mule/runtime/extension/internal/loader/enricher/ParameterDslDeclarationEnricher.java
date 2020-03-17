@@ -39,6 +39,8 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -168,7 +170,7 @@ public class ParameterDslDeclarationEnricher implements DeclarationEnricher {
             if (type instanceof ObjectType) {
               final Map<Class<? extends TypeAnnotation>, TypeAnnotation> normalizedAnnotationsByClass =
                   type.getAnnotations().stream()
-                      .collect(toMap(ann -> ann.getClass(), identity()));
+                      .collect(toMap(TypeAnnotation::getClass, identity(), (u, v) -> v, LinkedHashMap::new));
 
               // the type to be processed has to have the annotations that were specifically set for this type as a parameter
               declaration.getType().getAnnotation(ClassInformationAnnotation.class)
