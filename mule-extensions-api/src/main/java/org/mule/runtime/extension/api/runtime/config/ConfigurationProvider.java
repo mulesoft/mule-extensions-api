@@ -12,6 +12,8 @@ import org.mule.runtime.api.event.Event;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 
+import java.util.Optional;
+
 
 /**
  * A component responsible for providing instances which are realizations of a given {@link ConfigurationModel}.
@@ -33,6 +35,17 @@ public interface ConfigurationProvider extends Component {
    * @return a {@link ConfigurationInstance}
    */
   ConfigurationInstance get(Event event);
+
+  /**
+   * Returns a {@link ConfigurationInstance}
+   * <p/>
+   * This method will only return an instance already returned in the past, or {@link Optional#empty()} if an instance was not
+   * generated or has been already removed.
+   *
+   * @param event the event which processing requires the instance
+   * @return a {@link ConfigurationInstance}
+   */
+  Optional<ConfigurationInstance> getIfPresent(Event event);
 
   /**
    * @return the {@link ExtensionModel} which owns the {@link #getConfigurationModel()}
