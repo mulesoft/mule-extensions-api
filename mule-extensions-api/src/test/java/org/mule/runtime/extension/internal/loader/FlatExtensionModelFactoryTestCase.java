@@ -58,8 +58,8 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
-import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION;
+import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.NAME_PARAM_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
@@ -73,9 +73,9 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PAR
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 
-import org.mule.metadata.api.TypeLoader;
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
+import org.mule.metadata.api.builder.WithAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.BooleanType;
@@ -85,6 +85,7 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.model.VoidType;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -114,7 +115,19 @@ import org.junit.rules.ExpectedException;
 
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
-  private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer();
+  private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer() {
+
+    @Override
+    protected BooleanType getBooleanType() {
+      return super.withType(typeBuilder.booleanType(), Boolean.class).build();
+    }
+
+    @Override
+    protected <T extends WithAnnotation<?>> T withType(T builder, Class<?> type) {
+      return (T) super.withType(builder, type)
+          .with(new ClassInformationAnnotation(type));
+    }
+  };
   private final MetadataType voidType = typeLoader.load(void.class);
   private final MetadataType stringType = typeLoader.load(String.class);
   private final MetadataType targetValue = typeLoader.load(String.class);
