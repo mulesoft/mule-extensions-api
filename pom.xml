@@ -143,6 +143,8 @@
         <muleRevapiExtensionVersion>1.4.0-SNAPSHOT</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
+
+        <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
     </properties>
 
     <!--
@@ -429,6 +431,11 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven.site.plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
