@@ -181,19 +181,19 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                      ClientCredentialsGrantType grantType) {
       List<ParameterDeclaration> params = new LinkedList<>();
       params.add(buildParameter(CLIENT_ID_PARAMETER_NAME, "The OAuth client id as registered with the service provider",
-                                true, stringType, NOT_SUPPORTED, null));
+                                true, stringType, SUPPORTED, null));
 
       params
           .add(buildParameter(CLIENT_SECRET_PARAMETER_NAME, "The OAuth client secret as registered with the service provider",
-                              true, stringType, NOT_SUPPORTED, null));
+                              true, stringType, SUPPORTED, null));
 
       params.add(buildParameter(TOKEN_URL_PARAMETER_NAME, "The service provider's token endpoint URL",
-                                false, stringType, NOT_SUPPORTED, grantType.getTokenUrl()));
+                                false, stringType, SUPPORTED, grantType.getTokenUrl()));
 
       params.add(buildParameter(SCOPES_PARAMETER_NAME,
                                 "The OAuth scopes to be requested during the dance. If not provided, it will default "
                                     + "to those in the annotation",
-                                false, stringType, NOT_SUPPORTED, grantType.getDefaultScopes().orElse(null)));
+                                false, stringType, SUPPORTED, grantType.getDefaultScopes().orElse(null)));
 
       addToGroup(params, OAUTH_CLIENT_CREDENTIALS_GROUP_NAME, OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME, declaration);
     }
