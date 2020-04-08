@@ -145,6 +145,7 @@
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
 
         <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
+        <javadoc.version>3.2.0</javadoc.version>
     </properties>
 
     <!--
@@ -475,6 +476,29 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.version}</version>
+                <configuration>
+                    <doclint>none</doclint>
+                    <source>${javaVersion}</source>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>aggregate</id>
+                        <inherited>false</inherited>
+                        <reports>
+                            <report>aggregate-no-fork</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <distributionManagement>
         <repository>
