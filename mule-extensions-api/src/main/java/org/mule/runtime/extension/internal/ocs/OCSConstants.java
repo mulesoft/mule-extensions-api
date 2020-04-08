@@ -71,6 +71,13 @@ public final class OCSConstants {
   public static final String OCS_ORG_ID = "csorganization.id";
 
   /**
+   * Key to obtain the OCS API version to be used, if not specified, the default api version for the mule version running will be used.
+   *
+   * @since 1.3.1 1.4.0
+   */
+  public static final String OCS_API_VERSION = "ocs.api.version";
+
+  /**
    * Property that if set signals that OCS is supported.
    */
   public static final String OCS_ENABLED = "ocs.enabled";
