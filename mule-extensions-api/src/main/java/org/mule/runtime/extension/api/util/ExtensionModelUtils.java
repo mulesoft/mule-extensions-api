@@ -256,6 +256,7 @@ public class ExtensionModelUtils {
       private void resolve(ComponentModel model, Object owner) {
         if (!(owner instanceof ExtensionModel) && model == component) {
           result.set(true);
+          stop();
         }
       }
     }.walk(extensionModel);

@@ -14,6 +14,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.MetadataType;
@@ -42,6 +43,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 /**
@@ -382,9 +384,11 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
 
   private static class Inflection {
 
-    private String pattern;
-    private String replacement;
-    private boolean ignoreCase;
+    private final String pattern;
+    private final String replacement;
+    private final boolean ignoreCase;
+
+    private final Pattern compiled;
 
     public Inflection(String pattern, String replacement) {
       this(pattern, replacement, true);
@@ -394,6 +398,12 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
       this.pattern = pattern;
       this.replacement = replacement;
       this.ignoreCase = ignoreCase;
+
+      int flags = 0;
+      if (ignoreCase) {
+        flags = flags | java.util.regex.Pattern.CASE_INSENSITIVE;
+      }
+      compiled = java.util.regex.Pattern.compile(pattern, flags);
     }
 
 
@@ -404,11 +414,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
      * @return True if it matches the inflection pattern
      */
     public boolean match(String word) {
-      int flags = 0;
-      if (ignoreCase) {
-        flags = flags | java.util.regex.Pattern.CASE_INSENSITIVE;
-      }
-      return java.util.regex.Pattern.compile(pattern, flags).matcher(word).find();
+      return compiled.matcher(word).find();
     }
 
     /**
@@ -418,11 +424,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
      * @return The result
      */
     public String replace(String word) {
-      int flags = 0;
-      if (ignoreCase) {
-        flags = flags | java.util.regex.Pattern.CASE_INSENSITIVE;
-      }
-      return java.util.regex.Pattern.compile(pattern, flags).matcher(word).replaceAll(replacement);
+      return compiled.matcher(word).replaceAll(replacement);
     }
   }
 }
