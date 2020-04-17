@@ -384,26 +384,21 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
 
   private static class Inflection {
 
-    private final String pattern;
+    private final Pattern compiledPattern;
     private final String replacement;
-    private final boolean ignoreCase;
-
-    private final Pattern compiled;
 
     public Inflection(String pattern, String replacement) {
       this(pattern, replacement, true);
     }
 
     public Inflection(String pattern, String replacement, boolean ignoreCase) {
-      this.pattern = pattern;
       this.replacement = replacement;
-      this.ignoreCase = ignoreCase;
 
       int flags = 0;
       if (ignoreCase) {
         flags = flags | java.util.regex.Pattern.CASE_INSENSITIVE;
       }
-      compiled = java.util.regex.Pattern.compile(pattern, flags);
+      compiledPattern = java.util.regex.Pattern.compile(pattern, flags);
     }
 
 
@@ -414,7 +409,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
      * @return True if it matches the inflection pattern
      */
     public boolean match(String word) {
-      return compiled.matcher(word).find();
+      return compiledPattern.matcher(word).find();
     }
 
     /**
@@ -424,7 +419,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
      * @return The result
      */
     public String replace(String word) {
-      return compiled.matcher(word).replaceAll(replacement);
+      return compiledPattern.matcher(word).replaceAll(replacement);
     }
   }
 }
