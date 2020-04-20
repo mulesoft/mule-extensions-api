@@ -30,7 +30,9 @@ import java.util.stream.Stream;
 abstract class InfrastructureTypeBuilder {
 
   protected ObjectTypeBuilder objectType(BaseTypeBuilder typeBuilder, Class<?> type, ParsingContext context) {
-    final ObjectTypeBuilder objectType = typeBuilder.objectType().id(type.getName());
+    final ObjectTypeBuilder objectType = typeBuilder.objectType()
+        .id(type.getName())
+        .with(new ClassInformationAnnotation(type));
     context.addTypeBuilder(type, objectType);
 
     return objectType;

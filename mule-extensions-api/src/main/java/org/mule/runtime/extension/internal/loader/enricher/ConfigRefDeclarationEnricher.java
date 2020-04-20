@@ -15,6 +15,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
@@ -125,6 +126,9 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
   }
 
   private static MetadataType buildConfigRefType() {
-    return BaseTypeBuilder.create(JAVA).objectType().id(ConfigurationProvider.class.getName()).build();
+    return BaseTypeBuilder.create(JAVA).objectType()
+        .id(ConfigurationProvider.class.getName())
+        .with(new ClassInformationAnnotation(ConfigurationProvider.class))
+        .build();
   }
 }
