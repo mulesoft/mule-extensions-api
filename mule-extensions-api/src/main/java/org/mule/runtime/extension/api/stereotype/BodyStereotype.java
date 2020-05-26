@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.stereotype;
 /**
  * {@link StereotypeDefinition} for {@code body} of components defined through a DSL.
  *
- * @since 1.0
+ * @since 1.4
  */
 public final class BodyStereotype extends MuleStereotypeDefinition {
 
