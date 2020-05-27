@@ -7,17 +7,17 @@
 package org.mule.runtime.extension.api.stereotype;
 
 /**
- * {@link StereotypeDefinition} for {@code body} of components defined through a DSL.
+ * {@link StereotypeDefinition} for {@code body}/chain of components defined through a DSL.
  *
  * @since 1.4
  */
-public final class BodyStereotype extends MuleStereotypeDefinition {
+public final class ChainStereotype extends MuleStereotypeDefinition {
 
-  BodyStereotype() {}
+  ChainStereotype() {}
 
   @Override
   public String getName() {
-    return "BODY";
+    return "CHAIN";
   }
 
 }

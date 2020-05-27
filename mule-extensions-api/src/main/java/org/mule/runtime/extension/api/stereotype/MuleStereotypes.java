@@ -32,7 +32,7 @@ public final class MuleStereotypes {
   public static final StereotypeDefinition SUB_FLOW_DEFINITION = new SubFlowStereotype();
   public static final StereotypeDefinition ERROR_HANDLER_DEFINITION = new ErrorHandlerStereotype();
   public static final StereotypeDefinition ON_ERROR_DEFINITION = new OnErrorStereotype();
-  public static final StereotypeDefinition BODY_DEFINITION = new BodyStereotype();
+  public static final StereotypeDefinition CHAIN_DEFINITION = new ChainStereotype();
 
   public static final StereotypeModel CONFIG = newStereotype(CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel APP_CONFIG = newStereotype(APP_CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
@@ -49,7 +49,7 @@ public final class MuleStereotypes {
       newStereotype(ERROR_HANDLER_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel ON_ERROR =
       newStereotype(ON_ERROR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel BODY = newStereotype(BODY_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel CHAIN = newStereotype(CHAIN_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
 
   private MuleStereotypes() {}
 
