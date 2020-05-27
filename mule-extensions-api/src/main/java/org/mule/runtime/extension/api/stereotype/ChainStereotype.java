@@ -7,7 +7,7 @@
 package org.mule.runtime.extension.api.stereotype;
 
 /**
- * {@link StereotypeDefinition} for {@code body}/chain of components defined through a DSL.
+ * {@link StereotypeDefinition} for the chain of components defined through a DSL.
  *
  * @since 1.4
  */
