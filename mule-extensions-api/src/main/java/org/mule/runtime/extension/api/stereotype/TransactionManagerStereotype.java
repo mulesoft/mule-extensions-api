@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.stereotype;
 /**
  * {@link StereotypeDefinition} for any transaction manager global element.
  *
- * @since 1.0
+ * @since 1.4, 1.3.1
  */
 public final class TransactionManagerStereotype extends MuleStereotypeDefinition {
 
