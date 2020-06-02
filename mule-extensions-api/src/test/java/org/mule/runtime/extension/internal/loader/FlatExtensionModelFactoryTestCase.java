@@ -19,6 +19,7 @@ import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ADDRESS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.ARG_LESS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.BROADCAST;
@@ -72,6 +73,8 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -112,6 +115,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
@@ -382,6 +388,34 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
 
     assertObjectStreamingStrategyParameter(streamingStrategy);
+  }
+
+  @Test
+  @Issue("MULE-18457")
+  @Description("For crafted extensions that do not set a stereotype in the models, a default is set.")
+  public void configDefaultStereotype() {
+    declare(extensionDeclarer -> {
+      declareBase(extensionDeclarer).withConfig("myConfig");
+    });
+
+    ExtensionModel extensionModel = load();
+
+    assertThat(extensionModel.getConfigurationModel("myConfig").get().getStereotype(), is(CONFIG));
+  }
+
+  @Test
+  @Issue("MULE-18457")
+  @Description("For crafted extensions that do not set a stereotype in the models, a default is set.")
+  public void connectionDefaultStereotype() {
+    declare(extensionDeclarer -> {
+      declareBase(extensionDeclarer)
+          .withConnectionProvider("myConnection")
+          .withConnectionManagementType(NONE);
+    });
+
+    ExtensionModel extensionModel = load();
+
+    assertThat(extensionModel.getConnectionProviderModel("myConnection").get().getStereotype(), is(CONNECTION));
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {
