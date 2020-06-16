@@ -12,7 +12,9 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * Describes the available back pressure strategies
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.extension.runtime.source.BackPressureMode} instead.
  */
+@Deprecated
 public enum BackPressureMode {
 
   /**

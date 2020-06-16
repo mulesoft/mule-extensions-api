@@ -22,9 +22,11 @@ import java.lang.annotation.Target;
  * JSON Schema.
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.metadata.fixed.AttributesJsonType} instead.
  */
 @Retention(RUNTIME)
 @Target({METHOD, TYPE})
+@Deprecated
 public @interface AttributesJsonType {
 
   /**

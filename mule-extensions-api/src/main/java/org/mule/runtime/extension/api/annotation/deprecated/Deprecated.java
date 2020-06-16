@@ -23,10 +23,12 @@ import java.lang.annotation.Target;
  * Providers and Extensions.
  *
  * @since 1.2
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.deprecated.Deprecated} instead
  */
 @Target({TYPE, FIELD, METHOD, PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@java.lang.Deprecated
 public @interface Deprecated {
 
 

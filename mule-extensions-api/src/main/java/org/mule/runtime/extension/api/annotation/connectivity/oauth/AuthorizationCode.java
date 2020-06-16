@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.annotation.connectivity.oauth;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.connection.PoolingConnectionProvider;
@@ -27,10 +28,12 @@ import java.lang.annotation.Target;
  * {@link CachedConnectionProvider} interfaces if needed, but connectivity testing will be disabled.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.connectivity.oauth.AuthorizationCode} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface AuthorizationCode {
 
   /**

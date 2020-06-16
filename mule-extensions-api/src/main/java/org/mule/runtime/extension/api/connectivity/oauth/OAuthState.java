@@ -6,22 +6,18 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
+import org.mule.api.annotation.NoImplement;
+
 import java.util.Optional;
 
 /**
  * An  object which holds information about an OAuth authorization
  *
  * @since 1.2.1
+ * @deprecated use {@link org.mule.sdk.api.extension.connectivity.oauth.OAuthState} instead.
  */
-public interface OAuthState {
+@NoImplement
+@Deprecated
+public interface OAuthState extends org.mule.sdk.api.extension.connectivity.oauth.OAuthState {
 
-  /**
-   * @return The obtained access token
-   */
-  String getAccessToken();
-
-  /**
-   * @return The access token's expiration. The actual format of it depends on the OAuth provider
-   */
-  Optional<String> getExpiresIn();
 }

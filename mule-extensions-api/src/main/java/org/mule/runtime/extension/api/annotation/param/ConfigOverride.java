@@ -91,10 +91,12 @@ import java.lang.annotation.Target;
  * It is not to be used on {@link ConfigurationModel configurations} nor {@link ConnectionProviderModel connections}.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.ConfigOverride} instead.
  */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface ConfigOverride {
 
 }

@@ -39,10 +39,12 @@ import java.lang.annotation.Target;
  * <p>
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.connectivity.oauth.OAuthParameter} instead.
  */
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface OAuthParameter {
 
   /**

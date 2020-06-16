@@ -21,10 +21,12 @@ import java.lang.annotation.Target;
  * then {@link ExclusiveOptionals#isOneRequired()} must be set to true.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.ExclusiveOptionals} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface ExclusiveOptionals {
 
   /**

@@ -18,26 +18,9 @@ import java.util.Optional;
  * an instance of this class will be initial payload of such flow.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.connectivity.oauth.AuthCodeRequest} instead.
  */
-public interface AuthCodeRequest {
+@Deprecated
+public interface AuthCodeRequest extends org.mule.sdk.api.extension.connectivity.oauth.AuthCodeRequest {
 
-  /**
-   * @return The id of the user being authenticated
-   */
-  String getResourceOwnerId();
-
-  /**
-   * @return The scopes that were requested
-   */
-  Optional<String> getScopes();
-
-  /**
-   * @return The OAuth state that was sent
-   */
-  Optional<String> getState();
-
-  /**
-   * @return The external callback url that the user configured or {@link Optional#empty()} if none was provided
-   */
-  Optional<String> getExternalCallbackUrl();
 }

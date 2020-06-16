@@ -19,10 +19,12 @@ import java.lang.annotation.Target;
  * methods which implement the operation
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.Operations} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface Operations {
 
   /**

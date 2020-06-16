@@ -26,10 +26,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This annotation can be only used on Configuration and Connection Provider parameters.
  *
  * @since 1.2.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.metadata.RequiredForMetadata} instead.
  */
 @Target({FIELD})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface RequiredForMetadata {
 
 }

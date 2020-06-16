@@ -24,10 +24,12 @@ import java.lang.annotation.Target;
  * It is not to be used on configurations
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.Config} instead.
  */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface Config {
 
 }

@@ -24,9 +24,11 @@ import java.util.Map;
  * JSON Schema.
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.metadata.fixed.OutputJsonType} instead.
  */
 @Retention(RUNTIME)
 @Target({METHOD, TYPE})
+@Deprecated
 public @interface OutputJsonType {
 
   /**

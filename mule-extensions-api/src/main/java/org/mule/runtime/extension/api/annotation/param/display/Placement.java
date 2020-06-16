@@ -19,10 +19,12 @@ import java.lang.annotation.Target;
  * Defines the particular place of a {@link Parameter} field in the extension configuration window.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.display.Placement} instead.
  */
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface Placement {
 
   /**

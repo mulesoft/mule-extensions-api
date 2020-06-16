@@ -17,8 +17,10 @@ import java.util.Set;
  * Immutable implementation of {@link Value}
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.values.ImmutableValue} instead.
  */
 @NoExtend
+@Deprecated
 public class ImmutableValue implements Value {
 
   private final String id;

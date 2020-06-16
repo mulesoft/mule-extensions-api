@@ -29,10 +29,12 @@ import java.lang.annotation.Target;
  * </lu>
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.RefName} instead.
  */
 @Target(value = FIELD)
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface RefName {
 
 }

@@ -26,10 +26,12 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  * @see StereotypeDefinition
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.stereotype.Stereotype} instead.
  */
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface Stereotype {
 
   Class<? extends StereotypeDefinition> value();

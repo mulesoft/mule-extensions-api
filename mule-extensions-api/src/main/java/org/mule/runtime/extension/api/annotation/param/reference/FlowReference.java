@@ -20,10 +20,12 @@ import java.lang.annotation.Target;
  * field or parameter that is a reference to a flow in a mule app.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.reference.FlowReference} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface FlowReference {
 
 }

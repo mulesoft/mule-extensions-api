@@ -22,6 +22,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.mule.sdk</groupId>
+            <artifactId>mule-sdk-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.mule.runtime</groupId>
             <artifactId>mule-api</artifactId>
         </dependency>

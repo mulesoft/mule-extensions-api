@@ -1,4 +1,21 @@
 {
+  "1.4.0": {
+    "revapi": {
+      "ignore": [
+        {
+           "code": "java.annotation.added",
+           "old": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+           "new": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+           "annotationType": "org.mule.api.annotation.NoImplement",
+           "annotation": "@org.mule.api.annotation.NoImplement",
+           "package": "org.mule.runtime.extension.api.connectivity.oauth",
+           "classSimpleName": "OAuthState",
+           "elementKind": "interface",
+           "justification": "Annotation was missing"
+        }
+      ]
+    }
+  },
   "1.3.0": {
     "revapi": {
       "ignore": [

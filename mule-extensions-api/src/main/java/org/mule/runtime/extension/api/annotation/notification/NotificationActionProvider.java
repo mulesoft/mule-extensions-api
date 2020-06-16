@@ -16,7 +16,9 @@ import java.util.Set;
  * @since 1.1
  * @see Fires
  * @see NotificationActionDefinition
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.notification.NotificationActionProvider} instead.
  */
+@Deprecated
 public interface NotificationActionProvider {
 
   /**

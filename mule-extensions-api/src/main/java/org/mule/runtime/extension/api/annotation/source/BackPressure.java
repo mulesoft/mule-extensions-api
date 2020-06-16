@@ -20,10 +20,12 @@ import java.lang.annotation.Target;
  * Allows the customization of a {@link Source} available and default {@link BackPressureMode}.
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.extension.annotation.source.BackPressure} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface BackPressure {
 
   /**
