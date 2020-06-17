@@ -11,8 +11,27 @@
            "package": "org.mule.runtime.extension.api.connectivity.oauth",
            "classSimpleName": "OAuthState",
            "elementKind": "interface",
-           "justification": "Annotation was missing"
-        }
+           "justification": "Annotation was missing."
+        },
+        {
+           "code": "java.class.nonFinalClassInheritsFromNewClass",
+           "old": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+           "new": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+           "superClass": "org.mule.sdk.api.extension.connectivity.oauth.AccessTokenExpiredException",
+           "package": "org.mule.runtime.extension.api.connectivity.oauth",
+           "classSimpleName": "AccessTokenExpiredException",
+           "elementKind": "class",
+           "justification":"Added for forward compatibility."
+         },
+         {
+           "code": "java.class.nowCheckedException",
+           "old": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+           "new": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+           "package": "org.mule.runtime.extension.api.connectivity.oauth",
+           "classSimpleName": "AccessTokenExpiredException",
+           "elementKind": "class",
+           "justification": "Added for forward compatibility."
+         }
       ]
     }
   },

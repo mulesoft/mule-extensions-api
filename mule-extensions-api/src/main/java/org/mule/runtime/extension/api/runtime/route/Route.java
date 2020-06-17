@@ -29,7 +29,9 @@ import org.mule.runtime.extension.api.runtime.process.RouterCompletionCallback;
  * @see Chain
  * @see AllowedStereotypes
  * @see RouterCompletionCallback
+ * @deprecated use {@link org.mule.sdk.api.extension.runtime.route.Route} instead.
  */
+@Deprecated
 public abstract class Route {
 
   @Parameter

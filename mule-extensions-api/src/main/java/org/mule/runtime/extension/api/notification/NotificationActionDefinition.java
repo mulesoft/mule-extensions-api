@@ -13,14 +13,10 @@ import org.mule.runtime.api.metadata.DataType;
  *
  * @param <E> Enum type
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.extension.notification.NotificationActionDefinition} instead.
  */
-public interface NotificationActionDefinition<E extends Enum<E>> {
-
-  /**
-   * Indicates the {@link Class} of the data associated to the notification
-   *
-   * @return the type of the notification data.
-   */
-  DataType getDataType();
+@Deprecated
+public interface NotificationActionDefinition<E extends Enum<E>>
+    extends org.mule.sdk.api.extension.notification.NotificationActionDefinition<E> {
 
 }

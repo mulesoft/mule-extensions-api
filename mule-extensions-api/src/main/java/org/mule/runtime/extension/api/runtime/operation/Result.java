@@ -30,7 +30,9 @@ import java.util.OptionalLong;
  * @param <T> the generic type of the output value
  * @param <A> the generic type of the message attributes
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.runtime.operation.Result} instead.
  */
+@Deprecated
 public class Result<T, A> {
 
   /**

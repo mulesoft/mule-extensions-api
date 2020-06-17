@@ -16,21 +16,11 @@ import java.util.Map;
  *
  * @since 1.0
  */
-public class ComplexParameter {
-
-  private final Class<?> type;
-  private final Map<String, Object> parameters;
+@Deprecated
+public class ComplexParameter extends org.mule.sdk.internal.client.ComplexParameter {
 
   public ComplexParameter(Class<?> type, Map<String, Object> parameters) {
-    this.type = type;
-    this.parameters = parameters;
+    super(type, parameters);
   }
 
-  public Class<?> getType() {
-    return type;
-  }
-
-  public Map<String, Object> getParameters() {
-    return parameters;
-  }
 }

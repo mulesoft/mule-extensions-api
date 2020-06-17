@@ -15,7 +15,9 @@ import java.util.Optional;
  * an extension.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.error.MuleErrors} instead.
  */
+@Deprecated
 public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
 
   /**

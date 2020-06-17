@@ -20,30 +20,9 @@ import java.util.Optional;
  * message being processed correlates to its context.
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.extension.runtime.parameter.CorrelationInfo} instead.
  */
 @NoImplement
-public interface CorrelationInfo {
-
-  /**
-   * @return The id of the {@link Event} being processed
-   */
-  String getEventId();
-
-  /**
-   * Indicates if outbound correlation ids are enabled at the application level or not. If {@code false}, outbound operations
-   * should not send correlation id, unless that operation has an explicit override.
-   *
-   * @return whether outbound correlation ids is enabled by default or not
-   */
-  boolean isOutboundCorrelationEnabled();
-
-  /**
-   * @return The correlation id of the {@link Event} currently being processed
-   */
-  String getCorrelationId();
-
-  /**
-   * @return The item sequence information of the {@link Event} currently being processed
-   */
-  Optional<ItemSequenceInfo> getItemSequenceInfo();
+@Deprecated
+public interface CorrelationInfo extends org.mule.sdk.api.extension.runtime.parameter.CorrelationInfo {
 }

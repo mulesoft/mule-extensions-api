@@ -44,8 +44,10 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  * <p>
  *
  * @since 1.0
+ * @deprecated use {org.mule.sdk.api.extension.runtime.process.RouterCompletionCallback} instead.
  */
 @NoImplement
+@Deprecated
 public interface RouterCompletionCallback extends CompletionCallback<Object, Object> {
 
 
