@@ -121,7 +121,8 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
                                             json.get(EXPIRATION_REGEX).getAsString(),
                                             getOptionalValue(json, DEFAULT_SCOPES),
                                             CredentialsPlacement.valueOf(json.get(CREDENTIALS_PLACEMENT).getAsString()));
-
+    } else if (PlatformManagedOAuthGrantType.NAME.equals(grantType)) {
+      return new PlatformManagedOAuthGrantType();
     } else {
       throw new IllegalArgumentException("Unsupported Grant Type: " + grantType);
     }
