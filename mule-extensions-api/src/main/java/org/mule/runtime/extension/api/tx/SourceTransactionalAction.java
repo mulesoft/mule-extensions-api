@@ -10,7 +10,9 @@ package org.mule.runtime.extension.api.tx;
  * The type of beginning actions that sources can take regarding transactions.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.extension.tx.SourceTransactionalAction} instead.
  */
+@Deprecated
 public enum SourceTransactionalAction {
 
   /**
