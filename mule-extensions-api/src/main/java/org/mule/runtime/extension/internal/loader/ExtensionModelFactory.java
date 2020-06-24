@@ -21,6 +21,8 @@ import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.util.MuleSystemProperties.isForceExtensionValidation;
 import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
@@ -308,9 +310,17 @@ public final class ExtensionModelFactory {
                                                              toMessageSources(declaration.getMessageSources()),
                                                              declaration.getExternalLibraryModels(),
                                                              declaration.getDisplayModel(),
-                                                             declaration.getStereotype(),
+                                                             getConfigStereotype(declaration.getStereotype()),
                                                              declaration.getModelProperties(),
                                                              declaration.getDeprecation().orElse(null)));
+    }
+
+    private StereotypeModel getConfigStereotype(StereotypeModel stereotypeModel) {
+      if (stereotypeModel != null) {
+        return stereotypeModel;
+      }
+
+      return CONFIG;
     }
 
     private List<ConstructModel> toConstructs(List<ConstructDeclaration> constructs) {
@@ -476,9 +486,17 @@ public final class ExtensionModelFactory {
                                                                   declaration.isSupportsConnectivityTesting(),
                                                                   declaration.getExternalLibraryModels(),
                                                                   declaration.getDisplayModel(),
-                                                                  declaration.getStereotype(),
+                                                                  getConnectionStereotype(declaration.getStereotype()),
                                                                   declaration.getModelProperties(),
                                                                   declaration.getDeprecation().orElse(null)));
+    }
+
+    private StereotypeModel getConnectionStereotype(StereotypeModel stereotypeModel) {
+      if (stereotypeModel != null) {
+        return stereotypeModel;
+      }
+
+      return CONNECTION;
     }
 
     private List<ParameterGroupModel> toParameterGroups(List<ParameterGroupDeclaration> declarations) {
