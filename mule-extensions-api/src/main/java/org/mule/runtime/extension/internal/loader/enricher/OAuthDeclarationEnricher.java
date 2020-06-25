@@ -45,6 +45,7 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import static org.mule.runtime.extension.internal.ocs.PlatformManagedOAuthUtils.isPlatformManagedOAuthEnabled;
 
@@ -222,14 +223,17 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
       params.add(buildParameter(RESOURCE_OWNER_ID_PARAMETER_NAME, "The resourceOwnerId which each component should use "
           + "if it doesn't reference otherwise.", false, stringType, SUPPORTED, null));
 
-      params
-          .add(buildParameter(BEFORE_FLOW_PARAMETER_NAME,
-                              "The name of a flow to be executed right before starting the OAuth dance",
-                              false, stringType, NOT_SUPPORTED, null));
+      final ParameterDeclaration beforeFlowParam = buildParameter(BEFORE_FLOW_PARAMETER_NAME,
+                                                                  "The name of a flow to be executed right before starting the OAuth dance",
+                                                                  false, stringType, NOT_SUPPORTED, null);
+      beforeFlowParam.setAllowedStereotypeModels(singletonList(FLOW));
+      params.add(beforeFlowParam);
 
-      params.add(buildParameter(AFTER_FLOW_PARAMETER_NAME,
-                                "The name of a flow to be executed right after an accessToken has been received",
-                                false, stringType, NOT_SUPPORTED, null));
+      final ParameterDeclaration afterFlowParam = buildParameter(AFTER_FLOW_PARAMETER_NAME,
+                                                                 "The name of a flow to be executed right after an accessToken has been received",
+                                                                 false, stringType, NOT_SUPPORTED, null);
+      afterFlowParam.setAllowedStereotypeModels(singletonList(FLOW));
+      params.add(afterFlowParam);
 
       addToGroup(params, OAUTH_AUTHORIZATION_CODE_GROUP_NAME, OAUTH_AUTHORIZATION_CODE_GROUP_DISPLAY_NAME, declaration);
     }
