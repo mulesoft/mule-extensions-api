@@ -34,6 +34,7 @@ import java.lang.annotation.Target;
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface Throws {
 
   Class<? extends ErrorTypeProvider>[] value();
