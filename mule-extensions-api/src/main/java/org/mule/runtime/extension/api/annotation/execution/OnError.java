@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  * operation method would.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.execution.OnError} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.execution.OnError} instead.
  */
 @Target(METHOD)
 @Retention(RUNTIME)

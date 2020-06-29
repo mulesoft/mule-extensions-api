@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
  * configuration element.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.reference.ConfigReference} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.reference.ConfigReference} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)

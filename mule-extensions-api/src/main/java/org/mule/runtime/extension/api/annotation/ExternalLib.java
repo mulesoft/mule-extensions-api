@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  * This annotation is repeatable, which means that any annotated component can depend on many external libraries.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.ExternalLib} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.ExternalLib} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)

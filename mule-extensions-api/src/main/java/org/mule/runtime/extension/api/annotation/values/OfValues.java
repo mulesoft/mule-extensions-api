@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * This resolution is resolved by the {@link ValueProvider} referenced in the {@link OfValues}.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.values.OfValues} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.values.OfValues} instead.
  */
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)

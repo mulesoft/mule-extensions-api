@@ -44,7 +44,7 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @since 1.2.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.stereotype.ComponentId} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.stereotype.ComponentId} instead.
  */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

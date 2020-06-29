@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * the {@link Source}s that the extension exposes.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.Sources} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.Sources} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

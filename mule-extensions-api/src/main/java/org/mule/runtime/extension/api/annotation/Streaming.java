@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * yet harmless.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.Streaming} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.Streaming} instead.
  */
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)

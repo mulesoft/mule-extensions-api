@@ -15,7 +15,7 @@ import java.util.Optional;
  * {@code outbound}, etc.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.stereotype.StereotypeDefinition} instead.
+ * @deprecated use {@link org.mule.sdk.api.stereotype.StereotypeDefinition} instead.
  */
 @Deprecated
 public interface StereotypeDefinition {

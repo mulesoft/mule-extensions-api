@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * methods which implement the functions
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.ExpressionFunctions} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.ExpressionFunctions} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

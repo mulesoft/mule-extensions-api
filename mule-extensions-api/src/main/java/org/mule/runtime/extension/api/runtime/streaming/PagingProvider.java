@@ -22,7 +22,7 @@ import java.util.Optional;
  * @param <C> connection type expected to handle the operations.
  * @param <T> the type of the returned pages.
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.streaming.PagingProvider} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.streaming.PagingProvider} instead.
  */
 @Deprecated
 public interface PagingProvider<C, T> {

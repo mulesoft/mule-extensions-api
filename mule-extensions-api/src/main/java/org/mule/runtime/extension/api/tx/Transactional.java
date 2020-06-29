@@ -12,7 +12,7 @@ import org.mule.runtime.api.tx.TransactionException;
  * Base contract for a component which can participate in a transaction
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.tx.Transactional} instead.
+ * @deprecated use {@link org.mule.sdk.api.tx.Transactional} instead.
  */
 @Deprecated
 public interface Transactional {

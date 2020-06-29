@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * {@link Extension} and {@link #value()} must reference classes which are annotated with {@link Configuration}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.Configurations} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.Configurations} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

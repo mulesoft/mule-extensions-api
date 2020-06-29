@@ -20,9 +20,9 @@ import java.util.Optional;
  * message being processed correlates to its context.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.parameter.CorrelationInfo} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.parameter.CorrelationInfo} instead.
  */
 @NoImplement
 @Deprecated
-public interface CorrelationInfo extends org.mule.sdk.api.extension.runtime.parameter.CorrelationInfo {
+public interface CorrelationInfo extends org.mule.sdk.api.runtime.parameter.CorrelationInfo {
 }

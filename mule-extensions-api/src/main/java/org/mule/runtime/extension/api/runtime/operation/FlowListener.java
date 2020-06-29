@@ -37,10 +37,10 @@ import java.util.function.Consumer;
  * in a thread different from the one executing the operation.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.operation.FlowListener} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.operation.FlowListener} instead.
  */
 @NoImplement
 @Deprecated
-public interface FlowListener extends org.mule.sdk.api.extension.runtime.operation.FlowListener {
+public interface FlowListener extends org.mule.sdk.api.runtime.operation.FlowListener {
 
 }

@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * when building instances of a class
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.Ignore} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.Ignore} instead.
  */
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

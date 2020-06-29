@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
  * an Operation level enricher will override the {@link OnException} level one.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.OnException} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.OnException} instead.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

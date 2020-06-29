@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  * An implementation of the builder design pattern to create a new {@link ValueBuilder} instance.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.values.ValueBuilder} instead.
+ * @deprecated use {@link org.mule.sdk.api.values.ValueBuilder} instead.
  */
 @Deprecated
 public class ValueBuilder {

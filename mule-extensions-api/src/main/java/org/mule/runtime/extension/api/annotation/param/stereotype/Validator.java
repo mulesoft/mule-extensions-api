@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * operation).
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.stereotype.Validator} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.stereotype.Validator} instead.
  */
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)

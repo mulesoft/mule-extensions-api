@@ -20,7 +20,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCreden
  * {@link ConnectionProvider} can make use of it.
  *
  * @since 1.2.1
- * @deprecated use {@link org.mule.sdk.api.extension.connectivity.oauth.ClientCredentialsState} instead.
+ * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.ClientCredentialsState} instead.
  */
 @NoImplement
 @Deprecated

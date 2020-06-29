@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  * to resolve the Component's return {@link MetadataType type} dynamically
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.metadata.OutputResolver} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.metadata.OutputResolver} instead.
  */
 @Target({METHOD})
 @Retention(RUNTIME)

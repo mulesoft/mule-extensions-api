@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * Container for the {@link Repeatable} {@link Import} annotation
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.ImportedTypes} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.ImportedTypes} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -22,7 +22,7 @@ import java.util.Optional;
  * based on a given {@link Authentication} request.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.security.AuthenticationHandler} instead.
+ * @deprecated use {@link org.mule.sdk.api.security.AuthenticationHandler} instead.
  */
 @NoImplement
 @Deprecated

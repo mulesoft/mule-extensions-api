@@ -23,7 +23,7 @@ import java.util.function.Consumer;
  * @param <T> the generic type for the generated message's payload
  * @param <A> the generic type for the generated message's attributes
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.source.PollingSource} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.source.PollingSource} instead.
  */
 @Deprecated
 public abstract class PollingSource<T, A> extends Source<T, A> {

@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * Can only be used on {@link String} or {@link InputStream} parameters in order to be correctly coerced.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.metadata.fixed.InputXmlType} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.InputXmlType} instead.
  */
 @Retention(RUNTIME)
 @Target({PARAMETER})

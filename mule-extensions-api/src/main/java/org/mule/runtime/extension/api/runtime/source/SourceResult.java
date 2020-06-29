@@ -22,7 +22,7 @@ import java.util.Optional;
  * {@link Source} so that this callback can operate according to the result.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.source.SourceResult} instead
+ * @deprecated use {@link org.mule.sdk.api.runtime.source.SourceResult} instead
  */
 @Deprecated
 public final class SourceResult {

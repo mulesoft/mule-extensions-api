@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  * or other extensions consuming the referenced types.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.Export} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.Export} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

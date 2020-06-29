@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * Container for the {@link Repeatable} {@link SubTypeMapping} annotation
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.SubTypesMapping} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.SubTypesMapping} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

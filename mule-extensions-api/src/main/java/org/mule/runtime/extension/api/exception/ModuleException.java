@@ -20,7 +20,7 @@ import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
  * built.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.exception.ModuleException} instead.
+ * @deprecated use {@link org.mule.sdk.api.exception.ModuleException} instead.
  */
 @Deprecated
 public class ModuleException extends MuleRuntimeException {

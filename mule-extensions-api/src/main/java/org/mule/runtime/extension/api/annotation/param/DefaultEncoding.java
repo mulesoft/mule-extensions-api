@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * The annotated field should be of type {@link String}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.DefaultEncoding} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.DefaultEncoding} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

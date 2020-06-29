@@ -13,7 +13,7 @@ import javax.transaction.xa.XAResource;
  * which can participate of XA transactions
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.connectivity.XATransactionalConnection} instead.
+ * @deprecated use {@link org.mule.sdk.api.connectivity.XATransactionalConnection} instead.
  */
 @Deprecated
 public interface XATransactionalConnection extends TransactionalConnection {

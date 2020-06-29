@@ -12,7 +12,7 @@ import org.mule.runtime.extension.api.runtime.source.Source;
  * Describes the operation modes that a {@link Source} can have when running in cluster mode.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.source.SourceClusterSupport} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.source.SourceClusterSupport} instead.
  */
 @Deprecated
 public enum SourceClusterSupport {

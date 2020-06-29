@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  * The annotated method can either be argument-less or receive a {@link BackPressureContext}
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.source.OnBackPressure} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.source.OnBackPressure} instead.
  */
 @Target(METHOD)
 @Retention(RUNTIME)

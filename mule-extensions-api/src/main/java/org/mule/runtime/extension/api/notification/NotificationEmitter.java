@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  * default one.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.notification.NotificationEmitter} instead.
+ * @deprecated use {@link org.mule.sdk.api.notification.NotificationEmitter} instead.
  */
 @NoImplement
 @Deprecated

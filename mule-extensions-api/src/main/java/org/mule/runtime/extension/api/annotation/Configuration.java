@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  * or {@link ParameterGroup} to obtain that configuration's parameters
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.Configuration} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.Configuration} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)

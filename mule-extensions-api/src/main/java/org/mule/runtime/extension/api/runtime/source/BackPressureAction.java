@@ -16,7 +16,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * {@link SourceCallback#handle(Result)}
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.source.BackPressureAction} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.source.BackPressureAction} instead.
  */
 @Deprecated
 public enum BackPressureAction {

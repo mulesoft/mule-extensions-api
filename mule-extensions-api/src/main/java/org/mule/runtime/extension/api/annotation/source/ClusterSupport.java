@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * {@link SourceClusterSupport}
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.source.ClusterSupport} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.source.ClusterSupport} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)

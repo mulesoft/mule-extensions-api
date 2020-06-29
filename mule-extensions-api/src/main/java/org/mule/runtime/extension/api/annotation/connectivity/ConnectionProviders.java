@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * the {@link ConnectionProvider}s that the extension exposes.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.connectivity.ConnectionProviders} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.connectivity.ConnectionProviders} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

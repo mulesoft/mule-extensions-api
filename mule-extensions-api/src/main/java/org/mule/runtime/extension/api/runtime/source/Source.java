@@ -40,7 +40,7 @@ import org.mule.runtime.extension.api.annotation.source.EmitsResponse;
  * @param <T> the generic type for the generated message's payload
  * @param <A> the generic type for the generated message's attributes
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.source.Source} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.source.Source} instead.
  */
 @Deprecated
 public abstract class Source<T, A> {

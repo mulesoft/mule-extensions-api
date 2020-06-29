@@ -13,7 +13,7 @@ import org.mule.runtime.api.event.Event;
  * Provides information about how the runtime applied back pressure on a certain {@link #getEvent() event}
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.source.BackPressureContext} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.source.BackPressureContext} instead.
  */
 @NoImplement
 @Deprecated

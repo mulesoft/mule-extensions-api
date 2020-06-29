@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 /**
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.Content} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.Content} instead.
  */
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)

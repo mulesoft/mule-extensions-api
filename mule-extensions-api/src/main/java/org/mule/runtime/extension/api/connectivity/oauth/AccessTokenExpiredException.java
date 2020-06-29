@@ -17,10 +17,10 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
  * whatever reason, then the operation will fail.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.connectivity.oauth.AccessTokenExpiredException} instead.
+ * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.AccessTokenExpiredException} instead.
  */
 @Deprecated
-public class AccessTokenExpiredException extends org.mule.sdk.api.extension.connectivity.oauth.AccessTokenExpiredException {
+public class AccessTokenExpiredException extends org.mule.sdk.api.connectivity.oauth.AccessTokenExpiredException {
 
   /**
    * {@inheritDoc}

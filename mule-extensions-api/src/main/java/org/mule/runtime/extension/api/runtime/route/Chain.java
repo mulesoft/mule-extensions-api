@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * occurs in one processor and it is propagated to the {@link Chain}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.route.Chain} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.route.Chain} instead.
  */
 @NoImplement
 @Deprecated

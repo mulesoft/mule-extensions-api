@@ -17,7 +17,7 @@ import java.util.Set;
  * @since 1.0
  * @see Throws
  * @see ErrorTypeDefinition
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.error.ErrorTypeProvider} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.error.ErrorTypeProvider} instead.
  */
 @Deprecated
 public interface ErrorTypeProvider {

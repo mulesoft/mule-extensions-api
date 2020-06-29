@@ -23,9 +23,9 @@ import java.util.Optional;
  *
  * @param <T> The type of the value to resolve
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.parameter.ParameterResolvers} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.parameter.ParameterResolvers} instead.
  */
 @NoImplement
 @Deprecated
-public interface ParameterResolver<T> extends org.mule.sdk.api.extension.runtime.parameter.ParameterResolver<T> {
+public interface ParameterResolver<T> extends org.mule.sdk.api.runtime.parameter.ParameterResolver<T> {
 }

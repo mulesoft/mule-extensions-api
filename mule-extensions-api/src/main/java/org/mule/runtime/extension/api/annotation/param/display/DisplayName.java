@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * parameter, {@link Source}, {@link Configuration} and {@link ConnectionProvider}.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.display.DisplayName} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.display.DisplayName} instead.
  */
 @Target({PARAMETER, FIELD, METHOD, TYPE})
 @Retention(RUNTIME)

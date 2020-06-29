@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
  * of methods mapping to operations
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.dsl.xml.ParameterDsl} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.dsl.xml.ParameterDsl} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)

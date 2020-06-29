@@ -52,7 +52,7 @@ import java.util.Map;
  * </ul>
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.param.NullSafe} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.NullSafe} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)

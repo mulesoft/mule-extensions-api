@@ -15,7 +15,7 @@ import java.util.Set;
  *
  * @since 1.0
  * @see Value
- * @deprecated use {@link org.mule.sdk.api.extension.values.ValueProvider} instead.
+ * @deprecated use {@link org.mule.sdk.api.values.ValueProvider} instead.
  */
 @Deprecated
 public interface ValueProvider {

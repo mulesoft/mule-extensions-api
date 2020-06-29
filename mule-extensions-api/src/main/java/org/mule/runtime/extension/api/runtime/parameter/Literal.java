@@ -29,9 +29,9 @@ import java.util.Optional;
  * <p>
  * @param <T> the generic type of the actual parameter type
  *           @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.runtime.parameter.Literal} instead.
+ * @deprecated use {@link org.mule.sdk.api.runtime.parameter.Literal} instead.
  */
 @NoImplement
 @Deprecated
-public interface Literal<T> extends org.mule.sdk.api.extension.runtime.parameter.Literal<T> {
+public interface Literal<T> extends org.mule.sdk.api.runtime.parameter.Literal<T> {
 }

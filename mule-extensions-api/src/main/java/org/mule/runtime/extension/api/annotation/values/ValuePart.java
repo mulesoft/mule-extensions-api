@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
  * {@link ValuePart} annotated fields must be of type {@link String}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.values.ValuePart} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.values.ValuePart} instead.
  */
 @Target({FIELD})
 @Retention(RUNTIME)

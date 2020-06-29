@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  * the {@link SourceResult};
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.execution.OnTerminate} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.execution.OnTerminate} instead.
  */
 @Target(METHOD)
 @Retention(RUNTIME)

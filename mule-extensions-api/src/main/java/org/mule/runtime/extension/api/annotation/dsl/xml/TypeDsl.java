@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * Allows setting directives regarding syntax and semantics of the generated XML DSL.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.annotation.dsl.xml.TypeDsl} instead.
+ * @deprecated use {@link org.mule.sdk.api.annotation.dsl.xml.TypeDsl} instead.
  */
 @Target({TYPE})
 @Retention(RUNTIME)

@@ -25,7 +25,7 @@ import java.util.Optional;
  * @param <E> Enum type
  * @see MuleErrors
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.extension.error.ErrorTypeDefinition} instead.
+ * @deprecated use {@link org.mule.sdk.api.error.ErrorTypeDefinition} instead.
  */
 @Deprecated
 public interface ErrorTypeDefinition<E extends Enum<E>> {

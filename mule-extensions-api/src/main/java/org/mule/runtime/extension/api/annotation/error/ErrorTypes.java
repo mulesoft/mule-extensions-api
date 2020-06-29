@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * the whole extension manages
  *
  * @since 1.0
- * @deprecated use {org.mule.sdk.api.extension.annotation.error.ErrorTypes} instead.
+ * @deprecated use {org.mule.sdk.api.annotation.error.ErrorTypes} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)

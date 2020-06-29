@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * considered required
  *
  * @since 1.0
- * @deprecated use {org.mule.sdk.api.extension.annotation.param.Optional} instead.
+ * @deprecated use {org.mule.sdk.api.annotation.param.Optional} instead.
  */
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
