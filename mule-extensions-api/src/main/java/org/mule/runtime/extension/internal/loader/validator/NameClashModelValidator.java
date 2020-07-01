@@ -20,6 +20,7 @@ import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.get
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 
+import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -460,7 +461,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       contentParameters
           .forEach(param -> clashingsByTagName.computeIfAbsent(param.dsl.getElementName(), k -> {
             List<ParameterReference> others = contentParameters.stream()
-                .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName()) && !param.type.equals(other.type))
+                .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName())
+                    && !areTypesEqual(param.type, other.type))
                 .collect(toList());
             if (!others.isEmpty()) {
               others.add(param);
@@ -596,6 +598,20 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     }
   }
 
+  private boolean areTypesEqual(MetadataType type, MetadataType otherType) {
+    String typeId = getTypeId(type);
+    String otherTypeId = getTypeId(otherType);
+
+    if (typeId != null && otherTypeId != null) {
+      return typeId.equals(otherTypeId);
+    } else {
+      return type.equals(otherType);
+    }
+  }
+
+  private String getTypeId(MetadataType type) {
+    return type.getAnnotation(TypeIdAnnotation.class).map(typeIdAnnotation -> typeIdAnnotation.getValue()).orElse(null);
+  }
 
   private class TopLevelParameter extends Element {
 
