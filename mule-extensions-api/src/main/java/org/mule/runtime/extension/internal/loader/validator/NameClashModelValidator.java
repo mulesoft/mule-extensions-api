@@ -16,7 +16,9 @@ import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.concat;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.areTypesEqual;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getExtensionClassLoader;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 
@@ -462,7 +464,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           .forEach(param -> clashingsByTagName.computeIfAbsent(param.dsl.getElementName(), k -> {
             List<ParameterReference> others = contentParameters.stream()
                 .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName())
-                    && !areTypesEqual(param.type, other.type))
+                    && !areTypesEqual(param.type, other.type, getExtensionClassLoader(extensionModel).orElse(null)))
                 .collect(toList());
             if (!others.isEmpty()) {
               others.add(param);
@@ -596,21 +598,6 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     public String toString() {
       return format("element %s of type %s", name, type.getSimpleName());
     }
-  }
-
-  private boolean areTypesEqual(MetadataType type, MetadataType otherType) {
-    String typeId = getTypeId(type);
-    String otherTypeId = getTypeId(otherType);
-
-    if (typeId != null && otherTypeId != null) {
-      return typeId.equals(otherTypeId);
-    } else {
-      return type.equals(otherType);
-    }
-  }
-
-  private String getTypeId(MetadataType type) {
-    return type.getAnnotation(TypeIdAnnotation.class).map(typeIdAnnotation -> typeIdAnnotation.getValue()).orElse(null);
   }
 
   private class TopLevelParameter extends Element {
