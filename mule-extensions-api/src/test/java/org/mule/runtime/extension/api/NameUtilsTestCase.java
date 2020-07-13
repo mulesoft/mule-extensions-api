@@ -31,6 +31,7 @@ import org.mockito.Mockito;
 public class NameUtilsTestCase {
 
   private static final String TYPE_ALIAS = "Batman";
+  private static final String OTHER_CLASS_NAME = "other-aliased-class";
   public static final String CLASS_NAME = "aliased-class";
 
   private ObjectType objectType;
@@ -73,6 +74,16 @@ public class NameUtilsTestCase {
   }
 
   @Test
+  public void getTopLevelTypeNameByClassInformationWithNestedInnerClass() {
+    when(objectType.getMetadataFormat()).thenReturn(JAVA);
+    when(objectType.getAnnotation(TypeIdAnnotation.class)).thenReturn(empty());
+    when(objectType.getAnnotation(ClassInformationAnnotation.class))
+        .thenReturn(of(new ClassInformationAnnotation(OtherClass.OtherAliasedClass.class)));
+
+    assertThat(getTopLevelTypeName(objectType), is(hyphenize(OTHER_CLASS_NAME)));
+  }
+
+  @Test
   public void hyphenization() {
     assertThat("my-parameter-name", is(hyphenize("My Parameter Name")));
     assertThat("my-parameter-name", is(hyphenize("MyParameterName")));
@@ -83,5 +94,12 @@ public class NameUtilsTestCase {
   @Alias(TYPE_ALIAS)
   private static class AliasedClass {
 
+  }
+
+  private static class OtherClass {
+
+    private static class OtherAliasedClass {
+
+    }
   }
 }

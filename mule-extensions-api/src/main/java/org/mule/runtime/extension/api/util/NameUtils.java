@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.util;
 
+import static java.lang.Math.max;
 import static java.lang.String.format;
 import static java.util.Collections.sort;
 import static java.util.Comparator.comparing;
@@ -262,7 +263,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
         .map(TypeAliasAnnotation::getValue)
         .orElseGet(() -> metadataType.getAnnotation(ClassInformationAnnotation.class)
             .map(ClassInformationAnnotation::getClassname)
-            .map(canonicalName -> canonicalName.substring(canonicalName.lastIndexOf(".") + 1))
+            .map(className -> className.substring(max(className.lastIndexOf("."), className.lastIndexOf("$")) + 1))
             .orElseGet(() -> getId(metadataType)
                 .orElseThrow(() -> new IllegalArgumentException("No name information is available for the given type"))));
   }
