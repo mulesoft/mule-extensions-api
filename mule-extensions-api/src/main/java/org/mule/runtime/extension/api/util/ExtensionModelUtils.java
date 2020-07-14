@@ -51,6 +51,7 @@ import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
+import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 
@@ -448,5 +449,16 @@ public class ExtensionModelUtils {
     } else {
       return new ClassValueModel(emptyList());
     }
+  }
+
+  /**
+   * Gets the extension {@link ClassLoader}
+   *
+   * @param extensionModel
+   * @return an {@link Optional} with the extension {@link ClassLoader}
+   */
+  public static Optional<ClassLoader> getExtensionClassLoader(ExtensionModel extensionModel) {
+    return extensionModel.getModelProperty(ClassLoaderModelProperty.class)
+        .map(classLoaderModelProperty -> classLoaderModelProperty.getClassLoader());
   }
 }
