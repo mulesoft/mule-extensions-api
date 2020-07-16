@@ -92,6 +92,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationE
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ErrorMappingsParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.NamedObjectDeclarationEnricher;
@@ -158,6 +159,7 @@ public final class ExtensionModelFactory {
                                                     new ExtensionTypesDeclarationEnricher(),
                                                     new XmlDeclarationEnricher(),
                                                     new TargetParameterDeclarationEnricher(),
+                                                    new ErrorMappingsParameterDeclarationEnricher(),
                                                     new ConnectionProviderDeclarationEnricher(),
                                                     new DynamicConfigDeclarationEnricher(),
                                                     new ReconnectionStrategyDeclarationEnricher(),

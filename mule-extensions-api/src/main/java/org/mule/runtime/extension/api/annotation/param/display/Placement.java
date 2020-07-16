@@ -43,6 +43,8 @@ public @interface Placement {
 
   String DEFAULT_TAB = "General";
 
+  String ERROR_MAPPING_TAB = "Error Mapping";
+
   /**
    * Gives the annotated element a relative order within its group. The value provided may be repeated
    * and in that case the order is not guaranteed.
