@@ -45,5 +45,3 @@ public class ErrorMappingsTypeBuilder extends InfrastructureTypeBuilder {
     return type.build();
   }
 }
-
-
