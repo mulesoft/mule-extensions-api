@@ -14,6 +14,7 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
@@ -45,6 +46,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -331,5 +333,52 @@ public final class ExtensionMetadataTypeUtils {
     } catch (Exception e) {
       return false;
     }
+  }
+
+  /**
+   * Check whether the given {@link MetadataType}s can be considered equal.
+   *
+   * @since 1.4.0
+   */
+  public static boolean areTypesEqual(MetadataType type, MetadataType otherType, ClassLoader classLoader) {
+    String typeClassName = getClassInformationName(type);
+    String otherTypeClassName = getClassInformationName(otherType);
+
+    if (typeClassName != null && otherTypeClassName != null) {
+      if (classLoader != null) {
+        if (!areAssignable(typeClassName, otherTypeClassName, classLoader)) {
+          return false;
+        }
+      } else {
+        if (!Objects.equals(typeClassName, otherTypeClassName)) {
+          return false;
+        }
+      }
+    }
+
+    String typeId = getTypeId(type).orElse(null);
+    String otherTypeId = getTypeId(otherType).orElse(null);
+
+    if (typeId != null && otherTypeId != null) {
+      return Objects.equals(typeId, otherTypeId);
+    } else {
+      return Objects.equals(type, otherType);
+    }
+  }
+
+  private static boolean areAssignable(String className, String otherClassName, ClassLoader classLoader) {
+    try {
+      Class clazz = classLoader.loadClass(className);
+      Class otherClazz = classLoader.loadClass(otherClassName);
+
+      return clazz.isAssignableFrom(otherClazz) || otherClazz.isAssignableFrom(clazz);
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
+  }
+
+  private static String getClassInformationName(MetadataType type) {
+    return type.getAnnotation(ClassInformationAnnotation.class)
+        .map(annotation -> annotation.getClassname()).orElse(null);
   }
 }
