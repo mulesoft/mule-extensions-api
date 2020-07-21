@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.api.tx;
 
-import org.mule.runtime.api.tx.TransactionException;
-
 /**
  * Base contract for a component which can participate in a transaction
  *
@@ -15,26 +13,5 @@ import org.mule.runtime.api.tx.TransactionException;
  * @deprecated use {@link org.mule.sdk.api.tx.Transactional} instead.
  */
 @Deprecated
-public interface Transactional {
-
-  /**
-   * Begins the transaction
-   *
-   * @throws TransactionException if the transaction fails to begin
-   */
-  void begin() throws TransactionException;
-
-  /**
-   * Commits the transaction
-   *
-   * @throws TransactionException if the transaction fails to commit
-   */
-  void commit() throws TransactionException;
-
-  /**
-   * Rolls the transaction back
-   *
-   * @throws TransactionException if the transaction fails to roll back
-   */
-  void rollback() throws TransactionException;
+public interface Transactional extends org.mule.sdk.api.tx.Transactional {
 }

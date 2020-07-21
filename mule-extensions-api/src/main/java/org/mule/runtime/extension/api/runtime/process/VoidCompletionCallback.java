@@ -50,18 +50,6 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  */
 @NoImplement
 @Deprecated
-public interface VoidCompletionCallback {
-
-  /**
-   * This method is to be invoked when the Router execution is completed successfully
-   */
-  void success();
-
-  /**
-   * This method is to be invoked when the Router execution ends with an error.
-   *
-   * @param e the exception found
-   */
-  void error(Throwable e);
+public interface VoidCompletionCallback extends org.mule.sdk.api.runtime.process.VoidCompletionCallback {
 
 }

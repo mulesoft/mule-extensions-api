@@ -6,11 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.streaming;
 
-import org.mule.runtime.api.exception.MuleException;
-
-import java.util.List;
-import java.util.Optional;
-
 /**
  * This interface provides functionality for consuming a data feed in pages.
  * <p>
@@ -25,49 +20,6 @@ import java.util.Optional;
  * @deprecated use {@link org.mule.sdk.api.runtime.streaming.PagingProvider} instead.
  */
 @Deprecated
-public interface PagingProvider<C, T> {
+public interface PagingProvider<C, T> extends org.mule.sdk.api.runtime.streaming.PagingProvider<C, T> {
 
-  /**
-   * Returns the next page of items. If the return value is an empty {@link List} then it means no more items are available
-   *
-   * @param connection The connection to be used to do the query.
-   * @return a populated {@link List} of elements of type {@code Type}, An empty {@link List} if no more items are available
-   */
-  List<T> getPage(C connection);
-
-  /**
-   * returns the total amount of items in the non-paged result set. In some scenarios,
-   * it might not be possible/convenient to actually retrieve this value, in such a cases an
-   * {@link Optional#empty()} value is returned.
-   *
-   * @param connection The connection to be used to do the query.
-   */
-  Optional<Integer> getTotalResults(C connection);
-
-  /**
-   * Some systems require the same connection that obtained the first page to be used to fetch
-   * the subsequent ones. Although this is not the case of most APIs, this method allows to instruct
-   * the runtime to always feed the same connection into the {@link #getPage(Object)} method.
-   * <p>
-   * Keep in mind that if the operation is participating in a transaction, then the connection
-   * <b>will</b> become sticky no matter what this method says.
-   * <p>
-   * This method is optional and defaults to {@code false}
-   *
-   * @return Whether all pages should be fetch using the same connection
-   */
-  default boolean useStickyConnections() {
-    return false;
-  }
-
-  /**
-   * Closes {@code this} provider and all resources allocated by it, both local and remote.
-   *
-   * This method should not try to also close the {@code connection}, the runtime will do that when
-   * appropriate.
-   * 
-   * @param connection  The connection to be used in order to correctly close the {@link PagingProvider}.
-   * @throws MuleException if there was an error closing the resources
-   */
-  void close(C connection) throws MuleException;
 }

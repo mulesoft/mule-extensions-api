@@ -56,17 +56,6 @@ import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
  */
 @NoImplement
 @Deprecated
-public interface SourceCompletionCallback {
+public interface SourceCompletionCallback extends org.mule.sdk.api.runtime.source.SourceCompletionCallback {
 
-  /**
-   * Signals the runtime that it has successfully processed the response
-   */
-  void success();
-
-  /**
-   * Signals the runtime that the response was processed, but with an error
-   *
-   * @param t the catched error
-   */
-  void error(Throwable t);
 }

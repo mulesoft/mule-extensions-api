@@ -44,8 +44,10 @@ import java.util.concurrent.CompletableFuture;
  * </pre>
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.client.ExtensionsClient} instead.
  */
 @NoImplement
+@Deprecated
 public interface ExtensionsClient {
 
   /**
