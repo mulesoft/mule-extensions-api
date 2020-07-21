@@ -17,7 +17,7 @@ import java.util.Set;
  * Immutable implementation of {@link Value}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.values.ImmutableValue} instead.
+ * @deprecated
  */
 @NoExtend
 @Deprecated
