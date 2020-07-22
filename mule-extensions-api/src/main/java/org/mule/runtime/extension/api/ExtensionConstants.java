@@ -153,7 +153,7 @@ public final class ExtensionConstants {
   /**
    * The description of the parameter for declaring an error mapping
    */
-  public static final String ERROR_MAPPINGS_PARAMETER_DESCRIPTION = "Set of 'errorMapping's";
+  public static final String ERROR_MAPPINGS_PARAMETER_DESCRIPTION = "Set of error mappings";
 
   /**
    * The description of the error mapping

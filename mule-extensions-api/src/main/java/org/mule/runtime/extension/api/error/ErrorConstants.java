@@ -22,16 +22,17 @@ public final class ErrorConstants {
     // Nothing to do
   }
 
+  private static final String ERROR_TYPE_MATCHER_ID = "errorTypeMatcher";
+  private static final String ERROR_TYPE_DEFINITION_ID = "errorTypeDefinition";
+
   private static final MetadataFormat TEXT_PLAIN_FORMAT = new MetadataFormat("Text", "text", "text/plain");
 
   /**
    * Parameters of this type declare new error types specific to the artifact that declares in.
    */
-  public static final MetadataType ERROR_TYPE_DECLARED = create(TEXT_PLAIN_FORMAT)
+  public static final MetadataType ERROR_TYPE_DEFINITION = create(TEXT_PLAIN_FORMAT)
       .stringType()
-      .id("errorTypeDeclared")
-      .enumOf("ANY", "REDELIVERY_EXHAUSTED", "TRANSFORMATION", "EXPRESSION", "SECURITY", "CLIENT_SECURITY",
-              "SERVER_SECURITY", "ROUTING", "CONNECTIVITY", "RETRY_EXHAUSTED", "TIMEOUT")
+      .id(ERROR_TYPE_DEFINITION_ID)
       .build();
 
   /**
@@ -39,7 +40,9 @@ public final class ErrorConstants {
    */
   public static final MetadataType ERROR_TYPE_MATCHER = create(TEXT_PLAIN_FORMAT)
       .stringType()
-      .id("errorTypeMatcher")
+      .id(ERROR_TYPE_MATCHER_ID)
+      .enumOf("ANY", "REDELIVERY_EXHAUSTED", "TRANSFORMATION", "EXPRESSION", "SECURITY", "CLIENT_SECURITY",
+              "SERVER_SECURITY", "ROUTING", "CONNECTIVITY", "RETRY_EXHAUSTED", "TIMEOUT")
       .build();
 
 }

@@ -15,6 +15,7 @@ import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarat
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.internal.property.NoErrorMappingModelProperty;
 
 /**
  * A {@link DeclarationEnricher} which adds a {@link ExtensionConstants#ERROR_MAPPINGS_PARAMETER_NAME} parameter to all operations
@@ -34,7 +35,9 @@ public final class ErrorMappingsParameterDeclarationEnricher implements Declarat
 
       @Override
       protected void onOperation(OperationDeclaration declaration) {
-        addErrorMappings(declaration);
+        if (!declaration.getModelProperty(NoErrorMappingModelProperty.class).isPresent()) {
+          addErrorMappings(declaration);
+        }
       }
     }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
   }
