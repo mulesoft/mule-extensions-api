@@ -20,24 +20,13 @@ public final class QNameModelProperty implements ModelProperty {
 
   public static final String NAME = "QName";
   private final QName value;
-  private final boolean unboundedMaxOccurs;
 
   /**
    * Creates a new instance
    * @param value the referenced {@link QName}
    */
   public QNameModelProperty(QName value) {
-    this(value, false);
-  }
-
-  /**
-   * Creates a new instance
-   * 
-   * @param value the referenced {@link QName}
-   */
-  public QNameModelProperty(QName value, boolean unboundedMaxOccurs) {
     this.value = value;
-    this.unboundedMaxOccurs = unboundedMaxOccurs;
   }
 
   /**
@@ -45,10 +34,6 @@ public final class QNameModelProperty implements ModelProperty {
    */
   public QName getValue() {
     return value;
-  }
-
-  public boolean isUnboundedMaxOccurs() {
-    return unboundedMaxOccurs;
   }
 
   /**

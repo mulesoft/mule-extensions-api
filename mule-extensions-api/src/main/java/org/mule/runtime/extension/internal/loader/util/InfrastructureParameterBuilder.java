@@ -248,7 +248,7 @@ public final class InfrastructureParameterBuilder {
         .allowsReferences(false)
         .allowTopLevelDefinition(false)
         .build());
-    parameter.addModelProperty(new QNameModelProperty(MULE_ERROR_MAPPING_QNAME, true));
+    parameter.addModelProperty(new QNameModelProperty(MULE_ERROR_MAPPING_QNAME));
     parameter.addModelProperty(new SinceMuleVersionModelProperty("4.4.0"));
     markAsInfrastructure(parameter, 12);
 
