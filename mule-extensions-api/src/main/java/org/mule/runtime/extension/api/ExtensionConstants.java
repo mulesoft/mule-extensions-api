@@ -146,6 +146,22 @@ public final class ExtensionConstants {
   public static final String SCHEDULING_STRATEGY_PARAMETER_DESCRIPTION = "Configures the scheduler that triggers the polling";
 
   /**
+   * The name of an attribute which allows declaring an error mapping
+   */
+  public static final String ERROR_MAPPINGS_PARAMETER_NAME = "errorMappings";
+
+  /**
+   * The description of the parameter for declaring an error mapping
+   */
+  public static final String ERROR_MAPPINGS_PARAMETER_DESCRIPTION = "Set of error mappings";
+
+  /**
+   * The description of the error mapping
+   */
+  public static final String ERROR_MAPPING_DESCRIPTION =
+      "Determines that an error thrown by this operation should be mapped to another";
+
+  /**
    * The name of the parameter for configuring transactional actions
    */
   public static final String TRANSACTIONAL_ACTION_PARAMETER_NAME = "transactionalAction";

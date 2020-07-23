@@ -427,7 +427,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(GO_GET_THEM_TIGER));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(5));
+    assertThat(parameterModels, hasSize(6));
 
     assertByteStreamingStrategyParameter(parameterModels.get(0));
     assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, stringType,
@@ -446,7 +446,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(BROADCAST_DESCRIPTION));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(3));
+    assertThat(parameterModels, hasSize(4));
 
     ArrayTypeBuilder arrayTypeBuilder = BaseTypeBuilder.create(JAVA).arrayType();
     arrayTypeBuilder.of(BaseTypeBuilder.create(JAVA).stringType());
@@ -492,7 +492,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(operationModel.getDescription(), equalTo(HAS_NO_ARGS));
 
     List<ParameterModel> parameterModels = operationModel.getAllParameterModels();
-    assertThat(parameterModels, hasSize(2));
+    assertThat(parameterModels, hasSize(3));
     assertTargetParameter(parameterModels.get(0), parameterModels.get(1));
   }
 
