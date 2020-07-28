@@ -1,0 +1,3 @@
+upstreamProjects:
+  Mule-runtime/mule-api/master
+projectType: "runtime"
