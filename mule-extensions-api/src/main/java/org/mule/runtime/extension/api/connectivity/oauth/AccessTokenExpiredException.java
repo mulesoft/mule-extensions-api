@@ -17,34 +17,24 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
  * whatever reason, then the operation will fail.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.AccessTokenExpiredException} instead.
  */
-public class AccessTokenExpiredException extends MuleRuntimeException {
-
-  private final String resourceOwnerId;
+@Deprecated
+public class AccessTokenExpiredException extends org.mule.sdk.api.connectivity.oauth.AccessTokenExpiredException {
 
   /**
-   * Creates a new instance using the literal {@code default} as a {@link #resourceOwnerId}
-   *
+   * {@inheritDoc}
    * @since 1.2.1
    */
   public AccessTokenExpiredException() {
-    this("default");
+    super();
   }
 
   /**
-   * Creates a new instance
-   *
-   * @param resourceOwnerId the id of the resource owner whose access token expired.
+   * {@inheritDoc}
    */
   public AccessTokenExpiredException(String resourceOwnerId) {
-    super(createStaticMessage("Access Token expired for resource owner id " + resourceOwnerId));
-    this.resourceOwnerId = resourceOwnerId;
+    super(resourceOwnerId);
   }
 
-  /**
-   * @return the id of the resource owner whose access token expired.
-   */
-  public String getResourceOwnerId() {
-    return resourceOwnerId;
-  }
 }

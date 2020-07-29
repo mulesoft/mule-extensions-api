@@ -25,10 +25,12 @@ import java.lang.annotation.Target;
  * It's each source's responsibility to do that correctly
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.source.EmitsResponse} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface EmitsResponse {
 
 }

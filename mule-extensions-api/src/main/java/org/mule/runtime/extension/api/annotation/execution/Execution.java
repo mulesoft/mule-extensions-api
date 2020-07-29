@@ -21,10 +21,12 @@ import java.lang.annotation.Target;
  * will perform a best guess on what the best {@link ExecutionType} is.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.execution.Execution} instead.
  */
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface Execution {
 
   ExecutionType value();

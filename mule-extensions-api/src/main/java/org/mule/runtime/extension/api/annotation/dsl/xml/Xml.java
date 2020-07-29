@@ -18,10 +18,12 @@ import java.lang.annotation.Target;
  * If present you can add all the attributes or just the ones you need.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.dsl.xml.Xml} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface Xml {
 
   /**

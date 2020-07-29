@@ -15,42 +15,35 @@ import org.mule.runtime.api.value.Value;
  * {@link Exception} to indicate than an error occurred resolving {@link Value values}
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.values.ValueResolvingException} instead.
  */
-public class ValueResolvingException extends MuleException {
+@Deprecated
+public class ValueResolvingException extends org.mule.sdk.api.values.ValueResolvingException {
 
-  public final static String UNKNOWN = "UNKNOWN";
-  public final static String INVALID_VALUE_RESOLVER_NAME = "INVALID_VALUE_RESOLVER_NAME";
-  public final static String CONNECTION_FAILURE = "CONNECTION_FAILURE";
-  public final static String INVALID_LOCATION = "INVALID_LOCATION";
-  public final static String NOT_VALUE_PROVIDER_ENABLED = "NOT_VALUE_PROVIDER_ENABLED";
-  public final static String MISSING_REQUIRED_PARAMETERS = "MISSING_REQUIRED_PARAMETERS";
-
-  private String failureCode = UNKNOWN;
+  public final static String UNKNOWN = org.mule.sdk.api.values.ValueResolvingException.UNKNOWN;
+  public final static String INVALID_VALUE_RESOLVER_NAME =
+      org.mule.sdk.api.values.ValueResolvingException.INVALID_VALUE_RESOLVER_NAME;
+  public final static String CONNECTION_FAILURE = org.mule.sdk.api.values.ValueResolvingException.CONNECTION_FAILURE;
+  public final static String INVALID_LOCATION = org.mule.sdk.api.values.ValueResolvingException.INVALID_LOCATION;
+  public final static String NOT_VALUE_PROVIDER_ENABLED =
+      org.mule.sdk.api.values.ValueResolvingException.NOT_VALUE_PROVIDER_ENABLED;
+  public final static String MISSING_REQUIRED_PARAMETERS =
+      org.mule.sdk.api.values.ValueResolvingException.MISSING_REQUIRED_PARAMETERS;
 
   public ValueResolvingException(String message, String failureCode) {
-    super(createStaticMessage(message));
-    this.failureCode = failureCode;
+    super(message, failureCode);
   }
 
   public ValueResolvingException(String message, String failureCode, Throwable cause) {
-    super(createStaticMessage(message), cause);
-    this.failureCode = failureCode;
+    super(message, failureCode, cause);
   }
 
   public ValueResolvingException(I18nMessage message, String failureCode) {
-    super(message);
-    this.failureCode = failureCode;
+    super(message, failureCode);
   }
 
   public ValueResolvingException(I18nMessage message, String failureCode, Throwable cause) {
-    super(message, cause);
-    this.failureCode = failureCode;
+    super(message, failureCode, cause);
   }
 
-  /**
-   * @return The failure code of the error that produced the error
-   */
-  public String getFailureCode() {
-    return failureCode;
-  }
 }

@@ -33,10 +33,12 @@ import java.lang.annotation.Target;
  * For convenience, this class also defines a set of constants with the most common mime types.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.MediaType} instead.
  */
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface MediaType {
 
   /**

@@ -19,10 +19,12 @@ import java.lang.annotation.Target;
  * object store element
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.reference.ObjectStoreReference} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface ObjectStoreReference {
 
 }

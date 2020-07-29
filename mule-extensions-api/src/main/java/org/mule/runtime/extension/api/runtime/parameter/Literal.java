@@ -29,18 +29,9 @@ import java.util.Optional;
  * <p>
  * @param <T> the generic type of the actual parameter type
  *           @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.parameter.Literal} instead.
  */
 @NoImplement
-public interface Literal<T> {
-
-  /**
-   * The parameter's literal value, as was written in the DSL
-   * @return the literal value or {@link Optional#empty()} if the value was not provided
-   */
-  Optional<String> getLiteralValue();
-
-  /**
-   * @return The actual type of the parameter
-   */
-  Class<T> getType();
+@Deprecated
+public interface Literal<T> extends org.mule.sdk.api.runtime.parameter.Literal<T> {
 }

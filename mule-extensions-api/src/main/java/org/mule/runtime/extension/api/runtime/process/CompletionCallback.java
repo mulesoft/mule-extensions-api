@@ -53,8 +53,10 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <T> The generic type of the operation's output value
  * @param <A> The generic type of the operation's output attributes
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.process.CompletionCallback} instead.
  */
 @NoImplement
+@Deprecated
 public interface CompletionCallback<T, A> {
 
   /**

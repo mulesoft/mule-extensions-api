@@ -23,8 +23,10 @@ import java.util.Optional;
  * a particular state
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.source.SourceCallbackContext} instead.
  */
 @NoImplement
+@Deprecated
 public interface SourceCallbackContext {
 
   /**

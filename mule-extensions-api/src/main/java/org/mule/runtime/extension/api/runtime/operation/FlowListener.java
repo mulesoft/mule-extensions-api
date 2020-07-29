@@ -37,50 +37,10 @@ import java.util.function.Consumer;
  * in a thread different from the one executing the operation.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.operation.FlowListener} instead.
  */
 @NoImplement
-public interface FlowListener {
-
-  /**
-   * Executes the given {@code handler} when the flow that owns the listening operation finishes.
-   * <p>
-   * If the method is invoked several times on the same instance, the last handler wins and the prior ones get
-   * discarded.
-   * <p>
-   * The {@code handler} should be written in a way in which it doesn't fail. If it does fail, the runtime will
-   * log and discard the error. Be a good citizen, do not put the runtime into that situation.
-   *
-   * @param handler a {@link Message} {@link Consumer}
-   */
-  void onSuccess(Consumer<Message> handler);
-
-  /**
-   * Executes the given {@code handler} when the flow that owns the listening operation fails.
-   * <p>
-   * If the method is invoked several times on the same instance, the last handler wins and the prior ones get
-   * discarded.
-   * <p>
-   * The {@code handler} should be written in a way in which it doesn't fail. If it does fail, the runtime will
-   * log and discard the error. Be a good citizen, do not put the runtime into that situation.
-   *
-   * @param handler an {@link Exception} {@link Consumer}
-   */
-  void onError(Consumer<Exception> handler);
-
-  /**
-   * Executes the given {@code handler} when the {@link Event} on which the operation was executed is terminated.
-   * <p>
-   * Unlike {@link #onSuccess(Consumer)} and {@link #onError(Consumer)}, this one doesn't depend on the flow's response but in
-   * the completion of the event. This includes all other asynchronous tasks, flow-ref invocations, etc.
-   * <p>
-   * Since this method is equivalent to a java {@code finally} block, it is ideal for
-   * performing cleanup and resource deallocation tasks.
-   * <p>
-   * The {@code handler} should be written in a way in which it doesn't fail. If it does fail, the runtime will
-   * log and discard the error. Be a good citizen, do not put the runtime into that situation.
-   *
-   * @param handler
-   */
-  void onComplete(Runnable handler);
+@Deprecated
+public interface FlowListener extends org.mule.sdk.api.runtime.operation.FlowListener {
 
 }

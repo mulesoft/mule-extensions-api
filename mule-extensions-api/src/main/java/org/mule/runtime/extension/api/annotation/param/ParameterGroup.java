@@ -82,10 +82,12 @@ import java.lang.annotation.Target;
  * defined in the top level class or in a superior group of the parameter group hierarchy
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.ParameterGroup} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface ParameterGroup {
 
   /**

@@ -29,10 +29,12 @@ import java.lang.annotation.Target;
  * {@link CachedConnectionProvider} interfaces if needed, but connectivity testing will be disabled.
  *
  * @since 1.2.1
+ * @deprecated use {@link org.mule.sdk.api.annotation.connectivity.oauth.ClientCredentials} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface ClientCredentials {
 
   /**

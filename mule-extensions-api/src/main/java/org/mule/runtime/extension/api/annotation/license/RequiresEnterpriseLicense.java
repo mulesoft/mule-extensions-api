@@ -20,10 +20,12 @@ import java.lang.annotation.Target;
  * true.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.license.RequiresEnterpriseLicense} instead.
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface RequiresEnterpriseLicense {
 
   /**

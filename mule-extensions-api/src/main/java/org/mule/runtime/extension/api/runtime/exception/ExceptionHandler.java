@@ -26,7 +26,9 @@ import java.util.Set;
  * Notice that this implies that the method should not fail by any reason.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.exception.ExceptionHandler} instead.
  */
+@Deprecated
 public abstract class ExceptionHandler {
 
   /**

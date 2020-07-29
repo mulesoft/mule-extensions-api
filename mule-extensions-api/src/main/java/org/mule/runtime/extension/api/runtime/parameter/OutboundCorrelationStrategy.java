@@ -19,7 +19,9 @@ import java.util.Optional;
  * If empty, then no correlation id should be sent.
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.runtime.parameter.OutboundCorrelationStrategy} instead.
  */
+@Deprecated
 public enum OutboundCorrelationStrategy {
 
   /**

@@ -23,18 +23,9 @@ import java.util.Optional;
  *
  * @param <T> The type of the value to resolve
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.parameter.ParameterResolvers} instead.
  */
 @NoImplement
-public interface ParameterResolver<T> {
-
-  /**
-   * @return Resolves the value of type {@link T} for the given parameter.
-   */
-  T resolve();
-
-  /**
-   * @return The optional expression that generates the required value. May be empty if the value
-   * was not generated from an expression
-   */
-  Optional<String> getExpression();
+@Deprecated
+public interface ParameterResolver<T> extends org.mule.sdk.api.runtime.parameter.ParameterResolver<T> {
 }

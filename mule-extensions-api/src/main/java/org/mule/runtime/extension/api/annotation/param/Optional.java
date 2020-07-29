@@ -18,10 +18,12 @@ import java.lang.annotation.Target;
  * considered required
  *
  * @since 1.0
+ * @deprecated use {org.mule.sdk.api.annotation.param.Optional} instead.
  */
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface Optional {
 
   /**

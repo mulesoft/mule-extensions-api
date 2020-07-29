@@ -21,10 +21,12 @@ import java.lang.annotation.Target;
  * This annotation should only be used with {@link String} parameters.
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.display.ClassValue} instead.
  */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface ClassValue {
 
   /**

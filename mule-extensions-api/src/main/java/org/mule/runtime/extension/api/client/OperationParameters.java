@@ -6,31 +6,16 @@
  */
 package org.mule.runtime.extension.api.client;
 
-
 import org.mule.api.annotation.NoImplement;
-
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * A simple interface for parameters that aims to be used to execute an extension operation using the {@link ExtensionsClient}.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.client.OperationParameters} instead.
  */
 @NoImplement
-public interface OperationParameters {
+@Deprecated
+public interface OperationParameters extends org.mule.sdk.api.client.OperationParameters {
 
-  /**
-   * @return an {@link Optional} with the name of the config used to execute the operation, {@link Optional#empty()}
-   * in the case that no config name was provided for config-less operations.
-   */
-  Optional<String> getConfigName();
-
-  /**
-   * @return a {@link Map} with all the parameters required to execute an extension operation. If no parameters are required then
-   * an empty {@link Map} should be returned.
-   * <p>
-   * The config name parameter should NOT be on this parameters.
-   */
-  Map<String, Object> get();
 }

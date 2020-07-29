@@ -13,7 +13,9 @@ import org.mule.runtime.extension.api.tx.Transactional;
  * in order to start or join a current transaction.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.connectivity.TransactionalConnection} instead.
  */
+@Deprecated
 public interface TransactionalConnection extends Transactional {
 
 }

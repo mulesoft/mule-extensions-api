@@ -27,9 +27,11 @@ import java.util.Map;
  * be correctly coerced.
  *
  * @since 1.1
+ * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.InputJsonType} instead.
  */
 @Retention(RUNTIME)
 @Target({PARAMETER})
+@Deprecated
 public @interface InputJsonType {
 
   /**

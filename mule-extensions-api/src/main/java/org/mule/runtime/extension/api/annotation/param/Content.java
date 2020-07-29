@@ -17,10 +17,12 @@ import java.lang.annotation.Target;
 /**
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.param.Content} instead.
  */
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface Content {
 
   boolean primary() default false;

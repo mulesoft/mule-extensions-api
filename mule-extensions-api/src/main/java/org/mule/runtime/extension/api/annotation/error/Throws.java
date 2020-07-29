@@ -29,10 +29,12 @@ import java.lang.annotation.Target;
  * @since 1.0
  * @see ErrorTypeProvider
  * @see ErrorTypeDefinition
+ * @deprecated use {@link org.mule.sdk.api.annotation.error.Throws} instead.
  */
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
+@Deprecated
 public @interface Throws {
 
   Class<? extends ErrorTypeProvider>[] value();

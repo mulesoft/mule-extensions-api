@@ -1,4 +1,59 @@
 {
+  "1.4.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+          "new": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "OAuthState",
+          "elementKind": "interface",
+          "justification": "Annotation was missing."
+        },
+        {
+          "code": "java.class.nonFinalClassInheritsFromNewClass",
+          "old": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+          "new": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+          "superClass": "org.mule.sdk.api.connectivity.oauth.AccessTokenExpiredException",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AccessTokenExpiredException",
+          "elementKind": "class",
+          "justification": "Added for forward compatibility."
+        },
+        {
+          "code": "java.class.nowCheckedException",
+          "old": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+          "new": "class org.mule.runtime.extension.api.connectivity.oauth.AccessTokenExpiredException",
+          "package": "org.mule.runtime.extension.api.connectivity.oauth",
+          "classSimpleName": "AccessTokenExpiredException",
+          "elementKind": "class",
+          "justification": "Added for forward compatibility."
+        },
+        {
+          "code": "java.class.nonFinalClassInheritsFromNewClass",
+          "old": "class org.mule.runtime.extension.api.values.ValueResolvingException",
+          "new": "class org.mule.runtime.extension.api.values.ValueResolvingException",
+          "superClass": "org.mule.sdk.api.values.ValueResolvingException",
+          "package": "org.mule.runtime.extension.api.values",
+          "classSimpleName": "ValueResolvingException",
+          "elementKind": "class",
+          "justification": "Added for forward compatibility."
+        },
+        {
+          "code": "java.class.nowCheckedException",
+          "old": "class org.mule.runtime.extension.api.values.ValueResolvingException",
+          "new": "class org.mule.runtime.extension.api.values.ValueResolvingException",
+          "package": "org.mule.runtime.extension.api.values",
+          "classSimpleName": "ValueResolvingException",
+          "elementKind": "class",
+          "justification": "Added for forward compatibility."
+        }
+      ]
+    }
+  },
   "1.3.0": {
     "revapi": {
       "ignore": [

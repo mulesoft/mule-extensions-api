@@ -17,7 +17,9 @@ import org.mule.runtime.api.connection.ConnectionException;
  * through the {@link ReconnectionCallback}
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.connectivity.Reconnectable} instead.
  */
+@Deprecated
 public interface Reconnectable {
 
   /**

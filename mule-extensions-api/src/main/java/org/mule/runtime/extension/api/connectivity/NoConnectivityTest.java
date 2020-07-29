@@ -9,8 +9,10 @@ package org.mule.runtime.extension.api.connectivity;
 /**
  * Marker, interface to indicate that the implementing component does not support connectivity testing.
  *
- * @since 4.0
+ * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.connectivity.NoConnectivityTest} instead.
  */
-public interface NoConnectivityTest {
+@Deprecated
+public interface NoConnectivityTest extends org.mule.sdk.api.connectivity.NoConnectivityTest {
 
 }

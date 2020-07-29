@@ -13,19 +13,10 @@ import org.mule.runtime.api.connection.ConnectionException;
  * Callback used to notify the runtime about the outcome of a reconnection attempt.
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.runtime.connectivity.ReconnectionCallback} instead.
  */
 @NoImplement
-public interface ReconnectionCallback {
+@Deprecated
+public interface ReconnectionCallback extends org.mule.sdk.api.runtime.connectivity.ReconnectionCallback {
 
-  /**
-   * Notifies the runtime that the connection was successfully reestablished
-   */
-  void success();
-
-  /**
-   * Notifies the runtime that the reconnection attempt failed because of the given {@code exception}
-   *
-   * @param exception the {@link ConnectionException} for which the reconnection failed
-   */
-  void failed(ConnectionException exception);
 }

@@ -26,10 +26,12 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @since 1.0
+ * @deprecated use {@link org.mule.sdk.api.annotation.Extension} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Deprecated
 public @interface Extension {
 
   /**
