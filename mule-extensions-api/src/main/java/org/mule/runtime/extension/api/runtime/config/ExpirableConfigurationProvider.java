@@ -19,6 +19,7 @@ import java.util.List;
  * @since 1.0
  */
 @NoImplement
+@Deprecated
 public interface ExpirableConfigurationProvider extends ConfigurationProvider {
 
   /**
