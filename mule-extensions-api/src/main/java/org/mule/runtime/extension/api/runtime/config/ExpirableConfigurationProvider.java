@@ -17,7 +17,7 @@ import java.util.List;
  * when it tries to locate expired configurations which need disposal
  *
  * @since 1.0
- * @deprecated the expirable configuration providers must handle expirations internally by
+ * @deprecated since 1.4.0, the expirable configuration providers must handle expirations internally by
  * calling {@link ExtensionManager#disposeConfiguration(String key, ConfigurationInstance configuration)}.
  */
 @NoImplement
