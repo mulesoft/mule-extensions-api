@@ -41,7 +41,6 @@ import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_EXPIRATION_
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_POOLING_PROFILE_TYPE_QNAME;
 
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.UnionType;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
@@ -57,7 +56,6 @@ import org.mule.runtime.extension.api.declaration.type.ErrorMappingsTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.PoolingProfileTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
-import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuilder;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
 import org.mule.runtime.extension.api.property.SinceMuleVersionModelProperty;
@@ -80,19 +78,9 @@ public final class InfrastructureParameterBuilder {
   private static final String RECONNECTION_CONFIG_TYPE_KEY = "reconnectionConfig";
   private static final String RECONNECTION_STRATEGY_TYPE_KEY = "reconnectionStrategy";
   private static final String POOLING_PROFILE_TYPE_KEY = "poolingProfile";
-  public static final String REDELIVERY_POLICY_TYPE_KEY = "redeliveryPolicy";
+  private static final String REDELIVERY_POLICY_TYPE_KEY = "redeliveryPolicy";
   private static final String DYNAMIC_EXPIRATION_TYPE_KEY = "expirationPolicy";
   private static final String ERROR_MAPPINGS_TYPE_KEY = "errorMappings";
-
-  public static final String RECONNECT_SIMPLE_TYPE_KEY = "reconnect";
-  public static final String RECONNECT_FOREVER_TYPE_KEY = "reconnectForever";
-
-  public static final String STREAMING_STRATEGY_REPEATABLE_IN_MEMORY_STREAM = "repeatableInMemoryStream";
-  public static final String STREAMING_STRATEGY_REPEATABLE_FILE_STREAM = "repeatableFileStoreStream";
-  public static final String STREAMING_STRATEGY_NON_REPEATABLE_STREAM = "nonRepeatableStream";
-  public static final String STREAMING_STRATEGY_REPEATABLE_IN_MEMORY_ITERABLE = "repeatableInMemoryIterable";
-  public static final String STREAMING_STRATEGY_REPEATABLE_FILE_ITERABLE = "repeatableFileStoreIterable";
-  public static final String STREAMING_STRATEGY_NON_REPEATABLE_ITERABLE = "nonRepeatableIterable";
 
   private static final LoadingCache<String, MetadataType> METADATA_TYPES_CACHE =
       newBuilder().weakValues().build(key -> {
@@ -109,26 +97,6 @@ public final class InfrastructureParameterBuilder {
             return new DynamicConfigExpirationTypeBuilder().buildExpirationPolicyType();
           case ERROR_MAPPINGS_TYPE_KEY:
             return new ErrorMappingsTypeBuilder().buildErrorMappingsType();
-
-          case RECONNECT_SIMPLE_TYPE_KEY:
-            return ((UnionType) new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType()).getTypes().get(0);
-          case RECONNECT_FOREVER_TYPE_KEY:
-            return ((UnionType) new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType()).getTypes().get(1);
-
-          case STREAMING_STRATEGY_REPEATABLE_IN_MEMORY_STREAM:
-            return ((UnionType) new StreamingStrategyTypeBuilder().getByteStreamingStrategyType()).getTypes().get(0);
-          case STREAMING_STRATEGY_REPEATABLE_FILE_STREAM:
-            return ((UnionType) new StreamingStrategyTypeBuilder().getByteStreamingStrategyType()).getTypes().get(1);
-          case STREAMING_STRATEGY_NON_REPEATABLE_STREAM:
-            return ((UnionType) new StreamingStrategyTypeBuilder().getByteStreamingStrategyType()).getTypes().get(2);
-
-          case STREAMING_STRATEGY_REPEATABLE_IN_MEMORY_ITERABLE:
-            return ((UnionType) new StreamingStrategyTypeBuilder().getObjectStreamingStrategyType()).getTypes().get(0);
-          case STREAMING_STRATEGY_REPEATABLE_FILE_ITERABLE:
-            return ((UnionType) new StreamingStrategyTypeBuilder().getObjectStreamingStrategyType()).getTypes().get(1);
-          case STREAMING_STRATEGY_NON_REPEATABLE_ITERABLE:
-            return ((UnionType) new StreamingStrategyTypeBuilder().getObjectStreamingStrategyType()).getTypes().get(2);
-
           default:
             throw new NoSuchElementException(key);
         }
@@ -293,17 +261,5 @@ public final class InfrastructureParameterBuilder {
 
   private static void markAsInfrastructure(ParameterDeclaration parameter, int sequence) {
     parameter.addModelProperty(new InfrastructureParameterModelProperty(sequence));
-  }
-
-  /**
-   * Creates a {@link MetadataType} for a known infrastructure type.
-   *
-   * @param infrastructureTypeName the name of the infrastructure type to create a {@link MetadataType} for.
-   * @return the created {@link MetadataType}, or a cached one if it was already created.
-   *
-   * @since 1.4
-   */
-  public static MetadataType getInfrastructureParameterType(String infrastructureTypeName) {
-    return METADATA_TYPES_CACHE.get(infrastructureTypeName);
   }
 }
