@@ -18,6 +18,7 @@ import static org.mule.runtime.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getSanitizedElementName;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeId;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isExtensible;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlattened;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isInstantiable;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isText;
@@ -200,7 +201,20 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
                                  @Override
                                  public void visitUnion(UnionType unionType) {
-                                   unionType.getTypes().forEach(type -> type.accept(this));
+                                   final boolean extensible = isExtensible(parameter.getType());
+                                   builder.asWrappedElement(extensible);
+
+                                   if (extensible) {
+                                     addAttributeName(builder, parameter, isContent, dslConfig);
+                                     builder.withNamespace(prefix.get(), namespace.get())
+                                         .withElementName(elementName.get());
+
+                                     unionType.getTypes().forEach(type -> getTypeId(type)
+                                         .ifPresent(typeId -> resolve(type)
+                                             .ifPresent(typeDsl -> builder.containing(typeId, typeDsl))));
+                                   } else {
+                                     unionType.getTypes().forEach(type -> type.accept(this));
+                                   }
                                  }
 
                                  @Override
@@ -256,8 +270,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                                                 expressionSupport, dslConfig, parameter.getName(),
                                                                 prefix.get(), namespace.get());
                                    } else {
-                                     builder.withNamespace(prefix.get(), namespace.get())
-                                         .withElementName(elementName.get());
+                                     builder.withElementName(elementName.get());
 
                                      resolveObjectDslFromParameter(parameter, objectType, builder,
                                                                    isContent, dslConfig, expressionSupport,
