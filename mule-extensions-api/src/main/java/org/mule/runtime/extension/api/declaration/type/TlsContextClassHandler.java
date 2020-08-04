@@ -13,6 +13,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Location.EMBEDDED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
+import static org.mule.runtime.extension.internal.loader.util.InfrastructureTypeMapping.TLS_NAMESPACE_URI;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CRL_FILE_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER;
@@ -36,6 +37,7 @@ import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
@@ -163,6 +165,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     ObjectTypeBuilder standardRevocationCheck =
         typeBuilder.objectType().id(TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER)
             .with(new InfrastructureTypeAnnotation())
+            .with(new QNameTypeAnnotation(new QName(TLS_NAMESPACE_URI, TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER,
+                                                    TLS_PREFIX)))
             .description("Uses the standard JVM certificate revocation checks, which depend on the certificate having the "
                 + "corresponding extension points (additional tags for CRLDP or OCSP), and the availability "
                 + "of revocation servers.");
@@ -177,6 +181,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
     ObjectTypeBuilder customOcspResponder = typeBuilder.objectType().id(TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER)
         .with(new InfrastructureTypeAnnotation())
+        .with(new QNameTypeAnnotation(new QName(TLS_NAMESPACE_URI, TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER, TLS_PREFIX)))
         .description("Uses a custom OCSP responder for certificate revocation checks, with a specific trusted certificate for "
             + "revocating other keys. This ignores extension points (additional tags for CRLDP or OCSP) present in the "
             + "certificate, if any.");
@@ -187,6 +192,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
     ObjectTypeBuilder crlFile = typeBuilder.objectType().id(TLS_CRL_FILE_ELEMENT_IDENTIFIER)
         .with(new InfrastructureTypeAnnotation())
+        .with(new QNameTypeAnnotation(new QName(TLS_NAMESPACE_URI, TLS_CRL_FILE_ELEMENT_IDENTIFIER, TLS_PREFIX)))
         .description("Local file based certificate revocation checker, which requires a CRL file to be accessible and ignores "
             + "extension points (additional tags for CRLDP and OCSP) in the certificate.");
 
@@ -194,6 +200,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
 
     UnionTypeBuilder revocationCheck = typeBuilder.unionType().id("RevocationCheck")
         .with(new InfrastructureTypeAnnotation())
+        .with(new ExtensibleTypeAnnotation())
         .of(standardRevocationCheck)
         .of(customOcspResponder)
         .of(crlFile);
