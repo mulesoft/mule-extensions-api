@@ -68,7 +68,7 @@ public final class DslSyntaxUtils {
    * @param component the {@link NamedObject} who's name we want to convert
    * @return a sanitized, hyphenized, space-free name that can be used as an XML element-name
    */
-  static String getSanitizedElementName(NamedObject component) {
+  public static String getSanitizedElementName(NamedObject component) {
     String name = SANITIZE_PATTERN.matcher(hyphenize(sanitizeName(capitalize(component.getName())))).replaceAll("");
     if (component instanceof ConfigurationModel) {
       return appendSuffix(name, CONFIGURATION_SUFFIX);
