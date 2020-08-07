@@ -30,13 +30,13 @@ import java.util.Map;
 /**
  * {@link TypeAdapter}
  *
- * @since 4.4
+ * @since 1.4
  */
 public class ComponentMetadataTypesDescriptorResultTypeAdapter extends TypeAdapter<ComponentMetadataTypesDescriptorResult> {
 
-  private static final String INPUT = "input";
-  private static final String OUTPUT = "output";
-  private static final String OUTPUT_ATTRIBUTES = "outputAttributes";
+  private static final String INPUT_METADATA = "inputMetadata";
+  private static final String OUTPUT_METADATA = "outputMetadata";
+  private static final String OUTPUT_ATTRIBUTES_METADATA = "outputAttributesMetadata";
   private static final String FAILURES = "failures";
   private final Gson gson;
 
@@ -53,10 +53,10 @@ public class ComponentMetadataTypesDescriptorResultTypeAdapter extends TypeAdapt
     result.getFailures().stream().forEach(f -> gson.toJson(f, new TypeToken<MetadataFailure>() {}.getType(), out));
     out.endArray();
 
-    out.name(INPUT);
-    if (result.getInput() != null && !result.getInput().isEmpty()) {
+    out.name(INPUT_METADATA);
+    if (result.getInputMetadata() != null && !result.getInputMetadata().isEmpty()) {
       out.beginObject();
-      for (Map.Entry<String, MetadataType> entry : result.getInput().entrySet()) {
+      for (Map.Entry<String, MetadataType> entry : result.getInputMetadata().entrySet()) {
         out.name(entry.getKey());
         gson.toJson(entry.getValue(), new TypeToken<MetadataType>() {}.getType(), out);
       }
@@ -65,16 +65,16 @@ public class ComponentMetadataTypesDescriptorResultTypeAdapter extends TypeAdapt
       out.nullValue();
     }
 
-    out.name(OUTPUT);
-    if (result.getOutput() != null) {
-      gson.toJson(result.getOutput(), new TypeToken<MetadataType>() {}.getType(), out);
+    out.name(OUTPUT_METADATA);
+    if (result.getOutputMetadata() != null) {
+      gson.toJson(result.getOutputMetadata(), new TypeToken<MetadataType>() {}.getType(), out);
     } else {
       out.nullValue();
     }
 
-    out.name(OUTPUT_ATTRIBUTES);
-    if (result.getOutputAttributes() != null) {
-      gson.toJson(result.getOutputAttributes(), new TypeToken<MetadataType>() {}.getType(), out);
+    out.name(OUTPUT_ATTRIBUTES_METADATA);
+    if (result.getOutputAttributesMetadata() != null) {
+      gson.toJson(result.getOutputAttributesMetadata(), new TypeToken<MetadataType>() {}.getType(), out);
     } else {
       out.nullValue();
     }
@@ -93,26 +93,27 @@ public class ComponentMetadataTypesDescriptorResultTypeAdapter extends TypeAdapt
     if (!failures.isEmpty()) {
       return new ComponentMetadataTypesDescriptorResult(failure(failures));
     }
-    Map<String, MetadataType> input = new HashMap<>();
-    if (json.has(INPUT)) {
-      JsonObject inputMapAsJsonObject = json.get(INPUT).getAsJsonObject();
+    Map<String, MetadataType> inputMetadata = new HashMap<>();
+    if (json.has(INPUT_METADATA)) {
+      JsonObject inputMapAsJsonObject = json.get(INPUT_METADATA).getAsJsonObject();
       inputMapAsJsonObject.entrySet()
           .stream()
-          .forEach(entry -> input.put(entry.getKey(),
-                                      gson.fromJson(entry.getValue(), new TypeToken<MetadataType>() {}.getType())));
+          .forEach(entry -> inputMetadata.put(entry.getKey(),
+                                              gson.fromJson(entry.getValue(), new TypeToken<MetadataType>() {}.getType())));
     }
 
-    MetadataType output = null;
-    if (json.has(OUTPUT)) {
-      output = gson.fromJson(json.get(OUTPUT).getAsJsonObject(), new TypeToken<MetadataType>() {}.getType());
+    MetadataType outputMetadata = null;
+    if (json.has(OUTPUT_METADATA)) {
+      outputMetadata = gson.fromJson(json.get(OUTPUT_METADATA).getAsJsonObject(), new TypeToken<MetadataType>() {}.getType());
     }
 
-    MetadataType outputAttributes = null;
-    if (json.has(OUTPUT_ATTRIBUTES)) {
-      outputAttributes = gson.fromJson(json.get(OUTPUT_ATTRIBUTES).getAsJsonObject(), new TypeToken<MetadataType>() {}.getType());
+    MetadataType outputAttributesMetadata = null;
+    if (json.has(OUTPUT_ATTRIBUTES_METADATA)) {
+      outputAttributesMetadata =
+          gson.fromJson(json.get(OUTPUT_ATTRIBUTES_METADATA).getAsJsonObject(), new TypeToken<MetadataType>() {}.getType());
     }
 
-    return new ComponentMetadataTypesDescriptorResult(success(new ComponentMetadataTypesDescriptor(input, output,
-                                                                                                   outputAttributes)));
+    return new ComponentMetadataTypesDescriptorResult(success(new ComponentMetadataTypesDescriptor(inputMetadata, outputMetadata,
+                                                                                                   outputAttributesMetadata)));
   }
 }

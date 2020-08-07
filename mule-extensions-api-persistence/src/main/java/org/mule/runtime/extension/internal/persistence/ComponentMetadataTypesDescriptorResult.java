@@ -20,37 +20,37 @@ import java.util.Map;
 /**
  * DTO for serializing a {@link MetadataResult<ComponentMetadataTypesDescriptor>}.
  *
- * @since 4.4
+ * @since 1.4
  */
 public class ComponentMetadataTypesDescriptorResult implements Descriptable<MetadataResult<ComponentMetadataTypesDescriptor>> {
 
-  private Map<String, MetadataType> input = new HashMap<>();
-  private MetadataType output;
-  private MetadataType outputAttributes;
+  private Map<String, MetadataType> inputMetadata = new HashMap<>();
+  private MetadataType outputMetadata;
+  private MetadataType outputAttributesMetadata;
   private List<MetadataFailure> failures;
 
 
   public ComponentMetadataTypesDescriptorResult(MetadataResult<ComponentMetadataTypesDescriptor> result) {
     ComponentMetadataTypesDescriptor descriptor = result.get();
     if (descriptor != null) {
-      this.input = descriptor.getInputMetadata();
-      this.output = descriptor.getOutputMetadata().orElse(null);
-      this.outputAttributes = descriptor.getOutputAttributesMetadata().orElse(null);
+      this.inputMetadata = descriptor.getInputMetadata();
+      this.outputMetadata = descriptor.getOutputMetadata().orElse(null);
+      this.outputAttributesMetadata = descriptor.getOutputAttributesMetadata().orElse(null);
     }
 
     this.failures = result.getFailures();
   }
 
-  public Map<String, MetadataType> getInput() {
-    return input;
+  public Map<String, MetadataType> getInputMetadata() {
+    return inputMetadata;
   }
 
-  public MetadataType getOutput() {
-    return output;
+  public MetadataType getOutputMetadata() {
+    return outputMetadata;
   }
 
-  public MetadataType getOutputAttributes() {
-    return outputAttributes;
+  public MetadataType getOutputAttributesMetadata() {
+    return outputAttributesMetadata;
   }
 
   public List<MetadataFailure> getFailures() {
@@ -59,7 +59,8 @@ public class ComponentMetadataTypesDescriptorResult implements Descriptable<Meta
 
   @Override
   public MetadataResult<ComponentMetadataTypesDescriptor> toDescriptor() {
-    return failures.isEmpty() ? success(new ComponentMetadataTypesDescriptor(input, output, outputAttributes))
+    return failures.isEmpty()
+        ? success(new ComponentMetadataTypesDescriptor(inputMetadata, outputMetadata, outputAttributesMetadata))
         : failure(failures);
   }
 
