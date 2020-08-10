@@ -14,8 +14,6 @@ import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
-import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
-import org.mule.runtime.extension.api.model.notification.ImmutableNotificationModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
@@ -28,6 +26,8 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
+import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
+import org.mule.runtime.extension.api.model.notification.ImmutableNotificationModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
@@ -36,9 +36,11 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.metadata.ComponentMetadataTypesTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.ComponentResultTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.FailureCodeTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.MetadataKeyTypeAdapter;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -90,6 +92,7 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentResultTypeAdapterFactory())
+        .registerTypeAdapterFactory(new ComponentMetadataTypesTypeAdapterFactory())
         .registerTypeAdapter(MetadataKey.class, new MetadataKeyTypeAdapter())
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
