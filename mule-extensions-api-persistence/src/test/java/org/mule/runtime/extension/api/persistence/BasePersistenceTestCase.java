@@ -126,7 +126,7 @@ abstract class BasePersistenceTestCase {
   protected final ParameterDslConfiguration defaultParameterDsl = ParameterDslConfiguration.getDefaultInstance();
   protected final LayoutModel defaultLayoutModel = LayoutModel.builder().build();
   protected final ValueProviderModel defaultValueProviderModel =
-      new ValueProviderModel(emptyList(), false, false, false, 1, "ACategory");
+      new ValueProviderModel(emptyList(), false, false, false, 1, "ACategory", "AId");
 
   protected final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   protected final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();

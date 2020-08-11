@@ -37,7 +37,7 @@ public class ValuesPersistenceTestCase {
       newValue("root").withChild(newValue("level1").withChild(newValue("level2"))).build();
   private static final ValueProviderModel VALUE_PROVIDER_MODEL =
       new ValueProviderModel(Arrays.asList("param1", "param2"), false, false, false, 1,
-                             "Category 1");
+                             "Category 1", "Id 1");
   private static final ValueResult MULTI_LEVEL_VALUE_RESULT = resultFrom(singleton(MULTI_LEVEL_VALUE));
 
   private JsonParser jsonParser = new JsonParser();
