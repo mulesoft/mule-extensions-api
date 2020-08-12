@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.persistence.metadata;
 
+import static com.google.gson.stream.JsonToken.NULL;
 import org.mule.runtime.api.metadata.resolving.FailureCode;
 
 import com.google.gson.Gson;
@@ -27,11 +28,20 @@ public class FailureCodeTypeAdapterFactory implements TypeAdapterFactory {
 
         @Override
         public void write(JsonWriter out, FailureCode value) throws IOException {
+          if (value == null) {
+            out.nullValue();
+            return;
+          }
           out.value(value.getName());
         }
 
         @Override
         public FailureCode read(JsonReader in) throws IOException {
+          if (in.peek() == NULL) {
+            in.nextNull();
+            return null;
+          }
+
           return new FailureCode(in.nextString());
         }
       };
