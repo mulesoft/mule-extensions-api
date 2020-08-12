@@ -31,6 +31,7 @@ public interface ValueProvider {
 
   /**
    * This is the id of the ValueProvider. It should not be repeated among {@link ValueProvider} in the same extension.
+   * Multiple calls to this method must always return the same fixed value.
    *
    * @return name of the resolver
    * @since 1.4.0
