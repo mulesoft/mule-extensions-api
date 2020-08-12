@@ -5,6 +5,7 @@
   ],
   "partOrder": 1,
   "providerName": "Category 1",
+  "providerId": "Id 1",
   "requiresConfiguration": false,
   "requiresConnection": false,
   "isOpen": false

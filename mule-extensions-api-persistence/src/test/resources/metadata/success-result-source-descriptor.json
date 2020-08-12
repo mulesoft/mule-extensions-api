@@ -563,6 +563,7 @@
                 "actingParameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
+                "providerId": "AId",
                 "requiresConfiguration": false,
                 "requiresConnection": false,
                 "isOpen": false
@@ -662,6 +663,7 @@
               "actingParameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
+              "providerId": "AId",
               "requiresConfiguration": false,
               "requiresConnection": false,
               "isOpen": false
@@ -742,6 +744,7 @@
               "actingParameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
+              "providerId": "AId",
               "requiresConfiguration": false,
               "requiresConnection": false,
               "isOpen": false
