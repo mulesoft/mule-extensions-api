@@ -115,7 +115,7 @@
         <javaVersion>1.8</javaVersion>
         <xDocLint>-Xdoclint:none</xDocLint>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-        <muleApiVersion>1.1.5-HF-SNAPSHOT</muleApiVersion>
+        <muleApiVersion>1.1.5-20200824</muleApiVersion>
         <metadataModelApiVersion>1.1.6-HF-SNAPSHOT</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.0.1-HF-SNAPSHOT</muleModuleMavenPluginVersion>
         <mockitoVersion>1.9.5</mockitoVersion>
