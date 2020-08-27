@@ -152,7 +152,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
           .withElementName(elementName)
           .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
-          .supportsTopLevelDeclaration(true)
+          .supportsTopLevelDeclaration(component instanceof ConstructModel
+              && ((ConstructModel) component).allowsTopLevelDeclaration())
           .supportsChildDeclaration(true)
           .supportsAttributeDeclaration(false)
           .requiresConfig(requiresConfig(extensionModel, component));
@@ -721,6 +722,31 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
             .supportsTopLevelDeclaration(false)
             .supportsChildDeclaration(false)
             .requiresConfig(false);
+      }
+
+      @Override
+      public void visitUnion(UnionType unionType) {
+        objectFieldBuilder.withElementName(fieldElementName)
+            .withNamespace(getPrefix(unionType, ownerNamespace),
+                           getNamespace(unionType, ownerNamespaceUri))
+            .supportsAttributeDeclaration(false)
+            .supportsTopLevelDeclaration(false)
+            .supportsChildDeclaration(true)
+            .requiresConfig(false);
+
+        final boolean extensible = isExtensible(unionType);
+        objectFieldBuilder.asWrappedElement(extensible);
+
+        unionType.getTypes().forEach(unionTypeItem -> {
+          String typeId = getId(unionTypeItem).orElse(null);
+
+          if (typeId != null) {
+            DslElementSyntaxBuilder unionTypeItemBuilder = DslElementSyntaxBuilder.create();
+            unionTypeItem.accept(getObjectFieldVisitor(unionTypeItemBuilder, typeId, typeId, ownerNamespace,
+                                                       ownerNamespaceUri));
+            objectFieldBuilder.containing(typeId, unionTypeItemBuilder.build());
+          }
+        });
       }
 
       @Override
