@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.model.parameter;
 
+import static java.util.Optional.ofNullable;
+
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecableModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -58,7 +60,7 @@ public abstract class AbstractStereotypedModel extends AbstractParameterizedMode
 
   @Override
   public Optional<DeprecationModel> getDeprecationModel() {
-    return Optional.ofNullable(deprecationModel);
+    return ofNullable(deprecationModel);
   }
 
   @Override

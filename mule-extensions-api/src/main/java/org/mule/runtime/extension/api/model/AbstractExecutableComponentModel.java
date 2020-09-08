@@ -7,11 +7,14 @@
 package org.mule.runtime.extension.api.model;
 
 import static java.util.Collections.emptySet;
+import static java.util.Optional.ofNullable;
+
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
+import org.mule.runtime.api.meta.model.data.sample.SampleDataProviderModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
@@ -21,10 +24,11 @@ import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 
 
 /**
@@ -41,6 +45,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
   private final boolean requiresConnection;
   private final boolean supportsStreaming;
   private final Set<NotificationModel> notifications;
+  private final SampleDataProviderModel sampleDataProviderModel;
 
   /**
    * Creates a new instance
@@ -119,6 +124,32 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
     this.transactional = transactional;
     this.supportsStreaming = supportsStreaming;
     this.notifications = ImmutableSet.copyOf(notifications);
+    sampleDataProviderModel = null;
+  }
+
+  protected AbstractExecutableComponentModel(String name,
+                                             String description,
+                                             List<ParameterGroupModel> parameterGroupModels,
+                                             OutputModel output,
+                                             OutputModel outputAttributes,
+                                             boolean requiresConnection,
+                                             boolean transactional,
+                                             boolean supportsStreaming,
+                                             DisplayModel displayModel,
+                                             Set<ErrorModel> errors,
+                                             StereotypeModel stereotype,
+                                             Set<ModelProperty> modelProperties,
+                                             List<? extends NestableElementModel> nestedComponents,
+                                             Set<NotificationModel> notifications,
+                                             SampleDataProviderModel sampleDataProviderModel) {
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties);
+    this.output = output;
+    this.outputAttributes = outputAttributes;
+    this.requiresConnection = requiresConnection;
+    this.transactional = transactional;
+    this.supportsStreaming = supportsStreaming;
+    this.notifications = ImmutableSet.copyOf(notifications);
+    this.sampleDataProviderModel = sampleDataProviderModel;
   }
 
   /**
@@ -164,6 +195,34 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
     this.transactional = transactional;
     this.supportsStreaming = supportsStreaming;
     this.notifications = ImmutableSet.copyOf(notifications);
+    sampleDataProviderModel = null;
+  }
+
+  protected AbstractExecutableComponentModel(String name,
+                                             String description,
+                                             List<ParameterGroupModel> parameterGroupModels,
+                                             OutputModel output,
+                                             OutputModel outputAttributes,
+                                             boolean requiresConnection,
+                                             boolean transactional,
+                                             boolean supportsStreaming,
+                                             DisplayModel displayModel,
+                                             Set<ErrorModel> errors,
+                                             StereotypeModel stereotype,
+                                             Set<ModelProperty> modelProperties,
+                                             List<? extends NestableElementModel> nestedComponents,
+                                             Set<NotificationModel> notifications,
+                                             DeprecationModel deprecationModel,
+                                             SampleDataProviderModel sampleDataProviderModel) {
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties,
+          deprecationModel);
+    this.output = output;
+    this.outputAttributes = outputAttributes;
+    this.requiresConnection = requiresConnection;
+    this.transactional = transactional;
+    this.supportsStreaming = supportsStreaming;
+    this.notifications = ImmutableSet.copyOf(notifications);
+    this.sampleDataProviderModel = sampleDataProviderModel;
   }
 
   /**
@@ -208,5 +267,10 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
   @Override
   public Set<NotificationModel> getNotificationModels() {
     return notifications;
+  }
+
+  @Override
+  public Optional<SampleDataProviderModel> getSampleDataProviderModel() {
+    return ofNullable(sampleDataProviderModel);
   }
 }
