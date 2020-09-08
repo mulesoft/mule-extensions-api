@@ -54,6 +54,12 @@
       "requiresConnection": false,
       "supportsStreaming": false,
       "notifications": [],
+      "sampleDataProviderModel": {
+        "actingParameters": [],
+        "providerId": "exampleSampleData",
+        "requiresConfiguration": true,
+        "requiresConnection": true
+      },
       "nestedComponents": [],
       "errors": [
         "ERROR_NAMESPACE:SOME_ERROR"
