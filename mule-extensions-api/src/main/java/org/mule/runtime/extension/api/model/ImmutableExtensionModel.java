@@ -8,8 +8,10 @@ package org.mule.runtime.extension.api.model;
 
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableSet;
+
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.Category;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -19,14 +21,17 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
+import org.mule.runtime.api.meta.model.construct.HasConstructModels;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.function.HasFunctionModels;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
+import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
@@ -403,5 +408,44 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     if (!condition) {
       throw new IllegalModelDefinitionException(errorMessage);
     }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<ComponentModel> findComponentModel(String componentName) {
+    Optional<ComponentModel> component = doFindComponentModel(this, componentName);
+    if (component.isPresent()) {
+      return component;
+    }
+
+    for (ConfigurationModel configurationModel : configurations) {
+      component = doFindComponentModel(configurationModel, componentName);
+      if (component.isPresent()) {
+        break;
+      }
+    }
+
+    return component;
+  }
+
+  private <T extends HasOperationModels & HasSourceModels> Optional<ComponentModel> doFindComponentModel(T owner,
+                                                                                                         String componentName) {
+    Optional component = owner.getOperationModel(componentName);
+    if (component.isPresent()) {
+      return component;
+    }
+
+    component = owner.getSourceModel(componentName);
+    if (component.isPresent()) {
+      return component;
+    }
+
+    if (owner instanceof HasConstructModels) {
+      component = ((HasConstructModels) owner).getConstructModel(componentName);
+    }
+
+    return component;
   }
 }

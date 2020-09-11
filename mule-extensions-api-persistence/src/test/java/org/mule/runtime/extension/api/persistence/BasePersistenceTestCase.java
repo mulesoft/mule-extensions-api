@@ -29,6 +29,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -44,6 +45,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
+import org.mule.runtime.api.meta.model.data.sample.SampleDataProviderModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
@@ -73,11 +75,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -88,6 +85,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -127,6 +128,8 @@ abstract class BasePersistenceTestCase {
   protected final LayoutModel defaultLayoutModel = LayoutModel.builder().build();
   protected final ValueProviderModel defaultValueProviderModel =
       new ValueProviderModel(emptyList(), false, false, false, 1, "ACategory", "AId");
+  protected final SampleDataProviderModel defaultSampleDataProviderModel =
+      new SampleDataProviderModel(emptyList(), "exampleSampleData", true, true);
 
   protected final NonExternalizableModelProperty nonExternalizableModelProperty = new NonExternalizableModelProperty();
   protected final ExternalizableModelProperty externalizableModelProperty = new ExternalizableModelProperty();
@@ -221,7 +224,8 @@ abstract class BasePersistenceTestCase {
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
                                     singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet(),
-                                    new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"));
+                                    new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"),
+                                    defaultSampleDataProviderModel);
 
     createCoreOperations();
 

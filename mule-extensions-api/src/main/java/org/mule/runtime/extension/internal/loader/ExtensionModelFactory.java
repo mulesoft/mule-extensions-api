@@ -367,7 +367,8 @@ public final class ExtensionModelFactory {
                                                       declaration.getErrorModels(),
                                                       declaration.getModelProperties(),
                                                       declaration.getNotificationModels(),
-                                                      declaration.getDeprecation().orElse(null)));
+                                                      declaration.getDeprecation().orElse(null),
+                                                      declaration.getSampleDataProviderModel().orElse(null)));
     }
 
     private StereotypeModel getSourceStereotypes(SourceDeclaration declaration) {
@@ -427,7 +428,8 @@ public final class ExtensionModelFactory {
                                                 getProcessorStereotype(declaration.getStereotype()),
                                                 declaration.getModelProperties(),
                                                 declaration.getNotificationModels(),
-                                                declaration.getDeprecation().orElse(null));
+                                                declaration.getDeprecation().orElse(null),
+                                                declaration.getSampleDataProviderModel().orElse(null));
 
         return operation;
       });
