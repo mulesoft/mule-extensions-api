@@ -12,7 +12,6 @@ import static org.apache.commons.lang3.StringUtils.isAllBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.metadata.NullMetadataResolver.NULL_RESOLVER_NAME;
-
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.extension.api.annotation.metadata.TypeResolver;
@@ -36,6 +35,7 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
   private final ResolverInformation outputResolver;
   private final ResolverInformation attributesResolver;
   private final ResolverInformation keysResolver;
+  private final boolean partialTypeKeyResolver;
   private final Map<String, ResolverInformation> inputResolvers;
   private final transient boolean requiresConnection;
   private final transient boolean requiresConfiguration;
@@ -47,6 +47,18 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
                                                String keysResolver,
                                                boolean requiresConnection,
                                                boolean requiresConfiguration) {
+    this(category, parameters, outputResolver, attributesResolver, keysResolver, requiresConnection, requiresConfiguration,
+         false);
+  }
+
+  public TypeResolversInformationModelProperty(String category,
+                                               Map<String, String> parameters,
+                                               String outputResolver,
+                                               String attributesResolver,
+                                               String keysResolver,
+                                               boolean requiresConnection,
+                                               boolean requiresConfiguration,
+                                               boolean partialTypeKeyResolver) {
     this.requiresConnection = requiresConnection;
     this.requiresConfiguration = requiresConfiguration;
     checkArgument(isNotBlank(category), "A Category name is required for a group of resolvers");
@@ -64,6 +76,8 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
     } else {
       this.inputResolvers = null;
     }
+
+    this.partialTypeKeyResolver = partialTypeKeyResolver;
   }
 
   /**
@@ -119,6 +133,13 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
   }
 
   /**
+   * @return boolean indicating if key resolver is partial of complete.
+   */
+  public boolean isPartialTypeKeyResolver() {
+    return partialTypeKeyResolver;
+  }
+
+  /**
    * Provides information of the resolver (if any) associated to a given parameter.
    *
    * @param parameterName name of the parameter
@@ -154,12 +175,13 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
         Objects.equals(inputResolvers, that.inputResolvers) &&
         Objects.equals(outputResolver, that.outputResolver) &&
         Objects.equals(keysResolver, that.keysResolver) &&
-        Objects.equals(attributesResolver, that.attributesResolver);
+        Objects.equals(attributesResolver, that.attributesResolver) &&
+        Objects.equals(partialTypeKeyResolver, that.partialTypeKeyResolver);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(category, inputResolvers, outputResolver, keysResolver, attributesResolver);
+    return Objects.hash(category, inputResolvers, outputResolver, keysResolver, attributesResolver, partialTypeKeyResolver);
   }
 
   @Override
@@ -170,6 +192,7 @@ public class TypeResolversInformationModelProperty implements ModelProperty {
         ", outputResolver='" + outputResolver + '\'' +
         ", keysResolver='" + keysResolver + '\'' +
         ", attributesResolver='" + attributesResolver + '\'' +
+        ", partialTypeKeyResolver='" + partialTypeKeyResolver + '\'' +
         '}';
   }
 }
