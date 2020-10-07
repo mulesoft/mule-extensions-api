@@ -6,8 +6,11 @@
  */
 package org.mule.runtime.extension.api.annotation;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+
 import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -20,7 +23,7 @@ import java.lang.annotation.Target;
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Ignore} instead.
  */
-@Target(value = {ElementType.FIELD, ElementType.METHOD})
+@Target(value = {FIELD, METHOD, TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Deprecated

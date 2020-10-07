@@ -3,6 +3,20 @@
     "revapi": {
       "ignore": [
         {
+          "code": "java.annotation.attributeValueChanged",
+          "old": "@interface org.mule.runtime.extension.api.annotation.Ignore",
+          "new": "@interface org.mule.runtime.extension.api.annotation.Ignore",
+          "annotationType": "java.lang.annotation.Target",
+          "annotation": "@java.lang.annotation.Target({java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.TYPE})",
+          "attribute": "value",
+          "oldValue": "{java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD}",
+          "newValue": "{java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.TYPE}",
+          "package": "org.mule.runtime.extension.api.annotation",
+          "classSimpleName": "Ignore",
+          "elementKind": "@interface",
+          "justification": "Not a real issue"
+        },
+        {
           "code": "java.annotation.added",
           "old": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
           "new": "interface org.mule.runtime.extension.api.connectivity.oauth.OAuthState",
