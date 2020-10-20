@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.mule.runtime</groupId>
         <artifactId>mule-extensions-api-parent</artifactId>
-        <version>1.2.2-HF-SNAPSHOT</version>
+        <version>1.2.2-20201020</version>
     </parent>
 
     <artifactId>mule-extensions-api-persistence</artifactId>
-    <version>1.2.2-HF-SNAPSHOT</version>
+    <version>1.2.2-20201020</version>
     <packaging>jar</packaging>
     <name>Mule Extensions API Persistence</name>
     <description>Persistence API for Mule Extensions</description>
