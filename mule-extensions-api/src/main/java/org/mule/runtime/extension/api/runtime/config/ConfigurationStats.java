@@ -35,4 +35,12 @@ public interface ConfigurationStats {
   default int getRunningSources() {
     return 0;
   }
+
+  /**
+   * @return How many currently running sources are making use of the referenced configuration
+   * @since 1.2.3 1.3.0
+   */
+  default int getOpenedStreams() {
+    return 0;
+  }
 }

@@ -690,5 +690,20 @@
         }
       ]
     }
+  },
+  "1.2.3": {
+    "revapi": {
+      "ignore": [
+        {
+        "code": "java.method.defaultMethodAddedToInterface",
+        "new": "method int org.mule.runtime.extension.api.runtime.config.ConfigurationStats::getOpenedStreams()",
+        "package": "org.mule.runtime.extension.api.runtime.config",
+        "classSimpleName": "ConfigurationStats",
+        "methodName": "getOpenedStreams",
+        "elementKind": "method",
+        "justification": "Required for MULE-18675"
+        }
+      ]
+    }
   }
 }
