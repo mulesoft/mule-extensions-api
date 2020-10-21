@@ -37,7 +37,6 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   private final List<DeclarationEnricher> customDeclarationEnrichers = new LinkedList<>();
   private final Map<String, Object> customParameters = new HashMap<>();
   private final DslResolvingContext dslResolvingContext;
-  private boolean ignoreDirectiveEnabled = true;
 
   public DefaultExtensionLoadingContext(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     this(new ExtensionDeclarer(), extensionClassLoader, dslResolvingContext);
@@ -161,19 +160,4 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
     return unmodifiableList(customValidators);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean isIgnoreDirectiveEnabled() {
-    return ignoreDirectiveEnabled;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void setIgnoreDirectiveEnabled(boolean enable) {
-    ignoreDirectiveEnabled = enable;
-  }
 }
