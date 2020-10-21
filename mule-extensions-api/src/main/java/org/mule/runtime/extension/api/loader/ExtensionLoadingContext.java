@@ -122,4 +122,17 @@ public interface ExtensionLoadingContext {
    * @return the {@link DslResolvingContext} with all the dependencies to load an {@link ExtensionModel}
    */
   DslResolvingContext getDslResolvingContext();
+
+  /**
+   * @return whether the {@code ignore} directive to skip the declaration of specific components is enabled or not
+   * @since 1.4.0
+   */
+  boolean isIgnoreDirectiveEnabled();
+
+  /**
+   * Enables/disables the {@code ignore} directive which allows skipping specific components during the declaration process
+   * @param enable whether it's enabled or not
+   * @since 1.4.0
+   */
+  void setIgnoreDirectiveEnabled(boolean enable);
 }
