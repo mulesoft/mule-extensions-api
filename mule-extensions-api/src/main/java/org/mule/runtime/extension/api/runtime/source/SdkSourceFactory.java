@@ -9,21 +9,19 @@ package org.mule.runtime.extension.api.runtime.source;
 import org.mule.api.annotation.NoImplement;
 
 /**
- * Factory object for instances of {@link Source}.
+ * Factory object for instances of {@link org.mule.sdk.api.runtime.source.Source}.
  * <p>
  * Implementations are to be reusable and thread-safe
  *
- * @since 1.0
- * @deprecated since 1.4.0. Use {@link SdkSourceFactory} instead
+ * @since 1.4.0
  */
 @NoImplement
-@Deprecated
-public interface SourceFactory {
+public interface SdkSourceFactory {
 
   /**
-   * Creates a new instance of {@link Source}
+   * Creates a new instance of {@link org.mule.sdk.api.runtime.source.Source}
    *
-   * @return a new {@link Source}
+   * @return a new {@link org.mule.sdk.api.runtime.source.Source}
    */
-  Source createSource();
+  org.mule.sdk.api.runtime.source.Source createMessageSource();
 }
