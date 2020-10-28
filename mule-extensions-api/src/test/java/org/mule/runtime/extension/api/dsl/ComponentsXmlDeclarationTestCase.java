@@ -7,23 +7,38 @@
 package org.mule.runtime.extension.api.dsl;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singleton;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import static org.mule.runtime.api.util.NameUtils.hyphenize;
+
+import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.model.ImportedTypeModel;
+import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.dsl.model.ImportedContainerType;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
+import org.mule.runtime.extension.api.property.QNameModelProperty;
 
 import java.util.stream.Stream;
+
+import javax.xml.namespace.QName;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.mockito.Mock;
 
 @RunWith(Parameterized.class)
 public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
@@ -34,6 +49,9 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   private static final String GROUPED_COMPLEX_PARAMETER = "groupedComplexParameter";
   private static final String SIMPLE_PARAMETER = "simpleParameter";
   private static final String INLINE_GROUP = "inlineGroup";
+
+  @Mock(lenient = true)
+  protected ParameterModel importedTypeParameterModel;
 
   public ComponentsXmlDeclarationTestCase(ParameterRole role) {
     super(role);
@@ -177,6 +195,30 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     DslElementSyntax result = getSyntaxResolver().resolve(operation);
 
     assertThat(result.requiresConfig(), is(true));
+  }
+
+  @Test
+  public void importedTypeParameter() {
+    when(importedTypeParameterModel.getName()).thenReturn(PARAMETER_NAME);
+    when(importedTypeParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
+    when(importedTypeParameterModel.getModelProperty(any())).thenReturn(empty());
+    when(importedTypeParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
+    when(importedTypeParameterModel.getLayoutModel()).thenReturn(empty());
+    when(importedTypeParameterModel.getRole()).thenReturn(role);
+
+    when(importedTypeParameterModel.getModelProperty(QNameModelProperty.class))
+        .thenReturn(of(new QNameModelProperty(new QName("http://otherNs", PARAMETER_NAME, "otherNs"))));
+
+    final MetadataType importedType = TYPE_LOADER.load(ImportedContainerType.class);
+    when(importedTypeParameterModel.getType()).thenReturn(importedType);
+
+    when(extension.getImportedTypes()).thenReturn(singleton(new ImportedTypeModel((ObjectType) importedType)));
+
+    DslElementSyntax result = getSyntaxResolver().resolve(importedTypeParameterModel);
+
+    assertThat(result.getContainedElement("notGlobal").get().getPrefix(), is("mule"));
+    assertThat(result.getContainedElement("notGlobal").get().getNamespace(), is("http://www.mulesoft.org/schema/mule/core"));
+    assertThat(result.getContainedElement("notGlobal").get().getElementName(), is("not-global"));
   }
 
   private void assertStringTypeComponentParameter(DslElementSyntax result) {

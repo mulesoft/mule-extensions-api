@@ -25,12 +25,13 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.ExtensionModelTestUtils.visitableMock;
+import static org.mule.runtime.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
-import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
