@@ -12,9 +12,11 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.util.NameUtils.hyphenize;
 
 import org.mule.metadata.api.model.MetadataType;
@@ -199,6 +201,8 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
   @Test
   public void importedTypeParameter() {
+    assumeThat(role, is(BEHAVIOUR));
+
     when(importedTypeParameterModel.getName()).thenReturn(PARAMETER_NAME);
     when(importedTypeParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
     when(importedTypeParameterModel.getModelProperty(any())).thenReturn(empty());
