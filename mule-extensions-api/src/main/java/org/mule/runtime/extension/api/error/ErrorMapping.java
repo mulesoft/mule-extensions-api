@@ -6,6 +6,10 @@
  */
 package org.mule.runtime.extension.api.error;
 
+import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.param.Optional;
+import org.mule.runtime.extension.api.annotation.param.Parameter;
+
 /**
  * Determines that an error thrown by an operation should be mapped to another.
  *
@@ -13,7 +17,12 @@ package org.mule.runtime.extension.api.error;
  */
 public final class ErrorMapping {
 
+  @Parameter
+  @Optional(defaultValue = "ANY")
+  @Alias("sourceType")
   private final String source;
+  @Parameter
+  @Alias("targetType")
   private final String target;
 
   public ErrorMapping(String source, String target) {
