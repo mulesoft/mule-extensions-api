@@ -81,7 +81,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.with(new TypeAliasAnnotation("Tls"));
     type.with(new InfrastructureTypeAnnotation());
     type.with(new TypeDslAnnotation(true, true, null, null));
-    type.with(new QNameTypeAnnotation(new QName("http://www.mulesoft.org/schema/mule/tls",
+    type.with(new QNameTypeAnnotation(new QName(TLS_NAMESPACE_URI,
                                                 TLS_CONTEXT_ELEMENT_IDENTIFIER,
                                                 TLS_PREFIX)));
     type.with(new StereotypeTypeAnnotation(asList(newStereotype(TLS_CONTEXT_ELEMENT_IDENTIFIER, TLS_PREFIX).build())));
@@ -101,6 +101,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
   private void addTrustStoreField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
     ObjectTypeBuilder trustStoreType = typeBuilder.objectType().id("TrustStore")
         .with(new InfrastructureTypeAnnotation())
+        .with(new QNameTypeAnnotation(new QName(TLS_NAMESPACE_URI, TLS_TRUST_STORE_ELEMENT_IDENTIFIER, TLS_PREFIX)))
         .description("Trust store configuration. If used client side, the trust store contains the certificates of the "
             + "trusted servers. If used server side, it contains the certificates of the trusted clients.");
     typeBuilder = create(JAVA);
@@ -134,6 +135,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
   private void addKeyStoreField(BaseTypeBuilder typeBuilder, ObjectTypeBuilder type) {
     ObjectTypeBuilder keyStoreType = typeBuilder.objectType().id("KeyStore")
         .with(new InfrastructureTypeAnnotation())
+        .with(new QNameTypeAnnotation(new QName(TLS_NAMESPACE_URI, TLS_KEY_STORE_ELEMENT_IDENTIFIER, TLS_PREFIX)))
         .description("Key store configuration. The key store contains the keys of this server/client.");
 
     addStringField(keyStoreType, typeBuilder, "path", "The location (which will be resolved relative to the current "
