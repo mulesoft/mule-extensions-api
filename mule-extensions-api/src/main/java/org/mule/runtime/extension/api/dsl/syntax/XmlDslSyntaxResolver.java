@@ -273,9 +273,16 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    } else {
                                      builder.withElementName(elementName.get());
 
+                                     final XmlDslModel importedObjectType = importedTypes.get(objectType);
+
                                      resolveObjectDslFromParameter(parameter, objectType, builder,
                                                                    isContent, dslConfig, expressionSupport,
-                                                                   prefix.get(), namespace.get());
+                                                                   importedObjectType != null
+                                                                       ? importedObjectType.getPrefix()
+                                                                       : prefix.get(),
+                                                                   importedObjectType != null
+                                                                       ? importedObjectType.getNamespace()
+                                                                       : namespace.get());
                                    }
                                  }
 

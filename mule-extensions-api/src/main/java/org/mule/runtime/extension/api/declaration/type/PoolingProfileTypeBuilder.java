@@ -13,7 +13,10 @@ import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MAX_POOL_ACTIVE
 import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MAX_POOL_IDLE;
 import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MAX_POOL_WAIT;
 import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MIN_EVICTION_MILLIS;
+import static org.mule.runtime.internal.dsl.DslConstants.POOLING_PROFILE_ELEMENT_IDENTIFIER;
+
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
@@ -41,6 +44,7 @@ public final class PoolingProfileTypeBuilder extends InfrastructureTypeBuilder {
         .description("A pooling profile is used to configure the pooling behaviour of Mule components. Each component can have its own pooling profile.");
 
     objectType.with(new InfrastructureTypeAnnotation());
+    objectType.with(new TypeAliasAnnotation(POOLING_PROFILE_ELEMENT_IDENTIFIER));
 
     addIntField(objectType, typeBuilder, "maxActive",
                 "Controls the maximum number of Mule components that can be borrowed from a session at one time. "

@@ -15,6 +15,7 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_AC
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TYPE_PARAMETER_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.internal.dsl.DslConstants.ERROR_MAPPING_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CRL_FILE_ELEMENT_IDENTIFIER;
@@ -62,7 +63,7 @@ public final class InfrastructureTypeMapping {
       .put(SCHEDULING_STRATEGY_PARAMETER_NAME,
            new QNameModelProperty(new QName(CORE_NAMESPACE, SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER, CORE_PREFIX)))
       .put(ERROR_MAPPINGS_PARAMETER_NAME,
-           new QNameModelProperty(new QName(CORE_NAMESPACE, ERROR_MAPPINGS_PARAMETER_NAME, CORE_PREFIX)))
+           new QNameModelProperty(new QName(CORE_NAMESPACE, ERROR_MAPPING_ELEMENT_IDENTIFIER, CORE_PREFIX)))
       .put(TLS_PARAMETER_NAME,
            new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
                                             TLS_CONTEXT_ELEMENT_IDENTIFIER,
