@@ -293,5 +293,15 @@ public final class ExtensionConstants {
    */
   public static final String OBJECT_STORE_ELEMENT_NAMESPACE = "os";
 
+  /**
+   * ADD JDOC
+   */
+  public static final String POLLING_SOURCE_LIMIT_PARAMETER_NAME = "maxItemsPerPoll";
+
+  /**
+   * ADD JDOC
+   */
+  public static final String POLLING_SOURCE_LIMIT_PARAMETER_DESCRIPTION = "ADD DESCRIPTION";
+
   private ExtensionConstants() {}
 }
