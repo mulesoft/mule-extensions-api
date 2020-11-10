@@ -306,7 +306,7 @@ public final class ExtensionConstants {
    * @since 1.4.0
    */
   public static final String POLLING_SOURCE_LIMIT_PARAMETER_DESCRIPTION = "Limits the amount of items per poll that " +
-          "this polling source can send to the flow. ";
+      "this polling source can send to the flow. ";
 
   private ExtensionConstants() {}
 }
