@@ -294,14 +294,14 @@ public final class ExtensionConstants {
   public static final String OBJECT_STORE_ELEMENT_NAMESPACE = "os";
 
   /**
-   * The name of the parameter which configures pooling source item limits per poll.
+   * The name of the parameter which sets the item limit per poll for polling sources.
    *
    * @since 1.4.0
    */
   public static final String POLLING_SOURCE_LIMIT_PARAMETER_NAME = "maxItemsPerPoll";
 
   /**
-   * The description of the parameter which configures pooling source item limits per poll.
+   * The description of the parameter which sets the item limit per poll for polling sources.
    *
    * @since 1.4.0
    */
