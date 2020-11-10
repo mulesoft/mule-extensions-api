@@ -294,14 +294,19 @@ public final class ExtensionConstants {
   public static final String OBJECT_STORE_ELEMENT_NAMESPACE = "os";
 
   /**
-   * ADD JDOC
+   * The name of the parameter which configures pooling source item limits per poll.
+   *
+   * @since 1.4.0
    */
   public static final String POLLING_SOURCE_LIMIT_PARAMETER_NAME = "maxItemsPerPoll";
 
   /**
-   * ADD JDOC
+   * The description of the parameter which configures pooling source item limits per poll.
+   *
+   * @since 1.4.0
    */
-  public static final String POLLING_SOURCE_LIMIT_PARAMETER_DESCRIPTION = "ADD DESCRIPTION";
+  public static final String POLLING_SOURCE_LIMIT_PARAMETER_DESCRIPTION = "Limits the amount of items per poll that " +
+          "this polling source can send to the flow. ";
 
   private ExtensionConstants() {}
 }
