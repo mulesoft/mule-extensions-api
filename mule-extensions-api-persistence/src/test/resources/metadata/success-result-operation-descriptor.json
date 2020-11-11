@@ -99,6 +99,7 @@
             "isComponentId": false,
             "valueProviderModel": {
               "actingParameters": [],
+              "parameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
               "providerId": "AId",
@@ -667,6 +668,7 @@
             "isComponentId": false,
             "valueProviderModel": {
               "actingParameters": [],
+              "parameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
               "providerId": "AId",
@@ -894,6 +896,7 @@
             "isComponentId": false,
             "valueProviderModel": {
               "actingParameters": [],
+              "parameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
               "providerId": "AId",

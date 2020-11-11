@@ -3,6 +3,28 @@
     "param1",
     "param2"
   ],
+  "parameters": [
+    {
+      "hasDynamicType": false,
+      "required": false,
+      "isConfigOverride": false,
+      "isComponentId": false,
+      "allowedStereotypeModels": [],
+      "name": "param1",
+      "description": "",
+      "modelProperties": {}
+    },
+    {
+      "hasDynamicType": false,
+      "required": false,
+      "isConfigOverride": false,
+      "isComponentId": false,
+      "allowedStereotypeModels": [],
+      "name": "param2",
+      "description": "",
+      "modelProperties": {}
+    }
+  ],
   "partOrder": 1,
   "providerName": "Category 1",
   "providerId": "Id 1",
