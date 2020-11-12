@@ -6,7 +6,7 @@
   "parameters": [
     {
       "hasDynamicType": false,
-      "required": false,
+      "required": true,
       "isConfigOverride": false,
       "isComponentId": false,
       "allowedStereotypeModels": [],
@@ -16,11 +16,21 @@
     },
     {
       "hasDynamicType": false,
-      "required": false,
+      "required": true,
       "isConfigOverride": false,
       "isComponentId": false,
       "allowedStereotypeModels": [],
       "name": "param2",
+      "description": "",
+      "modelProperties": {}
+    },
+    {
+      "hasDynamicType": false,
+      "required": false,
+      "isConfigOverride": false,
+      "isComponentId": false,
+      "allowedStereotypeModels": [],
+      "name": "param3",
       "description": "",
       "modelProperties": {}
     }

@@ -40,9 +40,10 @@ public class ValuesPersistenceTestCase {
   private static final Value MULTI_LEVEL_VALUE =
       newValue("root").withChild(newValue("level1").withChild(newValue("level2"))).build();
   private static final ValueProviderModel VALUE_PROVIDER_MODEL =
-      new ValueProviderModel(asList("param1", "param2"), asList(buildParameterModel("param1"), buildParameterModel("param2")),
-                             false, false, false, 1,
-                             "Category 1", "Id 1");
+      new ValueProviderModel(false, false, false, 1,
+                             "Category 1", "Id 1",
+                             asList(buildParameterModel("param1", true), buildParameterModel("param2", true),
+                                    buildParameterModel("param3", false)));
   private static final ValueResult MULTI_LEVEL_VALUE_RESULT = resultFrom(singleton(MULTI_LEVEL_VALUE));
 
   private JsonParser jsonParser = new JsonParser();
@@ -113,8 +114,8 @@ public class ValuesPersistenceTestCase {
         .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(name));
   }
 
-  private static ParameterModel buildParameterModel(String name) {
-    return new ImmutableParameterModel(name, null, null, false, false, false, false, null, null, null, null, null, null, null,
+  private static ParameterModel buildParameterModel(String name, boolean required) {
+    return new ImmutableParameterModel(name, null, null, false, required, false, false, null, null, null, null, null, null, null,
                                        emptyList(), null, null);
   }
 }
