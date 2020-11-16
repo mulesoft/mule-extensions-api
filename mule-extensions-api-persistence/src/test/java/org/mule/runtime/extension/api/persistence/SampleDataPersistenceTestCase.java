@@ -6,11 +6,16 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.mule.runtime.api.meta.model.data.sample.SampleDataProviderModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
+import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,10 +30,15 @@ import org.junit.Test;
 public class SampleDataPersistenceTestCase {
 
   private static final SampleDataProviderModel SAMPLE_DATA_PERSISTENCE_MODEL =
-      new SampleDataProviderModel(Arrays.asList("param1", "param2"), "sample data", true, true);
+      new SampleDataProviderModel("sample data", true, true,
+                                  asList(buildParameterModel("param1", true), buildParameterModel("param2", true),
+                                         buildParameterModel("param3", false)));
 
   private JsonParser jsonParser = new JsonParser();
-  private Gson gson = new GsonBuilder().create();
+  private Gson gson = new GsonBuilder()
+      .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class,
+                                                                                ImmutableParameterModel.class))
+      .create();
 
   @Test
   public void serializeSampleDataProvider() throws IOException {
@@ -51,5 +61,10 @@ public class SampleDataPersistenceTestCase {
   private String loadAsString(String name) throws IOException {
     return IOUtils
         .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(name));
+  }
+
+  private static ParameterModel buildParameterModel(String name, boolean required) {
+    return new ImmutableParameterModel(name, null, null, false, required, false, false, null, null, null, null, null, null, null,
+                                       emptyList(), null, null);
   }
 }

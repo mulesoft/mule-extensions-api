@@ -1,1 +1,41 @@
-{"actingParameters":["param1","param2"],"providerId":"sample data","requiresConfiguration":true,"requiresConnection":true}
+{
+  "actingParameters": [
+    "param1",
+    "param2"
+  ],
+  "parameters": [
+    {
+      "hasDynamicType": false,
+      "required": true,
+      "isConfigOverride": false,
+      "isComponentId": false,
+      "allowedStereotypeModels": [],
+      "name": "param1",
+      "description": "",
+      "modelProperties": {}
+    },
+    {
+      "hasDynamicType": false,
+      "required": true,
+      "isConfigOverride": false,
+      "isComponentId": false,
+      "allowedStereotypeModels": [],
+      "name": "param2",
+      "description": "",
+      "modelProperties": {}
+    },
+    {
+      "hasDynamicType": false,
+      "required": false,
+      "isConfigOverride": false,
+      "isComponentId": false,
+      "allowedStereotypeModels": [],
+      "name": "param3",
+      "description": "",
+      "modelProperties": {}
+    }
+  ],
+  "providerId": "sample data",
+  "requiresConfiguration": true,
+  "requiresConnection": true
+}

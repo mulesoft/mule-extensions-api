@@ -57,6 +57,7 @@
         "notifications": [],
         "sampleDataProviderModel": {
           "actingParameters": [],
+          "parameters": [],
           "providerId": "exampleSampleData",
           "requiresConfiguration": true,
           "requiresConnection": true
@@ -2137,6 +2138,7 @@
         "notifications": [],
         "sampleDataProviderModel": {
           "actingParameters": [],
+          "parameters": [],
           "providerId": "exampleSampleData",
           "requiresConfiguration": true,
           "requiresConnection": true
