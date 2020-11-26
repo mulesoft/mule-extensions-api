@@ -25,14 +25,29 @@ public interface ConfigurationStats {
 
   /**
    * @return How many currently executing operations are making use of the referenced configuration
+   *
+   * @deprecated Use {@link #getActiveComponents()} instead.
    */
+  @Deprecated
   int getInflightOperations();
 
   /**
    * @return How many currently running sources are making use of the referenced configuration
    * @since 1.1.6 1.2.2 1.3.0
+   *
+   * @deprecated Use {@link #getActiveComponents()} instead.
    */
+  @Deprecated
   default int getRunningSources() {
+    return 0;
+  }
+
+  /**
+   * @return How many currently active components are making use of the referenced configuration (could be running sources,
+   * in-flight operations, un-consumed streams or paging providers, etc.)
+   * @since 1.2.3 1.3.1 1.4.0
+   */
+  default int getActiveComponents() {
     return 0;
   }
 }
