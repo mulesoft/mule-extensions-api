@@ -55,7 +55,6 @@
       "supportsStreaming": false,
       "notifications": [],
       "sampleDataProviderModel": {
-        "actingParameters": [],
         "parameters": [],
         "providerId": "exampleSampleData",
         "requiresConfiguration": true,

@@ -1,38 +1,16 @@
 {
-  "actingParameters": [
-    "param1",
-    "param2"
-  ],
   "parameters": [
     {
-      "hasDynamicType": false,
-      "required": true,
-      "isConfigOverride": false,
-      "isComponentId": false,
-      "allowedStereotypeModels": [],
       "name": "param1",
-      "description": "",
-      "modelProperties": {}
+      "required": true
     },
     {
-      "hasDynamicType": false,
-      "required": true,
-      "isConfigOverride": false,
-      "isComponentId": false,
-      "allowedStereotypeModels": [],
       "name": "param2",
-      "description": "",
-      "modelProperties": {}
+      "required": true
     },
     {
-      "hasDynamicType": false,
-      "required": false,
-      "isConfigOverride": false,
-      "isComponentId": false,
-      "allowedStereotypeModels": [],
       "name": "param3",
-      "description": "",
-      "modelProperties": {}
+      "required": false
     }
   ],
   "providerId": "sample data",
