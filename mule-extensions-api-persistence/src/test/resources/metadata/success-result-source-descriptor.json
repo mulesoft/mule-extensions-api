@@ -560,7 +560,6 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
                 "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
@@ -661,7 +660,6 @@
             "isConfigOverride": false,
             "isComponentId": false,
             "valueProviderModel": {
-              "actingParameters": [],
               "parameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
@@ -743,7 +741,6 @@
             "isConfigOverride": false,
             "isComponentId": false,
             "valueProviderModel": {
-              "actingParameters": [],
               "parameters": [],
               "partOrder": 1,
               "providerName": "ACategory",

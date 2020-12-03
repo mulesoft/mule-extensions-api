@@ -1,8 +1,4 @@
 {
-  "actingParameters": [
-    "param1",
-    "param2"
-  ],
   "parameters": [
     {
       "name": "param1",
