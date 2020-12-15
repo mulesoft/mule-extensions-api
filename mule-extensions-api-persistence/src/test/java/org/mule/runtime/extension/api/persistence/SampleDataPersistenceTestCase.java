@@ -62,6 +62,6 @@ public class SampleDataPersistenceTestCase {
   }
 
   private static ActingParameterModel buildActingParameterModel(String name, boolean required) {
-    return new ImmutableActingParameterModel(name, required, null);
+    return new ImmutableActingParameterModel(name, required);
   }
 }

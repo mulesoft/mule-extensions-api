@@ -21,20 +21,17 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
 
   private final String name;
   private final boolean required;
-  private final Object defaultValue;
 
   /**
    * Creates a new instance with the given state
    *
    * @param name          the parameter's name. Cannot be blank.
    * @param required      whether this parameter is required or not
-   * @param defaultValue  this parameter's default value
    */
-  public ImmutableActingParameterModel(String name, boolean required, Object defaultValue) {
+  public ImmutableActingParameterModel(String name, boolean required) {
     checkArgument(name != null && name.length() > 0, "name cannot be null or blank");
     this.name = name;
     this.required = required;
-    this.defaultValue = defaultValue;
   }
 
   @Override
@@ -48,11 +45,6 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
   }
 
   @Override
-  public Object getDefaultValue() {
-    return defaultValue;
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -62,12 +54,11 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
     }
     ImmutableActingParameterModel that = (ImmutableActingParameterModel) o;
     return Objects.equals(name, that.name) &&
-        Objects.equals(required, that.required) &&
-        Objects.equals(defaultValue, that.defaultValue);
+        Objects.equals(required, that.required);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, required, defaultValue);
+    return Objects.hash(name, required);
   }
 }
