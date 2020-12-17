@@ -1,4 +1,19 @@
 {
+  "1.2.3": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.defaultMethodAddedToInterface",
+          "new": "method int org.mule.runtime.extension.api.runtime.config.ConfigurationStats::getActiveComponents()",
+          "package": "org.mule.runtime.extension.api.runtime.config",
+          "classSimpleName": "ConfigurationStats",
+          "methodName": "getActiveComponents",
+          "elementKind": "method",
+          "justification": "MULE-18675"
+        }
+      ]
+    }
+  },
   "1.2.2": {
     "revapi": {
       "ignore":[
