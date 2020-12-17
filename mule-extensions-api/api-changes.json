@@ -19,11 +19,19 @@
               "methodName": "getExtensionClassLoader",
               "elementKind": "method",
               "justification": "New feature fixes bug"
+        },
+        {
+              "code": "java.method.defaultMethodAddedToInterface",
+              "new": "method int org.mule.runtime.extension.api.runtime.config.ConfigurationStats::getActiveComponents()",
+              "package": "org.mule.runtime.extension.api.runtime.config",
+              "classSimpleName": "ConfigurationStats",
+              "methodName": "getActiveComponents",
+              "elementKind": "method",
+              "justification": "MULE-18675"
         }
       ]
     }
   },
-
   "1.3.0": {
     "revapi": {
       "ignore": [
