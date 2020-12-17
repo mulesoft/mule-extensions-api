@@ -6,15 +6,19 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mule.runtime.api.value.ValueResult.resultFrom;
 import static org.mule.runtime.extension.api.values.ValueBuilder.newValue;
+
+import org.mule.runtime.api.meta.model.parameter.ActingParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.value.ResolvingFailure;
 import org.mule.runtime.api.value.Value;
 import org.mule.runtime.api.value.ValueResult;
+import org.mule.runtime.extension.api.model.parameter.ImmutableActingParameterModel;
 import org.mule.runtime.extension.api.persistence.value.ValueResultJsonSerializer;
 import org.mule.runtime.extension.api.values.ImmutableValue;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
@@ -27,7 +31,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class ValuesPersistenceTestCase {
 
@@ -36,14 +39,19 @@ public class ValuesPersistenceTestCase {
   private static final Value MULTI_LEVEL_VALUE =
       newValue("root").withChild(newValue("level1").withChild(newValue("level2"))).build();
   private static final ValueProviderModel VALUE_PROVIDER_MODEL =
-      new ValueProviderModel(Arrays.asList("param1", "param2"), false, false, false, 1,
+      new ValueProviderModel(asList(buildActingParameterModel("param1", true), buildActingParameterModel("param2", true),
+                                    buildActingParameterModel("param3", false)),
+                             false, false, false, 1,
                              "Category 1", "Id 1");
   private static final ValueResult MULTI_LEVEL_VALUE_RESULT = resultFrom(singleton(MULTI_LEVEL_VALUE));
 
   private JsonParser jsonParser = new JsonParser();
   private ValueResultJsonSerializer valueResultJsonSerializer = new ValueResultJsonSerializer();
   private Gson gson = new GsonBuilder()
-      .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(Value.class, ImmutableValue.class)).create();
+      .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(Value.class, ImmutableValue.class))
+      .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(ActingParameterModel.class,
+                                                                                ImmutableActingParameterModel.class))
+      .create();
 
   @Test
   public void serializePartModelProperty() throws IOException {
@@ -103,5 +111,9 @@ public class ValuesPersistenceTestCase {
   private String loadAsString(String name) throws IOException {
     return IOUtils
         .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(name));
+  }
+
+  private static ActingParameterModel buildActingParameterModel(String name, boolean required) {
+    return new ImmutableActingParameterModel(name, required);
   }
 }

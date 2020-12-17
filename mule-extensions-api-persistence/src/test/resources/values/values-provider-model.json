@@ -1,7 +1,17 @@
 {
-  "actingParameters": [
-    "param1",
-    "param2"
+  "parameters": [
+    {
+      "name": "param1",
+      "required": true
+    },
+    {
+      "name": "param2",
+      "required": true
+    },
+    {
+      "name": "param3",
+      "required": false
+    }
   ],
   "partOrder": 1,
   "providerName": "Category 1",

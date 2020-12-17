@@ -30,6 +30,7 @@ import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
+import org.mule.runtime.api.meta.model.parameter.ActingParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -41,6 +42,7 @@ import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableActingParameterModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
@@ -167,6 +169,8 @@ public class ExtensionModelJsonSerializer {
         new DefaultImplementationTypeAdapterFactory<>(SourceCallbackModel.class, ImmutableSourceCallbackModel.class);
     final DefaultImplementationTypeAdapterFactory parameterModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(ParameterModel.class, ImmutableParameterModel.class);
+    final DefaultImplementationTypeAdapterFactory actingParameterModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(ActingParameterModel.class, ImmutableActingParameterModel.class);
     final DefaultImplementationTypeAdapterFactory parameterGroupModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(ParameterGroupModel.class, ImmutableParameterGroupModel.class);
     final DefaultImplementationTypeAdapterFactory exclusiveParametersTypeAdapterFactory =
@@ -192,6 +196,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapterFactory(new SourceModelTypeAdapterFactory())
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(actingParameterModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterGroupModelTypeAdapterFactory)
         .registerTypeAdapterFactory(exclusiveParametersTypeAdapterFactory)
         .registerTypeAdapterFactory(configurationModelTypeAdapterFactory)

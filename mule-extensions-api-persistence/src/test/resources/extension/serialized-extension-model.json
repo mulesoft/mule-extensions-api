@@ -55,7 +55,7 @@
       "supportsStreaming": false,
       "notifications": [],
       "sampleDataProviderModel": {
-        "actingParameters": [],
+        "parameters": [],
         "providerId": "exampleSampleData",
         "requiresConfiguration": true,
         "requiresConnection": true
@@ -86,7 +86,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -657,7 +657,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -702,7 +702,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -776,7 +776,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -966,7 +966,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -1003,7 +1003,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -1048,7 +1048,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -1641,7 +1641,7 @@
                 "isConfigOverride": false,
                 "isComponentId": false,
                 "valueProviderModel": {
-                  "actingParameters": [],
+                  "parameters": [],
                   "partOrder": 1,
                   "providerName": "ACategory",
                   "providerId": "AId",
@@ -1735,7 +1735,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -1786,7 +1786,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",

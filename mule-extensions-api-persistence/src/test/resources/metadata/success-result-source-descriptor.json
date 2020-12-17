@@ -560,7 +560,7 @@
               "isConfigOverride": false,
               "isComponentId": false,
               "valueProviderModel": {
-                "actingParameters": [],
+                "parameters": [],
                 "partOrder": 1,
                 "providerName": "ACategory",
                 "providerId": "AId",
@@ -660,7 +660,7 @@
             "isConfigOverride": false,
             "isComponentId": false,
             "valueProviderModel": {
-              "actingParameters": [],
+              "parameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
               "providerId": "AId",
@@ -741,7 +741,7 @@
             "isConfigOverride": false,
             "isComponentId": false,
             "valueProviderModel": {
-              "actingParameters": [],
+              "parameters": [],
               "partOrder": 1,
               "providerName": "ACategory",
               "providerId": "AId",

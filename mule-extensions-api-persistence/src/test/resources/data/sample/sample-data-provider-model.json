@@ -1,1 +1,19 @@
-{"actingParameters":["param1","param2"],"providerId":"sample data","requiresConfiguration":true,"requiresConnection":true}
+{
+  "parameters": [
+    {
+      "name": "param1",
+      "required": true
+    },
+    {
+      "name": "param2",
+      "required": true
+    },
+    {
+      "name": "param3",
+      "required": false
+    }
+  ],
+  "providerId": "sample data",
+  "requiresConfiguration": true,
+  "requiresConnection": true
+}
