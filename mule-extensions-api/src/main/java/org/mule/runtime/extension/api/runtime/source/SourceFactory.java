@@ -14,8 +14,10 @@ import org.mule.api.annotation.NoImplement;
  * Implementations are to be reusable and thread-safe
  *
  * @since 1.0
+ * @deprecated since 1.4.0. Use {@link SdkSourceFactory} instead
  */
 @NoImplement
+@Deprecated
 public interface SourceFactory {
 
   /**
