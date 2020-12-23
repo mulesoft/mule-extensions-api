@@ -16,6 +16,7 @@ import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.error.ImmutableErrorModel;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
+import org.mule.runtime.api.meta.model.parameter.ActingParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ExclusiveParametersModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -29,6 +30,7 @@ import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.deprecated.ImmutableDeprecationModel;
 import org.mule.runtime.extension.api.model.notification.ImmutableNotificationModel;
 import org.mule.runtime.extension.api.model.operation.ImmutableOperationModel;
+import org.mule.runtime.extension.api.model.parameter.ImmutableActingParameterModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableExclusiveParametersModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
@@ -85,6 +87,8 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         new DefaultImplementationTypeAdapterFactory<>(NotificationModel.class, ImmutableNotificationModel.class);
     final DefaultImplementationTypeAdapterFactory<DeprecationModel, ImmutableDeprecationModel> deprecationModelTypeAdapterFactory =
         new DefaultImplementationTypeAdapterFactory<>(DeprecationModel.class, ImmutableDeprecationModel.class);
+    final DefaultImplementationTypeAdapterFactory<ActingParameterModel, ImmutableActingParameterModel> actingParameterModelTypeAdapterFactory =
+        new DefaultImplementationTypeAdapterFactory<>(ActingParameterModel.class, ImmutableActingParameterModel.class);
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapterFactory(new FailureCodeTypeAdapterFactory())
@@ -105,7 +109,8 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(errorModelTypeAdapter)
         .registerTypeAdapterFactory(stereoTypeModelTypeAdapterFactory)
         .registerTypeAdapterFactory(notificationModelTypeAdapterFactory)
-        .registerTypeAdapterFactory(deprecationModelTypeAdapterFactory);
+        .registerTypeAdapterFactory(deprecationModelTypeAdapterFactory)
+        .registerTypeAdapterFactory(actingParameterModelTypeAdapterFactory);
 
     if (prettyPrint) {
       gsonBuilder.setPrettyPrinting();
