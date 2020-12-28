@@ -285,6 +285,15 @@
           "classSimpleName": "NoImplicitModelProperty",
           "elementKind": "class",
           "justification": "Necessary to fix EE-6859"
+        },
+        {
+          "code": "java.method.defaultMethodAddedToInterface",
+          "new": "method int org.mule.runtime.extension.api.runtime.config.ConfigurationStats::getActiveComponents()",
+          "package": "org.mule.runtime.extension.api.runtime.config",
+          "classSimpleName": "ConfigurationStats",
+          "methodName": "getActiveComponents",
+          "elementKind": "method",
+          "justification": "MULE-18675"
         }
       ]
     }
