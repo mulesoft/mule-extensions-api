@@ -17,7 +17,7 @@
     <url>https://github.com/mulesoft/mule-extensions-api</url>
 
     <properties>
-        <antlrVersion>3.5</antlrVersion>
+        <antlrVersion>3.5.2</antlrVersion>
         <skipCodeFormatting>true</skipCodeFormatting>
     </properties>
 
