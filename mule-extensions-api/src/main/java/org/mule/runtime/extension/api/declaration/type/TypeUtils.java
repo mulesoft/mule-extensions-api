@@ -40,7 +40,9 @@ public final class TypeUtils {
    */
   public static Collection<Field> getParameterFields(Class<?> declaringType) {
     return getAllFields(declaringType).stream()
-        .filter(field -> (field.getAnnotation(Parameter.class) != null || field.getAnnotation(ParameterGroup.class) != null)
+        .filter(field -> (field.getAnnotation(Parameter.class) != null || field.getAnnotation(ParameterGroup.class) != null
+            || field.getAnnotation(org.mule.sdk.api.annotation.param.Parameter.class) != null
+            || field.getAnnotation(org.mule.sdk.api.annotation.param.ParameterGroup.class) != null)
             && field.getAnnotation(Ignore.class) == null)
         .collect(toList());
   }
