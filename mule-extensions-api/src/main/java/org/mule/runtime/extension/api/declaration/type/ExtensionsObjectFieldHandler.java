@@ -314,7 +314,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     if (field.getAnnotation(FlowReference.class) != null) {
       if (getBoolean(MULE_FLOW_REFERERENCE_FIELDS_MATCH_ANY)) {
-        fieldBuilder.with(new StereotypeTypeAnnotation(asList(FLOW, SUB_FLOW)));
+        fieldBuilder.with(new StereotypeTypeAnnotation(asList(FLOW, SUB_FLOW, OBJECT_STORE, CONFIG)));
       } else {
         fieldBuilder.with(new StereotypeTypeAnnotation(singletonList(FLOW)));
       }
