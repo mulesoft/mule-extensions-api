@@ -127,7 +127,7 @@
         <allureJunitVersion>2.8.1</allureJunitVersion>
         <allureReportVersion>2.8.1</allureReportVersion>
         <allure.maven.plugin.version>2.9</allure.maven.plugin.version>
-        <jacoco.version>0.8.2</jacoco.version>
+        <jacoco.version>0.8.6</jacoco.version>
         <javaFormatter.plugin.version>2.0.1</javaFormatter.plugin.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
