@@ -164,7 +164,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     ExclusiveOptionals exclusiveOptionals = field.getType().getAnnotation(ExclusiveOptionals.class);
     if (exclusiveOptionals != null) {
       Set<String> exclusiveParameters = getParameterFields(field.getType()).stream()
-          .filter(f -> f.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class))
+          .filter(f -> f.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class)
+              || f.isAnnotationPresent(org.mule.sdk.api.annotation.param.Optional.class))
           .map(f -> f.getAnnotation(Alias.class) != null ? f.getAnnotation(Alias.class).value() : f.getName())
           .collect(Collectors.toCollection(LinkedHashSet::new));
       fieldBuilder.with(new ExclusiveOptionalsTypeAnnotation(exclusiveParameters, exclusiveOptionals.isOneRequired()));
@@ -260,7 +261,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       return;
     }
 
-    final boolean isOptional = field.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class);
+    final boolean isOptional = field.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.Optional.class);
     final boolean isParameterGroup = field.isAnnotationPresent(ParameterGroup.class);
 
     if (!isOptional && !isParameterGroup) {
@@ -337,6 +339,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     Optional<Content> contentAnnotation = ofNullable(field.getAnnotation(Content.class));
     Optional<org.mule.runtime.extension.api.annotation.param.Optional> optionalAnnotation =
         ofNullable(field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
+    Optional<org.mule.sdk.api.annotation.param.Optional> sdkOptionalAnnotation =
+        ofNullable(field.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class));
     fieldBuilder.required(true);
 
     contentAnnotation.ifPresent(content -> {
@@ -349,6 +353,13 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     });
 
     optionalAnnotation.ifPresent(optional -> {
+      fieldBuilder.required(false);
+      if (getDefaultValue(optional) != null) {
+        fieldBuilder.with(new DefaultValueAnnotation(optional.defaultValue()));
+      }
+    });
+
+    sdkOptionalAnnotation.ifPresent(optional -> {
       fieldBuilder.required(false);
       if (getDefaultValue(optional) != null) {
         fieldBuilder.with(new DefaultValueAnnotation(optional.defaultValue()));
