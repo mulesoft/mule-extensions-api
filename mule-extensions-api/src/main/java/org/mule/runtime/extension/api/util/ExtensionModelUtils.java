@@ -447,9 +447,9 @@ public class ExtensionModelUtils {
    * @return A default value or {@code null}
    */
   public static Object getDefaultValue(AccessibleObject object) {
-    String defaultValue = getDefaultValue(object.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
+    String defaultValue = getDefaultValue(object.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class));
     if (defaultValue == null) {
-      defaultValue = getDefaultValue(object.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class));
+      defaultValue = getDefaultValue(object.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
     }
     return defaultValue;
   }

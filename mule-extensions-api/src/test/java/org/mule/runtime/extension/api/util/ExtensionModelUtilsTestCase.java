@@ -31,6 +31,8 @@ import org.junit.Test;
 
 public class ExtensionModelUtilsTestCase {
 
+  private final static String DEFAULT_VALUE = "DEFAULT_VALUE";
+
   @Test
   public void componentWithImplicitAssociatedConfig() {
     ExtensionModel em = mock(ExtensionModel.class);
@@ -121,25 +123,37 @@ public class ExtensionModelUtilsTestCase {
   }
 
   @Test
-  public void accesibleObjectDeprecatedOptionalWithDefaultValue() {
-    final String defaultValue = "DEFAULT_VALUE";
+  public void accesibleObjectDeprecatedOptionalDefaultValue() {
     org.mule.runtime.extension.api.annotation.param.Optional optional =
         mock(org.mule.runtime.extension.api.annotation.param.Optional.class);
-    when(optional.defaultValue()).thenReturn(defaultValue);
+    when(optional.defaultValue()).thenReturn(DEFAULT_VALUE);
     AccessibleObject object = mock(AccessibleObject.class);
     when(object.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class)).thenReturn(optional);
 
-    assertThat(getDefaultValue(object), is("DEFAULT_VALUE"));
+    assertThat(getDefaultValue(object), is(DEFAULT_VALUE));
   }
 
   @Test
-  public void accesibleObjectOptionalWithDefaultValue() {
-    final String defaultValue = "DEFAULT_VALUE";
+  public void accesibleObjectOptionalDefaultValue() {
     org.mule.sdk.api.annotation.param.Optional optional = mock(org.mule.sdk.api.annotation.param.Optional.class);
-    when(optional.defaultValue()).thenReturn(defaultValue);
+    when(optional.defaultValue()).thenReturn(DEFAULT_VALUE);
     AccessibleObject object = mock(AccessibleObject.class);
     when(object.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class)).thenReturn(optional);
 
-    assertThat(getDefaultValue(object), is("DEFAULT_VALUE"));
+    assertThat(getDefaultValue(object), is(DEFAULT_VALUE));
+  }
+
+  @Test
+  public void accesibleObjectOptionalDefaultValueWithBothAnnotations() {
+    org.mule.sdk.api.annotation.param.Optional optional = mock(org.mule.sdk.api.annotation.param.Optional.class);
+    when(optional.defaultValue()).thenReturn(DEFAULT_VALUE);
+    org.mule.runtime.extension.api.annotation.param.Optional deprecatedOptional =
+        mock(org.mule.runtime.extension.api.annotation.param.Optional.class);
+    when(deprecatedOptional.defaultValue()).thenReturn("SOMETHING");
+    AccessibleObject object = mock(AccessibleObject.class);
+    when(object.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class)).thenReturn(optional);
+    when(object.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class)).thenReturn(deprecatedOptional);
+
+    assertThat(getDefaultValue(object), is(DEFAULT_VALUE));
   }
 }

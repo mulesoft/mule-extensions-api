@@ -352,19 +352,11 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       }
     });
 
-    optionalAnnotation.ifPresent(optional -> {
-      fieldBuilder.required(false);
-      if (getDefaultValue(optional) != null) {
-        fieldBuilder.with(new DefaultValueAnnotation(optional.defaultValue()));
-      }
-    });
-
-    sdkOptionalAnnotation.ifPresent(optional -> {
-      fieldBuilder.required(false);
-      if (getDefaultValue(optional) != null) {
-        fieldBuilder.with(new DefaultValueAnnotation(optional.defaultValue()));
-      }
-    });
+    if (sdkOptionalAnnotation.isPresent()) {
+      optionalField(fieldBuilder, getDefaultValue(sdkOptionalAnnotation.get()));
+    } else if (optionalAnnotation.isPresent()) {
+      optionalField(fieldBuilder, getDefaultValue(optionalAnnotation.get()));
+    }
 
     if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())) {
       fieldBuilder.required(false);
@@ -378,6 +370,13 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
                                         ObjectTypeBuilder builder) {
     if (!clazz.isInterface()) {
       new DefaultObjectFieldHandler().handleFields(clazz, typeHandlerManager, context, builder);
+    }
+  }
+
+  private void optionalField(ObjectFieldTypeBuilder fieldBuilder, String defaultValue) {
+    fieldBuilder.required(false);
+    if (defaultValue != null) {
+      fieldBuilder.with(new DefaultValueAnnotation(defaultValue));
     }
   }
 }
