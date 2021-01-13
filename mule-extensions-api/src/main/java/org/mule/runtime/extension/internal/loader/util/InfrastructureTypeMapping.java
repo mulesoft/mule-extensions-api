@@ -54,6 +54,7 @@ public final class InfrastructureTypeMapping {
       .put(TlsContextFactory.class, new InfrastructureType(TLS_PARAMETER_NAME, 8))
       .put(SourceTransactionalAction.class, new InfrastructureType(TRANSACTIONAL_ACTION_PARAMETER_NAME, 6))
       .put(OperationTransactionalAction.class, new InfrastructureType(TRANSACTIONAL_ACTION_PARAMETER_NAME, 7))
+      .put(org.mule.sdk.api.tx.OperationTransactionalAction.class, new InfrastructureType(TRANSACTIONAL_ACTION_PARAMETER_NAME, 7))
       .put(TransactionType.class, new InfrastructureType(TRANSACTIONAL_TYPE_PARAMETER_NAME, 9))
       .put(SchedulingStrategy.class, new InfrastructureType(SCHEDULING_STRATEGY_PARAMETER_NAME, 10))
       .put(ErrorMapping.class, new InfrastructureType(ERROR_MAPPINGS_PARAMETER_NAME, 11))
