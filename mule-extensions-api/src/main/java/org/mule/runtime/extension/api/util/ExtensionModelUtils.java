@@ -412,7 +412,7 @@ public class ExtensionModelUtils {
   }
 
   /**
-     * Returns the default value associated with the given annotation.
+   * Returns the default value associated with the given annotation.
    * <p>
    * The reason for this method to be instead of simply using
    * {@link org.mule.sdk.api.annotation.param.Optional#defaultValue()} is a limitation on the Java language to have
@@ -447,11 +447,12 @@ public class ExtensionModelUtils {
    * @return A default value or {@code null}
    */
   public static Object getDefaultValue(AccessibleObject object) {
-    String defaultValue = getDefaultValue(object.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class));
-    if (defaultValue == null) {
-      defaultValue = getDefaultValue(object.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
+    org.mule.sdk.api.annotation.param.Optional optional = object.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class);
+    if (optional != null) {
+      return getDefaultValue(optional);
+    } else {
+      return getDefaultValue(object.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
     }
-    return defaultValue;
   }
 
   /**
