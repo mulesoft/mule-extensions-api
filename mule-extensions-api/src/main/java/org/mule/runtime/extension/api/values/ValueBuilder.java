@@ -7,9 +7,11 @@
 package org.mule.runtime.extension.api.values;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.internal.utils.StringUtils.isNotEmpty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import org.mule.runtime.api.value.Value;
 
 import java.util.LinkedHashSet;
@@ -157,7 +159,8 @@ public class ValueBuilder {
    */
   public Value build() {
     String name = isNotEmpty(displayName) ? displayName : id;
-    return new ImmutableValue(id, name, childs.stream().map(ValueBuilder::build).collect(toSet()),
-                              partName);
+    return new ImmutableValue(id, name, childs.stream().map(ValueBuilder::build).collect(toCollection(LinkedHashSet::new)),
+            partName);
+
   }
 }
