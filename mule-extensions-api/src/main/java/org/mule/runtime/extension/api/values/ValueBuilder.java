@@ -160,7 +160,7 @@ public class ValueBuilder {
   public Value build() {
     String name = isNotEmpty(displayName) ? displayName : id;
     return new ImmutableValue(id, name, childs.stream().map(ValueBuilder::build).collect(toCollection(LinkedHashSet::new)),
-            partName);
+                              partName);
 
   }
 }
