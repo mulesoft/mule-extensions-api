@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader;
 
 import static java.util.Collections.singletonList;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.empty;
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
@@ -21,6 +23,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
 import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationEnricher;
 
@@ -32,6 +35,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConfigRefDeclarationEnricherTestCase {
+
+  private static final String CONFIG_REF_NAME = "config-ref";
 
   @Mock
   private ExtensionLoadingContext extensionLoadingContext;
@@ -66,7 +71,7 @@ public class ConfigRefDeclarationEnricherTestCase {
     enricher.enrich(extensionLoadingContext);
 
     ParameterDeclaration parameterDeclaration = operationDeclaration.getAllParameters().iterator().next();
-    assertThat(parameterDeclaration.getName(), is("config-ref"));
+    assertThat(parameterDeclaration.getName(), equalTo(CONFIG_REF_NAME));
     assertThat(parameterDeclaration.getModelProperty(SyntheticModelModelProperty.class), is(notNullValue()));
   }
 
@@ -75,5 +80,46 @@ public class ConfigRefDeclarationEnricherTestCase {
     enricher.enrich(extensionLoadingContext);
 
     assertThat(operationDeclaration.getAllParameters(), is(empty()));
+  }
+
+  @Test
+  public void nonImplicitConfigHasRequiredConfigRef() {
+    configurationDeclaration.addOperation(operationDeclaration);
+    ParameterDeclaration param = new ParameterDeclaration("required");
+    param.setRequired(true);
+    configurationDeclaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(param);
+
+    enricher.enrich(extensionLoadingContext);
+
+    ParameterDeclaration configRefDeclaration = operationDeclaration.getAllParameters().iterator().next();
+    assertThat(configRefDeclaration.getName(), equalTo(CONFIG_REF_NAME));
+    assertThat(configRefDeclaration.isRequired(), is(true));
+  }
+
+  @Test
+  public void implicitConfigHasOptionalConfigRef() {
+    configurationDeclaration.addOperation(operationDeclaration);
+    configurationDeclaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(new ParameterDeclaration("optional"));
+
+    enricher.enrich(extensionLoadingContext);
+
+    ParameterDeclaration configRefDeclaration = operationDeclaration.getAllParameters().iterator().next();
+    assertThat(configRefDeclaration.getName(), equalTo(CONFIG_REF_NAME));
+    assertThat(configRefDeclaration.isRequired(), is(false));
+  }
+
+  @Test
+  public void forcedImplicitConfigHasRequiredConfigRef() {
+    configurationDeclaration.addOperation(operationDeclaration);
+    ParameterDeclaration param = new ParameterDeclaration("required");
+    param.setRequired(true);
+    configurationDeclaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(param);
+    configurationDeclaration.addModelProperty(new NoImplicitModelProperty());
+
+    enricher.enrich(extensionLoadingContext);
+
+    ParameterDeclaration configRefDeclaration = operationDeclaration.getAllParameters().iterator().next();
+    assertThat(configRefDeclaration.getName(), equalTo(CONFIG_REF_NAME));
+    assertThat(configRefDeclaration.isRequired(), is(true));
   }
 }

@@ -9,11 +9,12 @@ package org.mule.runtime.extension.api.util;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.of;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.*;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.componentHasAnImplicitConfiguration;
 
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -21,6 +22,7 @@ import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 
 import org.junit.Test;
 
@@ -79,6 +81,35 @@ public class ExtensionModelUtilsTestCase {
     ConfigurationModel c = mock(ConfigurationModel.class);
     ParameterModel param = mock(ParameterModel.class);
     when(param.isRequired()).thenReturn(true);
+    when(c.getAllParameterModels()).thenReturn(singletonList(param));
+    when(c.getSourceModels()).thenReturn(singletonList(source));
+    when(em.getConfigurationModels()).thenReturn(singletonList(c));
+
+    assertThat(componentHasAnImplicitConfiguration(em, source), is(false));
+  }
+
+  @Test
+  public void componentWithImplicitConfigs() {
+    ExtensionModel em = mock(ExtensionModel.class);
+    SourceModel source = mock(SourceModel.class);
+    ConfigurationModel c = mock(ConfigurationModel.class);
+    ParameterModel param = mock(ParameterModel.class);
+    when(param.isRequired()).thenReturn(false);
+    when(c.getAllParameterModels()).thenReturn(singletonList(param));
+    when(c.getSourceModels()).thenReturn(singletonList(source));
+    when(em.getConfigurationModels()).thenReturn(singletonList(c));
+
+    assertThat(componentHasAnImplicitConfiguration(em, source), is(true));
+  }
+
+  @Test
+  public void componentWithForcedNoImplicit() {
+    ExtensionModel em = mock(ExtensionModel.class);
+    SourceModel source = mock(SourceModel.class);
+    ConfigurationModel c = mock(ConfigurationModel.class);
+    when(c.getModelProperty(NoImplicitModelProperty.class)).thenReturn(of(new NoImplicitModelProperty()));
+    ParameterModel param = mock(ParameterModel.class);
+    when(param.isRequired()).thenReturn(false);
     when(c.getAllParameterModels()).thenReturn(singletonList(param));
     when(c.getSourceModels()).thenReturn(singletonList(source));
     when(em.getConfigurationModels()).thenReturn(singletonList(c));

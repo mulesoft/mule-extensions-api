@@ -1845,6 +1845,7 @@
       "OAuth": {
         "grantTypes": [
           {
+            "grantType": "Authorization Code",
             "accessTokenUrl": "http://accessToken.url",
             "authorizationUrl": "http://authorization.url",
             "accessTokenExpr": "#[accessToken]",
@@ -3892,6 +3893,7 @@
       "OAuth": {
         "grantTypes": [
           {
+            "grantType": "Authorization Code",
             "accessTokenUrl": "http://accessToken.url",
             "authorizationUrl": "http://authorization.url",
             "accessTokenExpr": "#[accessToken]",

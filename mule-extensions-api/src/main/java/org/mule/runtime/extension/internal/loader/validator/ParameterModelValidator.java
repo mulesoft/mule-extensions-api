@@ -12,6 +12,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isBasic;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMapOfStrings;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.hasExpressionDefaultValue;
 import static org.mule.runtime.extension.api.util.NameUtils.CONFIGURATION;
@@ -223,7 +224,7 @@ public final class ParameterModelValidator implements ExtensionModelValidator {
                    parameterModel.getName(), ownerModelType, ownerName);
         }
 
-        if (!isBasic(parameterModel.getType())) {
+        if (!isBasic(parameterModel.getType()) && !isMapOfStrings(parameterModel.getType())) {
           addError(parameterModel,
                    "Parameter '%s' in the %s [%s] is an OAuth parameter but is a %s. "
                        + "Only basic types are supported on OAuth parameters",
