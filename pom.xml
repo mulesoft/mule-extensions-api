@@ -140,7 +140,7 @@
         <revapi-maven-plugin.version>0.9.5</revapi-maven-plugin.version>
         <oldMuleArtifactVersion>1.1.4</oldMuleArtifactVersion>
 
-        <muleRevapiExtensionVersion>1.1.3-HF-SNAPSHOT</muleRevapiExtensionVersion>
+        <muleRevapiExtensionVersion>1.1.3-20210222</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
     </properties>
