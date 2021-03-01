@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.handler.TypeHandlerManagerFactory;
 
@@ -33,6 +32,7 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
                                      new CursorProviderTypeHandler(),
                                      new TlsContextClassHandler(),
                                      new ObjectStoreClassHandler(),
+                                     new ExtensionObjectClassTypeHandler(),
                                      new ExtensionObjectTypeHandler(new ExtensionsObjectFieldHandler()));
   }
 }
