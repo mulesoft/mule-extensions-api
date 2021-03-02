@@ -39,7 +39,7 @@ public class ExtensionDeclarerTestCase {
 
   @Test
   public void doNotDeclareObject() {
-    assertNotDeclared(Object.class);
+    assertNotDeclared(ClassForTesting.class);
   }
 
   @Test
@@ -55,6 +55,9 @@ public class ExtensionDeclarerTestCase {
   private void assertNotDeclared(Class<?> type) {
     declarer.withType((ObjectType) typeLoader.load(type));
     assertThat(declarer.getDeclaration().getTypes(), hasSize(0));
+  }
+
+  private class ClassForTesting {
   }
 
 }
