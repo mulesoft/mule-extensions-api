@@ -16,8 +16,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used on a {@link Class} also annotated with {@link Extension}, to list
- * the {@link ConnectionProvider}s that the extension exposes.
+ * Annotation to be used on a {@link Class} also annotated with {@link Extension}, to list the {@link ConnectionProvider}s that
+ * the extension exposes.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.connectivity.ConnectionProviders} instead.

@@ -13,23 +13,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies classes and resources that an extension should
- * expose beyond the default {@link ClassLoader} isolation.
+ * Specifies classes and resources that an extension should expose beyond the default {@link ClassLoader} isolation.
  * <p>
- * This annotation's usage is optional. By default, the SDK
- * will determine at compile time which are the minimum set
- * of classes and resources that the extension needs to expose
- * in order to function. This annotation's purpose is to allow
- * adding additional artifacts in border cases. Using this annotation
- * should not be something usual. When needed, this annotation
- * should be placed on the same class that is annotated with
- * {@link Extension}
+ * This annotation's usage is optional. By default, the SDK will determine at compile time which are the minimum set of classes
+ * and resources that the extension needs to expose in order to function. This annotation's purpose is to allow adding additional
+ * artifacts in border cases. Using this annotation should not be something usual. When needed, this annotation should be placed
+ * on the same class that is annotated with {@link Extension}
  * <p>
- * The referenced classes and resources will be visible
- * by the runtime and other extensions. <b>USE WITH CARE</b>,
- * negligent use of this annotation could result in class path
- * issues when exported classes conflict with those in the runtime
- * or other extensions consuming the referenced types.
+ * The referenced classes and resources will be visible by the runtime and other extensions. <b>USE WITH CARE</b>, negligent use
+ * of this annotation could result in class path issues when exported classes conflict with those in the runtime or other
+ * extensions consuming the referenced types.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Export} instead.

@@ -9,8 +9,7 @@ package org.mule.runtime.extension.api.connectivity;
 import org.mule.runtime.extension.api.tx.Transactional;
 
 /**
- * Connections which support transaction must implement this interface
- * in order to start or join a current transaction.
+ * Connections which support transaction must implement this interface in order to start or join a current transaction.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.connectivity.TransactionalConnection} instead.

@@ -19,8 +19,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declares the annotated {@link ParameterModel}'s {@link MetadataType} to the type represented by the provided element in
- * the XSD Schema.
+ * Declares the annotated {@link ParameterModel}'s {@link MetadataType} to the type represented by the provided element in the XSD
+ * Schema.
  * <p>
  * Can only be used on {@link String} or {@link InputStream} parameters in order to be correctly coerced.
  *
@@ -33,7 +33,8 @@ import java.lang.annotation.Target;
 public @interface InputXmlType {
 
   /**
-   * @return the XSD schema file where the element to be loaded is defined. The schema must live in the extension resources in order to be located.
+   * @return the XSD schema file where the element to be loaded is defined. The schema must live in the extension resources in
+   *         order to be located.
    */
   String schema();
 

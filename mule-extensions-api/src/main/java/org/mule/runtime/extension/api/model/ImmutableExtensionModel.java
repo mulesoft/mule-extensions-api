@@ -66,33 +66,33 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   /**
    * Creates a new instance with the given state
    *
-   * @param name                  The extension's name. Cannot be blank
-   * @param description           The extension's description
-   * @param version               The extension's version
-   * @param vendor                The extension's vendor name
-   * @param category              The extension's {@link Category}
-   * @param configurationModels   A {@link List} with the extension's {@link ConfigurationModel configurationModels}
-   * @param operationModels       A {@link List} with the extension's {@link OperationModel operationModels}
-   * @param connectionProviders   A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-   * @param sourceModels          A {@link List} with the extension's {@link SourceModel message source models}
-   * @param functions             A {@link List} with the extension's {@link FunctionModel function models}
-   * @param displayModel          A model which contains directive about how the extension is displayed in the UI
-   * @param xmlDslModel           The {@link XmlDslModel} which describes the XML language
-   * @param subTypes              A {@link Set} with the sub types defined by this extension
-   * @param types                 A {@link Set} with the custom types defined by this extension
-   * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
-   *                              extensions
-   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param name The extension's name. Cannot be blank
+   * @param description The extension's description
+   * @param version The extension's version
+   * @param vendor The extension's vendor name
+   * @param category The extension's {@link Category}
+   * @param configurationModels A {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels A {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels A {@link List} with the extension's {@link SourceModel message source models}
+   * @param functions A {@link List} with the extension's {@link FunctionModel function models}
+   * @param displayModel A model which contains directive about how the extension is displayed in the UI
+   * @param xmlDslModel The {@link XmlDslModel} which describes the XML language
+   * @param subTypes A {@link Set} with the sub types defined by this extension
+   * @param types A {@link Set} with the custom types defined by this extension
+   * @param resources A {@link Set} with the paths to all the resources exposed by this extension
+   * @param importedTypes A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
+   *        extensions
+   * @param errors A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
-   * @param privilegedPackages    a {@link Set} of Java package names to export on the extension's privileged API.
-   * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
-   * @param modelProperties       A {@link Set} of custom properties which extend this model
+   * @param privilegedPackages a {@link Set} of Java package names to export on the extension's privileged API.
+   * @param privilegedArtifacts a {@link Set} of artifact ID that have access to the extension's privileged API.
+   * @param modelProperties A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
-   *                                  with non unique names, or if {@code name} is blank.
+   *         with non unique names, or if {@code name} is blank.
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
-   * {@link #ImmutableExtensionModel(String, String, String, String, Category, List, List, List, List, List, List, DisplayModel, XmlDslModel, Set, Set, Set, Set, Set, Set, Set, Set, Set, Set)}
-   * instead
+   *             {@link #ImmutableExtensionModel(String, String, String, String, Category, List, List, List, List, List, List, DisplayModel, XmlDslModel, Set, Set, Set, Set, Set, Set, Set, Set, Set, Set)}
+   *             instead
    */
   @Deprecated
   public ImmutableExtensionModel(String name,
@@ -124,31 +124,31 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   /**
    * Creates a new instance with the given state
    *
-   * @param name                  The extension's name. Cannot be blank
-   * @param description           The extension's description
-   * @param version               The extension's version
-   * @param vendor                The extension's vendor name
-   * @param category              The extension's {@link Category}
-   * @param configurationModels   A {@link List} with the extension's {@link ConfigurationModel configurationModels}
-   * @param operationModels       A {@link List} with the extension's {@link OperationModel operationModels}
-   * @param connectionProviders   A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-   * @param sourceModels          A {@link List} with the extension's {@link SourceModel message source models}
-   * @param functions             A {@link List} with the extension's {@link FunctionModel function models}
-   * @param displayModel          A model which contains directive about how the extension is displayed in the UI
-   * @param xmlDslModel           The {@link XmlDslModel} which describes the XML language
-   * @param subTypes              A {@link Set} with the sub types defined by this extension
-   * @param types                 A {@link Set} with the custom types defined by this extension
-   * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
-   *                              extensions
-   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param name The extension's name. Cannot be blank
+   * @param description The extension's description
+   * @param version The extension's version
+   * @param vendor The extension's vendor name
+   * @param category The extension's {@link Category}
+   * @param configurationModels A {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels A {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels A {@link List} with the extension's {@link SourceModel message source models}
+   * @param functions A {@link List} with the extension's {@link FunctionModel function models}
+   * @param displayModel A model which contains directive about how the extension is displayed in the UI
+   * @param xmlDslModel The {@link XmlDslModel} which describes the XML language
+   * @param subTypes A {@link Set} with the sub types defined by this extension
+   * @param types A {@link Set} with the custom types defined by this extension
+   * @param resources A {@link Set} with the paths to all the resources exposed by this extension
+   * @param importedTypes A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
+   *        extensions
+   * @param errors A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
-   * @param privilegedPackages    a {@link Set} of Java package names to export on the extension's privileged API.
-   * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
-   * @param modelProperties       A {@link Set} of custom properties which extend this model
-   * @param notifications         A {@link Set} of {@link NotificationModel} which describes the extension's notifications
+   * @param privilegedPackages a {@link Set} of Java package names to export on the extension's privileged API.
+   * @param privilegedArtifacts a {@link Set} of artifact ID that have access to the extension's privileged API.
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param notifications A {@link Set} of {@link NotificationModel} which describes the extension's notifications
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
-   *                                  with non unique names, or if {@code name} is blank.
+   *         with non unique names, or if {@code name} is blank.
    */
   public ImmutableExtensionModel(String name,
                                  String description,
@@ -180,33 +180,33 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   /**
    * Creates a new instance with the given state
    *
-   * @param name                  The extension's name. Cannot be blank
-   * @param description           The extension's description
-   * @param version               The extension's version
-   * @param vendor                The extension's vendor name
-   * @param category              The extension's {@link Category}
-   * @param configurationModels   A {@link List} with the extension's {@link ConfigurationModel configurationModels}
-   * @param operationModels       A {@link List} with the extension's {@link OperationModel operationModels}
-   * @param connectionProviders   A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
-   * @param sourceModels          A {@link List} with the extension's {@link SourceModel message source models}
-   * @param functions             A {@link List} with the extension's {@link FunctionModel function models}
-   * @param displayModel          A model which contains directive about how the extension is displayed in the UI
-   * @param xmlDslModel           The {@link XmlDslModel} which describes the XML language
-   * @param subTypes              A {@link Set} with the sub types defined by this extension
-   * @param types                 A {@link Set} with the custom types defined by this extension
-   * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
-   *                              extensions
-   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param name The extension's name. Cannot be blank
+   * @param description The extension's description
+   * @param version The extension's version
+   * @param vendor The extension's vendor name
+   * @param category The extension's {@link Category}
+   * @param configurationModels A {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels A {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels A {@link List} with the extension's {@link SourceModel message source models}
+   * @param functions A {@link List} with the extension's {@link FunctionModel function models}
+   * @param displayModel A model which contains directive about how the extension is displayed in the UI
+   * @param xmlDslModel The {@link XmlDslModel} which describes the XML language
+   * @param subTypes A {@link Set} with the sub types defined by this extension
+   * @param types A {@link Set} with the custom types defined by this extension
+   * @param resources A {@link Set} with the paths to all the resources exposed by this extension
+   * @param importedTypes A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
+   *        extensions
+   * @param errors A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
-   * @param privilegedPackages    a {@link Set} of Java package names to export on the extension's privileged API.
-   * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
-   * @param modelProperties       A {@link Set} of custom properties which extend this model
-   * @param notifications         A {@link Set} of {@link NotificationModel} which describes the extension's notifications
-   * @param deprecationModel      a {@link DeprecationModel} describing if the extension is deprecated. A null value means
-   *                              it is not deprecated.
+   * @param privilegedPackages a {@link Set} of Java package names to export on the extension's privileged API.
+   * @param privilegedArtifacts a {@link Set} of artifact ID that have access to the extension's privileged API.
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param notifications A {@link Set} of {@link NotificationModel} which describes the extension's notifications
+   * @param deprecationModel a {@link DeprecationModel} describing if the extension is deprecated. A null value means it is not
+   *        deprecated.
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
-   *                                  with non unique names, or if {@code name} is blank.
+   *         with non unique names, or if {@code name} is blank.
    */
   public ImmutableExtensionModel(String name,
                                  String description,

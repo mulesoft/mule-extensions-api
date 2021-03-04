@@ -15,9 +15,9 @@ import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
 import java.util.Optional;
 
 /**
- * Provides message correlation information. Operations and source callbacks (such as methods annotated with
- * {@link OnSuccess} or @{@link OnError}) can obtain an instance in order to obtain information regarding how the
- * message being processed correlates to its context.
+ * Provides message correlation information. Operations and source callbacks (such as methods annotated with {@link OnSuccess}
+ * or @{@link OnError}) can obtain an instance in order to obtain information regarding how the message being processed correlates
+ * to its context.
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.runtime.parameter.CorrelationInfo} instead.

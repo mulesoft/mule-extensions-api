@@ -62,8 +62,7 @@ public final class DslSyntaxUtils {
   private DslSyntaxUtils() {}
 
   /**
-   * Provides a sanitized, hyphenized, space-free name that can be used as an XML element-name
-   * for a given {@link NamedObject}
+   * Provides a sanitized, hyphenized, space-free name that can be used as an XML element-name for a given {@link NamedObject}
    *
    * @param component the {@link NamedObject} who's name we want to convert
    * @return a sanitized, hyphenized, space-free name that can be used as an XML element-name

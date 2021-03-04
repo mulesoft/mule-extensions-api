@@ -30,8 +30,8 @@ import java.lang.annotation.Target;
 public @interface ClassValue {
 
   /**
-   * @return The Fully Qualified Name of all base classes and interfaces that the referenced class is required to extend
-   * or implement.
+   * @return The Fully Qualified Name of all base classes and interfaces that the referenced class is required to extend or
+   *         implement.
    */
   String[] extendsOrImplements() default "";
 }

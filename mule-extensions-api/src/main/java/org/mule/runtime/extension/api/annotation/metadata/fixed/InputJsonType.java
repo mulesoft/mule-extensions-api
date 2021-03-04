@@ -23,8 +23,7 @@ import java.util.Map;
 /**
  * Declares the annotated {@link ParameterModel}'s {@link MetadataType} to the type represented by the provided JSON Schema.
  * <p>
- * Can only be used on {@link Map}, {@link String} or {@link InputStream} parameters in order to
- * be correctly coerced.
+ * Can only be used on {@link Map}, {@link String} or {@link InputStream} parameters in order to be correctly coerced.
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.InputJsonType} instead.
@@ -35,7 +34,8 @@ import java.util.Map;
 public @interface InputJsonType {
 
   /**
-   * @return a JSON schema that describes the type structure. The schema must live in the extension resources in order to be located.
+   * @return a JSON schema that describes the type structure. The schema must live in the extension resources in order to be
+   *         located.
    */
   String schema();
 }

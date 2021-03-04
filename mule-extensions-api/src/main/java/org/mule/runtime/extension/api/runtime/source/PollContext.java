@@ -17,8 +17,8 @@ import java.util.function.Consumer;
 
 /**
  * Contains context associated to each polling execution, and allows to dispatch items for execution through the
- * {@link #accept(Consumer)} method. Depending on how the supplied {@link PollItem} is configured, the runtime will
- * automatically apply watermarking, idempotency, etc.
+ * {@link #accept(Consumer)} method. Depending on how the supplied {@link PollItem} is configured, the runtime will automatically
+ * apply watermarking, idempotency, etc.
  *
  * @param <T> the generic type for the generated message's payload
  * @param <A> the generic type for the generated message's attributes
@@ -57,8 +57,8 @@ public interface PollContext<T, A> {
   }
 
   /**
-   * Submits an item to be processed. The runtime will supply a {@link PollItem} in which the {@link Result} and other
-   * options will be set
+   * Submits an item to be processed. The runtime will supply a {@link PollItem} in which the {@link Result} and other options
+   * will be set
    *
    * @param consumer a {@link Consumer} of a {@link PollItem}
    * @return a {@link PollItemStatus}
@@ -74,8 +74,8 @@ public interface PollContext<T, A> {
   Optional<Serializable> getWatermark();
 
   /**
-   * Whether the source has received the stopping signal. It is a good practice to check for this condition before engaging on
-   * a time consuming task.
+   * Whether the source has received the stopping signal. It is a good practice to check for this condition before engaging on a
+   * time consuming task.
    *
    * @return Whether the source has received the stopping signal or not.
    */
@@ -83,8 +83,8 @@ public interface PollContext<T, A> {
 
   /**
    * Allows to set a custom {@link Comparator} to evaluate watermark values. If not specified and {@link Comparable} values are
-   * used as watermarks, then this method is only optional. Otherwise, exceptions will be thrown if a proper comparator was
-   * not set.
+   * used as watermarks, then this method is only optional. Otherwise, exceptions will be thrown if a proper comparator was not
+   * set.
    *
    * @param comparator a custom {@link Comparator}
    * @throws IllegalArgumentException if the {@code comparator} is {@code null}
@@ -122,11 +122,11 @@ public interface PollContext<T, A> {
     PollItem<T, A> setResult(Result<T, A> result);
 
     /**
-     * Sets the watermark value associated to this item. This is the value that will be used to evaluate this item
-     * against the current watermark. If not provided, then no watermark filter will be applied.
+     * Sets the watermark value associated to this item. This is the value that will be used to evaluate this item against the
+     * current watermark. If not provided, then no watermark filter will be applied.
      * <p>
-     * Remember that if the {@code watermark} value is not {@link Comparable}, then a custom {@link Comparator} should be
-     * provided through {@link PollContext#setWatermarkComparator(Comparator)}
+     * Remember that if the {@code watermark} value is not {@link Comparable}, then a custom {@link Comparator} should be provided
+     * through {@link PollContext#setWatermarkComparator(Comparator)}
      *
      * @param watermark a watermark value
      * @return {@code this} instance

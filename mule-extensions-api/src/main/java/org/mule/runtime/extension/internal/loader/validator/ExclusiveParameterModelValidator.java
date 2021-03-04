@@ -22,9 +22,9 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import java.util.Set;
 
 /**
- * This validator makes sure that all {@link ParameterGroupModel group models} which contain exclusive
- * parameters are correctly defined. Which means that it must contain more than one optional parameters,
- * and those optional parameter's {@link MetadataType} must be either an {@link ObjectType} or a {@link SimpleType}.
+ * This validator makes sure that all {@link ParameterGroupModel group models} which contain exclusive parameters are correctly
+ * defined. Which means that it must contain more than one optional parameters, and those optional parameter's
+ * {@link MetadataType} must be either an {@link ObjectType} or a {@link SimpleType}.
  *
  * @since 1.0
  */

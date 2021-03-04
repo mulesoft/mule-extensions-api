@@ -14,8 +14,8 @@ import org.mule.runtime.api.component.ConfigurationProperties;
 /**
  * Utilities for Platform Managed OAuth Connections
  * <p>
- * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
- * Backwards compatibility is not guaranteed.
+ * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+ * compatibility is not guaranteed.
  *
  * @since 1.3.0
  */

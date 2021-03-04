@@ -16,8 +16,8 @@ import org.mule.runtime.api.metadata.MetadataKey;
 
 
 /**
- * A {@link ModelProperty} for {@link ParameterModel} of {@link SourceModel} and {@link OperationModel}
- * parameters that indicates that the is a part of a {@link MetadataKey}.
+ * A {@link ModelProperty} for {@link ParameterModel} of {@link SourceModel} and {@link OperationModel} parameters that indicates
+ * that the is a part of a {@link MetadataKey}.
  *
  * @since 1.0
  */
@@ -39,8 +39,8 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    * Creates a new instance.
    *
    * @param order the order of the parameter in the {@link MetadataKey};
-   * @param providedByKeyResolver whether or not this part will be provided by the
-   *  keys resolver associated to the container of this part
+   * @param providedByKeyResolver whether or not this part will be provided by the keys resolver associated to the container of
+   *        this part
    */
   public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
     checkArgument(order > 0,
@@ -75,9 +75,8 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
   }
 
   /**
-   * @return whether or not this part will be provided by the
-   * keys resolver associated to the container of this part, or if this part
-   * has no predefined values and has to be provided by the user entirely.
+   * @return whether or not this part will be provided by the keys resolver associated to the container of this part, or if this
+   *         part has no predefined values and has to be provided by the user entirely.
    */
   public boolean isProvidedByKeyResolver() {
     return providedByKeyResolver;

@@ -21,8 +21,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * {@link TypeAdapter} implementation for {@link ErrorModel}, which serializes it as error identifiers.
- * An error identifier follows the {@link ComponentIdentifier} structure, {@code errorNamespace:errorType}.
+ * {@link TypeAdapter} implementation for {@link ErrorModel}, which serializes it as error identifiers. An error identifier
+ * follows the {@link ComponentIdentifier} structure, {@code errorNamespace:errorType}.
  *
  * @since 1.0
  */

@@ -53,8 +53,7 @@ public interface DslSyntaxResolver {
   Optional<DslElementSyntax> resolve(MetadataType type);
 
   /**
-   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has
-   * to be shown as an inline element of the DSL
+   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has to be shown as an inline element of the DSL
    *
    * @param group the {@link ParameterGroupModel} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link ParameterGroupModel group}

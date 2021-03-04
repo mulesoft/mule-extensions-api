@@ -11,8 +11,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSO
 import java.util.Optional;
 
 /**
- * {@link StereotypeDefinition} for any {@code validator} component. 
- * A validator is also a {@link ProcessorStereotype processor}
+ * {@link StereotypeDefinition} for any {@code validator} component. A validator is also a {@link ProcessorStereotype processor}
  *
  * @since 1.0
  */

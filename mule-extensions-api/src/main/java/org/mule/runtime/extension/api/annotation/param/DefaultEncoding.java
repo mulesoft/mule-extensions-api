@@ -15,11 +15,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation is meant to be applied on fields of classes
- * or on operation's arguments.
+ * This annotation is meant to be applied on fields of classes or on operation's arguments.
  * <p>
- * This annotation signals that the target field should be injected
- * with Mule's default encoding.
+ * This annotation signals that the target field should be injected with Mule's default encoding.
  * <p>
  *
  * The annotated field should be of type {@link String}

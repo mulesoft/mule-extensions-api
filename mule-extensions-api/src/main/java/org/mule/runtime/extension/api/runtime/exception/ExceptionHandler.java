@@ -17,13 +17,11 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Allows the developer to provide generic logic to
- * enrich exceptions, either via logging, sending notifications, etc.
+ * Allows the developer to provide generic logic to enrich exceptions, either via logging, sending notifications, etc.
  * <p>
- * The developer can return a new exception which replaces the original one
- * or return the one that was thrown by the operation.
- * For example, wrapping the Exception into a ConnectionException, the runtime know that reconnection is needed.
- * Notice that this implies that the method should not fail by any reason.
+ * The developer can return a new exception which replaces the original one or return the one that was thrown by the operation.
+ * For example, wrapping the Exception into a ConnectionException, the runtime know that reconnection is needed. Notice that this
+ * implies that the method should not fail by any reason.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.runtime.exception.ExceptionHandler} instead.
@@ -32,8 +30,8 @@ import java.util.Set;
 public abstract class ExceptionHandler {
 
   /**
-   * This method can return a new enriched exception or the original exception
-   * after doing some processing with it. It must not return a null value.
+   * This method can return a new enriched exception or the original exception after doing some processing with it. It must not
+   * return a null value.
    *
    * Also the implementation of this method needs to be thread safe and must not fail.
    *
@@ -60,8 +58,7 @@ public abstract class ExceptionHandler {
   /**
    * Returns the first cause of {@code throwable} which is an instance of {@code causeType}.
    *
-   * If {@code throwable} is an instance of {@code causeType} itself, then {@code throwable}
-   * is returned.
+   * If {@code throwable} is an instance of {@code causeType} itself, then {@code throwable} is returned.
    * 
    * @param throwable the exception to introspect
    * @param causeType the cause type

@@ -7,9 +7,8 @@
 package org.mule.runtime.extension.api.exception;
 
 /**
- * A {@link RuntimeException} thrown when the Extensions API
- * (or a component of any of its implementations)
- * has been used to define an invalid model.
+ * A {@link RuntimeException} thrown when the Extensions API (or a component of any of its implementations) has been used to
+ * define an invalid model.
  *
  * @since 1.0
  */
@@ -28,7 +27,7 @@ public class IllegalModelDefinitionException extends RuntimeException {
    * Creates a new instance
    *
    * @param message the detail message
-   * @param cause   the cause
+   * @param cause the cause
    */
   public IllegalModelDefinitionException(String message, Throwable cause) {
     super(message, cause);

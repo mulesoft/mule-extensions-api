@@ -18,8 +18,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declares the annotated {@link ComponentModel}'s attributes {@link MetadataType} to the type represented by the
- * provided element in the XSD Schema.
+ * Declares the annotated {@link ComponentModel}'s attributes {@link MetadataType} to the type represented by the provided element
+ * in the XSD Schema.
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.AttributesXmlType} instead.
@@ -30,14 +30,14 @@ import java.lang.annotation.Target;
 public @interface AttributesXmlType {
 
   /**
-   * @return the XSD schema file where the element to be loaded for the attributes type is defined.
-   * The schema must live in the extension resources in order to be located.
+   * @return the XSD schema file where the element to be loaded for the attributes type is defined. The schema must live in the
+   *         extension resources in order to be located.
    */
   String schema();
 
   /**
-   * @return the qualified name used to reference the element to be loaded for the attributes
-   * within the provided {@link AttributesXmlType#schema()}.
+   * @return the qualified name used to reference the element to be loaded for the attributes within the provided
+   *         {@link AttributesXmlType#schema()}.
    */
   String qname();
 }

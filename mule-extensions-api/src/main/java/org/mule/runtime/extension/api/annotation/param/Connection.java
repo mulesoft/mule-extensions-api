@@ -18,9 +18,8 @@ import java.lang.annotation.Target;
 /**
  * Indicates that the annotated member should be injected with a currently active connection.
  * <p>
- * This annotation can either be applied to an argument of an operation method
- * or to a field of a class which extends the {@link Source} class. It is not to be used on
- * configurations
+ * This annotation can either be applied to an argument of an operation method or to a field of a class which extends the
+ * {@link Source} class. It is not to be used on configurations
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.param.Connection} instead.

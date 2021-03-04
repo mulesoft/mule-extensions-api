@@ -22,8 +22,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnno
 import java.util.stream.Stream;
 
 /**
- * Base class for a component capable of creating a {@link MetadataType} to be used
- * in an infrastructure parameter
+ * Base class for a component capable of creating a {@link MetadataType} to be used in an infrastructure parameter
  *
  * @since 1.0
  */

@@ -11,9 +11,8 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 /**
  * Indicates which type of back pressure has the runtime applied on a give message.
  *
- * Notice that if compared to {@link BackPressureMode}, there's no equivalent to {@link BackPressureMode#WAIT},
- * that's because the {@link BackPressureMode#WAIT} mode is simply about blocking executions of
- * {@link SourceCallback#handle(Result)}
+ * Notice that if compared to {@link BackPressureMode}, there's no equivalent to {@link BackPressureMode#WAIT}, that's because the
+ * {@link BackPressureMode#WAIT} mode is simply about blocking executions of {@link SourceCallback#handle(Result)}
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.runtime.source.BackPressureAction} instead.

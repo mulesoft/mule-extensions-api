@@ -15,8 +15,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * A {@link TypeAdapter} for serializing instances of {@link OperationModel} and all its
- * child interfaces
+ * A {@link TypeAdapter} for serializing instances of {@link OperationModel} and all its child interfaces
  *
  * @since 1.0
  */

@@ -11,12 +11,11 @@ import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.handler.TypeHandlerManagerFactory;
 
 /**
- * An implementation of {@link TypeHandlerManagerFactory} which creates instances of
- * {@link TypeHandlerManager} properly configured to be used under the rules of the
- * Extensions API.
+ * An implementation of {@link TypeHandlerManagerFactory} which creates instances of {@link TypeHandlerManager} properly
+ * configured to be used under the rules of the Extensions API.
  * <p>
- * The extension's runtime should not use {@link TypeHandlerManager} instances
- * which were not created through implementations of this interface
+ * The extension's runtime should not use {@link TypeHandlerManager} instances which were not created through implementations of
+ * this interface
  *
  * @since 1.0
  */

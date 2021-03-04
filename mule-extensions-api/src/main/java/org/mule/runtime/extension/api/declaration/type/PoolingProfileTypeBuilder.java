@@ -26,9 +26,8 @@ import org.mule.runtime.extension.api.declaration.type.annotation.Infrastructure
 /**
  * Creates instances of {@link MetadataType} which represent a {@link PoolingProfile}.
  *
- * Notice that this representation of the type matches how the pooling profile is exposed
- * through the tooling and the DSL. It's not an exact match of what you'd get running the
- * pooling profile through a {@link ClassTypeLoader}
+ * Notice that this representation of the type matches how the pooling profile is exposed through the tooling and the DSL. It's
+ * not an exact match of what you'd get running the pooling profile through a {@link ClassTypeLoader}
  *
  * @since 1.0
  */

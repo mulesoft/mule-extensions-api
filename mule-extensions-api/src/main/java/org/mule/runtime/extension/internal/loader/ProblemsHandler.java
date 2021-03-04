@@ -17,8 +17,8 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
 public interface ProblemsHandler {
 
   /**
-   * Receives a {@link ProblemsReporter} with the current status of errors and warnings and executes
-   * to be able to execute the correspondent handling.
+   * Receives a {@link ProblemsReporter} with the current status of errors and warnings and executes to be able to execute the
+   * correspondent handling.
    *
    * @param problemsReporter reporter containing the extension loading errors and warnings.
    */

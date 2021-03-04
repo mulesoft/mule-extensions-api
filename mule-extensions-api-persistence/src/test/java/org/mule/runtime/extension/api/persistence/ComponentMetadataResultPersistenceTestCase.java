@@ -49,11 +49,12 @@ public class ComponentMetadataResultPersistenceTestCase extends AbstractMetadata
             .withMessage(FIRST_ERROR_MESSAGE)
             .withFailureCode(CONNECTION_FAILURE)
             .withReason(METADATA_RESULT_ERROR_MESSAGE)
-            .onComponent(), newFailure()
-                .withMessage(SECOND_ERROR_MESSAGE)
-                .withFailureCode(INVALID_METADATA_KEY)
-                .withReason(METADATA_RESULT_ERROR_MESSAGE)
-                .onComponent());
+            .onComponent(),
+                newFailure()
+                    .withMessage(SECOND_ERROR_MESSAGE)
+                    .withFailureCode(INVALID_METADATA_KEY)
+                    .withReason(METADATA_RESULT_ERROR_MESSAGE)
+                    .onComponent());
 
     String serialized = metadataDescriptorSerializer.serialize(failureResult);
     assertSerializedJson(serialized, METADATA_RESULT_FAILURE_JSON);
@@ -67,11 +68,12 @@ public class ComponentMetadataResultPersistenceTestCase extends AbstractMetadata
             .withMessage(FIRST_ERROR_MESSAGE)
             .withFailureCode(CONNECTION_FAILURE)
             .withReason(METADATA_RESULT_ERROR_MESSAGE)
-            .onComponent(), newFailure()
-                .withMessage(SECOND_ERROR_MESSAGE)
-                .withFailureCode(INVALID_METADATA_KEY)
-                .withReason(METADATA_RESULT_ERROR_MESSAGE)
-                .onComponent());
+            .onComponent(),
+                newFailure()
+                    .withMessage(SECOND_ERROR_MESSAGE)
+                    .withFailureCode(INVALID_METADATA_KEY)
+                    .withReason(METADATA_RESULT_ERROR_MESSAGE)
+                    .onComponent());
 
     String serialized = metadataDescriptorSerializer.serialize(failureResult);
     assertSerializedJson(serialized, METADATA_RESULT_FAILURE_NO_DESCRIPTOR_JSON);

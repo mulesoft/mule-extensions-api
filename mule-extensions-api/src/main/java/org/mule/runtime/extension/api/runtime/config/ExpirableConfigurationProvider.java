@@ -11,10 +11,9 @@ import org.mule.api.annotation.NoImplement;
 import java.util.List;
 
 /**
- * A specialization of the {@link ConfigurationProvider} interface which adds
- * the concept of expiration. The runtime will query the registered
- * {@link ConfigurationProvider configuration providers} which implement this interface
- * when it tries to locate expired configurations which need disposal
+ * A specialization of the {@link ConfigurationProvider} interface which adds the concept of expiration. The runtime will query
+ * the registered {@link ConfigurationProvider configuration providers} which implement this interface when it tries to locate
+ * expired configurations which need disposal
  *
  * @since 1.0
  */

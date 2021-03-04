@@ -17,40 +17,33 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * A utility implementation of {@link Map} which keys are instances of {@link Class} and
- * values are instances of generic type {@code V}.
+ * A utility implementation of {@link Map} which keys are instances of {@link Class} and values are instances of generic type
+ * {@code V}.
  * <p>
- * This classes' value comes from its {@link #get(Object)} and {@link #containsKey(Object)}
- * methods being redefined to support hierarchical lookups. For example, consider types
- * {@code Dog} and {@code RabidDog}, such that {@code RabidDog} extends {@code Dog}. If
- * the map contains both keys, then the behaviour is the same as in a standard map. However,
- * if {@link #get(Object)} is invoked the key {@code Dog} but only {@code RabidDog} is mapped,
- * this implementation will still find a value for {@code Dog}, since it will recursively traverse
- * across all entries looking for keys which are assignable from that key. When no value is found,
- * then the search is retried using the key's superclass. Recursion ends when the {@link Object}
- * class is reached or when no superclass is available (if you searched for Object in the first place)
- * A consistent behaviour will occur when using the {@link #containsKey(Object)} method.
+ * This classes' value comes from its {@link #get(Object)} and {@link #containsKey(Object)} methods being redefined to support
+ * hierarchical lookups. For example, consider types {@code Dog} and {@code RabidDog}, such that {@code RabidDog} extends
+ * {@code Dog}. If the map contains both keys, then the behaviour is the same as in a standard map. However, if
+ * {@link #get(Object)} is invoked the key {@code Dog} but only {@code RabidDog} is mapped, this implementation will still find a
+ * value for {@code Dog}, since it will recursively traverse across all entries looking for keys which are assignable from that
+ * key. When no value is found, then the search is retried using the key's superclass. Recursion ends when the {@link Object}
+ * class is reached or when no superclass is available (if you searched for Object in the first place) A consistent behaviour will
+ * occur when using the {@link #containsKey(Object)} method.
  * <p>
- * This also works when the key is an interface, with the difference that no recursion is performed
- * in that case.
+ * This also works when the key is an interface, with the difference that no recursion is performed in that case.
  * <p>
- * <h1>Interfaces</h1>
- * If an interface key is used and no explicit mapping is defined, no special behaviour is used.
+ * <h1>Interfaces</h1> If an interface key is used and no explicit mapping is defined, no special behaviour is used.
  * <h1>Ordering considerations</h1>
  * <ul>
- * <li>Exact matches are always privileged. Meaning that if the {@code Dog} key has a specific
- * value mapped, it will be preferred over a {@code RabidDog} key</li>
- * <li>This implementation works by wrapping an existing map (look at the constructors Javadocs).
- * When performing searches, the iteration order depends on the rules of the underlying match. When
- * multiple entries could match a specific query, no guarantees are offered regarding which value
- * will be returned on each invokation</li>
+ * <li>Exact matches are always privileged. Meaning that if the {@code Dog} key has a specific value mapped, it will be preferred
+ * over a {@code RabidDog} key</li>
+ * <li>This implementation works by wrapping an existing map (look at the constructors Javadocs). When performing searches, the
+ * iteration order depends on the rules of the underlying match. When multiple entries could match a specific query, no guarantees
+ * are offered regarding which value will be returned on each invokation</li>
  * </ul>
  * <p>
- * <h1>Performance considerations</h1>
- * When there's an explicit mapping for a given key, the performance is the same as in the backing map.
- * When a deep search occurs, then the performance drops to O(n^n) (worst case).
- * <h1>Other methods</h1>
- * Other than {@link #get(Object)} and {@link #containsKey(Object)}, no other method has been overridden.
+ * <h1>Performance considerations</h1> When there's an explicit mapping for a given key, the performance is the same as in the
+ * backing map. When a deep search occurs, then the performance drops to O(n^n) (worst case).
+ * <h1>Other methods</h1> Other than {@link #get(Object)} and {@link #containsKey(Object)}, no other method has been overridden.
  * Behaviour will be that of the backing map.
  *
  * @param <V> the generic type of the mapped values
@@ -68,8 +61,7 @@ public class HierarchyClassMap<V> implements Map<Class<?>, V> {
   }
 
   /**
-   * Creates a new instance which wraps the given {@code delegate},
-   * inheriting its rules.
+   * Creates a new instance which wraps the given {@code delegate}, inheriting its rules.
    *
    * @param delegate a backing {@link Map} with predictable iteration order
    */
@@ -78,8 +70,7 @@ public class HierarchyClassMap<V> implements Map<Class<?>, V> {
   }
 
   /**
-   * Fetches a value associated to the given {@code key}
-   * following the rules described on the class javadoc
+   * Fetches a value associated to the given {@code key} following the rules described on the class javadoc
    *
    * @param key the key
    * @return the associated value or {@code null}
@@ -122,8 +113,7 @@ public class HierarchyClassMap<V> implements Map<Class<?>, V> {
   }
 
   /**
-   * Determines if there's a matching mapping by the rules
-   * described on the class javadoc.
+   * Determines if there's a matching mapping by the rules described on the class javadoc.
    *
    * @param key the considered key
    * @return whether there's a mapping for this key or not

@@ -24,8 +24,8 @@ import java.lang.annotation.Target;
  * <li>Declare that it throws at least one Error which is {@link MuleErrors#VALIDATION} or has it as parent</li>
  * </ul>
  *
- * This annotation can either be used at the method level (signaling that the stereotype applies to that specific operation)
- * or to the class level (signaling that all operations in that class have that stereotype, unless overridden by a particular
+ * This annotation can either be used at the method level (signaling that the stereotype applies to that specific operation) or to
+ * the class level (signaling that all operations in that class have that stereotype, unless overridden by a particular
  * operation).
  *
  * @since 1.0

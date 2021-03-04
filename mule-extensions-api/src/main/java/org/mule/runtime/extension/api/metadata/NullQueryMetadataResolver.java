@@ -22,8 +22,8 @@ import org.mule.runtime.extension.api.annotation.param.Query;
 import java.util.Set;
 
 /**
- * Null implementation of {@link OutputTypeResolver} used to represent the absence of output resolver
- * in a {@link Query} annotated operation.
+ * Null implementation of {@link OutputTypeResolver} used to represent the absence of output resolver in a {@link Query} annotated
+ * operation.
  *
  * @since 1.0
  */
@@ -40,13 +40,12 @@ public final class NullQueryMetadataResolver implements OutputTypeResolver<Strin
   }
 
   /**
-   * Null implementation of {@link OutputTypeResolver} for {@link Query} operations, used when no implementation
-   * is provided by the connector developer. Represents the absence of a custom {@link OutputTypeResolver},
-   * returning a {@link VoidType} instead of resolving a dynamic {@link MetadataType} from a native {@link Query}
-   * for the component's output.
+   * Null implementation of {@link OutputTypeResolver} for {@link Query} operations, used when no implementation is provided by
+   * the connector developer. Represents the absence of a custom {@link OutputTypeResolver}, returning a {@link VoidType} instead
+   * of resolving a dynamic {@link MetadataType} from a native {@link Query} for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key     {@link MetadataKey} of string type, representing the native query created by the user.
+   * @param key {@link MetadataKey} of string type, representing the native query created by the user.
    * @return a {@link VoidType} instance.
    */
   @Override

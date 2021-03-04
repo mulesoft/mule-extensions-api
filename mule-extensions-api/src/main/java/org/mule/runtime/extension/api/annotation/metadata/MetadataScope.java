@@ -20,19 +20,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Associates the annotated Component to a {@link TypeKeysResolver}, and an {@link OutputTypeResolver}
- * that will be used to resolve the Component's {@link MetadataType} dynamically
+ * Associates the annotated Component to a {@link TypeKeysResolver}, and an {@link OutputTypeResolver} that will be used to
+ * resolve the Component's {@link MetadataType} dynamically
  *
- * This annotation can be used at Operation or {@link Extension} level.
- * When used at {@link Extension} level this resolvers will serve as the default, and will be used to resolve the
- * dynamic metadata of all its the operations and sources.
- * If this annotation is instead used at Operation level, it will override any default {@link Extension}
- * declaration and use the resolvers referenced at that level to resolve the metadata of that method. This will only affect
- * the annotated element, while all the other operations will still respond to the {@link Extension} default.
+ * This annotation can be used at Operation or {@link Extension} level. When used at {@link Extension} level this resolvers will
+ * serve as the default, and will be used to resolve the dynamic metadata of all its the operations and sources. If this
+ * annotation is instead used at Operation level, it will override any default {@link Extension} declaration and use the resolvers
+ * referenced at that level to resolve the metadata of that method. This will only affect the annotated element, while all the
+ * other operations will still respond to the {@link Extension} default.
  *
- * {@link MetadataScope} overriding works on all the declared resolvers, once the new scope is declared at
- * a lower level than {@link Extension} then none of the top level resolvers will work anymore as defaults, and
- * will have to be re-defined in the new declaration.
+ * {@link MetadataScope} overriding works on all the declared resolvers, once the new scope is declared at a lower level than
+ * {@link Extension} then none of the top level resolvers will work anymore as defaults, and will have to be re-defined in the new
+ * declaration.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.metadata.MetadataScope} instead.

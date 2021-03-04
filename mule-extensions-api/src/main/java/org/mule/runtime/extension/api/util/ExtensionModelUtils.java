@@ -104,7 +104,7 @@ public class ExtensionModelUtils {
   /**
    * Retrieves the default value of a field for a given {@link MetadataType}
    *
-   * @param name  the field's name
+   * @param name the field's name
    * @param model the {@link MetadataType} containing the field who's default value is wanted
    * @return the default value of the given parameter
    */
@@ -184,7 +184,7 @@ public class ExtensionModelUtils {
    * Returns a {@link List} with all the {@link ComponentModel} available to the {@code configurationModel} which requires a
    * connection. This includes both {@link SourceModel} and {@link OperationModel}.
    *
-   * @param extensionModel     the {@link ExtensionModel} that owns the {@code configurationModel}
+   * @param extensionModel the {@link ExtensionModel} that owns the {@code configurationModel}
    * @param configurationModel the {@link ConfigurationModel} which components you want
    * @return a {@link List} of {@link ComponentModel}. It might be empty but will never be {@code null}
    */
@@ -227,9 +227,8 @@ public class ExtensionModelUtils {
 
   /**
    * @param extensionModel the model which owns the {@code component}
-   * @param component      a component
-   * @return Whether the given {@code component} needs to be provided with a config
-   * in order to function
+   * @param component a component
+   * @return Whether the given {@code component} needs to be provided with a config in order to function
    */
   public static boolean requiresConfig(ExtensionModel extensionModel, NamedObject component) {
     if (!(component instanceof ConnectableComponentModel)) {
@@ -303,8 +302,7 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * @return {@code true} if the given {@link ParameterModel} has layout property
-   * {@link LayoutModel#isText()}
+   * @return {@code true} if the given {@link ParameterModel} has layout property {@link LayoutModel#isText()}
    */
   public static boolean isText(ParameterModel parameter) {
     return parameter.getLayoutModel().map(LayoutModel::isText).orElse(false);
@@ -414,11 +412,10 @@ public class ExtensionModelUtils {
   /**
    * Returns the default value associated with the given annotation.
    * <p>
-   * The reason for this method to be instead of simply using
-   * {@link org.mule.sdk.api.annotation.param.Optional#defaultValue()} is a limitation on the Java language to have
-   * an annotation which defaults to a {@code null} value. For that reason, this method tests the default value for equality
-   * against the {@link org.mule.sdk.api.annotation.param.Optional#NULL}. If such test is positive, then
-   * {@code null} is returned.
+   * The reason for this method to be instead of simply using {@link org.mule.sdk.api.annotation.param.Optional#defaultValue()} is
+   * a limitation on the Java language to have an annotation which defaults to a {@code null} value. For that reason, this method
+   * tests the default value for equality against the {@link org.mule.sdk.api.annotation.param.Optional#NULL}. If such test is
+   * positive, then {@code null} is returned.
    * <p>
    * If a {@code null} {@code optional} is supplied, then this method returns {@code null}
    *
@@ -435,15 +432,18 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * Tests the given {@code object} to be annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or {@link org.mule.sdk.api.annotation.param.Optional}.
+   * Tests the given {@code object} to be annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or
+   * {@link org.mule.sdk.api.annotation.param.Optional}.
    * <p>
    * If the annotation is present, then a default value is extracted by the rules of
-   * {@link #getDefaultValue(org.mule.runtime.extension.api.annotation.param.Optional)} or {@link #getDefaultValue(org.mule.sdk.api.annotation.param.Optional)}. Otherwise, {@code null} is returned.
+   * {@link #getDefaultValue(org.mule.runtime.extension.api.annotation.param.Optional)} or
+   * {@link #getDefaultValue(org.mule.sdk.api.annotation.param.Optional)}. Otherwise, {@code null} is returned.
    * <p>
    * Notice that a {@code null} return value doesn't necessarily mean that the annotation is not present. It could well be that
    * {@code null} happens to be the default value.
    *
-   * @param object an object potentially annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or {@link org.mule.sdk.api.annotation.param.Optional}
+   * @param object an object potentially annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or
+   *        {@link org.mule.sdk.api.annotation.param.Optional}
    * @return A default value or {@code null}
    */
   public static Object getDefaultValue(AccessibleObject object) {
@@ -467,6 +467,7 @@ public class ExtensionModelUtils {
 
   /**
    * Uses the value in the given {@code annotation} and transforms it into a {@link ClassValueModel}
+   * 
    * @param annotation an annotation
    * @return a {@link ClassValueModel}
    */

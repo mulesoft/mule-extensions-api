@@ -23,10 +23,8 @@ public interface GeneratedResourceFactory {
   /**
    * Creates a new {@link GeneratedResource} from the given {@code extensionModel}.
    * <p>
-   * Because not every implementation of this class necessarily applies to
-   * every {@link ExtensionModel}, this method returns an {@link Optional}
-   * which will be empty if the kind of generated resource is not valid
-   * for the given {@code extensionModel}
+   * Because not every implementation of this class necessarily applies to every {@link ExtensionModel}, this method returns an
+   * {@link Optional} which will be empty if the kind of generated resource is not valid for the given {@code extensionModel}
    *
    * @param extensionModel the {@link ExtensionModel} that requires the resource
    * @return an {@link Optional} {@link GeneratedResource}

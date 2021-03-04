@@ -13,8 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Allows the customization of the schema attributes.
- * If absent then the runtime will calculate default values for each attribute.
+ * Allows the customization of the schema attributes. If absent then the runtime will calculate default values for each attribute.
  * If present you can add all the attributes or just the ones you need.
  *
  * @since 1.0
@@ -27,9 +26,9 @@ import java.lang.annotation.Target;
 public @interface Xml {
 
   /**
-   * Extension's prefix. If left empty it will create a default one
-   * based on the extension's name, removing the words "extension", "module" or "connector"
-   * at the end if they are present and hyphenating the resulting name.
+   * Extension's prefix. If left empty it will create a default one based on the extension's name, removing the words "extension",
+   * "module" or "connector" at the end if they are present and hyphenating the resulting name.
+   * 
    * <pre>
    * Mulesoft Extension           = mulesoft
    * Cloud Service Connector      = cloud-service

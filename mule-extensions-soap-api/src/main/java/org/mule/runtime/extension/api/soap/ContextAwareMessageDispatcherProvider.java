@@ -12,8 +12,7 @@ import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.soap.message.MessageDispatcher;
 
 /**
- * {@link MessageDispatcherProvider} that creates instances of {@link MessageDispatcher} using a
- * a {@link DispatchingContext}.
+ * {@link MessageDispatcherProvider} that creates instances of {@link MessageDispatcher} using a a {@link DispatchingContext}.
  *
  * @since 1.1
  */

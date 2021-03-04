@@ -15,7 +15,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Default {@link OperationParameters} implementation, works as a generic {@link OperationParameters} for every extension operation.
+ * Default {@link OperationParameters} implementation, works as a generic {@link OperationParameters} for every extension
+ * operation.
  *
  * @since 1.0
  */

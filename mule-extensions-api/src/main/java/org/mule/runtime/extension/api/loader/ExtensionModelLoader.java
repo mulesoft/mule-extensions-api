@@ -30,8 +30,8 @@ public abstract class ExtensionModelLoader {
 
   /**
    * @return an identifier of this {@link ExtensionModelLoader}. Non null neither blank.
-   * <p/>
-   * The ID must be unique among all {@link ExtensionModelLoader }.
+   *         <p/>
+   *         The ID must be unique among all {@link ExtensionModelLoader }.
    */
   public abstract String getId();
 
@@ -44,21 +44,21 @@ public abstract class ExtensionModelLoader {
    * how to parse descriptor files (see {@link MulePluginModel}) for a plugin in a generic way.
    * <p>
    * This method delegates into {@link #declareExtension(ExtensionLoadingContext)} in order to obtain the
-   * {@link ExtensionDeclaration}. That declaration is then transformed into an actual {@link ExtensionModel}.
-   * While loading the extension, a default set of {@link DeclarationEnricher} and {@link ExtensionModelValidator} will be applied.
-   * The {@link ExtensionLoadingContext} received in {@link #declareExtension(ExtensionLoadingContext)} might additionally
-   * contain extra ones. The {@link #configureContextBeforeDeclaration(ExtensionLoadingContext)} allows to add custom
-   * configurations into the context before the declaration begins.
+   * {@link ExtensionDeclaration}. That declaration is then transformed into an actual {@link ExtensionModel}. While loading the
+   * extension, a default set of {@link DeclarationEnricher} and {@link ExtensionModelValidator} will be applied. The
+   * {@link ExtensionLoadingContext} received in {@link #declareExtension(ExtensionLoadingContext)} might additionally contain
+   * extra ones. The {@link #configureContextBeforeDeclaration(ExtensionLoadingContext)} allows to add custom configurations into
+   * the context before the declaration begins.
    *
-   * @param pluginClassLoader context {@link ClassLoader} that holds all the needed classes and resources to properly generate
-   *                          an {@link ExtensionModel}.
+   * @param pluginClassLoader context {@link ClassLoader} that holds all the needed classes and resources to properly generate an
+   *        {@link ExtensionModel}.
    * @param dslResolvingContext context with all the {@link ExtensionModel}s already loaded that are mandatory to execute the
-   * method properly.
-   * @param attributes        a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader}, which will
-   *                          be responsible of extracting the mandatory parameters (while casting, if needed).
+   *        method properly.
+   * @param attributes a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader}, which
+   *        will be responsible of extracting the mandatory parameters (while casting, if needed).
    * @return an {@link ExtensionModel} that represents the plugin being described
    * @throws IllegalArgumentException if there are missing entries in {@code attributes} or the type of any of them does not apply
-   *                                  to the expected one.
+   *         to the expected one.
    */
   public final ExtensionModel loadExtensionModel(ClassLoader pluginClassLoader, DslResolvingContext dslResolvingContext,
                                                  Map<String, Object> attributes) {
@@ -77,8 +77,9 @@ public abstract class ExtensionModelLoader {
   }
 
   /**
-   * Allows to add pre configured the given {@code context} before it's fed into {@link #declareExtension(ExtensionLoadingContext)}.
-   * This is the ideal place to register custom parameters, enrichers, validators, etc.
+   * Allows to add pre configured the given {@code context} before it's fed into
+   * {@link #declareExtension(ExtensionLoadingContext)}. This is the ideal place to register custom parameters, enrichers,
+   * validators, etc.
    *
    * @param context the context that will be used for the declaration
    */
@@ -87,11 +88,11 @@ public abstract class ExtensionModelLoader {
   }
 
   /**
-   * This method uses the {@link ExtensionDeclarer} found through {@link ExtensionLoadingContext#getExtensionDeclarer()}
-   * to define the {@link ExtensionModel} to be loaded.
+   * This method uses the {@link ExtensionDeclarer} found through {@link ExtensionLoadingContext#getExtensionDeclarer()} to define
+   * the {@link ExtensionModel} to be loaded.
    * <p>
-   * <b>IMPORTANT</b>: When this method is executed, the runtime automatically sets the current thread's context classloader
-   * to {@link ExtensionLoadingContext#getExtensionClassLoader()}. The previous TCCL is restored after this method's execution.
+   * <b>IMPORTANT</b>: When this method is executed, the runtime automatically sets the current thread's context classloader to
+   * {@link ExtensionLoadingContext#getExtensionClassLoader()}. The previous TCCL is restored after this method's execution.
    * <p>
    * This method should only be invoked by the runtime. Do not invoke manually.
    *

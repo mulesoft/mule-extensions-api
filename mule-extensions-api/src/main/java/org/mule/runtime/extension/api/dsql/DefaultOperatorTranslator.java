@@ -8,8 +8,8 @@ package org.mule.runtime.extension.api.dsql;
 
 
 /**
- * Default {@link OperatorTranslator} implementation, if no implementation is defined in a {@link QueryTranslator}
- * this one is going to be used.
+ * Default {@link OperatorTranslator} implementation, if no implementation is defined in a {@link QueryTranslator} this one is
+ * going to be used.
  *
  * @since 1.0
  */

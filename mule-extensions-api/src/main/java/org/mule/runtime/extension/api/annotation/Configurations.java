@@ -13,9 +13,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Allows to reference a list of classes from which a {@code org.mule.runtime.extension.api.introspection.Configuration}
- * model is to be inferred. This annotation is to be used in classes which are also annotated with
- * {@link Extension} and {@link #value()} must reference classes which are annotated with {@link Configuration}
+ * Allows to reference a list of classes from which a {@code org.mule.runtime.extension.api.introspection.Configuration} model is
+ * to be inferred. This annotation is to be used in classes which are also annotated with {@link Extension} and {@link #value()}
+ * must reference classes which are annotated with {@link Configuration}
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Configurations} instead.

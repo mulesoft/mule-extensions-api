@@ -19,8 +19,7 @@ import java.lang.annotation.Target;
 /**
  * Allows setting directives regarding syntax and semantics of the generated XML DSL.
  *
- * It can be applied on fields annotated with {@link Parameter} or parameters
- * of methods mapping to operations
+ * It can be applied on fields annotated with {@link Parameter} or parameters of methods mapping to operations
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.dsl.xml.ParameterDsl} instead.

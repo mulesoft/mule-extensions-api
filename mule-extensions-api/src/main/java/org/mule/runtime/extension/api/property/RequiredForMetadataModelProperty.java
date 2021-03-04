@@ -13,8 +13,8 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import java.util.List;
 
 /**
- * {@link ModelProperty} to be used on Configurations or Connection Providers which indicates which parameters of these
- * impact on the metadata resolution.
+ * {@link ModelProperty} to be used on Configurations or Connection Providers which indicates which parameters of these impact on
+ * the metadata resolution.
  *
  * @since 1.2.0
  */

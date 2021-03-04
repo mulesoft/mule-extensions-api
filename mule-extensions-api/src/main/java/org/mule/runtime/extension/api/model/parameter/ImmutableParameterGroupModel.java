@@ -33,14 +33,15 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
 
   /**
    * Creates a new instance
-   *  @param name                      the operation's name. Cannot be blank
-   * @param description               the operation's descriptor
-   * @param parameters                the parameters contained in this group
+   * 
+   * @param name the operation's name. Cannot be blank
+   * @param description the operation's descriptor
+   * @param parameters the parameters contained in this group
    * @param exclusiveParametersModels a list with the applying {@link ExclusiveParametersModel}
-   * @param showInDsl                if {@code true}, {@code this} Group will be shown as an inline element of the DSL
-   * @param displayModel              a model which contains directive about how the parameter is displayed in the UI
-   * @param layoutModel               a model which contains directives about the parameter's layout in the UI
-   * @param modelProperties           A {@link Set} of custom properties which extend this model
+   * @param showInDsl if {@code true}, {@code this} Group will be shown as an inline element of the DSL
+   * @param displayModel a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel a model which contains directives about the parameter's layout in the UI
+   * @param modelProperties A {@link Set} of custom properties which extend this model
    */
   public ImmutableParameterGroupModel(String name,
                                       String description,

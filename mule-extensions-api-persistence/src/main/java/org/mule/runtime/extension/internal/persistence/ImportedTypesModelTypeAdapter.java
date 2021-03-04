@@ -28,8 +28,7 @@ public class ImportedTypesModelTypeAdapter extends TypeAdapter<ImportedTypeModel
   private final MetadataTypeGsonTypeAdapter typeAdapter;
 
   /**
-   * Creates a new instance which doesn't handle type references.
-   * Types are described (no ref) in the imported types section.
+   * Creates a new instance which doesn't handle type references. Types are described (no ref) in the imported types section.
    *
    */
   public ImportedTypesModelTypeAdapter() {

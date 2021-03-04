@@ -13,8 +13,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import java.util.List;
 
 /**
- * A public {@link ModelProperty} used to indicate that a {@link ConnectionProvider}
- * supports a number of OAuth2 grant types
+ * A public {@link ModelProperty} used to indicate that a {@link ConnectionProvider} supports a number of OAuth2 grant types
  *
  * @since 1.0
  */
@@ -25,6 +24,7 @@ public class OAuthModelProperty implements ModelProperty {
 
   /**
    * Creates a new instance
+   * 
    * @param grantTypes the {@link OAuthGrantType grant types} supported
    */
   public OAuthModelProperty(List<OAuthGrantType> grantTypes) {
@@ -33,6 +33,7 @@ public class OAuthModelProperty implements ModelProperty {
 
   /**
    * {@inheritDoc}
+   * 
    * @return {@code oauth}
    */
   @Override
@@ -42,6 +43,7 @@ public class OAuthModelProperty implements ModelProperty {
 
   /**
    * {@inheritDoc}
+   * 
    * @return {@code true}
    */
   @Override

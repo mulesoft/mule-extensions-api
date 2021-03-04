@@ -16,10 +16,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to express that a class should be used to describe
- * a {@code org.mule.runtime.extension.api.introspection.Configuration} model.
- * The class will be scanned for fields annotated with {@link Parameter}
- * or {@link ParameterGroup} to obtain that configuration's parameters
+ * Used to express that a class should be used to describe a {@code org.mule.runtime.extension.api.introspection.Configuration}
+ * model. The class will be scanned for fields annotated with {@link Parameter} or {@link ParameterGroup} to obtain that
+ * configuration's parameters
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Configuration} instead.
@@ -31,10 +30,8 @@ import java.lang.annotation.Target;
 public @interface Configuration {
 
   /**
-   * The name of the configuration. This attribute is optional
-   * and if not provided, the configuration's name will default
-   * to &quot;config&quot;. Configuration name can't be duplicated.
-   * Only one config can use the default config name
+   * The name of the configuration. This attribute is optional and if not provided, the configuration's name will default to
+   * &quot;config&quot;. Configuration name can't be duplicated. Only one config can use the default config name
    */
   String name() default "";
 

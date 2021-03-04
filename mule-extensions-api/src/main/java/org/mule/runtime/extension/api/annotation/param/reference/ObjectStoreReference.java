@@ -15,8 +15,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used in a field or parameter which value is a reference to a global
- * object store element
+ * Annotation to be used in a field or parameter which value is a reference to a global object store element
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.param.reference.ObjectStoreReference} instead.

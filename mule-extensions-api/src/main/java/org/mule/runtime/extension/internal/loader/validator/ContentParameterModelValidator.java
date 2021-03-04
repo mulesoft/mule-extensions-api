@@ -46,8 +46,8 @@ import com.google.common.base.Joiner;
 /**
  * Validates that all content parameters are property configured.
  * <p>
- * For configs and connection providers, tt validates that they do not have content parameters.
- * For Operations and sources, it validates that content parameters meet the following:
+ * For configs and connection providers, tt validates that they do not have content parameters. For Operations and sources, it
+ * validates that content parameters meet the following:
  * <p>
  * <ul>
  * <li>Support or require expressions</li>

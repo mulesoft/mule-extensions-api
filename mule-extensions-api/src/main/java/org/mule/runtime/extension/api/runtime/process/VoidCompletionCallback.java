@@ -20,30 +20,30 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  * <li>Have an argument of {@link VoidCompletionCallback} type</li>
  * </ul>
  * <p>
- * When the processing performed by the Router finishes, it has to notify its completion either by
- * invoking the {@link #success()} or {@link #error(Throwable)} methods.
- * Only then will the execution of the Router be considered as completed and the next processor in the
- * pipeline will be executed.
+ * When the processing performed by the Router finishes, it has to notify its completion either by invoking the {@link #success()}
+ * or {@link #error(Throwable)} methods. Only then will the execution of the Router be considered as completed and the next
+ * processor in the pipeline will be executed.
  * <p>
  * For example, a Void Router can be declared as:
  * <p>
+ * 
  * <pre>
  *
- *  public void enricher(WhenRoute when, @Optional DefaultRoute defaultRoute, VoidCompletionCallback callback) {
- *     if (when.shouldExecute()) {
- *        when.getChain().process(r -> callback.success(),
- *                                (e, r) -> callback.error(e));
- *     } else if (other != null && other.shouldExecute()) {
- *        other.getChain().process(r -> callback.success(),
- *                                 (e, r) -> callback.error(e));
- *     } else {
- *        callback.error(new IllegalArgumentException("No route executed"));
- *     }
- *  }
+ * public void enricher(WhenRoute when, @Optional DefaultRoute defaultRoute, VoidCompletionCallback callback) {
+ *   if (when.shouldExecute()) {
+ *     when.getChain().process(r -> callback.success(),
+ *                             (e, r) -> callback.error(e));
+ *   } else if (other != null && other.shouldExecute()) {
+ *     other.getChain().process(r -> callback.success(),
+ *                              (e, r) -> callback.error(e));
+ *   } else {
+ *     callback.error(new IllegalArgumentException("No route executed"));
+ *   }
+ * }
  * </pre>
  * <p>
- * As you can see, the result of the Route being executed is ignored, and the {@link VoidCompletionCallback callback}
- * is notified with a {@link VoidCompletionCallback#success()} or {@link VoidCompletionCallback#error(Throwable)}
+ * As you can see, the result of the Route being executed is ignored, and the {@link VoidCompletionCallback callback} is notified
+ * with a {@link VoidCompletionCallback#success()} or {@link VoidCompletionCallback#error(Throwable)}
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.runtime.process.VoidCompletionCallback} instead.

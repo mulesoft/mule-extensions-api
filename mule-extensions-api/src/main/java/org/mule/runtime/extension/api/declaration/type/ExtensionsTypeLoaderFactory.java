@@ -10,11 +10,11 @@ import org.mule.api.annotation.NoImplement;
 import org.mule.metadata.api.ClassTypeLoader;
 
 /**
- * Factory class for instances of {@link ClassTypeLoader} properly setup
- * to introspect types following the rules of the Extensions API.
+ * Factory class for instances of {@link ClassTypeLoader} properly setup to introspect types following the rules of the Extensions
+ * API.
  * <p>
- * The extensions runtime should not use instances of {@link ClassTypeLoader}
- * which were not created through implementations of this interface.
+ * The extensions runtime should not use instances of {@link ClassTypeLoader} which were not created through implementations of
+ * this interface.
  *
  * @since 1.0
  */

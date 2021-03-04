@@ -22,13 +22,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * DO NOT USE THIS ANNOTATION. THIS ANNOTATION SHOULD <strong>ONLY</strong> BE USED BY PRIVILEGED EXTENSIONS.
  * <p>
- * This annotation allows privileged {@link Extension}s to contribute with {@link DeclarationEnricher}s for enriching
- * the {@link ExtensionModel} AFTER the SDK runs all the internal {@link DeclarationEnricher}s declared in the
+ * This annotation allows privileged {@link Extension}s to contribute with {@link DeclarationEnricher}s for enriching the
+ * {@link ExtensionModel} AFTER the SDK runs all the internal {@link DeclarationEnricher}s declared in the
  * {@link ExtensionModelLoader}.
  * <p>
- * This annotation is part of the Privileged API and only selected {@link Extension}s should be able to use it,
- * if a NON PRIVILEGED {@link Extension} uses this annotation there will have no effect on the final extension model used for
- * runtime but generated resources may end up corrupted.
+ * This annotation is part of the Privileged API and only selected {@link Extension}s should be able to use it, if a NON
+ * PRIVILEGED {@link Extension} uses this annotation there will have no effect on the final extension model used for runtime but
+ * generated resources may end up corrupted.
  *
  * @since 1.0
  */
@@ -39,7 +39,7 @@ public @interface DeclarationEnrichers {
 
   /**
    * @return an array of {@link DeclarationEnricher}s implementations that will be executed AFTER the SDK finished the execution
-   * of the internal ones.
+   *         of the internal ones.
    */
   Class<? extends DeclarationEnricher>[] value();
 }

@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Default implementation of {@link ExtensionLoadingContext}. The fact that this class's attributes are immutable, doesn't mean that
- * their inner state is in fact immutable also.
+ * Default implementation of {@link ExtensionLoadingContext}. The fact that this class's attributes are immutable, doesn't mean
+ * that their inner state is in fact immutable also.
  *
  * @since 1.0
  */

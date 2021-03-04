@@ -34,15 +34,16 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
   /**
    * Creates a new instance with the given state
    *
-   * @param name                        the provider's name
-   * @param description                 the provider's description
-   * @param parameterGroupModels        a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
-   * @param connectionManagementType    the type of connection management that the provider performs
+   * @param name the provider's name
+   * @param description the provider's description
+   * @param parameterGroupModels a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
+   * @param connectionManagementType the type of connection management that the provider performs
    * @param supportsConnectivityTesting whether this provider supports connectivity testing or not
-   * @param externalLibraryModels       a {@link Set} with the provider's {@link ExternalLibraryModel external libraries}
-   * @param displayModel                a model which contains directive about how this provider is displayed in the UI
-   * @param modelProperties             A {@link Set} of custom properties which extend this model
-   * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType} are {@code null}
+   * @param externalLibraryModels a {@link Set} with the provider's {@link ExternalLibraryModel external libraries}
+   * @param displayModel a model which contains directive about how this provider is displayed in the UI
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType}
+   *         are {@code null}
    */
   public ImmutableConnectionProviderModel(String name,
                                           String description,
@@ -60,15 +61,16 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
   /**
    * Creates a new instance with the given state
    *
-   * @param name                        the provider's name
-   * @param description                 the provider's description
-   * @param parameterGroupModels        a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
-   * @param connectionManagementType    the type of connection management that the provider performs
+   * @param name the provider's name
+   * @param description the provider's description
+   * @param parameterGroupModels a {@link List} with the provider's {@link ParameterGroupModel parameter group models}
+   * @param connectionManagementType the type of connection management that the provider performs
    * @param supportsConnectivityTesting whether this provider supports connectivity testing or not
-   * @param externalLibraryModels       a {@link Set} with the provider's {@link ExternalLibraryModel external libraries}
-   * @param displayModel                a model which contains directive about how this provider is displayed in the UI
-   * @param modelProperties             A {@link Set} of custom properties which extend this model
-   * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType} are {@code null}
+   * @param externalLibraryModels a {@link Set} with the provider's {@link ExternalLibraryModel external libraries}
+   * @param displayModel a model which contains directive about how this provider is displayed in the UI
+   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType}
+   *         are {@code null}
    */
   public ImmutableConnectionProviderModel(String name,
                                           String description,

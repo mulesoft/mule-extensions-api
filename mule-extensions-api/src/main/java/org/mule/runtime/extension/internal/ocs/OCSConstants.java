@@ -12,23 +12,23 @@ import org.mule.runtime.api.component.ConfigurationProperties;
 /**
  * Constants for the OAuth Client Service functionality.
  * <p>
- * These are used to extract configuration arguments from the application's {@link ConfigurationProperties} object.
- * The following properties will be fetch:
+ * These are used to extract configuration arguments from the application's {@link ConfigurationProperties} object. The following
+ * properties will be fetch:
  *
- *  <ul>
- *  <li>{@link OCSConstants#OCS_SERVICE_URL}</li>
- *  <li>{@link OCSConstants#OCS_PLATFORM_AUTH_URL}</li>
- *  <li>{@link OCSConstants#OCS_CLIENT_ID}</li>
- *  <li>{@link OCSConstants#OCS_CLIENT_SECRET}</li>
- *  <li>{@link OCSConstants#OCS_ORG_ID}</li>
- *  </ul>
+ * <ul>
+ * <li>{@link OCSConstants#OCS_SERVICE_URL}</li>
+ * <li>{@link OCSConstants#OCS_PLATFORM_AUTH_URL}</li>
+ * <li>{@link OCSConstants#OCS_CLIENT_ID}</li>
+ * <li>{@link OCSConstants#OCS_CLIENT_SECRET}</li>
+ * <li>{@link OCSConstants#OCS_ORG_ID}</li>
+ * </ul>
  * <p>
- * If any of these properties are missing, {@link IllegalStateException} will be thrown when using this client.
- * Because this feature is at the moment experimental, the presence of these properties also act as a feature flag. If any is
- * absent, the feature will not work
+ * If any of these properties are missing, {@link IllegalStateException} will be thrown when using this client. Because this
+ * feature is at the moment experimental, the presence of these properties also act as a feature flag. If any is absent, the
+ * feature will not work
  * <p>
- * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
- * Backwards compatibility is not guaranteed.
+ * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+ * compatibility is not guaranteed.
  *
  * @since 1.3.0
  */
@@ -71,7 +71,8 @@ public final class OCSConstants {
   public static final String OCS_ORG_ID = "csorganization.id";
 
   /**
-   * Key to obtain the OCS API version to be used, if not specified, the default api version for the mule version running will be used.
+   * Key to obtain the OCS API version to be used, if not specified, the default api version for the mule version running will be
+   * used.
    *
    * @since 1.3.1 1.4.0
    */

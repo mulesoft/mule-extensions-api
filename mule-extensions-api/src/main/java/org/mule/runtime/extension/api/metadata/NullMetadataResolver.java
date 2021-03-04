@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Null implementation of {@link InputTypeResolver}, {@link AttributesTypeResolver} and {@link TypeKeysResolver},
- * used to represent the absence of any of them when required.
+ * Null implementation of {@link InputTypeResolver}, {@link AttributesTypeResolver} and {@link TypeKeysResolver}, used to
+ * represent the absence of any of them when required.
  *
  * @since 1.0
  */
@@ -78,8 +78,8 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
 
   /**
    * Null implementation of {@link OutputTypeResolver}, used when no implementation is provided by the connector developer.
-   * Represents the absence of a custom {@link OutputTypeResolver}, returning a {@link VoidType} instead of resolving a
-   * dynamic {@link MetadataType} for the component's output.
+   * Represents the absence of a custom {@link OutputTypeResolver}, returning a {@link VoidType} instead of resolving a dynamic
+   * {@link MetadataType} for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key {@link MetadataKey} of the type which's structure has to be resolved
@@ -92,9 +92,9 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
   }
 
   /**
-   * Null implementation of {@link AttributesTypeResolver}, used when no implementation is provided by the connector
-   * developer. Represents the absence of a custom {@link AttributesTypeResolver}, returning a {@link VoidType} instead of
-   * resolving a dynamic {@link MetadataType} for the component's output attributes.
+   * Null implementation of {@link AttributesTypeResolver}, used when no implementation is provided by the connector developer.
+   * Represents the absence of a custom {@link AttributesTypeResolver}, returning a {@link VoidType} instead of resolving a
+   * dynamic {@link MetadataType} for the component's output attributes.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
    * @param key {@link MetadataKey} of the type which's structure has to be resolved

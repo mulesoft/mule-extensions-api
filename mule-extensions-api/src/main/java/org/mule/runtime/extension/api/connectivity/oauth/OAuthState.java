@@ -11,7 +11,7 @@ import org.mule.api.annotation.NoImplement;
 import java.util.Optional;
 
 /**
- * An  object which holds information about an OAuth authorization
+ * An object which holds information about an OAuth authorization
  *
  * @since 1.2.1
  * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.OAuthState} instead.

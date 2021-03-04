@@ -13,12 +13,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines an alias for a Java type. Implementations of the
- * extensions API can use this annotation in many ways, but
- * in general terms it's useful to allow a Java type to
- * have a name which makes sense from a coding point of view
- * while maintaining a user friendly name in the places
- * where the extensions API exposes such type
+ * Defines an alias for a Java type. Implementations of the extensions API can use this annotation in many ways, but in general
+ * terms it's useful to allow a Java type to have a name which makes sense from a coding point of view while maintaining a user
+ * friendly name in the places where the extensions API exposes such type
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Alias} instead.
@@ -35,8 +32,7 @@ public @interface Alias {
   String value();
 
   /**
-   * An optional description to further describe the annotated
-   * member
+   * An optional description to further describe the annotated member
    *
    * @return a nullable {@link String}
    */

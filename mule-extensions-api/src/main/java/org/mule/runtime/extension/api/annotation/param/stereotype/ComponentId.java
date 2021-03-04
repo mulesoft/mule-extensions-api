@@ -39,8 +39,8 @@ import java.lang.annotation.Target;
  * <li>{@link Content} qualifier is not allowed for a Component ID</li>
  * <li>{@link Text} qualifier is not allowed for a Component ID</li>
  * <li>{@link Query} qualifier is not allowed for a Component ID</li>
- * <li>Defaulting to a {@link ConfigOverride} is not allowed for a Component ID since it describes the ID of each
- * individual component and no common global value should be used as ID</li>
+ * <li>Defaulting to a {@link ConfigOverride} is not allowed for a Component ID since it describes the ID of each individual
+ * component and no common global value should be used as ID</li>
  * </ul>
  *
  * @since 1.2.0

@@ -34,8 +34,8 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Contributes to the {@link TypeAnnotationSerializerExtender} service to provide a friendly name for the custom annotations used by the
- * {@link ExtensionObjectTypeHandler} and being able to serialize a {@link StereotypeModel}
+ * Contributes to the {@link TypeAnnotationSerializerExtender} service to provide a friendly name for the custom annotations used
+ * by the {@link ExtensionObjectTypeHandler} and being able to serialize a {@link StereotypeModel}
  *
  * @since 1.0
  */

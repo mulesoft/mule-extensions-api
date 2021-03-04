@@ -11,8 +11,8 @@ import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 import java.util.Set;
 
 /**
- * A component responsible for providing an idempotent {@link Set} of {@link ErrorTypeDefinition} representing
- * the list of errors that a component can throw.
+ * A component responsible for providing an idempotent {@link Set} of {@link ErrorTypeDefinition} representing the list of errors
+ * that a component can throw.
  *
  * @since 1.0
  * @see Throws

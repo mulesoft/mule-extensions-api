@@ -23,11 +23,11 @@ import java.util.Map;
 public class ErrorModelToIdentifierSerializer {
 
   /**
-   * Deserializes an error model identifier into an {@link ErrorModel}. Uses an Error Model Repository to be able
-   * to rebuild the entire error model hierarchy, if it exist.
+   * Deserializes an error model identifier into an {@link ErrorModel}. Uses an Error Model Repository to be able to rebuild the
+   * entire error model hierarchy, if it exist.
    *
-   * @param errorIdentifier      Error following the following structure {@code nameSpace:errorType}, example:
-   *                             {@code MULE:CONNECTIVITY}
+   * @param errorIdentifier Error following the following structure {@code nameSpace:errorType}, example:
+   *        {@code MULE:CONNECTIVITY}
    * @param errorModelRepository Repository of already built {@link ErrorModel error models}
    * @return An {@link ErrorModel} representing the given errorIdentifier
    */
@@ -44,7 +44,7 @@ public class ErrorModelToIdentifierSerializer {
    * Deserializes an error model identifier into an {@link ErrorModel}.
    *
    * @param errorIdentifier Error following the following structure {@code nameSpace:errorType}, example:
-   *                        {@code MULE:CONNECTIVITY}
+   *        {@code MULE:CONNECTIVITY}
    * @return An {@link ErrorModel} representing the given errorIdentifier
    */
   public static ErrorModel deserialize(String errorIdentifier) {

@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Pojo used to store annotations which value has the format prefix:element.
+ * 
  * @since 1.0
  */
 public abstract class PrefixDefinedAnnotation {

@@ -18,17 +18,17 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
 /**
- * Sets the {@link ExecutionType} on all operations which didn't explicitly
- * set one. This is done by doing a best guess with the following rules:
+ * Sets the {@link ExecutionType} on all operations which didn't explicitly set one. This is done by doing a best guess with the
+ * following rules:
  *
  * <ul>
- *   <li>Operation requires connection and is blocking: {@link ExecutionType#BLOCKING}</li>
- *   <li>Operation requires connection and is non blocking: {@link ExecutionType#CPU_LITE}</li>
- *   <li>None of the above: {@link ExecutionType#CPU_LITE}</li>
+ * <li>Operation requires connection and is blocking: {@link ExecutionType#BLOCKING}</li>
+ * <li>Operation requires connection and is non blocking: {@link ExecutionType#CPU_LITE}</li>
+ * <li>None of the above: {@link ExecutionType#CPU_LITE}</li>
  * </ul>
  *
- * Notice that under no circumstance the runtime will guess the operation is {@link ExecutionType#CPU_INTENSIVE},
- * the user needs to hint that manually.
+ * Notice that under no circumstance the runtime will guess the operation is {@link ExecutionType#CPU_INTENSIVE}, the user needs
+ * to hint that manually.
  *
  * @since 1.0
  */

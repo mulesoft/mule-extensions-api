@@ -11,8 +11,8 @@ import java.util.Map;
 /**
  * Represents a complex parameter that has a type and it's composed by other parameters.
  * <p>
- * This class is not part of the API and should not be used by anyone (or anything) but the runtime. Backwards compatibility
- * not guaranteed on this class.
+ * This class is not part of the API and should not be used by anyone (or anything) but the runtime. Backwards compatibility not
+ * guaranteed on this class.
  *
  * @since 1.0
  */

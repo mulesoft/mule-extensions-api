@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This handler allows to configure the current context's authentication, used for encryption and inbound authentication,
- * based on a given {@link Authentication} request.
+ * This handler allows to configure the current context's authentication, used for encryption and inbound authentication, based on
+ * a given {@link Authentication} request.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.security.AuthenticationHandler} instead.

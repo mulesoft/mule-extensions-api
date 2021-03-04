@@ -15,8 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * Serializer that can convert a {@link ValueResult} type into a readable and processable
- * JSON representation and from a JSON {@link String} to an {@link ValueResult} instance
+ * Serializer that can convert a {@link ValueResult} type into a readable and processable JSON representation and from a JSON
+ * {@link String} to an {@link ValueResult} instance
  *
  * @since 1.0
  */

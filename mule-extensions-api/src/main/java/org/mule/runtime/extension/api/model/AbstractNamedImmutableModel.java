@@ -30,9 +30,9 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
   /**
    * Creates a new instance
    *
-   * @param name            the model's name
-   * @param description     the model's description
-   * @param displayModel    a model containing directives about how this component is to be displayed in the UI
+   * @param name the model's name
+   * @param description the model's description
+   * @param displayModel a model containing directives about how this component is to be displayed in the UI
    * @param modelProperties A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
@@ -68,9 +68,8 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
   }
 
   /**
-   * Defines object equality based on the given object
-   * being an object of this class and in the equality
-   * of the {@link #getName()} attributes
+   * Defines object equality based on the given object being an object of this class and in the equality of the {@link #getName()}
+   * attributes
    *
    * @param obj an object
    * @return {@code true} if equal

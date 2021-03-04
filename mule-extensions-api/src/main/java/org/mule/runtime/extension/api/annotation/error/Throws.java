@@ -18,13 +18,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declares an array of {@link Class classes} of an {@link ErrorTypeProvider}, to communicate and declare
- * which {@link ErrorTypeDefinition} the operation could throw.
+ * Declares an array of {@link Class classes} of an {@link ErrorTypeProvider}, to communicate and declare which
+ * {@link ErrorTypeDefinition} the operation could throw.
  * <p>
- * This annotation can be applied to an Operation method, an Operation container class or an {@link Extension} class.
- * The annotation value to consider is the one of in the deepest level,
- * eg: If the annotation is used in an operation method and in an extension class, the one to use is the one in the
- * operation.
+ * This annotation can be applied to an Operation method, an Operation container class or an {@link Extension} class. The
+ * annotation value to consider is the one of in the deepest level, eg: If the annotation is used in an operation method and in an
+ * extension class, the one to use is the one in the operation.
  *
  * @since 1.0
  * @see ErrorTypeProvider

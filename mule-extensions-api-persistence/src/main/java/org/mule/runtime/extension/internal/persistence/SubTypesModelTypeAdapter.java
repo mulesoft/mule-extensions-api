@@ -33,8 +33,7 @@ public class SubTypesModelTypeAdapter extends TypeAdapter<SubTypesModel> {
   private final MetadataTypeGsonTypeAdapter typeAdapter;
 
   /**
-   * Creates a new instance which handles type references through the given
-   * {@code referenceHandler}
+   * Creates a new instance which handles type references through the given {@code referenceHandler}
    *
    * @param referenceHandler an {@link ObjectTypeReferenceHandler}
    */

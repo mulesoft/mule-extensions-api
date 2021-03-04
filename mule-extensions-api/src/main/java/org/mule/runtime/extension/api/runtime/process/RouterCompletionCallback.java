@@ -21,24 +21,25 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  * <li>Have an argument of {@link RouterCompletionCallback} type</li>
  * </ul>
  * <p>
- * When the execution of the Router has finished, it has to notify the {@link Result} either by invoking
- * the {@link #success(Result)} or {@link #error(Throwable)} methods.
- * Only then will the execution of the Router be considered as completed and the next processor in the
- * pipeline will be executed.
- * <b>If the {@link #success(Result)} or {@link #error(Throwable)} methods are invoked before any of the nested {@link Route}s
- * is completed, the {@link Result} of the nested execution will be lost and never propagated.</b>
+ * When the execution of the Router has finished, it has to notify the {@link Result} either by invoking the
+ * {@link #success(Result)} or {@link #error(Throwable)} methods. Only then will the execution of the Router be considered as
+ * completed and the next processor in the pipeline will be executed. <b>If the {@link #success(Result)} or
+ * {@link #error(Throwable)} methods are invoked before any of the nested {@link Route}s is completed, the {@link Result} of the
+ * nested execution will be lost and never propagated.</b>
  *
  * For example, a Router can be declared as:
  * <p>
+ * 
  * <pre>
+ * 
  * public void twoRoutesRouter(WhenRoute when, @Optional OtherwiseRoute other, RouterCompletionCallback callback) {
- *    if (when.shouldExecute()) {
- *        when.getChain().process(routeResult -> callback.success(routeResult), (e, r) -> callback.error(e));
- *    } else if (other != null && other.shouldExecute()) {
- *        other.getChain().process(callback::success, (e, r) -> callback.error(e));
- *    } else {
- *        callback.error(new IllegalArgumentException("No route could be executed"));
- *    }
+ *   if (when.shouldExecute()) {
+ *     when.getChain().process(routeResult -> callback.success(routeResult), (e, r) -> callback.error(e));
+ *   } else if (other != null && other.shouldExecute()) {
+ *     other.getChain().process(callback::success, (e, r) -> callback.error(e));
+ *   } else {
+ *     callback.error(new IllegalArgumentException("No route could be executed"));
+ *   }
  * }
  * </pre>
  * <p>

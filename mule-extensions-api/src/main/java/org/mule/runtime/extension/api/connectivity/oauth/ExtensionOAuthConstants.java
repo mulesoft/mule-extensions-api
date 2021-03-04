@@ -17,49 +17,45 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 public final class ExtensionOAuthConstants {
 
   /**
-   * The name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type
-   * related parameters are to be placed.
+   * The name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type related parameters are to be
+   * placed.
    */
   public static final String OAUTH_AUTHORIZATION_CODE_GROUP_NAME = "oauthAuthorizationCode";
 
   /**
-   * The name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type
-   * related parameters are to be placed.
+   * The name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type related parameters are to be
+   * placed.
    */
   public static final String OAUTH_CLIENT_CREDENTIALS_GROUP_NAME = "oauthClientCredentials";
 
   /**
-   * The display name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type
-   * related parameters are to be placed.
+   * The display name of the {@link ParameterGroupModel} in which all the Authorization-Code grant type related parameters are to
+   * be placed.
    */
   public static final String OAUTH_AUTHORIZATION_CODE_GROUP_DISPLAY_NAME = "OAuth Authorization Code";
 
   /**
-   * The display name of the {@link ParameterGroupModel} in which all the Client Credentials grant type
-   * related parameters are to be placed.
+   * The display name of the {@link ParameterGroupModel} in which all the Client Credentials grant type related parameters are to
+   * be placed.
    */
   public static final String OAUTH_CLIENT_CREDENTIALS_GROUP_DISPLAY_NAME = "OAuth Client Credentials";
 
   /**
-   * The name of the {@link ParameterGroupModel} in which all the OAuth callback
-   * related parameters are to be placed.
+   * The name of the {@link ParameterGroupModel} in which all the OAuth callback related parameters are to be placed.
    */
   public static final String OAUTH_CALLBACK_GROUP_NAME = "oauthCallbackConfig";
   /**
-   * The display name of the {@link ParameterGroupModel} in which all the OAuth callback
-   * related parameters are to be placed.
+   * The display name of the {@link ParameterGroupModel} in which all the OAuth callback related parameters are to be placed.
    */
   public static final String OAUTH_CALLBACK_GROUP_DISPLAY_NAME = "OAuth Callback Config";
 
   /**
-   * The name of the {@link ParameterGroupModel} in which all the store config
-   * related parameters are to be placed.
+   * The name of the {@link ParameterGroupModel} in which all the store config related parameters are to be placed.
    */
   public static final String OAUTH_STORE_CONFIG_GROUP_NAME = "oauthStoreConfig";
 
   /**
-   * The display name of the {@link ParameterGroupModel} in which all the store config
-   * related parameters are to be placed.
+   * The display name of the {@link ParameterGroupModel} in which all the store config related parameters are to be placed.
    */
   public static final String OAUTH_STORE_CONFIG_GROUP_DISPLAY_NAME = "OAuth Store Config";
 
@@ -151,8 +147,8 @@ public final class ExtensionOAuthConstants {
   /**
    * The name of the synthetic connection provider which allows to use Platform Managed OAuth Connections
    * <p>
-   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
-   * Backwards compatibility is not guaranteed.
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+   * compatibility is not guaranteed.
    *
    * @since 1.3.0
    */
@@ -162,8 +158,8 @@ public final class ExtensionOAuthConstants {
   /**
    * The description of the synthetic connection provider which allows to use Platform Managed OAuth Connections
    * <p>
-   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
-   * Backwards compatibility is not guaranteed.
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+   * compatibility is not guaranteed.
    *
    * @since 1.3.0
    */
@@ -175,8 +171,8 @@ public final class ExtensionOAuthConstants {
   /**
    * The name of the ConnectionProvider parameter for the ID that identifies a Platform Managed OAuth connection.
    * <p>
-   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
-   * Backwards compatibility is not guaranteed.
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+   * compatibility is not guaranteed.
    *
    * @since 1.3.0
    */
@@ -186,8 +182,8 @@ public final class ExtensionOAuthConstants {
   /**
    * The display name of the ConnectionProvider parameter for the ID that identifies a Platform Managed OAuth connection.
    * <p>
-   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
-   * Backwards compatibility is not guaranteed.
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+   * compatibility is not guaranteed.
    *
    * @since 1.3.0
    */
@@ -197,8 +193,8 @@ public final class ExtensionOAuthConstants {
   /**
    * The description of the ConnectionProvider parameter for the ID that identifies a Platform Managed OAuth connection.
    * <p>
-   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
-   * Backwards compatibility is not guaranteed.
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+   * compatibility is not guaranteed.
    *
    * @since 1.3.0
    */

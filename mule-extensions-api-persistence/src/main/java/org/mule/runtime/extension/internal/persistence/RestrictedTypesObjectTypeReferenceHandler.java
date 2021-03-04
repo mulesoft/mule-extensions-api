@@ -22,7 +22,8 @@ import java.util.Set;
 
 /**
  * Implementation of {@link ObjectTypeReferenceHandler} which only uses references for the {@link ObjectType} present in the
- * {@link ExtensionModel} catalogue types obtained through {@link ExtensionModel#getTypes()} and {@link ExtensionModel#getImportedTypes()}.
+ * {@link ExtensionModel} catalogue types obtained through {@link ExtensionModel#getTypes()} and
+ * {@link ExtensionModel#getImportedTypes()}.
  *
  * @since 1.0
  */

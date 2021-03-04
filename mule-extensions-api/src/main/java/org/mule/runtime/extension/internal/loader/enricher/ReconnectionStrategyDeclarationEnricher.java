@@ -22,7 +22,7 @@ import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelP
  * A {@link DeclarationEnricher} which adds the following to all {@link SourceDeclaration}:
  *
  * <ul>
- *   <li>A reconnection strategy parameter</li>
+ * <li>A reconnection strategy parameter</li>
  * </ul>
  *
  * @since 1.0

@@ -11,8 +11,8 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 /**
- * Declares the default {@code Type} that will be instantiated for this {@link ParameterModel}
- * if no instance is provided as a value.
+ * Declares the default {@code Type} that will be instantiated for this {@link ParameterModel} if no instance is provided as a
+ * value.
  *
  * @since 1.0
  */
@@ -27,8 +27,8 @@ public class DefaultImplementingTypeModelProperty implements ModelProperty {
   }
 
   /**
-   * @return the default {@link MetadataType} to be used when creating the default instance for
-   * the associated {@link ParameterModel}
+   * @return the default {@link MetadataType} to be used when creating the default instance for the associated
+   *         {@link ParameterModel}
    */
   public MetadataType value() {
     return defaultType;

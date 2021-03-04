@@ -22,11 +22,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Allows to specify a custom label for the element and/or field to be used in the UI.
- * If a value is not specified, the name is inferred from the annotated element's name.
+ * Allows to specify a custom label for the element and/or field to be used in the UI. If a value is not specified, the name is
+ * inferred from the annotated element's name.
  * <p>
- * Use this annotation to override the default inferred nickname for a {@link Parameter}, an operation, an operation's
- * parameter, {@link Source}, {@link Configuration} and {@link ConnectionProvider}.
+ * Use this annotation to override the default inferred nickname for a {@link Parameter}, an operation, an operation's parameter,
+ * {@link Source}, {@link Configuration} and {@link ConnectionProvider}.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.param.display.DisplayName} instead.
@@ -38,8 +38,8 @@ import java.lang.annotation.Target;
 public @interface DisplayName {
 
   /**
-   * The value is a short name for the annotated element.
-   * If this value is not specified it will be inferred from the annotated element name.
+   * The value is a short name for the annotated element. If this value is not specified it will be inferred from the annotated
+   * element name.
    */
   String value() default "";
 }

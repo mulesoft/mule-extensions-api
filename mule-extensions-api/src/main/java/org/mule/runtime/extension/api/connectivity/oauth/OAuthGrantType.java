@@ -12,8 +12,7 @@ import org.mule.runtime.api.meta.NamedObject;
 /**
  * Base contract for a Grant Type as defined in the OAuth2 specification.
  * <p>
- * Instances are to contain information about how to use this grant type against
- * a particular OAuth provider.
+ * Instances are to contain information about how to use this grant type against a particular OAuth provider.
  *
  * @since 1.0
  */

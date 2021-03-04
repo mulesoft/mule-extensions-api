@@ -31,25 +31,23 @@ public @interface TypeDsl {
   boolean allowInlineDefinition() default true;
 
   /**
-   * Whether the associated element should support being defined as a top level element.
-   * This directive only makes sense when the annotation is applied on a type level, on a
-   * class which is being used as a complex parameter. Defaults to {@code false}
+   * Whether the associated element should support being defined as a top level element. This directive only makes sense when the
+   * annotation is applied on a type level, on a class which is being used as a complex parameter. Defaults to {@code false}
    */
   boolean allowTopLevelDefinition() default false;
 
   /**
-   * Specifies that the annotated element should extend a particular substitution group.
-   * The format expected is prefix:element where the prefix should correspond to an existent one related to an
-   * imported namespace. The element should belong to the namespace related to that prefix.
-   * If the namespace prefix does not exist or the string doesn't match the required format,
-   * an {@code IllegalArgumentException} will be thrown.
+   * Specifies that the annotated element should extend a particular substitution group. The format expected is prefix:element
+   * where the prefix should correspond to an existent one related to an imported namespace. The element should belong to the
+   * namespace related to that prefix. If the namespace prefix does not exist or the string doesn't match the required format, an
+   * {@code IllegalArgumentException} will be thrown.
    */
   String substitutionGroup() default "";
 
   /**
-   * Specifies that the annotated type should extend from an specific baseType
-   * If the namespace prefix does not exist or the string doesn't match the required format,
-   * an {@code IllegalArgumentException} will be thrown.
+   * Specifies that the annotated type should extend from an specific baseType If the namespace prefix does not exist or the
+   * string doesn't match the required format, an {@code IllegalArgumentException} will be thrown.
+   * 
    * @return the baseType defined or the default
    */
   String baseType() default "";

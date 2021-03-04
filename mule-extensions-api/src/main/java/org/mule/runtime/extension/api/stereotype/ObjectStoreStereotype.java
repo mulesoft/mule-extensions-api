@@ -20,8 +20,8 @@ public final class ObjectStoreStereotype implements StereotypeDefinition {
   private static final String OBJECT_STORE_NAMESPACE = OBJECT_STORE_ELEMENT_NAMESPACE.toUpperCase();
 
   /**
-   * In order to fix an inconsistency between this stereotype and the definition on {@link MuleStereotypes#OBJECT_STORE}
-   * without breaking backwards compatibility we have to change the hierarchy and set the namespace {@code OS}.
+   * In order to fix an inconsistency between this stereotype and the definition on {@link MuleStereotypes#OBJECT_STORE} without
+   * breaking backwards compatibility we have to change the hierarchy and set the namespace {@code OS}.
    *
    * @return
    */

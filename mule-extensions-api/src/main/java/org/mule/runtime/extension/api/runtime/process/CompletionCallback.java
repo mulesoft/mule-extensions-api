@@ -19,17 +19,16 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * <li>Have an argument of this type, with its generics correctly provided</li>
  * </ul>
  * <p>
- * The operation's output will be derived from the generics, so even though the method
- * is void, the runtime will consider the operation to return values of the generic
- * types.
+ * The operation's output will be derived from the generics, so even though the method is void, the runtime will consider the
+ * operation to return values of the generic types.
  * <p>
- * When the non blocking operation has finished, it has to notify the result either by
- * invoking the {@link #success(Result)} or {@link #error(Throwable)} methods.
- * Only then will the operation be considered as completed and the next processor in the
+ * When the non blocking operation has finished, it has to notify the result either by invoking the {@link #success(Result)} or
+ * {@link #error(Throwable)} methods. Only then will the operation be considered as completed and the next processor in the
  * pipeline will be executed.
  * <p>
  * For example, let's see a very simple non blocking http request
  * <p>
+ * 
  * <pre>
  *
  *  public void request(String path, @Content Object content, CompletionCallback<InputStream, HttpAttributes> callback) {
@@ -60,9 +59,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 public interface CompletionCallback<T, A> {
 
   /**
-   * This method is to be invoked with the operation's result.
-   * The value itself has to be provided with a {@link Result}
-   * instance.
+   * This method is to be invoked with the operation's result. The value itself has to be provided with a {@link Result} instance.
    *
    * @param result the operation's result
    */

@@ -13,8 +13,8 @@ import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import java.util.Set;
 
 /**
- *  * A {@link TypeAnnotation} used to enrich an {@link ObjectType} by specifying
- *  that the contained parameters have an exclusive relation as it is specified in {@link ExclusiveOptionals}
+ * * A {@link TypeAnnotation} used to enrich an {@link ObjectType} by specifying that the contained parameters have an exclusive
+ * relation as it is specified in {@link ExclusiveOptionals}
  * <p>
  * This class is immutable.
  *

@@ -18,8 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declares the annotated {@link ComponentModel}'s attributes {@link MetadataType} to the type represented by the
- * JSON Schema.
+ * Declares the annotated {@link ComponentModel}'s attributes {@link MetadataType} to the type represented by the JSON Schema.
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.AttributesJsonType} instead.
@@ -30,8 +29,8 @@ import java.lang.annotation.Target;
 public @interface AttributesJsonType {
 
   /**
-   * @return a JSON schema that describes the type structure of the attributes.
-   * The schema must live in the extension resources in order to be located.
+   * @return a JSON schema that describes the type structure of the attributes. The schema must live in the extension resources in
+   *         order to be located.
    */
   String schema();
 }

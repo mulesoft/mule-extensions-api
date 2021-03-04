@@ -20,8 +20,7 @@ import java.lang.annotation.Target;
 import java.util.Map;
 
 /**
- * Declares the annotated {@link ComponentModel}'s output {@link MetadataType} to the type represented by the
- * JSON Schema.
+ * Declares the annotated {@link ComponentModel}'s output {@link MetadataType} to the type represented by the JSON Schema.
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.OutputJsonType} instead.
@@ -32,8 +31,8 @@ import java.util.Map;
 public @interface OutputJsonType {
 
   /**
-   * @return a JSON schema that describes the type structure of the output.
-   * The schema must live in the extension resources in order to be located.
+   * @return a JSON schema that describes the type structure of the output. The schema must live in the extension resources in
+   *         order to be located.
    */
   String schema();
 }

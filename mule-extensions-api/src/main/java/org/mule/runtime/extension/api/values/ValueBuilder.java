@@ -44,8 +44,8 @@ public class ValueBuilder {
   }
 
   /**
-   * Creates and returns new instance of a {@link ValueBuilder}, to help building a new {@link Value}
-   * represented by the given {@param id}
+   * Creates and returns new instance of a {@link ValueBuilder}, to help building a new {@link Value} represented by the given
+   * {@param id}
    *
    * @param id of the {@link Value} to be created
    * @return an initialized instance of {@link ValueBuilder}
@@ -56,10 +56,10 @@ public class ValueBuilder {
   }
 
   /**
-   * Creates and returns new instance of a {@link ValueBuilder}, to help building a new {@link Value}
-   * represented by the given {@param id}
+   * Creates and returns new instance of a {@link ValueBuilder}, to help building a new {@link Value} represented by the given
+   * {@param id}
    *
-   * @param id       of the {@link Value} to be created
+   * @param id of the {@link Value} to be created
    * @param partName the name of the part
    * @return an initialized instance of {@link ValueBuilder}
    */
@@ -106,9 +106,8 @@ public class ValueBuilder {
   }
 
   /**
-   * Utility to create single level {@link Value values} from an {@link Map} of Strings to Strings.
-   * The key of the Map will be considered as the {@link Value#getId() id} and the value as
-   * {@link Value#getDisplayName() display name}
+   * Utility to create single level {@link Value values} from an {@link Map} of Strings to Strings. The key of the Map will be
+   * considered as the {@link Value#getId() id} and the value as {@link Value#getDisplayName() display name}
    *
    * @param values array of {@link String strings} to be converted to {@link Value}
    * @return a {@link Set} of {@link Value} based on the given values
@@ -155,7 +154,8 @@ public class ValueBuilder {
 
   /**
    * Create an {@link Value} based in the information given to the Builder, included all their children.
-   * @return the built {@link  Value}
+   * 
+   * @return the built {@link Value}
    */
   public Value build() {
     String name = isNotEmpty(displayName) ? displayName : id;

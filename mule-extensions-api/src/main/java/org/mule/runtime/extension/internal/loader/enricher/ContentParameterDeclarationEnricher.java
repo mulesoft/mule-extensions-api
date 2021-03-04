@@ -27,8 +27,7 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import java.util.List;
 
 /**
- * Sets defaults and other configurations on content parameters so that they
- * provider a consistent experience.
+ * Sets defaults and other configurations on content parameters so that they provider a consistent experience.
  * <p>
  * For example:
  * <p>

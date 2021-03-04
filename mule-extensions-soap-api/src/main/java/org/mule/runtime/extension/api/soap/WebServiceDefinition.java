@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Representation of a web service, carrying the WSDL that can be accessible either locally or remotely, a Service, a Port.
- * and an ID to identify this web service so set of operations can be discovered for execution.
+ * Representation of a web service, carrying the WSDL that can be accessible either locally or remotely, a Service, a Port. and an
+ * ID to identify this web service so set of operations can be discovered for execution.
  * <p>
- * Optionally this definition can be populated with a friendly name, a list of excluded operations and an address
- * since not all retrieved services will hit the same endpoint, and for that reason each address will probably be different,
- * If not address is provided () the underlying Soap Service will try to find the one specified in the WSDL
+ * Optionally this definition can be populated with a friendly name, a list of excluded operations and an address since not all
+ * retrieved services will hit the same endpoint, and for that reason each address will probably be different, If not address is
+ * provided () the underlying Soap Service will try to find the one specified in the WSDL
  *
  * @since 1.0
  */
