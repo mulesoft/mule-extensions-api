@@ -26,7 +26,7 @@ public class NotificationModelToIdentifierSerializer {
    * Deserializes a notification model identifier into a {@link NotificationModel}. Uses a Notification Model Repository to be
    * able to rebuild the entire notification model.
    *
-   * @param notificationIdentifier Notification following the following structure {@code nameSpace:notificationIdentifier}
+   * @param notificationIdentifier      Notification following the following structure {@code nameSpace:notificationIdentifier}
    * @param notificationModelRepository Repository of already built {@link NotificationModel notification models}
    * @return A {@link NotificationModel} representing the given notificationIdentifier
    */

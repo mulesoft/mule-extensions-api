@@ -27,7 +27,7 @@ public class IllegalModelDefinitionException extends RuntimeException {
    * Creates a new instance
    *
    * @param message the detail message
-   * @param cause the cause
+   * @param cause   the cause
    */
   public IllegalModelDefinitionException(String message, Throwable cause) {
     super(message, cause);

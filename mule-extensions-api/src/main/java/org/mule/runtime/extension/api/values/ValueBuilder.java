@@ -59,7 +59,7 @@ public class ValueBuilder {
    * Creates and returns new instance of a {@link ValueBuilder}, to help building a new {@link Value} represented by the given
    * {@param id}
    *
-   * @param id of the {@link Value} to be created
+   * @param id       of the {@link Value} to be created
    * @param partName the name of the part
    * @return an initialized instance of {@link ValueBuilder}
    */

@@ -33,10 +33,10 @@ public final class ClientCredentialsGrantType implements OAuthGrantType {
   /**
    * Creates a new instance
    *
-   * @param tokenUrl The url of the access token endpoint
+   * @param tokenUrl        The url of the access token endpoint
    * @param accessTokenExpr Expression used to extract the access token from the {@code accessTokenUrl} response
    * @param expirationRegex Expression used to extract the expiration from the {@code accessTokenUrl} response
-   * @param defaultScopes The default scopes to be request
+   * @param defaultScopes   The default scopes to be request
    */
   public ClientCredentialsGrantType(String tokenUrl,
                                     String accessTokenExpr,

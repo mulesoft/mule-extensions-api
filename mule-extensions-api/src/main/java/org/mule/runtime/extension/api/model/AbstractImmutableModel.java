@@ -45,7 +45,7 @@ public abstract class AbstractImmutableModel implements DescribedObject, Enricha
   /**
    * Creates a new instance
    *
-   * @param description the model's description
+   * @param description     the model's description
    * @param modelProperties A {@link Set} of custom properties which extend this model
    */
   protected AbstractImmutableModel(String description, Set<ModelProperty> modelProperties) {

@@ -67,7 +67,7 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
    * {@link MetadataType}
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key {@link MetadataKey} of the type which's structure has to be resolved
+   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
    * @return a {@link VoidType}
    * @throws MetadataResolvingException
    */
@@ -82,7 +82,7 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
    * {@link MetadataType} for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key {@link MetadataKey} of the type which's structure has to be resolved
+   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
    * @return a {@link VoidType}
    * @throws MetadataResolvingException
    */
@@ -97,7 +97,7 @@ public final class NullMetadataResolver implements InputTypeResolver<Object>, Ty
    * dynamic {@link MetadataType} for the component's output attributes.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key {@link MetadataKey} of the type which's structure has to be resolved
+   * @param key     {@link MetadataKey} of the type which's structure has to be resolved
    * @return a {@link VoidType}
    * @throws MetadataResolvingException
    */

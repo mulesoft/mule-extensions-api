@@ -45,7 +45,7 @@ public final class NullQueryMetadataResolver implements OutputTypeResolver<Strin
    * of resolving a dynamic {@link MetadataType} from a native {@link Query} for the component's output.
    *
    * @param context {@link MetadataContext} of the MetaData resolution
-   * @param key {@link MetadataKey} of string type, representing the native query created by the user.
+   * @param key     {@link MetadataKey} of string type, representing the native query created by the user.
    * @return a {@link VoidType} instance.
    */
   @Override

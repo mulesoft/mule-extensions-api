@@ -44,7 +44,7 @@ public interface SourceCallback<T, A> {
    * <p>
    * The {@code context} instance should be created using the {@link #createContext()} of {@code this} same instance
    *
-   * @param result a {@link Result}
+   * @param result  a {@link Result}
    * @param context context a {@link SourceCallbackContext}
    */
   void handle(Result<T, A> result, SourceCallbackContext context);

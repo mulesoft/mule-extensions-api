@@ -91,11 +91,11 @@ public final class XmlModelUtils {
   /**
    * Takes a set of parameters extracted from the extension and generates a {@link XmlDslModel}.
    *
-   * @param prefix prefix of the extension. If {@link Optional#empty()} or empty string, then it will default using the
-   *        {@code extensionName}.
-   * @param namespace namespace location of the extension. If {@link Optional#empty()} or empty string, then it will default using
-   *        a generated namespace.
-   * @param extensionName name of the extension, cannot be null.
+   * @param prefix           prefix of the extension. If {@link Optional#empty()} or empty string, then it will default using the
+   *                         {@code extensionName}.
+   * @param namespace        namespace location of the extension. If {@link Optional#empty()} or empty string, then it will
+   *                         default using a generated namespace.
+   * @param extensionName    name of the extension, cannot be null.
    * @param extensionVersion version of the extension, cannot be null.
    * @return a wellformed {@link XmlDslModel}
    */

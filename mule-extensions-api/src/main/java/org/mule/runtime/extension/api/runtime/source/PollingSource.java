@@ -81,7 +81,7 @@ public abstract class PollingSource<T, A> extends Source<T, A> {
    * idempotency, server overload, etc.), this method is to be used to released any resources associated to the given
    * {@code result}.
    *
-   * @param result a rejected item
+   * @param result          a rejected item
    * @param callbackContext the associated {@link SourceCallbackContext}
    */
   public abstract void onRejectedItem(Result<T, A> result, SourceCallbackContext callbackContext);

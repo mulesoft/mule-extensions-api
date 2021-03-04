@@ -140,7 +140,7 @@ public class IdempotentDeclarationWalker extends DeclarationWalker {
    * This method will only be invoked once per each found instance
    *
    * @param parameterGroup the {@link ParameterGroupDeclaration} in which the {@code declaration} is contained
-   * @param declaration the {@link ParameterDeclaration}
+   * @param declaration    the {@link ParameterDeclaration}
    */
   protected void onParameter(ParameterGroupDeclaration parameterGroup, ParameterDeclaration declaration) {}
 

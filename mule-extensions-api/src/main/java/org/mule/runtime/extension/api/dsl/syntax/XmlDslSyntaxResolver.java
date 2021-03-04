@@ -109,11 +109,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
+   *                                  present in the provided {@link DslResolvingContext} or if the imported
+   *                                  {@link ExtensionModel} doesn't have any {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, DslResolvingContext context) {
     this.extensionModel = model;
@@ -125,12 +125,13 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model               the {@link ExtensionModel} that provides context for resolving the component's
+   *                            {@link DslElementSyntax}
    * @param importTypesStrategy the {@link ImportTypesStrategy} used for external types resolution
    * @return the default implementation of a {@link DslSyntaxResolver}
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
+   *                                  present in the provided {@link DslResolvingContext} or if the imported
+   *                                  {@link ExtensionModel} doesn't have any {@link ImportedTypeModel}
    */
   public XmlDslSyntaxResolver(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {
     this.extensionModel = model;

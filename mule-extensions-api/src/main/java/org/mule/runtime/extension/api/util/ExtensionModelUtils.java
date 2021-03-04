@@ -104,7 +104,7 @@ public class ExtensionModelUtils {
   /**
    * Retrieves the default value of a field for a given {@link MetadataType}
    *
-   * @param name the field's name
+   * @param name  the field's name
    * @param model the {@link MetadataType} containing the field who's default value is wanted
    * @return the default value of the given parameter
    */
@@ -184,7 +184,7 @@ public class ExtensionModelUtils {
    * Returns a {@link List} with all the {@link ComponentModel} available to the {@code configurationModel} which requires a
    * connection. This includes both {@link SourceModel} and {@link OperationModel}.
    *
-   * @param extensionModel the {@link ExtensionModel} that owns the {@code configurationModel}
+   * @param extensionModel     the {@link ExtensionModel} that owns the {@code configurationModel}
    * @param configurationModel the {@link ConfigurationModel} which components you want
    * @return a {@link List} of {@link ComponentModel}. It might be empty but will never be {@code null}
    */
@@ -216,7 +216,7 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * @param extensionModel a {@link ExtensionModel}
+   * @param extensionModel     a {@link ExtensionModel}
    * @param configurationModel a {@link ConfigurationModel}
    * @return Whether at least one of the models have a {@link ConnectionProviderModel}
    * @since 1.1.4
@@ -227,7 +227,7 @@ public class ExtensionModelUtils {
 
   /**
    * @param extensionModel the model which owns the {@code component}
-   * @param component a component
+   * @param component      a component
    * @return Whether the given {@code component} needs to be provided with a config in order to function
    */
   public static boolean requiresConfig(ExtensionModel extensionModel, NamedObject component) {
@@ -266,7 +266,7 @@ public class ExtensionModelUtils {
 
   /**
    * @param extensionModel the model which owns the {@code component}
-   * @param component a component
+   * @param component      a component
    * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside with the {@code component}
    */
   public static Set<ConfigurationModel> getConfigurationForComponent(ExtensionModel extensionModel, ComponentModel component) {
@@ -334,8 +334,8 @@ public class ExtensionModelUtils {
    * A {@link ParameterizedModel} is consider to be implicit when all its {@link ParameterModel}s are optional
    *
    * @param models a {@link List} of {@code T}
-   * @param <T> the generic type of the items in the {@code models}. It's a type which is assignable from
-   *        {@link ParameterizedModel}
+   * @param <T>    the generic type of the items in the {@code models}. It's a type which is assignable from
+   *               {@link ParameterizedModel}
    * @return one of the items in {@code models} or {@code null} if none of the models are implicit
    */
   public static <T extends ParameterizedModel> T getFirstImplicit(List<T> models) {
@@ -443,7 +443,7 @@ public class ExtensionModelUtils {
    * {@code null} happens to be the default value.
    *
    * @param object an object potentially annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or
-   *        {@link org.mule.sdk.api.annotation.param.Optional}
+   *               {@link org.mule.sdk.api.annotation.param.Optional}
    * @return A default value or {@code null}
    */
   public static Object getDefaultValue(AccessibleObject object) {

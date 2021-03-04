@@ -47,18 +47,18 @@ public class DslElementSyntax {
   /**
    * Creates a new instance of {@link DslElementSyntax}
    *
-   * @param attributeName the name of the attribute in the parent element that references this element
-   * @param elementName the name of this xml element
-   * @param prefix the prefix of this xml element
-   * @param isWrapped {@code false} if the element implements the Component's type as an xml extension, or {@code true} if the
-   *        element is a wrapper of a ref to the Component's type
+   * @param attributeName                the name of the attribute in the parent element that references this element
+   * @param elementName                  the name of this xml element
+   * @param prefix                       the prefix of this xml element
+   * @param isWrapped                    {@code false} if the element implements the Component's type as an xml extension, or
+   *                                     {@code true} if the element is a wrapper of a ref to the Component's type
    * @param supportsAttributeDeclaration {@code true} if this element supports to be declared as an attribute in the parent
-   *        element
-   * @param supportsChildDeclaration {@code true} if this element supports to be declared as a child element of its parent
-   * @param requiresConfig whether the element requires a parameter pointing to the config
-   * @param genericsDsl the {@link DslElementSyntax} of this element's type generics, if any is present, that complete the element
-   *        description of container elements of generic types, like Collections or Maps for which the Dsl declaration is modified
-   *        depending on the contained type.
+   *                                     element
+   * @param supportsChildDeclaration     {@code true} if this element supports to be declared as a child element of its parent
+   * @param requiresConfig               whether the element requires a parameter pointing to the config
+   * @param genericsDsl                  the {@link DslElementSyntax} of this element's type generics, if any is present, that
+   *                                     complete the element description of container elements of generic types, like Collections
+   *                                     or Maps for which the Dsl declaration is modified depending on the contained type.
    */
   public DslElementSyntax(String attributeName,
                           String elementName,

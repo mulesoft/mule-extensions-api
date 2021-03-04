@@ -60,8 +60,8 @@ public interface ExtensionsClient {
    * <p>
    * If the executed operation is not asynchronous in nature, the client might choose to actually execute in a synchronous manner.
    *
-   * @param extension the name of the extension that contains the operation to be executed.
-   * @param operation the name of the operation to be executed.
+   * @param extension  the name of the extension that contains the operation to be executed.
+   * @param operation  the name of the operation to be executed.
    * @param parameters an {@link OperationParameters} instance with all the parameters required to execute the operation.
    * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and the
    *         corresponding attributes.
@@ -75,8 +75,8 @@ public interface ExtensionsClient {
    * Take in mind that if the executed operation is asynchronous in nature, this method will automatically wait for it to complete
    * before returning the value
    *
-   * @param extension the name of the extension that contains the operation to be executed.
-   * @param operation the name of the operation to be executed.
+   * @param extension  the name of the extension that contains the operation to be executed.
+   * @param operation  the name of the operation to be executed.
    * @param parameters an {@link OperationParameters} instance with all the parameters required to execute the operation.
    * @return a {@link Result} instance with the payload content and the corresponding attributes after the operation execution.
    * @throws MuleException if any error occurred while executing the operation.

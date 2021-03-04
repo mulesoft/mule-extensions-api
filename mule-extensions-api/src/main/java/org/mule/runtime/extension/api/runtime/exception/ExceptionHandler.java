@@ -62,7 +62,7 @@ public abstract class ExceptionHandler {
    * 
    * @param throwable the exception to introspect
    * @param causeType the cause type
-   * @param <T> the generic type of the expected exception
+   * @param <T>       the generic type of the expected exception
    * @return an optional cause
    */
   protected <T extends Throwable> Optional<T> getCauseOfType(Throwable throwable, Class<T> causeType) {

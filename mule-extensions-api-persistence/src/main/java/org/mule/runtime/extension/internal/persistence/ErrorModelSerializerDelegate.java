@@ -51,7 +51,7 @@ class ErrorModelSerializerDelegate {
    * and the identifier of the parent.
    *
    * @param errorModels Errors to serialize
-   * @param out json writer where the serialized set will be written
+   * @param out         json writer where the serialized set will be written
    * @throws IOException if an error occurs trying to serialize the errors
    */
   void writeErrors(Set<ErrorModel> errorModels, JsonWriter out) throws IOException {

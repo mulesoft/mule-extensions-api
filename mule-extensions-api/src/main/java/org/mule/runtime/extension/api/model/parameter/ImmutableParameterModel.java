@@ -50,21 +50,21 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   /**
    * Creates a new instance with the given state
    *
-   * @param name the parameter's name. Cannot be blank.
-   * @param description the parameter's description
-   * @param type the parameter's {@link MetadataType}. Cannot be {@code null}
-   * @param hasDynamicType if the given {@code type} is of dynamic kind and has to be discovered during design time
-   * @param required whether this parameter is required or not
-   * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
-   * @param defaultValue this parameter's default value
-   * @param role this parameter's purpose
-   * @param dslConfiguration a model which describes the DSL semantics for this parameter
-   * @param displayModel a model which contains directive about how the parameter is displayed in the UI
-   * @param layoutModel a model which contains directives about the parameter's layout in the UI
+   * @param name                    the parameter's name. Cannot be blank.
+   * @param description             the parameter's description
+   * @param type                    the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType          if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required                whether this parameter is required or not
+   * @param expressionSupport       the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue            this parameter's default value
+   * @param role                    this parameter's purpose
+   * @param dslConfiguration        a model which describes the DSL semantics for this parameter
+   * @param displayModel            a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel             a model which contains directives about the parameter's layout in the UI
    * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
-   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
-   *         time
+   *                                  time
    */
   @Deprecated
   public ImmutableParameterModel(String name,
@@ -90,23 +90,23 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   /**
    * Creates a new instance with the given state
    *
-   * @param name the parameter's name. Cannot be blank.
-   * @param description the parameter's description
-   * @param type the parameter's {@link MetadataType}. Cannot be {@code null}
-   * @param hasDynamicType if the given {@code type} is of dynamic kind and has to be discovered during design time
-   * @param required whether this parameter is required or not
-   * @param isConfigOverride whether this parameter is a configuration override or not
-   * @param isComponentId whether this parameter serves as a {@link ComponentModel} ID or not
-   * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
-   * @param defaultValue this parameter's default value
-   * @param role this parameter's purpose
-   * @param dslConfiguration a model which describes the DSL semantics for this parameter
-   * @param displayModel a model which contains directive about how the parameter is displayed in the UI
-   * @param layoutModel a model which contains directives about the parameter's layout in the UI
+   * @param name                    the parameter's name. Cannot be blank.
+   * @param description             the parameter's description
+   * @param type                    the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType          if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required                whether this parameter is required or not
+   * @param isConfigOverride        whether this parameter is a configuration override or not
+   * @param isComponentId           whether this parameter serves as a {@link ComponentModel} ID or not
+   * @param expressionSupport       the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue            this parameter's default value
+   * @param role                    this parameter's purpose
+   * @param dslConfiguration        a model which describes the DSL semantics for this parameter
+   * @param displayModel            a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel             a model which contains directives about the parameter's layout in the UI
    * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
-   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
-   *         time
+   *                                  time
    */
   public ImmutableParameterModel(String name,
                                  String description,
@@ -131,25 +131,25 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   /**
    * Creates a new instance with the given state
    *
-   * @param name the parameter's name. Cannot be blank.
-   * @param description the parameter's description
-   * @param type the parameter's {@link MetadataType}. Cannot be {@code null}
-   * @param hasDynamicType if the given {@code type} is of dynamic kind and has to be discovered during design time
-   * @param required whether this parameter is required or not
-   * @param isConfigOverride whether this parameter is a configuration override or not
-   * @param isComponentId whether this parameter serves as a {@link ComponentModel} ID or not
-   * @param expressionSupport the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
-   * @param defaultValue this parameter's default value
-   * @param role this parameter's purpose
-   * @param dslConfiguration a model which describes the DSL semantics for this parameter
-   * @param displayModel a model which contains directive about how the parameter is displayed in the UI
-   * @param layoutModel a model which contains directives about the parameter's layout in the UI
+   * @param name                    the parameter's name. Cannot be blank.
+   * @param description             the parameter's description
+   * @param type                    the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType          if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required                whether this parameter is required or not
+   * @param isConfigOverride        whether this parameter is a configuration override or not
+   * @param isComponentId           whether this parameter serves as a {@link ComponentModel} ID or not
+   * @param expressionSupport       the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue            this parameter's default value
+   * @param role                    this parameter's purpose
+   * @param dslConfiguration        a model which describes the DSL semantics for this parameter
+   * @param displayModel            a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel             a model which contains directives about the parameter's layout in the UI
    * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
-   * @param modelProperties A {@link Set} of custom properties which extend this model
-   * @param deprecationModel a {@link DeprecationModel} describing if the parameter is deprecated. A null value means it is not
-   *        deprecated.
+   * @param modelProperties         A {@link Set} of custom properties which extend this model
+   * @param deprecationModel        a {@link DeprecationModel} describing if the parameter is deprecated. A null value means it is
+   *                                not deprecated.
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
-   *         time
+   *                                  time
    */
   public ImmutableParameterModel(String name,
                                  String description,

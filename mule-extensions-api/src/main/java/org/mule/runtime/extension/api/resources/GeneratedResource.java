@@ -21,7 +21,7 @@ public final class GeneratedResource {
   /**
    * Creates a new instance
    *
-   * @param path the resource's path
+   * @param path    the resource's path
    * @param content the resource's content
    */
   public GeneratedResource(String path, byte[] content) {

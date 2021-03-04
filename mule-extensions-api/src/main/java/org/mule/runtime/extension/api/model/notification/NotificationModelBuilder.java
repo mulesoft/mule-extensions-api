@@ -34,7 +34,7 @@ public final class NotificationModelBuilder {
    * Creates a builder to be able to create {@link NotificationModel} instances
    *
    * @param identifier The identifier of the {@link NotificationModel} to create.
-   * @param namespace adds a namespace to the {@link NotificationModel} that is being built
+   * @param namespace  adds a namespace to the {@link NotificationModel} that is being built
    * @return An {@link NotificationModelBuilder} initialized with the {@code typeName}
    */
   public static NotificationModelBuilder newNotification(String identifier, String namespace) {

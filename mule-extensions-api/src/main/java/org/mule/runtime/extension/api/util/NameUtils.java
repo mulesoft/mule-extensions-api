@@ -134,7 +134,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   /**
    * Registers a plural {@code replacement} for the given {@code pattern}
    *
-   * @param pattern the pattern for which you want to register a plural form
+   * @param pattern     the pattern for which you want to register a plural form
    * @param replacement the replacement pattern
    */
   private static void plural(String pattern, String replacement) {
@@ -144,7 +144,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   /**
    * Registers a singular {@code replacement} for the given {@code pattern}
    *
-   * @param pattern the pattern for which you want to register a plural form
+   * @param pattern     the pattern for which you want to register a plural form
    * @param replacement the replacement pattern
    */
   private static void singular(String pattern, String replacement) {
@@ -365,7 +365,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    * Sorts the given {@code list} in ascending alphabetic order, using {@link NamedObject#getName()} as the sorting criteria
    *
    * @param list a {@link List} with instances of {@link NamedObject}
-   * @param <T> the generic type of the items in the {@code list}
+   * @param <T>  the generic type of the items in the {@code list}
    * @return the sorted {@code list}
    */
   public static <T extends NamedObject> List<T> alphaSortDescribedList(List<T> list) {

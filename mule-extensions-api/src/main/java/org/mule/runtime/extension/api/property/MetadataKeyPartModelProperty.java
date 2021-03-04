@@ -38,9 +38,9 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
   /**
    * Creates a new instance.
    *
-   * @param order the order of the parameter in the {@link MetadataKey};
+   * @param order                 the order of the parameter in the {@link MetadataKey};
    * @param providedByKeyResolver whether or not this part will be provided by the keys resolver associated to the container of
-   *        this part
+   *                              this part
    */
   public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
     checkArgument(order > 0,

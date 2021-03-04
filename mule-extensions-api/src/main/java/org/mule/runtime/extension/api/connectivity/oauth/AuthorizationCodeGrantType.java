@@ -31,12 +31,12 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   /**
    * Creates a new instance
    *
-   * @param accessTokenUrl The url of the access token endpoint
+   * @param accessTokenUrl   The url of the access token endpoint
    * @param authorizationUrl The url of the authorization endpoint which initiates the dance
-   * @param accessTokenExpr Expression used to extract the access token from the {@code accessTokenUrl} response
-   * @param expirationRegex Expression used to extract the expiration from the {@code accessTokenUrl} response
+   * @param accessTokenExpr  Expression used to extract the access token from the {@code accessTokenUrl} response
+   * @param expirationRegex  Expression used to extract the expiration from the {@code accessTokenUrl} response
    * @param refreshTokenExpr Expression used to extract the refresh token from the {@code accessTokenUrl} response
-   * @param defaultScope The default scopes to be request
+   * @param defaultScope     The default scopes to be request
    */
   public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
                                     String expirationRegex, String refreshTokenExpr, String defaultScope) {

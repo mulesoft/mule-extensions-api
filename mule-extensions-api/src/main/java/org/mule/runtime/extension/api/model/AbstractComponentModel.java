@@ -36,13 +36,13 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
   /**
    * Creates a new instance
    *
-   * @param name the model's name
-   * @param description the model's description
+   * @param name                 the model's name
+   * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-   * @param nestedComponents a {@link List} with the components contained by this model
-   * @param displayModel a model which contains directive about how this component is displayed in the UI
-   * @param stereotype the {@link StereotypeModel stereotype} of this component
-   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,
@@ -59,15 +59,15 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
   /**
    * Creates a new instance
    *
-   * @param name the model's name
-   * @param description the model's description
+   * @param name                 the model's name
+   * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-   * @param nestedComponents a {@link List} with the components contained by this model
-   * @param displayModel a model which contains directive about how this component is displayed in the UI
-   * @param stereotype the {@link StereotypeModel stereotype} of this component
-   * @param modelProperties A {@link Set} of custom properties which extend this model
-   * @param deprecationModel a {@link DeprecationModel} describing if the component is deprecated. A null value means it is not
-   *        deprecated.
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractComponentModel(String name,

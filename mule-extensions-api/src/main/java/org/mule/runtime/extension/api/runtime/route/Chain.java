@@ -40,7 +40,7 @@ public interface Chain {
    * output {@link Result} available. The given {@link Result} will be the same that was used as input of the failing component.
    *
    * @param onSuccess the callback to be executed when a successful execution is completed by the {@link Chain}
-   * @param onError the callback to be executed when an error occurs during the execution of the {@link Chain} components
+   * @param onError   the callback to be executed when an error occurs during the execution of the {@link Chain} components
    */
   void process(Consumer<Result> onSuccess, BiConsumer<Throwable, Result> onError);
 
@@ -54,7 +54,7 @@ public interface Chain {
    * output {@link Result} available. The given {@link Result} will be the same that was used as input of the failing component.
    *
    * @param onSuccess the callback to be executed when a successful execution is completed by the {@link Chain}
-   * @param onError the callback to be executed when an error occurs during the execution of the {@link Chain} components
+   * @param onError   the callback to be executed when an error occurs during the execution of the {@link Chain} components
    */
   void process(Object payload, Object attributes, Consumer<Result> onSuccess, BiConsumer<Throwable, Result> onError);
 
@@ -69,7 +69,7 @@ public interface Chain {
    * output {@link Result} available. The given {@link Result} will be the same that was used as input of the failing component.
    *
    * @param onSuccess the callback to be executed when a successful execution is completed by the {@link Chain}
-   * @param onError the callback to be executed when an error occurs during the execution of the {@link Chain} components
+   * @param onError   the callback to be executed when an error occurs during the execution of the {@link Chain} components
    */
   void process(Result input, Consumer<Result> onSuccess, BiConsumer<Throwable, Result> onError);
 

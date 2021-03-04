@@ -78,7 +78,7 @@ public enum OutboundCorrelationStrategy {
    * Depending on each strategy implementation, this method might return a {@code customCorrelationId}, the value of
    * {@link CorrelationInfo#getCorrelationId()} or an {@link Optional#empty()} value.
    *
-   * @param correlationInfo the current correlation info
+   * @param correlationInfo     the current correlation info
    * @param customCorrelationId a custom correlation id set at the operation level. Use {@code null} if no custom value defined
    * @return an optioanl correlation id value
    */

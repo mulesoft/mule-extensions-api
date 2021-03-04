@@ -43,7 +43,7 @@ public interface SoapServiceProvider {
    * the actual XML soap header value.
    *
    * @param definition the {@link WebServiceDefinition} of the service being called.
-   * @param operation the name of the operation that is going to be consumed.
+   * @param operation  the name of the operation that is going to be consumed.
    * @return a {@link Map} of soap headers to be bundled in the generated envelope.
    */
   default Map<String, String> getCustomHeaders(WebServiceDefinition definition, String operation) {

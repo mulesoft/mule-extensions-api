@@ -33,12 +33,12 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
   /**
    * Creates a new instance with the given state
    *
-   * @param name the operation's name. Cannot be blank
-   * @param description the operation's descriptor
+   * @param name                 the operation's name. Cannot be blank
+   * @param description          the operation's descriptor
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
-   * @param output an {@link OutputModel} which represents the operation's output content
-   * @param displayModel a model which contains directive about how this operation is displayed in the UI
-   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param displayModel         a model which contains directive about how this operation is displayed in the UI
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableFunctionModel(String name,
@@ -53,14 +53,14 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
   /**
    * Creates a new instance with the given state
    *
-   * @param name the operation's name. Cannot be blank
-   * @param description the operation's descriptor
+   * @param name                 the operation's name. Cannot be blank
+   * @param description          the operation's descriptor
    * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
-   * @param output an {@link OutputModel} which represents the operation's output content
-   * @param displayModel a model which contains directive about how this operation is displayed in the UI
-   * @param modelProperties A {@link Set} of custom properties which extend this model
-   * @param deprecationModel a {@link DeprecationModel} describing if the function is deprecated. A null value means it is not
-   *        deprecated.
+   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param displayModel         a model which contains directive about how this operation is displayed in the UI
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the function is deprecated. A null value means it is not
+   *                             deprecated.
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableFunctionModel(String name,

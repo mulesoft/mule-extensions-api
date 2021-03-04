@@ -36,7 +36,7 @@ public final class RestrictedTypesObjectTypeReferenceHandler implements ObjectTy
    * Creates a new instance
    * 
    * @param serializationContext a {@link SerializationContext} to keep track of the references
-   * @param allowReferenceTypes {@link TypeIdAnnotation#getValue()} of the {@link ObjectType} that can use references
+   * @param allowReferenceTypes  {@link TypeIdAnnotation#getValue()} of the {@link ObjectType} that can use references
    */
   public RestrictedTypesObjectTypeReferenceHandler(SerializationContext serializationContext, Set<String> allowReferenceTypes) {
     this.delegateReferenceHandler = new DefaultObjectTypeReferenceHandler(serializationContext);

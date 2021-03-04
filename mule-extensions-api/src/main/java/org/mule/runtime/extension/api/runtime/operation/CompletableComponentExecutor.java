@@ -23,7 +23,7 @@ public interface CompletableComponentExecutor<M extends ComponentModel> {
    * interface doesn't guarantee that non blocking execution will take place. The callback can always be completed synchronously.
    *
    * @param executionContext a {@link ExecutionContext} with information about the execution
-   * @param callback the {@link ExecutorCallback} to notify the operation's result
+   * @param callback         the {@link ExecutorCallback} to notify the operation's result
    */
   void execute(ExecutionContext<M> executionContext, ExecutorCallback callback);
 

@@ -26,7 +26,7 @@ public class ParameterDslAnnotation implements TypeAnnotation {
    * Creates a new instance
    *
    * @param allowInlineDefinition whether the associated element should support inline definition as child element
-   * @param allowReferences whether the associated element should support registry references
+   * @param allowReferences       whether the associated element should support registry references
    */
   public ParameterDslAnnotation(boolean allowInlineDefinition, boolean allowReferences) {
     this.allowInlineDefinition = allowInlineDefinition;

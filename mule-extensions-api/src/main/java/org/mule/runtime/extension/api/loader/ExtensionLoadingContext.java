@@ -37,7 +37,7 @@ public interface ExtensionLoadingContext {
   /**
    * Adds a custom parameter registered under {@code key}
    *
-   * @param key the key under which the {@code value} is to be registered
+   * @param key   the key under which the {@code value} is to be registered
    * @param value the custom parameter value
    * @throws IllegalArgumentException if {@code key} or {@code value} are {@code null}
    */

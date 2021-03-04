@@ -38,7 +38,7 @@ public interface SourceCallbackContext {
    *
    * @param connection the connection to be bound
    * @return a {@link TransactionHandle} produced as a result of the binding
-   * @throws ConnectionException if the connection is not valid or cannot be used
+   * @throws ConnectionException  if the connection is not valid or cannot be used
    * @throws TransactionException if a transaction was needed but couldn't be started.
    */
   TransactionHandle bindConnection(Object connection) throws ConnectionException, TransactionException;
@@ -79,7 +79,7 @@ public interface SourceCallbackContext {
    * Returns the value associated to a variable of name {@code variableName}
    *
    * @param variableName the name of a variable of a {@link SourceCallback}
-   * @param <T> the returned value's generic type
+   * @param <T>          the returned value's generic type
    * @return an {@link Optional} of the variable's value.
    */
   <T> Optional<T> getVariable(String variableName);
@@ -88,7 +88,7 @@ public interface SourceCallbackContext {
    * Adds a variable
    *
    * @param variableName the name of the variable
-   * @param value the variable's value
+   * @param value        the variable's value
    */
   void addVariable(String variableName, Object value);
 
@@ -124,7 +124,7 @@ public interface SourceCallbackContext {
    * source result to process it.
    *
    * @param action the {@link NotificationActionDefinition} to use.
-   * @param data the {@link TypedValue} data to use.
+   * @param data   the {@link TypedValue} data to use.
    * @since 4.1
    */
   void fireOnHandle(NotificationActionDefinition<?> action, TypedValue<?> data);

@@ -23,7 +23,7 @@ public interface ExtensionLoadingDelegate {
    * Uses the given arguments to declare the extension
    * 
    * @param extensionDeclarer the {@link ExtensionDeclarer} in which the extension is declared
-   * @param context the loading context with all the additional information available
+   * @param context           the loading context with all the additional information available
    */
   void accept(ExtensionDeclarer extensionDeclarer, ExtensionLoadingContext context);
 }

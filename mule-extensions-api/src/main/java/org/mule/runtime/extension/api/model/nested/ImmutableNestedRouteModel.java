@@ -34,13 +34,13 @@ public class ImmutableNestedRouteModel extends AbstractParameterizedModel implem
   /**
    * Creates a new instance
    *
-   * @param name the model's name
-   * @param description the model's description
+   * @param name                 the model's name
+   * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the component's {@link ParameterGroupModel parameter group models}
-   * @param displayModel a model which contains directive about how this component is displayed in the UI
-   * @param minOccurs the minimum number of instances required for this kind of route
-   * @param maxOccurs the maximum number of instances allowed for this kind of route
-   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param minOccurs            the minimum number of instances required for this kind of route
+   * @param maxOccurs            the maximum number of instances allowed for this kind of route
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
   public ImmutableNestedRouteModel(String name, String description,

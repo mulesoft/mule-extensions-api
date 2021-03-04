@@ -29,7 +29,7 @@ public class IllegalSourceModelDefinitionException extends IllegalModelDefinitio
    * Creates a new instance
    *
    * @param message the detail message
-   * @param cause the cause
+   * @param cause   the cause
    */
   public IllegalSourceModelDefinitionException(String message, Throwable cause) {
     super(message, cause);

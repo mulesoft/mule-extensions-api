@@ -23,7 +23,7 @@ public interface ComponentExecutorFactory<T extends ComponentModel> {
    * Creates a new {@link ComponentExecutor}
    *
    * @param componentModel the model of the component to be executed
-   * @param parameters parameters for initializing the executor
+   * @param parameters     parameters for initializing the executor
    * @return a new {@link ComponentExecutor}
    */
   ComponentExecutor<T> createExecutor(T componentModel, Map<String, Object> parameters);

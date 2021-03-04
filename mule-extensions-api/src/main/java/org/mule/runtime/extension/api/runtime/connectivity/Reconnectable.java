@@ -29,7 +29,7 @@ public interface Reconnectable {
    * This method is to implement ONE reconnection attempt. This method is not to have any retry strategies. The runtime will
    * automatically perform retries when and how it applies.
    *
-   * @param exception the connectivity error that triggered the reconnection
+   * @param exception            the connectivity error that triggered the reconnection
    * @param reconnectionCallback the callback used to notify the reconnection result
    */
   void reconnect(ConnectionException exception, ReconnectionCallback reconnectionCallback);

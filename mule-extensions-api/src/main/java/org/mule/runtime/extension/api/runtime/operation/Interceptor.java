@@ -44,7 +44,7 @@ public interface Interceptor<T extends ComponentModel> {
    * {@code this} or other involved instances
    *
    * @param executionContext the {@link ExecutionContext} that was used to execute the operation
-   * @param result the result of the operation. Can be {@code null} if the operation itself returned that.
+   * @param result           the result of the operation. Can be {@code null} if the operation itself returned that.
    */
   default void onSuccess(ExecutionContext<T> executionContext, Object result) {}
 
@@ -72,7 +72,7 @@ public interface Interceptor<T extends ComponentModel> {
    * {@code this} or other involved instances
    *
    * @param executionContext the {@link ExecutionContext} that was used to execute the operation
-   * @param exception the {@link Exception} that was thrown by the failing operation
+   * @param exception        the {@link Exception} that was thrown by the failing operation
    * @return the {@link Exception} that should be propagated forward
    */
   default Throwable onError(ExecutionContext<T> executionContext, Throwable exception) {
@@ -93,7 +93,7 @@ public interface Interceptor<T extends ComponentModel> {
    * {@link #onError(ExecutionContext, Throwable)}
    *
    * @param executionContext the {@link ExecutionContext} that was used to execute the operation
-   * @param result the result of the operation. Can be {@code null} if the operation itself returned that or failed.
+   * @param result           the result of the operation. Can be {@code null} if the operation itself returned that or failed.
    */
   default void after(ExecutionContext<T> executionContext, Object result) {
 

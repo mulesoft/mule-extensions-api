@@ -151,8 +151,8 @@ public class Result<T, A> {
    * Creates a new {@link Builder} initialises with a state that matched the one of the given {@code muleMessage}
    *
    * @param muleMessage a reference {@link Message}
-   * @param <T> the generic type of the output value
-   * @param <A> the generic type of the message attributes
+   * @param <T>         the generic type of the output value
+   * @param <A>         the generic type of the message attributes
    * @return a new {@link Builder}
    */
   public static <T, A> Builder<T, A> builder(Message muleMessage) {

@@ -29,10 +29,10 @@ public class TypeDslAnnotation implements TypeAnnotation {
   /**
    * Creates a new instance
    *
-   * @param allowInlineDefinition whether the associated element should support inline definition as child element
+   * @param allowInlineDefinition   whether the associated element should support inline definition as child element
    * @param allowTopLevelDefinition whether the associated element should support being defined as a top level element
-   * @param substitutionGroup the substitutionGroup that the xml element should have as attribute
-   * @param baseType the dslBaseType that the type should declare as base attribute
+   * @param substitutionGroup       the substitutionGroup that the xml element should have as attribute
+   * @param baseType                the dslBaseType that the type should declare as base attribute
    */
   public TypeDslAnnotation(boolean allowInlineDefinition, boolean allowTopLevelDefinition, String substitutionGroup,
                            String baseType) {

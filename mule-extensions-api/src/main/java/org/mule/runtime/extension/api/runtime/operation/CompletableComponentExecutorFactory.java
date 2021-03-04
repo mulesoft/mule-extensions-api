@@ -21,7 +21,7 @@ public interface CompletableComponentExecutorFactory<T extends ComponentModel> {
    * Creates a new {@link CompletableComponentExecutor}
    *
    * @param componentModel the model of the component to be executed
-   * @param parameters parameters for initializing the executor
+   * @param parameters     parameters for initializing the executor
    * @return a new {@link CompletableComponentExecutor}
    */
   CompletableComponentExecutor<T> createExecutor(T componentModel, Map<String, Object> parameters);

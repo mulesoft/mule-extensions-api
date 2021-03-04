@@ -75,7 +75,7 @@ public final class ExtensionMetadataTypeUtils {
 
   /**
    * @param metadataType the {@link ObjectType} who's {@link Class type} is required
-   * @param classloader the {@link ClassLoader} to use when looking for the {@link Class}
+   * @param classloader  the {@link ClassLoader} to use when looking for the {@link Class}
    * @return the {@link Class type} of the given {@link ObjectType} if one exists in the current classloader,
    *         {@link Optional#empty()} otherwise.
    */
@@ -106,7 +106,7 @@ public final class ExtensionMetadataTypeUtils {
 
   /**
    * @param metadataType the {@link MetadataType} to inspect to retrieve its type Alias
-   * @param defaultName default name to use if {@code metadataType} alias is not defined
+   * @param defaultName  default name to use if {@code metadataType} alias is not defined
    * @return the {@code Alias} name of the {@link MetadataType} or the {@code defaultName} if alias was not specified
    */
   public static String getAlias(MetadataType metadataType, String defaultName) {

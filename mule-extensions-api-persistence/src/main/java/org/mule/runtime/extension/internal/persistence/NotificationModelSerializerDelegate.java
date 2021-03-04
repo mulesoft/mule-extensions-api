@@ -47,7 +47,7 @@ class NotificationModelSerializerDelegate {
    * model.
    *
    * @param notificationModels Notifications to serialize
-   * @param out json writer where the serialized set will be written
+   * @param out                json writer where the serialized set will be written
    * @throws IOException if an error occurs trying to serialize the notifications
    */
   void writeNotifications(Set<NotificationModel> notificationModels, JsonWriter out) throws IOException {

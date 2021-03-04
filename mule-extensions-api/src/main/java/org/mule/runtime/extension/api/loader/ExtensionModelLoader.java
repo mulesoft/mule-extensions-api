@@ -50,15 +50,15 @@ public abstract class ExtensionModelLoader {
    * extra ones. The {@link #configureContextBeforeDeclaration(ExtensionLoadingContext)} allows to add custom configurations into
    * the context before the declaration begins.
    *
-   * @param pluginClassLoader context {@link ClassLoader} that holds all the needed classes and resources to properly generate an
-   *        {@link ExtensionModel}.
+   * @param pluginClassLoader   context {@link ClassLoader} that holds all the needed classes and resources to properly generate
+   *                            an {@link ExtensionModel}.
    * @param dslResolvingContext context with all the {@link ExtensionModel}s already loaded that are mandatory to execute the
-   *        method properly.
-   * @param attributes a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader}, which
-   *        will be responsible of extracting the mandatory parameters (while casting, if needed).
+   *                            method properly.
+   * @param attributes          a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader},
+   *                            which will be responsible of extracting the mandatory parameters (while casting, if needed).
    * @return an {@link ExtensionModel} that represents the plugin being described
    * @throws IllegalArgumentException if there are missing entries in {@code attributes} or the type of any of them does not apply
-   *         to the expected one.
+   *                                  to the expected one.
    */
   public final ExtensionModel loadExtensionModel(ClassLoader pluginClassLoader, DslResolvingContext dslResolvingContext,
                                                  Map<String, Object> attributes) {
