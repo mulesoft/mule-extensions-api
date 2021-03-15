@@ -14,9 +14,11 @@ import static org.mule.runtime.extension.api.declaration.type.annotation.Stereot
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
+import org.mule.metadata.api.builder.AnyTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.TypeBuilder;
 import org.mule.metadata.api.builder.WithAnnotation;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
@@ -85,6 +87,10 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(Literal.class),
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
+    } else if (Object.class.equals(clazz)) {
+      typeBuilder = baseTypeBuilder.anyType()
+          .id(clazz.getCanonicalName())
+          .with(new ClassInformationAnnotation(clazz, genericTypes));
     } else {
       typeBuilder = super.handleClass(currentClass, genericTypes, typeHandlerManager, context, baseTypeBuilder);
     }

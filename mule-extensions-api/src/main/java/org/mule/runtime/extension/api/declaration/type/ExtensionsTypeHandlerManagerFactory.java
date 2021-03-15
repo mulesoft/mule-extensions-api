@@ -32,7 +32,6 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
                                      new CursorProviderTypeHandler(),
                                      new TlsContextClassHandler(),
                                      new ObjectStoreClassHandler(),
-                                     new ExtensionObjectClassTypeHandler(),
                                      new ExtensionObjectTypeHandler(new ExtensionsObjectFieldHandler()));
   }
 }
