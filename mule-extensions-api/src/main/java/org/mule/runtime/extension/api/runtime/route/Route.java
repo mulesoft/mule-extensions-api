@@ -14,16 +14,16 @@ import org.mule.runtime.extension.api.annotation.param.stereotype.AllowedStereot
 import org.mule.runtime.extension.api.runtime.process.RouterCompletionCallback;
 
 /**
- * A {@link Route} allows a given {@link ComponentModel Operation} to receive a chain of message processors
- * along with a set of parameters, to be executed as part of the operation's execution.
+ * A {@link Route} allows a given {@link ComponentModel Operation} to receive a chain of message processors along with a set of
+ * parameters, to be executed as part of the operation's execution.
  * <p>
- * Routes should be used for receiving multiple possible paths of execution, where the {@link ParameterModel parameters}
- * of the {@link Route} can be used to decide whether or not the contained processors should be executed.
- * {@link StereotypeModel Stereotypes} can be used in the {@link Route} declaration to define which are
- * the <b>allowed stereotypes</b> of the received processors.
+ * Routes should be used for receiving multiple possible paths of execution, where the {@link ParameterModel parameters} of the
+ * {@link Route} can be used to decide whether or not the contained processors should be executed. {@link StereotypeModel
+ * Stereotypes} can be used in the {@link Route} declaration to define which are the <b>allowed stereotypes</b> of the received
+ * processors.
  * <p>
- * This {@link Route} will not allow complex parameters to be defined inline, since the DSL content of the element
- * will be exclusive of the parameterized processors.
+ * This {@link Route} will not allow complex parameters to be defined inline, since the DSL content of the element will be
+ * exclusive of the parameterized processors.
  *
  * @since 1.0
  * @see Chain

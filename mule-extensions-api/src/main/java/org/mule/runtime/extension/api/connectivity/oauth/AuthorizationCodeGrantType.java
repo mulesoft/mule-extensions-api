@@ -12,8 +12,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import java.util.Optional;
 
 /**
- * Implementation of {@Link OAuthGrantType} which contains information about how to use the
- * Authorization-Code grant type against a particular OAuth provider
+ * Implementation of {@Link OAuthGrantType} which contains information about how to use the Authorization-Code grant type against
+ * a particular OAuth provider
  *
  * @since 1.0
  */

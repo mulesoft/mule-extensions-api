@@ -11,9 +11,8 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 
 /**
- * Marker {@link ModelProperty} for {@link ParameterModel}s that indicates that the
- * enriched parameter is considered as a Target type.
- * This is required to handle the parameter as a {@link Literal} one.
+ * Marker {@link ModelProperty} for {@link ParameterModel}s that indicates that the enriched parameter is considered as a Target
+ * type. This is required to handle the parameter as a {@link Literal} one.
  *
  * @since 1.0
  */

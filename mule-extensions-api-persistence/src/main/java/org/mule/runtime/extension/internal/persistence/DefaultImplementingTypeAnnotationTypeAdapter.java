@@ -27,8 +27,7 @@ public class DefaultImplementingTypeAnnotationTypeAdapter extends TypeAdapter<De
   private final MetadataTypeGsonTypeAdapter typeAdapter;
 
   /**
-   * Creates a new instance which doesn't handle type references.
-   * Types are described (no ref) in the imported types section.
+   * Creates a new instance which doesn't handle type references. Types are described (no ref) in the imported types section.
    */
   public DefaultImplementingTypeAnnotationTypeAdapter() {
     typeAdapter = new MetadataTypeGsonTypeAdapter();

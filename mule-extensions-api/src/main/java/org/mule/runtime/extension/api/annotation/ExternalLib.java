@@ -19,15 +19,14 @@ import java.lang.annotation.Target;
 /**
  * Specifies that the annotated element depends on a library which is not packaged with the extension.
  * <p>
- * This annotation is intended to be used in classes which represent the extension, a configuration or a
- * connection provider.
+ * This annotation is intended to be used in classes which represent the extension, a configuration or a connection provider.
  * <p>
- * When the dependency is needed extension wide, then this annotation should be used at the extension level. If it's only
- * needed when using a particular configuration, then it should be used at the config level. Finally, if it's needed only
- * for establishing connections, then it should be used on a connection provider. Notice that you can have a mix of any of these
- * options, since an extension can depend on many external libraries in different places. An example would be the Database connector,
- * which has different {@link ConnectionProvider} for connecting to different types of databases, each one requiring a different
- * JDBC driver.
+ * When the dependency is needed extension wide, then this annotation should be used at the extension level. If it's only needed
+ * when using a particular configuration, then it should be used at the config level. Finally, if it's needed only for
+ * establishing connections, then it should be used on a connection provider. Notice that you can have a mix of any of these
+ * options, since an extension can depend on many external libraries in different places. An example would be the Database
+ * connector, which has different {@link ConnectionProvider} for connecting to different types of databases, each one requiring a
+ * different JDBC driver.
  * <p>
  * This annotation is repeatable, which means that any annotated component can depend on many external libraries.
  *
@@ -67,8 +66,8 @@ public @interface ExternalLib {
   ExternalLibraryType type();
 
   /**
-   * If provided, suggests Maven coordinates where the required library can be found. This coordinates should
-   * follow the Maven convention: {@code groupId:artifactId:packaging:classifier:version}.
+   * If provided, suggests Maven coordinates where the required library can be found. This coordinates should follow the Maven
+   * convention: {@code groupId:artifactId:packaging:classifier:version}.
    * <p>
    * Keep in mind that not all the values of the coordinates are required, for example:
    * {@code org.mule.modules:a-required-lib:1.0.0} are valid coordinates, which communicates the {@code groupId},
@@ -77,7 +76,8 @@ public @interface ExternalLib {
    * By default, the packaging is {@code jar}, so if is required to use a native library, like a .DLL, you will provide:
    * {@code org.mule.module:a-native-lib:dll:1.0.0} where {@code dll} is the packaging of the library.
    * <p>
-   * More information in: <a href="https://maven.apache.org/pom.html#Maven_Coordinates">https://maven.apache.org/pom.html#Maven_Coordinates</a>
+   * More information in:
+   * <a href="https://maven.apache.org/pom.html#Maven_Coordinates">https://maven.apache.org/pom.html#Maven_Coordinates</a>
    *
    * @return The optional maven coordinates.
    */

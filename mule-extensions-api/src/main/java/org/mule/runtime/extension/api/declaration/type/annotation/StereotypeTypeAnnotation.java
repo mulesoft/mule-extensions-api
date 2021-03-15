@@ -18,8 +18,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * A public {@link TypeAnnotation} intended to be used on {@link ObjectFieldType} types in order to
- * communicate an associated {@link StereotypeModel}
+ * A public {@link TypeAnnotation} intended to be used on {@link ObjectFieldType} types in order to communicate an associated
+ * {@link StereotypeModel}
  *
  * @since 1.0
  */

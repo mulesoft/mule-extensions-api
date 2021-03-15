@@ -11,8 +11,8 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import javax.xml.namespace.QName;
 
 /**
- * A {@link ModelProperty} which indicates that the enriched model
- * relates to a {@link QName} which is not the one the extension belongs to.
+ * A {@link ModelProperty} which indicates that the enriched model relates to a {@link QName} which is not the one the extension
+ * belongs to.
  *
  * @since 1.0
  */
@@ -23,6 +23,7 @@ public final class QNameModelProperty implements ModelProperty {
 
   /**
    * Creates a new instance
+   * 
    * @param value the referenced {@link QName}
    */
   public QNameModelProperty(QName value) {

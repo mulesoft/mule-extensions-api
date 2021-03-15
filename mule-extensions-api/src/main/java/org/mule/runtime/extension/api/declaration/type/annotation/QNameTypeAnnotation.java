@@ -11,8 +11,8 @@ import org.mule.metadata.api.annotation.TypeAnnotation;
 import javax.xml.namespace.QName;
 
 /**
- * A {@link TypeAnnotation} which indicates that the enriched type
- * relates to a {@link QName} which is not the one the extension belongs to.
+ * A {@link TypeAnnotation} which indicates that the enriched type relates to a {@link QName} which is not the one the extension
+ * belongs to.
  *
  * @since 1.0
  */
@@ -23,6 +23,7 @@ public final class QNameTypeAnnotation implements TypeAnnotation {
 
   /**
    * Creates a new instance
+   * 
    * @param value the referenced {@link QName}
    */
   public QNameTypeAnnotation(QName value) {

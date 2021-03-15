@@ -13,24 +13,22 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import java.util.Optional;
 
 /**
- * Just like the {@link ConfigurationModel} class provides introspection on a configuration's
- * structure and parameters, this concept provides an abstraction on an actual configuration instance
- * which was declared and instantiated.
+ * Just like the {@link ConfigurationModel} class provides introspection on a configuration's structure and parameters, this
+ * concept provides an abstraction on an actual configuration instance which was declared and instantiated.
  * <p>
- * This abstraction is inspired in the traditional model that programming languages use to declare
- * a variable. In such model, a variable has a name, a type, a value and in some higher level languages
- * such as Java or .net they can also have metadata by the use of annotations.
+ * This abstraction is inspired in the traditional model that programming languages use to declare a variable. In such model, a
+ * variable has a name, a type, a value and in some higher level languages such as Java or .net they can also have metadata by the
+ * use of annotations.
  * <p>
- * In the same way, this declaration provides a {@link #getName()}, a {@link #getModel()} (which for the
- * purpose of this abstraction acts as a type), a {@link #getValue()} (which is the actual configuration
- * instance) and some metadata ({@link #getStatistics()})
+ * In the same way, this declaration provides a {@link #getName()}, a {@link #getModel()} (which for the purpose of this
+ * abstraction acts as a type), a {@link #getValue()} (which is the actual configuration instance) and some metadata
+ * ({@link #getStatistics()})
  * <p>
- * It can optionally also contain a {@link ConnectionProvider} which will be used to handle connections
- * in case the owning extension requires connectivity. There's a strong composition and lifecycle bound
- * between a {@link ConnectionProvider} and a {@link ConfigurationInstance}. Whatever lifecycle phase
- * is applied to a {@link ConfigurationInstance}, it should be propagated to its owned {@link ConnectionProvider}.
- * More specifically, if a {@link ConfigurationInstance} is stopped, then the {@link ConnectionProvider} should also
- * be stopped and all its active connections be released.
+ * It can optionally also contain a {@link ConnectionProvider} which will be used to handle connections in case the owning
+ * extension requires connectivity. There's a strong composition and lifecycle bound between a {@link ConnectionProvider} and a
+ * {@link ConfigurationInstance}. Whatever lifecycle phase is applied to a {@link ConfigurationInstance}, it should be propagated
+ * to its owned {@link ConnectionProvider}. More specifically, if a {@link ConfigurationInstance} is stopped, then the
+ * {@link ConnectionProvider} should also be stopped and all its active connections be released.
  *
  * @since 1.0
  */
@@ -59,7 +57,7 @@ public interface ConfigurationInstance {
 
   /**
    * @return An {@link Optional} which (maybe) holds the {@link ConnectionProvider} to be used with {@code this}
-   * {@link ConfigurationInstance}
+   *         {@link ConfigurationInstance}
    */
   Optional<ConnectionProvider> getConnectionProvider();
 

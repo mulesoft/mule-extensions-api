@@ -16,8 +16,8 @@ import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import java.util.Collection;
 
 /**
- * Provides instances of the {@link TypeKeysResolver}, {@link TypeKeysResolver},
- * {@link OutputTypeResolver} and {@link QueryEntityResolver} resolving types associated to a Component
+ * Provides instances of the {@link TypeKeysResolver}, {@link TypeKeysResolver}, {@link OutputTypeResolver} and
+ * {@link QueryEntityResolver} resolving types associated to a Component
  *
  * @since 1.0
  */

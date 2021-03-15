@@ -143,8 +143,8 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param notifications        A {@link Set} of {@link NotificationModel} which describes the component's notifications
-   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is not
-   *        deprecated.
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
    * @throws IllegalArgumentException if {@code name} is blank
    */
   protected AbstractExecutableComponentModel(String name,
@@ -180,7 +180,8 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param description             the model's description
    * @param parameterGroupModels    a {@link List} with the source's {@link ParameterGroupModel parameter group models}
    * @param output                  an {@link OutputModel} which represents the component's output content
-   * @param outputAttributes        an {@link OutputModel} which represents the component's attributes on the output {@link Message}
+   * @param outputAttributes        an {@link OutputModel} which represents the component's attributes on the output
+   *                                {@link Message}
    * @param requiresConnection      whether this component requires connectivity
    * @param transactional           whether this component supports transactions
    * @param supportsStreaming       whether this component supports streaming
@@ -189,8 +190,10 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param nestedComponents        a {@link List} with the components contained by this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the component's notifications
-   * @param deprecationModel        a {@link DeprecationModel} describing if the component is deprecated. A null value means it is not deprecated.
-   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data capabilities
+   * @param deprecationModel        a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                                not deprecated.
+   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
+   *                                capabilities
    * @throws IllegalArgumentException if {@code name} is blank
    * @since 1.4.0
    */

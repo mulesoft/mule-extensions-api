@@ -16,8 +16,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for {@link Extension} level to communicate and declare the {@link NotificationActionDefinition}s that
- * the whole extension emits.
+ * Annotation for {@link Extension} level to communicate and declare the {@link NotificationActionDefinition}s that the whole
+ * extension emits.
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.annotation.notification.NotificationActions} instead.

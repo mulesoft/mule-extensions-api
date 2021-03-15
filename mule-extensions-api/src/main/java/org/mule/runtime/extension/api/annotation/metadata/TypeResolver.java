@@ -17,8 +17,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Associates the annotated Parameter to an {@link InputTypeResolver} that will be used
- * to resolve the Parameter's {@link MetadataType} dynamically
+ * Associates the annotated Parameter to an {@link InputTypeResolver} that will be used to resolve the Parameter's
+ * {@link MetadataType} dynamically
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.metadata.TypeResolver} instead.

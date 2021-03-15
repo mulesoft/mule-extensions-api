@@ -16,11 +16,10 @@ import java.lang.annotation.Target;
 
 
 /**
- * This annotation can be used at Operation level or at {@link Extension} level as
- * a common handler for all the Operations,
- * When an exception occurs in an operation the Enricher Class declared in this
- * annotation will be called immediately, passing to the enrichException method the exception thrown by the operation.
- * an Operation level enricher will override the {@link OnException} level one.
+ * This annotation can be used at Operation level or at {@link Extension} level as a common handler for all the Operations, When
+ * an exception occurs in an operation the Enricher Class declared in this annotation will be called immediately, passing to the
+ * enrichException method the exception thrown by the operation. an Operation level enricher will override the {@link OnException}
+ * level one.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.OnException} instead.

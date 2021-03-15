@@ -25,6 +25,7 @@ public final class ComponentResultTypeAdapterFactory
   @Override
   public <C> TypeAdapter<C> create(Gson gson, TypeToken<C> type) {
     return type.getRawType().isAssignableFrom(ComponentMetadataResult.class)
-        ? (TypeAdapter<C>) new ComponentResultTypeAdapter(gson) : null;
+        ? (TypeAdapter<C>) new ComponentResultTypeAdapter(gson)
+        : null;
   }
 }

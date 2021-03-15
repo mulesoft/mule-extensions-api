@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This interface allows the exposure of the {@link Set} of {@link Value values} associated to a Configuration's or
- * Connection Provider's parameter.
+ * This interface allows the exposure of the {@link Set} of {@link Value values} associated to a Configuration's or Connection
+ * Provider's parameter.
  *
  * @since 1.0
  */

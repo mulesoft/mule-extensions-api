@@ -20,8 +20,7 @@ import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 
 /**
- * Makes sure that operations with the {@code VALIDATOR} stereotype comply with its restrictions, as defined in
- * {@link Validator}
+ * Makes sure that operations with the {@code VALIDATOR} stereotype comply with its restrictions, as defined in {@link Validator}
  *
  * @since 1.0
  */

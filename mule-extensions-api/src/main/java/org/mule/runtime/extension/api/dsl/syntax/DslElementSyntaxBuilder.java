@@ -82,8 +82,8 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
-   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as
-   * an attribute in the context for which it was created.
+   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as an attribute in the context for
+   * which it was created.
    *
    * @return {@code this} builder instance enriched with {@code supportsAttributeDeclaration}
    */
@@ -93,8 +93,8 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
-   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as child element
-   * in the context for which it was created.
+   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as child element in the context for
+   * which it was created.
    *
    * @return {@code this} builder instance enriched with {@code supportsChildDeclaration}
    */
@@ -104,8 +104,8 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
-   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as top level element
-   * in the context for which it was created.
+   * Declares whether or not {@code this} {@link DslElementSyntax} supports to be declared as top level element in the context for
+   * which it was created.
    *
    * @return {@code this} builder instance enriched with {@code supportsTopLevelDeclaration}
    */
@@ -115,8 +115,7 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
-   * Declares whether or not {@code this} {@link DslElementSyntax} requires a parameter
-   * pointing to a config
+   * Declares whether or not {@code this} {@link DslElementSyntax} requires a parameter pointing to a config
    *
    * @return {@code this} builder instance enriched with {@code supportsTopLevelDeclaration}
    */
@@ -126,8 +125,8 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
-   * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
-   * represents a generic type of {@code this} element.
+   * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that represents a generic
+   * type of {@code this} element.
    *
    * @return {@code this} builder instance enriched with the {@code typed} {@link DslElementSyntax childElement}
    */
@@ -141,8 +140,8 @@ public final class DslElementSyntaxBuilder {
   }
 
   /**
-   * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that
-   * can be referenced by {@code name}
+   * Adds a {@link DslElementSyntax childElement} declaration to {@code this} {@link DslElementSyntax} that can be referenced by
+   * {@code name}
    *
    * @return {@code this} builder instance enriched with the {@code named} {@link DslElementSyntax childElement}
    */

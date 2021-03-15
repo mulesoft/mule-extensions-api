@@ -32,14 +32,14 @@ import org.apache.commons.lang3.ClassUtils;
 import org.slf4j.Logger;
 
 /**
- * {@link TypeAdapter} implementation that knows how to serialize and deserialize {@code Map<Class<? extends ModelProperty>, ModelProperty>}.
- * This {@link TypeAdapter} has been created at this level, and not just a {@link TypeAdapter<ModelProperty>}, to be able
- * to easily tag every object with a representative name of the class.
+ * {@link TypeAdapter} implementation that knows how to serialize and deserialize
+ * {@code Map<Class<? extends ModelProperty>, ModelProperty>}. This {@link TypeAdapter} has been created at this level, and not
+ * just a {@link TypeAdapter<ModelProperty>}, to be able to easily tag every object with a representative name of the class.
  * <p>
- * Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only
- * the already know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel}
- * is going to be identified with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized
- * tagging it with the full qualifier name of the class.
+ * Due to the nature of {@link ModelProperty}, that can be dynamically attached to any {@link EnrichableModel}, only the already
+ * know set of {@link ModelProperty} will be tagged with a friendly name, example: {@link LayoutModel} is going to be identified
+ * with the {@code display} name. Otherwise, the {@link ModelProperty} will be serialized tagging it with the full qualifier name
+ * of the class.
  * <p>
  * When deserializing a {@link ModelProperty}s, their full qualified name will be used, if the class is not found in the
  * ClassLoader the {@link ModelProperty} object will be discarded

@@ -20,9 +20,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for {@link SourceModel Sources}, {@link OperationModel Operations},
- * {@link ConfigurationModel Configuration} and {@link ConnectionProviderModel Connections}
- * level to communicate and declare the {@link StereotypeDefinition}s that characterize the annotated components
+ * Annotation for {@link SourceModel Sources}, {@link OperationModel Operations}, {@link ConfigurationModel Configuration} and
+ * {@link ConnectionProviderModel Connections} level to communicate and declare the {@link StereotypeDefinition}s that
+ * characterize the annotated components
  *
  * @since 1.0
  * @see StereotypeDefinition

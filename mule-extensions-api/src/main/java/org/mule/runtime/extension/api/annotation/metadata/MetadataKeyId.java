@@ -22,18 +22,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks one of the parameters of an Operation or Source as the key for the metadata lookup.
- * This lookup is resolved by the {@link TypeKeysResolver} referenced in the {@link MetadataScope}, at Operation, Source
- * or Extension level, which will return the list of available the {@link MetadataKey} or also, the lookup can be resolved
- * by the {@link QueryEntityResolver#getEntityKeys(MetadataContext)} for {@link Query} annotated operations, this time the
- * key will represent the query (DSQL or Native) which is used to calculate the output metadata.
+ * Marks one of the parameters of an Operation or Source as the key for the metadata lookup. This lookup is resolved by the
+ * {@link TypeKeysResolver} referenced in the {@link MetadataScope}, at Operation, Source or Extension level, which will return
+ * the list of available the {@link MetadataKey} or also, the lookup can be resolved by the
+ * {@link QueryEntityResolver#getEntityKeys(MetadataContext)} for {@link Query} annotated operations, this time the key will
+ * represent the query (DSQL or Native) which is used to calculate the output metadata.
  * <p>
  * <b>Annotation Usage:</b>
  * <ul>
- * <li><b>Operations: </b> The annotation must be applied to an Operation parameter to mark it as the metadata key parameter.
- * The usage of this annotation in multiple parameters of the same operation or fields of the operation class is not allowed.</li>
- * <li><b>Sources: </b> The annotation must be applied to a Source field annotated with {@link Parameter} to mark it as
- * the metadata key parameter. The usage of this annotation in a non {@link Parameter} field, multiple fields or in a method
+ * <li><b>Operations: </b> The annotation must be applied to an Operation parameter to mark it as the metadata key parameter. The
+ * usage of this annotation in multiple parameters of the same operation or fields of the operation class is not allowed.</li>
+ * <li><b>Sources: </b> The annotation must be applied to a Source field annotated with {@link Parameter} to mark it as the
+ * metadata key parameter. The usage of this annotation in a non {@link Parameter} field, multiple fields or in a method
  * parameter, is not allowed.</li>
  * </ul>
  * The illegal usage of this annotation could produce extension compilation errors

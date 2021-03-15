@@ -10,21 +10,17 @@ import org.mule.runtime.api.component.execution.CompletableCallback;
 import org.mule.runtime.api.meta.model.ComponentModel;
 
 /**
- * A facade interface which hides the details of how an
- * operation is actually executed. It aims to decouple
- * the abstract introspection model that the extensions
- * API proposes from the implementation details of the
- * underlying environment.
+ * A facade interface which hides the details of how an operation is actually executed. It aims to decouple the abstract
+ * introspection model that the extensions API proposes from the implementation details of the underlying environment.
  *
  * @since 1.3.0
  */
 public interface CompletableComponentExecutor<M extends ComponentModel> {
 
   /**
-   * Executes the operation using the given {@code executionContext}.
-   * The outcome will be informed by calling the appropriate method in the {@code callback}.
-   * Although this pattern is optimized for non blocking execution, notice that using this interface doesn't guarantee
-   * that non blocking execution will take place. The callback can always be completed synchronously.
+   * Executes the operation using the given {@code executionContext}. The outcome will be informed by calling the appropriate
+   * method in the {@code callback}. Although this pattern is optimized for non blocking execution, notice that using this
+   * interface doesn't guarantee that non blocking execution will take place. The callback can always be completed synchronously.
    *
    * @param executionContext a {@link ExecutionContext} with information about the execution
    * @param callback         the {@link ExecutorCallback} to notify the operation's result

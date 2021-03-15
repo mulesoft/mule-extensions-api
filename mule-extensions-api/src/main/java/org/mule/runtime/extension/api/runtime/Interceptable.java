@@ -12,18 +12,14 @@ import org.mule.runtime.extension.api.runtime.operation.Interceptor;
 import java.util.List;
 
 /**
- * A component which can be intercepted through a {@link List} of
- * {@link Interceptor interceptors} that it provides.
+ * A component which can be intercepted through a {@link List} of {@link Interceptor interceptors} that it provides.
  * <p/>
- * Notice that the interceptors are returned in a {@link List}, which
- * carries the concept of order. Although implementations are to return
- * the interceptors in the order they would like them to be executed,
- * the runtime reserves the right to not only re-arrange them but to also
- * insert other interceptors before, after and in-between of them.
+ * Notice that the interceptors are returned in a {@link List}, which carries the concept of order. Although implementations are
+ * to return the interceptors in the order they would like them to be executed, the runtime reserves the right to not only
+ * re-arrange them but to also insert other interceptors before, after and in-between of them.
  * <p/>
- * At the same time, just like the runtime doesn't guarantee to respect
- * the given order, it doesn't commit to make a best effort to alter them
- * as little as possible or convenient
+ * At the same time, just like the runtime doesn't guarantee to respect the given order, it doesn't commit to make a best effort
+ * to alter them as little as possible or convenient
  *
  * @since 1.0
  * @deprecated since 1.3.0. Do not use.
@@ -33,8 +29,7 @@ import java.util.List;
 public interface Interceptable {
 
   /**
-   * Provides a list of {@link Interceptor interceptors} in a proposed
-   * order of execution
+   * Provides a list of {@link Interceptor interceptors} in a proposed order of execution
    *
    * @return a immutable {@link List}. Might be empty but will never be {@code null}
    */

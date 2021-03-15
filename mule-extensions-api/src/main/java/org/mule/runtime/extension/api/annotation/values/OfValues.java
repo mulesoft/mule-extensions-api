@@ -17,8 +17,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a parameter or parameter group as a value that has the capability of resolve {@link Value values} for this one.
- * This resolution is resolved by the {@link ValueProvider} referenced in the {@link OfValues}.
+ * Marks a parameter or parameter group as a value that has the capability of resolve {@link Value values} for this one. This
+ * resolution is resolved by the {@link ValueProvider} referenced in the {@link OfValues}.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.values.OfValues} instead.

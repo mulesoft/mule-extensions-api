@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This handler allows to configure the current context's authentication, used for encryption and inbound authentication,
- * based on a given {@link Authentication} request.
+ * This handler allows to configure the current context's authentication, used for encryption and inbound authentication, based on
+ * a given {@link Authentication} request.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.security.AuthenticationHandler} instead.
@@ -33,8 +33,8 @@ public interface AuthenticationHandler {
    *
    * @param authentication the {@link Authentication} used for setting up the new security context
    *
-   * @throws SecurityProviderNotFoundException if no security provider able to authenticate the given authentication is found
-   * @throws SecurityException if an error occurs during the update of the security context
+   * @throws SecurityProviderNotFoundException  if no security provider able to authenticate the given authentication is found
+   * @throws SecurityException                  if an error occurs during the update of the security context
    * @throws UnknownAuthenticationTypeException if no security provider able to handle the given authentication is found
    */
   void setAuthentication(Authentication authentication)
@@ -44,10 +44,10 @@ public interface AuthenticationHandler {
    * Updates the current context with the given {@link Authentication} information.
    *
    * @param securityProviders the {@link List} of security providers that will be added to the {@code SecurityManager}
-   * @param authentication the {@link Authentication} used for setting up the new security context
+   * @param authentication    the {@link Authentication} used for setting up the new security context
    *
-   * @throws SecurityProviderNotFoundException if no security provider able to authenticate the given authentication is found
-   * @throws SecurityException if an error occurs during the update of the security context
+   * @throws SecurityProviderNotFoundException  if no security provider able to authenticate the given authentication is found
+   * @throws SecurityException                  if an error occurs during the update of the security context
    * @throws UnknownAuthenticationTypeException if no security provider able to handle the given authentication is found
    */
   void setAuthentication(List<String> securityProviders, Authentication authentication)

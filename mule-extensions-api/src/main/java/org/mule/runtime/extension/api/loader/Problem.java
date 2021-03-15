@@ -22,7 +22,7 @@ public final class Problem {
    * Creates a new instance
    *
    * @param component the model in which the problem was found
-   * @param message Problem's description
+   * @param message   Problem's description
    */
   public Problem(NamedObject component, String message) {
     this.component = component;

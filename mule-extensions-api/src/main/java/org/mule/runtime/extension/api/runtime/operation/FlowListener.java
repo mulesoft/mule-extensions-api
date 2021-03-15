@@ -15,14 +15,15 @@ import java.util.function.Consumer;
 /**
  * Allows to execute custom logic when the flow on which an operation is being executed finishes.
  * <p>
- * Operation can declare an argument of this type and the runtime will automatically inject an implementation
- * which the operation can use.
+ * Operation can declare an argument of this type and the runtime will automatically inject an implementation which the operation
+ * can use.
  * <p>
- * An example use case is an operation which needs to await for the owning flow to finish in order to execute some clean-up,
- * or wants to know the final outcome in order to log it or audit it.
+ * An example use case is an operation which needs to await for the owning flow to finish in order to execute some clean-up, or
+ * wants to know the final outcome in order to log it or audit it.
  * <p>
  * For example, let's see a very simple logging case
  * <p>
+ * 
  * <pre>
  *
  *  public void listeningOperation(FlowListener listener) {
@@ -33,8 +34,8 @@ import java.util.function.Consumer;
  *  }
  * </pre>
  * <p>
- * Instances are not reusable and should not be cached. Instances are also not thread-safe. No instance should be used
- * in a thread different from the one executing the operation.
+ * Instances are not reusable and should not be cached. Instances are also not thread-safe. No instance should be used in a thread
+ * different from the one executing the operation.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.runtime.operation.FlowListener} instead.

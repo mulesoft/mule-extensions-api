@@ -22,7 +22,8 @@ import java.util.Set;
 
 /**
  * Implementation of {@link ObjectTypeReferenceHandler} which only uses references for the {@link ObjectType} present in the
- * {@link ExtensionModel} catalogue types obtained through {@link ExtensionModel#getTypes()} and {@link ExtensionModel#getImportedTypes()}.
+ * {@link ExtensionModel} catalogue types obtained through {@link ExtensionModel#getTypes()} and
+ * {@link ExtensionModel#getImportedTypes()}.
  *
  * @since 1.0
  */
@@ -35,7 +36,7 @@ public final class RestrictedTypesObjectTypeReferenceHandler implements ObjectTy
    * Creates a new instance
    * 
    * @param serializationContext a {@link SerializationContext} to keep track of the references
-   * @param allowReferenceTypes {@link TypeIdAnnotation#getValue()} of the {@link ObjectType} that can use references
+   * @param allowReferenceTypes  {@link TypeIdAnnotation#getValue()} of the {@link ObjectType} that can use references
    */
   public RestrictedTypesObjectTypeReferenceHandler(SerializationContext serializationContext, Set<String> allowReferenceTypes) {
     this.delegateReferenceHandler = new DefaultObjectTypeReferenceHandler(serializationContext);

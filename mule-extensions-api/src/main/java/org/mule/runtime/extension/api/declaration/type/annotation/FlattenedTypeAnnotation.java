@@ -11,11 +11,9 @@ import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 
 /**
- * A marker {@link TypeAnnotation} meant to be applied on
- * {@link ObjectFieldType} instances which {@link ObjectFieldType#getValue()}
- * points to an {@link ObjectType}. The presence of this annotation means
- * that the fields in such target object should be flattened into the
- * owner {@link ObjectType}.
+ * A marker {@link TypeAnnotation} meant to be applied on {@link ObjectFieldType} instances which
+ * {@link ObjectFieldType#getValue()} points to an {@link ObjectType}. The presence of this annotation means that the fields in
+ * such target object should be flattened into the owner {@link ObjectType}.
  *
  * @since 1.0
  */

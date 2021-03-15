@@ -19,8 +19,8 @@ import java.util.Optional;
 
 
 /**
- * A {@link ModelProperty} for a of {@link SourceModel} and {@link OperationModel} parameters
- * that indicates that its a {@link MetadataKeyId}.
+ * A {@link ModelProperty} for a of {@link SourceModel} and {@link OperationModel} parameters that indicates that its a
+ * {@link MetadataKeyId}.
  *
  * @since 1.0
  */

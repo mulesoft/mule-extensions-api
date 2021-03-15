@@ -216,7 +216,7 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * @param extensionModel a {@link ExtensionModel}
+   * @param extensionModel     a {@link ExtensionModel}
    * @param configurationModel a {@link ConfigurationModel}
    * @return Whether at least one of the models have a {@link ConnectionProviderModel}
    * @since 1.1.4
@@ -228,8 +228,7 @@ public class ExtensionModelUtils {
   /**
    * @param extensionModel the model which owns the {@code component}
    * @param component      a component
-   * @return Whether the given {@code component} needs to be provided with a config
-   * in order to function
+   * @return Whether the given {@code component} needs to be provided with a config in order to function
    */
   public static boolean requiresConfig(ExtensionModel extensionModel, NamedObject component) {
     if (!(component instanceof ConnectableComponentModel)) {
@@ -267,7 +266,7 @@ public class ExtensionModelUtils {
 
   /**
    * @param extensionModel the model which owns the {@code component}
-   * @param component a component
+   * @param component      a component
    * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside with the {@code component}
    */
   public static Set<ConfigurationModel> getConfigurationForComponent(ExtensionModel extensionModel, ComponentModel component) {
@@ -303,8 +302,7 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * @return {@code true} if the given {@link ParameterModel} has layout property
-   * {@link LayoutModel#isText()}
+   * @return {@code true} if the given {@link ParameterModel} has layout property {@link LayoutModel#isText()}
    */
   public static boolean isText(ParameterModel parameter) {
     return parameter.getLayoutModel().map(LayoutModel::isText).orElse(false);
@@ -336,8 +334,8 @@ public class ExtensionModelUtils {
    * A {@link ParameterizedModel} is consider to be implicit when all its {@link ParameterModel}s are optional
    *
    * @param models a {@link List} of {@code T}
-   * @param <T> the generic type of the items in the {@code models}. It's a type which is assignable from
-   *        {@link ParameterizedModel}
+   * @param <T>    the generic type of the items in the {@code models}. It's a type which is assignable from
+   *               {@link ParameterizedModel}
    * @return one of the items in {@code models} or {@code null} if none of the models are implicit
    */
   public static <T extends ParameterizedModel> T getFirstImplicit(List<T> models) {
@@ -414,11 +412,10 @@ public class ExtensionModelUtils {
   /**
    * Returns the default value associated with the given annotation.
    * <p>
-   * The reason for this method to be instead of simply using
-   * {@link org.mule.sdk.api.annotation.param.Optional#defaultValue()} is a limitation on the Java language to have
-   * an annotation which defaults to a {@code null} value. For that reason, this method tests the default value for equality
-   * against the {@link org.mule.sdk.api.annotation.param.Optional#NULL}. If such test is positive, then
-   * {@code null} is returned.
+   * The reason for this method to be instead of simply using {@link org.mule.sdk.api.annotation.param.Optional#defaultValue()} is
+   * a limitation on the Java language to have an annotation which defaults to a {@code null} value. For that reason, this method
+   * tests the default value for equality against the {@link org.mule.sdk.api.annotation.param.Optional#NULL}. If such test is
+   * positive, then {@code null} is returned.
    * <p>
    * If a {@code null} {@code optional} is supplied, then this method returns {@code null}
    *
@@ -435,15 +432,18 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * Tests the given {@code object} to be annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or {@link org.mule.sdk.api.annotation.param.Optional}.
+   * Tests the given {@code object} to be annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or
+   * {@link org.mule.sdk.api.annotation.param.Optional}.
    * <p>
    * If the annotation is present, then a default value is extracted by the rules of
-   * {@link #getDefaultValue(org.mule.runtime.extension.api.annotation.param.Optional)} or {@link #getDefaultValue(org.mule.sdk.api.annotation.param.Optional)}. Otherwise, {@code null} is returned.
+   * {@link #getDefaultValue(org.mule.runtime.extension.api.annotation.param.Optional)} or
+   * {@link #getDefaultValue(org.mule.sdk.api.annotation.param.Optional)}. Otherwise, {@code null} is returned.
    * <p>
    * Notice that a {@code null} return value doesn't necessarily mean that the annotation is not present. It could well be that
    * {@code null} happens to be the default value.
    *
-   * @param object an object potentially annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or {@link org.mule.sdk.api.annotation.param.Optional}
+   * @param object an object potentially annotated with {@link org.mule.runtime.extension.api.annotation.param.Optional} or
+   *               {@link org.mule.sdk.api.annotation.param.Optional}
    * @return A default value or {@code null}
    */
   public static Object getDefaultValue(AccessibleObject object) {
@@ -467,6 +467,7 @@ public class ExtensionModelUtils {
 
   /**
    * Uses the value in the given {@code annotation} and transforms it into a {@link ClassValueModel}
+   * 
    * @param annotation an annotation
    * @return a {@link ClassValueModel}
    */

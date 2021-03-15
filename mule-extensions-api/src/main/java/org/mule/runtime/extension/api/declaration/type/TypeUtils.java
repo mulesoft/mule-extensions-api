@@ -30,8 +30,8 @@ public final class TypeUtils {
   private TypeUtils() {}
 
   /**
-   * Returns all the {@link Field}s in the given {@code declaringType} which are annotated
-   * with {@link Parameter} but also do not have the {@link Ignore} one.
+   * Returns all the {@link Field}s in the given {@code declaringType} which are annotated with {@link Parameter} but also do not
+   * have the {@link Ignore} one.
    * <p>
    * The introspection also includes parent classes.
    *
@@ -60,8 +60,8 @@ public final class TypeUtils {
   }
 
   /**
-   * Returns all the superclasses of the given {@code type}, without including
-   * {@link Object}
+   * Returns all the superclasses of the given {@code type}, without including {@link Object}
+   * 
    * @param type a type
    * @return all the type's super classes
    */
@@ -76,8 +76,8 @@ public final class TypeUtils {
   }
 
   /**
-   * Checks the given {@code field} for the {@link Alias} annotation. If present, {@link Alias#value()}
-   * is returned. Otherwise, {@link Field#getName()} is returned.
+   * Checks the given {@code field} for the {@link Alias} annotation. If present, {@link Alias#value()} is returned. Otherwise,
+   * {@link Field#getName()} is returned.
    *
    * @param field a {@link Field}
    * @return the field's alias

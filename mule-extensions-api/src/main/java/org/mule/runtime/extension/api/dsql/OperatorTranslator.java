@@ -7,8 +7,8 @@
 package org.mule.runtime.extension.api.dsql;
 
 /**
- * Provides the possibility to define an operators syntax for translating from the DSQL operators
- * to the specific query language ones.
+ * Provides the possibility to define an operators syntax for translating from the DSQL operators to the specific query language
+ * ones.
  *
  * @since 1.0
  */

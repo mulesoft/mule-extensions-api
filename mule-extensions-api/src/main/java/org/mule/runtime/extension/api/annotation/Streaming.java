@@ -17,15 +17,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Intended to be used on operation methods and implementations of {@link Source},
- * this annotation indicates that such component supports streaming.
+ * Intended to be used on operation methods and implementations of {@link Source}, this annotation indicates that such component
+ * supports streaming.
  * <p>
- * The runtime can automatically infer that when the return type is a {@link InputStream},
- * but there're corner cases in which the return type is of some other abstraction type
- * and thus this has to be manually hinted.
+ * The runtime can automatically infer that when the return type is a {@link InputStream}, but there're corner cases in which the
+ * return type is of some other abstraction type and thus this has to be manually hinted.
  * <p>
- * Using this annotation on components which return {@link InputStream} is redundant
- * yet harmless.
+ * Using this annotation on components which return {@link InputStream} is redundant yet harmless.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Streaming} instead.

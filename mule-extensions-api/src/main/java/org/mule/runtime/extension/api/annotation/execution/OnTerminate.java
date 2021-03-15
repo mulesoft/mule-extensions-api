@@ -16,12 +16,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to indicate that an annotated method should be executed when a
- * generated event was processed by the owning flow, doesn't taking in
- * account if the processing finished successfully or not.
+ * Used to indicate that an annotated method should be executed when a generated event was processed by the owning flow, doesn't
+ * taking in account if the processing finished successfully or not.
  * <p>
- * For {@link Source sources} the unique parameters which this callback can receive are
- * the {@link SourceResult};
+ * For {@link Source sources} the unique parameters which this callback can receive are the {@link SourceResult};
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.execution.OnTerminate} instead.

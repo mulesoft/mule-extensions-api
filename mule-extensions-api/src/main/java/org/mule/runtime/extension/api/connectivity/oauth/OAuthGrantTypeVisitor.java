@@ -32,8 +32,8 @@ public interface OAuthGrantTypeVisitor {
   /**
    * visit a grant type for Platform Managed Connections
    * <p>
-   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
-   * Backwards compatibility is not guaranteed.
+   * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+   * compatibility is not guaranteed.
    *
    * @param grantType the grant type
    * @since 1.3.0

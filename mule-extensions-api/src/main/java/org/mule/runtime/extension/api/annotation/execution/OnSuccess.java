@@ -14,12 +14,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to indicate that an Source's method should be executed when a generated
- * event is successfully processed by the owning flow.
+ * Used to indicate that an Source's method should be executed when a generated event is successfully processed by the owning
+ * flow.
  * <p>
- * Another important semantic of this annotation, is that whatever parameters the annotated
- * method takes, are to be automatically resolved by the runtime in the same way as an
- * operation method would.
+ * Another important semantic of this annotation, is that whatever parameters the annotated method takes, are to be automatically
+ * resolved by the runtime in the same way as an operation method would.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.execution.OnSuccess} instead.

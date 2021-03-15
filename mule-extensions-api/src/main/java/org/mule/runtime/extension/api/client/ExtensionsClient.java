@@ -13,25 +13,27 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * The {@link ExtensionsClient} is a simple common interface for executing extension operations programmatically without the
- * need of much manual coding and allowing to scale quickly all of this without a the need of compile dependency to
- * the executed extension.
+ * The {@link ExtensionsClient} is a simple common interface for executing extension operations programmatically without the need
+ * of much manual coding and allowing to scale quickly all of this without a the need of compile dependency to the executed
+ * extension.
  * <p>
- * This API is simple and easy to use, the user just needs to define the extension and the corresponding operation
- * that want's to invoke and pass a set of named parameters that will be attached when the operation gets executed. This implies
- * that the user should know the parameter names and types to create them using an {@link OperationParameters} instance. The idea
- * is that different extensions can provide different {@link OperationParameters} implementations for key operations.
+ * This API is simple and easy to use, the user just needs to define the extension and the corresponding operation that want's to
+ * invoke and pass a set of named parameters that will be attached when the operation gets executed. This implies that the user
+ * should know the parameter names and types to create them using an {@link OperationParameters} instance. The idea is that
+ * different extensions can provide different {@link OperationParameters} implementations for key operations.
  * <p>
  * This client lets the user reference complex configurations defined in the application and also has the capability to resolve
  * expressions.
  * <p>
- * Note that this client will be reachable through the mule registry and you will be able to inject it in any class with lifecycle.
+ * Note that this client will be reachable through the mule registry and you will be able to inject it in any class with
+ * lifecycle.
  * <p>
  * An usage example for an operation with this signature {@code public String getName(@UseConfig config, int account)} could be:
+ * 
  * <pre>
  * {@code
  * public class UsingExtensionsClient {
- *  @Inject ExtensionsClient client;
+ *  &#64;Inject ExtensionsClient client;
  *  ...
  *  public void executeWithClient() {
  *    OperationParameters parameters = DefaultOperationParameters.builder().configName("conf").addParameter("account", 12).build();
@@ -61,8 +63,8 @@ public interface ExtensionsClient {
    * @param extension  the name of the extension that contains the operation to be executed.
    * @param operation  the name of the operation to be executed.
    * @param parameters an {@link OperationParameters} instance with all the parameters required to execute the operation.
-   * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and
-   * the corresponding attributes.
+   * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and the
+   *         corresponding attributes.
    */
   <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension, String operation,
                                                       OperationParameters parameters);
@@ -70,8 +72,8 @@ public interface ExtensionsClient {
   /**
    * Executes an operation synchronously and returns a {@link Result} with the operation's output and attributes if available.
    * <p>
-   * Take in mind that if the executed operation is asynchronous in nature, this method will automatically wait for it to
-   * complete before returning the value
+   * Take in mind that if the executed operation is asynchronous in nature, this method will automatically wait for it to complete
+   * before returning the value
    *
    * @param extension  the name of the extension that contains the operation to be executed.
    * @param operation  the name of the operation to be executed.

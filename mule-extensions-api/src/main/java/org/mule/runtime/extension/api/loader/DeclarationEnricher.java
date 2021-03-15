@@ -14,13 +14,10 @@ import java.util.Collection;
 
 
 /**
- * Enriches {@link ExtensionDeclarer declarers} before they are actually turned
- * into models.
+ * Enriches {@link ExtensionDeclarer declarers} before they are actually turned into models.
  *
- * The runtime contains a set of default instances which should always apply to any model,
- * but each {@link ExtensionModelLoader} can specify their own through the
- * {@link ExtensionLoadingContext#addCustomDeclarationEnrichers(Collection)}
- * method.
+ * The runtime contains a set of default instances which should always apply to any model, but each {@link ExtensionModelLoader}
+ * can specify their own through the {@link ExtensionLoadingContext#addCustomDeclarationEnrichers(Collection)} method.
  *
  * @since 1.0
  */

@@ -12,12 +12,11 @@ import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCredentials;
 
 /**
- * {@link ConnectionProvider} implementations which are also annotated with {@link ClientCredentials}
- * <b>MUST</b> have a field of this type. When the authorization dance is completed, the runtime will
- * inject in such field an instance of this class.
+ * {@link ConnectionProvider} implementations which are also annotated with {@link ClientCredentials} <b>MUST</b> have a field of
+ * this type. When the authorization dance is completed, the runtime will inject in such field an instance of this class.
  *
- * This class holds all the relevant information about the completed authorization dance so that the
- * {@link ConnectionProvider} can make use of it.
+ * This class holds all the relevant information about the completed authorization dance so that the {@link ConnectionProvider}
+ * can make use of it.
  *
  * @since 1.2.1
  * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.ClientCredentialsState} instead.

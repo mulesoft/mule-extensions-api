@@ -17,13 +17,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declares an array of {@link Class classes} of an {@link NotificationActionProvider}, to communicate and declare
- * which {@link NotificationActionDefinition}s a component could fire.
+ * Declares an array of {@link Class classes} of an {@link NotificationActionProvider}, to communicate and declare which
+ * {@link NotificationActionDefinition}s a component could fire.
  * <p>
  * This annotation can be applied to an Operation method, an Operation container class, an {@link Extension} class or a source.
- * The annotation value to consider is the one of in the deepest level,
- * eg: If the annotation is used in an operation method and in an extension class, the one to use is the one in the
- * operation.
+ * The annotation value to consider is the one of in the deepest level, eg: If the annotation is used in an operation method and
+ * in an extension class, the one to use is the one in the operation.
  *
  * @since 1.1
  * @see NotificationActionProvider

@@ -26,8 +26,7 @@ import java.io.InputStream;
 import javax.xml.namespace.QName;
 
 /**
- * Adds infrastructure parameters to sources and operations which returns {@link InputStream}
- * objects.
+ * Adds infrastructure parameters to sources and operations which returns {@link InputStream} objects.
  *
  * @since 1.0
  */

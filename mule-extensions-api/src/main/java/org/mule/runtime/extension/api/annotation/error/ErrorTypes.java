@@ -17,8 +17,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for {@link Extension} level to communicate and declare the {@link ErrorTypeDefinition}s that
- * the whole extension manages
+ * Annotation for {@link Extension} level to communicate and declare the {@link ErrorTypeDefinition}s that the whole extension
+ * manages
  *
  * @since 1.0
  * @deprecated use {org.mule.sdk.api.annotation.error.ErrorTypes} instead.

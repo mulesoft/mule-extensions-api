@@ -16,9 +16,9 @@ import java.util.function.Consumer;
  * A Special kind of {@link Source} which automatically handles polling, idempotency and watermarking. As a result of the poll,
  * many items can be obtained and dispatched for execution, each one as a standalone {@link Message}.
  * <p>
- * The SDK will automatically add a {@code &lt;scheduling-strategy&gt;} parameter and the runtime will use that strategy
- * to automatically schedule executions of the {@link #poll(PollContext)} method. The {@link PollContext} will be used to
- * dispatch the obtained items, optionally enabling features like watermarking and idempotency.
+ * The SDK will automatically add a {@code &lt;scheduling-strategy&gt;} parameter and the runtime will use that strategy to
+ * automatically schedule executions of the {@link #poll(PollContext)} method. The {@link PollContext} will be used to dispatch
+ * the obtained items, optionally enabling features like watermarking and idempotency.
  *
  * @param <T> the generic type for the generated message's payload
  * @param <A> the generic type for the generated message's attributes

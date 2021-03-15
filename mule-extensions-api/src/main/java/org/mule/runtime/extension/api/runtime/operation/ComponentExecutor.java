@@ -11,11 +11,8 @@ import org.mule.runtime.api.meta.model.ComponentModel;
 import org.reactivestreams.Publisher;
 
 /**
- * A facade interface which hides the details of how an
- * operation is actually executed. It aims to decouple
- * the abstract introspection model that the extension's
- * API proposes from the implementation details of the
- * underlying environment.
+ * A facade interface which hides the details of how an operation is actually executed. It aims to decouple the abstract
+ * introspection model that the extension's API proposes from the implementation details of the underlying environment.
  *
  * @since 1.0
  * @deprecated since 1.3.0. Use {@link CompletableComponentExecutor} instead
@@ -24,10 +21,9 @@ import org.reactivestreams.Publisher;
 public interface ComponentExecutor<T extends ComponentModel> {
 
   /**
-   * Executes the owning operation using the given {@code executionContext}.
-   * It returns a future to allow implementations on top of non-blocking execution engines.
-   * This doesn't mean that it has to be executed in a non-blocking manner. Synchronous environments
-   * can always return an immediate future.
+   * Executes the owning operation using the given {@code executionContext}. It returns a future to allow implementations on top
+   * of non-blocking execution engines. This doesn't mean that it has to be executed in a non-blocking manner. Synchronous
+   * environments can always return an immediate future.
    *
    * @param executionContext a {@link ExecutionContext} with information about the execution
    * @return the operations return value

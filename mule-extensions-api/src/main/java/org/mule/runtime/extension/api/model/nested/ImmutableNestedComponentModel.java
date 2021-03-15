@@ -30,12 +30,12 @@ public class ImmutableNestedComponentModel extends AbstractNamedImmutableModel i
   /**
    * Creates a new instance
    *
-   * @param name            the model's name
-   * @param description     the model's description
-   * @param isRequired      whether or not this component is required
-   * @param allowedStereotypes     A {@link Set} of custom properties which extend this model
-   * @param displayModel    a model containing directives about how this component is to be displayed in the UI
-   * @param modelProperties A {@link Set} of custom properties which extend this model
+   * @param name               the model's name
+   * @param description        the model's description
+   * @param isRequired         whether or not this component is required
+   * @param allowedStereotypes A {@link Set} of custom properties which extend this model
+   * @param displayModel       a model containing directives about how this component is to be displayed in the UI
+   * @param modelProperties    A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
   public ImmutableNestedComponentModel(String name, String description,

@@ -45,8 +45,8 @@ public final class ExtensionConstants {
   public static final String TARGET_PARAMETER_DISPLAY_NAME = "Target Variable";
 
   /**
-   * The name of a synthetic parameter that's automatically added to all non void operations. The meaning of it is to provide
-   * an expression to be evaluated over the operation's output, so that can be stored in the variable pointed by the target
+   * The name of a synthetic parameter that's automatically added to all non void operations. The meaning of it is to provide an
+   * expression to be evaluated over the operation's output, so that can be stored in the variable pointed by the target
    * parameter.
    */
   public static final String TARGET_VALUE_PARAMETER_NAME = "targetValue";
@@ -277,8 +277,8 @@ public final class ExtensionConstants {
   public static final String NAME_PARAM_DESCRIPTION = "The identifier of this element used to reference it in other components";
 
   /**
-   * Contains all the names of the {@link InfrastructureParameterModelProperty infrastructure} parameters that
-   * may appear in a {@link ParameterizedModel}
+   * Contains all the names of the {@link InfrastructureParameterModelProperty infrastructure} parameters that may appear in a
+   * {@link ParameterizedModel}
    */
   public static final List<String> INFRASTRUCTURE_PARAMETER_NAMES = asList(TLS_PARAMETER_NAME,
                                                                            POOLING_PROFILE_PARAMETER_NAME,

@@ -13,10 +13,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Allows to reference a list of classes from which an Extension's functions for usage in the expression language
- * are to be inferred. This annotation is to be used in classes which are also annotated with
- * {@link Extension} and {@link #value()} must reference classes which contain public
- * methods which implement the functions
+ * Allows to reference a list of classes from which an Extension's functions for usage in the expression language are to be
+ * inferred. This annotation is to be used in classes which are also annotated with {@link Extension} and {@link #value()} must
+ * reference classes which contain public methods which implement the functions
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.ExpressionFunctions} instead.

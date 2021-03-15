@@ -15,11 +15,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used on a {@link Class} also annotated with @Extension, to list
- * the {@link SoapServiceProvider}s that the extension exposes.
+ * Annotation to be used on a {@link Class} also annotated with @Extension, to list the {@link SoapServiceProvider}s that the
+ * extension exposes.
  * <p>
- * A key difference between traditional extensions and Soap based extensions is that the @Extension annotated class does not
- * serve as a configuration, but it can serve as {@link SoapServiceProvider} by implementing it.
+ * A key difference between traditional extensions and Soap based extensions is that the @Extension annotated class does not serve
+ * as a configuration, but it can serve as {@link SoapServiceProvider} by implementing it.
  * <p>
  * {@link Soap} cannot live with the @Configurations or @ConnectionProviders annotations, once the @Extension is marked a Soap
  * one, no other Configs or Providers could be declared.

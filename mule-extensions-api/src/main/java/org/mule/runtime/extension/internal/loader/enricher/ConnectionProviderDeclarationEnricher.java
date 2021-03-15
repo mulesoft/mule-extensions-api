@@ -27,7 +27,8 @@ import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelP
  * <p>
  * <ul>
  * <li>Add a reconnection strategy parameter</li>
- * <li>A {@link PoolingProfile} parameter when the {@link ConnectionManagementType} is {@link ConnectionManagementType#POOLING}</li>
+ * <li>A {@link PoolingProfile} parameter when the {@link ConnectionManagementType} is
+ * {@link ConnectionManagementType#POOLING}</li>
  * <li>A parameter which allows disabling connection validation when the {@link ConnectionManagementType} is
  * {@link ConnectionManagementType#POOLING} or {@link ConnectionManagementType#CACHED}</li>
  * </ul>

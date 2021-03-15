@@ -11,8 +11,7 @@ import org.mule.runtime.extension.api.annotation.param.Query;
 import java.util.List;
 
 /**
- * This is a translator interface for go over a DSQL {@link Query} structure
- * and easily translate it to a native one.
+ * This is a translator interface for go over a DSQL {@link Query} structure and easily translate it to a native one.
  *
  * @since 1.0
  */
@@ -41,8 +40,8 @@ public interface QueryTranslator {
   void translateOffset(int offset);
 
   /**
-   * Returns an instance of an {@link OperatorTranslator} that is used to translate the
-   * the DSQL operators to the Native Query Language operators.
+   * Returns an instance of an {@link OperatorTranslator} that is used to translate the the DSQL operators to the Native Query
+   * Language operators.
    */
   default OperatorTranslator operatorTranslator() {
     return new DefaultOperatorTranslator();

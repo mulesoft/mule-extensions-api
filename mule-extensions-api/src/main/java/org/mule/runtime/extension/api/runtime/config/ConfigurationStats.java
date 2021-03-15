@@ -44,7 +44,7 @@ public interface ConfigurationStats {
 
   /**
    * @return How many currently active components are making use of the referenced configuration (could be running sources,
-   * in-flight operations, open streams or paging providers, etc.)
+   *         in-flight operations, open streams or paging providers, etc.)
    * @since 1.2.3 1.3.1 1.4.0
    */
   default int getActiveComponents() {

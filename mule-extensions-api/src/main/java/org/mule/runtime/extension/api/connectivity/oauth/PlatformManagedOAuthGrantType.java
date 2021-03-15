@@ -12,8 +12,8 @@ import org.mule.api.annotation.Experimental;
  * A grant type that represent a Platform Managed OAuth connections. This grant type could be consider synthetic as this doesn't
  * exist in the OAuth specification.
  * <p>
- * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios.
- * Backwards compatibility is not guaranteed.
+ * Platform Managed OAuth is an experimental feature. It will only be enabled on selected environments and scenarios. Backwards
+ * compatibility is not guaranteed.
  *
  * @since 1.3.0
  */

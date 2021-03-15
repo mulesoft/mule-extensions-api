@@ -27,8 +27,8 @@ public final class ImmutableNotificationModel implements NotificationModel {
   /**
    * Creates a new {@link NotificationModel}.
    *
-   * @param namespace the namespace of the notification
-   * @param identifier the identifier of the notification
+   * @param namespace    the namespace of the notification
+   * @param identifier   the identifier of the notification
    * @param metadataType the type of data the notification provides
    */
   public ImmutableNotificationModel(String namespace, String identifier, MetadataType metadataType) {

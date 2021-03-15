@@ -18,11 +18,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * To be used on implementations of {@link ConnectionProvider}, indicates that the provided connections
- * will be authenticated using Authorization-Code grant type of the OAuth2 specification.
+ * To be used on implementations of {@link ConnectionProvider}, indicates that the provided connections will be authenticated
+ * using Authorization-Code grant type of the OAuth2 specification.
  * <p>
- * This annotation also contains a series of properties which describe the OAuth provider to authenticate
- * against.
+ * This annotation also contains a series of properties which describe the OAuth provider to authenticate against.
  * <p>
  * The annotated {@link ConnectionProvider} is still free to implement {@link PoolingConnectionProvider} or
  * {@link CachedConnectionProvider} interfaces if needed, but connectivity testing will be disabled.

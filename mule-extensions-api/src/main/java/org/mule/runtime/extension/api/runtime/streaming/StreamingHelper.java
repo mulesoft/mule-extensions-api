@@ -16,19 +16,19 @@ import java.io.InputStream;
 import java.util.Map;
 
 /**
- * This class provides helper methods to deal with repeatable streaming resources which are contained into structures of
- * arbitrary complexity.
+ * This class provides helper methods to deal with repeatable streaming resources which are contained into structures of arbitrary
+ * complexity.
  * <p>
- * As you know, when a parameter is resolved to a {@link CursorProvider}, the runtime automatically obtains a {@link Cursor}
- * and injects that value instead. However, if that provider is embedded as the value of a {@link Map} or an arbitrary pojo,
- * the runtime can't guess that's the case and go resolve it.
+ * As you know, when a parameter is resolved to a {@link CursorProvider}, the runtime automatically obtains a {@link Cursor} and
+ * injects that value instead. However, if that provider is embedded as the value of a {@link Map} or an arbitrary pojo, the
+ * runtime can't guess that's the case and go resolve it.
  * <p>
- * Same thing applies when a component is producing a result. The runtime automatically converts returned {@link InputStream}
- * or {@link PagingProvider} instances into {@link CursorProvider} ones. However, if such instances are contained in some other
+ * Same thing applies when a component is producing a result. The runtime automatically converts returned {@link InputStream} or
+ * {@link PagingProvider} instances into {@link CursorProvider} ones. However, if such instances are contained in some other
  * value, that resolution won't happen automatically either.
  * <p>
- * For these border cases, this class provides some utilities to adapt the {@link CursorProvider providers} into
- * {@link Cursor cursors} and vice versa
+ * For these border cases, this class provides some utilities to adapt the {@link CursorProvider providers} into {@link Cursor
+ * cursors} and vice versa
  *
  * @see CursorProvider
  * @see CursorStreamProvider

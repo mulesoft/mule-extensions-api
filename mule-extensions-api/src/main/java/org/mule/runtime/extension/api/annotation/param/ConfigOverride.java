@@ -20,13 +20,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Binds the annotated member with the {@link ParameterModel} of the same {@link ParameterModel#getName() name}
- * and {@link ParameterModel#getType() type} that exists in the {@link ConfigurationModel config} associated to the
- * {@link ComponentModel container} of the annotated member.
- * <br>
+ * Binds the annotated member with the {@link ParameterModel} of the same {@link ParameterModel#getName() name} and
+ * {@link ParameterModel#getType() type} that exists in the {@link ConfigurationModel config} associated to the
+ * {@link ComponentModel container} of the annotated member. <br>
  * When annotated with {@link ConfigOverride}, the {@link ParameterModel parameter} will be injected with the same value of the
- * bound {@link ParameterModel parameter} of the {@link ConfigurationModel config} that's been associated to the execution.
- * <br>
+ * bound {@link ParameterModel parameter} of the {@link ConfigurationModel config} that's been associated to the execution. <br>
  * For example, if we declare the operation:
  * <p>
  * {@code
@@ -34,6 +32,7 @@ import java.lang.annotation.Target;
  * }
  * <p>
  * Where the configuration {@code ConfigType} declares a parameter as:
+ * 
  * <pre>
  * <code>
  *  {@literal @}Parameter
@@ -44,8 +43,9 @@ import java.lang.annotation.Target;
  * <p>
  * Then we can have three different cases:
  * <p>
- * 1) We use the default value of the {@code maxRetries} parameter provided by the config.
- * In this case, the operation {@code request} will be injected with {@code 10} as the value for {@code maxRetries}
+ * 1) We use the default value of the {@code maxRetries} parameter provided by the config. In this case, the operation
+ * {@code request} will be injected with {@code 10} as the value for {@code maxRetries}
+ * 
  * <pre>
  * {@code
  * <mule>
@@ -58,8 +58,9 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  *
- * 2) We provide a value for the {@code maxRetries} parameter in the config.
- * In this case, the operation {@code request} will be injected with {@code 2} as the value for {@code maxRetries}
+ * 2) We provide a value for the {@code maxRetries} parameter in the config. In this case, the operation {@code request} will be
+ * injected with {@code 2} as the value for {@code maxRetries}
+ * 
  * <pre>
  * {@code
  * <mule>
@@ -72,8 +73,9 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  *
- * 3) We provide a value for the {@code maxRetries} parameter in the operation.
- * In this case, the operation {@code request} will be injected with {@code 5} as the value for {@code maxRetries}
+ * 3) We provide a value for the {@code maxRetries} parameter in the operation. In this case, the operation {@code request} will
+ * be injected with {@code 5} as the value for {@code maxRetries}
+ * 
  * <pre>
  * {@code
  * <mule>
@@ -86,9 +88,9 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  * <p>
- * This annotation can either be applied to an argument of an operation method
- * or to a field of a class which extends the {@link Source} class.
- * It is not to be used on {@link ConfigurationModel configurations} nor {@link ConnectionProviderModel connections}.
+ * This annotation can either be applied to an argument of an operation method or to a field of a class which extends the
+ * {@link Source} class. It is not to be used on {@link ConfigurationModel configurations} nor {@link ConnectionProviderModel
+ * connections}.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.param.ConfigOverride} instead.

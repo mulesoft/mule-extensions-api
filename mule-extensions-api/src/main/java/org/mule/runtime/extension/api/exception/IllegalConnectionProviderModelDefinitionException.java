@@ -29,7 +29,7 @@ public class IllegalConnectionProviderModelDefinitionException extends IllegalMo
    * Creates a new instance
    *
    * @param message the detail message
-   * @param cause the cause
+   * @param cause   the cause
    */
   public IllegalConnectionProviderModelDefinitionException(String message, Throwable cause) {
     super(message, cause);

@@ -23,11 +23,11 @@ import org.mule.runtime.api.connection.ConnectionException;
 public interface Reconnectable {
 
   /**
-   * Performs custom reconnection logic. The runtime will consider the reconnection finished once a result
-   * has been communicated through the {@code reconnectionCallback}.
+   * Performs custom reconnection logic. The runtime will consider the reconnection finished once a result has been communicated
+   * through the {@code reconnectionCallback}.
    * <p>
-   * This method is to implement ONE reconnection attempt. This method is not to have any retry strategies. The runtime
-   * will automatically perform retries when and how it applies.
+   * This method is to implement ONE reconnection attempt. This method is not to have any retry strategies. The runtime will
+   * automatically perform retries when and how it applies.
    *
    * @param exception            the connectivity error that triggered the reconnection
    * @param reconnectionCallback the callback used to notify the reconnection result

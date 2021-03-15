@@ -50,14 +50,13 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param transactional        whether this component supports transactions
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
-   * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
-   *                             the operation
+   * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
-   * {@link #ImmutableOperationModel(String, String, List, List, OutputModel, OutputModel, boolean, ExecutionType, boolean, boolean, boolean, DisplayModel, Set, StereotypeModel, Set, Set)}
-   * instead
+   *             {@link #ImmutableOperationModel(String, String, List, List, OutputModel, OutputModel, boolean, ExecutionType, boolean, boolean, boolean, DisplayModel, Set, StereotypeModel, Set, Set)}
+   *             instead
    */
   @Deprecated
   public ImmutableOperationModel(String name,
@@ -93,8 +92,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param transactional        whether this component supports transactions
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
-   * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
-   *                             the operation
+   * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param notifications        A {@link Set} of {@link NotificationModel} which describes the operation's notifications
@@ -135,13 +133,12 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param transactional        whether this component supports transactions
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
-   * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
-   *                             the operation
+   * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param notifications        A {@link Set} of {@link NotificationModel} which describes the operation's notifications
-   * @param deprecationModel     a {@link DeprecationModel} describing if the operation is deprecated. A null value means it is not
-   *                             deprecated.
+   * @param deprecationModel     a {@link DeprecationModel} describing if the operation is deprecated. A null value means it is
+   *                             not deprecated.
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
   public ImmutableOperationModel(String name,
@@ -182,14 +179,14 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param transactional           whether this component supports transactions
    * @param supportsStreaming       whether this component supports streaming
    * @param displayModel            a model which contains directive about how this operation is displayed in the UI
-   * @param errors                  A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by
-   *                                the operation
+   * @param errors                  A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the operation's notifications
-   * @param deprecationModel        a {@link DeprecationModel} describing if the operation is deprecated. A null value means it is not
-   *                                deprecated.
-   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data capabilities
+   * @param deprecationModel        a {@link DeprecationModel} describing if the operation is deprecated. A null value means it is
+   *                                not deprecated.
+   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
+   *                                capabilities
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    * @since 1.4.0
    */

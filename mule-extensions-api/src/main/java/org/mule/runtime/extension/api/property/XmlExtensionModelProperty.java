@@ -12,11 +12,11 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import java.util.Set;
 
 /**
- * Marker {@link ModelProperty} to indicate if the current {@link ExtensionModel} containing it should be expanded in
- * the Mule application.
+ * Marker {@link ModelProperty} to indicate if the current {@link ExtensionModel} containing it should be expanded in the Mule
+ * application.
  * <p>
- * It also works to determine that the ComponentBuildingDefinitionProvider must NOT be registered
- * (as it's templating, it doesn't make sense to register a definition provider)
+ * It also works to determine that the ComponentBuildingDefinitionProvider must NOT be registered (as it's templating, it doesn't
+ * make sense to register a definition provider)
  *
  * @since 4.0
  */
@@ -30,8 +30,8 @@ public class XmlExtensionModelProperty implements ModelProperty {
   }
 
   /**
-   * @return list of namespaces dependencies used in MacroExpansionModulesModel to determine the order in which the
-   * <module/>s must be macro expanded. Not null.
+   * @return list of namespaces dependencies used in MacroExpansionModulesModel to determine the order in which the <module/>s
+   *         must be macro expanded. Not null.
    */
   public Set<String> getNamespacesDependencies() {
     return namespacesDependencies;

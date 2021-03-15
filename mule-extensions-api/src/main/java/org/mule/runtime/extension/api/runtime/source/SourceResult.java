@@ -16,10 +16,9 @@ import org.mule.runtime.extension.api.annotation.execution.OnTerminate;
 import java.util.Optional;
 
 /**
- * A class that represents the result of processing a message from a {@link Source} through a flow,
- * this reports whether the result of the processing was successful or terminated with errors.
- * The purpose of this class is to be used as input of the {@link OnTerminate} callback of a
- * {@link Source} so that this callback can operate according to the result.
+ * A class that represents the result of processing a message from a {@link Source} through a flow, this reports whether the
+ * result of the processing was successful or terminated with errors. The purpose of this class is to be used as input of the
+ * {@link OnTerminate} callback of a {@link Source} so that this callback can operate according to the result.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.runtime.source.SourceResult} instead
@@ -60,9 +59,8 @@ public final class SourceResult {
   }
 
   /**
-   * Indicates whether an error occurred before calling {@link OnSuccess} or {@link OnError}.
-   * This could be either due to errors when generating required error parameters,
-   * or due to an exception thrown inside an error handler message processor.
+   * Indicates whether an error occurred before calling {@link OnSuccess} or {@link OnError}. This could be either due to errors
+   * when generating required error parameters, or due to an exception thrown inside an error handler message processor.
    *
    * @return boolean indicating if the error happened before invoking the other callbacks
    */

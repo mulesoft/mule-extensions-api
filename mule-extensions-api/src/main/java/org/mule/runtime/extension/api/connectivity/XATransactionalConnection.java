@@ -9,8 +9,7 @@ package org.mule.runtime.extension.api.connectivity;
 import javax.transaction.xa.XAResource;
 
 /**
- * Specialization of {@link TransactionalConnection} for connections
- * which can participate of XA transactions
+ * Specialization of {@link TransactionalConnection} for connections which can participate of XA transactions
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.connectivity.XATransactionalConnection} instead.
@@ -24,8 +23,8 @@ public interface XATransactionalConnection extends TransactionalConnection {
   XAResource getXAResource();
 
   /**
-   * Closes this connection and the underlying {@link #getXAResource()}. Some providers
-   * require this method to be explicitly called.
+   * Closes this connection and the underlying {@link #getXAResource()}. Some providers require this method to be explicitly
+   * called.
    */
   void close();
 }

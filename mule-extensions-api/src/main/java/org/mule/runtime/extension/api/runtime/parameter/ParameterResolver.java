@@ -14,11 +14,9 @@ import java.util.Optional;
  * A parameter type that gives the capability of:
  *
  * <ul>
- * <li><b>Get the configured expression:</b> With {@link #getExpression()} returns the possible
- * expression used to resolve the parameter value
- * </li>
- * <li><b>Differ the resolution:</b> Using {@link #resolve()} resolves the parameter value of type
- * {@link T}
+ * <li><b>Get the configured expression:</b> With {@link #getExpression()} returns the possible expression used to resolve the
+ * parameter value</li>
+ * <li><b>Differ the resolution:</b> Using {@link #resolve()} resolves the parameter value of type {@link T}
  * </ul>
  *
  * @param <T> The type of the value to resolve

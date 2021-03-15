@@ -17,10 +17,9 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
 /**
- * Annotation to be used on an {@link Extension} to declare the concrete implementations
- * of a given {@code abstract} {@link Class} or {@code interface}.
- * When a {@link Parameter} or {@link Field} of this base type is found,
- * DSL and tooling support for declaring the sub types implementations will be generated.
+ * Annotation to be used on an {@link Extension} to declare the concrete implementations of a given {@code abstract} {@link Class}
+ * or {@code interface}. When a {@link Parameter} or {@link Field} of this base type is found, DSL and tooling support for
+ * declaring the sub types implementations will be generated.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.SubTypeMapping} instead

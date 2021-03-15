@@ -28,9 +28,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Creates instances of {@link MetadataType} which represent an {@link ExpirationPolicy}.
  *
- * Notice that this representation of the type matches how the expiration policy is exposed
- * through the tooling and the DSL. It's not an exact match of what you'd get running the
- * {@link ExpirationPolicy} class through a {@link ClassTypeLoader}
+ * Notice that this representation of the type matches how the expiration policy is exposed through the tooling and the DSL. It's
+ * not an exact match of what you'd get running the {@link ExpirationPolicy} class through a {@link ClassTypeLoader}
  *
  * @since 1.0
  */

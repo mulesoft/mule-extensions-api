@@ -13,8 +13,8 @@ import org.mule.runtime.api.meta.model.ModelProperty;
  * These {@link DeclarationEnricherPhase phases} are use to execute the {@link DeclarationEnricher enrichers} in order, grouping
  * them by phases.
  * <p>
- * Each {@link DeclarationEnricherPhase} describes a particular enrichment state from which {@link DeclarationEnricher}s can
- * take advantage of.
+ * Each {@link DeclarationEnricherPhase} describes a particular enrichment state from which {@link DeclarationEnricher}s can take
+ * advantage of.
  *
  * @since 1.0
  */
@@ -23,11 +23,11 @@ public enum DeclarationEnricherPhase {
   /**
    * First phase of {@link DeclarationEnricher}s to be executed.
    * <p>
-   * Basic settings that doesn't change the structure of the loaded extension but are required before the
-   * structure enrichment phase is executed should go in this phase.
+   * Basic settings that doesn't change the structure of the loaded extension but are required before the structure enrichment
+   * phase is executed should go in this phase.
    * <p>
-   * {@link DeclarationEnricher}s added to this phase should not add or change the structure of the extension nor
-   * change/add any configuration to the different elements that were loaded (Connections, Configs, Parameters, Etc)
+   * {@link DeclarationEnricher}s added to this phase should not add or change the structure of the extension nor change/add any
+   * configuration to the different elements that were loaded (Connections, Configs, Parameters, Etc)
    */
   INITIALIZE,
 

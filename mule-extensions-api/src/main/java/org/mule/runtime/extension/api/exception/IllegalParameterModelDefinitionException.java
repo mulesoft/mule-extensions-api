@@ -29,7 +29,7 @@ public class IllegalParameterModelDefinitionException extends IllegalModelDefini
    * Creates a new instance
    *
    * @param message the detail message
-   * @param cause the cause
+   * @param cause   the cause
    */
   public IllegalParameterModelDefinitionException(String message, Throwable cause) {
     super(message, cause);

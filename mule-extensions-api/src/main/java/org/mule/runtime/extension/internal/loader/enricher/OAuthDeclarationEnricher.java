@@ -79,8 +79,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Looks for all the {@link ConnectionProviderDeclaration} with the {@link OAuthModelProperty}
- * and adds synthetic parameters that allows configuring the proper grant type
+ * Looks for all the {@link ConnectionProviderDeclaration} with the {@link OAuthModelProperty} and adds synthetic parameters that
+ * allows configuring the proper grant type
  *
  * @since 1.0
  */

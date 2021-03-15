@@ -10,8 +10,8 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 /**
- * Marker {@link ModelProperty} indicating that the enriched {@link ParameterModel} is the parameter considered
- * to inject the value of the Transactional Action.
+ * Marker {@link ModelProperty} indicating that the enriched {@link ParameterModel} is the parameter considered to inject the
+ * value of the Transactional Action.
  *
  * @since 1.0
  */

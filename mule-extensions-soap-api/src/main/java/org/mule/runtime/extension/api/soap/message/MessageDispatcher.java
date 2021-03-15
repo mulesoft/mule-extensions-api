@@ -8,8 +8,8 @@ package org.mule.runtime.extension.api.soap.message;
 
 
 /**
- * This interface allows that different transports (such as JMS or HTTP) behave the same way when dispatching a
- * Web Service operation message.
+ * This interface allows that different transports (such as JMS or HTTP) behave the same way when dispatching a Web Service
+ * operation message.
  *
  * @since 1.0
  */

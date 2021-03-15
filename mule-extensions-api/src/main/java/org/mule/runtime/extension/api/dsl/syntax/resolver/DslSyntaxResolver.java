@@ -53,8 +53,7 @@ public interface DslSyntaxResolver {
   Optional<DslElementSyntax> resolve(MetadataType type);
 
   /**
-   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has
-   * to be shown as an inline element of the DSL
+   * Resolves the {@link DslElementSyntax} for a {@link ParameterGroupModel} that has to be shown as an inline element of the DSL
    *
    * @param group the {@link ParameterGroupModel} to be described in the {@link DslElementSyntax}
    * @return the {@link DslElementSyntax} for the {@link ParameterGroupModel group}
@@ -64,11 +63,11 @@ public interface DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model   the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
    * @param context the {@link DslResolvingContext} in which the Dsl resolution takes place
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
+   *                                  present in the provided {@link DslResolvingContext} or if the imported
+   *                                  {@link ExtensionModel} doesn't have any {@link ImportedTypeModel}
    * @return the default implementation of a {@link DslSyntaxResolver}
    */
   static DslSyntaxResolver getDefault(ExtensionModel model, DslResolvingContext context) {
@@ -78,11 +77,12 @@ public interface DslSyntaxResolver {
   /**
    * Creates an instance using the default implementation
    *
-   * @param model the {@link ExtensionModel} that provides context for resolving the component's {@link DslElementSyntax}
+   * @param model               the {@link ExtensionModel} that provides context for resolving the component's
+   *                            {@link DslElementSyntax}
    * @param importTypesStrategy the {@link ImportTypesStrategy} used for external types resolution
    * @throws IllegalArgumentException if the {@link ExtensionModel} declares an imported type from an {@link ExtensionModel} not
-   *         present in the provided {@link DslResolvingContext} or if the imported {@link ExtensionModel} doesn't have any
-   *         {@link ImportedTypeModel}
+   *                                  present in the provided {@link DslResolvingContext} or if the imported
+   *                                  {@link ExtensionModel} doesn't have any {@link ImportedTypeModel}
    * @return the default implementation of a {@link DslSyntaxResolver}
    */
   static DslSyntaxResolver getDefault(ExtensionModel model, ImportTypesStrategy importTypesStrategy) {

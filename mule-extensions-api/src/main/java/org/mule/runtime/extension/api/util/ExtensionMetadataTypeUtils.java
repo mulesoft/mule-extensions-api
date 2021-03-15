@@ -67,7 +67,7 @@ public final class ExtensionMetadataTypeUtils {
   /**
    * @param metadataType the {@link ObjectType} who's {@link Class type} is required
    * @return the {@link Class type} of the given {@link ObjectType} if one exists in the current classloader,
-   * {@link Optional#empty()} otherwise.
+   *         {@link Optional#empty()} otherwise.
    */
   public static <T> Optional<Class<T>> getType(MetadataType metadataType) {
     return getType(metadataType, Thread.currentThread().getContextClassLoader());
@@ -77,7 +77,7 @@ public final class ExtensionMetadataTypeUtils {
    * @param metadataType the {@link ObjectType} who's {@link Class type} is required
    * @param classloader  the {@link ClassLoader} to use when looking for the {@link Class}
    * @return the {@link Class type} of the given {@link ObjectType} if one exists in the current classloader,
-   * {@link Optional#empty()} otherwise.
+   *         {@link Optional#empty()} otherwise.
    */
   public static <T> Optional<Class<T>> getType(MetadataType metadataType, ClassLoader classloader) {
     try {
@@ -209,8 +209,8 @@ public final class ExtensionMetadataTypeUtils {
   /**
    * Checks the given {@code metadataType} for the {@link ExpressionSupportAnnotation}.
    * <p>
-   * If present, the {@link ExpressionSupportAnnotation#getExpressionSupport()}
-   * value is returned. Otherwise, it defaults to {@link ExpressionSupport#SUPPORTED}
+   * If present, the {@link ExpressionSupportAnnotation#getExpressionSupport()} value is returned. Otherwise, it defaults to
+   * {@link ExpressionSupport#SUPPORTED}
    *
    * @param metadataType a {@link MetadataType}
    * @return a {@link ExpressionSupport}
@@ -286,8 +286,8 @@ public final class ExtensionMetadataTypeUtils {
   /**
    * Returns a {@link MetadataFormat} which represents the given {@code mediaType}.
    * <p>
-   * If the {@code mediaType} matches any of the well known formats, then it will return one of those.
-   * Otherwise, a new {@link MetadataFormat} will be created and returned
+   * If the {@code mediaType} matches any of the well known formats, then it will return one of those. Otherwise, a new
+   * {@link MetadataFormat} will be created and returned
    *
    * @param mediaType a {@link MediaType}
    * @return a {@link MetadataFormat}

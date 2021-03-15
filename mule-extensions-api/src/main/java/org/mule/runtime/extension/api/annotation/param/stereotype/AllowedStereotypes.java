@@ -21,11 +21,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declares an array of {@link Class classes} of an {@link StereotypeDefinition}, to communicate and declare
- * which {@link StereotypeDefinition} the {@link NestedComponentModel nested component} allows to be injected with.
+ * Declares an array of {@link Class classes} of an {@link StereotypeDefinition}, to communicate and declare which
+ * {@link StereotypeDefinition} the {@link NestedComponentModel nested component} allows to be injected with.
  * <p>
- * This annotation can be applied to {@link ParameterModel parameters} of type {@link Chain},
- * or to {@link Route} implementations.
+ * This annotation can be applied to {@link ParameterModel parameters} of type {@link Chain}, or to {@link Route} implementations.
  *
  * @since 1.0
  * @see StereotypeDefinition

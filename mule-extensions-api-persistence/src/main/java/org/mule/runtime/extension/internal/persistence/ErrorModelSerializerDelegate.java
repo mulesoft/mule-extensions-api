@@ -28,8 +28,8 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Helper class for {@link ExtensionModelTypeAdapter} which encapsulates the logic of serializing and
- * deserializing {@link ErrorModel}
+ * Helper class for {@link ExtensionModelTypeAdapter} which encapsulates the logic of serializing and deserializing
+ * {@link ErrorModel}
  *
  * @since 1.0
  */
@@ -47,8 +47,8 @@ class ErrorModelSerializerDelegate {
   }
 
   /**
-   * Serializes a {@link Set} of {@link ErrorModel}. This Serializer will only serialize the identifier of the
-   * proper error model and the identifier of the parent.
+   * Serializes a {@link Set} of {@link ErrorModel}. This Serializer will only serialize the identifier of the proper error model
+   * and the identifier of the parent.
    *
    * @param errorModels Errors to serialize
    * @param out         json writer where the serialized set will be written
@@ -89,8 +89,8 @@ class ErrorModelSerializerDelegate {
   }
 
   /**
-   * Given a {@link JsonArray} representing a {@link Set} of {@link ErrorModel}, it will deserialize them.
-   * Also contribute with the given {@link this#errorModelRespository}.
+   * Given a {@link JsonArray} representing a {@link Set} of {@link ErrorModel}, it will deserialize them. Also contribute with
+   * the given {@link this#errorModelRespository}.
    *
    * @param errors The json array
    * @return The a {@link Map} with the Error Identifier as key and the represented {@link ErrorModel}

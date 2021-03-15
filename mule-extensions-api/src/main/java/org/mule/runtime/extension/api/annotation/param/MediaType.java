@@ -18,17 +18,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Use this annotation on operation methods and {@link Source} classes which return either {@link String}
- * or {@link InputStream}.
+ * Use this annotation on operation methods and {@link Source} classes which return either {@link String} or {@link InputStream}.
  *
- * Because those types can carry data on any format, and in order to guarantee interoperability with DataWeave,
- * such components need to carry this operation specifying the output mime type, even if it's {@link #ANY}.
+ * Because those types can carry data on any format, and in order to guarantee interoperability with DataWeave, such components
+ * need to carry this operation specifying the output mime type, even if it's {@link #ANY}.
  *
- * The output value's mimeType will be automatically set to it. Plus, depending on the value of {@link #strict()},
- * the runtime may also add synthetic parameters to allow the user to specify a different one.
+ * The output value's mimeType will be automatically set to it. Plus, depending on the value of {@link #strict()}, the runtime may
+ * also add synthetic parameters to allow the user to specify a different one.
  *
- * Operations or sources which return {@link String} or {@link InputStream} and do not carry this annotation
- * will fail to compile.
+ * Operations or sources which return {@link String} or {@link InputStream} and do not carry this annotation will fail to compile.
  *
  * For convenience, this class also defines a set of constants with the most common mime types.
  *
@@ -42,14 +40,14 @@ import java.lang.annotation.Target;
 public @interface MediaType {
 
   /**
-   * The mime type in RFC format. This needs to be a mime type without any custom parameters nor encoding. If specified,
-   * those will be ignored. The runtime will only consider the primary and sub types.
+   * The mime type in RFC format. This needs to be a mime type without any custom parameters nor encoding. If specified, those
+   * will be ignored. The runtime will only consider the primary and sub types.
    */
   String value() default "";
 
   /**
-   * Whether the component must only return values of the given mimeType ({@code true}), or if the user should be
-   * given the chance to override it with its own
+   * Whether the component must only return values of the given mimeType ({@code true}), or if the user should be given the chance
+   * to override it with its own
    */
   boolean strict() default true;
 

@@ -12,11 +12,11 @@ import static java.util.Optional.of;
 import java.util.Optional;
 
 /**
- * Lists the possible strategies to determine the correlation id that should be sent on an outbound operation which
- * supports correlation.
+ * Lists the possible strategies to determine the correlation id that should be sent on an outbound operation which supports
+ * correlation.
  * <p>
- * Operations should invoke the {@link #getOutboundCorrelationId(CorrelationInfo, String)} method to obtain the actual value.
- * If empty, then no correlation id should be sent.
+ * Operations should invoke the {@link #getOutboundCorrelationId(CorrelationInfo, String)} method to obtain the actual value. If
+ * empty, then no correlation id should be sent.
  *
  * @since 1.1
  * @deprecated use {@link org.mule.sdk.api.runtime.parameter.OutboundCorrelationStrategy} instead.

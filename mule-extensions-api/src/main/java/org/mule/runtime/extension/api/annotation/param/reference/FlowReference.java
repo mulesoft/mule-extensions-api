@@ -16,8 +16,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used in a {@link String} type {@link Parameter}
- * field or parameter that is a reference to a flow in a mule app.
+ * Annotation to be used in a {@link String} type {@link Parameter} field or parameter that is a reference to a flow in a mule
+ * app.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.param.reference.FlowReference} instead.

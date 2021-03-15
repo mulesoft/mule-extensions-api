@@ -17,8 +17,7 @@ import org.mule.metadata.java.api.JavaTypeLoader;
 public class DefaultExtensionsTypeLoaderFactory implements ExtensionsTypeLoaderFactory {
 
   /**
-   * Delegates into {@link #createTypeLoader(ClassLoader)} using the current context
-   * {@link ClassLoader}
+   * Delegates into {@link #createTypeLoader(ClassLoader)} using the current context {@link ClassLoader}
    *
    * @return a new {@link JavaTypeLoader}
    */

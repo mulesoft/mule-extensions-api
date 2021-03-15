@@ -9,8 +9,7 @@ package org.mule.runtime.extension.api.runtime.streaming;
 /**
  * This interface provides functionality for consuming a data feed in pages.
  * <p>
- * Instances should not be reused. Each execution of a paging operation should return
- * different instances.
+ * Instances should not be reused. Each execution of a paging operation should return different instances.
  * <p>
  * Implementing this interface does not guarantee thread safeness.
  *

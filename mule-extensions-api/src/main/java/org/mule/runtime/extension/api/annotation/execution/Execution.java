@@ -17,8 +17,8 @@ import java.lang.annotation.Target;
 /**
  * Allows to specify the {@link ExecutionType} of the annotated component.
  * <p>
- * Usage of this annotation is completely optional. If not provided, the runtime
- * will perform a best guess on what the best {@link ExecutionType} is.
+ * Usage of this annotation is completely optional. If not provided, the runtime will perform a best guess on what the best
+ * {@link ExecutionType} is.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.execution.Execution} instead.

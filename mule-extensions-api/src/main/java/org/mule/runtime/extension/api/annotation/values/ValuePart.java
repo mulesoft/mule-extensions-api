@@ -15,8 +15,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a field inside a POJO that represents a composed {@link Value} as one of the parts
- * of that composed {@link Value}.
+ * Marks a field inside a POJO that represents a composed {@link Value} as one of the parts of that composed {@link Value}.
  * <p>
  * Multiple {@link ValuePart parts} describe a POJO that can be annotated with {@link OfValues};
  * <p>
@@ -32,8 +31,8 @@ import java.lang.annotation.Target;
 public @interface ValuePart {
 
   /**
-   * @return the resolution order of this key part during the building of
-   * the {@link Value} annotated parameter corresponding to this {@link ValuePart}.
+   * @return the resolution order of this key part during the building of the {@link Value} annotated parameter corresponding to
+   *         this {@link ValuePart}.
    */
   int order();
 }

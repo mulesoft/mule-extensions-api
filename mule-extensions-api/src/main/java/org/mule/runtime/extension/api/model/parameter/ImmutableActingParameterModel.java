@@ -25,8 +25,8 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
   /**
    * Creates a new instance with the given state
    *
-   * @param name          the parameter's name. Cannot be blank.
-   * @param required      whether this parameter is required or not
+   * @param name     the parameter's name. Cannot be blank.
+   * @param required whether this parameter is required or not
    */
   public ImmutableActingParameterModel(String name, boolean required) {
     checkArgument(name != null && name.length() > 0, "name cannot be null or blank");

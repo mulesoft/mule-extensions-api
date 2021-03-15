@@ -13,8 +13,8 @@ import org.mule.runtime.extension.api.annotation.connectivity.oauth.OAuthParamet
 import org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement;
 
 /**
- * A private {@link ModelProperty} used on {@link ParameterModel} instances, indicating that such
- * parameter should be used as an OAuth parameter.
+ * A private {@link ModelProperty} used on {@link ParameterModel} instances, indicating that such parameter should be used as an
+ * OAuth parameter.
  * <p>
  * This is equivalent to the {@link OAuthParameter} annotation
  */

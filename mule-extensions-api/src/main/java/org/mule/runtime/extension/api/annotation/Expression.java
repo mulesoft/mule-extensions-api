@@ -29,8 +29,7 @@ import java.lang.annotation.Target;
 public @interface Expression {
 
   /**
-   * The type of expression support that parameters defined through this annotations
-   * should have.
+   * The type of expression support that parameters defined through this annotations should have.
    * <p>
    * Defaults to {@link ExpressionSupport#SUPPORTED}
    *

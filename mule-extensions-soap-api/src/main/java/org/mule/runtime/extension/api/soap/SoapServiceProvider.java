@@ -17,8 +17,7 @@ import java.util.Map;
  * Contract for implementations that handles the web services that the extension will be able to execute by returning a list of
  * {@link WebServiceDefinition}s.
  * <p>
- * Implementations can also add a level of security by overriding the {@link SoapServiceProvider#getSecurities()}
- * method.
+ * Implementations can also add a level of security by overriding the {@link SoapServiceProvider#getSecurities()} method.
  *
  * @since 1.0
  */
@@ -37,11 +36,11 @@ public interface SoapServiceProvider {
   }
 
   /**
-   * Gives the capability to create Soap headers given the a service definition and the operation that is being consumed
-   * so they can be bundled with the soap request
+   * Gives the capability to create Soap headers given the a service definition and the operation that is being consumed so they
+   * can be bundled with the soap request
    * <p>
-   * It returns a {@link Map} with {@link String} keys representing the name of the headers and {@link String} values
-   * representing the actual XML soap header value.
+   * It returns a {@link Map} with {@link String} keys representing the name of the headers and {@link String} values representing
+   * the actual XML soap header value.
    *
    * @param definition the {@link WebServiceDefinition} of the service being called.
    * @param operation  the name of the operation that is going to be consumed.
@@ -52,8 +51,8 @@ public interface SoapServiceProvider {
   }
 
   /**
-   * This method is a hook for {@link SoapServiceProvider} instances to validate the configured parameters and
-   * fail gracefully before attempting to create a connection avoiding misleading and confusing error messages.
+   * This method is a hook for {@link SoapServiceProvider} instances to validate the configured parameters and fail gracefully
+   * before attempting to create a connection avoiding misleading and confusing error messages.
    *
    * @throws SoapServiceProviderConfigurationException if any configured parameter has an invalid value.
    */

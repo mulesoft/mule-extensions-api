@@ -14,12 +14,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to indicate that an annotated method should be executed when a generated
- * event was processed by the owning flow but an error was thrown.
+ * Used to indicate that an annotated method should be executed when a generated event was processed by the owning flow but an
+ * error was thrown.
  * <p>
- * Another important semantic of this annotation, is that whatever parameters the annotated
- * method takes, are to be automatically resolved by the runtime in the same way as an
- * operation method would.
+ * Another important semantic of this annotation, is that whatever parameters the annotated method takes, are to be automatically
+ * resolved by the runtime in the same way as an operation method would.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.execution.OnError} instead.

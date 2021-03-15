@@ -16,9 +16,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Ignores a field or method inside a complex type. Only usable in complex types.
- * The purpose is to signal that a given field or setter should not be used
- * when building instances of a class
+ * Ignores a field or method inside a complex type. Only usable in complex types. The purpose is to signal that a given field or
+ * setter should not be used when building instances of a class
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Ignore} instead.

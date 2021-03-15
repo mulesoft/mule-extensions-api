@@ -200,9 +200,8 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   }
 
   /**
-   * Return the itemized version of a word, which is
-   * an {@link this#hyphenize hyphenized} version of the word with
-   * the {@code item} suffix
+   * Return the itemized version of a word, which is an {@link this#hyphenize hyphenized} version of the word with the
+   * {@code item} suffix
    *
    * @param word The word
    * @return The singularized word
@@ -232,13 +231,10 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   /**
    * Returns a hypenized name of the give top level {@code metadataType}.
    * <p>
-   * This method will look for the {@link TypeAliasAnnotation} of the {@link MetadataType}
-   * to get the type simple name.
+   * This method will look for the {@link TypeAliasAnnotation} of the {@link MetadataType} to get the type simple name.
    * <p>
-   * As a fallback, it uses {@link ClassInformationAnnotation#getClassname()} to obtain the
-   * simple name of the class.
-   * Finally if there is no  ClassInformation, the {@link TypeIdAnnotation} will be used as
-   * Alias, failing if it is not found.
+   * As a fallback, it uses {@link ClassInformationAnnotation#getClassname()} to obtain the simple name of the class. Finally if
+   * there is no ClassInformation, the {@link TypeIdAnnotation} will be used as Alias, failing if it is not found.
    *
    * @param metadataType the {@link MetadataType} which name you want
    * @return the hypenized name for the given {@code type}
@@ -248,13 +244,11 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   }
 
   /**
-   * This method will look for the {@link TypeAliasAnnotation} of the {@link MetadataType}
-   * to get the type simple name.
+   * This method will look for the {@link TypeAliasAnnotation} of the {@link MetadataType} to get the type simple name.
    * <p>
-   * As a fallback, it uses {@link ClassInformationAnnotation#getClassname()} to obtain the
-   * simple name of the class.
-   * Finally if there is no  ClassInformation, the {@link TypeIdAnnotation} will be used as
-   * Alias, failing if it is not found.
+   * As a fallback, it uses {@link ClassInformationAnnotation#getClassname()} to obtain the simple name of the class. Finally if
+   * there is no ClassInformation, the {@link TypeIdAnnotation} will be used as Alias, failing if it is not found.
+   * 
    * @param metadataType the {@link MetadataType} whose Alias is required
    * @return the alias of the given type
    */

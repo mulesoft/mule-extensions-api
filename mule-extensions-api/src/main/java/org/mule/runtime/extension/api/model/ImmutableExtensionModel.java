@@ -81,9 +81,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param subTypes              A {@link Set} with the sub types defined by this extension
    * @param types                 A {@link Set} with the custom types defined by this extension
    * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
-   *                              extensions
-   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from
+   *                              other extensions
+   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension
+   *                              handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
    * @param privilegedPackages    a {@link Set} of Java package names to export on the extension's privileged API.
    * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
@@ -91,8 +92,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
    *                                  with non unique names, or if {@code name} is blank.
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
-   * {@link #ImmutableExtensionModel(String, String, String, String, Category, List, List, List, List, List, List, DisplayModel, XmlDslModel, Set, Set, Set, Set, Set, Set, Set, Set, Set, Set)}
-   * instead
+   *             {@link #ImmutableExtensionModel(String, String, String, String, Category, List, List, List, List, List, List, DisplayModel, XmlDslModel, Set, Set, Set, Set, Set, Set, Set, Set, Set, Set)}
+   *             instead
    */
   @Deprecated
   public ImmutableExtensionModel(String name,
@@ -139,9 +140,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param subTypes              A {@link Set} with the sub types defined by this extension
    * @param types                 A {@link Set} with the custom types defined by this extension
    * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
-   *                              extensions
-   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from
+   *                              other extensions
+   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension
+   *                              handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
    * @param privilegedPackages    a {@link Set} of Java package names to export on the extension's privileged API.
    * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
@@ -195,16 +197,17 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param subTypes              A {@link Set} with the sub types defined by this extension
    * @param types                 A {@link Set} with the custom types defined by this extension
    * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
-   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from other
-   *                              extensions
-   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension handles
+   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from
+   *                              other extensions
+   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension
+   *                              handles
    * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
    * @param privilegedPackages    a {@link Set} of Java package names to export on the extension's privileged API.
    * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
    * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param notifications         A {@link Set} of {@link NotificationModel} which describes the extension's notifications
-   * @param deprecationModel      a {@link DeprecationModel} describing if the extension is deprecated. A null value means
-   *                              it is not deprecated.
+   * @param deprecationModel      a {@link DeprecationModel} describing if the extension is deprecated. A null value means it is
+   *                              not deprecated.
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
    *                                  with non unique names, or if {@code name} is blank.
    */

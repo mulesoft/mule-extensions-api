@@ -22,8 +22,9 @@ public final class ImmutableExclusiveParametersModel implements ExclusiveParamet
 
   /**
    * Creates anew instance
+   * 
    * @param exclusiveParameterNames the names of the mutually exclusive parameters
-   * @param isOneRequired whether one is required
+   * @param isOneRequired           whether one is required
    */
   public ImmutableExclusiveParametersModel(Set<String> exclusiveParameterNames, boolean isOneRequired) {
     this.exclusiveParameterNames = exclusiveParameterNames;

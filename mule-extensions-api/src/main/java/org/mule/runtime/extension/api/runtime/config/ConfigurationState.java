@@ -23,8 +23,8 @@ import java.util.Map;
 public interface ConfigurationState {
 
   /**
-   * A {@link Map} which keys are the name of the config parameters and the values are the parameter values.
-   * It will not include entries for parameters for which a value was not specified or was resolved to {@code null}
+   * A {@link Map} which keys are the name of the config parameters and the values are the parameter values. It will not include
+   * entries for parameters for which a value was not specified or was resolved to {@code null}
    *
    * @return an unmodifiable {@link Map}. Might be empty but will never be {@code null}
    */
@@ -32,8 +32,8 @@ public interface ConfigurationState {
 
   /**
    * A {@link Map} which keys are the name of the {@link ConnectionProvider} parameters and the values are the parameter values.
-   * It the owning {@link ConfigurationInstance} does not have an associated {@link ConnectionProvider}, then an empty map will
-   * be returned.
+   * It the owning {@link ConfigurationInstance} does not have an associated {@link ConnectionProvider}, then an empty map will be
+   * returned.
    * <p>
    * It will not include entries for parameters for which a value was not specified or was resolved to {@code null}.
    *

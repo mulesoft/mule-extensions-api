@@ -51,8 +51,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 /**
- * This class tests the fluent API that allows
- * to perform declarations which describes an extension.
+ * This class tests the fluent API that allows to perform declarations which describes an extension.
  *
  * @since 1.0
  */

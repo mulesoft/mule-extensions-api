@@ -115,7 +115,7 @@ public class ExtensionModelJsonSerializer {
    * Creates a new instance of the {@link ExtensionModelJsonSerializer}.
    *
    * @param prettyPrint boolean indicating if the serialization of the {@link ExtensionModel} should be printed in a human
-   *        readable or into compact and more performable format
+   *                    readable or into compact and more performable format
    */
   public ExtensionModelJsonSerializer(boolean prettyPrint) {
     this.prettyPrint = prettyPrint;

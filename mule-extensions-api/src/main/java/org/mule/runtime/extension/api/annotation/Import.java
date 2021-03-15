@@ -14,12 +14,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used on an {@link Extension} to declare that
- * a given {@link Class} definition has to be imported from another
+ * Annotation to be used on an {@link Extension} to declare that a given {@link Class} definition has to be imported from another
  * {@link Extension} declaration.
  *
- * Usages of such {@link Class} will reference its original
- * definition instead of being redefined in the current {@link Extension}
+ * Usages of such {@link Class} will reference its original definition instead of being redefined in the current {@link Extension}
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.Import} instead.

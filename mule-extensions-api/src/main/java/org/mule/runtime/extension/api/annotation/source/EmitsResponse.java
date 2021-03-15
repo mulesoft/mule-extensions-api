@@ -15,14 +15,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Indicates that the annotated {@link Source} supports emitting responses
- * back to the client once a generated message is processed (either correctly
- * or incorrectly).
+ * Indicates that the annotated {@link Source} supports emitting responses back to the client once a generated message is
+ * processed (either correctly or incorrectly).
  * <p>
- * Notice that this is a declaration of intent. The {@link Source} <b>MUST</b>
- * use this annotation to communicate that it supports doing that, but the mere
- * fact of using this annotation doesn't mean that the source will do it automatically.
- * It's each source's responsibility to do that correctly
+ * Notice that this is a declaration of intent. The {@link Source} <b>MUST</b> use this annotation to communicate that it supports
+ * doing that, but the mere fact of using this annotation doesn't mean that the source will do it automatically. It's each
+ * source's responsibility to do that correctly
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.source.EmitsResponse} instead.

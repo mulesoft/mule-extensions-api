@@ -11,8 +11,8 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 
 /**
- * A {@link TypeAnnotation} used to enrich a {@link MetadataType} by specifying
- * a certain level of {@link ExpressionSupport} it supports.
+ * A {@link TypeAnnotation} used to enrich a {@link MetadataType} by specifying a certain level of {@link ExpressionSupport} it
+ * supports.
  * <p>
  * This class is immutable.
  *

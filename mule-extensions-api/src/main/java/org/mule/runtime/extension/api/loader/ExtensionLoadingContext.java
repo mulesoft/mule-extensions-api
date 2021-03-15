@@ -17,11 +17,10 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Used for propagating state across all the components that take part
- * into loading an {@link ExtensionModel}.
+ * Used for propagating state across all the components that take part into loading an {@link ExtensionModel}.
  * <p>
- * Each instance should be used to load one and only one {@link ExtensionModel}. Use different
- * instances if you're going to load several models.
+ * Each instance should be used to load one and only one {@link ExtensionModel}. Use different instances if you're going to load
+ * several models.
  *
  * @since 1.0
  */
@@ -29,8 +28,7 @@ import java.util.Optional;
 public interface ExtensionLoadingContext {
 
   /**
-   * The {@link ExtensionDeclarer} in which
-   * the extension is being described into
+   * The {@link ExtensionDeclarer} in which the extension is being described into
    *
    * @return a non {@code null} {@link ExtensionDeclarer}
    */
@@ -62,11 +60,9 @@ public interface ExtensionLoadingContext {
   <T> Optional<T> getParameter(String key);
 
   /**
-   * Registers a custom {@link ExtensionModelValidator} to be executed on top of the ones which
-   * the runtime applies by default.
+   * Registers a custom {@link ExtensionModelValidator} to be executed on top of the ones which the runtime applies by default.
    * <p>
-   * Custom validators will not apply globally but just for the model being loaded with
-   * this context.
+   * Custom validators will not apply globally but just for the model being loaded with this context.
    *
    * @param extensionModelValidator the custom validator
    * @return {@code this} instance
@@ -74,11 +70,9 @@ public interface ExtensionLoadingContext {
   ExtensionLoadingContext addCustomValidator(ExtensionModelValidator extensionModelValidator);
 
   /**
-   * Registers custom {@link ExtensionModelValidator} to be executed on top of the ones which
-   * the runtime applies by default.
+   * Registers custom {@link ExtensionModelValidator} to be executed on top of the ones which the runtime applies by default.
    * <p>
-   * These custom validators will not apply globaly but just for the model being loaded with
-   * this context.
+   * These custom validators will not apply globaly but just for the model being loaded with this context.
    *
    * @param extensionModelValidators the custom validators
    * @return {@code this} instance
@@ -86,8 +80,8 @@ public interface ExtensionLoadingContext {
   ExtensionLoadingContext addCustomValidators(Collection<ExtensionModelValidator> extensionModelValidators);
 
   /**
-   * Registers a custom {@link DeclarationEnricher} which is executed <b>before</b> the ones that
-   * the runtime automatically applies.
+   * Registers a custom {@link DeclarationEnricher} which is executed <b>before</b> the ones that the runtime automatically
+   * applies.
    *
    * @param enricher the custom enricher
    * @return {@code this} instance
@@ -95,8 +89,8 @@ public interface ExtensionLoadingContext {
   ExtensionLoadingContext addCustomDeclarationEnricher(DeclarationEnricher enricher);
 
   /**
-   * Registers custom {@link DeclarationEnricher} which are executed <b>before</b> the ones that
-   * the runtime automatically applies.
+   * Registers custom {@link DeclarationEnricher} which are executed <b>before</b> the ones that the runtime automatically
+   * applies.
    *
    * @param enrichers the custom enrichers
    * @return {@code this} instance

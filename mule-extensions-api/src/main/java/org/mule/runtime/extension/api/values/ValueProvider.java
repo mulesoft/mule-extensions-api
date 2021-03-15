@@ -21,8 +21,8 @@ import java.util.Set;
 public interface ValueProvider {
 
   /**
-   * Resolves and provides a {@link Set} of {@link Value values} which represents a set of possible and valid values for
-   * a parameter.
+   * Resolves and provides a {@link Set} of {@link Value values} which represents a set of possible and valid values for a
+   * parameter.
    *
    * @return a {@link Set} of {@link Value values}.
    * @throws ValueResolvingException if an error occurs during the resolving
@@ -30,8 +30,8 @@ public interface ValueProvider {
   Set<Value> resolve() throws ValueResolvingException;
 
   /**
-   * This is the id of the ValueProvider. It should not be repeated among {@link ValueProvider} in the same extension.
-   * Multiple calls to this method must always return the same fixed value.
+   * This is the id of the ValueProvider. It should not be repeated among {@link ValueProvider} in the same extension. Multiple
+   * calls to this method must always return the same fixed value.
    *
    * @return name of the resolver
    * @since 1.4.0

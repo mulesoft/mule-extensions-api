@@ -29,7 +29,7 @@ public class ModuleException extends MuleRuntimeException {
 
   /**
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
-   * @param cause           The {@link ModuleException#getCause()} of this new throwable.
+   * @param cause               The {@link ModuleException#getCause()} of this new throwable.
    * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
   public <T extends Enum<T>> ModuleException(ErrorTypeDefinition<T> errorTypeDefinition, Throwable cause) {
@@ -41,7 +41,7 @@ public class ModuleException extends MuleRuntimeException {
   /**
    * @param message             to override the one from the original throwable
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
-   * @param cause           The {@link ModuleException#getCause()} of this new throwable.
+   * @param cause               The {@link ModuleException#getCause()} of this new throwable.
    * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
   public <T extends Enum<T>> ModuleException(I18nMessage message, ErrorTypeDefinition<T> errorTypeDefinition, Throwable cause) {
@@ -51,19 +51,19 @@ public class ModuleException extends MuleRuntimeException {
   }
 
   /**
-   * @param message to override the one from the original throwable
+   * @param message             to override the one from the original throwable
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
-   * @param cause The {@link ModuleException#getCause()} of this new throwable.
-   * @param <T> Type of the {@link ErrorTypeDefinition}
+   * @param cause               The {@link ModuleException#getCause()} of this new throwable.
+   * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
   public <T extends Enum<T>> ModuleException(String message, ErrorTypeDefinition<T> errorTypeDefinition, Throwable cause) {
     this(createStaticMessage(message), errorTypeDefinition, cause);
   }
 
   /**
-   * @param message to override the one from the original exception
+   * @param message             to override the one from the original exception
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
-   * @param <T> Type of the {@link ErrorTypeDefinition}
+   * @param <T>                 Type of the {@link ErrorTypeDefinition}
    */
   public <T extends Enum<T>> ModuleException(I18nMessage message, ErrorTypeDefinition<T> errorTypeDefinition) {
     super(message);
@@ -72,7 +72,7 @@ public class ModuleException extends MuleRuntimeException {
   }
 
   /**
-   * @param message to override the one from the original exception
+   * @param message             to override the one from the original exception
    * @param errorTypeDefinition The matched {@link ErrorTypeDefinition},
    */
   public <T extends Enum<T>> ModuleException(String message, ErrorTypeDefinition<T> errorTypeDefinition) {

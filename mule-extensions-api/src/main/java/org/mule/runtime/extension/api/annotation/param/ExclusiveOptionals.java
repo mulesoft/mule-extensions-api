@@ -13,12 +13,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation marks that all the {@link Optional} {@link Parameter}s contained  in the annotated class have an exclusive relationship among each other.
- * The exclusive relation stands for "from all the parameters declared in this class, only one can be present at any time"
- * This annotation doesn't override the optionality of the {@link Parameter}s. The required parameter will remain required
- * and the exclusivity condition imposed by this annotation would not affect them.
- * If the case is given in which one of the {@link Optional} {@link Parameter}s must be present (no matter which one),
- * then {@link ExclusiveOptionals#isOneRequired()} must be set to true.
+ * This annotation marks that all the {@link Optional} {@link Parameter}s contained in the annotated class have an exclusive
+ * relationship among each other. The exclusive relation stands for "from all the parameters declared in this class, only one can
+ * be present at any time" This annotation doesn't override the optionality of the {@link Parameter}s. The required parameter will
+ * remain required and the exclusivity condition imposed by this annotation would not affect them. If the case is given in which
+ * one of the {@link Optional} {@link Parameter}s must be present (no matter which one), then
+ * {@link ExclusiveOptionals#isOneRequired()} must be set to true.
  *
  * @since 1.0
  * @deprecated use {@link org.mule.sdk.api.annotation.param.ExclusiveOptionals} instead.

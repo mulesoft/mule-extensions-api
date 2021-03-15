@@ -58,8 +58,8 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
-   * {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set)}
-   * instead
+   *             {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set)}
+   *             instead
    */
   @Deprecated
   public ImmutableSourceModel(String name,
@@ -104,8 +104,8 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param notifications         A {@link Set} of {@link NotificationModel} which describes the source's notifications
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
-   * {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set, DeprecationModel)}
-   * instead
+   *             {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set, DeprecationModel)}
+   *             instead
    */
   public ImmutableSourceModel(String name,
                               String description,
@@ -200,7 +200,8 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the source's notifications
-   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data capabilities
+   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
+   *                                capabilities
    * @since 1.4.0
    */
   public ImmutableSourceModel(String name,

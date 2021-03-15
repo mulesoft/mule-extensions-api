@@ -42,11 +42,11 @@ import org.mule.runtime.extension.internal.property.TransactionalTypeModelProper
 import java.util.Optional;
 
 /**
- * {@link DeclarationEnricher} which enrich transactional {@link ComponentModel component models} adding required
- * transactional parameters to the correspondent model.
+ * {@link DeclarationEnricher} which enrich transactional {@link ComponentModel component models} adding required transactional
+ * parameters to the correspondent model.
  * <p>
- * If the given {@link ComponentModel} already contains the parameter, this one will be enriched to ensure a cross
- * components transactional parameters UX.
+ * If the given {@link ComponentModel} already contains the parameter, this one will be enriched to ensure a cross components
+ * transactional parameters UX.
  *
  * @since 1.0
  */

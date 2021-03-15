@@ -39,8 +39,8 @@ public interface ExecutionContext<M extends ComponentModel> {
    *
    * @param parameterName the name of a {@link ParameterModel} of the {@link ComponentModel} being executed
    * @param <T>           the returned value's generic type
-   * @return the parameter's value or {@code null}. Notice that {@code null} means that the parameter has been
-   * resolved to that value.
+   * @return the parameter's value or {@code null}. Notice that {@code null} means that the parameter has been resolved to that
+   *         value.
    * @throws NoSuchElementException if the parameter is not present.
    */
   <T> T getParameter(String parameterName);
@@ -58,8 +58,8 @@ public interface ExecutionContext<M extends ComponentModel> {
   <T> T getParameterOrDefault(String parameterName, T defaultValue);
 
   /**
-   * Returns an immutable map containing all the parameters associated with this execution. The keys are the parameter names
-   * and the values are... well, the values.
+   * Returns an immutable map containing all the parameters associated with this execution. The keys are the parameter names and
+   * the values are... well, the values.
    * <p>
    * It is guaranteed that whatever value returned in this map will be the exact same as invoking {@link #getParameter(String)}
    * with the same key, no matter how many times invoked nor in which order.

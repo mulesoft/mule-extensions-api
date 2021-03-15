@@ -15,17 +15,13 @@ import java.util.Optional;
 import java.util.OptionalLong;
 
 /**
- * Represents the result of a component's execution. Extensions can use this class
- * for cases in which the component not only needs to return a value to be set
- * on the message payload but also wants to specify message attributes and/or
- * {@link MediaType}.
+ * Represents the result of a component's execution. Extensions can use this class for cases in which the component not only needs
+ * to return a value to be set on the message payload but also wants to specify message attributes and/or {@link MediaType}.
  * <p>
- * The {@link #getOutput()} value is always taken at face value, meaning that
- * if it's {@code null}, then the value that the operation returns to the runtime
- * will in fact be {@code null}. However, if the {@link #getAttributes()} or
- * {@link #getMediaType()} are {@link Optional#empty}, then the runtime will interpret
- * that as the operation not interested in setting those values, keeping the input message's
- * attributes and/or media type untouched.
+ * The {@link #getOutput()} value is always taken at face value, meaning that if it's {@code null}, then the value that the
+ * operation returns to the runtime will in fact be {@code null}. However, if the {@link #getAttributes()} or
+ * {@link #getMediaType()} are {@link Optional#empty}, then the runtime will interpret that as the operation not interested in
+ * setting those values, keeping the input message's attributes and/or media type untouched.
  *
  * @param <T> the generic type of the output value
  * @param <A> the generic type of the message attributes
@@ -152,8 +148,7 @@ public class Result<T, A> {
   }
 
   /**
-   * Creates a new {@link Builder} initialises with a state that matched
-   * the one of the given {@code muleMessage}
+   * Creates a new {@link Builder} initialises with a state that matched the one of the given {@code muleMessage}
    *
    * @param muleMessage a reference {@link Message}
    * @param <T>         the generic type of the output value
@@ -177,8 +172,7 @@ public class Result<T, A> {
   protected Result() {}
 
   /**
-   * Creates a new {@link Builder} initialises with a state that matched
-   * {@code this} result
+   * Creates a new {@link Builder} initialises with a state that matched {@code this} result
    *
    * @return a new {@link Builder}
    */
@@ -203,8 +197,7 @@ public class Result<T, A> {
   /**
    * The new value that the operation wants to set on {@link Message#getAttributes()}.
    * <p>
-   * The operation might not be interested in changing that value, in which case
-   * this method would return {@link Optional#empty()}
+   * The operation might not be interested in changing that value, in which case this method would return {@link Optional#empty()}
    *
    * @return an {@link Optional} {@code Attributes} value
    */
@@ -215,8 +208,7 @@ public class Result<T, A> {
   /**
    * The new {@link MediaType} that the operation wants to set on {@link Message} payload.
    * <p>
-   * The operation might not be interested in changing that value, in which case
-   * this method would return {@link Optional#empty()}
+   * The operation might not be interested in changing that value, in which case this method would return {@link Optional#empty()}
    *
    * @return an {@link Optional} {@link MediaType} value
    */
@@ -252,8 +244,7 @@ public class Result<T, A> {
   /**
    * The new {@link MediaType} that the operation wants to set on {@link Message} attributes.
    * <p>
-   * The operation might not be interested in changing that value, in which case
-   * this method would return {@link Optional#empty()}
+   * The operation might not be interested in changing that value, in which case this method would return {@link Optional#empty()}
    *
    * @return an {@link Optional} {@link MediaType} value
    */

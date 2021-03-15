@@ -48,19 +48,18 @@ public @interface Placement {
   String ERROR_MAPPING_TAB = "Error Mapping";
 
   /**
-   * Gives the annotated element a relative order within its group. The value provided may be repeated
-   * and in that case the order is not guaranteed.
+   * Gives the annotated element a relative order within its group. The value provided may be repeated and in that case the order
+   * is not guaranteed.
    * <p>
    * The value is relative meaning that the element with order 10 is on top than one with value 25.
    */
   int order() default DEFAULT_ORDER;
 
   /**
-   * A tab is a logical way to groups together. This attributes specifies the name of the tab in which the
-   * annotated element should be displayed. If no tab is specified then a default tab is assumed.
+   * A tab is a logical way to groups together. This attributes specifies the name of the tab in which the annotated element
+   * should be displayed. If no tab is specified then a default tab is assumed.
    * <p>
-   * To display more than one parameter or field in the same the tab then this value should be exactly the same for
-   * all of them.
+   * To display more than one parameter or field in the same the tab then this value should be exactly the same for all of them.
    * <p>
    * By default the value is {@link #DEFAULT_TAB}
    */

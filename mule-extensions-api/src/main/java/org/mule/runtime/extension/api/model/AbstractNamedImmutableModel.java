@@ -68,9 +68,8 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
   }
 
   /**
-   * Defines object equality based on the given object
-   * being an object of this class and in the equality
-   * of the {@link #getName()} attributes
+   * Defines object equality based on the given object being an object of this class and in the equality of the {@link #getName()}
+   * attributes
    *
    * @param obj an object
    * @return {@code true} if equal
