@@ -6,9 +6,13 @@
  */
 package org.mule.runtime.extension.api.resources.spi;
 
+import static java.util.Collections.emptyList;
+
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.resources.GeneratedResource;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,4 +34,8 @@ public interface GeneratedResourceFactory {
    * @return an {@link Optional} {@link GeneratedResource}
    */
   Optional<GeneratedResource> generateResource(ExtensionModel extensionModel);
+
+  default List<GeneratedResource> generateResources(ExtensionModel extensionModel) {
+    return generateResource(extensionModel).map(Collections::singletonList).orElse(emptyList());
+  }
 }
