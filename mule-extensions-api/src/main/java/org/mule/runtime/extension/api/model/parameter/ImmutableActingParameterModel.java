@@ -21,6 +21,7 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
 
   private final String name;
   private final boolean required;
+  private final String path;
 
   /**
    * Creates a new instance with the given state
@@ -29,9 +30,21 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
    * @param required whether this parameter is required or not
    */
   public ImmutableActingParameterModel(String name, boolean required) {
+    this(name, required, name);
+  }
+
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name          the parameter's name. Cannot be blank.
+   * @param required      whether this parameter is required or not
+   * @param path          ADD JDOC
+   */
+  public ImmutableActingParameterModel(String name, boolean required, String path) {
     checkArgument(name != null && name.length() > 0, "name cannot be null or blank");
     this.name = name;
     this.required = required;
+    this.path = path;
   }
 
   @Override
@@ -42,6 +55,11 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
   @Override
   public boolean isRequired() {
     return required;
+  }
+
+  @Override
+  public String getPath() {
+    return path;
   }
 
   @Override

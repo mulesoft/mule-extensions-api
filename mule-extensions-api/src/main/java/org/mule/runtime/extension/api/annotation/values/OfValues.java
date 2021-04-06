@@ -11,7 +11,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.value.Value;
 import org.mule.runtime.extension.api.values.ValueProvider;
-import org.mule.sdk.api.annotation.mapping.ParameterMapping;
+import org.mule.sdk.api.annotation.binding.Binding;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -41,8 +41,9 @@ public @interface OfValues {
   boolean open() default true;
 
   /**
-   *
+   * ADD JDOC
+   * MOVE TO SDK-API
    */
-  ParameterMapping[] mapping() default {};
+  Binding[] bindings() default {};
 
 }

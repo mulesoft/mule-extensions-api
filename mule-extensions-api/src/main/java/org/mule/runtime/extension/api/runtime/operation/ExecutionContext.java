@@ -11,6 +11,7 @@ import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.runtime.config.ConfigurationInstance;
 
 import java.util.Map;
