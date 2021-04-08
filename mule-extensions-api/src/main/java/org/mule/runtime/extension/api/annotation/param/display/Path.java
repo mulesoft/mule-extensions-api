@@ -14,7 +14,7 @@ import static org.mule.runtime.api.meta.model.display.PathModel.Type.ANY;
 import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.meta.model.display.PathModel.Location;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.sdk.api.annotation.semmantics.file.FilePath;
+import org.mule.sdk.api.annotation.semantics.file.FilePath;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
