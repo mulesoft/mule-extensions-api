@@ -6,6 +6,9 @@
  */
 package org.mule.runtime.extension.api.model;
 
+import static java.util.Collections.emptySet;
+import static java.util.Collections.unmodifiableSet;
+
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -16,10 +19,10 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractStereotypedModel;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 
 
 /**
@@ -32,6 +35,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
 
   private final List<? extends NestableElementModel> nestedComponents;
   private final Set<ErrorModel> errors;
+  private final Set<String> semanticTerms;
 
   /**
    * Creates a new instance
@@ -79,10 +83,41 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
                                    StereotypeModel stereotype,
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel) {
+    this(name, description, parameterGroupModels, nestedComponents, displayModel, errors,
+         stereotype, modelProperties, deprecationModel, null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name                 the model's name
+   * @param description          the model's description
+   * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
+   * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
+   * @throws IllegalArgumentException if {@code name} is blank
+   * @since 1.4.0
+   */
+  protected AbstractComponentModel(String name,
+                                   String description,
+                                   List<ParameterGroupModel> parameterGroupModels,
+                                   List<? extends NestableElementModel> nestedComponents,
+                                   DisplayModel displayModel,
+                                   Set<ErrorModel> errors,
+                                   StereotypeModel stereotype,
+                                   Set<ModelProperty> modelProperties,
+                                   DeprecationModel deprecationModel,
+                                   Set<String> semanticTerms) {
     super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties, deprecationModel);
 
     this.nestedComponents = copy(nestedComponents);
     this.errors = ImmutableSet.copyOf(errors);
+    this.semanticTerms = semanticTerms != null ? unmodifiableSet(semanticTerms) : emptySet();
   }
 
   /**
@@ -98,5 +133,15 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
   @Override
   public List<? extends NestableElementModel> getNestedComponents() {
     return nestedComponents;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 1.4.0
+   */
+  @Override
+  public Set<String> getSemanticTerms() {
+    return semanticTerms;
   }
 }

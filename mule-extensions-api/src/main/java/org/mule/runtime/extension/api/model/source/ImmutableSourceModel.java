@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.model.source;
 
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
+
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.data.sample.SampleDataProviderModel;
@@ -224,9 +225,61 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               Set<NotificationModel> notifications,
                               DeprecationModel deprecationModel,
                               SampleDataProviderModel sampleDataProviderModel) {
+    this(name, description, hasResponse, runsOnPrimaryNodeOnly, parameterGroupModels, nestedComponents, output,
+         outputAttributes, successCallbackModel, errorCallbackModel, terminateCallbackModel, requiresConnection,
+         transactional, supportsStreaming, displayModel, stereotype, errors, modelProperties, notifications,
+         deprecationModel, sampleDataProviderModel, null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name                    the source name. Cannot be blank
+   * @param description             the source description
+   * @param hasResponse             Whether the source emits a response
+   * @param runsOnPrimaryNodeOnly   Whether the source should only run on the primary node or all nodes
+   * @param parameterGroupModels    a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param nestedComponents        a {@link List} with the components contained by this model
+   * @param output                  an {@link OutputModel} which represents the operation's output content
+   * @param outputAttributes        an {@link OutputModel} which represents the attributes on the output me
+   * @param successCallbackModel    an optional model for the source success callback
+   * @param errorCallbackModel      an optional model for the source error callback
+   * @param requiresConnection      whether this component requires connectivity
+   * @param transactional           whether this component supports transactions
+   * @param supportsStreaming       whether this component supports streaming
+   * @param displayModel            a model which contains directive about how this source is displayed in the UI
+   * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties         A {@link Set} of custom properties which extend this model
+   * @param notifications           A {@link Set} of {@link NotificationModel} which describes the source's notifications
+   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
+   *                                capabilities
+   * @param semanticTerms           a {@link Set} of semantic terms which describe the source's meaning and effect
+   * @since 1.4.0
+   */
+  public ImmutableSourceModel(String name,
+                              String description,
+                              boolean hasResponse,
+                              boolean runsOnPrimaryNodeOnly,
+                              List<ParameterGroupModel> parameterGroupModels,
+                              List<? extends NestableElementModel> nestedComponents, OutputModel output,
+                              OutputModel outputAttributes,
+                              Optional<SourceCallbackModel> successCallbackModel,
+                              Optional<SourceCallbackModel> errorCallbackModel,
+                              Optional<SourceCallbackModel> terminateCallbackModel,
+                              boolean requiresConnection,
+                              boolean transactional,
+                              boolean supportsStreaming,
+                              DisplayModel displayModel,
+                              StereotypeModel stereotype,
+                              Set<ErrorModel> errors,
+                              Set<ModelProperty> modelProperties,
+                              Set<NotificationModel> notifications,
+                              DeprecationModel deprecationModel,
+                              SampleDataProviderModel sampleDataProviderModel,
+                              Set<String> semanticTerms) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
           supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
-          deprecationModel, sampleDataProviderModel);
+          deprecationModel, sampleDataProviderModel, semanticTerms);
     this.hasResponse = hasResponse;
     this.runsOnPrimaryNodeOnly = runsOnPrimaryNodeOnly;
     this.successCallback = successCallbackModel.orElse(null);

@@ -117,14 +117,9 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents,
                                              Set<NotificationModel> notifications) {
-    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties);
-    this.output = output;
-    this.outputAttributes = outputAttributes;
-    this.requiresConnection = requiresConnection;
-    this.transactional = transactional;
-    this.supportsStreaming = supportsStreaming;
-    this.notifications = ImmutableSet.copyOf(notifications);
-    sampleDataProviderModel = null;
+    this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
+         supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+         null);
   }
 
   /**
@@ -162,15 +157,9 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              List<? extends NestableElementModel> nestedComponents,
                                              Set<NotificationModel> notifications,
                                              DeprecationModel deprecationModel) {
-    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties,
-          deprecationModel);
-    this.output = output;
-    this.outputAttributes = outputAttributes;
-    this.requiresConnection = requiresConnection;
-    this.transactional = transactional;
-    this.supportsStreaming = supportsStreaming;
-    this.notifications = ImmutableSet.copyOf(notifications);
-    sampleDataProviderModel = null;
+    this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
+         supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+         null, null);
   }
 
   /**
@@ -213,8 +202,55 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              Set<NotificationModel> notifications,
                                              DeprecationModel deprecationModel,
                                              SampleDataProviderModel sampleDataProviderModel) {
+    this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
+         supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+         deprecationModel, sampleDataProviderModel, null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name                    the model's name
+   * @param description             the model's description
+   * @param parameterGroupModels    a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param output                  an {@link OutputModel} which represents the component's output content
+   * @param outputAttributes        an {@link OutputModel} which represents the component's attributes on the output
+   *                                {@link Message}
+   * @param requiresConnection      whether this component requires connectivity
+   * @param transactional           whether this component supports transactions
+   * @param supportsStreaming       whether this component supports streaming
+   * @param displayModel            a model which contains directive about how this component is displayed in the UI
+   * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties         A {@link Set} of custom properties which extend this model
+   * @param nestedComponents        a {@link List} with the components contained by this model
+   * @param notifications           A {@link Set} of {@link NotificationModel} which describes the component's notifications
+   * @param deprecationModel        a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                                not deprecated.
+   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
+   *                                capabilities
+   * @param semanticTerms           a {@link Set} of semantic terms which describe the component's meaning and effect
+   * @throws IllegalArgumentException if {@code name} is blank
+   * @since 1.4.0
+   */
+  protected AbstractExecutableComponentModel(String name,
+                                             String description,
+                                             List<ParameterGroupModel> parameterGroupModels,
+                                             OutputModel output,
+                                             OutputModel outputAttributes,
+                                             boolean requiresConnection,
+                                             boolean transactional,
+                                             boolean supportsStreaming,
+                                             DisplayModel displayModel,
+                                             Set<ErrorModel> errors,
+                                             StereotypeModel stereotype,
+                                             Set<ModelProperty> modelProperties,
+                                             List<? extends NestableElementModel> nestedComponents,
+                                             Set<NotificationModel> notifications,
+                                             DeprecationModel deprecationModel,
+                                             SampleDataProviderModel sampleDataProviderModel,
+                                             Set<String> semanticTerms) {
     super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties,
-          deprecationModel);
+          deprecationModel, semanticTerms);
     this.output = output;
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;
