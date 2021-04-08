@@ -120,11 +120,6 @@ public final class ConnectivityVocabulary {
   public static final String TOKEN_ID = CONNECTIVITY_PREFIX + "tokenId";
 
   /**
-   * A property that describes a Token Secret.
-   */
-  public static final String TOKEN_SECRET = CONNECTIVITY_PREFIX + "tokenSecret";
-
-  /**
    * A property that describes a password.
    */
   public static final String PASSWORD = CONNECTIVITY_PREFIX + "password";
