@@ -179,6 +179,5 @@ public final class ConnectivityVocabulary {
    */
   public static final String NTLM_DOMAIN = CONNECTIVITY_PREFIX + "ntlmDomain";
 
-  private ConnectivityVocabulary() {
-  }
+  private ConnectivityVocabulary() {}
 }
