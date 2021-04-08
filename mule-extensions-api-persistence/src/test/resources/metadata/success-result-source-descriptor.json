@@ -642,7 +642,10 @@
     "notifications": [],
     "nestedComponents": [],
     "errors": [],
-    "semanticTerms": [],
+    "semanticTerms": [
+      "test",
+      "source"
+    ],
     "stereotype": {
       "type": "SOURCE",
       "namespace": "MULE"

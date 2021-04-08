@@ -74,7 +74,10 @@
         }
       }
     ],
-    "semanticTerms": [],
+    "semanticTerms": [
+      "test",
+      "car"
+    ],
     "stereotype": {
       "type": "PROCESSOR",
       "namespace": "MULE"

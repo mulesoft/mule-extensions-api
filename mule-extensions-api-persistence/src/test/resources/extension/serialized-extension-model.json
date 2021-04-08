@@ -64,7 +64,10 @@
       "errors": [
         "ERROR_NAMESPACE:SOME_ERROR"
       ],
-      "semanticTerms": [],
+      "semanticTerms": [
+        "test",
+        "car"
+      ],
       "stereotype": {
         "type": "PROCESSOR",
         "namespace": "MULE"
@@ -802,7 +805,9 @@
                 "query": false
               },
               "allowedStereotypeModels": [],
-              "semanticTerms": [],
+              "semanticTerms": [
+                "username"
+              ],
               "name": "username",
               "displayModel": {},
               "description": "Username",
@@ -997,7 +1002,9 @@
                 "query": false
               },
               "allowedStereotypeModels": [],
-              "semanticTerms": [],
+              "semanticTerms": [
+                "username"
+              ],
               "name": "username",
               "displayModel": {},
               "description": "Username",
@@ -1731,7 +1738,10 @@
       "notifications": [],
       "nestedComponents": [],
       "errors": [],
-      "semanticTerms": [],
+      "semanticTerms": [
+        "test",
+        "source"
+      ],
       "stereotype": {
         "type": "SOURCE",
         "namespace": "MULE"
