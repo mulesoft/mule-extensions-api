@@ -14,6 +14,8 @@ import static org.mule.runtime.api.meta.model.display.PathModel.Type.ANY;
 import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.meta.model.display.PathModel.Location;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.sdk.api.annotation.semmantics.file.FilePath;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -24,7 +26,7 @@ import java.lang.annotation.Target;
  * This annotation should only be used with {@link String} parameters.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.display.Path} instead.
+ * @deprecated use {@link FilePath} instead.
  */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RUNTIME)
