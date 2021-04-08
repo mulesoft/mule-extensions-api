@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static com.google.common.collect.ImmutableSet.of;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
@@ -85,7 +86,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -163,7 +163,7 @@ abstract class BasePersistenceTestCase {
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
-                                    defaultValueProviderModel, emptyList(), emptySet(), null);
+                                    defaultValueProviderModel, emptyList(), emptySet(), null, of("username"));
     final ImmutableParameterModel passwordParameter =
         new ImmutableParameterModel("password", "Password", stringType, false, true, false, false, SUPPORTED, "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
@@ -225,7 +225,7 @@ abstract class BasePersistenceTestCase {
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
                                     singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet(),
                                     new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"),
-                                    defaultSampleDataProviderModel);
+                                    defaultSampleDataProviderModel, of("test", "car"));
 
     createCoreOperations();
 
@@ -254,7 +254,7 @@ abstract class BasePersistenceTestCase {
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(), SOURCE, emptySet(),
-                                           emptySet(), emptySet(), null);
+                                           emptySet(), emptySet(), null, null, of("test", "source"));
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",
@@ -278,7 +278,7 @@ abstract class BasePersistenceTestCase {
                                     XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
                                     emptySet(), emptySet(),
-                                    ImmutableSet.of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
+                                    of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
                                     externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet(),
                                     null);
 

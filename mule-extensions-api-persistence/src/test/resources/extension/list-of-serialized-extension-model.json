@@ -27,7 +27,8 @@
       }
     ],
     "importedTypes": [],
-    "displayModel": {},
+    "displayModel": {
+    },
     "configurations": [],
     "operations": [
       {
@@ -49,7 +50,8 @@
           },
           "hasDynamicType": false,
           "description": "Message.Attributes",
-          "modelProperties": {}
+          "modelProperties": {
+          }
         },
         "transactional": false,
         "requiresConnection": false,
@@ -65,6 +67,7 @@
         "errors": [
           "ERROR_NAMESPACE:SOME_ERROR"
         ],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -113,8 +116,10 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Name of the car",
                 "modelProperties": {}
               },
@@ -182,7 +187,8 @@
                               "genericTypes": [],
                               "isMap": false
                             },
-                            "extensibleType": {},
+                            "extensibleType": {
+                            },
                             "typeAlias": {
                               "value": "aliasedExtensible"
                             }
@@ -224,7 +230,8 @@
                                     "genericTypes": [],
                                     "isMap": false
                                   },
-                                  "int": {}
+                                  "int": {
+                                  }
                                 }
                               },
                               "annotations": {
@@ -275,7 +282,8 @@
                                       "genericTypes": [],
                                       "isMap": false
                                     },
-                                    "int": {}
+                                    "int": {
+                                    }
                                   }
                                 }
                               },
@@ -371,7 +379,8 @@
                                   "genericTypes": [],
                                   "isMap": false
                                 },
-                                "int": {}
+                                "int": {
+                                }
                               }
                             },
                             "annotations": {
@@ -470,7 +479,8 @@
                                   "genericTypes": [],
                                   "isMap": false
                                 },
-                                "int": {}
+                                "int": {
+                                }
                               }
                             },
                             "annotations": {
@@ -688,8 +698,10 @@
                     }
                   }
                 ],
+                "semanticTerms": [],
                 "name": "complex",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "complex type to serialize",
                 "modelProperties": {}
               },
@@ -724,8 +736,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "loaded",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "loaded type from json to serialize",
                 "modelProperties": {}
               }
@@ -741,11 +755,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "getCar",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "Obtains a car",
         "modelProperties": {
           "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
@@ -799,8 +815,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "username",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Username",
                 "modelProperties": {}
               }
@@ -814,11 +832,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "myFunction",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "An Expression Function",
         "modelProperties": {},
         "kind": "function"
@@ -829,6 +849,7 @@
         "allowsTopLevelDefinition": false,
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -856,21 +877,25 @@
                   "allowTopLevelDefinition": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "expression",
                 "description": "",
-                "modelProperties": {}
+                "modelProperties": {
+                }
               }
             ],
             "exclusiveParametersModels": [],
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "foreach",
         "description": "",
-        "modelProperties": {},
+        "modelProperties": {
+        },
         "kind": "construct"
       },
       {
@@ -889,14 +914,16 @@
                 ],
                 "name": "processors",
                 "description": "",
-                "modelProperties": {},
+                "modelProperties": {
+                },
                 "kind": "chain"
               }
             ],
             "parameterGroupModels": [],
             "name": "when",
             "description": "",
-            "modelProperties": {},
+            "modelProperties": {
+            },
             "kind": "route"
           },
           {
@@ -913,18 +940,21 @@
                 ],
                 "name": "processors",
                 "description": "",
-                "modelProperties": {},
+                "modelProperties": {
+                },
                 "kind": "chain"
               }
             ],
             "parameterGroupModels": [],
             "name": "otherwise",
             "description": "",
-            "modelProperties": {},
+            "modelProperties": {
+            },
             "kind": "route"
           }
         ],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -932,7 +962,8 @@
         "parameterGroupModels": [],
         "name": "choice",
         "description": "",
-        "modelProperties": {},
+        "modelProperties": {
+        },
         "kind": "construct"
       }
     ],
@@ -950,6 +981,7 @@
           }
         ],
         "supportsConnectivityTesting": true,
+        "semanticTerms": [],
         "stereotype": {
           "type": "CONNECTION",
           "namespace": "MULE"
@@ -989,8 +1021,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "username",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Username",
                 "modelProperties": {}
               },
@@ -1030,8 +1064,10 @@
                   "message": "This parameter is deprecated",
                   "deprecatedSince": "1.5.0"
                 },
+                "semanticTerms": [],
                 "name": "password",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Password",
                 "modelProperties": {}
               },
@@ -1070,8 +1106,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "map",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "object map",
                 "modelProperties": {}
               }
@@ -1085,11 +1123,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "BasicAuth",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "Basic Auth Config",
         "modelProperties": {}
       }
@@ -1166,7 +1206,8 @@
                                 "genericTypes": [],
                                 "isMap": false
                               },
-                              "extensibleType": {},
+                              "extensibleType": {
+                              },
                               "typeAlias": {
                                 "value": "aliasedExtensible"
                               }
@@ -1208,7 +1249,8 @@
                                       "genericTypes": [],
                                       "isMap": false
                                     },
-                                    "int": {}
+                                    "int": {
+                                    }
                                   }
                                 },
                                 "annotations": {
@@ -1259,7 +1301,8 @@
                                         "genericTypes": [],
                                         "isMap": false
                                       },
-                                      "int": {}
+                                      "int": {
+                                      }
                                     }
                                   }
                                 },
@@ -1355,7 +1398,8 @@
                                     "genericTypes": [],
                                     "isMap": false
                                   },
-                                  "int": {}
+                                  "int": {
+                                  }
                                 }
                               },
                               "annotations": {
@@ -1454,7 +1498,8 @@
                                     "genericTypes": [],
                                     "isMap": false
                                   },
-                                  "int": {}
+                                  "int": {
+                                  }
                                 }
                               },
                               "annotations": {
@@ -1672,8 +1717,10 @@
                       }
                     }
                   ],
+                  "semanticTerms": [],
                   "name": "complex",
-                  "displayModel": {},
+                  "displayModel": {
+                  },
                   "description": "complex type to serialize",
                   "modelProperties": {}
                 }
@@ -1687,11 +1734,13 @@
               "showInDsl": false,
               "name": "General",
               "description": "",
-              "modelProperties": {}
+              "modelProperties": {
+              }
             }
           ],
           "name": "onSuccess",
-          "displayModel": {},
+          "displayModel": {
+          },
           "description": "",
           "modelProperties": {}
         },
@@ -1702,7 +1751,8 @@
           },
           "hasDynamicType": true,
           "description": "Message.Payload",
-          "modelProperties": {}
+          "modelProperties": {
+          }
         },
         "outputAttributes": {
           "type": {
@@ -1719,6 +1769,7 @@
         "notifications": [],
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "SOURCE",
           "namespace": "MULE"
@@ -1762,8 +1813,10 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Name of the car",
                 "modelProperties": {}
               },
@@ -1808,8 +1861,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "noID",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "type to serialize without ID",
                 "modelProperties": {}
               }
@@ -1825,11 +1880,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "Source",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "A Message Source",
         "modelProperties": {},
         "kind": "source"
@@ -2097,7 +2154,8 @@
       }
     ],
     "importedTypes": [],
-    "displayModel": {},
+    "displayModel": {
+    },
     "configurations": [],
     "operations": [
       {
@@ -2119,7 +2177,8 @@
           },
           "hasDynamicType": false,
           "description": "Message.Attributes",
-          "modelProperties": {}
+          "modelProperties": {
+          }
         },
         "transactional": false,
         "requiresConnection": false,
@@ -2135,6 +2194,7 @@
         "errors": [
           "ERROR_NAMESPACE:SOME_ERROR"
         ],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -2183,8 +2243,10 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Name of the car",
                 "modelProperties": {}
               },
@@ -2252,7 +2314,8 @@
                               "genericTypes": [],
                               "isMap": false
                             },
-                            "extensibleType": {},
+                            "extensibleType": {
+                            },
                             "typeAlias": {
                               "value": "aliasedExtensible"
                             }
@@ -2294,7 +2357,8 @@
                                     "genericTypes": [],
                                     "isMap": false
                                   },
-                                  "int": {}
+                                  "int": {
+                                  }
                                 }
                               },
                               "annotations": {
@@ -2345,7 +2409,8 @@
                                       "genericTypes": [],
                                       "isMap": false
                                     },
-                                    "int": {}
+                                    "int": {
+                                    }
                                   }
                                 }
                               },
@@ -2441,7 +2506,8 @@
                                   "genericTypes": [],
                                   "isMap": false
                                 },
-                                "int": {}
+                                "int": {
+                                }
                               }
                             },
                             "annotations": {
@@ -2540,7 +2606,8 @@
                                   "genericTypes": [],
                                   "isMap": false
                                 },
-                                "int": {}
+                                "int": {
+                                }
                               }
                             },
                             "annotations": {
@@ -2758,8 +2825,10 @@
                     }
                   }
                 ],
+                "semanticTerms": [],
                 "name": "complex",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "complex type to serialize",
                 "modelProperties": {}
               },
@@ -2794,8 +2863,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "loaded",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "loaded type from json to serialize",
                 "modelProperties": {}
               }
@@ -2811,11 +2882,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "getCar",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "Obtains a car",
         "modelProperties": {
           "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
@@ -2869,8 +2942,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "username",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Username",
                 "modelProperties": {}
               }
@@ -2884,11 +2959,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "myFunction",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "An Expression Function",
         "modelProperties": {},
         "kind": "function"
@@ -2899,6 +2976,7 @@
         "allowsTopLevelDefinition": false,
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -2926,21 +3004,25 @@
                   "allowTopLevelDefinition": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "expression",
                 "description": "",
-                "modelProperties": {}
+                "modelProperties": {
+                }
               }
             ],
             "exclusiveParametersModels": [],
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "foreach",
         "description": "",
-        "modelProperties": {},
+        "modelProperties": {
+        },
         "kind": "construct"
       },
       {
@@ -2959,14 +3041,16 @@
                 ],
                 "name": "processors",
                 "description": "",
-                "modelProperties": {},
+                "modelProperties": {
+                },
                 "kind": "chain"
               }
             ],
             "parameterGroupModels": [],
             "name": "when",
             "description": "",
-            "modelProperties": {},
+            "modelProperties": {
+            },
             "kind": "route"
           },
           {
@@ -2983,18 +3067,21 @@
                 ],
                 "name": "processors",
                 "description": "",
-                "modelProperties": {},
+                "modelProperties": {
+                },
                 "kind": "chain"
               }
             ],
             "parameterGroupModels": [],
             "name": "otherwise",
             "description": "",
-            "modelProperties": {},
+            "modelProperties": {
+            },
             "kind": "route"
           }
         ],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -3002,7 +3089,8 @@
         "parameterGroupModels": [],
         "name": "choice",
         "description": "",
-        "modelProperties": {},
+        "modelProperties": {
+        },
         "kind": "construct"
       }
     ],
@@ -3020,6 +3108,7 @@
           }
         ],
         "supportsConnectivityTesting": true,
+        "semanticTerms": [],
         "stereotype": {
           "type": "CONNECTION",
           "namespace": "MULE"
@@ -3059,8 +3148,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "username",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Username",
                 "modelProperties": {}
               },
@@ -3100,8 +3191,10 @@
                   "message": "This parameter is deprecated",
                   "deprecatedSince": "1.5.0"
                 },
+                "semanticTerms": [],
                 "name": "password",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Password",
                 "modelProperties": {}
               },
@@ -3140,8 +3233,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "map",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "object map",
                 "modelProperties": {}
               }
@@ -3155,11 +3250,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "BasicAuth",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "Basic Auth Config",
         "modelProperties": {}
       }
@@ -3236,7 +3333,8 @@
                                 "genericTypes": [],
                                 "isMap": false
                               },
-                              "extensibleType": {},
+                              "extensibleType": {
+                              },
                               "typeAlias": {
                                 "value": "aliasedExtensible"
                               }
@@ -3278,7 +3376,8 @@
                                       "genericTypes": [],
                                       "isMap": false
                                     },
-                                    "int": {}
+                                    "int": {
+                                    }
                                   }
                                 },
                                 "annotations": {
@@ -3329,7 +3428,8 @@
                                         "genericTypes": [],
                                         "isMap": false
                                       },
-                                      "int": {}
+                                      "int": {
+                                      }
                                     }
                                   }
                                 },
@@ -3425,7 +3525,8 @@
                                     "genericTypes": [],
                                     "isMap": false
                                   },
-                                  "int": {}
+                                  "int": {
+                                  }
                                 }
                               },
                               "annotations": {
@@ -3524,7 +3625,8 @@
                                     "genericTypes": [],
                                     "isMap": false
                                   },
-                                  "int": {}
+                                  "int": {
+                                  }
                                 }
                               },
                               "annotations": {
@@ -3742,8 +3844,10 @@
                       }
                     }
                   ],
+                  "semanticTerms": [],
                   "name": "complex",
-                  "displayModel": {},
+                  "displayModel": {
+                  },
                   "description": "complex type to serialize",
                   "modelProperties": {}
                 }
@@ -3757,11 +3861,13 @@
               "showInDsl": false,
               "name": "General",
               "description": "",
-              "modelProperties": {}
+              "modelProperties": {
+              }
             }
           ],
           "name": "onSuccess",
-          "displayModel": {},
+          "displayModel": {
+          },
           "description": "",
           "modelProperties": {}
         },
@@ -3772,7 +3878,8 @@
           },
           "hasDynamicType": true,
           "description": "Message.Payload",
-          "modelProperties": {}
+          "modelProperties": {
+          }
         },
         "outputAttributes": {
           "type": {
@@ -3789,6 +3896,7 @@
         "notifications": [],
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "SOURCE",
           "namespace": "MULE"
@@ -3832,8 +3940,10 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "Name of the car",
                 "modelProperties": {}
               },
@@ -3878,8 +3988,10 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "noID",
-                "displayModel": {},
+                "displayModel": {
+                },
                 "description": "type to serialize without ID",
                 "modelProperties": {}
               }
@@ -3895,11 +4007,13 @@
             "showInDsl": false,
             "name": "General",
             "description": "",
-            "modelProperties": {}
+            "modelProperties": {
+            }
           }
         ],
         "name": "Source",
-        "displayModel": {},
+        "displayModel": {
+        },
         "description": "A Message Source",
         "modelProperties": {},
         "kind": "source"

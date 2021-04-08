@@ -74,6 +74,7 @@
         }
       }
     ],
+    "semanticTerms": [],
     "stereotype": {
       "type": "PROCESSOR",
       "namespace": "MULE"
@@ -124,6 +125,7 @@
               "message": "This is deprecated",
               "deprecatedSince": "1.3.0"
             },
+            "semanticTerms": [],
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",
@@ -696,6 +698,7 @@
                 }
               }
             ],
+            "semanticTerms": [],
             "name": "complex",
             "displayModel": {},
             "description": "complex type to serialize",
@@ -914,6 +917,7 @@
               "query": false
             },
             "allowedStereotypeModels": [],
+            "semanticTerms": [],
             "name": "loaded",
             "displayModel": {},
             "description": "loaded type from json to serialize",
