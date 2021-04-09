@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.util;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.metadata.api.model.MetadataFormat.CSV;
@@ -16,6 +17,7 @@ import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -38,6 +40,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeA
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.SemanticTermsTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
@@ -48,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Set of utility operations to handle {@link MetadataType}
@@ -364,6 +368,12 @@ public final class ExtensionMetadataTypeUtils {
     } else {
       return Objects.equals(type, otherType);
     }
+  }
+
+  public static Set<String> getSemanticTerms(MetadataType type) {
+    return type.getAnnotation(SemanticTermsTypeAnnotation.class)
+        .map(SemanticTermsTypeAnnotation::getSemanticTerms)
+        .orElse(emptySet());
   }
 
   private static boolean areAssignable(String className, String otherClassName, ClassLoader classLoader) {

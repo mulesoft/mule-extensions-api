@@ -30,8 +30,7 @@ public final class ConnectivityVocabulary {
   /**
    * Path template for an endpoint
    */
-  public static final String PATH = API_CONTRACT_PREFIX + "path";
-
+  public static final String URL_PATH = API_CONTRACT_PREFIX + "path";
 
   /**
    * Describes a connection and it's authentication details.
@@ -93,6 +92,11 @@ public final class ConnectivityVocabulary {
    * Proxy Configuration for a connection.
    */
   public static final String NTLM_PROXY_CONFIGURATION = CONNECTIVITY_PREFIX + "NtlmProxyConfiguration";
+
+  /**
+   * Proxy Configuration for a connection.
+   */
+  public static final String NTLM_PROXY_CONFIGURATION_PARAMETER = CONNECTIVITY_PREFIX + "ntlmProxyConfiguration";
 
   /**
    * A property which value should be encrypted.
@@ -178,6 +182,9 @@ public final class ConnectivityVocabulary {
    * A property that describes a port to connect to a system.
    */
   public static final String NTLM_DOMAIN = CONNECTIVITY_PREFIX + "ntlmDomain";
+
+  // TODO: Review this one
+  public static final String DOMAIN = CONNECTIVITY_PREFIX + "domain";
 
   private ConnectivityVocabulary() {}
 }

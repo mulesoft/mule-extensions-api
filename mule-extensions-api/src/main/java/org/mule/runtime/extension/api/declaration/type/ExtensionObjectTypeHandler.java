@@ -11,6 +11,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
+import static org.mule.runtime.extension.internal.semantic.SemanticTermsHelper.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
@@ -111,7 +112,10 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
 
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
       handleStereotype(currentClass, annotatedBuilder, allowTopLevelDefinition, stereotype);
+
+      enrichWithTypeAnnotation(currentClass, annotatedBuilder);
     }
+
     return typeBuilder;
   }
 
