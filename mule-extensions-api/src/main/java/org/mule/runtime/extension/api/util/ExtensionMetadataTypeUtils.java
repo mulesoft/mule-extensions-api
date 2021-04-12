@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.util;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -16,6 +17,7 @@ import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
+import static org.slf4j.LoggerFactory.getLogger;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -41,6 +43,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAn
 import org.mule.runtime.extension.api.declaration.type.annotation.SubstitutionGroup;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
+import org.mule.runtime.extension.internal.loader.ExtensionModelFactory;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -49,6 +52,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+
 /**
  * Set of utility operations to handle {@link MetadataType}
  *
@@ -56,6 +61,7 @@ import java.util.Optional;
  */
 public final class ExtensionMetadataTypeUtils {
 
+  private static final Logger LOGGER = getLogger(ExtensionMetadataTypeUtils.class);
   private static final List<MetadataFormat> KNOWN_METADATA_FORMATS = asList(JAVA, XML, JSON, CSV);
 
   private ExtensionMetadataTypeUtils() {}
@@ -346,8 +352,14 @@ public final class ExtensionMetadataTypeUtils {
 
     if (typeClassName != null && otherTypeClassName != null) {
       if (classLoader != null) {
-        if (!areAssignable(typeClassName, otherTypeClassName, classLoader)) {
-          return false;
+        try {
+          if (!areAssignable(typeClassName, otherTypeClassName, classLoader)) {
+            return false;
+          }
+        } catch (ClassNotFoundException e) {
+          LOGGER.debug(format("Classes %s and %s are not available in the class loader for comparison", typeClassName,
+                              otherTypeClassName),
+                       e);
         }
       } else {
         if (!Objects.equals(typeClassName, otherTypeClassName)) {
@@ -366,15 +378,12 @@ public final class ExtensionMetadataTypeUtils {
     }
   }
 
-  private static boolean areAssignable(String className, String otherClassName, ClassLoader classLoader) {
-    try {
-      Class clazz = classLoader.loadClass(className);
-      Class otherClazz = classLoader.loadClass(otherClassName);
+  private static boolean areAssignable(String className, String otherClassName, ClassLoader classLoader)
+      throws ClassNotFoundException {
+    Class clazz = classLoader.loadClass(className);
+    Class otherClazz = classLoader.loadClass(otherClassName);
 
-      return clazz.isAssignableFrom(otherClazz) || otherClazz.isAssignableFrom(clazz);
-    } catch (ClassNotFoundException e) {
-      return false;
-    }
+    return clazz.isAssignableFrom(otherClazz) || otherClazz.isAssignableFrom(clazz);
   }
 
   private static String getClassInformationName(MetadataType type) {
