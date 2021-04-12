@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.api.connectivity;
 
+/**
+ * A set of constants which represent the Anypoint model vocabulary terms which are relevant to the connectivity domain
+ *
+ * @since 1.4.0
+ */
 public final class ConnectivityVocabulary {
 
   private static final String API_CONTRACT_PREFIX = "apiContract.";
@@ -188,7 +193,9 @@ public final class ConnectivityVocabulary {
    */
   public static final String NTLM_DOMAIN = CONNECTIVITY_PREFIX + "ntlmDomain";
 
-  // TODO: Review this one
+  /**
+   * A network domain (whatever the underlying protocol)
+   */
   public static final String DOMAIN = CONNECTIVITY_PREFIX + "domain";
 
   private ConnectivityVocabulary() {}

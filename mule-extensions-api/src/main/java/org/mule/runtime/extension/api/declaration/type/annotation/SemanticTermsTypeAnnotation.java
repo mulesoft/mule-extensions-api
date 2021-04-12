@@ -16,6 +16,13 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * A public {@link TypeAnnotation} that holds the semantic terms associated to annotated type.
+ * <p>
+ * A semantic terms describe the type's meaning and effect
+ *
+ * @since 1.4.0
+ */
 public final class SemanticTermsTypeAnnotation implements TypeAnnotation {
 
   private static final String NAME = "semanticTerms";

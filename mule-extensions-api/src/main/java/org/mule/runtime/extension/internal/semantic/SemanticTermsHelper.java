@@ -73,8 +73,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+/**
+ * Helper class to assist in dealing with semantic terms.
+ *
+ * <b>THIS CLASS IS NOT API. Only to be used by Mule Runtime internals</b>
+ *
+ * @since 1.4.0
+ */
 public final class SemanticTermsHelper {
 
+  /**
+   * Maps SDK and Extension API annotations to a {@link Set} of semantic terms.
+   */
   private static final Map<Class<? extends Annotation>, Set<String>> TERMS_MAP = new HashMap<>();
 
   static {
@@ -99,6 +109,7 @@ public final class SemanticTermsHelper {
     TERMS_MAP.put(ClientSecret.class, of(CLIENT_SECRET));
     TERMS_MAP.put(ConnectionId.class, of(CONNECTION_ID));
     TERMS_MAP.put(Password.class, of(PASSWORD));
+    TERMS_MAP.put(org.mule.runtime.extension.api.annotation.param.display.Password.class, of(PASSWORD));
     TERMS_MAP.put(Secret.class, of(SECRET));
     TERMS_MAP.put(SecretToken.class, of(SECRET_TOKEN));
     TERMS_MAP.put(SecurityToken.class, of(SECURITY_TOKEN));
@@ -108,10 +119,24 @@ public final class SemanticTermsHelper {
     TERMS_MAP.put(Username.class, of(USERNAME));
   }
 
+  /**
+   * Matches the annotations in the {@code annotated} to the ones in the {@link #TERMS_MAP and returns the semantic terms that map
+   * to each of them.
+   *
+   * @param annotated an {@link AnnotatedElement}
+   * @return a {@link Set} of semantic terms. Might be empty but will never be {@code null}
+   */
   public static Set<String> getTermsFromAnnotations(AnnotatedElement annotated) {
     return getTermsFromAnnotations(a -> annotated.getAnnotation(a) != null);
   }
 
+  /**
+   * Test all the annotations in the {@link #TERMS_MAP} against the given {@code predicate} and returns the terms associated with
+   * the ones that tested positive
+   *
+   * @param predicate a {@link Function} to determine which annotations apply to the terms being sought.
+   * @return a {@link Set} of semantic terms. Might be empty but will never be {@code null}
+   */
   public static Set<String> getTermsFromAnnotations(Function<Class<? extends Annotation>, Boolean> predicate) {
     Set<String> terms = new LinkedHashSet<>();
     TERMS_MAP.forEach((annotationType, term) -> {
@@ -123,6 +148,13 @@ public final class SemanticTermsHelper {
     return terms;
   }
 
+  /**
+   * Delegates into {@link #getTermsFromAnnotations(AnnotatedElement)} and automatically adds the obtained terms into the
+   * {@code annotatedBuilder}
+   *
+   * @param element          an {@link AnnotatedElement}
+   * @param annotatedBuilder an {@link WithAnnotation} builder
+   */
   public static void enrichWithTypeAnnotation(AnnotatedElement element, final WithAnnotation annotatedBuilder) {
     Set<String> terms = getTermsFromAnnotations(element);
     if (!terms.isEmpty()) {
