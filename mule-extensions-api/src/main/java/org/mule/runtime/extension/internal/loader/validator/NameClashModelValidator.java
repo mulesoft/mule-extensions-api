@@ -554,7 +554,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
                 parameters.stream()
                     .filter(p -> Objects.equals(dslSyntaxResolver.resolve(p).getElementName(),
                                                 childSyntax.getElementName()))
-                    .filter(p -> !Objects.equals(getType(p.getType()), getType(type))).findAny()
+                    .filter(p -> !areTypesEqual(p.getType(), type, getExtensionClassLoader(extensionModel).orElse(null)))
+                    .findAny()
                     .ifPresent(clashParam -> {
                       problemsReporter.addError(new Problem(extensionModel, format(
                                                                                    "Extension '%s' defines an %s of name '%s' which contains a parameter '%s' that when transformed to"
