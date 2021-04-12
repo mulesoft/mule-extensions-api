@@ -18,6 +18,11 @@ public final class ConnectivityVocabulary {
   public static final String URL_TEMPLATE = CORE_PREFIX + "urlTemplate";
 
   /**
+   * A token URL (potentially a template)
+   */
+  public static final String TOKEN_URL = CORE_PREFIX + "tokenUrlTemplate";
+
+  /**
    * Describes an encoding property
    */
   public static final String ENCODING = API_CONTRACT_PREFIX + "Encoding";
