@@ -65,6 +65,10 @@
         "errors": [
           "ERROR_NAMESPACE:SOME_ERROR"
         ],
+        "semanticTerms": [
+          "test",
+          "car"
+        ],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -113,6 +117,7 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -688,6 +693,7 @@
                     }
                   }
                 ],
+                "semanticTerms": [],
                 "name": "complex",
                 "displayModel": {},
                 "description": "complex type to serialize",
@@ -724,6 +730,7 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "loaded",
                 "displayModel": {},
                 "description": "loaded type from json to serialize",
@@ -799,6 +806,9 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [
+                  "username"
+                ],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -829,6 +839,7 @@
         "allowsTopLevelDefinition": false,
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -856,6 +867,7 @@
                   "allowTopLevelDefinition": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "expression",
                 "description": "",
                 "modelProperties": {}
@@ -925,6 +937,7 @@
           }
         ],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -950,6 +963,7 @@
           }
         ],
         "supportsConnectivityTesting": true,
+        "semanticTerms": [],
         "stereotype": {
           "type": "CONNECTION",
           "namespace": "MULE"
@@ -989,6 +1003,9 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [
+                  "username"
+                ],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -1030,6 +1047,7 @@
                   "message": "This parameter is deprecated",
                   "deprecatedSince": "1.5.0"
                 },
+                "semanticTerms": [],
                 "name": "password",
                 "displayModel": {},
                 "description": "Password",
@@ -1070,6 +1088,7 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "map",
                 "displayModel": {},
                 "description": "object map",
@@ -1672,6 +1691,7 @@
                       }
                     }
                   ],
+                  "semanticTerms": [],
                   "name": "complex",
                   "displayModel": {},
                   "description": "complex type to serialize",
@@ -1719,6 +1739,10 @@
         "notifications": [],
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [
+          "test",
+          "source"
+        ],
         "stereotype": {
           "type": "SOURCE",
           "namespace": "MULE"
@@ -1762,6 +1786,7 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -1808,6 +1833,7 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "noID",
                 "displayModel": {},
                 "description": "type to serialize without ID",
@@ -2135,6 +2161,10 @@
         "errors": [
           "ERROR_NAMESPACE:SOME_ERROR"
         ],
+        "semanticTerms": [
+          "test",
+          "car"
+        ],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -2183,6 +2213,7 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -2758,6 +2789,7 @@
                     }
                   }
                 ],
+                "semanticTerms": [],
                 "name": "complex",
                 "displayModel": {},
                 "description": "complex type to serialize",
@@ -2794,6 +2826,7 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "loaded",
                 "displayModel": {},
                 "description": "loaded type from json to serialize",
@@ -2869,6 +2902,9 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [
+                  "username"
+                ],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -2899,6 +2935,7 @@
         "allowsTopLevelDefinition": false,
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -2926,6 +2963,7 @@
                   "allowTopLevelDefinition": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "expression",
                 "description": "",
                 "modelProperties": {}
@@ -2995,6 +3033,7 @@
           }
         ],
         "errors": [],
+        "semanticTerms": [],
         "stereotype": {
           "type": "PROCESSOR",
           "namespace": "MULE"
@@ -3020,6 +3059,7 @@
           }
         ],
         "supportsConnectivityTesting": true,
+        "semanticTerms": [],
         "stereotype": {
           "type": "CONNECTION",
           "namespace": "MULE"
@@ -3059,6 +3099,9 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [
+                  "username"
+                ],
                 "name": "username",
                 "displayModel": {},
                 "description": "Username",
@@ -3100,6 +3143,7 @@
                   "message": "This parameter is deprecated",
                   "deprecatedSince": "1.5.0"
                 },
+                "semanticTerms": [],
                 "name": "password",
                 "displayModel": {},
                 "description": "Password",
@@ -3140,6 +3184,7 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "map",
                 "displayModel": {},
                 "description": "object map",
@@ -3742,6 +3787,7 @@
                       }
                     }
                   ],
+                  "semanticTerms": [],
                   "name": "complex",
                   "displayModel": {},
                   "description": "complex type to serialize",
@@ -3789,6 +3835,10 @@
         "notifications": [],
         "nestedComponents": [],
         "errors": [],
+        "semanticTerms": [
+          "test",
+          "source"
+        ],
         "stereotype": {
           "type": "SOURCE",
           "namespace": "MULE"
@@ -3832,6 +3882,7 @@
                   "message": "This is deprecated",
                   "deprecatedSince": "1.3.0"
                 },
+                "semanticTerms": [],
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -3878,6 +3929,7 @@
                   "query": false
                 },
                 "allowedStereotypeModels": [],
+                "semanticTerms": [],
                 "name": "noID",
                 "displayModel": {},
                 "description": "type to serialize without ID",

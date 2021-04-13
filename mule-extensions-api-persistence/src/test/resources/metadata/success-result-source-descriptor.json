@@ -590,6 +590,7 @@
                   }
                 }
               ],
+              "semanticTerms": [],
               "name": "complex",
               "displayModel": {},
               "description": "complex type to serialize",
@@ -641,6 +642,10 @@
     "notifications": [],
     "nestedComponents": [],
     "errors": [],
+    "semanticTerms": [
+      "test",
+      "source"
+    ],
     "stereotype": {
       "type": "SOURCE",
       "namespace": "MULE"
@@ -686,6 +691,7 @@
               "message": "This is deprecated",
               "deprecatedSince": "1.3.0"
             },
+            "semanticTerms": [],
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",
@@ -762,6 +768,7 @@
               "query": false
             },
             "allowedStereotypeModels": [],
+            "semanticTerms": [],
             "name": "noID",
             "displayModel": {},
             "description": "type to serialize without ID",

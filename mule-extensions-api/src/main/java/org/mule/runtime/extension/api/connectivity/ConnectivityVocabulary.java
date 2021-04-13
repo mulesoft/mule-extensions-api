@@ -6,6 +6,11 @@
  */
 package org.mule.runtime.extension.api.connectivity;
 
+/**
+ * A set of constants which represent the Anypoint model vocabulary terms which are relevant to the connectivity domain
+ *
+ * @since 1.4.0
+ */
 public final class ConnectivityVocabulary {
 
   private static final String API_CONTRACT_PREFIX = "apiContract.";
@@ -16,6 +21,11 @@ public final class ConnectivityVocabulary {
    * An URL (potentially a template)
    */
   public static final String URL_TEMPLATE = CORE_PREFIX + "urlTemplate";
+
+  /**
+   * A token URL (potentially a template)
+   */
+  public static final String TOKEN_URL = CORE_PREFIX + "tokenUrlTemplate";
 
   /**
    * Describes an encoding property
@@ -30,8 +40,7 @@ public final class ConnectivityVocabulary {
   /**
    * Path template for an endpoint
    */
-  public static final String PATH = API_CONTRACT_PREFIX + "path";
-
+  public static final String URL_PATH = API_CONTRACT_PREFIX + "path";
 
   /**
    * Describes a connection and it's authentication details.
@@ -93,6 +102,11 @@ public final class ConnectivityVocabulary {
    * Proxy Configuration for a connection.
    */
   public static final String NTLM_PROXY_CONFIGURATION = CONNECTIVITY_PREFIX + "NtlmProxyConfiguration";
+
+  /**
+   * Proxy Configuration for a connection.
+   */
+  public static final String NTLM_PROXY_CONFIGURATION_PARAMETER = CONNECTIVITY_PREFIX + "ntlmProxyConfiguration";
 
   /**
    * A property which value should be encrypted.
@@ -178,6 +192,11 @@ public final class ConnectivityVocabulary {
    * A property that describes a port to connect to a system.
    */
   public static final String NTLM_DOMAIN = CONNECTIVITY_PREFIX + "ntlmDomain";
+
+  /**
+   * A network domain (whatever the underlying protocol)
+   */
+  public static final String DOMAIN = CONNECTIVITY_PREFIX + "domain";
 
   private ConnectivityVocabulary() {}
 }

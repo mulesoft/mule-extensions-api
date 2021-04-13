@@ -368,7 +368,9 @@ public final class ExtensionModelFactory {
                                                       declaration.getModelProperties(),
                                                       declaration.getNotificationModels(),
                                                       declaration.getDeprecation().orElse(null),
-                                                      declaration.getSampleDataProviderModel().orElse(null)));
+                                                      declaration.getSampleDataProviderModel().orElse(null),
+                                                      declaration.getSemanticTerms()));
+
     }
 
     private StereotypeModel getSourceStereotypes(SourceDeclaration declaration) {
@@ -429,7 +431,8 @@ public final class ExtensionModelFactory {
                                                 declaration.getModelProperties(),
                                                 declaration.getNotificationModels(),
                                                 declaration.getDeprecation().orElse(null),
-                                                declaration.getSampleDataProviderModel().orElse(null));
+                                                declaration.getSampleDataProviderModel().orElse(null),
+                                                declaration.getSemanticTerms());
 
         return operation;
       });
@@ -492,7 +495,8 @@ public final class ExtensionModelFactory {
                                                                   declaration.getDisplayModel(),
                                                                   getConnectionStereotype(declaration.getStereotype()),
                                                                   declaration.getModelProperties(),
-                                                                  declaration.getDeprecation().orElse(null)));
+                                                                  declaration.getDeprecation().orElse(null),
+                                                                  declaration.getSemanticTerms()));
     }
 
     private StereotypeModel getConnectionStereotype(StereotypeModel stereotypeModel) {
@@ -583,7 +587,8 @@ public final class ExtensionModelFactory {
                                          parameter.getValueProviderModel(),
                                          parameter.getAllowedStereotypeModels(),
                                          parameter.getModelProperties(),
-                                         parameter.getDeprecation().orElse(null));
+                                         parameter.getDeprecation().orElse(null),
+                                         parameter.getSemanticTerms());
     }
 
     private List<FunctionModel> toFunctions(List<FunctionDeclaration> expressionFunctions) {

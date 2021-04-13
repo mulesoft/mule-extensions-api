@@ -8,12 +8,22 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.System.identityHashCode;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
 import static java.util.Collections.singletonList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.CACHED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.CLIENT_ID;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.CLIENT_SECRET;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.CONNECTION_ID;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.TOKEN_URL;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.URL_PATH;
+import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.URL_TEMPLATE;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.ACCESS_TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUTHORIZATION_URL_PARAMETER_NAME;
@@ -122,6 +132,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
           final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
           declarer.withConnectionManagementType(CACHED)
               .supportsConnectivityTesting(true)
+              .withSemanticTerm(OAUTH_PLATFORM_MANAGED_CONNECTION)
               .withModelProperty(new SyntheticModelModelProperty())
               .withModelProperty(new OAuthModelProperty(singletonList(new PlatformManagedOAuthGrantType())))
               .describedAs(PLATFORM_MANAGED_CONNECTION_PROVIDER_DESCRIPTION)
@@ -130,6 +141,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
               .ofType(typeLoader.load(String.class))
               .withExpressionSupport(NOT_SUPPORTED)
               .withRole(BEHAVIOUR)
+              .withSemanticTerm(CONNECTION_ID)
               .withDisplayModel(DisplayModel.builder()
                   .displayName(PLATFORM_MANAGED_CONNECTION_ID_PARAMETER_DISPLAY_NAME)
                   .example("ocs:348573-495273958273-924852945/salesforce/john-sfdc-1k87kmjt")
@@ -162,6 +174,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
     @Override
     public void visit(AuthorizationCodeGrantType grantType) {
+      declaration.addSemanticTerm(OAUTH_AUTHORIZATION_CODE_CONNECTION);
       addOAuthAuthorizationCodeParameters(declaration, grantType);
       addOAuthCallbackParameters(declaration);
       addOAuthStoreConfigParameter(declaration);
@@ -169,6 +182,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
 
     @Override
     public void visit(ClientCredentialsGrantType grantType) {
+      declaration.addSemanticTerm(OAUTH_CLIENT_CREDENTIALS_CONNECTION);
       addOAuthClientCredentialsParameters(declaration, grantType);
       addOAuthStoreConfigParameter(declaration);
     }
@@ -182,14 +196,14 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                      ClientCredentialsGrantType grantType) {
       List<ParameterDeclaration> params = new LinkedList<>();
       params.add(buildParameter(CLIENT_ID_PARAMETER_NAME, "The OAuth client id as registered with the service provider",
-                                true, stringType, SUPPORTED, null));
+                                true, stringType, SUPPORTED, null, CLIENT_ID));
 
       params
           .add(buildParameter(CLIENT_SECRET_PARAMETER_NAME, "The OAuth client secret as registered with the service provider",
-                              true, stringType, SUPPORTED, null));
+                              true, stringType, SUPPORTED, null, CLIENT_SECRET));
 
       params.add(buildParameter(TOKEN_URL_PARAMETER_NAME, "The service provider's token endpoint URL",
-                                false, stringType, SUPPORTED, grantType.getTokenUrl()));
+                                false, stringType, SUPPORTED, grantType.getTokenUrl(), TOKEN_URL));
 
       params.add(buildParameter(SCOPES_PARAMETER_NAME,
                                 "The OAuth scopes to be requested during the dance. If not provided, it will default "
@@ -203,17 +217,18 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                                      AuthorizationCodeGrantType grantType) {
       List<ParameterDeclaration> params = new LinkedList<>();
       params.add(buildParameter(CONSUMER_KEY_PARAMETER_NAME, "The OAuth consumerKey as registered with the service provider",
-                                true, stringType, NOT_SUPPORTED, null));
+                                true, stringType, NOT_SUPPORTED, null, CLIENT_ID));
 
       params
           .add(buildParameter(CONSUMER_SECRET_PARAMETER_NAME, "The OAuth consumerSecret as registered with the service provider",
-                              true, stringType, NOT_SUPPORTED, null));
+                              true, stringType, NOT_SUPPORTED, null, CLIENT_SECRET));
 
       params.add(buildParameter(AUTHORIZATION_URL_PARAMETER_NAME, "The service provider's authorization endpoint URL",
-                                false, stringType, NOT_SUPPORTED, grantType.getAuthorizationUrl()));
+                                false, stringType, NOT_SUPPORTED, grantType.getAuthorizationUrl(),
+                                AUTHORIZATION_URL_PARAMETER_NAME));
 
       params.add(buildParameter(ACCESS_TOKEN_URL_PARAMETER_NAME, "The service provider's accessToken endpoint URL",
-                                false, stringType, NOT_SUPPORTED, grantType.getAccessTokenUrl()));
+                                false, stringType, NOT_SUPPORTED, grantType.getAccessTokenUrl(), TOKEN_URL));
 
       params.add(buildParameter(SCOPES_PARAMETER_NAME,
                                 "The OAuth scopes to be requested during the dance. If not provided, it will default "
@@ -221,7 +236,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
                                 false, stringType, NOT_SUPPORTED, grantType.getDefaultScope().orElse(null)));
 
       params.add(buildParameter(RESOURCE_OWNER_ID_PARAMETER_NAME, "The resourceOwnerId which each component should use "
-          + "if it doesn't reference otherwise.", false, stringType, SUPPORTED, null));
+          + "if it doesn't reference otherwise.", false, stringType, SUPPORTED, null, CLIENT_ID));
 
       final ParameterDeclaration beforeFlowParam = buildParameter(BEFORE_FLOW_PARAMETER_NAME,
                                                                   "The name of a flow to be executed right before starting the OAuth dance",
@@ -250,15 +265,15 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
       params.add(listenerConfig);
 
       params.add(buildParameter(CALLBACK_PATH_PARAMETER_NAME, "The path of the access token callback endpoint",
-                                true, stringType, NOT_SUPPORTED, null));
+                                true, stringType, NOT_SUPPORTED, null, URL_PATH));
 
       params.add(buildParameter(LOCAL_AUTHORIZE_PATH_PARAMETER_NAME,
                                 "The path of the local http endpoint which triggers the OAuth dance", true,
-                                stringType, NOT_SUPPORTED, null));
+                                stringType, NOT_SUPPORTED, null, URL_PATH));
 
       params.add(buildParameter(EXTERNAL_CALLBACK_URL_PARAMETER_NAME, "If the callback endpoint is behind a proxy or should be "
           + "accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use "
-          + "to access the callback", false, stringType, NOT_SUPPORTED, null));
+          + "to access the callback", false, stringType, NOT_SUPPORTED, null, URL_TEMPLATE));
 
       addToGroup(params, OAUTH_CALLBACK_GROUP_NAME, OAUTH_CALLBACK_GROUP_DISPLAY_NAME, declaration);
     }
@@ -282,7 +297,8 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
     }
 
     private ParameterDeclaration buildParameter(String name, String description, boolean required, MetadataType type,
-                                                ExpressionSupport expressionSupport, Object defaultValue) {
+                                                ExpressionSupport expressionSupport, Object defaultValue,
+                                                String... semanticTerms) {
       ParameterDeclaration parameter = new ParameterDeclaration(name);
       parameter.setDescription(description);
       parameter.setExpressionSupport(expressionSupport);
@@ -290,7 +306,9 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
       parameter.setDefaultValue(defaultValue);
       parameter.setParameterRole(BEHAVIOUR);
       parameter.setType(type, false);
-
+      if (semanticTerms != null) {
+        stream(semanticTerms).forEach(parameter::addSemanticTerm);
+      }
       return parameter;
     }
   }

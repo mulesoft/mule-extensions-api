@@ -29,6 +29,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_S
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SUB_FLOW;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toClassValueModel;
+import static org.mule.runtime.extension.internal.semantic.SemanticTermsHelper.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -130,6 +131,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       processDisplayAnnotation(field, fieldBuilder);
       processConfigOverride(field, fieldBuilder);
       processElementReference(field, fieldBuilder);
+      processSemanticTerms(field, fieldBuilder);
       setFieldType(typeHandlerManager, context, field, fieldBuilder);
     }
   }
@@ -252,6 +254,10 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   private void processExpressionSupport(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     Expression expression = field.getAnnotation(Expression.class);
     fieldBuilder.with(new ExpressionSupportAnnotation(expression != null ? expression.value() : SUPPORTED));
+  }
+
+  private void processSemanticTerms(Field field, ObjectFieldTypeBuilder fieldBuilder) {
+    enrichWithTypeAnnotation(field, fieldBuilder);
   }
 
   private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder,
