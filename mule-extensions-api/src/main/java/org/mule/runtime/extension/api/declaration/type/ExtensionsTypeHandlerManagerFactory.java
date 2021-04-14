@@ -28,10 +28,10 @@ public final class ExtensionsTypeHandlerManagerFactory implements TypeHandlerMan
    */
   @Override
   public TypeHandlerManager createTypeHandlerManager() {
-    return TypeHandlerManager.create(
-                                     new CursorProviderTypeHandler(),
+    return TypeHandlerManager.create(new CursorProviderTypeHandler(),
                                      new TlsContextClassHandler(),
                                      new ObjectStoreClassHandler(),
+                                     new SchedulingStrategyClassHandler(),
                                      new ExtensionObjectTypeHandler(new ExtensionsObjectFieldHandler()));
   }
 }
