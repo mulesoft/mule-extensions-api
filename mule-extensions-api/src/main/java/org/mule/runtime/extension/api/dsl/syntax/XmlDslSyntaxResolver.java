@@ -452,7 +452,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     if (isInfrastructure(parameter)) {
       supportsTopLevel = dslConfig.allowTopLevelDefinition();
       supportsInline = dslConfig.allowsInlineDefinition();
-      requiresWrapper = false;
+      requiresWrapper = isExtensible(objectType);
     } else {
       supportsTopLevel = supportTopLevelElement(objectType, dslConfig);
       supportsInline = supportsInlineDeclaration(objectType, expressionSupport, dslConfig, isContent);
