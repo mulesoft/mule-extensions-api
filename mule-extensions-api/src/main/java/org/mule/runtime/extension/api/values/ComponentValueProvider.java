@@ -30,6 +30,18 @@ public interface ComponentValueProvider {
   Set<Value> getValues(String providerName) throws ValueResolvingException;
 
   /**
+   * Gets the values of a parameter with the given name for an acting parameter with the given target path
+   *
+   * @param parameterName the name of the parameter for which resolve their possible {@link Value values}
+   * @param targetPath    the target path of the acting parameter used to resolve the {@link Value values}
+   * @return the resolved {@link Value values}
+   * @throws org.mule.sdk.api.values.ValueResolvingException if there was an error resolving the {@link Value values}
+   *
+   * @since 1.4
+   */
+  Set<Value> getValues(String parameterName, String targetPath) throws ValueResolvingException;
+
+  /**
    * Retrieves the list of associated {@link ValueProviderModel} with the given provider name in the component
    *
    * @param providerName The name of the value provider

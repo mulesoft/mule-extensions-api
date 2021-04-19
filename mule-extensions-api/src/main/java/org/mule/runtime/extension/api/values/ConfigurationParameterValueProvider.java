@@ -33,6 +33,16 @@ public interface ConfigurationParameterValueProvider {
   Set<Value> getConfigValues(String parameterName) throws ValueResolvingException;
 
   /**
+   * Resolves the possible {@link Value values} for the Configuration's parameter identified by the {@code parameterName} using
+   * the acting parameter with the given target path.
+   *
+   * @param parameterName the name of the parameter that has the capability to provide {@link Value values}
+   * @param targetPath    the path of the acting parameter used to resolve the {@link Value values}
+   * @return {@link Set} of possible and valid {@link Value values}
+   */
+  Set<Value> getConfigValues(String parameterName, String targetPath) throws ValueResolvingException;
+
+  /**
    * Retrieves the list of associated {@link ValueProviderModel} with the given provider name in the configuration
    *
    * @param providerName The name of the value provider
@@ -50,6 +60,16 @@ public interface ConfigurationParameterValueProvider {
    * @return {@link Set} of possible and valid {@link Value values}
    */
   Set<Value> getConnectionValues(String parameterName) throws ValueResolvingException;
+
+  /**
+   * Resolves the possible {@link Value values} for the Connection Providers's parameter identified by the {@code parameterName}
+   * using the acting parameter with the given target path.
+   *
+   * @param parameterName the name of the parameter that has the capability to provide {@link Value values}
+   * @param targetPath    the path of the acting parameter used to resolve the {@link Value values}
+   * @return {@link Set} of possible and valid {@link Value values}
+   */
+  Set<Value> getConnectionValues(String parameterName, String targetPath) throws ValueResolvingException;
 
   /**
    * Retrieves the list of associated {@link ValueProviderModel} with the given provider name in the connection

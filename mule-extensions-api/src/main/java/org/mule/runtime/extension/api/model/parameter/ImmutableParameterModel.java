@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.model.parameter;
 
 import static java.util.Collections.emptySet;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;
@@ -19,6 +20,7 @@ import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.parameter.FieldValueProviderModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
@@ -42,6 +44,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final boolean isConfigOverride;
   private final boolean isComponentId;
   private final ValueProviderModel valueProviderModel;
+  private final List<FieldValueProviderModel> fieldValueProviderModels;
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
   private final ParameterRole role;
@@ -148,6 +151,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @param dslConfiguration        a model which describes the DSL semantics for this parameter
    * @param displayModel            a model which contains directive about how the parameter is displayed in the UI
    * @param layoutModel             a model which contains directives about the parameter's layout in the UI
+   * @param valueProviderModel      a value provider model
    * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param deprecationModel        a {@link DeprecationModel} describing if the parameter is deprecated. A null value means it is
@@ -174,32 +178,35 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  DeprecationModel deprecationModel) {
     this(name, description, type, hasDynamicType, required, isConfigOverride, isComponentId, expressionSupport,
          defaultValue, role, dslConfiguration, displayModel, layoutModel, valueProviderModel, allowedStereotypeModels,
-         modelProperties, deprecationModel, null);
+         modelProperties, deprecationModel, null, emptyList());
   }
 
   /**
    * Creates a new instance with the given state
    *
-   * @param name                    the parameter's name. Cannot be blank.
-   * @param description             the parameter's description
-   * @param type                    the parameter's {@link MetadataType}. Cannot be {@code null}
-   * @param hasDynamicType          if the given {@code type} is of dynamic kind and has to be discovered during design time
-   * @param required                whether this parameter is required or not
-   * @param isConfigOverride        whether this parameter is a configuration override or not
-   * @param isComponentId           whether this parameter serves as a {@link ComponentModel} ID or not
-   * @param expressionSupport       the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
-   * @param defaultValue            this parameter's default value
-   * @param role                    this parameter's purpose
-   * @param dslConfiguration        a model which describes the DSL semantics for this parameter
-   * @param displayModel            a model which contains directive about how the parameter is displayed in the UI
-   * @param layoutModel             a model which contains directives about the parameter's layout in the UI
-   * @param allowedStereotypeModels A {@link Set} with the stereotypes of the allowed values
-   * @param modelProperties         A {@link Set} of custom properties which extend this model
-   * @param deprecationModel        a {@link DeprecationModel} describing if the parameter is deprecated. A null value means it is
-   *                                not deprecated.
-   * @param semanticTerms           a {@link Set} of semantic terms which describe the parameter's meaning and effect
+   * @param name                     the parameter's name. Cannot be blank.
+   * @param description              the parameter's description
+   * @param type                     the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType           if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required                 whether this parameter is required or not
+   * @param isConfigOverride         whether this parameter is a configuration override or not
+   * @param isComponentId            whether this parameter serves as a {@link ComponentModel} ID or not
+   * @param expressionSupport        the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue             this parameter's default value
+   * @param role                     this parameter's purpose
+   * @param dslConfiguration         a model which describes the DSL semantics for this parameter
+   * @param displayModel             a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel              a model which contains directives about the parameter's layout in the UI
+   * @param valueProviderModel       a value provider model
+   * @param allowedStereotypeModels  A {@link Set} with the stereotypes of the allowed values
+   * @param modelProperties          A {@link Set} of custom properties which extend this model
+   * @param deprecationModel         a {@link DeprecationModel} describing if the parameter is deprecated. A null value means it
+   *                                 is not deprecated.
+   * @param semanticTerms            a {@link Set} of semantic terms which describe the parameter's meaning and effect
+   * @param fieldValueProviderModels {@link List} of field value provider models.
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
    *                                  time
+   *
    * @since 1.4.0
    */
   public ImmutableParameterModel(String name,
@@ -219,7 +226,8 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  List<StereotypeModel> allowedStereotypeModels,
                                  Set<ModelProperty> modelProperties,
                                  DeprecationModel deprecationModel,
-                                 Set<String> semanticTerms) {
+                                 Set<String> semanticTerms,
+                                 List<FieldValueProviderModel> fieldValueProviderModels) {
     super(name, description, displayModel, modelProperties);
     this.type = type;
     this.required = required;
@@ -235,6 +243,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.allowedStereotypeModels = unmodifiableList(allowedStereotypeModels);
     this.deprecationModel = deprecationModel;
     this.semanticTerms = semanticTerms != null ? unmodifiableSet(semanticTerms) : emptySet();
+    this.fieldValueProviderModels = unmodifiableList(fieldValueProviderModels);
   }
 
   /**
@@ -320,6 +329,11 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   @Override
   public Optional<ValueProviderModel> getValueProviderModel() {
     return ofNullable(valueProviderModel);
+  }
+
+  @Override
+  public List<FieldValueProviderModel> getFieldValueProviderModels() {
+    return fieldValueProviderModels;
   }
 
   /**
