@@ -22,7 +22,6 @@ import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getExtensi
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 
-import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;

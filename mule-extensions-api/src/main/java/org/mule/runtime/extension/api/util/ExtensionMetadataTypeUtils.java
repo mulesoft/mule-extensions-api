@@ -360,9 +360,8 @@ public final class ExtensionMetadataTypeUtils {
             return false;
           }
         } catch (ClassNotFoundException e) {
-          LOGGER.debug(format("Classes %s and %s are not available in the class loader for comparison", typeClassName,
-                              otherTypeClassName),
-                       e);
+          LOGGER.debug("Classes {} and {} are not available in the class loader for comparison", typeClassName,
+                       otherTypeClassName, e);
         }
       } else {
         if (!Objects.equals(typeClassName, otherTypeClassName)) {
