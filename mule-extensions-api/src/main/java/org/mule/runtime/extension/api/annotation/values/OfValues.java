@@ -40,10 +40,4 @@ public @interface OfValues {
    */
   boolean open() default true;
 
-  /**
-   * ADD JDOC
-   * MOVE TO SDK-API
-   */
-  Binding[] bindings() default {};
-
 }
