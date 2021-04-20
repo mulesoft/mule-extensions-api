@@ -352,8 +352,8 @@ public final class ExtensionMetadataTypeUtils {
     ClassInformationAnnotation typeClassInformation = type.getAnnotation(ClassInformationAnnotation.class).orElse(null);
     ClassInformationAnnotation otherTypeClassInformation = otherType.getAnnotation(ClassInformationAnnotation.class).orElse(null);
 
-    if (typeClassInformation != null) {
-      return typeClassInformation.equals(otherTypeClassInformation);
+    if (typeClassInformation != null && !typeClassInformation.equals(otherTypeClassInformation)) {
+      return false;
     }
 
     String typeId = getTypeId(type).orElse(null);
