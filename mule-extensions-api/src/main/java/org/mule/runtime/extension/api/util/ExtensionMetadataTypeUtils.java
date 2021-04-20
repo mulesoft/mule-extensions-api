@@ -348,25 +348,12 @@ public final class ExtensionMetadataTypeUtils {
    *
    * @since 1.4.0
    */
-  public static boolean areTypesEqual(MetadataType type, MetadataType otherType, ClassLoader classLoader) {
-    String typeClassName = getClassInformationName(type);
-    String otherTypeClassName = getClassInformationName(otherType);
+  public static boolean areTypesEqual(MetadataType type, MetadataType otherType) {
+    ClassInformationAnnotation typeClassInformation = type.getAnnotation(ClassInformationAnnotation.class).orElse(null);
+    ClassInformationAnnotation otherTypeClassInformation = otherType.getAnnotation(ClassInformationAnnotation.class).orElse(null);
 
-    if (typeClassName != null && otherTypeClassName != null) {
-      if (classLoader != null) {
-        try {
-          if (!areAssignable(typeClassName, otherTypeClassName, classLoader)) {
-            return false;
-          }
-        } catch (ClassNotFoundException e) {
-          LOGGER.debug("Classes {} and {} are not available in the class loader for comparison", typeClassName,
-                       otherTypeClassName, e);
-        }
-      } else {
-        if (!Objects.equals(typeClassName, otherTypeClassName)) {
-          return false;
-        }
-      }
+    if (typeClassInformation != null) {
+      return typeClassInformation.equals(otherTypeClassInformation);
     }
 
     String typeId = getTypeId(type).orElse(null);
@@ -383,18 +370,5 @@ public final class ExtensionMetadataTypeUtils {
     return type.getAnnotation(SemanticTermsTypeAnnotation.class)
         .map(SemanticTermsTypeAnnotation::getSemanticTerms)
         .orElse(emptySet());
-  }
-
-  private static boolean areAssignable(String className, String otherClassName, ClassLoader classLoader)
-      throws ClassNotFoundException {
-    Class clazz = classLoader.loadClass(className);
-    Class otherClazz = classLoader.loadClass(otherClassName);
-
-    return clazz.isAssignableFrom(otherClazz) || otherClazz.isAssignableFrom(clazz);
-  }
-
-  private static String getClassInformationName(MetadataType type) {
-    return type.getAnnotation(ClassInformationAnnotation.class)
-        .map(annotation -> annotation.getClassname()).orElse(null);
   }
 }
