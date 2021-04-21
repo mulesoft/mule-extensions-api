@@ -4,21 +4,12 @@
       "ignore": [
         {
               "code": "java.method.added",
-              "new": "method boolean org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils::areTypesEqual(org.mule.metadata.api.model.MetadataType, org.mule.metadata.api.model.MetadataType, java.lang.ClassLoader)",
+              "new": "method boolean org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils::areTypesEqual(org.mule.metadata.api.model.MetadataType, org.mule.metadata.api.model.MetadataType)",
               "package": "org.mule.runtime.extension.api.util",
               "classSimpleName": "ExtensionMetadataTypeUtils",
               "methodName": "areTypesEqual",
               "elementKind": "method",
-              "justification": "New feature fixes bug"
-        },
-        {
-              "code": "java.method.added",
-              "new": "method java.util.Optional<java.lang.ClassLoader> org.mule.runtime.extension.api.util.ExtensionModelUtils::getExtensionClassLoader(org.mule.runtime.api.meta.model.ExtensionModel)",
-              "package": "org.mule.runtime.extension.api.util",
-              "classSimpleName": "ExtensionModelUtils",
-              "methodName": "getExtensionClassLoader",
-              "elementKind": "method",
-              "justification": "New feature fixes bug"
+              "justification": "MULE-19330"
         },
         {
               "code": "java.method.defaultMethodAddedToInterface",
