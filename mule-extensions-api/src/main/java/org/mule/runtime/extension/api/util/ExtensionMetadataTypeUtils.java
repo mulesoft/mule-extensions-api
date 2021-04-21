@@ -16,7 +16,6 @@ import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
@@ -51,8 +50,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-
 /**
  * Set of utility operations to handle {@link MetadataType}
  *
@@ -60,7 +57,6 @@ import org.slf4j.Logger;
  */
 public final class ExtensionMetadataTypeUtils {
 
-  private static final Logger LOGGER = getLogger(ExtensionMetadataTypeUtils.class);
   private static final List<MetadataFormat> KNOWN_METADATA_FORMATS = asList(JAVA, XML, JSON, CSV);
 
   private ExtensionMetadataTypeUtils() {}
