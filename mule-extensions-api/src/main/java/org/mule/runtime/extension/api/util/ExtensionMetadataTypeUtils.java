@@ -17,6 +17,7 @@ import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
@@ -53,6 +54,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import org.slf4j.Logger;
+
 /**
  * Set of utility operations to handle {@link MetadataType}
  *
@@ -60,6 +63,7 @@ import java.util.Set;
  */
 public final class ExtensionMetadataTypeUtils {
 
+  private static final Logger LOGGER = getLogger(ExtensionMetadataTypeUtils.class);
   private static final List<MetadataFormat> KNOWN_METADATA_FORMATS = asList(JAVA, XML, JSON, CSV);
 
   private ExtensionMetadataTypeUtils() {}
@@ -344,20 +348,12 @@ public final class ExtensionMetadataTypeUtils {
    *
    * @since 1.4.0
    */
-  public static boolean areTypesEqual(MetadataType type, MetadataType otherType, ClassLoader classLoader) {
-    String typeClassName = getClassInformationName(type);
-    String otherTypeClassName = getClassInformationName(otherType);
+  public static boolean areTypesEqual(MetadataType type, MetadataType otherType) {
+    ClassInformationAnnotation typeClassInformation = type.getAnnotation(ClassInformationAnnotation.class).orElse(null);
+    ClassInformationAnnotation otherTypeClassInformation = otherType.getAnnotation(ClassInformationAnnotation.class).orElse(null);
 
-    if (typeClassName != null && otherTypeClassName != null) {
-      if (classLoader != null) {
-        if (!areAssignable(typeClassName, otherTypeClassName, classLoader)) {
-          return false;
-        }
-      } else {
-        if (!Objects.equals(typeClassName, otherTypeClassName)) {
-          return false;
-        }
-      }
+    if (typeClassInformation != null && !typeClassInformation.equals(otherTypeClassInformation)) {
+      return false;
     }
 
     String typeId = getTypeId(type).orElse(null);
@@ -374,21 +370,5 @@ public final class ExtensionMetadataTypeUtils {
     return type.getAnnotation(SemanticTermsTypeAnnotation.class)
         .map(SemanticTermsTypeAnnotation::getSemanticTerms)
         .orElse(emptySet());
-  }
-
-  private static boolean areAssignable(String className, String otherClassName, ClassLoader classLoader) {
-    try {
-      Class clazz = classLoader.loadClass(className);
-      Class otherClazz = classLoader.loadClass(otherClassName);
-
-      return clazz.isAssignableFrom(otherClazz) || otherClazz.isAssignableFrom(clazz);
-    } catch (ClassNotFoundException e) {
-      return false;
-    }
-  }
-
-  private static String getClassInformationName(MetadataType type) {
-    return type.getAnnotation(ClassInformationAnnotation.class)
-        .map(annotation -> annotation.getClassname()).orElse(null);
   }
 }
