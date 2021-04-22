@@ -11,7 +11,6 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.runtime.api.value.Value;
 import org.mule.runtime.extension.api.values.ValueProvider;
-import org.mule.sdk.api.annotation.binding.Binding;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

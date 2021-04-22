@@ -2,15 +2,18 @@
   "parameters": [
     {
       "name": "param1",
-      "required": true
+      "required": true,
+      "path": "param1"
     },
     {
       "name": "param2",
-      "required": true
+      "required": true,
+      "path": "param2"
     },
     {
       "name": "param3",
-      "required": false
+      "required": false,
+      "path":"param3"
     }
   ],
   "partOrder": 1,

@@ -38,7 +38,7 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
    *
    * @param name     the parameter's name. Cannot be blank.
    * @param required whether this parameter is required or not
-   * @param path     ADD JDOC
+   * @param path     the path to the acting parameter value.
    */
   public ImmutableActingParameterModel(String name, boolean required, String path) {
     checkArgument(name != null && name.length() > 0, "name cannot be null or blank");
