@@ -15,15 +15,15 @@ import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.CACHED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.CLIENT_ID;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.CLIENT_SECRET;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.CONNECTION_ID;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.TOKEN_URL;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.URL_PATH;
-import static org.mule.runtime.extension.api.connectivity.ConnectivityVocabulary.URL_TEMPLATE;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.CLIENT_ID;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.CLIENT_SECRET;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.CONNECTION_ID;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.TOKEN_URL;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.URL_PATH;
+import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.URL_TEMPLATE;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.ACCESS_TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUTHORIZATION_URL_PARAMETER_NAME;
@@ -127,7 +127,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
         if (ocsConnectionProvider.get() == null) {
           ConnectionProviderDeclarer declarer =
               context.getExtensionDeclarer().withConnectionProvider(owner, PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME);
-
+          
           // TODO - MULE-18043: OCS Connection Provider's Management Type must be set correctly.
           final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
           declarer.withConnectionManagementType(CACHED)

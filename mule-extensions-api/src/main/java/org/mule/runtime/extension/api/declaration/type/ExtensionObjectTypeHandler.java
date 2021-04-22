@@ -10,8 +10,8 @@ import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import static org.mule.runtime.connectivity.internal.platform.schema.SemanticTermsHelper.enrichWithTypeAnnotation;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
-import static org.mule.runtime.extension.internal.semantic.SemanticTermsHelper.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;

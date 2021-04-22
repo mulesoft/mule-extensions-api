@@ -116,6 +116,7 @@
         <xDocLint>-Xdoclint:none</xDocLint>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <muleApiVersion>1.4.0-SNAPSHOT</muleApiVersion>
+        <muleConnectivityApiVersion>1.0.0-SNAPSHOT</muleConnectivityApiVersion>
         <muleSdkApiVersion>1.4.0-SNAPSHOT</muleSdkApiVersion>
         <metadataModelApiVersion>1.4.0-SNAPSHOT</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.3.0-SNAPSHOT</muleModuleMavenPluginVersion>
@@ -174,6 +175,11 @@
                 <groupId>org.mule.sdk</groupId>
                 <artifactId>mule-sdk-api</artifactId>
                 <version>${muleSdkApiVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mule.runtime</groupId>
+                <artifactId>mule-connectivity-api</artifactId>
+                <version>${muleConnectivityApiVersion}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
