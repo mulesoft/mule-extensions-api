@@ -450,15 +450,4 @@ public class ExtensionModelUtils {
       return new ClassValueModel(emptyList());
     }
   }
-
-  /**
-   * Gets the extension {@link ClassLoader}
-   *
-   * @param extensionModel
-   * @return an {@link Optional} with the extension {@link ClassLoader}
-   */
-  public static Optional<ClassLoader> getExtensionClassLoader(ExtensionModel extensionModel) {
-    return extensionModel.getModelProperty(ClassLoaderModelProperty.class)
-        .map(classLoaderModelProperty -> classLoaderModelProperty.getClassLoader());
-  }
 }

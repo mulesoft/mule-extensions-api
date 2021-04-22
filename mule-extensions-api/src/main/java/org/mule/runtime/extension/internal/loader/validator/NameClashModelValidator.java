@@ -18,11 +18,9 @@ import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.areTypesEqual;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getExtensionClassLoader;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 
-import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -464,7 +462,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
           .forEach(param -> clashingsByTagName.computeIfAbsent(param.dsl.getElementName(), k -> {
             List<ParameterReference> others = contentParameters.stream()
                 .filter(other -> param.dsl.getElementName().equals(other.dsl.getElementName())
-                    && !areTypesEqual(param.type, other.type, getExtensionClassLoader(extensionModel).orElse(null)))
+                    && !areTypesEqual(param.type, other.type))
                 .collect(toList());
             if (!others.isEmpty()) {
               others.add(param);
@@ -554,7 +552,8 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
                 parameters.stream()
                     .filter(p -> Objects.equals(dslSyntaxResolver.resolve(p).getElementName(),
                                                 childSyntax.getElementName()))
-                    .filter(p -> !Objects.equals(getType(p.getType()), getType(type))).findAny()
+                    .filter(p -> !areTypesEqual(p.getType(), type))
+                    .findAny()
                     .ifPresent(clashParam -> {
                       problemsReporter.addError(new Problem(extensionModel, format(
                                                                                    "Extension '%s' defines an %s of name '%s' which contains a parameter '%s' that when transformed to"

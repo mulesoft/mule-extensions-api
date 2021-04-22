@@ -16,6 +16,7 @@ import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -340,20 +341,12 @@ public final class ExtensionMetadataTypeUtils {
    *
    * @since 1.4.0
    */
-  public static boolean areTypesEqual(MetadataType type, MetadataType otherType, ClassLoader classLoader) {
-    String typeClassName = getClassInformationName(type);
-    String otherTypeClassName = getClassInformationName(otherType);
+  public static boolean areTypesEqual(MetadataType type, MetadataType otherType) {
+    ClassInformationAnnotation typeClassInformation = type.getAnnotation(ClassInformationAnnotation.class).orElse(null);
+    ClassInformationAnnotation otherTypeClassInformation = otherType.getAnnotation(ClassInformationAnnotation.class).orElse(null);
 
-    if (typeClassName != null && otherTypeClassName != null) {
-      if (classLoader != null) {
-        if (!areAssignable(typeClassName, otherTypeClassName, classLoader)) {
-          return false;
-        }
-      } else {
-        if (!Objects.equals(typeClassName, otherTypeClassName)) {
-          return false;
-        }
-      }
+    if (typeClassInformation != null && !typeClassInformation.equals(otherTypeClassInformation)) {
+      return false;
     }
 
     String typeId = getTypeId(type).orElse(null);
@@ -364,21 +357,5 @@ public final class ExtensionMetadataTypeUtils {
     } else {
       return Objects.equals(type, otherType);
     }
-  }
-
-  private static boolean areAssignable(String className, String otherClassName, ClassLoader classLoader) {
-    try {
-      Class clazz = classLoader.loadClass(className);
-      Class otherClazz = classLoader.loadClass(otherClassName);
-
-      return clazz.isAssignableFrom(otherClazz) || otherClazz.isAssignableFrom(clazz);
-    } catch (ClassNotFoundException e) {
-      return false;
-    }
-  }
-
-  private static String getClassInformationName(MetadataType type) {
-    return type.getAnnotation(ClassInformationAnnotation.class)
-        .map(annotation -> annotation.getClassname()).orElse(null);
   }
 }
