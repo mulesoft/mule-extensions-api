@@ -21,7 +21,7 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
 
   private final String name;
   private final boolean required;
-  private final String path;
+  private final String extractionExpression;
 
   /**
    * Creates a new instance with the given state
@@ -36,15 +36,15 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
   /**
    * Creates a new instance with the given state
    *
-   * @param name     the parameter's name. Cannot be blank.
-   * @param required whether this parameter is required or not
-   * @param path     the path to the acting parameter value.
+   * @param name                 the parameter's name. Cannot be blank.
+   * @param required             whether this parameter is required or not
+   * @param extractionExpression the extraction expression to the acting parameter value.
    */
-  public ImmutableActingParameterModel(String name, boolean required, String path) {
+  public ImmutableActingParameterModel(String name, boolean required, String extractionExpression) {
     checkArgument(name != null && name.length() > 0, "name cannot be null or blank");
     this.name = name;
     this.required = required;
-    this.path = path;
+    this.extractionExpression = extractionExpression;
   }
 
   @Override
@@ -58,8 +58,8 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
   }
 
   @Override
-  public String getPath() {
-    return path;
+  public String getExtractionExpression() {
+    return extractionExpression;
   }
 
   @Override
@@ -72,11 +72,12 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
     }
     ImmutableActingParameterModel that = (ImmutableActingParameterModel) o;
     return Objects.equals(name, that.name) &&
-        Objects.equals(required, that.required);
+        Objects.equals(required, that.required) &&
+        Objects.equals(extractionExpression, that.extractionExpression);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, required);
+    return Objects.hash(name, required, extractionExpression);
   }
 }

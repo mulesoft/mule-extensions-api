@@ -3,17 +3,17 @@
     {
       "name": "param1",
       "required": true,
-      "path":"param1"
+      "extractionExpression":"param1"
     },
     {
       "name": "param2",
       "required": true,
-      "path":"param2"
+      "extractionExpression":"param2"
     },
     {
       "name": "param3",
       "required": false,
-      "path":"param3"
+      "extractionExpression":"param3"
     }
   ],
   "providerId": "sample data",
