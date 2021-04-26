@@ -11,6 +11,8 @@ import org.mule.runtime.api.value.Value;
 import org.mule.runtime.api.value.ValueResult;
 import org.mule.runtime.extension.api.values.ImmutableValue;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.value.ValueTypeAdapter;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,7 +39,7 @@ public final class ValueResultJsonSerializer {
 
     gson = gsonBuilder
         .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(ValueResult.class, ImmutableValueResult.class))
-        .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(Value.class, ImmutableValue.class))
+        .registerTypeAdapter(Value.class, new ValueTypeAdapter())
         .create();
   }
 
