@@ -2,15 +2,18 @@
   "parameters": [
     {
       "name": "param1",
-      "required": true
+      "required": true,
+      "extractionExpression": "param1"
     },
     {
       "name": "param2",
-      "required": true
+      "required": true,
+      "extractionExpression": "param2"
     },
     {
       "name": "param3",
-      "required": false
+      "required": false,
+      "extractionExpression":"param3"
     }
   ],
   "partOrder": 1,
