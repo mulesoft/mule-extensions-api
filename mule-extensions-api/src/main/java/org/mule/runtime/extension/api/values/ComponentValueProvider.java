@@ -11,6 +11,7 @@ import static java.util.Collections.emptyList;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
 import org.mule.runtime.api.value.Value;
+import org.mule.sdk.api.values.FieldValues;
 
 import java.util.List;
 import java.util.Set;
@@ -30,16 +31,17 @@ public interface ComponentValueProvider {
   Set<Value> getValues(String providerName) throws ValueResolvingException;
 
   /**
-   * Gets the values of a parameter with the given name for an acting parameter with the given target path
+   * Gets the values for the parameter of the given {@code parameterName}, using the given {@code targetSelector}. See
+   * {@link FieldValues#targetSelector}
    *
-   * @param parameterName the name of the parameter for which resolve their possible {@link Value values}
-   * @param targetPath    the target path of the acting parameter used to resolve the {@link Value values}
+   * @param parameterName  the name of the parameter for which its {@link Value values} will be resolved
+   * @param targetSelector the target selector to use to resolve the {@link Value values}
    * @return the resolved {@link Value values}
-   * @throws org.mule.sdk.api.values.ValueResolvingException if there was an error resolving the {@link Value values}
+   * @throws ValueResolvingException if there was an error resolving the {@link Value values}
    *
    * @since 1.4
    */
-  Set<Value> getValues(String parameterName, String targetPath) throws ValueResolvingException;
+  Set<Value> getValues(String parameterName, String targetSelector) throws ValueResolvingException;
 
   /**
    * Retrieves the list of associated {@link ValueProviderModel} with the given provider name in the component
