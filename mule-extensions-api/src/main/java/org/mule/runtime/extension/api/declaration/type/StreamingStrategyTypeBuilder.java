@@ -16,11 +16,17 @@ import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STR
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_INCREMENT_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_MAX_BUFFER_SIZE;
+import static org.mule.runtime.internal.dsl.DslConstants.EE_NAMESPACE;
+import static org.mule.runtime.internal.dsl.DslConstants.EE_PREFIX;
+
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.util.DataUnit;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
+
+import javax.xml.namespace.QName;
 
 /**
  * Creates instances of {@link MetadataType} which represent a streaming strategy type
@@ -74,6 +80,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
   private MetadataType getFileStoreByteStrategy(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder streamingType = typeBuilder.objectType()
         .id(REPEATABLE_FILE_STORE_BYTES_STREAM_ALIAS)
+        .with(new QNameTypeAnnotation(new QName(EE_NAMESPACE, REPEATABLE_FILE_STORE_BYTES_STREAM_ALIAS, EE_PREFIX)))
         .with(new InfrastructureTypeAnnotation());
 
     addIntField(streamingType, typeBuilder, "inMemorySize",
@@ -90,6 +97,7 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
   private MetadataType getFileStoreObjectStrategy(BaseTypeBuilder typeBuilder) {
     ObjectTypeBuilder streamingType = typeBuilder.objectType()
         .id(REPEATABLE_FILE_STORE_OBJECTS_STREAM_ALIAS)
+        .with(new QNameTypeAnnotation(new QName(EE_NAMESPACE, REPEATABLE_FILE_STORE_OBJECTS_STREAM_ALIAS, EE_PREFIX)))
         .with(new InfrastructureTypeAnnotation());
 
     addIntField(streamingType, typeBuilder, "inMemoryObjects",
