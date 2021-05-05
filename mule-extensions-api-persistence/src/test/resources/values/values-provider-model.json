@@ -21,5 +21,6 @@
   "providerId": "Id 1",
   "requiresConfiguration": false,
   "requiresConnection": false,
-  "isOpen": false
+  "isOpen": false,
+  "modelProperties": {}
 }

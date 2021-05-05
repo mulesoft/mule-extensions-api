@@ -97,7 +97,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -670,7 +671,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -717,7 +719,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -793,7 +796,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -992,7 +996,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -1033,7 +1038,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -1080,7 +1086,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -1675,7 +1682,8 @@
                     "providerId": "AId",
                     "requiresConfiguration": false,
                     "requiresConnection": false,
-                    "isOpen": false
+                    "isOpen": false,
+                    "modelProperties": {}
                   },
                   "fieldValueProviderModels": [],
                   "expressionSupport": "SUPPORTED",
@@ -1775,7 +1783,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -1828,7 +1837,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -2204,7 +2214,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -2777,7 +2788,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -2824,7 +2836,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -2900,7 +2913,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -3099,7 +3113,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -3140,7 +3155,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -3187,7 +3203,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -3782,7 +3799,8 @@
                     "providerId": "AId",
                     "requiresConfiguration": false,
                     "requiresConnection": false,
-                    "isOpen": false
+                    "isOpen": false,
+                    "modelProperties": {}
                   },
                   "fieldValueProviderModels": [],
                   "expressionSupport": "SUPPORTED",
@@ -3882,7 +3900,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
@@ -3935,7 +3954,8 @@
                   "providerId": "AId",
                   "requiresConfiguration": false,
                   "requiresConnection": false,
-                  "isOpen": false
+                  "isOpen": false,
+                  "modelProperties": {}
                 },
                 "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
