@@ -99,6 +99,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -671,6 +672,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -717,6 +719,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -792,6 +795,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -859,6 +863,7 @@
                 "required": false,
                 "isConfigOverride": false,
                 "isComponentId": false,
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -989,6 +994,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -1029,6 +1035,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -1075,6 +1082,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -1669,6 +1677,7 @@
                     "requiresConnection": false,
                     "isOpen": false
                   },
+                  "fieldValueProviderModels": [],
                   "expressionSupport": "SUPPORTED",
                   "role": "BEHAVIOUR",
                   "dslConfiguration": {
@@ -1768,6 +1777,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -1820,6 +1830,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -2195,6 +2206,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -2767,6 +2779,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -2813,6 +2826,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -2888,6 +2902,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -2955,6 +2970,7 @@
                 "required": false,
                 "isConfigOverride": false,
                 "isComponentId": false,
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -3085,6 +3101,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -3125,6 +3142,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -3171,6 +3189,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
@@ -3765,6 +3784,7 @@
                     "requiresConnection": false,
                     "isOpen": false
                   },
+                  "fieldValueProviderModels": [],
                   "expressionSupport": "SUPPORTED",
                   "role": "BEHAVIOUR",
                   "dslConfiguration": {
@@ -3864,6 +3884,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "defaultValue": "",
                 "role": "BEHAVIOUR",
@@ -3916,6 +3937,7 @@
                   "requiresConnection": false,
                   "isOpen": false
                 },
+                "fieldValueProviderModels": [],
                 "expressionSupport": "SUPPORTED",
                 "role": "BEHAVIOUR",
                 "dslConfiguration": {
