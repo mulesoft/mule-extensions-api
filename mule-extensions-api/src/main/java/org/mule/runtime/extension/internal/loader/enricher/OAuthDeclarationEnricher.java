@@ -127,7 +127,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
         if (ocsConnectionProvider.get() == null) {
           ConnectionProviderDeclarer declarer =
               context.getExtensionDeclarer().withConnectionProvider(owner, PLATFORM_MANAGED_CONNECTION_PROVIDER_NAME);
-          
+
           // TODO - MULE-18043: OCS Connection Provider's Management Type must be set correctly.
           final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
           declarer.withConnectionManagementType(CACHED)
