@@ -46,10 +46,8 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  * with a {@link VoidCompletionCallback#success()} or {@link VoidCompletionCallback#error(Throwable)}
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.runtime.process.VoidCompletionCallback} instead.
  */
 @NoImplement
-@Deprecated
 public interface VoidCompletionCallback extends org.mule.sdk.api.runtime.process.VoidCompletionCallback {
 
 }

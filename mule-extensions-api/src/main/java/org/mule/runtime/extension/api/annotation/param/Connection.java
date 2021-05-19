@@ -22,12 +22,10 @@ import java.lang.annotation.Target;
  * {@link Source} class. It is not to be used on configurations
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.Connection} instead.
  */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface Connection {
 
 }

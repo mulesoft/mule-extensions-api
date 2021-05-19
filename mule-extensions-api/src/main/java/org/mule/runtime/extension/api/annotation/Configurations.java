@@ -18,7 +18,6 @@ import java.lang.annotation.Target;
  * must reference classes which are annotated with {@link Configuration}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Configurations} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -15,9 +15,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * {@link BackPressureMode#WAIT} mode is simply about blocking executions of {@link SourceCallback#handle(Result)}
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.runtime.source.BackPressureAction} instead.
  */
-@Deprecated
 public enum BackPressureAction {
 
   /**

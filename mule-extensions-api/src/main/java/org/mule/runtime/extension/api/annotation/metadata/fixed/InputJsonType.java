@@ -26,11 +26,9 @@ import java.util.Map;
  * Can only be used on {@link Map}, {@link String} or {@link InputStream} parameters in order to be correctly coerced.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.InputJsonType} instead.
  */
 @Retention(RUNTIME)
 @Target({PARAMETER})
-@Deprecated
 public @interface InputJsonType {
 
   /**

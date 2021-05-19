@@ -27,12 +27,10 @@ import java.lang.annotation.Target;
  * @since 1.1
  * @see NotificationActionProvider
  * @see NotificationActionDefinition
- * @deprecated use {@link org.mule.sdk.api.annotation.notification.Fires} instead.
  */
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface Fires {
 
   /**

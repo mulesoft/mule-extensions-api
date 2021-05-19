@@ -24,10 +24,8 @@ import java.util.function.Consumer;
  * @param <A> the generic type for the generated message's attributes
  * @see PollItem
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.runtime.source.PollContext} instead.
  */
 @NoImplement
-@Deprecated
 public interface PollContext<T, A> {
 
   /**

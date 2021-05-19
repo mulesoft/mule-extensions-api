@@ -16,11 +16,9 @@ import java.lang.annotation.Target;
  * Denotes that a given type can be extended by others.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Extensible} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface Extensible {
 }

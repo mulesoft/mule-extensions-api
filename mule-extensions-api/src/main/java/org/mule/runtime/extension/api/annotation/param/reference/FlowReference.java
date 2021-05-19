@@ -20,12 +20,10 @@ import java.lang.annotation.Target;
  * app.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.reference.FlowReference} instead.
  */
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface FlowReference {
 
 }

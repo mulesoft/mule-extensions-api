@@ -24,10 +24,8 @@ import java.util.function.Consumer;
  * {@link Chain}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.runtime.route.Chain} instead.
  */
 @NoImplement
-@Deprecated
 public interface Chain {
 
   /**

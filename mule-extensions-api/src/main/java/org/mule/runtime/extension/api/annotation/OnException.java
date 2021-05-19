@@ -22,12 +22,10 @@ import java.lang.annotation.Target;
  * level one.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.OnException} instead.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface OnException {
 
   /**

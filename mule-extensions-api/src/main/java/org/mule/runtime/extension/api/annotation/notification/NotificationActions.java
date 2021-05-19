@@ -20,12 +20,10 @@ import java.lang.annotation.Target;
  * extension emits.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.annotation.notification.NotificationActions} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface NotificationActions {
 
   /**

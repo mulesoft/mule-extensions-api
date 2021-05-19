@@ -21,10 +21,8 @@ import java.util.Optional;
  * can make use of it.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.AuthorizationCodeState} instead.
  */
 @NoImplement
-@Deprecated
 public interface AuthorizationCodeState extends OAuthState {
 
   /**

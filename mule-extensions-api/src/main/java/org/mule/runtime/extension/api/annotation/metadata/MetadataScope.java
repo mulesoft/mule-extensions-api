@@ -34,12 +34,10 @@ import java.lang.annotation.Target;
  * declaration.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.MetadataScope} instead.
  */
 @Target({TYPE})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface MetadataScope {
 
   /**

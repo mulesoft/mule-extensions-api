@@ -22,10 +22,8 @@ import java.util.Optional;
  * a given {@link Authentication} request.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.security.AuthenticationHandler} instead.
  */
 @NoImplement
-@Deprecated
 public interface AuthenticationHandler {
 
   /**

@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
  * in the {@link Extension#vendor()} annotation attribute.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.license.RequiresEntitlement} instead.
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

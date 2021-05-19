@@ -30,12 +30,10 @@ import java.lang.annotation.Target;
  * @see StereotypeDefinition
  * @see Chain
  * @see Route
- * @deprecated use {@link org.mule.sdk.api.annotation.param.stereotype.AllowedStereotypes} instead.
  */
 @Target({FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface AllowedStereotypes {
 
   Class<? extends StereotypeDefinition>[] value();

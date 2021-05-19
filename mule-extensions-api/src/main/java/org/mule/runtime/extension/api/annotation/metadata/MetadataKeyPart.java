@@ -28,12 +28,10 @@ import java.lang.annotation.Target;
  * {@link MetadataKeyPart} annotated fields must be of type {@link String}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.MetadataKeyPart} instead.
  */
 @Target({FIELD})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface MetadataKeyPart {
 
   /**

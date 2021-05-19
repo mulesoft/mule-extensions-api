@@ -22,13 +22,11 @@ import java.lang.reflect.Field;
  * declaring the sub types implementations will be generated.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.SubTypeMapping} instead
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(SubTypesMapping.class)
-@Deprecated
 public @interface SubTypeMapping {
 
   /**

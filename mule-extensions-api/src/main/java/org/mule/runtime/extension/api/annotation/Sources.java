@@ -19,12 +19,10 @@ import java.lang.annotation.Target;
  * exposes.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Sources} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface Sources {
 
   /**

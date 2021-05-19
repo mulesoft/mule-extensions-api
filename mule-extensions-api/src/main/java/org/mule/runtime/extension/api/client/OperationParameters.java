@@ -12,10 +12,8 @@ import org.mule.api.annotation.NoImplement;
  * A simple interface for parameters that aims to be used to execute an extension operation using the {@link ExtensionsClient}.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.client.OperationParameters} instead.
  */
 @NoImplement
-@Deprecated
 public interface OperationParameters extends org.mule.sdk.api.client.OperationParameters {
 
 }

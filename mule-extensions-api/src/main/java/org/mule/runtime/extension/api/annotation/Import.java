@@ -20,13 +20,11 @@ import java.lang.annotation.Target;
  * Usages of such {@link Class} will reference its original definition instead of being redefined in the current {@link Extension}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Import} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(ImportedTypes.class)
-@Deprecated
 public @interface Import {
 
   /**

@@ -21,12 +21,10 @@ import java.lang.annotation.Target;
  * The field must be a Java bean property (ie it needs to have setters and getters matching the field name).
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.Parameter} instead
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface Parameter {
 
 }

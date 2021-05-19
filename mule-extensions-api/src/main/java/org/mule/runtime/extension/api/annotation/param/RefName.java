@@ -27,12 +27,10 @@ import java.lang.annotation.Target;
  * <li>No two fields in the same class should bear this annotation</li> </lu>
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.RefName} instead.
  */
 @Target(value = FIELD)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface RefName {
 
 }

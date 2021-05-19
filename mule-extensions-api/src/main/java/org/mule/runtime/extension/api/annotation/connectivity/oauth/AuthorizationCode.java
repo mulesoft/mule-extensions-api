@@ -27,12 +27,10 @@ import java.lang.annotation.Target;
  * {@link CachedConnectionProvider} interfaces if needed, but connectivity testing will be disabled.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.connectivity.oauth.AuthorizationCode} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface AuthorizationCode {
 
   /**

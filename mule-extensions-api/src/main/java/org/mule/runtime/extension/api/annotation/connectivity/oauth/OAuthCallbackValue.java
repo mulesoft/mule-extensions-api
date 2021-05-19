@@ -23,12 +23,10 @@ import java.lang.annotation.Target;
  * evaluating such expression will be injected into the annotated field.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.connectivity.oauth.OAuthCallbackValue} instead.
  */
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface OAuthCallbackValue {
 
   /**

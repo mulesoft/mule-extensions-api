@@ -20,9 +20,7 @@ import java.util.Optional;
  * to its context.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.runtime.parameter.CorrelationInfo} instead.
  */
 @NoImplement
-@Deprecated
 public interface CorrelationInfo extends org.mule.sdk.api.runtime.parameter.CorrelationInfo {
 }
