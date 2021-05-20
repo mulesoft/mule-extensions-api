@@ -21,9 +21,7 @@ import java.util.Optional;
  * {@link OnTerminate} callback of a {@link Source} so that this callback can operate according to the result.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.runtime.source.SourceResult} instead
  */
-@Deprecated
 public final class SourceResult {
 
   private final Error invocationError;

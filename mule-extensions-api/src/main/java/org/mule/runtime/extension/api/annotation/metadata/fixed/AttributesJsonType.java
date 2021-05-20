@@ -21,11 +21,9 @@ import java.lang.annotation.Target;
  * Declares the annotated {@link ComponentModel}'s attributes {@link MetadataType} to the type represented by the JSON Schema.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.AttributesJsonType} instead.
  */
 @Retention(RUNTIME)
 @Target({METHOD, TYPE})
-@Deprecated
 public @interface AttributesJsonType {
 
   /**

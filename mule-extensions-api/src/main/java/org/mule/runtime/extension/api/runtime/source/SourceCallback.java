@@ -22,10 +22,8 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <T> the generic type of the output values of the generated results
  * @param <A> the generic type of the attributes of the generated results
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.runtime.source.SourceCallback} instead.
  */
 @NoImplement
-@Deprecated
 public interface SourceCallback<T, A> {
 
   /**

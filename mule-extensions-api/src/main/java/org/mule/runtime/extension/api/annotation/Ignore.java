@@ -20,12 +20,10 @@ import java.lang.annotation.Target;
  * setter should not be used when building instances of a class
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Ignore} instead.
  */
 @Target(value = {FIELD, METHOD, TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface Ignore {
 
 }

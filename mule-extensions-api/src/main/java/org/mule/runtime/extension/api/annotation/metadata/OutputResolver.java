@@ -24,12 +24,10 @@ import java.lang.annotation.Target;
  * {@link MetadataType type} dynamically
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.OutputResolver} instead.
  */
 @Target({METHOD})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface OutputResolver {
 
   /**

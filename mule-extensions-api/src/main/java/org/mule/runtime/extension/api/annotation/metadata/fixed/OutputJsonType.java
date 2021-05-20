@@ -23,11 +23,9 @@ import java.util.Map;
  * Declares the annotated {@link ComponentModel}'s output {@link MetadataType} to the type represented by the JSON Schema.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.OutputJsonType} instead.
  */
 @Retention(RUNTIME)
 @Target({METHOD, TYPE})
-@Deprecated
 public @interface OutputJsonType {
 
   /**

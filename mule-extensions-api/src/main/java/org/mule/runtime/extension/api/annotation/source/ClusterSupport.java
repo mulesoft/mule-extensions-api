@@ -27,12 +27,10 @@ import java.lang.annotation.Target;
  * {@link SourceClusterSupport}
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.annotation.source.ClusterSupport} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface ClusterSupport {
 
   SourceClusterSupport value() default DEFAULT_ALL_NODES;

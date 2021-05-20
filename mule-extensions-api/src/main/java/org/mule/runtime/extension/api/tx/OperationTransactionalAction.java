@@ -10,9 +10,7 @@ package org.mule.runtime.extension.api.tx;
  * The type of joining actions that operations can take regarding transactions.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.tx.OperationTransactionalAction} instead.
  */
-@Deprecated
 public enum OperationTransactionalAction {
   /**
    * There must always be a transaction present for the invocation

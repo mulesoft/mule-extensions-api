@@ -29,12 +29,10 @@ import java.lang.annotation.Target;
  * {@link Source}, {@link Configuration} and {@link ConnectionProvider}.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.display.DisplayName} instead.
  */
 @Target({PARAMETER, FIELD, METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface DisplayName {
 
   /**

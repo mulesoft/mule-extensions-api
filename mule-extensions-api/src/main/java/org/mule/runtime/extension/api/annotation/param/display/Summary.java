@@ -25,12 +25,10 @@ import java.lang.annotation.Target;
  * Use this annotation to override the default inferred name of the {@link EnrichableModel}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.display.Summary} instead.
  */
 @Target({PARAMETER, FIELD, TYPE, METHOD})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface Summary {
 
   /**

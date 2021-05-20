@@ -26,12 +26,10 @@ import java.lang.annotation.Target;
  * Using this annotation on components which return {@link InputStream} is redundant yet harmless.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Streaming} instead.
  */
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface Streaming {
 
 }

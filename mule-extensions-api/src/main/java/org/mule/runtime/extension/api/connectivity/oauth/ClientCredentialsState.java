@@ -19,10 +19,8 @@ import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCreden
  * can make use of it.
  *
  * @since 1.2.1
- * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.ClientCredentialsState} instead.
  */
 @NoImplement
-@Deprecated
 public interface ClientCredentialsState extends OAuthState {
 
 

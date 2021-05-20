@@ -18,9 +18,7 @@ import java.util.Optional;
  * payload of such flow.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.connectivity.oauth.AuthCodeRequest} instead.
  */
-@Deprecated
 public interface AuthCodeRequest extends org.mule.sdk.api.connectivity.oauth.AuthCodeRequest {
 
 }

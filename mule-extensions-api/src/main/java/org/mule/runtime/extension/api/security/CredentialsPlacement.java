@@ -10,9 +10,7 @@ package org.mule.runtime.extension.api.security;
  * Describes the possible placements credentials can have inside a HTTP request
  *
  * @since 1.2.1
- * @deprecated use {@link org.mule.sdk.api.security.CredentialsPlacement} instead.
  */
-@Deprecated
 public enum CredentialsPlacement {
 
   /**

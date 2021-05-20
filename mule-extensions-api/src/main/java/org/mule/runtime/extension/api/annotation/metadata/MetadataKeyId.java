@@ -39,12 +39,10 @@ import java.lang.annotation.Target;
  * The illegal usage of this annotation could produce extension compilation errors
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.MetadataKeyId} instead.
  */
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface MetadataKeyId {
 
   /**

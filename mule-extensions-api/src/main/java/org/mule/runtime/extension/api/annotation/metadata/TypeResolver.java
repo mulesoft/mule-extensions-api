@@ -21,12 +21,10 @@ import java.lang.annotation.Target;
  * {@link MetadataType} dynamically
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.TypeResolver} instead.
  */
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface TypeResolver {
 
   /**

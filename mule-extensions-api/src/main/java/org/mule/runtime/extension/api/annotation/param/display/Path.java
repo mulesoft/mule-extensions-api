@@ -26,12 +26,10 @@ import java.lang.annotation.Target;
  * This annotation should only be used with {@link String} parameters.
  *
  * @since 1.0
- * @deprecated use {@link FilePath} instead.
  */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface Path {
 
   /**

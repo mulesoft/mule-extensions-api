@@ -21,12 +21,10 @@ import java.lang.annotation.Target;
  * configuration's parameters
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Configuration} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface Configuration {
 
   /**

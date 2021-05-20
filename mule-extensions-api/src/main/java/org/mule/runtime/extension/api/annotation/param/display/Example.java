@@ -21,12 +21,10 @@ import java.lang.annotation.Target;
  * {@link Optional#defaultValue()} used, it's only for the purpose of showing how does a possible value looks like.
  * 
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.display.Example} instead.
  */
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface Example {
 
   /**

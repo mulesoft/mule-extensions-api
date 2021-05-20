@@ -18,12 +18,10 @@ import java.lang.annotation.Target;
  * friendly name in the places where the extensions API exposes such type
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Alias} instead.
  */
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface Alias {
 
   /**

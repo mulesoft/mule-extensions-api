@@ -20,12 +20,10 @@ import java.lang.annotation.Target;
  * Allows customizing how a {@link ParameterModel} supports expressions.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.Expression} instead.
  */
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface Expression {
 
   /**

@@ -13,9 +13,7 @@ import org.mule.runtime.extension.api.runtime.source.SourceCallbackContext;
  * Allows to manipulate the transaction that was started and bound to an specific {@link SourceCallbackContext}
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.tx.TransactionHandle} instead.
  */
 @NoImplement
-@Deprecated
 public interface TransactionHandle extends org.mule.sdk.api.tx.TransactionHandle {
 }

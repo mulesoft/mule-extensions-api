@@ -22,11 +22,9 @@ import java.lang.annotation.Target;
  * in the XSD Schema.
  *
  * @since 1.1
- * @deprecated use {@link org.mule.sdk.api.annotation.metadata.fixed.AttributesXmlType} instead.
  */
 @Retention(RUNTIME)
 @Target({METHOD, TYPE})
-@Deprecated
 public @interface AttributesXmlType {
 
   /**

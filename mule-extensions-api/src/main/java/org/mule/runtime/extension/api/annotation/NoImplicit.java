@@ -17,12 +17,10 @@ import java.lang.annotation.Target;
  * Used to express that the annotated element should not support being used implicitly.
  *
  * @since 1.3.0
- * @deprecated use {@link org.mule.sdk.api.annotation.NoImplicit} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface NoImplicit {
 
 }

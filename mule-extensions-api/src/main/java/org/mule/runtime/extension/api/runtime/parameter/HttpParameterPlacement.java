@@ -10,9 +10,7 @@ package org.mule.runtime.extension.api.runtime.parameter;
  * Describes the possible placements a parameter can have inside a HTTP request
  *
  * @since 1.2.1
- * @deprecated use {@link org.mule.sdk.api.runtime.parameter.HttpParameterPlacement} instead.
  */
-@Deprecated
 public enum HttpParameterPlacement {
 
   /**

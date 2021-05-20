@@ -93,12 +93,10 @@ import java.lang.annotation.Target;
  * connections}.
  *
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.annotation.param.ConfigOverride} instead.
  */
 @Target(value = {PARAMETER, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Deprecated
 public @interface ConfigOverride {
 
 }

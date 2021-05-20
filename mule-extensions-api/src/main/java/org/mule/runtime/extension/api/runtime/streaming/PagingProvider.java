@@ -16,9 +16,7 @@ package org.mule.runtime.extension.api.runtime.streaming;
  * @param <C> connection type expected to handle the operations.
  * @param <T> the type of the returned pages.
  * @since 1.0
- * @deprecated use {@link org.mule.sdk.api.runtime.streaming.PagingProvider} instead.
  */
-@Deprecated
 public interface PagingProvider<C, T> extends org.mule.sdk.api.runtime.streaming.PagingProvider<C, T> {
 
 }

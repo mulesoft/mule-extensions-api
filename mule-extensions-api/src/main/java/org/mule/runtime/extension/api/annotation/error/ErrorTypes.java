@@ -21,12 +21,10 @@ import java.lang.annotation.Target;
  * manages
  *
  * @since 1.0
- * @deprecated use {org.mule.sdk.api.annotation.error.ErrorTypes} instead.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Deprecated
 public @interface ErrorTypes {
 
   Class<? extends Enum<? extends ErrorTypeDefinition<? extends Enum>>> value();
