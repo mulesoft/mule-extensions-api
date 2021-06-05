@@ -91,8 +91,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
                    "A comma separated list of cipher suites enabled for this context.",
                    null);
 
-    addTrustStoreField(typeBuilder, type);
     addKeyStoreField(typeBuilder, type);
+    addTrustStoreField(typeBuilder, type);
     addRevocationCheckField(typeBuilder, type);
 
     return type;
