@@ -33,12 +33,14 @@ import org.mule.metadata.java.api.handler.ClassHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.DisplayTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
@@ -91,8 +93,8 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
                    "A comma separated list of cipher suites enabled for this context.",
                    null);
 
-    addKeyStoreField(typeBuilder, type);
     addTrustStoreField(typeBuilder, type);
+    addKeyStoreField(typeBuilder, type);
     addRevocationCheckField(typeBuilder, type);
 
     return type;
@@ -122,6 +124,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField()
         .with(new ParameterDslAnnotation(true, false))
         .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
+        .with(new LayoutTypeAnnotation(LayoutModel.builder().order(1).build()))
         .key(TLS_TRUST_STORE_ELEMENT_IDENTIFIER)
         .required(false)
         .value(trustStoreType);
@@ -154,6 +157,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField()
         .with(new ParameterDslAnnotation(true, false))
         .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
+        .with(new LayoutTypeAnnotation(LayoutModel.builder().order(0).build()))
         .key(TLS_KEY_STORE_ELEMENT_IDENTIFIER)
         .required(false)
         .value(keyStoreType);
@@ -210,6 +214,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField()
         .with(new ParameterDslAnnotation(true, false))
         .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
+        .with(new LayoutTypeAnnotation(LayoutModel.builder().order(2).build()))
         .key(TLS_REVOCATION_CHECK_ELEMENT_IDENTIFIER)
         .required(false)
         .value(revocationCheck);
