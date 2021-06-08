@@ -12,7 +12,9 @@ import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnno
 import java.util.Comparator;
 
 /**
- * A {@link Comparator} for sorting objects of type {@link ObjectFieldType} based on its layout annotation.
+ * A {@link Comparator} for sorting objects of type {@link ObjectFieldType} based on its {@link LayoutTypeAnnotation} annotation.
+ *
+ * @since 1.4
  */
 public class LayoutOrderComparator implements Comparator<ObjectFieldType> {
 
