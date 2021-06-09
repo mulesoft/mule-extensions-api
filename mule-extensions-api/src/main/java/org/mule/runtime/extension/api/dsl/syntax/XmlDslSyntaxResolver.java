@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.dsl.syntax;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singleton;
+import static java.util.Collections.sort;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
@@ -32,6 +33,7 @@ import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isM
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
+import static org.mule.runtime.extension.api.util.LayoutOrderComparator.BY_LAYOUT_ORDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
@@ -77,6 +79,7 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
@@ -827,43 +830,45 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private void declareFieldsAsChilds(final DslElementSyntaxBuilder objectBuilder, Collection<ObjectFieldType> fields,
                                      final String namespace, final String namespaceUri) {
-    fields.forEach(
-                   field -> {
-                     DslElementSyntaxBuilder fieldBuilder = DslElementSyntaxBuilder.create();
-                     String childName = field.getKey().getName().getLocalPart();
-                     final MetadataType fieldValue = field.getValue();
+    final List<ObjectFieldType> sortedFields = new ArrayList<>(fields);
+    sort(sortedFields, BY_LAYOUT_ORDER);
 
-                     Reference<String> fieldPrefix = new Reference<>(namespace);
-                     Reference<String> fieldNamespaceUri = new Reference<>(namespaceUri);
-                     Reference<String> elementName = new Reference<>(hyphenize(childName));
+    sortedFields.forEach(field -> {
+      DslElementSyntaxBuilder fieldBuilder = DslElementSyntaxBuilder.create();
+      String childName = field.getKey().getName().getLocalPart();
+      final MetadataType fieldValue = field.getValue();
 
-                     if (isFlattened(field, fieldValue)) {
-                       declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(),
-                                             fieldPrefix.get(), fieldNamespaceUri.get());
-                     } else {
-                       if (isText(field)) {
-                         fieldBuilder
-                             .supportsAttributeDeclaration(false)
-                             .supportsChildDeclaration(true)
-                             .withElementName(elementName.get())
-                             .withNamespace(fieldPrefix.get(), fieldNamespaceUri.get());
-                       } else {
+      Reference<String> fieldPrefix = new Reference<>(namespace);
+      Reference<String> fieldNamespaceUri = new Reference<>(namespaceUri);
+      Reference<String> elementName = new Reference<>(hyphenize(childName));
 
-                         getCustomQName(fieldValue).ifPresent(qName -> {
-                           elementName.set(qName.getLocalPart());
-                           fieldPrefix.set(qName.getPrefix());
-                           fieldNamespaceUri.set(qName.getNamespaceURI());
-                         });
+      if (isFlattened(field, fieldValue)) {
+        declareFieldsAsChilds(objectBuilder, ((ObjectType) fieldValue).getFields(),
+                              fieldPrefix.get(), fieldNamespaceUri.get());
+      } else {
+        if (isText(field)) {
+          fieldBuilder
+              .supportsAttributeDeclaration(false)
+              .supportsChildDeclaration(true)
+              .withElementName(elementName.get())
+              .withNamespace(fieldPrefix.get(), fieldNamespaceUri.get());
+        } else {
 
-                         fieldValue
-                             .accept(getObjectFieldVisitor(fieldBuilder, childName,
-                                                           elementName.get(), fieldPrefix.get(), fieldNamespaceUri.get()));
-                         fieldBuilder.supportsAttributeDeclaration(supportAttributeDeclaration(field));
-                       }
+          getCustomQName(fieldValue).ifPresent(qName -> {
+            elementName.set(qName.getLocalPart());
+            fieldPrefix.set(qName.getPrefix());
+            fieldNamespaceUri.set(qName.getNamespaceURI());
+          });
 
-                       objectBuilder.containing(childName, fieldBuilder.build());
-                     }
-                   });
+          fieldValue
+              .accept(getObjectFieldVisitor(fieldBuilder, childName,
+                                            elementName.get(), fieldPrefix.get(), fieldNamespaceUri.get()));
+          fieldBuilder.supportsAttributeDeclaration(supportAttributeDeclaration(field));
+        }
+
+        objectBuilder.containing(childName, fieldBuilder.build());
+      }
+    });
   }
 
   private void addAttributeName(DslElementSyntaxBuilder builder, ParameterModel parameter,
