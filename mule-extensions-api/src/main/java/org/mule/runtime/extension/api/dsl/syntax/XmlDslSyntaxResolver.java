@@ -33,7 +33,7 @@ import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isM
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
-import static org.mule.runtime.extension.api.util.LayoutOrderComparator.BY_LAYOUT_ORDER;
+import static org.mule.runtime.extension.api.util.LayoutOrderComparator.OBJECTS_FIELDS_BY_LAYOUT_ORDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
@@ -831,7 +831,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   private void declareFieldsAsChilds(final DslElementSyntaxBuilder objectBuilder, Collection<ObjectFieldType> fields,
                                      final String namespace, final String namespaceUri) {
     final List<ObjectFieldType> sortedFields = new ArrayList<>(fields);
-    sort(sortedFields, BY_LAYOUT_ORDER);
+    sort(sortedFields, OBJECTS_FIELDS_BY_LAYOUT_ORDER);
 
     sortedFields.forEach(field -> {
       DslElementSyntaxBuilder fieldBuilder = DslElementSyntaxBuilder.create();

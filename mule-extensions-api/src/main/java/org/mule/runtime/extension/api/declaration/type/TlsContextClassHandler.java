@@ -124,7 +124,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField()
         .with(new ParameterDslAnnotation(true, false))
         .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
-        .with(new LayoutTypeAnnotation(LayoutModel.builder().order(1).build()))
+        .with(new LayoutTypeAnnotation(LayoutModel.builder().order(0).build()))
         .key(TLS_TRUST_STORE_ELEMENT_IDENTIFIER)
         .required(false)
         .value(trustStoreType);
@@ -157,7 +157,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
     type.addField()
         .with(new ParameterDslAnnotation(true, false))
         .with(new ExpressionSupportAnnotation(NOT_SUPPORTED))
-        .with(new LayoutTypeAnnotation(LayoutModel.builder().order(0).build()))
+        .with(new LayoutTypeAnnotation(LayoutModel.builder().order(1).build()))
         .key(TLS_KEY_STORE_ELEMENT_IDENTIFIER)
         .required(false)
         .value(keyStoreType);
