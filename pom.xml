@@ -117,7 +117,7 @@
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <muleApiVersion>1.4.0-20210623</muleApiVersion>
         <muleConnectivityApiVersion>1.0.0-20210622</muleConnectivityApiVersion>
-        <muleSdkApiVersion>1.0.0-20210622</muleSdkApiVersion>
+        <muleSdkApiVersion>1.0.0-20210623</muleSdkApiVersion>
         <metadataModelApiVersion>1.4.0-20210622</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.3.0-20210623</muleModuleMavenPluginVersion>
         <mockitoVersion>2.23.4</mockitoVersion>
