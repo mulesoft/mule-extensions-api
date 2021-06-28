@@ -58,6 +58,7 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
             out.name(EXPIRATION_REGEX).value(grantType.getExpirationRegex());
             out.name(REFRESH_TOKEN_EXPR).value(grantType.getRefreshTokenExpr());
             writeOptional(out, DEFAULT_SCOPE, grantType.getDefaultScope());
+            out.name(CREDENTIALS_PLACEMENT).value(grantType.getCredentialsPlacement().name());
             out.endObject();
           } catch (Exception e) {
             throw new RuntimeException(e);
@@ -114,18 +115,24 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
                                             json.get(ACCESS_TOKEN_EXPR).getAsString(),
                                             json.get(EXPIRATION_REGEX).getAsString(),
                                             json.get(REFRESH_TOKEN_EXPR).getAsString(),
-                                            getOptionalValue(json, DEFAULT_SCOPE));
+                                            getOptionalValue(json, DEFAULT_SCOPE),
+                                            getCredentialsPlacement(json));
     } else if (CLIENT_CREDENTIALS.equals(grantType)) {
       return new ClientCredentialsGrantType(json.get(TOKEN_URL).getAsString(),
                                             json.get(ACCESS_TOKEN_URL).getAsString(),
                                             json.get(EXPIRATION_REGEX).getAsString(),
                                             getOptionalValue(json, DEFAULT_SCOPES),
-                                            CredentialsPlacement.valueOf(json.get(CREDENTIALS_PLACEMENT).getAsString()));
+                                            getCredentialsPlacement(json));
     } else if (PlatformManagedOAuthGrantType.NAME.equals(grantType)) {
       return new PlatformManagedOAuthGrantType();
     } else {
       throw new IllegalArgumentException("Unsupported Grant Type: " + grantType);
     }
+  }
+
+  private CredentialsPlacement getCredentialsPlacement(JsonObject json) {
+    String credentialsPlacement = getOptionalValue(json, CREDENTIALS_PLACEMENT, null);
+    return (credentialsPlacement != null ? CredentialsPlacement.valueOf(credentialsPlacement) : null);
   }
 
   private String getOptionalValue(JsonObject json, String property) {
