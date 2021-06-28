@@ -1913,7 +1913,8 @@
           "accessTokenExpr": "#[accessToken]",
           "expirationRegex": "#[expiration]",
           "refreshTokenExpr": "#[refreshToken]",
-          "defaultScope": "#[defaultScope]"
+          "defaultScope": "#[defaultScope]",
+          "credentialsPlacement": "BODY"
         }
       ]
     }
