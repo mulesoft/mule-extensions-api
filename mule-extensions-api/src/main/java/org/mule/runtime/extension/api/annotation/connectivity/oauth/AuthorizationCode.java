@@ -8,10 +8,12 @@ package org.mule.runtime.extension.api.annotation.connectivity.oauth;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.mule.runtime.extension.api.security.CredentialsPlacement.BODY;
 
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.connection.PoolingConnectionProvider;
+import org.mule.runtime.extension.api.security.CredentialsPlacement;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -63,4 +65,12 @@ public @interface AuthorizationCode {
    */
   String defaultScopes() default "";
 
+  /**
+   * Allows to customize the placement that the client credentials will have in the request.
+   *
+   * @return the selected {@link CredentialsPlacement}. Defaults to {@link CredentialsPlacement#BODY}
+   *
+   * @since 1.4.0
+   */
+  CredentialsPlacement credentialsPlacement() default BODY;
 }

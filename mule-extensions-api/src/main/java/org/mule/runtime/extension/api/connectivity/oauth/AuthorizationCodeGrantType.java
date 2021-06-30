@@ -8,6 +8,9 @@ package org.mule.runtime.extension.api.connectivity.oauth;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.mule.runtime.extension.api.security.CredentialsPlacement.BODY;
+
+import org.mule.runtime.extension.api.security.CredentialsPlacement;
 
 import java.util.Optional;
 
@@ -27,6 +30,7 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   private final String expirationRegex;
   private final String refreshTokenExpr;
   private final String defaultScope;
+  private final CredentialsPlacement credentialsPlacement;
 
   /**
    * Creates a new instance
@@ -40,6 +44,25 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
    */
   public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
                                     String expirationRegex, String refreshTokenExpr, String defaultScope) {
+    this(accessTokenUrl, authorizationUrl, accessTokenExpr, expirationRegex, refreshTokenExpr, defaultScope, null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param accessTokenUrl       The url of the access token endpoint
+   * @param authorizationUrl     The url of the authorization endpoint which initiates the dance
+   * @param accessTokenExpr      Expression used to extract the access token from the {@code accessTokenUrl} response
+   * @param expirationRegex      Expression used to extract the expiration from the {@code accessTokenUrl} response
+   * @param refreshTokenExpr     Expression used to extract the refresh token from the {@code accessTokenUrl} response
+   * @param defaultScope         The default scopes to be request
+   * @param credentialsPlacement The place where the credentials will be sent on the token request
+   *
+   * @since 1.4.0
+   */
+  public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
+                                    String expirationRegex, String refreshTokenExpr, String defaultScope,
+                                    CredentialsPlacement credentialsPlacement) {
     notBlank(accessTokenUrl, "accessTokenUrl");
     notBlank(authorizationUrl, "authorizationUrl");
     notBlank(accessTokenExpr, "accessTokenExpr");
@@ -52,6 +75,7 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
     this.expirationRegex = expirationRegex;
     this.refreshTokenExpr = refreshTokenExpr;
     this.defaultScope = isBlank(defaultScope) ? null : defaultScope;
+    this.credentialsPlacement = credentialsPlacement != null ? credentialsPlacement : BODY;
   }
 
   @Override
@@ -115,5 +139,14 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
    */
   public Optional<String> getDefaultScope() {
     return ofNullable(defaultScope);
+  }
+
+  /**
+   * @return the place where credentials will be sent for the token request
+   *
+   * @since 1.4.0
+   */
+  public CredentialsPlacement getCredentialsPlacement() {
+    return credentialsPlacement;
   }
 }
