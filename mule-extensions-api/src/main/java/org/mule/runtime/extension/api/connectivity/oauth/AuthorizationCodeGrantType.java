@@ -57,6 +57,8 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
    * @param refreshTokenExpr     Expression used to extract the refresh token from the {@code accessTokenUrl} response
    * @param defaultScope         The default scopes to be request
    * @param credentialsPlacement The place where the credentials will be sent on the token request
+   *
+   * @since 1.4.0
    */
   public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
                                     String expirationRegex, String refreshTokenExpr, String defaultScope,
@@ -141,6 +143,8 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
 
   /**
    * @return the place where credentials will be sent for the token request
+   *
+   * @since 1.4.0
    */
   public CredentialsPlacement getCredentialsPlacement() {
     return credentialsPlacement;

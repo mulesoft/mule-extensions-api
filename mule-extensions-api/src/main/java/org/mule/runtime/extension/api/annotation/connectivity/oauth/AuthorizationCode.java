@@ -69,6 +69,8 @@ public @interface AuthorizationCode {
    * Allows to customize the placement that the client credentials will have in the request.
    *
    * @return the selected {@link CredentialsPlacement}. Defaults to {@link CredentialsPlacement#BODY}
+   *
+   * @since 1.4.0
    */
   CredentialsPlacement credentialsPlacement() default BODY;
 }
