@@ -1914,7 +1914,8 @@
           "expirationRegex": "#[expiration]",
           "refreshTokenExpr": "#[refreshToken]",
           "defaultScope": "#[defaultScope]",
-          "credentialsPlacement": "BODY"
+          "credentialsPlacement": "BODY",
+          "includeRedirectUriInRefreshTokenRequest": true
         }
       ]
     }

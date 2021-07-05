@@ -1915,7 +1915,8 @@
             "expirationRegex": "#[expiration]",
             "refreshTokenExpr": "#[refreshToken]",
             "defaultScope": "#[defaultScope]",
-            "credentialsPlacement": "BODY"
+            "credentialsPlacement": "BODY",
+            "includeRedirectUriInRefreshTokenRequest": true
           }
         ]
       }
@@ -4033,7 +4034,8 @@
             "expirationRegex": "#[expiration]",
             "refreshTokenExpr": "#[refreshToken]",
             "defaultScope": "#[defaultScope]",
-            "credentialsPlacement": "BODY"
+            "credentialsPlacement": "BODY",
+            "includeRedirectUriInRefreshTokenRequest": true
           }
         ]
       }
