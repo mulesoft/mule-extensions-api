@@ -41,6 +41,7 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
   private static final String DEFAULT_SCOPE = "defaultScope";
   private static final String ACCESS_TOKEN_URL = "accessTokenUrl";
   private static final String AUTHORIZATION_URL = "authorizationUrl";
+  private static final String INCLUDE_REDIRECT_URI_IN_REFRESH_TOKEN_REQUEST = "includeRedirectUriInRefreshTokenRequest";
 
   @Override
   public void write(JsonWriter out, OAuthGrantType value) throws IOException {
@@ -59,6 +60,7 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
             out.name(REFRESH_TOKEN_EXPR).value(grantType.getRefreshTokenExpr());
             writeOptional(out, DEFAULT_SCOPE, grantType.getDefaultScope());
             out.name(CREDENTIALS_PLACEMENT).value(grantType.getCredentialsPlacement().name());
+            out.name(INCLUDE_REDIRECT_URI_IN_REFRESH_TOKEN_REQUEST).value(grantType.includeRedirectUriInRefreshTokenRequest());
             out.endObject();
           } catch (Exception e) {
             throw new RuntimeException(e);
@@ -116,7 +118,8 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
                                             json.get(EXPIRATION_REGEX).getAsString(),
                                             json.get(REFRESH_TOKEN_EXPR).getAsString(),
                                             getOptionalValue(json, DEFAULT_SCOPE),
-                                            getCredentialsPlacement(json));
+                                            getCredentialsPlacement(json),
+                                            getBooleanValue(json, INCLUDE_REDIRECT_URI_IN_REFRESH_TOKEN_REQUEST, true));
     } else if (CLIENT_CREDENTIALS.equals(grantType)) {
       return new ClientCredentialsGrantType(json.get(TOKEN_URL).getAsString(),
                                             json.get(ACCESS_TOKEN_URL).getAsString(),
@@ -141,6 +144,10 @@ public class OAuthGrantTypeTypeAdapter extends TypeAdapter<OAuthGrantType> {
 
   private String getOptionalValue(JsonObject json, String property, String defaultValue) {
     return json.has(property) ? json.get(property).getAsString() : defaultValue;
+  }
+
+  private boolean getBooleanValue(JsonObject json, String property, boolean defaultValue) {
+    return json.has(property) ? json.get(property).getAsBoolean() : defaultValue;
   }
 
   private void writeOptional(JsonWriter out, String property, Optional<String> value) throws IOException {

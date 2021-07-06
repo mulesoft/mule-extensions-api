@@ -31,6 +31,7 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
   private final String refreshTokenExpr;
   private final String defaultScope;
   private final CredentialsPlacement credentialsPlacement;
+  private final boolean includeRedirectUriInRefreshTokenRequest;
 
   /**
    * Creates a new instance
@@ -44,25 +45,30 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
    */
   public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
                                     String expirationRegex, String refreshTokenExpr, String defaultScope) {
-    this(accessTokenUrl, authorizationUrl, accessTokenExpr, expirationRegex, refreshTokenExpr, defaultScope, null);
+    this(accessTokenUrl, authorizationUrl, accessTokenExpr, expirationRegex, refreshTokenExpr, defaultScope, null, true);
   }
 
   /**
    * Creates a new instance
    *
-   * @param accessTokenUrl       The url of the access token endpoint
-   * @param authorizationUrl     The url of the authorization endpoint which initiates the dance
-   * @param accessTokenExpr      Expression used to extract the access token from the {@code accessTokenUrl} response
-   * @param expirationRegex      Expression used to extract the expiration from the {@code accessTokenUrl} response
-   * @param refreshTokenExpr     Expression used to extract the refresh token from the {@code accessTokenUrl} response
-   * @param defaultScope         The default scopes to be request
-   * @param credentialsPlacement The place where the credentials will be sent on the token request
+   * @param accessTokenUrl                          The url of the access token endpoint
+   * @param authorizationUrl                        The url of the authorization endpoint which initiates the dance
+   * @param accessTokenExpr                         Expression used to extract the access token from the {@code accessTokenUrl}
+   *                                                response
+   * @param expirationRegex                         Expression used to extract the expiration from the {@code accessTokenUrl}
+   *                                                response
+   * @param refreshTokenExpr                        Expression used to extract the refresh token from the {@code accessTokenUrl}
+   *                                                response
+   * @param defaultScope                            The default scopes to be request
+   * @param credentialsPlacement                    The place where the credentials will be sent on the token request
+   * @param includeRedirectUriInRefreshTokenRequest Indicates whether the redirect_uri parameter should be included in the refresh
+   *                                                token request
    *
    * @since 1.4.0
    */
   public AuthorizationCodeGrantType(String accessTokenUrl, String authorizationUrl, String accessTokenExpr,
                                     String expirationRegex, String refreshTokenExpr, String defaultScope,
-                                    CredentialsPlacement credentialsPlacement) {
+                                    CredentialsPlacement credentialsPlacement, boolean includeRedirectUriInRefreshTokenRequest) {
     notBlank(accessTokenUrl, "accessTokenUrl");
     notBlank(authorizationUrl, "authorizationUrl");
     notBlank(accessTokenExpr, "accessTokenExpr");
@@ -76,6 +82,7 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
     this.refreshTokenExpr = refreshTokenExpr;
     this.defaultScope = isBlank(defaultScope) ? null : defaultScope;
     this.credentialsPlacement = credentialsPlacement != null ? credentialsPlacement : BODY;
+    this.includeRedirectUriInRefreshTokenRequest = includeRedirectUriInRefreshTokenRequest;
   }
 
   @Override
@@ -148,5 +155,14 @@ public final class AuthorizationCodeGrantType implements OAuthGrantType {
    */
   public CredentialsPlacement getCredentialsPlacement() {
     return credentialsPlacement;
+  }
+
+  /**
+   * @return whether the request_uri parameter should be included in the refresh token request
+   *
+   * @since 1.4.0
+   */
+  public boolean includeRedirectUriInRefreshTokenRequest() {
+    return includeRedirectUriInRefreshTokenRequest;
   }
 }
