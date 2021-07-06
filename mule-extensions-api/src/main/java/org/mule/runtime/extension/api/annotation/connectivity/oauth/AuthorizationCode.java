@@ -75,8 +75,7 @@ public @interface AuthorizationCode {
   CredentialsPlacement credentialsPlacement() default BODY;
 
   /**
-   * Whether the redirect_uri parameter should be included in the refresh token request. Defaults to {@code true} to avoid
-   * backward compatibility issues
+   * Whether the redirect_uri parameter should be included in the refresh token request. Defaults to {@code true}
    *
    * @since 1.4.0
    */
