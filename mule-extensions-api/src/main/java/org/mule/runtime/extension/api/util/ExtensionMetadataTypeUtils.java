@@ -301,11 +301,23 @@ public final class ExtensionMetadataTypeUtils {
    * @return a {@link MetadataFormat}
    */
   public static MetadataFormat toMetadataFormat(MediaType mediaType) {
-    String rfc = mediaType.toRfcString();
+    return toMetadataFormat(mediaType.toRfcString());
+  }
+
+  /**
+   * Returns a {@link MetadataFormat} which represents the given {@code mediaType}.
+   * <p>
+   * If the {@code mediaType} matches any of the well known formats, then it will return one of those. Otherwise, a new
+   * {@link MetadataFormat} will be created and returned
+   *
+   * @param mediaType a media type represented as a String in valid RFC format.
+   * @return a {@link MetadataFormat}
+   */
+  public static MetadataFormat toMetadataFormat(String mediaType) {
     return KNOWN_METADATA_FORMATS.stream()
-        .filter(f -> f.getValidMimeTypes().stream().anyMatch(rfc::matches))
-        .findFirst()
-        .orElseGet(() -> new MetadataFormat(rfc, rfc, rfc));
+            .filter(f -> f.getValidMimeTypes().stream().anyMatch(mediaType::matches))
+            .findFirst()
+            .orElseGet(() -> new MetadataFormat(mediaType, mediaType, mediaType));
   }
 
   /**
