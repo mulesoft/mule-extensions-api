@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.annotation.param.display;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.ANY;
 
 import org.mule.runtime.api.meta.model.display.PathModel;

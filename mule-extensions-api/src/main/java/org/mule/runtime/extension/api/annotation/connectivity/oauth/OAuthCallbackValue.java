@@ -11,6 +11,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -24,6 +25,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented

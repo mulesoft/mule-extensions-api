@@ -8,9 +8,11 @@ package org.mule.runtime.extension.api.runtime.exception;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 import org.mule.runtime.extension.api.exception.ModuleException;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -25,6 +27,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public abstract class ExceptionHandler {
 
   /**

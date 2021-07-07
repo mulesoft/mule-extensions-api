@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.error;
 
 import static java.util.Optional.empty;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import java.util.Optional;
 
 /**
@@ -26,6 +28,7 @@ import java.util.Optional;
  * @see MuleErrors
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public interface ErrorTypeDefinition<E extends Enum<E>> {
 
   /**

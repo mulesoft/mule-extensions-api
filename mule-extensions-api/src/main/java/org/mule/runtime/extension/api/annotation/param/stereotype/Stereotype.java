@@ -9,11 +9,13 @@ package org.mule.runtime.extension.api.annotation.param.stereotype;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -27,6 +29,7 @@ import java.lang.annotation.Target;
  * @since 1.0
  * @see StereotypeDefinition
  */
+@MinMuleVersion("4.0")
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)
 @Documented

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.persistence;
 
 import static java.util.Collections.emptySet;
+
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 
 import org.mule.metadata.api.model.MetadataType;

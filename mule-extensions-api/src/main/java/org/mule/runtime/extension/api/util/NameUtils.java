@@ -10,6 +10,7 @@ import static java.lang.Math.max;
 import static java.lang.String.format;
 import static java.util.Collections.sort;
 import static java.util.Comparator.comparing;
+
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -45,7 +46,6 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
 
 /**
  * Extends {@link org.mule.runtime.api.util.NameUtils} with extensions oriented behavior

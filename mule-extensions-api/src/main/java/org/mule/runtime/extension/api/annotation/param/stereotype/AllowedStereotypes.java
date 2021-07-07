@@ -10,11 +10,13 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.runtime.route.Chain;
 import org.mule.runtime.extension.api.runtime.route.Route;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -31,6 +33,7 @@ import java.lang.annotation.Target;
  * @see Chain
  * @see Route
  */
+@MinMuleVersion("4.0")
 @Target({FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
 @Documented

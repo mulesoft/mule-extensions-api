@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.connectivity.oauth;
 
 import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public interface AuthCodeRequest extends org.mule.sdk.api.connectivity.oauth.AuthCodeRequest {
 
 }

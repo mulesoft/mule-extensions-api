@@ -7,14 +7,13 @@
 
 package org.mule.runtime.extension.api.soap;
 
-import org.mule.runtime.api.service.ServiceProvider;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.soap.message.MessageDispatcher;
 
 /**
  * A resolving context that provides access to an {@link ExtensionsClient} during the creation of a {@link MessageDispatcher}.
  *
- * @since 4.1
+ * @since 1.1
  */
 public interface DispatchingContext {
 

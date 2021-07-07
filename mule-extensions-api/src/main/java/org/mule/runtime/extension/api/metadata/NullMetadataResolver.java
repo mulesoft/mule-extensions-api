@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.metadata;
 
 import static java.util.Collections.emptySet;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.metadata.MetadataContext;
@@ -16,6 +17,7 @@ import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
 import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Collections;
 import java.util.Set;
@@ -26,6 +28,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public final class NullMetadataResolver implements InputTypeResolver<Object>, TypeKeysResolver,
     OutputTypeResolver<Object>, AttributesTypeResolver<Object> {
 

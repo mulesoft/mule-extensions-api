@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.handler.TypeHandlerManagerFactory;
 

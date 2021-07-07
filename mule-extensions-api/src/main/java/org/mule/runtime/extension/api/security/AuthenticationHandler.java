@@ -13,6 +13,7 @@ import org.mule.runtime.api.security.CredentialsBuilder;
 import org.mule.runtime.api.security.SecurityException;
 import org.mule.runtime.api.security.SecurityProviderNotFoundException;
 import org.mule.runtime.api.security.UnknownAuthenticationTypeException;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @NoImplement
 public interface AuthenticationHandler {
 

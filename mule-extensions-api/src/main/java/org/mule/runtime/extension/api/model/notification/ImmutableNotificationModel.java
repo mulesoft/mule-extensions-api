@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.model.notification;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.notification.NotificationModel;
 

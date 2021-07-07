@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.runtime.source;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ import java.util.function.Consumer;
  * @see PollItem
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface PollContext<T, A> {
 

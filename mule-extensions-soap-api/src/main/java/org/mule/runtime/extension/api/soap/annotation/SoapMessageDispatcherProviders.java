@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.soap.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.extension.api.soap.MessageDispatcherProvider;
 
 import java.lang.annotation.Documented;

@@ -13,6 +13,7 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.i18n.I18nMessage;
 import org.mule.runtime.api.message.Error;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * {@link RuntimeException} implementation to throw {@link Exception}s that indicates explicitly the {@link ErrorTypeDefinition}
@@ -21,6 +22,7 @@ import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public class ModuleException extends MuleRuntimeException {
 
   private ErrorTypeDefinition type;

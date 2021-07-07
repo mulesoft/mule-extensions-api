@@ -13,6 +13,7 @@ import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;

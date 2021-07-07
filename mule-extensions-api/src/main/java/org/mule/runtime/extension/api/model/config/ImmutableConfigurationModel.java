@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.model.config;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
+
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;

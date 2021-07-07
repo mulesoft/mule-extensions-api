@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.runtime.connectivity;
 
-
 import org.mule.runtime.api.connection.ConnectionProvider;
 
 /**

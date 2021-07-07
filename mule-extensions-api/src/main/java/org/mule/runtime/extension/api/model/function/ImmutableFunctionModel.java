@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.model.function;
 
+import static java.util.Optional.ofNullable;
+
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -17,8 +19,6 @@ import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static java.util.Optional.ofNullable;
 
 /**
  * Immutable concrete implementation of {@link FunctionModel}

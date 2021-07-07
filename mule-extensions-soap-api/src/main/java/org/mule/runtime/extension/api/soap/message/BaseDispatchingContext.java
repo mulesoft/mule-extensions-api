@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.soap.message;
 
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;

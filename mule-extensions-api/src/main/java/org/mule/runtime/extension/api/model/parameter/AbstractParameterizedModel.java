@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.model.parameter;
 
 import static java.util.Collections.unmodifiableList;
+
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;

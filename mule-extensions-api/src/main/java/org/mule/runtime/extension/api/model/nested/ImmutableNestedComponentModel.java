@@ -13,9 +13,9 @@ import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.AbstractNamedImmutableModel;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Immutable concrete implementation of {@link NestedComponentModel}

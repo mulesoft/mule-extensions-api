@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.annotation;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -18,6 +20,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

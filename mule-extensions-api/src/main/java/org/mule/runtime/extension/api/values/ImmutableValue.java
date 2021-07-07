@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.values;
 
 import static java.util.Collections.unmodifiableSet;
+
 import org.mule.api.annotation.NoExtend;
 import org.mule.runtime.api.value.Value;
 

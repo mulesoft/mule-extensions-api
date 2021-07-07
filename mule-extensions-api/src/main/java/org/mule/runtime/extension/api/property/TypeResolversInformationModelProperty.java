@@ -8,10 +8,12 @@ package org.mule.runtime.extension.api.property;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
+
 import static org.apache.commons.lang3.StringUtils.isAllBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.metadata.NullMetadataResolver.NULL_RESOLVER_NAME;
+
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.extension.api.annotation.metadata.TypeResolver;

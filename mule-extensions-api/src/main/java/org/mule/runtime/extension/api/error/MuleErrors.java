@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.error;
 
 import static java.util.Optional.ofNullable;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import java.util.Optional;
 
 /**
@@ -16,6 +18,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
 
   /**

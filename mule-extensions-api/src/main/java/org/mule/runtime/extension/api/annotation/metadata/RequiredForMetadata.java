@@ -6,12 +6,14 @@
  */
 package org.mule.runtime.extension.api.annotation.metadata;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Marker annotation which indicates that the annotated parameter is required for Metadata, this indicates that any other not
@@ -27,6 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @since 1.2.0
  */
+@MinMuleVersion("4.2.0")
 @Target({FIELD})
 @Retention(RUNTIME)
 @Documented

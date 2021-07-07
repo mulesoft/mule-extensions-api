@@ -7,6 +7,9 @@
 
 package org.mule.runtime.extension.api.annotation.privileged;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -15,9 +18,6 @@ import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * DO NOT USE THIS ANNOTATION. THIS ANNOTATION SHOULD <strong>ONLY</strong> BE USED BY PRIVILEGED EXTENSIONS.

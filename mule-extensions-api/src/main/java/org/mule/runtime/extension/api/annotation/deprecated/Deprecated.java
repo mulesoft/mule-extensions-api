@@ -11,6 +11,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,6 +26,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.2
  */
+@MinMuleVersion("4.2")
 @Target({TYPE, FIELD, METHOD, PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

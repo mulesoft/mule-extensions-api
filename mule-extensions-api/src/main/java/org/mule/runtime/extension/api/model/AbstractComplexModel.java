@@ -6,11 +6,12 @@
  */
 package org.mule.runtime.extension.api.model;
 
-import static com.google.common.collect.ImmutableList.copyOf;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
+
+import static com.google.common.collect.ImmutableList.copyOf;
 
 import org.mule.runtime.api.meta.DescribedObject;
 import org.mule.runtime.api.meta.NamedObject;
@@ -26,15 +27,15 @@ import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 
 /**
  * A specialization of {@link AbstractComplexModel} which also implements {@link HasConnectionProviderModels},

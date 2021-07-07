@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  * {@link Soap} cannot live with the @Configurations or @ConnectionProviders annotations, once the @Extension is marked a Soap
  * one, no other Configs or Providers could be declared.
  *
- * since 1.0
+ * @since 1.0
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

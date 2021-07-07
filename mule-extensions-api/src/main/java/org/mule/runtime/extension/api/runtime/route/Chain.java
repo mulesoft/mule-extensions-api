@@ -10,6 +10,7 @@ import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -25,6 +26,7 @@ import java.util.function.Consumer;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @NoImplement
 public interface Chain {
 

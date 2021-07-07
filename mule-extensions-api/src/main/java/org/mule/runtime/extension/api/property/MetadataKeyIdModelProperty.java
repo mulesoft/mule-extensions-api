@@ -17,7 +17,6 @@ import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
 
 import java.util.Optional;
 
-
 /**
  * A {@link ModelProperty} for a of {@link SourceModel} and {@link OperationModel} parameters that indicates that its a
  * {@link MetadataKeyId}.

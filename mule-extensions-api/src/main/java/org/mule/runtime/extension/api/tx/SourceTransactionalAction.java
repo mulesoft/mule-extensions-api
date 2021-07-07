@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.api.tx;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 /**
  * The type of beginning actions that sources can take regarding transactions.
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public enum SourceTransactionalAction {
 
   /**

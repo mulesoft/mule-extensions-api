@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.exception;
 
-
 import org.mule.runtime.api.connection.ConnectionProvider;
 
 /**

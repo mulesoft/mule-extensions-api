@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.model.parameter;
 
-import static java.util.Collections.emptySet;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;

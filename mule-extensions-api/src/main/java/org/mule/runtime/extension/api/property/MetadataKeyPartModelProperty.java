@@ -7,13 +7,14 @@
 package org.mule.runtime.extension.api.property;
 
 import static java.lang.String.format;
+
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.metadata.MetadataKey;
-
 
 /**
  * A {@link ModelProperty} for {@link ParameterModel} of {@link SourceModel} and {@link OperationModel} parameters that indicates

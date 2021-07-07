@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;

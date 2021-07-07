@@ -6,18 +6,20 @@
  */
 package org.mule.runtime.extension.api.client;
 
+import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
+
 import org.mule.runtime.extension.internal.client.ComplexParameter;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
 
 /**
  * Builder pattern implementation for building a new {@link OperationParameters} instance.
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public final class DefaultOperationParametersBuilder {
 
   private Map<String, Object> parameters = new LinkedHashMap<>();

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.connectivity.oauth;
 
 import static java.util.Optional.ofNullable;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.runtime.extension.api.security.CredentialsPlacement.BODY;
 

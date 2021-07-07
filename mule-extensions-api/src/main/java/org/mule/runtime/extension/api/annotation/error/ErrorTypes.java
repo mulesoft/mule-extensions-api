@@ -9,8 +9,9 @@ package org.mule.runtime.extension.api.annotation.error;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
 import org.mule.runtime.extension.api.annotation.Extension;
+import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -22,6 +23,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented

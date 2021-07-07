@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.declaration.type;
 
 import static java.util.stream.Collectors.toList;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Ignore;
@@ -18,7 +19,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
-
 
 /**
  * Utility class to handle Java types and their relationship with the {@link MetadataType} model

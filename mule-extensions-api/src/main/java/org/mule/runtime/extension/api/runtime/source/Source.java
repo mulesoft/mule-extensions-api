@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
 import org.mule.runtime.extension.api.annotation.source.EmitsResponse;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * Base class to write message sources compliant with a given {@link SourceModel}.
@@ -37,6 +38,7 @@ import org.mule.runtime.extension.api.annotation.source.EmitsResponse;
  * @param <A> the generic type for the generated message's attributes
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public abstract class Source<T, A> {
 
   /**

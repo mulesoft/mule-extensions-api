@@ -8,13 +8,16 @@ package org.mule.runtime.extension.api.annotation.connectivity.oauth;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import static org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.QUERY_PARAMS;
+
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -38,6 +41,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented

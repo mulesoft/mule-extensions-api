@@ -6,13 +6,16 @@
  */
 package org.mule.runtime.extension.api.client;
 
-import com.google.common.collect.ImmutableMap;
-
 import static java.util.Optional.ofNullable;
+
 import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
+
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Map;
 import java.util.Optional;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Default {@link OperationParameters} implementation, works as a generic {@link OperationParameters} for every extension
@@ -20,6 +23,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public class DefaultOperationParameters implements OperationParameters {
 
   private final Map<String, Object> parameters;

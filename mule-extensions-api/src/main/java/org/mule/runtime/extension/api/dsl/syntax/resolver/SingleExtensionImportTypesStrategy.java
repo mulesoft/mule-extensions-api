@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.dsl.syntax.resolver;
 
 import static java.util.Collections.emptyMap;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 

@@ -7,12 +7,14 @@
 package org.mule.runtime.extension.api.client;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * A simple interface for parameters that aims to be used to execute an extension operation using the {@link ExtensionsClient}.
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @NoImplement
 public interface OperationParameters extends org.mule.sdk.api.client.OperationParameters {
 

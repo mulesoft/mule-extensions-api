@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.Query;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -45,6 +46,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.2.0
  */
+@MinMuleVersion("4.2.0")
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

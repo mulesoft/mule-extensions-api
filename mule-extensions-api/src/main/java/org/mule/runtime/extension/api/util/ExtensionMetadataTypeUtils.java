@@ -10,6 +10,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import static org.mule.metadata.api.model.MetadataFormat.CSV;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;

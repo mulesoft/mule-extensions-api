@@ -6,11 +6,11 @@
  */
 package org.mule.runtime.extension.api.metadata;
 
-
 import static java.util.Collections.emptySet;
 
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataProperty;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +20,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 public final class NullMetadataKey implements MetadataKey {
 
   public static final String ID = "";

@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.dsql;
 
-
 import org.mule.runtime.extension.internal.expression.Expression;
 
 /**

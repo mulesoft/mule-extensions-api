@@ -6,16 +6,16 @@
  */
 package org.mule.runtime.extension.api.model;
 
-import static com.google.common.collect.ImmutableSet.copyOf;
-import static com.google.common.collect.ImmutableSet.of;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;
+
+import static com.google.common.collect.ImmutableSet.copyOf;
+import static com.google.common.collect.ImmutableSet.of;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import org.mule.runtime.api.meta.DescribedObject;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
-
-import com.google.common.collect.ImmutableList;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 
 /**
  * Base class for immutable implementations of a {@link DescribedObject} {@link EnrichableModel} model

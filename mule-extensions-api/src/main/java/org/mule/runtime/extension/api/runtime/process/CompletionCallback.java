@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.runtime.process;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * This callback is how non blocking operations notify their outcome.
@@ -53,6 +54,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <A> The generic type of the operation's output attributes
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @NoImplement
 public interface CompletionCallback<T, A> {
 

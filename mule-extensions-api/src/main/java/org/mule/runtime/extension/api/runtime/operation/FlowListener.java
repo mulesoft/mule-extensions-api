@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.runtime.operation;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.event.Event;
 import org.mule.runtime.api.message.Message;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.function.Consumer;
 
@@ -39,6 +40,7 @@ import java.util.function.Consumer;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @NoImplement
 public interface FlowListener extends org.mule.sdk.api.runtime.operation.FlowListener {
 

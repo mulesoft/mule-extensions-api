@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.soap;
 
 import static org.mule.runtime.api.util.Preconditions.checkNotNull;
+
 import org.mule.runtime.api.metadata.MediaType;
 
 import java.io.InputStream;

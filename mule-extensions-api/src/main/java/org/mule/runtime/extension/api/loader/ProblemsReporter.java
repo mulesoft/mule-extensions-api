@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.loader;
 
 import static java.util.Collections.unmodifiableList;
+
 import org.mule.runtime.api.meta.model.ExtensionModel;
 
 import java.util.Collection;

@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.loader;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
 
-
 /**
  * These {@link DeclarationEnricherPhase phases} are use to execute the {@link DeclarationEnricher enrichers} in order, grouping
  * them by phases.

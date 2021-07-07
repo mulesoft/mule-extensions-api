@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.runtime.parameter;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ import java.util.Optional;
  * @param <T> The type of the value to resolve
  * @since 1.0
  */
+@MinMuleVersion("4.0")
 @NoImplement
 public interface ParameterResolver<T> extends org.mule.sdk.api.runtime.parameter.ParameterResolver<T> {
 }
