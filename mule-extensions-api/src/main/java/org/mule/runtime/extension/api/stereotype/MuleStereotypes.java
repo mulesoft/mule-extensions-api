@@ -58,10 +58,6 @@ public final class MuleStereotypes {
 
   private static final String OPERATION_STEREOTYPE_NAMESPACE = "OPERATION_DSL";
   public static final StereotypeModel OPERATION_DEF_STEREOTYPE = newStereotype("DEF", OPERATION_STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel OPERATION_PARAMS_STEREOTYPE =
-          newStereotype("PARAMETERS", OPERATION_STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel OPERATION_PARAM_STEREOTYPE =
-          newStereotype("PARAMETER", OPERATION_STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel OUTPUT_STEREOTYPE = newStereotype("OUTPUT", OPERATION_STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel OUTPUT_PAYLOAD_STEREOTYPE =
           newStereotype("OUTPUT_PAYLOAD", OPERATION_STEREOTYPE_NAMESPACE).build();
