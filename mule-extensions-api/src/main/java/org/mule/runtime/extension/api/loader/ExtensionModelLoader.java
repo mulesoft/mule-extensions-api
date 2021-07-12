@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader;
 
+
 import static java.lang.Thread.currentThread;
 
 import org.mule.runtime.api.deployment.meta.MulePluginModel;

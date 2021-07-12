@@ -18,7 +18,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public class ValueResolvingException extends org.mule.sdk.api.values.ValueResolvingException {
 
   public final static String UNKNOWN = org.mule.sdk.api.values.ValueResolvingException.UNKNOWN;

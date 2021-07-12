@@ -7,16 +7,15 @@
 package org.mule.runtime.extension.api.model;
 
 import static java.util.Optional.ofNullable;
-
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-
 import org.mule.runtime.api.meta.NamedObject;
+import org.mule.runtime.api.meta.model.display.HasDisplayModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
-import org.mule.runtime.api.meta.model.display.HasDisplayModel;
 
 import java.util.Optional;
 import java.util.Set;
+
 
 /**
  * Base class for immutable implementations of {@link NamedObject} introspection models

@@ -15,7 +15,7 @@ import javax.transaction.xa.XAResource;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public interface XATransactionalConnection extends TransactionalConnection {
 
   /**

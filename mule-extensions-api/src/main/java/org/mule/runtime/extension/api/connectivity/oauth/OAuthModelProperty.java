@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.connectivity.oauth;
 
 import static java.util.Collections.unmodifiableList;
-
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.meta.model.ModelProperty;
 

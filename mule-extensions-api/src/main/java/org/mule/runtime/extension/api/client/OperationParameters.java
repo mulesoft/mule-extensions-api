@@ -14,7 +14,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface OperationParameters extends org.mule.sdk.api.client.OperationParameters {
 

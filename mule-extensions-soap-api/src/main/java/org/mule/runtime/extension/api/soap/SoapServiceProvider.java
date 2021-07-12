@@ -10,7 +10,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
 import org.mule.runtime.extension.api.soap.security.SecurityStrategy;
-
 import java.util.List;
 import java.util.Map;
 

@@ -18,7 +18,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public enum MuleErrors implements ErrorTypeDefinition<MuleErrors> {
 
   /**

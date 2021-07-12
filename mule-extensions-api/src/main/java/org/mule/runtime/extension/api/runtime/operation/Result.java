@@ -28,7 +28,7 @@ import java.util.OptionalLong;
  * @param <A> the generic type of the message attributes
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public class Result<T, A> {
 
   /**

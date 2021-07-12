@@ -36,7 +36,7 @@ import java.util.Map;
  * @see CursorIteratorProvider
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface StreamingHelper extends org.mule.sdk.api.runtime.streaming.StreamingHelper {
 

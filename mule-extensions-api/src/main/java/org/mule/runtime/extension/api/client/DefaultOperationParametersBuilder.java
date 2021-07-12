@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public final class DefaultOperationParametersBuilder {
 
   private Map<String, Object> parameters = new LinkedHashMap<>();

@@ -7,8 +7,8 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
-import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.annotation.Extensible;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 
 /**
  * Marks that the annotated type is of {@link Extensible} kind, declaring that a given type can be extended by others in the

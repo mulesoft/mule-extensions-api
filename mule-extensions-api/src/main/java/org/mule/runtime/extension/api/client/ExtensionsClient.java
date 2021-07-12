@@ -48,7 +48,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface ExtensionsClient {
 

@@ -38,7 +38,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * @param <A> the generic type for the generated message's attributes
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public abstract class Source<T, A> {
 
   /**

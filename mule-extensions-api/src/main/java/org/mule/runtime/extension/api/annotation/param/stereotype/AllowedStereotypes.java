@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  * @see Chain
  * @see Route
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @Target({FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
 @Documented

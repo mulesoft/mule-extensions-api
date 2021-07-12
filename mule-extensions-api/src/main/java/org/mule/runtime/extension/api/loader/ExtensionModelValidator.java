@@ -6,8 +6,8 @@
  */
 package org.mule.runtime.extension.api.loader;
 
-import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 
 /**
  * Validates that a constructed model is legal, meaning it's consistent and doesn't violate any restriction.

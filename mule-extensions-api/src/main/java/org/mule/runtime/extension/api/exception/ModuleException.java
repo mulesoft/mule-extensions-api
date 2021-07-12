@@ -22,7 +22,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public class ModuleException extends MuleRuntimeException {
 
   private ErrorTypeDefinition type;

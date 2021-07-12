@@ -28,7 +28,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public final class NullMetadataResolver implements InputTypeResolver<Object>, TypeKeysResolver,
     OutputTypeResolver<Object>, AttributesTypeResolver<Object> {
 

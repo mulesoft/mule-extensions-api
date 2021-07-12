@@ -24,7 +24,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public final class SourceResult {
 
   private final Error invocationError;

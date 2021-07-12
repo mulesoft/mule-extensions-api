@@ -23,7 +23,7 @@ import java.util.Optional;
  * @param <T> The type of the value to resolve
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface ParameterResolver<T> extends org.mule.sdk.api.runtime.parameter.ParameterResolver<T> {
 }

@@ -17,7 +17,7 @@ import java.util.Set;
  * @since 1.0
  * @see Value
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public interface ValueProvider {
 
   /**

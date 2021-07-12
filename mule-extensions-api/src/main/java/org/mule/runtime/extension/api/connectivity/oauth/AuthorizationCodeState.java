@@ -22,7 +22,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface AuthorizationCodeState extends OAuthState {
 

@@ -27,7 +27,7 @@ import java.util.stream.Stream;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public class ValueBuilder {
 
   private final String id;

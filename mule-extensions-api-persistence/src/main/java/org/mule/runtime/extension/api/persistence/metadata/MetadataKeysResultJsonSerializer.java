@@ -7,21 +7,19 @@
 package org.mule.runtime.extension.api.persistence.metadata;
 
 import static java.util.Collections.emptyMap;
-
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
-
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeysContainer;
 import org.mule.runtime.api.metadata.MetadataKeysContainerBuilder;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Serializer that can convert a {@link MetadataResult} of a {@link MetadataKeysContainer} type into a readable and processable

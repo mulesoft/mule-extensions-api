@@ -12,6 +12,7 @@ import org.mule.runtime.api.event.Event;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 
+
 /**
  * A component responsible for providing instances which are realizations of a given {@link ConfigurationModel}.
  * <p/>

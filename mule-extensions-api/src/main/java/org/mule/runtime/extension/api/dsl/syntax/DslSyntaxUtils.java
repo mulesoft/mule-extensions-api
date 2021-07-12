@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.dsl.syntax;
 
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.compile;
-
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
@@ -21,7 +20,6 @@ import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isM
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import static org.mule.runtime.extension.api.util.NameUtils.sanitizeName;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.supportsTopLevelDeclaration;
-
 import org.mule.metadata.api.model.AnyType;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;

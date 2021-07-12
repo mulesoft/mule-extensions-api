@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.soap.security;
 
+
 import org.mule.runtime.extension.api.soap.security.config.WssKeyStoreConfiguration;
 
 /**

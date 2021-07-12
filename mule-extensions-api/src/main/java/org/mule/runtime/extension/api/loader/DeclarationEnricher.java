@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 
 import java.util.Collection;
 
+
 /**
  * Enriches {@link ExtensionDeclarer declarers} before they are actually turned into models.
  *
