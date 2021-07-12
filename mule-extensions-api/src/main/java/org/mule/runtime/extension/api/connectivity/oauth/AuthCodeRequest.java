@@ -20,7 +20,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public interface AuthCodeRequest extends org.mule.sdk.api.connectivity.oauth.AuthCodeRequest {
 
 }

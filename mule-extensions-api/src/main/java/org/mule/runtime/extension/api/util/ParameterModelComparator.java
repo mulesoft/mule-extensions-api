@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.util;
 
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
-
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 
 import java.util.Comparator;

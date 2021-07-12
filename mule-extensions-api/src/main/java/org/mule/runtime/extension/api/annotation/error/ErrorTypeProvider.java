@@ -19,7 +19,7 @@ import java.util.Set;
  * @see Throws
  * @see ErrorTypeDefinition
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public interface ErrorTypeProvider {
 
   /**

@@ -9,8 +9,8 @@ package org.mule.runtime.extension.api.dsql;
 import org.mule.runtime.extension.internal.MuleDsqlLexer;
 import org.mule.runtime.extension.internal.MuleDsqlParser;
 import org.mule.runtime.extension.internal.exception.DsqlParsingException;
-import org.mule.runtime.extension.internal.grammar.BaseDsqlNode;
 import org.mule.runtime.extension.internal.grammar.DefaultDsqlGrammarVisitor;
+import org.mule.runtime.extension.internal.grammar.BaseDsqlNode;
 import org.mule.runtime.extension.internal.grammar.DsqlTreeAdaptor;
 
 import org.antlr.runtime.ANTLRStringStream;

@@ -6,12 +6,10 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax;
 
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toMap;
-
 import static com.google.common.collect.ImmutableList.copyOf;
 import static com.google.common.collect.ImmutableMap.copyOf;
-
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toMap;
 import org.mule.api.annotation.NoExtend;
 import org.mule.api.annotation.NoInstantiate;
 import org.mule.metadata.api.model.MetadataType;

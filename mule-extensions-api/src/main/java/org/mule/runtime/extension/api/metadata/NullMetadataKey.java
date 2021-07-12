@@ -20,7 +20,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public final class NullMetadataKey implements MetadataKey {
 
   public static final String ID = "";

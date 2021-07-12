@@ -6,11 +6,12 @@
  */
 package org.mule.runtime.extension.api.soap.security;
 
-import static java.util.Optional.ofNullable;
 
+import static java.util.Optional.ofNullable;
 import org.mule.runtime.extension.api.soap.security.config.WssTrustStoreConfiguration;
 
 import java.util.Optional;
+
 
 /**
  * Verifies the signature of a SOAP response, using certificates of the trust-store in the provided TLS context.

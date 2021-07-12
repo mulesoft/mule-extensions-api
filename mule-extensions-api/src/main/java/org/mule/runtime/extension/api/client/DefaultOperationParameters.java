@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public class DefaultOperationParameters implements OperationParameters {
 
   private final Map<String, Object> parameters;

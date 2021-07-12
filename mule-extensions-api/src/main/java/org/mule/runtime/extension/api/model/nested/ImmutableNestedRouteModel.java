@@ -14,11 +14,11 @@ import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractParameterizedModel;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableList;
 
 /**
  * Immutable concrete implementation of {@link NestedRouteModel}

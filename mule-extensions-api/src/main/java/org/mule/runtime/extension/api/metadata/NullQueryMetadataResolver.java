@@ -7,10 +7,8 @@
 package org.mule.runtime.extension.api.metadata;
 
 import static java.util.Collections.emptySet;
-
 import static org.mule.runtime.extension.api.metadata.NullMetadataResolver.NULL_CATEGORY_NAME;
 import static org.mule.runtime.extension.api.metadata.NullMetadataResolver.NULL_RESOLVER_NAME;
-
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.connection.ConnectionException;

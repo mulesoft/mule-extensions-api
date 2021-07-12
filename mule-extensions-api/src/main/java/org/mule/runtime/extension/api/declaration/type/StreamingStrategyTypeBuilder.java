@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.declaration.type;
 
 import static java.util.Arrays.stream;
-
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE;

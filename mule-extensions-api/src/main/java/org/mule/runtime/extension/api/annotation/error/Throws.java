@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * @see ErrorTypeProvider
  * @see ErrorTypeDefinition
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented

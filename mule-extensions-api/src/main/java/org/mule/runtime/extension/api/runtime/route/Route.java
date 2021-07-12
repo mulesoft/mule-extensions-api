@@ -31,7 +31,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * @see AllowedStereotypes
  * @see RouterCompletionCallback
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public abstract class Route {
 
   @Parameter

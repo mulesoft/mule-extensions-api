@@ -19,7 +19,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * @param <T> the type of the returned pages.
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public interface PagingProvider<C, T> extends org.mule.sdk.api.runtime.streaming.PagingProvider<C, T> {
 
 }

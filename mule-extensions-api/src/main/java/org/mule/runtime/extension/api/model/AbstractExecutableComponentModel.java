@@ -30,6 +30,7 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
+
 /**
  * Base class for immutable implementations of a {@link ComponentModel}
  *

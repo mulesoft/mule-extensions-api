@@ -24,7 +24,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * @param <A> the generic type of the attributes of the generated results
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface SourceCallback<T, A> {
 

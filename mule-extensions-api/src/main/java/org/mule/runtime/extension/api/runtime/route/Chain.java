@@ -26,7 +26,7 @@ import java.util.function.Consumer;
  *
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface Chain {
 

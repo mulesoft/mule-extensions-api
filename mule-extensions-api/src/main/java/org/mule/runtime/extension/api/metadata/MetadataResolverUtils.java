@@ -7,9 +7,7 @@
 package org.mule.runtime.extension.api.metadata;
 
 import static java.util.stream.Collectors.toList;
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
-
 import org.mule.runtime.api.metadata.resolving.NamedTypeResolver;
 
 import java.util.LinkedList;

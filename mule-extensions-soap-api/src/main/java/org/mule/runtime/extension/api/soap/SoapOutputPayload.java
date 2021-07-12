@@ -6,22 +6,21 @@
  */
 package org.mule.runtime.extension.api.soap;
 
-import static java.nio.charset.Charset.forName;
-import static java.util.stream.Collectors.joining;
-
+import org.apache.commons.io.IOUtils;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.api.streaming.CursorProvider;
 import org.mule.runtime.api.streaming.bytes.CursorStreamProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.nio.charset.Charset.forName;
+import static java.util.stream.Collectors.joining;
 
 /**
  * A simple container object that carries the SOAP envelope information and the attachments bounded to the response.

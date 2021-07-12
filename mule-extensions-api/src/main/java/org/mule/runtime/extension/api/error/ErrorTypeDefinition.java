@@ -28,7 +28,7 @@ import java.util.Optional;
  * @see MuleErrors
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 public interface ErrorTypeDefinition<E extends Enum<E>> {
 
   /**

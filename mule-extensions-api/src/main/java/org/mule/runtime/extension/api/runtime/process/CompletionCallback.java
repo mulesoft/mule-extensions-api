@@ -54,7 +54,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * @param <A> The generic type of the operation's output attributes
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface CompletionCallback<T, A> {
 

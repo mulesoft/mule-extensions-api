@@ -31,7 +31,7 @@ import java.util.Optional;
  * @param <T> the generic type of the actual parameter type
  * @since 1.0
  */
-@MinMuleVersion("4.0")
+@MinMuleVersion("4.1")
 @NoImplement
 public interface Literal<T> extends org.mule.sdk.api.runtime.parameter.Literal<T> {
 }

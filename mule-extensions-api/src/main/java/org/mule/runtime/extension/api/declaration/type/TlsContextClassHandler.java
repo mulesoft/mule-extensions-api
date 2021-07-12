@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.declaration.type;
 
 import static java.util.Arrays.asList;
-
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
