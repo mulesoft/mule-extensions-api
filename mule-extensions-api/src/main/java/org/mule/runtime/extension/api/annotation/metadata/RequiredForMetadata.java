@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.2.0
  */
-@MinMuleVersion("4.2.0")
+@MinMuleVersion("4.2")
 @Target({FIELD})
 @Retention(RUNTIME)
 @Documented
