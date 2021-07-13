@@ -6,12 +6,18 @@
  */
 package org.mule.runtime.extension.api.model.nested;
 
+import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,6 +44,50 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    Set<StereotypeModel> allowedStereotypes,
                                    Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, isRequired, allowedStereotypes, modelProperties);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name                 the model's name
+   * @param description          the model's description
+   * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param isRequired           whether or not {@code this} element is required for its owner element
+   * @param allowedStereotypes   a {@link Set} with the {@link StereotypeModel}s that can be assigned to this nested element.
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
+   * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
+   * @throws IllegalArgumentException if {@code name} is blank
+   * @since 1.4.0
+   */
+  public ImmutableNestedChainModel(String name,
+                                   String description,
+                                   List<ParameterGroupModel> parameterGroupModels,
+                                   boolean isRequired,
+                                   Set<StereotypeModel> allowedStereotypes,
+                                   List<? extends NestableElementModel> nestedComponents,
+                                   DisplayModel displayModel,
+                                   Set<ErrorModel> errors,
+                                   StereotypeModel stereotype,
+                                   Set<ModelProperty> modelProperties,
+                                   DeprecationModel deprecationModel,
+                                   Set<String> semanticTerms) {
+    super(name, description, parameterGroupModels, isRequired, allowedStereotypes, nestedComponents, displayModel,
+          errors, stereotype, modelProperties, deprecationModel, semanticTerms);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 1.4.0
+   */
+  @Override
+  public void accept(ComponentModelVisitor visitor) {
+    visitor.visit(this);
   }
 
   @Override
