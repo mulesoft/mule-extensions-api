@@ -10,6 +10,7 @@ import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -27,6 +28,7 @@ import java.util.OptionalLong;
  * @param <A> the generic type of the message attributes
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public class Result<T, A> {
 
   /**

@@ -7,11 +7,13 @@
 package org.mule.runtime.extension.api.runtime.source;
 
 import static java.util.Optional.ofNullable;
+
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.message.Error;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
 import org.mule.runtime.extension.api.annotation.execution.OnTerminate;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public final class SourceResult {
 
   private final Error invocationError;

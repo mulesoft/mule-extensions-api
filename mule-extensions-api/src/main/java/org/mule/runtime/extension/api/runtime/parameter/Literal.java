@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.runtime.parameter;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ import java.util.Optional;
  * @param <T> the generic type of the actual parameter type
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface Literal<T> extends org.mule.sdk.api.runtime.parameter.Literal<T> {
 }

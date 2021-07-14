@@ -7,7 +7,9 @@
 package org.mule.runtime.extension.api.connectivity.oauth;
 
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
+
 import org.mule.runtime.api.exception.MuleRuntimeException;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * Exception to be thrown by operations which are trying to use an expired access token.
@@ -17,6 +19,7 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public class AccessTokenExpiredException extends org.mule.sdk.api.connectivity.oauth.AccessTokenExpiredException {
 
   /**

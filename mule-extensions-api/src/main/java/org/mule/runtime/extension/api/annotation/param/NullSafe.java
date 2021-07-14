@@ -9,7 +9,9 @@ package org.mule.runtime.extension.api.annotation.param;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -48,6 +50,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Documented

@@ -13,6 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.io.InputStream;
 import java.lang.annotation.Retention;
@@ -24,6 +25,7 @@ import java.util.Map;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 @Retention(RUNTIME)
 @Target({METHOD, TYPE})
 public @interface OutputJsonType {

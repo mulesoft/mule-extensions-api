@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.connectivity.oauth;
 
 import static org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.QUERY_PARAMS;
+
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.OAuthParameter;
@@ -17,6 +18,8 @@ import org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement;
  * OAuth parameter.
  * <p>
  * This is equivalent to the {@link OAuthParameter} annotation
+ * 
+ * @since 1.0
  */
 public class OAuthParameterModelProperty implements ModelProperty {
 

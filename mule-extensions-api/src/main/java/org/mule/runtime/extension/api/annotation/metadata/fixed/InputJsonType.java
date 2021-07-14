@@ -13,12 +13,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.io.InputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Map;
-
 
 /**
  * Declares the annotated {@link ParameterModel}'s {@link MetadataType} to the type represented by the provided JSON Schema.
@@ -27,6 +27,7 @@ import java.util.Map;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 @Retention(RUNTIME)
 @Target({PARAMETER})
 public @interface InputJsonType {

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.runtime.source;
 
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * Indicates which type of back pressure has the runtime applied on a give message.
@@ -16,6 +17,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 public enum BackPressureAction {
 
   /**

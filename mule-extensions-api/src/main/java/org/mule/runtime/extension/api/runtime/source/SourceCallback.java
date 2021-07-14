@@ -11,6 +11,7 @@ import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.extension.api.runtime.connectivity.Reconnectable;
 import org.mule.runtime.extension.api.runtime.connectivity.ReconnectionCallback;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * A callback to allow {@link Source} implementations to communicate generated messages back to the runtime so that they can be
@@ -23,6 +24,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
  * @param <A> the generic type of the attributes of the generated results
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface SourceCallback<T, A> {
 

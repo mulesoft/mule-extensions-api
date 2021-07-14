@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.client;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -47,6 +48,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface ExtensionsClient {
 

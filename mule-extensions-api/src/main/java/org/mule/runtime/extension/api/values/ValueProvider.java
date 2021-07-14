@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.values;
 
 import org.mule.runtime.api.value.Value;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import java.util.Set;
  * @since 1.0
  * @see Value
  */
+@MinMuleVersion("4.1")
 public interface ValueProvider {
 
   /**

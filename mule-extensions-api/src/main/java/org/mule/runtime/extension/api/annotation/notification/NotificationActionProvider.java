@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.annotation.notification;
 
 import org.mule.runtime.extension.api.notification.NotificationActionDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Set;
 
@@ -17,6 +18,7 @@ import java.util.Set;
  * @see Fires
  * @see NotificationActionDefinition
  */
+@MinMuleVersion("4.1")
 public interface NotificationActionProvider {
 
   /**

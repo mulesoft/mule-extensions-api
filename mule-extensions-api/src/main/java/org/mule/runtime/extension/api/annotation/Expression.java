@@ -7,8 +7,10 @@
 package org.mule.runtime.extension.api.annotation;
 
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -21,6 +23,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

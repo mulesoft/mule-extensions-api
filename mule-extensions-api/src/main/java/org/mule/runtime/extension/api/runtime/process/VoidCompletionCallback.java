@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.runtime.process;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.runtime.route.Route;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * This callback is how Routers notify the end of its execution when no result is produced.
@@ -47,6 +48,7 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface VoidCompletionCallback extends org.mule.sdk.api.runtime.process.VoidCompletionCallback {
 

@@ -6,10 +6,10 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
-
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.AuthorizationCode;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 
@@ -22,6 +22,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface AuthorizationCodeState extends OAuthState {
 

@@ -9,8 +9,10 @@ package org.mule.runtime.extension.api.annotation.notification;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.notification.NotificationActionDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -28,6 +30,7 @@ import java.lang.annotation.Target;
  * @see NotificationActionProvider
  * @see NotificationActionDefinition
  */
+@MinMuleVersion("4.1")
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented

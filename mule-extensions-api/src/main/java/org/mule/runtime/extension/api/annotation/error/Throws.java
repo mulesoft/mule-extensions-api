@@ -12,6 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -29,6 +30,7 @@ import java.lang.annotation.Target;
  * @see ErrorTypeProvider
  * @see ErrorTypeDefinition
  */
+@MinMuleVersion("4.1")
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @Documented

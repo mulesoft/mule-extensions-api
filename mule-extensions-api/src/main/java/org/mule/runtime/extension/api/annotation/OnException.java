@@ -7,13 +7,13 @@
 package org.mule.runtime.extension.api.annotation;
 
 import org.mule.runtime.extension.api.runtime.exception.ExceptionHandler;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 
 /**
  * This annotation can be used at Operation level or at {@link Extension} level as a common handler for all the Operations, When
@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

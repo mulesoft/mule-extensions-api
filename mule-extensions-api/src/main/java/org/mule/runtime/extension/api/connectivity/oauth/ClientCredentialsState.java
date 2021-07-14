@@ -6,10 +6,10 @@
  */
 package org.mule.runtime.extension.api.connectivity.oauth;
 
-
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCredentials;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * {@link ConnectionProvider} implementations which are also annotated with {@link ClientCredentials} <b>MUST</b> have a field of
@@ -20,6 +20,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.oauth.ClientCreden
  *
  * @since 1.2.1
  */
+@MinMuleVersion("4.2.1")
 @NoImplement
 public interface ClientCredentialsState extends OAuthState {
 

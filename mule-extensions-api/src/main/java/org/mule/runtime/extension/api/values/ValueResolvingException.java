@@ -7,15 +7,18 @@
 package org.mule.runtime.extension.api.values;
 
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
+
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.i18n.I18nMessage;
 import org.mule.runtime.api.value.Value;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * {@link Exception} to indicate than an error occurred resolving {@link Value values}
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public class ValueResolvingException extends org.mule.sdk.api.values.ValueResolvingException {
 
   public final static String UNKNOWN = org.mule.sdk.api.values.ValueResolvingException.UNKNOWN;

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.annotation.error;
 
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import java.util.Set;
  * @see Throws
  * @see ErrorTypeDefinition
  */
+@MinMuleVersion("4.1")
 public interface ErrorTypeProvider {
 
   /**

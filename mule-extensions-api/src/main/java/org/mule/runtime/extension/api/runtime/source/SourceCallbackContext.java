@@ -15,6 +15,7 @@ import org.mule.runtime.extension.api.connectivity.TransactionalConnection;
 import org.mule.runtime.extension.api.notification.NotificationActionDefinition;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.tx.TransactionHandle;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface SourceCallbackContext {
 

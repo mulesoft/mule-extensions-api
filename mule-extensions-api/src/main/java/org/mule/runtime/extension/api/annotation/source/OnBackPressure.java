@@ -8,8 +8,10 @@ package org.mule.runtime.extension.api.annotation.source;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.extension.api.runtime.source.BackPressureContext;
 import org.mule.runtime.extension.api.runtime.source.Source;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -23,6 +25,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented

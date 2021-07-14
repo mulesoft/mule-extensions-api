@@ -64,6 +64,18 @@
           "classSimpleName": "ValueResolvingException",
           "elementKind": "class",
           "justification": "Added for forward compatibility."
+        },
+        {
+          "regex": true,
+          "code": "java.annotation.added",
+          "old": ".*",
+          "new": ".*",
+          "annotationType": "org.mule.sdk.api.annotation.MinMuleVersion",
+          "annotation": ".*",
+          "package": ".*",
+          "classSimpleName": ".*",
+          "elementKind": ".*",
+          "justification": "The MinMuleVersion annotation does not break backward compatibility as it does not change the api contract nor its behaviour, it is only for metadata info specification"
         }
       ]
     }

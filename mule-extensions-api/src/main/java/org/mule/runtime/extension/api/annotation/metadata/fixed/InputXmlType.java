@@ -13,6 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.io.InputStream;
 import java.lang.annotation.Retention;
@@ -26,6 +27,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 @Retention(RUNTIME)
 @Target({PARAMETER})
 public @interface InputXmlType {

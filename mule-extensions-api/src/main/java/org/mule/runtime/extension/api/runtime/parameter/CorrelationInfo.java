@@ -11,6 +11,7 @@ import org.mule.runtime.api.event.Event;
 import org.mule.runtime.api.message.ItemSequenceInfo;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ import java.util.Optional;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface CorrelationInfo extends org.mule.sdk.api.runtime.parameter.CorrelationInfo {
 }

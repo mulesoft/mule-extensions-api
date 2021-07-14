@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.runtime.connectivity;
 
 import org.mule.runtime.api.connection.ConnectionException;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * A component which has its own way of reconnecting.
@@ -18,6 +19,7 @@ import org.mule.runtime.api.connection.ConnectionException;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public interface Reconnectable {
 
   /**

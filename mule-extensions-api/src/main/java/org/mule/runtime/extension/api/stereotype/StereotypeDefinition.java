@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.stereotype;
 
 import static java.util.Optional.empty;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import java.util.Optional;
 
 /**
@@ -16,6 +18,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public interface StereotypeDefinition {
 
   /**

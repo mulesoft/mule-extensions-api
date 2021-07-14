@@ -12,6 +12,7 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.stereotype.AllowedStereotypes;
 import org.mule.runtime.extension.api.runtime.process.RouterCompletionCallback;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * A {@link Route} allows a given {@link ComponentModel Operation} to receive a chain of message processors along with a set of
@@ -30,6 +31,7 @@ import org.mule.runtime.extension.api.runtime.process.RouterCompletionCallback;
  * @see AllowedStereotypes
  * @see RouterCompletionCallback
  */
+@MinMuleVersion("4.1")
 public abstract class Route {
 
   @Parameter

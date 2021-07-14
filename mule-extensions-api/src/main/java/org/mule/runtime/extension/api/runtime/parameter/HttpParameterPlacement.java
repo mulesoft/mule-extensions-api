@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.api.runtime.parameter;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 /**
  * Describes the possible placements a parameter can have inside a HTTP request
  *
  * @since 1.2.1
  */
+@MinMuleVersion("4.2.1")
 public enum HttpParameterPlacement {
 
   /**

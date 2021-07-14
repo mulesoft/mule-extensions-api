@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.connectivity;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import javax.transaction.xa.XAResource;
 
 /**
@@ -13,6 +15,7 @@ import javax.transaction.xa.XAResource;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public interface XATransactionalConnection extends TransactionalConnection {
 
   /**

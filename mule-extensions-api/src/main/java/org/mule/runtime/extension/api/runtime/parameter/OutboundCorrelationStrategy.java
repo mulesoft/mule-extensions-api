@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.runtime.parameter;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 import java.util.Optional;
 
 /**
@@ -20,6 +22,7 @@ import java.util.Optional;
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 public enum OutboundCorrelationStrategy {
 
   /**

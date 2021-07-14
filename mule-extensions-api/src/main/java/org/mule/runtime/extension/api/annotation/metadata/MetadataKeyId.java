@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.annotation.metadata;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import org.mule.runtime.api.metadata.MetadataContext;
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
@@ -16,6 +17,7 @@ import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.Query;
 import org.mule.runtime.extension.api.metadata.NullMetadataResolver;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -40,6 +42,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @Target({PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented

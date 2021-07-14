@@ -11,6 +11,7 @@ import org.mule.runtime.api.streaming.Cursor;
 import org.mule.runtime.api.streaming.CursorProvider;
 import org.mule.runtime.api.streaming.bytes.CursorStreamProvider;
 import org.mule.runtime.api.streaming.object.CursorIteratorProvider;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -35,6 +36,7 @@ import java.util.Map;
  * @see CursorIteratorProvider
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface StreamingHelper extends org.mule.sdk.api.runtime.streaming.StreamingHelper {
 

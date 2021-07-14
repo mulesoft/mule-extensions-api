@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.runtime.source;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.annotation.execution.OnError;
 import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * Callback used by {@link Source sources} in order tell the runtime that they will process the flow's response in an asynchronous
@@ -53,6 +54,7 @@ import org.mule.runtime.extension.api.annotation.execution.OnSuccess;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface SourceCompletionCallback extends org.mule.sdk.api.runtime.source.SourceCompletionCallback {
 

@@ -9,10 +9,12 @@ package org.mule.runtime.extension.api.values;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
+
 import static org.mule.metadata.internal.utils.StringUtils.isNotEmpty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
 import org.mule.runtime.api.value.Value;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.stream.Stream;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public class ValueBuilder {
 
   private final String id;

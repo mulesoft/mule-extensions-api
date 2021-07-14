@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.runtime.source;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.function.Consumer;
 
@@ -24,6 +25,7 @@ import java.util.function.Consumer;
  * @param <A> the generic type for the generated message's attributes
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 public abstract class PollingSource<T, A> extends Source<T, A> {
 
   public static final String OS_NAME_PREFIX = "_pollingSource_";

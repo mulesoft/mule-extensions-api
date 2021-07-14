@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.streaming;
 
+import org.mule.sdk.api.annotation.MinMuleVersion;
+
 /**
  * This interface provides functionality for consuming a data feed in pages.
  * <p>
@@ -17,6 +19,7 @@ package org.mule.runtime.extension.api.runtime.streaming;
  * @param <T> the type of the returned pages.
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 public interface PagingProvider<C, T> extends org.mule.sdk.api.runtime.streaming.PagingProvider<C, T> {
 
 }

@@ -7,12 +7,14 @@
 package org.mule.runtime.extension.api.annotation.source;
 
 import org.mule.runtime.extension.api.runtime.source.Source;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * Describes the operation modes that a {@link Source} can have when running in cluster mode.
  *
  * @since 1.1
  */
+@MinMuleVersion("4.1")
 public enum SourceClusterSupport {
 
   /**

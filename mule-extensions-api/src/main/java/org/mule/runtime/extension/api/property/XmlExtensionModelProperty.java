@@ -18,7 +18,7 @@ import java.util.Set;
  * It also works to determine that the ComponentBuildingDefinitionProvider must NOT be registered (as it's templating, it doesn't
  * make sense to register a definition provider)
  *
- * @since 4.0
+ * @since 1.0
  */
 public class XmlExtensionModelProperty implements ModelProperty {
 

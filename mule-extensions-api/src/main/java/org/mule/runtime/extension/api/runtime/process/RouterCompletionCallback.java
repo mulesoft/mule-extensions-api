@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.runtime.process;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.runtime.route.Route;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * This callback is how a Router receiving {@link Route}s notify their outcome.
@@ -46,6 +47,7 @@ import org.mule.runtime.extension.api.runtime.route.Route;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @NoImplement
 public interface RouterCompletionCallback extends CompletionCallback<Object, Object> {
 

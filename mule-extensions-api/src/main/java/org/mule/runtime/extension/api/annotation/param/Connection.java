@@ -8,7 +8,9 @@ package org.mule.runtime.extension.api.annotation.param;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
+
 import org.mule.runtime.extension.api.runtime.source.Source;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -23,6 +25,7 @@ import java.lang.annotation.Target;
  *
  * @since 1.0
  */
+@MinMuleVersion("4.1")
 @Target(value = {PARAMETER, FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
