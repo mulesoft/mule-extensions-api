@@ -22,9 +22,9 @@ import com.google.gson.stream.JsonWriter;
 
 /**
  * This type adapter maintains backwards compatibility at the serialization levels after the changes done in MULE-19579.
- *
+ * <p>
  * TL;DR, {@link NestableElementModel} has been promoted to {@link ComponentModel} which transforms the element models into
- * composites. This is a problem for the particular case of {@link NestedRouteModel} since it already was a composite, which
+ * composites. This is a problem for the particular case of {@link NestedRouteModel} since it already was a composite, whose
  * children were serialized under the key {@code nestedComponents}. Because of this change, that key would change to
  * {@code childComponents}. This type adapter preserves the old name allowing existing clients to still be able to deserialize old
  * instances.
@@ -35,7 +35,7 @@ public class LegacyNestedElementTypeAdapter extends TypeAdapter<NestableElementM
 
   private static final String NESTED_COMPONENTS_KEY = "nestedComponents";
   private static final String CHILD_COMPONENTS_KEY = "childComponents";
-  
+
   private final TypeAdapter<NestableElementModel> delegate;
   private final Gson gson;
 
