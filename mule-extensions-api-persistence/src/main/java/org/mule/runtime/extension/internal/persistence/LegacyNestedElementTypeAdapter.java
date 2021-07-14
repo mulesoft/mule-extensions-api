@@ -33,8 +33,9 @@ import com.google.gson.stream.JsonWriter;
  */
 public class LegacyNestedElementTypeAdapter extends TypeAdapter<NestableElementModel> {
 
-  public static final String NESTED_COMPONENTS_KEY = "nestedComponents";
-  public static final String CHILD_COMPONENTS_KEY = "childComponents";
+  private static final String NESTED_COMPONENTS_KEY = "nestedComponents";
+  private static final String CHILD_COMPONENTS_KEY = "childComponents";
+  
   private final TypeAdapter<NestableElementModel> delegate;
   private final Gson gson;
 

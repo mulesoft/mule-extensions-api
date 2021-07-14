@@ -64,14 +64,12 @@ public class NestedElementModelTypeAdapter extends KindEnrichedTypeAdapter<Nesta
 
   @Override
   protected TypeAdapter<NestableElementModel> getDelegateAdapter(String kind) {
-    if (ROUTE_KIND.equals(kind)) {
-      TypeAdapter<NestableElementModel> delegateAdapter =
-          (TypeAdapter) gson.getDelegateAdapter(typeAdapterFactory, TypeToken.get(ImmutableNestedRouteModel.class));
-      return new LegacyNestedElementTypeAdapter(delegateAdapter, gson);
-    } ;
-
     Class clazz;
     switch (kind) {
+      case ROUTE_KIND:
+        TypeAdapter<NestableElementModel> delegateAdapter =
+            (TypeAdapter) gson.getDelegateAdapter(typeAdapterFactory, TypeToken.get(ImmutableNestedRouteModel.class));
+        return new LegacyNestedElementTypeAdapter(delegateAdapter, gson);
       case CHAIN_KIND:
         clazz = ImmutableNestedChainModel.class;
         break;
