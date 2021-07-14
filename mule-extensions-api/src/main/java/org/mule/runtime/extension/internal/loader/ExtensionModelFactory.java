@@ -55,6 +55,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclarat
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -444,33 +445,47 @@ public final class ExtensionModelFactory {
 
     private NestableElementModel toNestedComponent(NestableElementDeclaration declaration) {
       if (declaration instanceof NestedRouteDeclaration) {
-        return new ImmutableNestedRouteModel(declaration.getName(),
+        return new ImmutableNestedRouteModel(
+                                             declaration.getName(),
                                              declaration.getDescription(),
-                                             toParameterGroups(((NestedRouteDeclaration) declaration).getParameterGroups()),
+                                             toParameterGroups(declaration.getParameterGroups()),
                                              declaration.getDisplayModel(),
                                              ((NestedRouteDeclaration) declaration).getMinOccurs(),
                                              ((NestedRouteDeclaration) declaration).getMaxOccurs(),
-                                             toNestedComponentModels(((NestedRouteDeclaration) declaration)
-                                                 .getNestedComponents()),
+                                             toNestedComponentModels(declaration.getNestedComponents()),
+                                             declaration.getStereotype(),
                                              declaration.getModelProperties());
       }
       if (declaration instanceof NestedChainDeclaration) {
-        return new ImmutableNestedChainModel(declaration.getName(),
+        return new ImmutableNestedChainModel(
+                                             declaration.getName(),
                                              declaration.getDescription(),
-                                             declaration.getDisplayModel(),
+                                             toParameterGroups(declaration.getParameterGroups()),
                                              declaration.isRequired(),
                                              getProcessorStereotypes(((NestedChainDeclaration) declaration)
                                                  .getAllowedStereotypes()),
-                                             declaration.getModelProperties());
+                                             toNestedComponentModels(declaration.getNestedComponents()),
+                                             declaration.getDisplayModel(),
+                                             declaration.getErrorModels(),
+                                             declaration.getStereotype(),
+                                             declaration.getModelProperties(),
+                                             (DeprecationModel) declaration.getDeprecation().orElse(null),
+                                             declaration.getSemanticTerms());
       }
-      return new ImmutableNestedComponentModel(declaration.getName(),
+      return new ImmutableNestedComponentModel(
+                                               declaration.getName(),
                                                declaration.getDescription(),
-                                               declaration.getDisplayModel(),
+                                               toParameterGroups(declaration.getParameterGroups()),
                                                declaration.isRequired(),
-                                               getProcessorStereotypes(
-                                                                       ((NestedComponentDeclaration<NestedComponentDeclaration>) declaration)
-                                                                           .getAllowedStereotypes()),
-                                               declaration.getModelProperties());
+                                               getProcessorStereotypes(((NestedComponentDeclaration) declaration)
+                                                   .getAllowedStereotypes()),
+                                               toNestedComponentModels(declaration.getNestedComponents()),
+                                               declaration.getDisplayModel(),
+                                               declaration.getErrorModels(),
+                                               declaration.getStereotype(),
+                                               declaration.getModelProperties(),
+                                               (DeprecationModel) declaration.getDeprecation().orElse(null),
+                                               declaration.getSemanticTerms());
     }
 
     private List<ConnectionProviderModel> toConnectionProviders(List<ConnectionProviderDeclaration> declarations) {

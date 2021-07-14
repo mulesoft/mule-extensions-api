@@ -899,6 +899,12 @@
         "nestedComponents": [
           {
             "minOccurs": 1,
+            "errors": [],
+            "semanticTerms": [],
+            "parameterGroupModels": [],
+            "name": "when",
+            "description": "",
+            "modelProperties": {},
             "childComponents": [
               {
                 "isRequired": true,
@@ -908,21 +914,80 @@
                     "namespace": "MULE"
                   }
                 ],
+                "nestedComponents": [],
+                "errors": [],
+                "semanticTerms": [],
+                "parameterGroupModels": [],
                 "name": "processors",
                 "description": "",
                 "modelProperties": {},
                 "kind": "chain"
+              },
+              {
+                "isRequired": false,
+                "allowedStereotypes": [
+                  {
+                    "type": "PROCESSOR",
+                    "namespace": "MULE"
+                  }
+                ],
+                "nestedComponents": [],
+                "errors": [],
+                "semanticTerms": [],
+                "parameterGroupModels": [
+                  {
+                    "parameters": [
+                      {
+                        "type": {
+                          "format": "java",
+                          "type": "String",
+                          "annotations": {
+                            "typeId": "java.lang.String"
+                          }
+                        },
+                        "hasDynamicType": false,
+                        "required": true,
+                        "isConfigOverride": false,
+                        "isComponentId": false,
+                        "fieldValueProviderModels": [],
+                        "expressionSupport": "SUPPORTED",
+                        "role": "BEHAVIOUR",
+                        "dslConfiguration": {
+                          "allowsInlineDefinition": true,
+                          "allowsReferences": true,
+                          "allowTopLevelDefinition": false
+                        },
+                        "allowedStereotypeModels": [],
+                        "semanticTerms": [],
+                        "name": "type",
+                        "description": "",
+                        "modelProperties": {}
+                      }
+                    ],
+                    "exclusiveParametersModels": [],
+                    "showInDsl": false,
+                    "name": "General",
+                    "description": "",
+                    "modelProperties": {}
+                  }
+                ],
+                "name": "errorHandler",
+                "description": "",
+                "modelProperties": {},
+                "kind": "component"
               }
             ],
-            "parameterGroupModels": [],
-            "name": "when",
-            "description": "",
-            "modelProperties": {},
             "kind": "route"
           },
           {
             "minOccurs": 0,
             "maxOccurs": 1,
+            "errors": [],
+            "semanticTerms": [],
+            "parameterGroupModels": [],
+            "name": "otherwise",
+            "description": "",
+            "modelProperties": {},
             "childComponents": [
               {
                 "isRequired": true,
@@ -932,16 +997,16 @@
                     "namespace": "MULE"
                   }
                 ],
+                "nestedComponents": [],
+                "errors": [],
+                "semanticTerms": [],
+                "parameterGroupModels": [],
                 "name": "processors",
                 "description": "",
                 "modelProperties": {},
                 "kind": "chain"
               }
             ],
-            "parameterGroupModels": [],
-            "name": "otherwise",
-            "description": "",
-            "modelProperties": {},
             "kind": "route"
           }
         ],
@@ -3018,6 +3083,12 @@
         "nestedComponents": [
           {
             "minOccurs": 1,
+            "errors": [],
+            "semanticTerms": [],
+            "parameterGroupModels": [],
+            "name": "when",
+            "description": "",
+            "modelProperties": {},
             "childComponents": [
               {
                 "isRequired": true,
@@ -3027,21 +3098,80 @@
                     "namespace": "MULE"
                   }
                 ],
+                "nestedComponents": [],
+                "errors": [],
+                "semanticTerms": [],
+                "parameterGroupModels": [],
                 "name": "processors",
                 "description": "",
                 "modelProperties": {},
                 "kind": "chain"
+              },
+              {
+                "isRequired": false,
+                "allowedStereotypes": [
+                  {
+                    "type": "PROCESSOR",
+                    "namespace": "MULE"
+                  }
+                ],
+                "nestedComponents": [],
+                "errors": [],
+                "semanticTerms": [],
+                "parameterGroupModels": [
+                  {
+                    "parameters": [
+                      {
+                        "type": {
+                          "format": "java",
+                          "type": "String",
+                          "annotations": {
+                            "typeId": "java.lang.String"
+                          }
+                        },
+                        "hasDynamicType": false,
+                        "required": true,
+                        "isConfigOverride": false,
+                        "isComponentId": false,
+                        "fieldValueProviderModels": [],
+                        "expressionSupport": "SUPPORTED",
+                        "role": "BEHAVIOUR",
+                        "dslConfiguration": {
+                          "allowsInlineDefinition": true,
+                          "allowsReferences": true,
+                          "allowTopLevelDefinition": false
+                        },
+                        "allowedStereotypeModels": [],
+                        "semanticTerms": [],
+                        "name": "type",
+                        "description": "",
+                        "modelProperties": {}
+                      }
+                    ],
+                    "exclusiveParametersModels": [],
+                    "showInDsl": false,
+                    "name": "General",
+                    "description": "",
+                    "modelProperties": {}
+                  }
+                ],
+                "name": "errorHandler",
+                "description": "",
+                "modelProperties": {},
+                "kind": "component"
               }
             ],
-            "parameterGroupModels": [],
-            "name": "when",
-            "description": "",
-            "modelProperties": {},
             "kind": "route"
           },
           {
             "minOccurs": 0,
             "maxOccurs": 1,
+            "errors": [],
+            "semanticTerms": [],
+            "parameterGroupModels": [],
+            "name": "otherwise",
+            "description": "",
+            "modelProperties": {},
             "childComponents": [
               {
                 "isRequired": true,
@@ -3051,16 +3181,16 @@
                     "namespace": "MULE"
                   }
                 ],
+                "nestedComponents": [],
+                "errors": [],
+                "semanticTerms": [],
+                "parameterGroupModels": [],
                 "name": "processors",
                 "description": "",
                 "modelProperties": {},
                 "kind": "chain"
               }
             ],
-            "parameterGroupModels": [],
-            "name": "otherwise",
-            "description": "",
-            "modelProperties": {},
             "kind": "route"
           }
         ],

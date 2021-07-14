@@ -425,6 +425,20 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
         }));
       }
 
+      @Override
+      public void visit(NestedComponentModel model) {
+        // no-op
+      }
+
+      @Override
+      public void visit(NestedChainModel model) {
+        // no-op
+      }
+
+      @Override
+      public void visit(NestedRouteModel model) {
+        // no-op
+      }
     });
   }
 
