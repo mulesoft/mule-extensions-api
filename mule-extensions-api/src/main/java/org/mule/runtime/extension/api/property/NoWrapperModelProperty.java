@@ -20,6 +20,11 @@ public class NoWrapperModelProperty implements ModelProperty {
 
   public static final String NAME = "noWrapper";
 
+  /**
+   * Use this instance for memory efficiency
+   */
+  public static final NoWrapperModelProperty INSTANCE = new NoWrapperModelProperty();
+
   @Override
   public String getName() {
     return NAME;
