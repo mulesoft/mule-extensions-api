@@ -122,7 +122,6 @@
         <junitVersion>4.12</junitVersion>
         <hamcrestVersion>1.3</hamcrestVersion>
         <aspectjVersion>1.9.2</aspectjVersion>
-        <guavaVersion>25.1-jre</guavaVersion>
         <allureJunitVersion>2.8.1</allureJunitVersion>
         <allureReportVersion>2.8.1</allureReportVersion>
         <allure.maven.plugin.version>2.9</allure.maven.plugin.version>
@@ -143,6 +142,8 @@
         <muleRevapiExtensionVersion>1.3.1-SNAPSHOT</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
+
+        <muleBomVersion>4.3.1-SNAPSHOT</muleBomVersion>
     </properties>
 
     <!--
@@ -152,6 +153,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.mule</groupId>
+                <artifactId>mule-runtime-bom</artifactId>
+                <version>${muleBomVersion}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.mule.runtime</groupId>
                 <artifactId>mule-api</artifactId>
