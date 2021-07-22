@@ -121,11 +121,21 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
     return isRequired;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @since 1.4.0
+   */
   @Override
   public int getMinOccurs() {
     return minOccurs;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @since 1.4.0
+   */
   @Override
   public Optional<Integer> getMaxOccurs() {
     return ofNullable(maxOccurs);
