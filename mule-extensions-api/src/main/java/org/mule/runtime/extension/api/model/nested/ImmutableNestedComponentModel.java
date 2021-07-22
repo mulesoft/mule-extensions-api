@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.model.nested;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
+import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -22,6 +23,7 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.AbstractComponentModel;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -33,8 +35,14 @@ import com.google.common.collect.ImmutableSet;
  */
 public class ImmutableNestedComponentModel extends AbstractComponentModel implements NestedComponentModel {
 
+  /**
+   * @deprecated since 1.4.0. Test {@link #minOccurs} to be greater than zero instead.
+   */
+  @Deprecated
   private final boolean isRequired;
   private final Set<StereotypeModel> allowedStereotypes;
+  private final int minOccurs;
+  private final Integer maxOccurs;
 
   /**
    * Creates a new instance
@@ -52,7 +60,7 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
                                        boolean isRequired,
                                        Set<StereotypeModel> allowedStereotypes,
                                        Set<ModelProperty> modelProperties) {
-    this(name, description, emptyList(), isRequired, allowedStereotypes, emptyList(), displayModel, emptySet(),
+    this(name, description, emptyList(), isRequired ? 1 : 0, 1, allowedStereotypes, emptyList(), displayModel, emptySet(),
          null, modelProperties, null, emptySet());
   }
 
@@ -62,7 +70,9 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
    * @param name                 the model's name
    * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-   * @param isRequired           whether or not {@code this} element is required for its owner element
+   * @param minOccurs            the minimum number of instances required for this component
+   * @param maxOccurs            maximum amount of times that this component can be used inside the owning one. {@code null} means
+   *                             unbounded.
    * @param allowedStereotypes   a {@link Set} with the {@link StereotypeModel}s that can be assigned to this nested element.
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
@@ -77,7 +87,8 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
   public ImmutableNestedComponentModel(String name,
                                        String description,
                                        List<ParameterGroupModel> parameterGroupModels,
-                                       boolean isRequired,
+                                       int minOccurs,
+                                       Integer maxOccurs,
                                        Set<StereotypeModel> allowedStereotypes,
                                        List<? extends NestableElementModel> nestedComponents,
                                        DisplayModel displayModel,
@@ -88,7 +99,9 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
                                        Set<String> semanticTerms) {
     super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties,
           deprecationModel, semanticTerms);
-    this.isRequired = isRequired;
+    this.isRequired = minOccurs > 0;
+    this.minOccurs = minOccurs;
+    this.maxOccurs = maxOccurs;
     this.allowedStereotypes = ImmutableSet.copyOf(allowedStereotypes);
   }
 
@@ -106,6 +119,16 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
   @Override
   public boolean isRequired() {
     return isRequired;
+  }
+
+  @Override
+  public int getMinOccurs() {
+    return minOccurs;
+  }
+
+  @Override
+  public Optional<Integer> getMaxOccurs() {
+    return ofNullable(maxOccurs);
   }
 
   /**

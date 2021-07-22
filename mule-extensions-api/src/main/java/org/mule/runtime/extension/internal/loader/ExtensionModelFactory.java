@@ -450,8 +450,8 @@ public final class ExtensionModelFactory {
                                              declaration.getDescription(),
                                              toParameterGroups(declaration.getParameterGroups()),
                                              declaration.getDisplayModel(),
-                                             ((NestedRouteDeclaration) declaration).getMinOccurs(),
-                                             ((NestedRouteDeclaration) declaration).getMaxOccurs(),
+                                             declaration.getMinOccurs(),
+                                             declaration.getMaxOccurs(),
                                              toNestedComponentModels(declaration.getNestedComponents()),
                                              declaration.getStereotype(),
                                              declaration.getModelProperties());
@@ -476,7 +476,8 @@ public final class ExtensionModelFactory {
                                                declaration.getName(),
                                                declaration.getDescription(),
                                                toParameterGroups(declaration.getParameterGroups()),
-                                               declaration.isRequired(),
+                                               declaration.getMinOccurs(),
+                                               declaration.getMaxOccurs(),
                                                getProcessorStereotypes(((NestedComponentDeclaration) declaration)
                                                    .getAllowedStereotypes()),
                                                toNestedComponentModels(declaration.getNestedComponents()),

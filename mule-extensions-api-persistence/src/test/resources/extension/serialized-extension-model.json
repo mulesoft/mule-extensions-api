@@ -913,6 +913,8 @@
                   "namespace": "MULE"
                 }
               ],
+              "minOccurs": 1,
+              "maxOccurs": 1,
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
@@ -930,6 +932,7 @@
                   "namespace": "MULE"
                 }
               ],
+              "minOccurs": 0,
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
@@ -996,6 +999,8 @@
                   "namespace": "MULE"
                 }
               ],
+              "minOccurs": 1,
+              "maxOccurs": 1,
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],

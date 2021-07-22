@@ -76,8 +76,19 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel,
                                    Set<String> semanticTerms) {
-    super(name, description, parameterGroupModels, isRequired, allowedStereotypes, nestedComponents, displayModel,
-          errors, stereotype, modelProperties, deprecationModel, semanticTerms);
+    super(name,
+          description,
+          parameterGroupModels,
+          isRequired ? 1 : 0,
+          1,
+          allowedStereotypes,
+          nestedComponents,
+          displayModel,
+          errors,
+          stereotype,
+          modelProperties,
+          deprecationModel,
+          semanticTerms);
   }
 
   /**
