@@ -40,8 +40,8 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
    * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the component's {@link ParameterGroupModel parameter group models}
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
-   * @param minOccurs            the minimum number of instances required for this kind of route
-   * @param maxOccurs            the maximum number of instances allowed for this kind of route
+   * @param minOccurs            the minimum amount of times that this component can be used inside the owning one.
+   * @param maxOccurs            the maximum number of instances allowed for this route. {@code null} means unbounded.
    * @param childComponents      the route's child components
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
