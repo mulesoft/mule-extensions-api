@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
+
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComposableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -27,6 +28,7 @@ import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportT
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
+import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -158,6 +160,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
                                                            group.getName(), model.getName(), kind)));
             }
             group.getParameterModels().stream()
+                .filter(parameter -> !parameter.getModelProperty(InfrastructureParameterModelProperty.class).isPresent())
                 .forEach(parameter -> {
                   if (dsl.resolve(parameter).supportsChildDeclaration()) {
                     problemsReporter.addError(new Problem(model,

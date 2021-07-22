@@ -36,7 +36,7 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_DEFAULT_RECONNECTION_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_RECONNECTION_STRATEGY_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ABSTRACT_REDELIVERY_POLICY_QNAME;
-import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ERROR_MAPPING_QNAME;
+import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_ERROR_MAPPINGS_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_EXPIRATION_POLICY_QNAME;
 import static org.mule.runtime.extension.api.util.XmlModelUtils.MULE_POOLING_PROFILE_TYPE_QNAME;
 
@@ -248,7 +248,7 @@ public final class InfrastructureParameterBuilder {
         .allowsReferences(false)
         .allowTopLevelDefinition(false)
         .build());
-    parameter.addModelProperty(new QNameModelProperty(MULE_ERROR_MAPPING_QNAME));
+    parameter.addModelProperty(new QNameModelProperty(MULE_ERROR_MAPPINGS_QNAME));
     parameter.addModelProperty(new SinceMuleVersionModelProperty("4.4.0"));
     markAsInfrastructure(parameter, 12);
 
