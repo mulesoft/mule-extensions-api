@@ -31,7 +31,7 @@ import com.google.gson.stream.JsonWriter;
  *
  * @since 1.4.0
  */
-public class LegacyNestedElementTypeAdapter extends TypeAdapter<NestableElementModel> {
+public class LegacyNestedRouteModelTypeAdapter extends TypeAdapter<NestableElementModel> {
 
   private static final String NESTED_COMPONENTS_KEY = "nestedComponents";
   private static final String CHILD_COMPONENTS_KEY = "childComponents";
@@ -39,7 +39,7 @@ public class LegacyNestedElementTypeAdapter extends TypeAdapter<NestableElementM
   private final TypeAdapter<NestableElementModel> delegate;
   private final Gson gson;
 
-  public LegacyNestedElementTypeAdapter(TypeAdapter<NestableElementModel> delegate, Gson gson) {
+  public LegacyNestedRouteModelTypeAdapter(TypeAdapter<NestableElementModel> delegate, Gson gson) {
     this.delegate = delegate;
     this.gson = gson;
   }
@@ -65,7 +65,7 @@ public class LegacyNestedElementTypeAdapter extends TypeAdapter<NestableElementM
       JsonObject object = element.getAsJsonObject();
       JsonElement target = object.remove(currentKey);
       if (target != null) {
-        object.add(newKey, target.deepCopy());
+        object.add(newKey, target);
       }
     }
   }
