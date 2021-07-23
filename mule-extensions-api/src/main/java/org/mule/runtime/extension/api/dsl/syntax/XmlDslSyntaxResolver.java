@@ -30,6 +30,7 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsI
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.componentHasAnImplicitConfiguration;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
@@ -54,6 +55,7 @@ import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
+import org.mule.runtime.api.meta.model.ComposableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
@@ -396,7 +398,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     component.accept(new ComponentModelVisitor() {
 
       @Override
-      public void visit(OperationModel operationModel) {}
+      public void visit(OperationModel operationModel) {
+        processComposableModel(operationModel, dsl);
+      }
 
       @Override
       public void visit(SourceModel sourceModel) {
@@ -406,54 +410,71 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       @Override
       public void visit(ConstructModel model) {
-        model.getNestedComponents().forEach(child -> child.accept(new NestableElementModelVisitor() {
-
-          @Override
-          public void visit(NestedComponentModel component) {
-            // no-op
-          }
-
-          @Override
-          public void visit(NestedChainModel component) {
-            // no-op
-          }
-
-          @Override
-          public void visit(NestedRouteModel component) {
-            dsl.containing(component.getName(), resolveRouteDsl(component));
-          }
-        }));
+        processComposableModel(model, dsl);
       }
 
       @Override
       public void visit(NestedComponentModel model) {
-        // no-op
+        processComposableModel(model, dsl);
       }
 
       @Override
       public void visit(NestedChainModel model) {
-        // no-op
+        processComposableModel(model, dsl);
       }
 
       @Override
       public void visit(NestedRouteModel model) {
-        // no-op
+        processComposableModel(model, dsl);
       }
     });
   }
 
-  private DslElementSyntax resolveRouteDsl(final NestedRouteModel route) {
+  private void processComposableModel(ComposableModel model, DslElementSyntaxBuilder dsl) {
+    model.getNestedComponents().forEach(child -> child.accept(new ComponentModelVisitor() {
 
+      @Override
+      public void visit(OperationModel model) {
+        // no-op
+      }
+
+      @Override
+      public void visit(SourceModel model) {
+        // no-op
+      }
+
+      @Override
+      public void visit(ConstructModel model) {
+        // no-op
+      }
+
+      @Override
+      public void visit(NestedComponentModel component) {
+        dsl.containing(component.getName(), resolveRecursiveComponent(component));
+      }
+
+      @Override
+      public void visit(NestedChainModel component) {
+        dsl.containing(component.getName(), resolveRecursiveComponent(component));
+      }
+
+      @Override
+      public void visit(NestedRouteModel component) {
+        dsl.containing(component.getName(), resolveRecursiveComponent(component));
+      }
+    }));
+  }
+
+  private DslElementSyntax resolveRecursiveComponent(ComponentModel componentModel) {
     DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
-        .withElementName(getSanitizedElementName(route))
+        .withElementName(getSanitizedElementName(componentModel))
         .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
         .supportsTopLevelDeclaration(false)
         .supportsChildDeclaration(true)
         .supportsAttributeDeclaration(false)
         .requiresConfig(false);
 
-    resolveParameterizedDsl(route, dsl);
-
+    resolveComponentDsl(componentModel, dsl);
     return dsl.build();
   }
 
