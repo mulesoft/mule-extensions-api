@@ -326,9 +326,13 @@ abstract class BasePersistenceTestCase {
   }
 
   void assertSerializedJson(String serializedResult, String expectedFileName) throws IOException {
+    assertSerializedJson(serializedResult, expectedFileName, true);
+  }
+
+  void assertSerializedJson(String serializedResult, String expectedFileName, boolean strict) throws IOException {
     String expected = getResourceAsString(expectedFileName);
     try {
-      JSONAssert.assertEquals(expected, serializedResult, true);
+      JSONAssert.assertEquals(expected, serializedResult, strict);
     } catch (AssertionError e) {
       System.out.println("Expected the contents of " + expectedFileName + " but got:\n" + serializedResult);
 

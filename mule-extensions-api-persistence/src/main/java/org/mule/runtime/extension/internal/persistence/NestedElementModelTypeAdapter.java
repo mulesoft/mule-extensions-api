@@ -7,12 +7,12 @@
 package org.mule.runtime.extension.internal.persistence;
 
 import static java.lang.String.format;
+
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
-import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.model.nested.ImmutableNestedChainModel;
 import org.mule.runtime.extension.api.model.nested.ImmutableNestedComponentModel;
@@ -24,7 +24,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * A {@link TypeAdapter} for serializing instances of {@link OperationModel} and all its child interfaces
+ * A {@link TypeAdapter} for serializing instances of {@link NestableElementModel} and all its child interfaces
  *
  * @since 1.0
  */
@@ -69,7 +69,7 @@ public class NestedElementModelTypeAdapter extends KindEnrichedTypeAdapter<Nesta
       case ROUTE_KIND:
         TypeAdapter<NestableElementModel> delegateAdapter =
             (TypeAdapter) gson.getDelegateAdapter(typeAdapterFactory, TypeToken.get(ImmutableNestedRouteModel.class));
-        return new LegacyNestedElementTypeAdapter(delegateAdapter, gson);
+        return new LegacyNestedRouteModelTypeAdapter(delegateAdapter, gson);
       case CHAIN_KIND:
         clazz = ImmutableNestedChainModel.class;
         break;
@@ -80,6 +80,6 @@ public class NestedElementModelTypeAdapter extends KindEnrichedTypeAdapter<Nesta
         throw new IllegalArgumentException(format("Unknown kind [%s] for a NestedElementModel", kind));
     }
 
-    return gson.getDelegateAdapter(typeAdapterFactory, TypeToken.get(clazz));
+    return new LegacyNestedElementModelTypeAdapter(gson.getDelegateAdapter(typeAdapterFactory, TypeToken.get(clazz)));
   }
 }

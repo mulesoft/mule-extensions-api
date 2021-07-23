@@ -16,10 +16,12 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -30,14 +32,13 @@ import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.junit.Test;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
@@ -108,6 +109,14 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   public void validateJsonListStructure() throws IOException {
     final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
     assertSerializedJson(serializedList, LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON);
+  }
+
+  @Test
+  public void validateJsonStructureWithoutOccurencesInNestedElements() throws IOException {
+    ExtensionModel extensionModel = extensionModelJsonSerializer
+        .deserialize(getResourceAsString("extension/serialized-extension-model-without-nested-occurs.json"));
+    String serializedModel = extensionModelJsonSerializer.serialize(extensionModel);
+    assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON, false);
   }
 
   @Test
