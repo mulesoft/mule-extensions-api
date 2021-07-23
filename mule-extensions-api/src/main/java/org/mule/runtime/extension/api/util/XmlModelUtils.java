@@ -12,6 +12,7 @@ import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.mule.runtime.internal.dsl.DslConstants.DEFAULT_NAMESPACE_URI_MASK;
+import static org.mule.runtime.internal.dsl.DslConstants.ERROR_MAPPINGS_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.ERROR_MAPPING_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.EXPIRATION_POLICY_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.POOLING_PROFILE_ELEMENT_IDENTIFIER;
@@ -81,6 +82,12 @@ public final class XmlModelUtils {
    */
   public static final QName MULE_EXPIRATION_POLICY_QNAME =
       new QName(CORE_NAMESPACE, EXPIRATION_POLICY_ELEMENT_IDENTIFIER, CORE_PREFIX);
+
+  /**
+   * {@link QName} for the {@code error-mappings} element
+   */
+  public static final QName MULE_ERROR_MAPPINGS_QNAME =
+      new QName(CORE_NAMESPACE, ERROR_MAPPINGS_ELEMENT_IDENTIFIER, CORE_PREFIX);
 
   /**
    * {@link QName} for the {@code error-mapping} element

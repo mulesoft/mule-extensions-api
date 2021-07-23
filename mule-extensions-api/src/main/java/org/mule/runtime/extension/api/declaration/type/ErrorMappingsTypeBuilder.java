@@ -35,6 +35,7 @@ public class ErrorMappingsTypeBuilder extends InfrastructureTypeBuilder {
         .key("target")
         .required()
         .value(ERROR_TYPE_DEFINITION);
+    errorMappingType.with(new InfrastructureTypeAnnotation());
 
     final ArrayTypeBuilder type = create(JAVA).arrayType()
         .of(errorMappingType)
