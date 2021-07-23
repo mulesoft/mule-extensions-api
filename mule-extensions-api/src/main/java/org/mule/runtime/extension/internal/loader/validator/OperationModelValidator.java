@@ -160,6 +160,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
                                                            group.getName(), model.getName(), kind)));
             }
             group.getParameterModels().stream()
+                // an example of this is error-mappings that are allowed in a scope
                 .filter(parameter -> !parameter.getModelProperty(InfrastructureParameterModelProperty.class).isPresent())
                 .forEach(parameter -> {
                   if (dsl.resolve(parameter).supportsChildDeclaration()) {
