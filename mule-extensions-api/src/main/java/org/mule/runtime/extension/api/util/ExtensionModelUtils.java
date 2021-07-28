@@ -48,6 +48,7 @@ import org.mule.runtime.api.meta.model.source.HasSourceModels;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
+import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
@@ -489,5 +490,18 @@ public class ExtensionModelUtils {
   public static Optional<ClassLoader> getExtensionClassLoader(ExtensionModel extensionModel) {
     return extensionModel.getModelProperty(ClassLoaderModelProperty.class)
         .map(classLoaderModelProperty -> classLoaderModelProperty.getClassLoader());
+  }
+
+  /**
+   * Given a {@link ParameterizedModel}, it returns a stream with all pairs of groups and parameters involving this model
+   *
+   * @param model
+   * @return a {@link Stream} of {@link Pair} of {@link ParameterGroupModel} and its {@link ParameterModel}, associated to the
+   *         model.
+   */
+  public static Stream<Pair<ParameterGroupModel, ParameterModel>> getGroupAndParametersPairs(ParameterizedModel model) {
+    return model.getParameterGroupModels()
+        .stream()
+        .flatMap(g -> g.getParameterModels().stream().map(p -> new Pair<>(g, p)));
   }
 }
