@@ -34,6 +34,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclarati
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
+import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
@@ -61,6 +62,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   public static final String SOURCE_CALLBACK = "source callback";
   public static final String FUNCTION = "function";
   public static final String CONSTRUCT = "construct";
+  public static final String NESTABLE_COMPONENT = "nestable component";
 
   private static final List<Inflection> plural = new ArrayList<>();
   private static final List<Inflection> singular = new ArrayList<>();
@@ -306,6 +308,8 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
       return CONSTRUCT;
     } else if (component instanceof SourceCallbackModel) {
       return SOURCE_CALLBACK;
+    } else if (component instanceof NestableElementModel) {
+      return NESTABLE_COMPONENT;
     }
 
     throw new IllegalArgumentException(format("Component '%s' is not an instance of any known model type [%s, %s, %s, %s, %s]",

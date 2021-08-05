@@ -111,6 +111,7 @@ import org.mule.runtime.extension.internal.loader.validator.ExclusiveParameterMo
 import org.mule.runtime.extension.internal.loader.validator.FunctionModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.NameClashModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.NameModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.NoWrapperModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.OperationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
@@ -182,7 +183,8 @@ public final class ExtensionModelFactory {
                                                        new TransactionalParametersValidator(),
                                                        new ValidatorModelValidator(),
                                                        new NameModelValidator(),
-                                                       new BackPressureModelValidator()));
+                                                       new BackPressureModelValidator(),
+                                                       new NoWrapperModelValidator()));
 
     validate = isTestingMode() || isForceExtensionValidation();
   }
