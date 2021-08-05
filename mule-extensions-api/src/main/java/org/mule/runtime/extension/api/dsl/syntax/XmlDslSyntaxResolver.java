@@ -742,13 +742,14 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                          boolean introspectObjectFields) {
 
     boolean supportsChildDeclaration = supportsInlineDeclaration(objectType, SUPPORTED);
+    boolean requiresWrapper = typeRequiresWrapperElement(objectType, typeCatalog);
     boolean supportsTopDeclaration = supportTopLevelElement(objectType);
 
-    builder.supportsChildDeclaration(supportsChildDeclaration)
+    builder.supportsChildDeclaration(supportsChildDeclaration || requiresWrapper)
         .supportsTopLevelDeclaration(supportsTopDeclaration)
         .asWrappedElement(typeRequiresWrapperElement(objectType, typeCatalog));
 
-    if (introspectObjectFields && (supportsChildDeclaration || supportsTopDeclaration)) {
+    if (introspectObjectFields && (supportsChildDeclaration || supportsTopDeclaration || requiresWrapper)) {
       declareFieldsAsChilds(builder, childFields, namespace, namespaceUri);
     }
   }
