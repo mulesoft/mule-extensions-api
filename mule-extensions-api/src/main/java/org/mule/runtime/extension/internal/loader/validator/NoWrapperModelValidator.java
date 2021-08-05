@@ -95,8 +95,7 @@ public class NoWrapperModelValidator implements ExtensionModelValidator {
 
       @Override
       protected void onNestable(ComposableModel owner, NestableElementModel model) {
-        if (!visitedComposableModel.contains(owner)) {
-          visitedComposableModel.add(owner);
+        if (visitedComposableModel.add(owner)) {
           verifyChainChildren(owner);
         }
 
