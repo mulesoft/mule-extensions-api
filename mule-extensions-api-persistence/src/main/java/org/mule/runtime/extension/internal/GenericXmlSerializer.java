@@ -11,6 +11,7 @@ import org.mule.apache.xml.serialize.XMLSerializer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.xml.bind.JAXBContext;
@@ -19,17 +20,22 @@ import javax.xml.bind.Unmarshaller;
 
 public class GenericXmlSerializer<T> {
 
-  private Class<T> serializedType;
+  private JAXBContext jaxbContext;
+  private Marshaller marshaller;
+  private Unmarshaller unmarshaller;
 
   public GenericXmlSerializer(Class<T> serializedType) {
-    this.serializedType = serializedType;
+    try {
+      jaxbContext = JAXBContext.newInstance(serializedType);
+      marshaller = jaxbContext.createMarshaller();
+      unmarshaller = jaxbContext.createUnmarshaller();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public String serialize(T dto) {
     try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(serializedType);
-      Marshaller marshaller = jaxbContext.createMarshaller();
-
       ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
       marshaller.marshal(dto, getXmlSerializer(out).asContentHandler());
 
@@ -41,9 +47,15 @@ public class GenericXmlSerializer<T> {
 
   public <T> T deserialize(String xml) {
     try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(serializedType);
-      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
       return (T) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public <T> T deserialize(InputStream xml) {
+    try {
+      return (T) unmarshaller.unmarshal(xml);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
