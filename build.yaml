@@ -1,3 +1,4 @@
 upstreamProjects:
   Mule-runtime/mule-api/1.4.0
 projectType: runtime
+devBranchesRegex: "1\\.4\\.0"
