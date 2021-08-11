@@ -30,7 +30,6 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsI
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.componentHasAnImplicitConfiguration;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
@@ -62,7 +61,6 @@ import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
-import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
@@ -78,6 +76,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnot
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
+import org.mule.runtime.extension.api.property.NoWrapperModelProperty;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
 
 import java.util.ArrayDeque;
@@ -165,7 +164,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
           .requiresConfig(requiresConfig(extensionModel, component));
 
       if (component instanceof ComponentModel) {
-        resolveComponentDsl((ComponentModel) component, dsl);
+        resolveComponentDsl((ComponentModel) component, dsl, false);
       } else {
         if (component instanceof ParameterizedModel) {
           resolveParameterizedDsl((ParameterizedModel) component, dsl);
@@ -390,10 +389,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     return of(builder.build());
   }
 
-  private void resolveComponentDsl(ComponentModel component, final DslElementSyntaxBuilder dsl) {
-    dsl.supportsTopLevelDeclaration(false);
-
-    resolveParameterizedDsl(component, dsl);
+  private void resolveComponentDsl(ComponentModel component, final DslElementSyntaxBuilder dsl, boolean skipComponent) {
+    if (!skipComponent) {
+      dsl.supportsTopLevelDeclaration(false);
+      resolveParameterizedDsl(component, dsl);
+    }
 
     component.accept(new ComponentModelVisitor() {
 
@@ -450,32 +450,43 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       @Override
       public void visit(NestedComponentModel component) {
-        dsl.containing(component.getName(), resolveRecursiveComponent(component));
+        resolveRecursiveComponent(component, dsl);
       }
 
       @Override
       public void visit(NestedChainModel component) {
-        dsl.containing(component.getName(), resolveRecursiveComponent(component));
+        resolveRecursiveComponent(component, dsl);
       }
 
       @Override
       public void visit(NestedRouteModel component) {
-        dsl.containing(component.getName(), resolveRecursiveComponent(component));
+        resolveRecursiveComponent(component, dsl);
       }
     }));
   }
 
-  private DslElementSyntax resolveRecursiveComponent(ComponentModel componentModel) {
-    DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
-        .withElementName(getSanitizedElementName(componentModel))
-        .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
-        .supportsTopLevelDeclaration(false)
-        .supportsChildDeclaration(true)
-        .supportsAttributeDeclaration(false)
-        .requiresConfig(false);
+  private void resolveRecursiveComponent(ComponentModel componentModel, DslElementSyntaxBuilder parentDsl) {
+    boolean skipComponent = skipComponent(componentModel);
+    if (!skipComponent) {
+      DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
+          .withElementName(getSanitizedElementName(componentModel))
+          .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
+          .supportsTopLevelDeclaration(false)
+          .supportsChildDeclaration(true)
+          .supportsAttributeDeclaration(false)
+          .requiresConfig(false);
+      resolveComponentDsl(componentModel, dsl, skipComponent);
+      parentDsl.containing(componentModel.getName(), dsl.build());
+    } else {
+      resolveComponentDsl(componentModel, parentDsl, skipComponent);
+    }
+  }
 
-    resolveComponentDsl(componentModel, dsl);
-    return dsl.build();
+  private boolean skipComponent(ComponentModel componentModel) {
+    // The syntax for those component models having the NoWrapperModelProperty won't be included on the DSL Syntax tree.
+    // In case that a component having the mentioned property has children, these will be included on the DSL Syntax tree as
+    // direct children of the parent of the skipped/excluded component
+    return componentModel.getModelProperty(NoWrapperModelProperty.class).isPresent();
   }
 
   private void resolveObjectDslFromParameter(ParameterModel parameter, ObjectType objectType, DslElementSyntaxBuilder builder,
