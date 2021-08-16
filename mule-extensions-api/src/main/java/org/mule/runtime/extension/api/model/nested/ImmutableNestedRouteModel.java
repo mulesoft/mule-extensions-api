@@ -7,10 +7,12 @@
 package org.mule.runtime.extension.api.model.nested;
 
 import static java.util.Collections.EMPTY_SET;
+import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
@@ -53,7 +55,8 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
                                    Integer maxOccurs,
                                    List<? extends NestableElementModel> childComponents,
                                    Set<ModelProperty> modelProperties) {
-    this(name, description, parameterGroupModels, displayModel, minOccurs, maxOccurs, childComponents, null, modelProperties);
+    this(name, description, parameterGroupModels, displayModel, minOccurs, maxOccurs, childComponents, null, modelProperties,
+         null, emptySet());
   }
 
   /**
@@ -68,6 +71,9 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
    * @param childComponents      the route's child components
    * @param stereotypeModel      this component's stereotype or {@code null} if it doesn't have one
    * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
+   * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
    * @throws IllegalArgumentException if {@code name} is blank
    * @since 1.4.0
    */
@@ -78,8 +84,11 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
                                    Integer maxOccurs,
                                    List<? extends NestableElementModel> childComponents,
                                    StereotypeModel stereotypeModel,
-                                   Set<ModelProperty> modelProperties) {
-    super(name, description, parameterGroupModels, childComponents, displayModel, EMPTY_SET, stereotypeModel, modelProperties);
+                                   Set<ModelProperty> modelProperties,
+                                   DeprecationModel deprecationModel,
+                                   Set<String> semanticTerms) {
+    super(name, description, parameterGroupModels, childComponents, displayModel, emptySet(), stereotypeModel, modelProperties,
+          deprecationModel, semanticTerms);
     this.minOccurs = minOccurs;
     this.maxOccurs = maxOccurs;
   }

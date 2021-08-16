@@ -456,7 +456,9 @@ public final class ExtensionModelFactory {
                                              declaration.getMaxOccurs(),
                                              toNestedComponentModels(declaration.getNestedComponents()),
                                              declaration.getStereotype(),
-                                             declaration.getModelProperties());
+                                             declaration.getModelProperties(),
+                                             (DeprecationModel) declaration.getDeprecation().orElse(null),
+                                             declaration.getSemanticTerms());
       }
       if (declaration instanceof NestedChainDeclaration) {
         return new ImmutableNestedChainModel(
