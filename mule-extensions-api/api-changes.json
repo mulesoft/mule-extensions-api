@@ -19,6 +19,32 @@
               "methodName": "getActiveComponents",
               "elementKind": "method",
               "justification": "MULE-18675"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.stereotype.MuleStereotypes.SERIALIZER",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "MuleStereotypes",
+          "fieldName": "SERIALIZER",
+          "elementKind": "field",
+          "justification": "EE-7995: Fix kryo serializer in MUnit"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.stereotype.MuleStereotypes.SERIALIZER_DEFINITION",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "MuleStereotypes",
+          "fieldName": "SERIALIZER_DEFINITION",
+          "elementKind": "field",
+          "justification": "EE-7995: Fix kryo serializer in MUnit"
+        },
+        {
+          "code": "java.class.added",
+          "new": "class org.mule.runtime.extension.api.stereotype.SerializerStereotype",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "SerializerStereotype",
+          "elementKind": "class",
+          "justification": "EE-7995: Fix kryo serializer in MUnit"
         }
       ]
     }
