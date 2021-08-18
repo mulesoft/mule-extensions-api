@@ -96,6 +96,8 @@ import org.skyscreamer.jsonassert.JSONAssert;
 abstract class BasePersistenceTestCase {
 
   protected static final String SERIALIZED_EXTENSION_MODEL_JSON = "extension/serialized-extension-model.json";
+  protected static final String SERIALIZED_EXTENSION_MODEL_JSON_NO_CATALOG =
+      "extension/serialized-extension-model-no-catalog.json";
   protected static final String LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON =
       "extension/list-of-serialized-extension-model.json";
   protected static final ErrorModel ANY_ERROR_MODEL = newError("ANY", "MULE").build();

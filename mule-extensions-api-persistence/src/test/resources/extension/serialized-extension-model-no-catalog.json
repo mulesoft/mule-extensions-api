@@ -1,0 +1,469 @@
+{
+  "name": "DummyExtension",
+  "description": "Test extension",
+  "version": "4.0.0",
+  "vendor": "MuleSoft",
+  "category": "COMMUNITY",
+  "xmlDsl": {
+    "prefix": "",
+    "namespace": "",
+    "schemaLocation": "",
+    "schemaVersion": "",
+    "xsdFileName": ""
+  },
+  "resources": [],
+  "subTypes": [],
+  "privilegedPackages": [],
+  "privilegedArtifacts": [],
+  "externalLibraries": [
+    {
+      "name": "wss",
+      "description": "WSS native library",
+      "regexMatcher": "*.jar",
+      "requiredClassName": "org.my.Library",
+      "type": "JAR",
+      "optional": false
+    }
+  ],
+  "importedTypes": [],
+  "displayModel": {},
+  "configurations": [],
+  "operations": [
+    {
+      "blocking": true,
+      "executionType": "CPU_LITE",
+      "output": {
+        "type": {
+          "format": "java",
+          "type": "String"
+        },
+        "hasDynamicType": true,
+        "description": "Message.Payload",
+        "modelProperties": {}
+      },
+      "outputAttributes": {
+        "type": {
+          "format": "java",
+          "type": "String"
+        },
+        "hasDynamicType": false,
+        "description": "Message.Attributes",
+        "modelProperties": {}
+      },
+      "transactional": false,
+      "requiresConnection": false,
+      "supportsStreaming": false,
+      "notifications": [],
+      "sampleDataProviderModel": {
+        "parameters": [],
+        "providerId": "exampleSampleData",
+        "requiresConfiguration": true,
+        "requiresConnection": true
+      },
+      "nestedComponents": [],
+      "errors": [
+        "ERROR_NAMESPACE:SOME_ERROR"
+      ],
+      "semanticTerms": [
+        "test",
+        "car"
+      ],
+      "stereotype": {
+        "type": "PROCESSOR",
+        "namespace": "MULE"
+      },
+      "deprecationModel": {
+        "message": "This operation is deprecated",
+        "deprecatedSince": "1.3.0",
+        "toRemoveIn": "2.0.0"
+      },
+      "parameterGroupModels": [
+        {
+          "parameters": [],
+          "exclusiveParametersModels": [],
+          "showInDsl": false,
+          "name": "General",
+          "description": "",
+          "modelProperties": {}
+        }
+      ],
+      "name": "getCar",
+      "displayModel": {},
+      "description": "Obtains a car",
+      "modelProperties": {
+        "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
+      },
+      "kind": "operation"
+    }
+  ],
+  "functions": [
+    {
+      "output": {
+        "type": {
+          "format": "java",
+          "type": "String"
+        },
+        "hasDynamicType": false,
+        "description": "Payload",
+        "modelProperties": {}
+      },
+      "parameterGroupModels": [
+        {
+          "parameters": [
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": true,
+              "required": true,
+              "isConfigOverride": false,
+              "isComponentId": false,
+              "valueProviderModel": {
+                "parameters": [],
+                "partOrder": 1,
+                "providerName": "ACategory",
+                "providerId": "AId",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false,
+                "modelProperties": {}
+              },
+              "fieldValueProviderModels": [],
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false
+              },
+              "allowedStereotypeModels": [],
+              "semanticTerms": [
+                "username"
+              ],
+              "name": "username",
+              "displayModel": {},
+              "description": "Username",
+              "modelProperties": {}
+            }
+          ],
+          "exclusiveParametersModels": [
+            {
+              "exclusiveParameterNames": [],
+              "isOneRequired": false
+            }
+          ],
+          "showInDsl": false,
+          "name": "General",
+          "description": "",
+          "modelProperties": {}
+        }
+      ],
+      "name": "myFunction",
+      "displayModel": {},
+      "description": "An Expression Function",
+      "modelProperties": {},
+      "kind": "function"
+    }
+  ],
+  "constructs": [],
+  "connectionProviders": [
+    {
+      "connectionManagementType": "NONE",
+      "externalLibraryModels": [
+        {
+          "name": "wss",
+          "description": "WSS native library",
+          "regexMatcher": "*.jar",
+          "requiredClassName": "org.my.Library",
+          "type": "JAR",
+          "optional": false
+        }
+      ],
+      "supportsConnectivityTesting": true,
+      "semanticTerms": [],
+      "stereotype": {
+        "type": "CONNECTION",
+        "namespace": "MULE"
+      },
+      "parameterGroupModels": [
+        {
+          "parameters": [
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": true,
+              "required": true,
+              "isConfigOverride": false,
+              "isComponentId": false,
+              "valueProviderModel": {
+                "parameters": [],
+                "partOrder": 1,
+                "providerName": "ACategory",
+                "providerId": "AId",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false,
+                "modelProperties": {}
+              },
+              "fieldValueProviderModels": [],
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false
+              },
+              "allowedStereotypeModels": [],
+              "semanticTerms": [
+                "username"
+              ],
+              "name": "username",
+              "displayModel": {},
+              "description": "Username",
+              "modelProperties": {}
+            },
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": false,
+              "required": true,
+              "isConfigOverride": false,
+              "isComponentId": false,
+              "valueProviderModel": {
+                "parameters": [],
+                "partOrder": 1,
+                "providerName": "ACategory",
+                "providerId": "AId",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false,
+                "modelProperties": {}
+              },
+              "fieldValueProviderModels": [],
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false
+              },
+              "allowedStereotypeModels": [],
+              "deprecationModel": {
+                "message": "This parameter is deprecated",
+                "deprecatedSince": "1.5.0"
+              },
+              "semanticTerms": [],
+              "name": "password",
+              "displayModel": {},
+              "description": "Password",
+              "modelProperties": {}
+            }
+          ],
+          "exclusiveParametersModels": [
+            {
+              "exclusiveParameterNames": [],
+              "isOneRequired": false
+            }
+          ],
+          "showInDsl": false,
+          "name": "General",
+          "description": "",
+          "modelProperties": {}
+        }
+      ],
+      "name": "BasicAuth",
+      "displayModel": {},
+      "description": "Basic Auth Config",
+      "modelProperties": {}
+    }
+  ],
+  "messageSources": [
+    {
+      "hasResponse": true,
+      "runsOnPrimaryNodeOnly": false,
+      "successCallback": {
+        "parameterGroupModels": [
+          {
+            "parameters": [
+            ],
+            "exclusiveParametersModels": [
+              {
+                "exclusiveParameterNames": [],
+                "isOneRequired": false
+              }
+            ],
+            "showInDsl": false,
+            "name": "General",
+            "description": "",
+            "modelProperties": {}
+          }
+        ],
+        "name": "onSuccess",
+        "displayModel": {},
+        "description": "",
+        "modelProperties": {}
+      },
+      "output": {
+        "type": {
+          "format": "java",
+          "type": "String"
+        },
+        "hasDynamicType": true,
+        "description": "Message.Payload",
+        "modelProperties": {}
+      },
+      "outputAttributes": {
+        "type": {
+          "format": "java",
+          "type": "String"
+        },
+        "hasDynamicType": false,
+        "description": "Message.Attributes",
+        "modelProperties": {}
+      },
+      "transactional": false,
+      "requiresConnection": false,
+      "supportsStreaming": false,
+      "notifications": [],
+      "nestedComponents": [],
+      "errors": [],
+      "semanticTerms": [
+        "test",
+        "source"
+      ],
+      "stereotype": {
+        "type": "SOURCE",
+        "namespace": "MULE"
+      },
+      "parameterGroupModels": [
+        {
+          "parameters": [
+            {
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "hasDynamicType": true,
+              "required": false,
+              "isConfigOverride": false,
+              "isComponentId": false,
+              "valueProviderModel": {
+                "parameters": [],
+                "partOrder": 1,
+                "providerName": "ACategory",
+                "providerId": "AId",
+                "requiresConfiguration": false,
+                "requiresConnection": false,
+                "isOpen": false,
+                "modelProperties": {}
+              },
+              "fieldValueProviderModels": [],
+              "expressionSupport": "SUPPORTED",
+              "defaultValue": "",
+              "role": "BEHAVIOUR",
+              "dslConfiguration": {
+                "allowsInlineDefinition": true,
+                "allowsReferences": true,
+                "allowTopLevelDefinition": false
+              },
+              "layoutModel": {
+                "password": false,
+                "text": false,
+                "query": false
+              },
+              "allowedStereotypeModels": [],
+              "deprecationModel": {
+                "message": "This is deprecated",
+                "deprecatedSince": "1.3.0"
+              },
+              "semanticTerms": [],
+              "name": "carName",
+              "displayModel": {},
+              "description": "Name of the car",
+              "modelProperties": {}
+            }
+          ],
+          "exclusiveParametersModels": [
+            {
+              "exclusiveParameterNames": [
+                "carName"
+              ],
+              "isOneRequired": false
+            }
+          ],
+          "showInDsl": false,
+          "name": "General",
+          "description": "",
+          "modelProperties": {}
+        }
+      ],
+      "name": "Source",
+      "displayModel": {},
+      "description": "A Message Source",
+      "modelProperties": {},
+      "kind": "source"
+    }
+  ],
+  "notifications": [],
+  "errors": [
+    {
+      "error": "ERROR_NAMESPACE:SOME_ERROR",
+      "parent": "ERROR_NAMESPACE:PARENT_ERROR_MODEL",
+      "handleable": true
+    },
+    {
+      "error": "ERROR_NAMESPACE:PARENT_ERROR_MODEL",
+      "parent": "MULE:CONNECTIVITY",
+      "handleable": true
+    },
+    {
+      "error": "MULE:CONNECTIVITY",
+      "parent": "MULE:ANY",
+      "handleable": true
+    },
+    {
+      "error": "MULE:ANY",
+      "handleable": true
+    }
+  ],
+  "modelProperties": {
+    "OAuth": {
+      "grantTypes": [
+        {
+          "grantType": "Authorization Code",
+          "accessTokenUrl": "http://accessToken.url",
+          "authorizationUrl": "http://authorization.url",
+          "accessTokenExpr": "#[accessToken]",
+          "expirationRegex": "#[expiration]",
+          "refreshTokenExpr": "#[refreshToken]",
+          "defaultScope": "#[defaultScope]",
+          "credentialsPlacement": "BODY",
+          "includeRedirectUriInRefreshTokenRequest": true
+        }
+      ]
+    }
+  }
+}

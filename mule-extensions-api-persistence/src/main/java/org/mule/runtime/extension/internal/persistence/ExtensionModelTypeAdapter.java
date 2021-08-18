@@ -204,7 +204,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
 
   private Set<ObjectType> parseTypes(String label, JsonObject json) {
     final Set<ObjectType> types = new LinkedHashSet<>();
-    JsonArray typesArray = json.get(label).getAsJsonArray();
+    final JsonElement jsonElement = json.get(label);
+    JsonArray typesArray = jsonElement != null ? jsonElement.getAsJsonArray() : null;
 
     if (typesArray == null) {
       return emptySet();
