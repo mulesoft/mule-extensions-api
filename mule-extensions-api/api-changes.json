@@ -3,22 +3,48 @@
     "revapi": {
       "ignore": [
         {
-              "code": "java.method.added",
-              "new": "method boolean org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils::areTypesEqual(org.mule.metadata.api.model.MetadataType, org.mule.metadata.api.model.MetadataType)",
-              "package": "org.mule.runtime.extension.api.util",
-              "classSimpleName": "ExtensionMetadataTypeUtils",
-              "methodName": "areTypesEqual",
-              "elementKind": "method",
-              "justification": "MULE-19330"
+          "code": "java.method.added",
+          "new": "method boolean org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils::areTypesEqual(org.mule.metadata.api.model.MetadataType, org.mule.metadata.api.model.MetadataType)",
+          "package": "org.mule.runtime.extension.api.util",
+          "classSimpleName": "ExtensionMetadataTypeUtils",
+          "methodName": "areTypesEqual",
+          "elementKind": "method",
+          "justification": "MULE-19330"
         },
         {
-              "code": "java.method.defaultMethodAddedToInterface",
-              "new": "method int org.mule.runtime.extension.api.runtime.config.ConfigurationStats::getActiveComponents()",
-              "package": "org.mule.runtime.extension.api.runtime.config",
-              "classSimpleName": "ConfigurationStats",
-              "methodName": "getActiveComponents",
-              "elementKind": "method",
-              "justification": "MULE-18675"
+          "code": "java.method.defaultMethodAddedToInterface",
+          "new": "method int org.mule.runtime.extension.api.runtime.config.ConfigurationStats::getActiveComponents()",
+          "package": "org.mule.runtime.extension.api.runtime.config",
+          "classSimpleName": "ConfigurationStats",
+          "methodName": "getActiveComponents",
+          "elementKind": "method",
+          "justification": "MULE-18675"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.stereotype.MuleStereotypes.SERIALIZER",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "MuleStereotypes",
+          "fieldName": "SERIALIZER",
+          "elementKind": "field",
+          "justification": "EE-7995: Fix kryo serializer in MUnit"
+        },
+        {
+          "code": "java.field.addedStaticField",
+          "new": "field org.mule.runtime.extension.api.stereotype.MuleStereotypes.SERIALIZER_DEFINITION",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "MuleStereotypes",
+          "fieldName": "SERIALIZER_DEFINITION",
+          "elementKind": "field",
+          "justification": "EE-7995: Fix kryo serializer in MUnit"
+        },
+        {
+          "code": "java.class.added",
+          "new": "class org.mule.runtime.extension.api.stereotype.SerializerStereotype",
+          "package": "org.mule.runtime.extension.api.stereotype",
+          "classSimpleName": "SerializerStereotype",
+          "elementKind": "class",
+          "justification": "EE-7995: Fix kryo serializer in MUnit"
         }
       ]
     }
