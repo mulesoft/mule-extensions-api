@@ -39,6 +39,7 @@ import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
@@ -144,6 +145,17 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     assertThat(typesSet, not(hasItem(containsString(ComplexFieldsType.class.getSimpleName()))));
     final Set<ObjectType> types = deserializedExtensionModel.getTypes();
     assertThat(types, hasItem(exportedType));
+  }
+
+  @Test
+  public void assertDeserializationOfExtensionModelWithNoTypes() throws IOException {
+    String serializedExtensionModelWithNoTypes = IOUtils
+        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(
+                                                                                     SERIALIZED_EXTENSION_MODEL_JSON_NO_CATALOG));
+    ExtensionModel deserializedModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelWithNoTypes);
+    String serializedModel = extensionModelJsonSerializer.serialize(deserializedModel);
+
+    assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON_NO_CATALOG, false);
   }
 
   private Set<String> getExtensionTypeIds(JsonObject jsonExtensionModel) {
