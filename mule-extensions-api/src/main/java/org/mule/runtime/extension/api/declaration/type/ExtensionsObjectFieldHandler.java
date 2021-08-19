@@ -334,10 +334,17 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void processElementStyle(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    final ParameterDsl annotation = field.getAnnotation(ParameterDsl.class);
-    if (annotation != null) {
-      fieldBuilder.with(new ParameterDslAnnotation(annotation.allowInlineDefinition(),
-                                                   annotation.allowReferences()));
+    final ParameterDsl legacyAnnotation = field.getAnnotation(ParameterDsl.class);
+    final org.mule.sdk.api.annotation.dsl.xml.ParameterDsl sdkAnnotation =
+        field.getAnnotation(org.mule.sdk.api.annotation.dsl.xml.ParameterDsl.class);
+    if (legacyAnnotation != null && sdkAnnotation != null) {
+      throw new IllegalModelDefinitionException(format("Parameter '%s' is annotated with '@%s' and '@%s' at the same time",
+                                                       field.getName(), ParameterDsl.class.getName(),
+                                                       org.mule.sdk.api.annotation.dsl.xml.ParameterDsl.class.getName()));
+    } else if (legacyAnnotation != null) {
+      fieldBuilder.with(new ParameterDslAnnotation(legacyAnnotation.allowInlineDefinition(), legacyAnnotation.allowReferences()));
+    } else if (sdkAnnotation != null) {
+      fieldBuilder.with(new ParameterDslAnnotation(sdkAnnotation.allowInlineDefinition(), sdkAnnotation.allowReferences()));
     }
   }
 
