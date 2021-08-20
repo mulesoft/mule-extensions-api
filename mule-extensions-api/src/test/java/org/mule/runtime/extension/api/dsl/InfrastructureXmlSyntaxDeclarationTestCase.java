@@ -40,13 +40,16 @@ public class InfrastructureXmlSyntaxDeclarationTestCase extends BaseXmlDeclarati
     DslElementSyntax container = getSyntaxResolver().resolve(type).get();
     DslElementSyntax tls = container.getContainedElement("tls").get();
     assertTlsContextDsl(tls);
+    assertTopLevelDeclarationSupportIs(true, tls);
     assertAttributeName("tls", tls);
   }
 
   @Test
   public void infrastructureTypeDslSyntax() {
     MetadataType type = TYPE_LOADER.load(TlsContextFactory.class);
-    assertTlsContextDsl(getSyntaxResolver().resolve(type).get());
+    DslElementSyntax result = getSyntaxResolver().resolve(type).get();
+    assertTlsContextDsl(result);
+    assertTopLevelDeclarationSupportIs(true, result);
   }
 
   @Test
