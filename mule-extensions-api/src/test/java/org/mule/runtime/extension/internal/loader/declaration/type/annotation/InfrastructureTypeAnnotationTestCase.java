@@ -11,8 +11,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 
+import io.qameta.allure.Issue;
 import org.junit.Test;
 
+@Issue("MULE-19726")
 public class InfrastructureTypeAnnotationTestCase {
 
   @Test
