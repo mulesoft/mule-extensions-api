@@ -64,8 +64,7 @@ public class InfrastructureXmlSyntaxDeclarationTestCase extends BaseXmlDeclarati
   @Test
   public void infrastructureTypeDslSyntax() {
     MetadataType type = TYPE_LOADER.load(TlsContextFactory.class);
-    DslElementSyntax result = getSyntaxResolver().resolve(type).get();
-    assertTlsContextDsl(result);
+    assertTlsContextDsl(getSyntaxResolver().resolve(type).get());
   }
 
   @Test
