@@ -28,4 +28,19 @@ public class InfrastructureTypeAnnotation extends MarkerAnnotation {
   public boolean isPublic() {
     return true;
   }
+
+  @Override
+  public String toString() {
+    return getName();
+  }
+
+  @Override
+  public int hashCode() {
+    return NAME.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof InfrastructureTypeAnnotation;
+  }
 }
