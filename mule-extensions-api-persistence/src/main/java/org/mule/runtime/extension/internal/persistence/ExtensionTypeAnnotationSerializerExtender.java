@@ -17,6 +17,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ExclusiveOptio
 import org.mule.runtime.extension.api.declaration.type.annotation.ExpressionSupportAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.FlattenedTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LayoutTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
@@ -55,6 +56,7 @@ public class ExtensionTypeAnnotationSerializerExtender implements TypeAnnotation
         .put(StereotypeTypeAnnotation.NAME, StereotypeTypeAnnotation.class)
         .put(QNameTypeAnnotation.NAME, QNameTypeAnnotation.class)
         .put(DisplayTypeAnnotation.NAME, DisplayTypeAnnotation.class)
+        .put(InfrastructureTypeAnnotation.NAME, InfrastructureTypeAnnotation.class)
         .build();
   }
 
