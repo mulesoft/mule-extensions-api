@@ -15,7 +15,7 @@ import org.mule.metadata.api.model.ObjectType;
  *
  * @since 1.0
  */
-public class InfrastructureTypeAnnotation extends MarkerAnnotation {
+public class InfrastructureTypeAnnotation extends MarkerAnnqotation {
 
   public static final String NAME = "infrastructureType";
 
@@ -25,22 +25,7 @@ public class InfrastructureTypeAnnotation extends MarkerAnnotation {
   }
 
   @Override
-  public boolean isPublic() {
-    return true;
-  }
-
-  @Override
   public String toString() {
     return getName();
-  }
-
-  @Override
-  public int hashCode() {
-    return NAME.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return obj instanceof InfrastructureTypeAnnotation;
   }
 }
