@@ -15,7 +15,7 @@ import org.mule.metadata.api.model.ObjectType;
  *
  * @since 1.0
  */
-public class InfrastructureTypeAnnotation extends MarkerAnnqotation {
+public class InfrastructureTypeAnnotation extends MarkerAnnotation {
 
   public static final String NAME = "infrastructureType";
 
