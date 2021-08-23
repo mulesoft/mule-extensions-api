@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.Optional;
 
+import io.qameta.allure.Issue;
 import javax.xml.namespace.QName;
 
 import org.junit.Test;
@@ -41,6 +42,23 @@ public class InfrastructureXmlSyntaxDeclarationTestCase extends BaseXmlDeclarati
     DslElementSyntax tls = container.getContainedElement("tls").get();
     assertTlsContextDsl(tls);
     assertAttributeName("tls", tls);
+  }
+
+  @Issue("MULE-19726")
+  @Test
+  public void infrastructureTypeAsFieldDslSyntaxSupportsTopLevelDeclaration() {
+    MetadataType type = TYPE_LOADER.load(PojoWithInfraField.class);
+    DslElementSyntax container = getSyntaxResolver().resolve(type).get();
+    DslElementSyntax tls = container.getContainedElement("tls").get();
+    assertTopLevelDeclarationSupportIs(true, tls);
+  }
+
+  @Issue("MULE-19726")
+  @Test
+  public void infrastructureTypeDslSyntaxSupportsTopLevelDeclaration() {
+    MetadataType type = TYPE_LOADER.load(TlsContextFactory.class);
+    DslElementSyntax result = getSyntaxResolver().resolve(type).get();
+    assertTopLevelDeclarationSupportIs(true, result);
   }
 
   @Test
