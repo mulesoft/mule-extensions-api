@@ -156,7 +156,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void processParameterGroup(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    if (field.getAnnotation(ParameterGroup.class) != null) {
+    if (field.getAnnotation(ParameterGroup.class) != null
+        || field.getAnnotation(org.mule.sdk.api.annotation.param.ParameterGroup.class) != null) {
       fieldBuilder.with(new FlattenedTypeAnnotation());
       processExclusiveOptionals(field, fieldBuilder);
     }
@@ -269,7 +270,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     final boolean isOptional = field.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class)
         || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.Optional.class);
-    final boolean isParameterGroup = field.isAnnotationPresent(ParameterGroup.class);
+    final boolean isParameterGroup = field.isAnnotationPresent(ParameterGroup.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.ParameterGroup.class);
 
     if (!isOptional && !isParameterGroup) {
       throw new IllegalParameterModelDefinitionException(format(
