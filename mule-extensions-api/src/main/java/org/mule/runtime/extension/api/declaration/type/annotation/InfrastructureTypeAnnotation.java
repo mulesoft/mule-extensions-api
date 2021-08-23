@@ -25,7 +25,7 @@ public class InfrastructureTypeAnnotation extends MarkerAnnotation {
   }
 
   @Override
-  public boolean isPublic() {
-    return false;
+  public String toString() {
+    return getName();
   }
 }
