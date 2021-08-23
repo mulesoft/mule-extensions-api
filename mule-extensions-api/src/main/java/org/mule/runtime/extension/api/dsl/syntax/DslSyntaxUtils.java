@@ -155,7 +155,8 @@ public final class DslSyntaxUtils {
 
       @Override
       public void visitObject(ObjectType objectType) {
-        supporstGlobalDeclaration.set(supportsTopLevelDeclaration(objectType) && isValidBean(objectType));
+        supporstGlobalDeclaration
+            .set(supportsTopLevelDeclaration(objectType) && (isValidBean(objectType) || isInfrastructure(objectType)));
       }
     });
 
