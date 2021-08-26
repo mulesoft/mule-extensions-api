@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
@@ -32,6 +33,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnn
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.runtime.parameter.Literal;
 import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 import org.mule.runtime.extension.api.stereotype.ImplicitStereotypeDefinition;
@@ -96,21 +98,14 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
         annotatedBuilder.with(new ExtensibleTypeAnnotation());
       }
 
-      boolean allowTopLevelDefinition = false;
-
-      TypeDsl typeDsl = currentClass.getAnnotation(TypeDsl.class);
-      if (typeDsl != null) {
-        allowTopLevelDefinition = typeDsl.allowTopLevelDefinition();
-        annotatedBuilder.with(new TypeDslAnnotation(typeDsl.allowInlineDefinition(),
-                                                    allowTopLevelDefinition,
-                                                    typeDsl.substitutionGroup(),
-                                                    typeDsl.baseType()));
-      }
+      Optional<TypeDslAnnotation> typeDslAnnotation = getTypeDslAnnotation(currentClass);
+      typeDslAnnotation.ifPresent((annotatedBuilder::with));
 
       Alias alias = currentClass.getAnnotation(Alias.class);
       annotatedBuilder.with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
 
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
+      boolean allowTopLevelDefinition = typeDslAnnotation.map(TypeDslAnnotation::allowsTopLevelDefinition).orElse(false);
       handleStereotype(currentClass, annotatedBuilder, allowTopLevelDefinition, stereotype);
 
       enrichWithTypeAnnotation(currentClass, annotatedBuilder);
@@ -166,11 +161,11 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     }
 
     if (inheritedStereotype.get() != null) {
-      return Optional.of(inheritedStereotype.get());
+      return of(inheritedStereotype.get());
     } else {
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
       if (stereotype != null) {
-        return Optional.of(ImplicitStereotypeDefinition.class);
+        return of(ImplicitStereotypeDefinition.class);
       } else {
         return Optional.empty();
       }
@@ -190,5 +185,31 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     if (handle instanceof WithAnnotation) {
       ((WithAnnotation) handle).with(annotation);
     }
+  }
+
+  private Optional<TypeDslAnnotation> getTypeDslAnnotation(Class<?> currentClass) {
+    TypeDsl legacyTypeDslAnnotation = currentClass.getAnnotation(TypeDsl.class);
+    org.mule.sdk.api.annotation.dsl.xml.TypeDsl sdkTypeDslAnnotation =
+        currentClass.getAnnotation(org.mule.sdk.api.annotation.dsl.xml.TypeDsl.class);
+
+    Optional<TypeDslAnnotation> typeDslAnnotation = empty();
+
+    if (legacyTypeDslAnnotation != null && sdkTypeDslAnnotation != null) {
+      throw new IllegalModelDefinitionException(format("Class '%s' is annotated with '@%s' and '@%s' at the same time",
+                                                       currentClass.getName(), TypeDsl.class.getName(),
+                                                       org.mule.sdk.api.annotation.dsl.xml.TypeDsl.class.getName()));
+    } else if (legacyTypeDslAnnotation != null) {
+      typeDslAnnotation = of(new TypeDslAnnotation(legacyTypeDslAnnotation.allowInlineDefinition(),
+                                                   legacyTypeDslAnnotation.allowTopLevelDefinition(),
+                                                   legacyTypeDslAnnotation.substitutionGroup(),
+                                                   legacyTypeDslAnnotation.baseType()));
+    } else if (sdkTypeDslAnnotation != null) {
+      typeDslAnnotation = of(new TypeDslAnnotation(sdkTypeDslAnnotation.allowInlineDefinition(),
+                                                   sdkTypeDslAnnotation.allowTopLevelDefinition(),
+                                                   sdkTypeDslAnnotation.substitutionGroup(),
+                                                   sdkTypeDslAnnotation.baseType()));
+    }
+
+    return typeDslAnnotation;
   }
 }

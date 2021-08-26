@@ -54,6 +54,20 @@ public class ExtensionFieldHandlerTestCase {
   }
 
   @Test
+  public void xmlElementStyleWithSdkApi() {
+    ObjectType type = (ObjectType) typeLoader.load(SdkNoRefType.class);
+    assertThat(type.getFields(), hasSize(1));
+    assertThat(type.getFields().iterator().next().getAnnotation(ParameterDslAnnotation.class).isPresent(), is(true));
+  }
+
+  @Test(expected = IllegalModelDefinitionException.class)
+  public void invalidXmlElementStyle() {
+    ObjectType type = (ObjectType) typeLoader.load(InvalidNoRefType.class);
+    assertThat(type.getFields(), hasSize(1));
+    assertThat(type.getFields().iterator().next().getAnnotation(ParameterDslAnnotation.class).isPresent(), is(true));
+  }
+
+  @Test
   public void flattenedField() {
     ObjectType type = (ObjectType) typeLoader.load(HasGroup.class);
     assertThat(type.getFields().isEmpty(), is(false));
@@ -153,6 +167,21 @@ public class ExtensionFieldHandlerTestCase {
   public class NoRefType {
 
     @Parameter
+    @ParameterDsl(allowReferences = false)
+    private Object data;
+  }
+
+  public class SdkNoRefType {
+
+    @Parameter
+    @org.mule.sdk.api.annotation.dsl.xml.ParameterDsl(allowReferences = false)
+    private Object data;
+  }
+
+  public class InvalidNoRefType {
+
+    @Parameter
+    @org.mule.sdk.api.annotation.dsl.xml.ParameterDsl(allowReferences = false)
     @ParameterDsl(allowReferences = false)
     private Object data;
   }
