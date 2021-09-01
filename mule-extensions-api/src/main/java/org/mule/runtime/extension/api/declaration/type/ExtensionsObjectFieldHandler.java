@@ -23,6 +23,8 @@ import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isOptional;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isParameterGroup;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
@@ -156,8 +158,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void processParameterGroup(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    if (field.getAnnotation(ParameterGroup.class) != null
-        || field.getAnnotation(org.mule.sdk.api.annotation.param.ParameterGroup.class) != null) {
+    if (isParameterGroup(field)) {
       fieldBuilder.with(new FlattenedTypeAnnotation());
       processExclusiveOptionals(field, fieldBuilder);
     }
@@ -167,8 +168,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     ExclusiveOptionals exclusiveOptionals = field.getType().getAnnotation(ExclusiveOptionals.class);
     if (exclusiveOptionals != null) {
       Set<String> exclusiveParameters = getParameterFields(field.getType()).stream()
-          .filter(f -> f.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class)
-              || f.isAnnotationPresent(org.mule.sdk.api.annotation.param.Optional.class))
+          .filter(TypeUtils::isOptional)
           .map(f -> f.getAnnotation(Alias.class) != null ? f.getAnnotation(Alias.class).value() : f.getName())
           .collect(Collectors.toCollection(LinkedHashSet::new));
       fieldBuilder.with(new ExclusiveOptionalsTypeAnnotation(exclusiveParameters, exclusiveOptionals.isOneRequired()));
@@ -268,12 +268,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       return;
     }
 
-    final boolean isOptional = field.isAnnotationPresent(org.mule.runtime.extension.api.annotation.param.Optional.class)
-        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.Optional.class);
-    final boolean isParameterGroup = field.isAnnotationPresent(ParameterGroup.class)
-        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.ParameterGroup.class);
-
-    if (!isOptional && !isParameterGroup) {
+    if (!isOptional(field) && !isParameterGroup(field)) {
       throw new IllegalParameterModelDefinitionException(format(
                                                                 "Field '%s' in class '%s' is required but annotated with '@%s', which is redundant",
                                                                 field.getName(), declaringClass.getName(),
@@ -352,11 +347,6 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
   private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     Optional<Content> contentAnnotation = ofNullable(field.getAnnotation(Content.class));
-    Optional<org.mule.runtime.extension.api.annotation.param.Optional> optionalAnnotation =
-        ofNullable(field.getAnnotation(org.mule.runtime.extension.api.annotation.param.Optional.class));
-    Optional<org.mule.sdk.api.annotation.param.Optional> sdkOptionalAnnotation =
-        ofNullable(field.getAnnotation(org.mule.sdk.api.annotation.param.Optional.class));
-    fieldBuilder.required(true);
 
     contentAnnotation.ifPresent(content -> {
       if (content.primary()) {
@@ -367,10 +357,8 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       }
     });
 
-    if (sdkOptionalAnnotation.isPresent()) {
-      optionalField(fieldBuilder, getDefaultValue(sdkOptionalAnnotation.get()));
-    } else if (optionalAnnotation.isPresent()) {
-      optionalField(fieldBuilder, getDefaultValue(optionalAnnotation.get()));
+    if (isOptional(field)) {
+      optionalField(fieldBuilder, (String) getDefaultValue(field));
     }
 
     if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())) {

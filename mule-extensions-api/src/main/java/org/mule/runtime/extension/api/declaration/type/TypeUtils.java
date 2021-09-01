@@ -10,6 +10,7 @@ import static java.util.stream.Collectors.toList;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Ignore;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 
@@ -88,6 +89,32 @@ public final class TypeUtils {
     Alias alias = field.getAnnotation(Alias.class);
     String name = alias != null ? alias.value() : null;
     return name == null || name.length() == 0 ? field.getName() : name;
+  }
+
+  /**
+   * ADD JDOC
+   *
+   * @param field
+   * @return
+   *
+   * @since 1.5
+   */
+  public static boolean isParameterGroup(Field field) {
+    return field.isAnnotationPresent(ParameterGroup.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.ParameterGroup.class);
+  }
+
+  /**
+   * ADD JDOC
+   *
+   * @param field
+   * @return
+   *
+   * @since 1.5
+   */
+  public static boolean isOptional(Field field) {
+    return field.isAnnotationPresent(Optional.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.Optional.class);
   }
 
 }
