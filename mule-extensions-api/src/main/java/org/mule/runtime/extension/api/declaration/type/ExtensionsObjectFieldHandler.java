@@ -347,6 +347,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
   private void setOptionalAndDefault(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     Optional<Content> contentAnnotation = ofNullable(field.getAnnotation(Content.class));
+    fieldBuilder.required(true);
 
     contentAnnotation.ifPresent(content -> {
       if (content.primary()) {
