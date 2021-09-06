@@ -92,12 +92,12 @@ public final class TypeUtils {
   }
 
   /**
-   * ADD JDOC
+   * Checks if a field is a parameter group
    *
    * @param field
    * @return
    *
-   * @since 1.5
+   * @since 4.5
    */
   public static boolean isParameterGroup(Field field) {
     return field.isAnnotationPresent(ParameterGroup.class)
@@ -105,12 +105,12 @@ public final class TypeUtils {
   }
 
   /**
-   * ADD JDOC
+   * Checks if a field is optional or not
    *
-   * @param field
-   * @return
+   * @param field the field to check
+   * @return whether the field is optional or not
    *
-   * @since 1.5
+   * @since 4.5
    */
   public static boolean isOptional(Field field) {
     return field.isAnnotationPresent(Optional.class)
