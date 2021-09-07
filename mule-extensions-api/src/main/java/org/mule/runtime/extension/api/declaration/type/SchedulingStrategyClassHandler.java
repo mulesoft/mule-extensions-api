@@ -28,7 +28,8 @@ public class SchedulingStrategyClassHandler implements ClassHandler {
 
   @Override
   public boolean handles(Class<?> clazz) {
-    return SchedulingStrategy.class.equals(clazz);
+    return SchedulingStrategy.class.equals(clazz)
+        || "org.mule.runtime.core.api.source.scheduler.Scheduler".equals(clazz.getName());
   }
 
   @Override
