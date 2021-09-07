@@ -29,6 +29,9 @@ public class SchedulingStrategyClassHandler implements ClassHandler {
   @Override
   public boolean handles(Class<?> clazz) {
     return SchedulingStrategy.class.equals(clazz)
+        // Need the fqcn as a string because this deprecated type is in mule-core that is not and cannot be a dependency of this
+        // module.
+        // Apart from that, this only exists for supporting the usage of a deprecated way of doing things.
         || "org.mule.runtime.core.api.source.scheduler.Scheduler".equals(clazz.getName());
   }
 
