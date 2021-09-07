@@ -41,10 +41,7 @@ public final class TypeUtils {
    */
   public static Collection<Field> getParameterFields(Class<?> declaringType) {
     return getAllFields(declaringType).stream()
-        .filter(field -> (field.getAnnotation(Parameter.class) != null || field.getAnnotation(ParameterGroup.class) != null
-            || field.getAnnotation(org.mule.sdk.api.annotation.param.Parameter.class) != null
-            || field.getAnnotation(org.mule.sdk.api.annotation.param.ParameterGroup.class) != null)
-            && field.getAnnotation(Ignore.class) == null)
+        .filter(field -> isParameter(field) || isParameterGroup(field))
         .collect(toList());
   }
 
@@ -90,6 +87,20 @@ public final class TypeUtils {
     String name = alias != null ? alias.value() : null;
     return name == null || name.length() == 0 ? field.getName() : name;
   }
+
+  /**
+   * Checks if a field is a parameter
+   *
+   * @param field
+   * @return
+   *
+   * @since 4.5
+   */
+  public static boolean isParameter(Field field) {
+    return field.isAnnotationPresent(Parameter.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.Parameter.class);
+  }
+
 
   /**
    * Checks if a field is a parameter group
