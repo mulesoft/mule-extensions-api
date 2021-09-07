@@ -10,6 +10,7 @@ import static java.util.stream.Collectors.toList;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Ignore;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 
@@ -40,8 +41,7 @@ public final class TypeUtils {
    */
   public static Collection<Field> getParameterFields(Class<?> declaringType) {
     return getAllFields(declaringType).stream()
-        .filter(field -> (field.getAnnotation(Parameter.class) != null || field.getAnnotation(ParameterGroup.class) != null)
-            && field.getAnnotation(Ignore.class) == null)
+        .filter(field -> isParameter(field) || isParameterGroup(field))
         .collect(toList());
   }
 
@@ -86,6 +86,46 @@ public final class TypeUtils {
     Alias alias = field.getAnnotation(Alias.class);
     String name = alias != null ? alias.value() : null;
     return name == null || name.length() == 0 ? field.getName() : name;
+  }
+
+  /**
+   * Checks if a field is a parameter
+   *
+   * @param field
+   * @return
+   *
+   * @since 4.5
+   */
+  public static boolean isParameter(Field field) {
+    return field.isAnnotationPresent(Parameter.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.Parameter.class);
+  }
+
+
+  /**
+   * Checks if a field is a parameter group
+   *
+   * @param field
+   * @return
+   *
+   * @since 4.5
+   */
+  public static boolean isParameterGroup(Field field) {
+    return field.isAnnotationPresent(ParameterGroup.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.ParameterGroup.class);
+  }
+
+  /**
+   * Checks if a field is optional or not
+   *
+   * @param field the field to check
+   * @return whether the field is optional or not
+   *
+   * @since 4.5
+   */
+  public static boolean isOptional(Field field) {
+    return field.isAnnotationPresent(Optional.class)
+        || field.isAnnotationPresent(org.mule.sdk.api.annotation.param.Optional.class);
   }
 
 }

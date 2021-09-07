@@ -34,10 +34,10 @@ import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResol
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
-import org.mule.runtime.extension.api.runtime.parameter.Literal;
-import org.mule.runtime.extension.api.runtime.parameter.ParameterResolver;
 import org.mule.runtime.extension.api.stereotype.ImplicitStereotypeDefinition;
 import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+import org.mule.sdk.api.runtime.parameter.Literal;
+import org.mule.sdk.api.runtime.parameter.ParameterResolver;
 
 import java.lang.reflect.Type;
 import java.util.List;
