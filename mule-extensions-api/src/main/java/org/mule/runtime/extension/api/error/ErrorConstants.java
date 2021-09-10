@@ -7,6 +7,16 @@
 package org.mule.runtime.extension.api.error;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
+import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
+import static org.mule.runtime.extension.api.error.MuleErrors.CLIENT_SECURITY;
+import static org.mule.runtime.extension.api.error.MuleErrors.CONNECTIVITY;
+import static org.mule.runtime.extension.api.error.MuleErrors.EXPRESSION;
+import static org.mule.runtime.extension.api.error.MuleErrors.REDELIVERY_EXHAUSTED;
+import static org.mule.runtime.extension.api.error.MuleErrors.RETRY_EXHAUSTED;
+import static org.mule.runtime.extension.api.error.MuleErrors.ROUTING;
+import static org.mule.runtime.extension.api.error.MuleErrors.SECURITY;
+import static org.mule.runtime.extension.api.error.MuleErrors.SERVER_SECURITY;
+import static org.mule.runtime.extension.api.error.MuleErrors.TRANSFORMATION;
 
 import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
@@ -41,8 +51,17 @@ public final class ErrorConstants {
   public static final MetadataType ERROR_TYPE_MATCHER = create(TEXT_PLAIN_FORMAT)
       .stringType()
       .id(ERROR_TYPE_MATCHER_ID)
-      .enumOf("ANY", "REDELIVERY_EXHAUSTED", "TRANSFORMATION", "EXPRESSION", "SECURITY", "CLIENT_SECURITY",
-              "SERVER_SECURITY", "ROUTING", "CONNECTIVITY", "RETRY_EXHAUSTED", "TIMEOUT")
+      .enumOf(ANY.name(),
+              REDELIVERY_EXHAUSTED.name(),
+              TRANSFORMATION.name(),
+              EXPRESSION.name(),
+              SECURITY.name(),
+              CLIENT_SECURITY.name(),
+              SERVER_SECURITY.name(),
+              ROUTING.name(),
+              CONNECTIVITY.name(),
+              RETRY_EXHAUSTED.name(),
+              "TIMEOUT")
       .build();
 
 }
