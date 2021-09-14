@@ -15,6 +15,7 @@ import static java.util.Arrays.stream;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
@@ -30,7 +31,6 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SUB_FLOW;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toClassValueModel;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
@@ -42,6 +42,7 @@ import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
@@ -54,7 +55,6 @@ import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.Query;
 import org.mule.runtime.extension.api.annotation.param.RefName;
 import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
@@ -81,6 +81,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeType
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.runtime.route.Chain;
+import org.mule.sdk.api.annotation.semantics.file.FilePath;
 
 import java.beans.Introspector;
 import java.lang.annotation.Annotation;
@@ -91,6 +92,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -179,30 +181,71 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     DisplayModel.DisplayModelBuilder builder = DisplayModel.builder();
     boolean shouldAddTypeAnnotation = false;
 
-    if (field.getAnnotation(DisplayName.class) != null) {
-      builder.displayName(field.getAnnotation(DisplayName.class).value());
+    String displayNameValue = getAnnotationValueFromField(
+                                                          field,
+                                                          DisplayName.class,
+                                                          org.mule.sdk.api.annotation.param.display.DisplayName.class,
+                                                          DisplayName::value,
+                                                          org.mule.sdk.api.annotation.param.display.DisplayName::value);
+
+    if (displayNameValue != null) {
+      builder.displayName(displayNameValue);
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Summary.class) != null) {
-      builder.summary(field.getAnnotation(Summary.class).value());
+    String summaryValue = getAnnotationValueFromField(
+                                                      field,
+                                                      Summary.class,
+                                                      org.mule.sdk.api.annotation.param.display.Summary.class,
+                                                      Summary::value, org.mule.sdk.api.annotation.param.display.Summary::value);
+
+    if (summaryValue != null) {
+      builder.summary(summaryValue);
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Example.class) != null) {
-      builder.example(field.getAnnotation(Example.class).value());
+    String exampleValue = getAnnotationValueFromField(
+                                                      field,
+                                                      Example.class,
+                                                      org.mule.sdk.api.annotation.param.display.Example.class,
+                                                      Example::value, org.mule.sdk.api.annotation.param.display.Example::value);
+
+    if (exampleValue != null) {
+      builder.example(exampleValue);
       shouldAddTypeAnnotation = true;
     }
 
-    Path path = field.getAnnotation(Path.class);
-    if (path != null) {
-      builder.path(new PathModel(path.type(), path.acceptsUrls(), path.location(), path.acceptedFileExtensions()));
+    Function<Path, PathModel> getPathModelFromLegacyAnnotation =
+        (Path path) -> new PathModel(path.type(), path.acceptsUrls(), path.location(), path.acceptedFileExtensions());
+    Function<FilePath, PathModel> getPathModelFromSdkAnnotation =
+        (FilePath filePath) -> new PathModel(filePath.type(), filePath.acceptsUrls(), filePath.location(),
+                                             filePath.acceptedFileExtensions());
+    PathModel pathModel = getAnnotationValueFromField(
+                                                      field,
+                                                      Path.class,
+                                                      FilePath.class,
+                                                      getPathModelFromLegacyAnnotation, getPathModelFromSdkAnnotation);
+
+    if (pathModel != null) {
+      builder.path(pathModel);
       shouldAddTypeAnnotation = true;
     }
 
-    ClassValue classValue = field.getAnnotation(ClassValue.class);
-    if (classValue != null) {
-      builder.classValue(toClassValueModel(classValue));
+    Function<ClassValue, ClassValueModel> getClassValueFromLegacyAnnotation =
+        (ClassValue classValue) -> new ClassValueModel(Stream.of(classValue.extendsOrImplements()).filter(p -> !isBlank(p))
+            .collect(toList()));
+    Function<org.mule.sdk.api.annotation.param.display.ClassValue, ClassValueModel> getClassValueFromSdkAnnotation =
+        (org.mule.sdk.api.annotation.param.display.ClassValue classValue) -> new ClassValueModel(Stream
+            .of(classValue.extendsOrImplements()).filter(p -> !isBlank(p)).collect(toList()));
+    ClassValueModel classValueModel = getAnnotationValueFromField(
+                                                                  field,
+                                                                  ClassValue.class,
+                                                                  org.mule.sdk.api.annotation.param.display.ClassValue.class,
+                                                                  getClassValueFromLegacyAnnotation,
+                                                                  getClassValueFromSdkAnnotation);
+
+    if (classValueModel != null) {
+      builder.classValue(classValueModel);
       shouldAddTypeAnnotation = true;
     }
 
@@ -382,5 +425,30 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     if (defaultValue != null) {
       fieldBuilder.with(new DefaultValueAnnotation(defaultValue));
     }
+  }
+
+  private static <R extends Annotation, S extends Annotation, T> T getAnnotationValueFromField(
+                                                                                               Field field,
+                                                                                               Class<R> legacyAnnotationClass,
+                                                                                               Class<S> sdkAnnotationClass,
+                                                                                               Function<R, T> legacyAnnotationMapping,
+                                                                                               Function<S, T> sdkAnnotationMapping) {
+    R legacyAnnotation = field.getAnnotation(legacyAnnotationClass);
+    S sdkAnnotation = field.getAnnotation(sdkAnnotationClass);
+
+    T value;
+    if (legacyAnnotation != null && sdkAnnotation != null) {
+      throw new IllegalParameterModelDefinitionException(format("Annotations %s and %s are both present at the same time on field %s",
+                                                                legacyAnnotationClass.getName(), sdkAnnotationClass.getName(),
+                                                                field.getName()));
+    } else if (legacyAnnotation != null) {
+      value = legacyAnnotationMapping.apply(legacyAnnotation);
+    } else if (sdkAnnotation != null) {
+      value = sdkAnnotationMapping.apply(sdkAnnotation);
+    } else {
+      value = null;
+    }
+
+    return value;
   }
 }
