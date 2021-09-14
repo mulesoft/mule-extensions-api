@@ -88,6 +88,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -95,6 +96,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s by looking for, and following the
@@ -257,9 +260,16 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   private void processLayoutAnnotation(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     LayoutModel.LayoutModelBuilder builder = LayoutModel.builder();
     boolean shouldAddTypeAnnotation = false;
-    Placement placement = field.getAnnotation(Placement.class);
-    if (placement != null) {
-      builder.tabName(placement.tab()).order(placement.order());
+
+    Pair<Integer, String> value = getAnnotationValueFromField(field,
+                                                              Placement.class,
+                                                              org.mule.sdk.api.annotation.param.display.Placement.class,
+                                                              (Placement placement) -> Pair.of(placement.order(),
+                                                                                               placement.tab()),
+                                                              (org.mule.sdk.api.annotation.param.display.Placement placement) -> Pair
+                                                                  .of(placement.order(), placement.tab()));
+    if (value != null) {
+      builder.tabName(value.getRight()).order(value.getLeft());
       shouldAddTypeAnnotation = true;
     }
 
