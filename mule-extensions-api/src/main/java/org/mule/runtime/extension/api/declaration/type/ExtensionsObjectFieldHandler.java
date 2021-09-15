@@ -278,7 +278,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Text.class) != null) {
+    if (isAnnotationPresent(field, Text.class, org.mule.sdk.api.annotation.param.display.Text.class)) {
       builder.asText();
       shouldAddTypeAnnotation = true;
     }
@@ -437,12 +437,12 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private static <R extends Annotation, S extends Annotation, T> T getAnnotationValueFromField(
-                                                                                               Field field,
-                                                                                               Class<R> legacyAnnotationClass,
-                                                                                               Class<S> sdkAnnotationClass,
-                                                                                               Function<R, T> legacyAnnotationMapping,
-                                                                                               Function<S, T> sdkAnnotationMapping) {
+  private <R extends Annotation, S extends Annotation, T> T getAnnotationValueFromField(
+                                                                                        Field field,
+                                                                                        Class<R> legacyAnnotationClass,
+                                                                                        Class<S> sdkAnnotationClass,
+                                                                                        Function<R, T> legacyAnnotationMapping,
+                                                                                        Function<S, T> sdkAnnotationMapping) {
     R legacyAnnotation = field.getAnnotation(legacyAnnotationClass);
     S sdkAnnotation = field.getAnnotation(sdkAnnotationClass);
 
@@ -460,5 +460,19 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     }
 
     return value;
+  }
+
+  private <R extends Annotation, S extends Annotation, T> boolean isAnnotationPresent(Field field, Class<R> legacyAnnotationClass,
+                                                                                      Class<S> sdkAnnotationClass) {
+    R legacyAnnotation = field.getAnnotation(legacyAnnotationClass);
+    S sdkAnnotation = field.getAnnotation(sdkAnnotationClass);
+
+    if (legacyAnnotation != null && sdkAnnotation != null) {
+      throw new IllegalParameterModelDefinitionException(format("Annotations %s and %s are both present at the same time on field %s",
+                                                                legacyAnnotationClass.getName(), sdkAnnotationClass.getName(),
+                                                                field.getName()));
+    } else {
+      return legacyAnnotation != null || sdkAnnotation != null;
+    }
   }
 }
