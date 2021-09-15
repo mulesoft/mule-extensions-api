@@ -7,6 +7,9 @@
 package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComposableModel;
@@ -14,6 +17,7 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.connection.HasConnectionProviderModels;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.construct.HasConstructModels;
+import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
@@ -30,6 +34,7 @@ import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -52,12 +57,37 @@ public final class OperationModelValidator implements ExtensionModelValidator {
     void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
       this.problemsReporter = problemsReporter;
       this.dsl = DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy());
-      boolean hasGlobalConnectionProviders = !extensionModel.getConnectionProviders().isEmpty();
+      final boolean hasGlobalConnectionProviders = !extensionModel.getConnectionProviders().isEmpty();
+      final boolean extensionWithoutErrors = extensionModel.getErrorModels().isEmpty();
 
       new ExtensionWalker() {
 
+        private void validateErrors(ExtensionModel extensionModel, ComponentModel componentModel, ProblemsReporter problemsReporter) {
+          if (extensionWithoutErrors && !componentModel.getErrorModels().isEmpty()) {
+            problemsReporter.addError(new Problem(componentModel,
+                format("%s '%s' declares error types but the Extension declares none",
+                getComponentModelTypeName(componentModel),
+                componentModel.getName())));
+          }
+
+          List<ErrorModel> undeclared = componentModel.getErrorModels().stream()
+              .filter(error -> !extensionModel.getErrorModels().contains(error))
+              .collect(toList());
+
+          if (!undeclared.isEmpty()) {
+            problemsReporter.addError(new Problem(componentModel,
+                format("%s '%s' declares error types which are not defined in the extension. Offending errors are [%s]",
+                    getComponentModelTypeName(componentModel),
+                    componentModel.getName(),
+                    undeclared.stream().map(ErrorModel::getType).collect(joining(", "))
+                )
+            ));
+          }
+        }
+
         @Override
         protected void onConstruct(HasConstructModels owner, ConstructModel model) {
+          validateErrors(extensionModel, model, problemsReporter);
           if (isScope(model)) {
             validateScope(model);
           } else if (isRouter(model)) {
@@ -67,6 +97,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
 
         @Override
         protected void onOperation(HasOperationModels owner, OperationModel model) {
+          validateErrors(extensionModel, model, problemsReporter);
           validateOutput(model);
           validateConnection(owner, model, hasGlobalConnectionProviders);
 
