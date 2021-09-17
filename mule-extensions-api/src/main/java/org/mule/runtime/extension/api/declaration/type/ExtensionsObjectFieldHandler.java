@@ -15,7 +15,6 @@ import static java.util.Arrays.stream;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
@@ -26,6 +25,15 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFi
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isOptional;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isParameterGroup;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getClassValueModel;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getDisplayName;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getExampleValue;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getPathModel;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getPlacementValue;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getSummaryValue;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.isPasswordField;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.isQueryField;
+import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.isTextField;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
@@ -55,16 +63,7 @@ import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.Query;
 import org.mule.runtime.extension.api.annotation.param.RefName;
-import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
-import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
-import org.mule.runtime.extension.api.annotation.param.display.Example;
-import org.mule.runtime.extension.api.annotation.param.display.Password;
-import org.mule.runtime.extension.api.annotation.param.display.Path;
-import org.mule.runtime.extension.api.annotation.param.display.Placement;
-import org.mule.runtime.extension.api.annotation.param.display.Summary;
-import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.annotation.param.reference.ConfigReference;
 import org.mule.runtime.extension.api.annotation.param.reference.FlowReference;
 import org.mule.runtime.extension.api.annotation.param.reference.ObjectStoreReference;
@@ -81,19 +80,16 @@ import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeType
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.runtime.route.Chain;
-import org.mule.sdk.api.annotation.semantics.file.FilePath;
 
 import java.beans.Introspector;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -184,71 +180,33 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     DisplayModel.DisplayModelBuilder builder = DisplayModel.builder();
     boolean shouldAddTypeAnnotation = false;
 
-    String displayNameValue = getAnnotationValueFromField(
-                                                          field,
-                                                          DisplayName.class,
-                                                          org.mule.sdk.api.annotation.param.display.DisplayName.class,
-                                                          DisplayName::value,
-                                                          org.mule.sdk.api.annotation.param.display.DisplayName::value);
-
-    if (displayNameValue != null) {
-      builder.displayName(displayNameValue);
+    Optional<String> displayName = getDisplayName(field);
+    if (displayName.isPresent()) {
+      builder.displayName(displayName.get());
       shouldAddTypeAnnotation = true;
     }
 
-    String summaryValue = getAnnotationValueFromField(
-                                                      field,
-                                                      Summary.class,
-                                                      org.mule.sdk.api.annotation.param.display.Summary.class,
-                                                      Summary::value, org.mule.sdk.api.annotation.param.display.Summary::value);
-
-    if (summaryValue != null) {
-      builder.summary(summaryValue);
+    Optional<String> summaryValue = getSummaryValue(field);
+    if (summaryValue.isPresent()) {
+      builder.summary(summaryValue.get());
       shouldAddTypeAnnotation = true;
     }
 
-    String exampleValue = getAnnotationValueFromField(
-                                                      field,
-                                                      Example.class,
-                                                      org.mule.sdk.api.annotation.param.display.Example.class,
-                                                      Example::value, org.mule.sdk.api.annotation.param.display.Example::value);
-
-    if (exampleValue != null) {
-      builder.example(exampleValue);
+    Optional<String> exampleValue = getExampleValue(field);
+    if (exampleValue.isPresent()) {
+      builder.example(exampleValue.get());
       shouldAddTypeAnnotation = true;
     }
 
-    Function<Path, PathModel> getPathModelFromLegacyAnnotation =
-        (Path path) -> new PathModel(path.type(), path.acceptsUrls(), path.location(), path.acceptedFileExtensions());
-    Function<FilePath, PathModel> getPathModelFromSdkAnnotation =
-        (FilePath filePath) -> new PathModel(filePath.type(), filePath.acceptsUrls(), filePath.location(),
-                                             filePath.acceptedFileExtensions());
-    PathModel pathModel = getAnnotationValueFromField(
-                                                      field,
-                                                      Path.class,
-                                                      FilePath.class,
-                                                      getPathModelFromLegacyAnnotation, getPathModelFromSdkAnnotation);
-
-    if (pathModel != null) {
-      builder.path(pathModel);
+    Optional<PathModel> pathModel = getPathModel(field);
+    if (pathModel.isPresent()) {
+      builder.path(pathModel.get());
       shouldAddTypeAnnotation = true;
     }
 
-    Function<ClassValue, ClassValueModel> getClassValueFromLegacyAnnotation =
-        (ClassValue classValue) -> new ClassValueModel(Stream.of(classValue.extendsOrImplements()).filter(p -> !isBlank(p))
-            .collect(toList()));
-    Function<org.mule.sdk.api.annotation.param.display.ClassValue, ClassValueModel> getClassValueFromSdkAnnotation =
-        (org.mule.sdk.api.annotation.param.display.ClassValue classValue) -> new ClassValueModel(Stream
-            .of(classValue.extendsOrImplements()).filter(p -> !isBlank(p)).collect(toList()));
-    ClassValueModel classValueModel = getAnnotationValueFromField(
-                                                                  field,
-                                                                  ClassValue.class,
-                                                                  org.mule.sdk.api.annotation.param.display.ClassValue.class,
-                                                                  getClassValueFromLegacyAnnotation,
-                                                                  getClassValueFromSdkAnnotation);
-
-    if (classValueModel != null) {
-      builder.classValue(classValueModel);
+    Optional<ClassValueModel> classValueModel = getClassValueModel(field);
+    if (classValueModel.isPresent()) {
+      builder.classValue(classValueModel.get());
       shouldAddTypeAnnotation = true;
     }
 
@@ -261,29 +219,23 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     LayoutModel.LayoutModelBuilder builder = LayoutModel.builder();
     boolean shouldAddTypeAnnotation = false;
 
-    Pair<Integer, String> value = getAnnotationValueFromField(field,
-                                                              Placement.class,
-                                                              org.mule.sdk.api.annotation.param.display.Placement.class,
-                                                              (Placement placement) -> Pair.of(placement.order(),
-                                                                                               placement.tab()),
-                                                              (org.mule.sdk.api.annotation.param.display.Placement placement) -> Pair
-                                                                  .of(placement.order(), placement.tab()));
-    if (value != null) {
-      builder.tabName(value.getRight()).order(value.getLeft());
+    Optional<Pair<Integer, String>> value = getPlacementValue(field);
+    if (value.isPresent()) {
+      builder.tabName(value.get().getRight()).order(value.get().getLeft());
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Password.class) != null) {
+    if (isPasswordField(field)) {
       builder.asPassword();
       shouldAddTypeAnnotation = true;
     }
 
-    if (isAnnotationPresent(field, Text.class, org.mule.sdk.api.annotation.param.display.Text.class)) {
+    if (isTextField(field)) {
       builder.asText();
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Query.class) != null) {
+    if (isQueryField(field)) {
       builder.asQuery();
       shouldAddTypeAnnotation = true;
     }
@@ -437,42 +389,4 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     }
   }
 
-  private <R extends Annotation, S extends Annotation, T> T getAnnotationValueFromField(
-                                                                                        Field field,
-                                                                                        Class<R> legacyAnnotationClass,
-                                                                                        Class<S> sdkAnnotationClass,
-                                                                                        Function<R, T> legacyAnnotationMapping,
-                                                                                        Function<S, T> sdkAnnotationMapping) {
-    R legacyAnnotation = field.getAnnotation(legacyAnnotationClass);
-    S sdkAnnotation = field.getAnnotation(sdkAnnotationClass);
-
-    T value;
-    if (legacyAnnotation != null && sdkAnnotation != null) {
-      throw new IllegalParameterModelDefinitionException(format("Annotations %s and %s are both present at the same time on field %s",
-                                                                legacyAnnotationClass.getName(), sdkAnnotationClass.getName(),
-                                                                field.getName()));
-    } else if (legacyAnnotation != null) {
-      value = legacyAnnotationMapping.apply(legacyAnnotation);
-    } else if (sdkAnnotation != null) {
-      value = sdkAnnotationMapping.apply(sdkAnnotation);
-    } else {
-      value = null;
-    }
-
-    return value;
-  }
-
-  private <R extends Annotation, S extends Annotation, T> boolean isAnnotationPresent(Field field, Class<R> legacyAnnotationClass,
-                                                                                      Class<S> sdkAnnotationClass) {
-    R legacyAnnotation = field.getAnnotation(legacyAnnotationClass);
-    S sdkAnnotation = field.getAnnotation(sdkAnnotationClass);
-
-    if (legacyAnnotation != null && sdkAnnotation != null) {
-      throw new IllegalParameterModelDefinitionException(format("Annotations %s and %s are both present at the same time on field %s",
-                                                                legacyAnnotationClass.getName(), sdkAnnotationClass.getName(),
-                                                                field.getName()));
-    } else {
-      return legacyAnnotation != null || sdkAnnotation != null;
-    }
-  }
 }
