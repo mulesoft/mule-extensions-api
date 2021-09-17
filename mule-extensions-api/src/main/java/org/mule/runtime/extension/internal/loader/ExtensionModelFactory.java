@@ -162,7 +162,7 @@ public final class ExtensionModelFactory {
                                                     new ExtensionTypesDeclarationEnricher(),
                                                     new XmlDeclarationEnricher(),
                                                     new TargetParameterDeclarationEnricher(),
-        new ExtensionsErrorsDeclarationEnricher(),
+                                                    new ExtensionsErrorsDeclarationEnricher(),
                                                     new ErrorMappingsParameterDeclarationEnricher(),
                                                     new ConnectionProviderDeclarationEnricher(),
                                                     new DynamicConfigDeclarationEnricher(),
