@@ -22,18 +22,18 @@ import static org.mule.runtime.api.util.MuleSystemProperties.MULE_FLOW_REFEREREN
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getClassValueModel;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getDisplayName;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getExampleValue;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getPathModel;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getPlacementValue;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getSummaryValue;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isOptional;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isParameterGroup;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getClassValueModel;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getDisplayName;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getExampleValue;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getPathModel;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getPlacementValue;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.getSummaryValue;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.isPasswordField;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.isQueryField;
-import static org.mule.runtime.extension.api.declaration.type.util.AnnotationIntrospectionsUtils.isTextField;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isPasswordField;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isQueryField;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isTextField;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
@@ -54,6 +54,7 @@ import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
+import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.ConfigReferences;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -92,8 +93,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * An implementation of {@link ObjectFieldHandler} which navigates an object's {@link Field}s by looking for, and following the
@@ -221,7 +220,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     Optional<Pair<Integer, String>> value = getPlacementValue(field);
     if (value.isPresent()) {
-      builder.tabName(value.get().getRight()).order(value.get().getLeft());
+      builder.tabName(value.get().getSecond()).order(value.get().getFirst());
       shouldAddTypeAnnotation = true;
     }
 
