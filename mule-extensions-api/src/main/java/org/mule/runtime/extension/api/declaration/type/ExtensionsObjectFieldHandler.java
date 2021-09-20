@@ -22,15 +22,23 @@ import static org.mule.runtime.api.util.MuleSystemProperties.MULE_FLOW_REFEREREN
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getClassValueModel;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getDisplayName;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getExampleValue;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getParameterFields;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getPathModel;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getPlacementValue;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getSummaryValue;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isOptional;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isParameterGroup;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isPasswordField;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isQueryField;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isTextField;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SUB_FLOW;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.toClassValueModel;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
@@ -42,9 +50,11 @@ import org.mule.metadata.java.api.handler.DefaultObjectFieldHandler;
 import org.mule.metadata.java.api.handler.ObjectFieldHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
+import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
+import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.ConfigReferences;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -54,17 +64,7 @@ import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
-import org.mule.runtime.extension.api.annotation.param.Query;
 import org.mule.runtime.extension.api.annotation.param.RefName;
-import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
-import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
-import org.mule.runtime.extension.api.annotation.param.display.Example;
-import org.mule.runtime.extension.api.annotation.param.display.Password;
-import org.mule.runtime.extension.api.annotation.param.display.Path;
-import org.mule.runtime.extension.api.annotation.param.display.Placement;
-import org.mule.runtime.extension.api.annotation.param.display.Summary;
-import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.annotation.param.reference.ConfigReference;
 import org.mule.runtime.extension.api.annotation.param.reference.FlowReference;
 import org.mule.runtime.extension.api.annotation.param.reference.ObjectStoreReference;
@@ -179,30 +179,33 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     DisplayModel.DisplayModelBuilder builder = DisplayModel.builder();
     boolean shouldAddTypeAnnotation = false;
 
-    if (field.getAnnotation(DisplayName.class) != null) {
-      builder.displayName(field.getAnnotation(DisplayName.class).value());
+    Optional<String> displayName = getDisplayName(field);
+    if (displayName.isPresent()) {
+      builder.displayName(displayName.get());
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Summary.class) != null) {
-      builder.summary(field.getAnnotation(Summary.class).value());
+    Optional<String> summaryValue = getSummaryValue(field);
+    if (summaryValue.isPresent()) {
+      builder.summary(summaryValue.get());
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Example.class) != null) {
-      builder.example(field.getAnnotation(Example.class).value());
+    Optional<String> exampleValue = getExampleValue(field);
+    if (exampleValue.isPresent()) {
+      builder.example(exampleValue.get());
       shouldAddTypeAnnotation = true;
     }
 
-    Path path = field.getAnnotation(Path.class);
-    if (path != null) {
-      builder.path(new PathModel(path.type(), path.acceptsUrls(), path.location(), path.acceptedFileExtensions()));
+    Optional<PathModel> pathModel = getPathModel(field);
+    if (pathModel.isPresent()) {
+      builder.path(pathModel.get());
       shouldAddTypeAnnotation = true;
     }
 
-    ClassValue classValue = field.getAnnotation(ClassValue.class);
-    if (classValue != null) {
-      builder.classValue(toClassValueModel(classValue));
+    Optional<ClassValueModel> classValueModel = getClassValueModel(field);
+    if (classValueModel.isPresent()) {
+      builder.classValue(classValueModel.get());
       shouldAddTypeAnnotation = true;
     }
 
@@ -214,23 +217,24 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   private void processLayoutAnnotation(Field field, ObjectFieldTypeBuilder fieldBuilder) {
     LayoutModel.LayoutModelBuilder builder = LayoutModel.builder();
     boolean shouldAddTypeAnnotation = false;
-    Placement placement = field.getAnnotation(Placement.class);
-    if (placement != null) {
-      builder.tabName(placement.tab()).order(placement.order());
+
+    Optional<Pair<Integer, String>> value = getPlacementValue(field);
+    if (value.isPresent()) {
+      builder.tabName(value.get().getSecond()).order(value.get().getFirst());
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Password.class) != null) {
+    if (isPasswordField(field)) {
       builder.asPassword();
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Text.class) != null) {
+    if (isTextField(field)) {
       builder.asText();
       shouldAddTypeAnnotation = true;
     }
 
-    if (field.getAnnotation(Query.class) != null) {
+    if (isQueryField(field)) {
       builder.asQuery();
       shouldAddTypeAnnotation = true;
     }
@@ -383,4 +387,5 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
       fieldBuilder.with(new DefaultValueAnnotation(defaultValue));
     }
   }
+
 }
