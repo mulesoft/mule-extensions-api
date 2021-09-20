@@ -10,7 +10,6 @@ import static java.lang.String.format;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
 
-import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
@@ -23,6 +22,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -34,6 +34,8 @@ import java.util.Set;
 public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher {
 
   private static final String CORE_NAMESPACE_NAME = CORE_PREFIX.toUpperCase();
+  private static final String CONNECTIVITY_ERROR_TYPE = "CONNECTIVITY";
+  private static final String RETRY_EXHAUSTED_ERROR_TYPE = "RETRY_EXHAUSTED";
   private static String ERROR_MASK = "Trying to add the '%s' Error to the Component '%s' but the Extension doesn't declare it";
 
   @Override
@@ -52,24 +54,35 @@ public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher 
     public void enrich(ExtensionLoadingContext extensionLoadingContext) {
       ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
       Set<ErrorModel> errorModels = extensionDeclaration.getErrorModels();
+      Optional<ErrorModel> connectivityError = getErrorModel(CONNECTIVITY_ERROR_TYPE, errorModels);
+      Optional<ErrorModel> retryErrorModel = getErrorModel(RETRY_EXHAUSTED_ERROR_TYPE, errorModels);
+
       new IdempotentDeclarationWalker() {
 
         @Override
         public void onOperation(WithOperationsDeclaration owner, OperationDeclaration operationDeclaration) {
+          errorModels.addAll(operationDeclaration.getErrorModels());
           if (operationDeclaration.isRequiresConnection()) {
-            operationDeclaration.addErrorModel(getErrorModel("CONNECTIVITY", errorModels, operationDeclaration));
-            operationDeclaration.addErrorModel(getErrorModel("RETRY_EXHAUSTED", errorModels, operationDeclaration));
+            addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
+            addErrorModel(operationDeclaration, retryErrorModel, RETRY_EXHAUSTED_ERROR_TYPE);
           }
         }
       }.walk(extensionDeclaration);
     }
   }
 
-  private ErrorModel getErrorModel(String type, Set<ErrorModel> errors, NamedObject component) {
+  private void addErrorModel(OperationDeclaration declaration, Optional<ErrorModel> errorModel, String type) {
+    if (errorModel.isPresent()) {
+      declaration.getErrorModels().add(errorModel.get());
+    } else {
+      throw new IllegalModelDefinitionException(format(ERROR_MASK, type, declaration.getName()));
+    }
+  }
+
+  private Optional<ErrorModel> getErrorModel(String type, Set<ErrorModel> errors) {
     return errors
         .stream()
         .filter(e -> !e.getNamespace().equals(CORE_NAMESPACE_NAME) && e.getType().equals(type))
-        .findFirst()
-        .orElseThrow(() -> new IllegalModelDefinitionException(format(ERROR_MASK, type, component.getName())));
+        .findFirst();
   }
 }
