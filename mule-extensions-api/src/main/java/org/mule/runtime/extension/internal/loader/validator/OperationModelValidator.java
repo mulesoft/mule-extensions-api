@@ -87,9 +87,9 @@ public final class OperationModelValidator implements ExtensionModelValidator {
                                     ProblemsReporter problemsReporter) {
           if (extensionWithoutErrors && !componentModel.getErrorModels().isEmpty()) {
             problemsReporter.addError(new Problem(componentModel,
-                format("%s '%s' declares error types but the Extension declares none",
-                    getComponentModelTypeName(componentModel),
-                    componentModel.getName())));
+                                                  format("%s '%s' declares error types but the Extension declares none",
+                                                         getComponentModelTypeName(componentModel),
+                                                         componentModel.getName())));
           }
 
           List<ErrorModel> undeclared = componentModel.getErrorModels().stream()
@@ -98,10 +98,10 @@ public final class OperationModelValidator implements ExtensionModelValidator {
 
           if (!undeclared.isEmpty()) {
             problemsReporter.addError(new Problem(componentModel,
-                format("%s '%s' declares error types which are not defined in the extension. Offending errors are [%s]",
-                    getComponentModelTypeName(componentModel),
-                    componentModel.getName(),
-                    undeclared.stream().map(ErrorModel::getType).collect(joining(", ")))));
+                                                  format("%s '%s' declares error types which are not defined in the extension. Offending errors are [%s]",
+                                                         getComponentModelTypeName(componentModel),
+                                                         componentModel.getName(),
+                                                         undeclared.stream().map(ErrorModel::getType).collect(joining(", ")))));
           }
         }
       }.walk(extensionModel);
