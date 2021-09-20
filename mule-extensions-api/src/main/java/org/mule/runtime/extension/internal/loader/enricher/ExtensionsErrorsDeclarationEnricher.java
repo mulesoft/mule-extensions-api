@@ -29,7 +29,7 @@ import java.util.Set;
  * {@link DeclarationEnricher} implementation which enriches {@link OperationModel operationModels} adding connectivity related
  * {@link MuleErrors} if the operations are considered as a connected ones.
  *
- * @since 4.0
+ * @since 1.5.0
  */
 public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher {
 
