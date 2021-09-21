@@ -96,6 +96,7 @@ import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarat
 import org.mule.runtime.extension.internal.loader.enricher.ErrorMappingsParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ExtensionsErrorsDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.NamedObjectDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ParameterDslDeclarationEnricher;
@@ -161,6 +162,7 @@ public final class ExtensionModelFactory {
                                                     new ExtensionTypesDeclarationEnricher(),
                                                     new XmlDeclarationEnricher(),
                                                     new TargetParameterDeclarationEnricher(),
+                                                    new ExtensionsErrorsDeclarationEnricher(),
                                                     new ErrorMappingsParameterDeclarationEnricher(),
                                                     new ConnectionProviderDeclarationEnricher(),
                                                     new DynamicConfigDeclarationEnricher(),
