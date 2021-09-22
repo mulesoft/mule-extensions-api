@@ -6,13 +6,19 @@
  */
 package org.mule.runtime.extension.internal.util;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+
 import org.mule.runtime.extension.api.annotation.Alias;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import javax.lang.model.element.Element;
 
 public final class AnnotationUtils {
 
@@ -44,5 +50,28 @@ public final class AnnotationUtils {
     }
 
     return name == null || name.length() == 0 ? defaultValue.get() : name;
+  }
+
+  public static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
+      Element element,
+      Class<R> legacyAnnotationClass,
+      Class<S> sdkAnnotationClass,
+      Function<R, T> legacyAnnotationMapping,
+      Function<S, T> sdkAnnotationMapping) {
+
+    R legacyAnnotation = element.getAnnotation(legacyAnnotationClass);
+    S sdkAnnotation = element.getAnnotation(sdkAnnotationClass);
+
+    Optional<T> result;
+
+    if (legacyAnnotation != null) {
+      result = ofNullable(legacyAnnotationMapping.apply(legacyAnnotation));
+    } else if (sdkAnnotation != null) {
+      result = ofNullable(sdkAnnotationMapping.apply(sdkAnnotation));
+    } else {
+      result = empty();
+    }
+
+    return result;
   }
 }
