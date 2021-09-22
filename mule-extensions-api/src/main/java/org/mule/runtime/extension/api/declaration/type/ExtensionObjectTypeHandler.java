@@ -11,6 +11,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import static org.mule.runtime.extension.internal.util.AnnotationUtils.getAlias;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
@@ -24,7 +25,6 @@ import org.mule.metadata.java.api.handler.ObjectHandler;
 import org.mule.metadata.java.api.handler.TypeHandlerManager;
 import org.mule.metadata.java.api.utils.ParsingContext;
 import org.mule.runtime.api.metadata.TypedValue;
-import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Extensible;
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.annotation.param.stereotype.Stereotype;
@@ -101,8 +101,7 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
       Optional<TypeDslAnnotation> typeDslAnnotation = getTypeDslAnnotation(currentClass);
       typeDslAnnotation.ifPresent((annotatedBuilder::with));
 
-      Alias alias = currentClass.getAnnotation(Alias.class);
-      annotatedBuilder.with(new TypeAliasAnnotation(alias != null ? alias.value() : currentClass.getSimpleName()));
+      annotatedBuilder.with(new TypeAliasAnnotation(getAlias(currentClass)));
 
       Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
       boolean allowTopLevelDefinition = typeDslAnnotation.map(TypeDslAnnotation::allowsTopLevelDefinition).orElse(false);
