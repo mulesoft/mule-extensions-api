@@ -9,6 +9,7 @@ package org.mule.runtime.extension.internal.loader.util;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
+import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -90,6 +91,20 @@ public final class JavaParserUtils {
       return ExpressionSupport.REQUIRED;
     } else {
       throw new IllegalModelDefinitionException("Unsupported expression support type " + support);
+    }
+  }
+
+  public static Category toMuleApi(org.mule.sdk.api.meta.Category category) {
+    if (category == org.mule.sdk.api.meta.Category.SELECT) {
+      return Category.SELECT;
+    } else if (category == org.mule.sdk.api.meta.Category.COMMUNITY) {
+      return Category.COMMUNITY;
+    } else if (category == org.mule.sdk.api.meta.Category.CERTIFIED) {
+      return Category.CERTIFIED;
+    } else if (category == org.mule.sdk.api.meta.Category.PREMIUM) {
+      return Category.PREMIUM;
+    } else {
+      throw new IllegalModelDefinitionException("Unsupported Category type " + category);
     }
   }
 
