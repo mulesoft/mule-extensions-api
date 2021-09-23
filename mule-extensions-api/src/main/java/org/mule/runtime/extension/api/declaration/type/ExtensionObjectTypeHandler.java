@@ -94,7 +94,8 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
 
     if (typeBuilder != null && typeBuilder instanceof WithAnnotation) {
       final WithAnnotation annotatedBuilder = (WithAnnotation) typeBuilder;
-      if (currentClass.isAnnotationPresent(Extensible.class)) {
+      if (currentClass.isAnnotationPresent(Extensible.class) ||
+          currentClass.isAnnotationPresent(org.mule.sdk.api.annotation.Extensible.class)) {
         annotatedBuilder.with(new ExtensibleTypeAnnotation());
       }
 
