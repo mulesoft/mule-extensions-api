@@ -39,7 +39,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.declaration.type.TypeUtils;
-import org.mule.runtime.extension.internal.util.AnnotationUtils;
+import org.mule.runtime.extension.internal.loader.util.JavaParserUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
@@ -265,11 +265,11 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   }
 
   /**
-   * @deprecated since 1.5.0 use {@link AnnotationUtils#getAlias(Class)} instead
+   * @deprecated since 1.5.0 use {@link JavaParserUtils#getAlias(Class)} instead
    */
   @Deprecated
   public static String getAliasName(Class<?> type) {
-    return AnnotationUtils.getAlias(type);
+    return JavaParserUtils.getAlias(type);
   }
 
   /**
@@ -281,7 +281,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
   }
 
   public static String getAliasName(Parameter parameter) {
-    return AnnotationUtils.getAlias(parameter, parameter::getName);
+    return JavaParserUtils.getAlias(parameter, parameter::getName);
   }
 
   public static String defaultNamespace(String extensionName) {

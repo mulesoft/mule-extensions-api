@@ -4,12 +4,15 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.util;
+package org.mule.runtime.extension.internal.loader.util;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
+import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -20,9 +23,9 @@ import java.util.function.Supplier;
 
 import javax.lang.model.element.Element;
 
-public final class AnnotationUtils {
+public final class JavaParserUtils {
 
-  private AnnotationUtils() {
+  private JavaParserUtils() {
   }
 
   public static String getAlias(Field field) {
@@ -52,6 +55,18 @@ public final class AnnotationUtils {
     return name == null || name.length() == 0 ? defaultValue.get() : name;
   }
 
+  public static Optional<ExpressionSupport> getExpressionSupport(AnnotatedElement element) {
+    return getExpressionSupport(element::getAnnotation);
+  }
+
+  public static Optional<ExpressionSupport> getExpressionSupport(Function<Class<? extends Annotation>, ? extends Annotation> mapper) {
+    return getInfoFromAnnotation(mapper,
+        Expression.class,
+        org.mule.sdk.api.annotation.Expression.class,
+        ann -> ann.value(),
+        ann -> toMuleApi(ann.value()));
+  }
+
   public static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
       Element element,
       Class<R> legacyAnnotationClass,
@@ -59,8 +74,34 @@ public final class AnnotationUtils {
       Function<R, T> legacyAnnotationMapping,
       Function<S, T> sdkAnnotationMapping) {
 
-    R legacyAnnotation = element.getAnnotation(legacyAnnotationClass);
-    S sdkAnnotation = element.getAnnotation(sdkAnnotationClass);
+    return getInfoFromAnnotation(element::getAnnotation,
+        legacyAnnotationClass,
+        sdkAnnotationClass,
+        legacyAnnotationMapping,
+        sdkAnnotationMapping);
+  }
+
+  private static ExpressionSupport toMuleApi(org.mule.sdk.api.meta.ExpressionSupport support) {
+    if (support == org.mule.sdk.api.meta.ExpressionSupport.SUPPORTED) {
+      return ExpressionSupport.SUPPORTED;
+    } else if (support == org.mule.sdk.api.meta.ExpressionSupport.NOT_SUPPORTED) {
+      return ExpressionSupport.NOT_SUPPORTED;
+    } else if (support == org.mule.sdk.api.meta.ExpressionSupport.REQUIRED) {
+      return ExpressionSupport.REQUIRED;
+    } else {
+      throw new IllegalModelDefinitionException("Unsupported expression support type " + support);
+    }
+  }
+
+  private static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
+      Function<Class<? extends Annotation>, ? extends Annotation> mapper,
+      Class<R> legacyAnnotationClass,
+      Class<S> sdkAnnotationClass,
+      Function<R, T> legacyAnnotationMapping,
+      Function<S, T> sdkAnnotationMapping) {
+
+    R legacyAnnotation = (R) mapper.apply(legacyAnnotationClass);
+    S sdkAnnotation = (S) mapper.apply(sdkAnnotationClass);
 
     Optional<T> result;
 

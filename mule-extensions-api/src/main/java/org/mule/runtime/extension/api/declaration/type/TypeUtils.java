@@ -30,7 +30,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
-import org.mule.runtime.extension.internal.util.AnnotationUtils;
+import org.mule.runtime.extension.internal.loader.util.JavaParserUtils;
 import org.mule.sdk.api.annotation.semantics.file.FilePath;
 
 import java.lang.annotation.Annotation;
@@ -101,11 +101,11 @@ public final class TypeUtils {
    *
    * @param field a {@link Field}
    * @return the field's alias
-   * @deprecated since 1.5.0 use {@link AnnotationUtils#getAlias(Field)} instead
+   * @deprecated since 1.5.0 use {@link JavaParserUtils#getAlias(Field)} instead
    */
   @Deprecated
   public static String getAlias(Field field) {
-    return AnnotationUtils.getAlias(field, field::getName);
+    return JavaParserUtils.getAlias(field, field::getName);
   }
 
   /**
