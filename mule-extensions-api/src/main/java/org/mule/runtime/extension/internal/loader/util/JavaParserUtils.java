@@ -11,6 +11,7 @@ import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.ExternalLibraryType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
@@ -105,6 +106,18 @@ public final class JavaParserUtils {
       return Category.PREMIUM;
     } else {
       throw new IllegalModelDefinitionException("Unsupported Category type " + category);
+    }
+  }
+
+  public static ExternalLibraryType toMuleApi(org.mule.sdk.api.meta.ExternalLibraryType type) {
+    if (type == org.mule.sdk.api.meta.ExternalLibraryType.JAR) {
+      return ExternalLibraryType.JAR;
+    } else if (type == org.mule.sdk.api.meta.ExternalLibraryType.DEPENDENCY) {
+      return ExternalLibraryType.DEPENDENCY;
+    } else if (type == org.mule.sdk.api.meta.ExternalLibraryType.NATIVE) {
+      return ExternalLibraryType.NATIVE;
+    } else {
+      throw new IllegalModelDefinitionException("Unsupported ExternalLIbraryType " + type);
     }
   }
 
