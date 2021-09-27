@@ -84,7 +84,7 @@ public final class JavaParserUtils {
                                  sdkAnnotationMapping);
   }
 
-  private static ExpressionSupport toMuleApi(org.mule.sdk.api.meta.ExpressionSupport support) {
+  public static ExpressionSupport toMuleApi(org.mule.sdk.api.meta.ExpressionSupport support) {
     if (support == org.mule.sdk.api.meta.ExpressionSupport.SUPPORTED) {
       return ExpressionSupport.SUPPORTED;
     } else if (support == org.mule.sdk.api.meta.ExpressionSupport.NOT_SUPPORTED) {
