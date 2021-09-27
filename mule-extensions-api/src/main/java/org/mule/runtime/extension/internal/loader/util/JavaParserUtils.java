@@ -25,22 +25,57 @@ import java.util.function.Supplier;
 
 import javax.lang.model.element.Element;
 
+/**
+ * Utilities for parsing Extensions defined through the Java language.
+ * <p>
+ * Use these methods when you're sure that you're parsing compiled classes. Do not use when the parsing context includes an AST
+ * (either java's or Mule's).
+ * <p>
+ * This class is not part of the API and should not be used by anyone (or anything) but the runtime. Backwards compatibility not
+ * guaranteed on this class.
+ *
+ * @since 1.5.0
+ */
 public final class JavaParserUtils {
 
   private JavaParserUtils() {}
 
+  /**
+   * @param field a java Field
+   * @return the field's alias, as defined by any of the {@code @Alias} annotations
+   */
   public static String getAlias(Field field) {
     return getAlias(field, field::getName);
   }
 
+  /**
+   * @param clazz a Java class
+   * @return the class alias, as defined by any of the {@code @Alias} annotations
+   */
   public static String getAlias(Class<?> clazz) {
     return getAlias(clazz, clazz::getSimpleName);
   }
 
+  /**
+   * Searches the given {@code element} for any of the {@code @Alias} annotations. If any are found, the resolved alias is
+   * returned. Otherwise, the {@code defaultValue} output is returned
+   *
+   * @param element      an annotated element
+   * @param defaultValue a default value supplier
+   * @return the resolved alias.
+   */
   public static String getAlias(AnnotatedElement element, Supplier<String> defaultValue) {
     return getAlias(element::getAnnotation, defaultValue);
   }
 
+  /**
+   * Runs the {@code annotationMapper} through the {@code @Alias} annotations. If any are found, the resolved alias is returned.
+   * Otherwise, the {@code defaultValue} output is returned
+   *
+   * @param annotationMapper a function which encapsulates the annotation resolution
+   * @param defaultValue     a default value supplier
+   * @return the resolved alias
+   */
   public static String getAlias(Function<Class<? extends Annotation>, Annotation> annotationMapper,
                                 Supplier<String> defaultValue) {
     String name = null;
@@ -58,10 +93,18 @@ public final class JavaParserUtils {
     return name == null || name.length() == 0 ? defaultValue.get() : name;
   }
 
+  /**
+   * @param element an Annotated element
+   * @return the {@link ExpressionSupport} defined for the element, if defined. {@link Optional#empty()} otherwise.
+   */
   public static Optional<ExpressionSupport> getExpressionSupport(AnnotatedElement element) {
     return getExpressionSupport(element::getAnnotation);
   }
 
+  /**
+   * @param mapper function which encapsulates annotation resolution
+   * @return the {@link ExpressionSupport} defined for the element, if defined. {@link Optional#empty()} otherwise.
+   */
   public static Optional<ExpressionSupport> getExpressionSupport(Function<Class<? extends Annotation>, ? extends Annotation> mapper) {
     return getInfoFromAnnotation(mapper,
                                  Expression.class,
@@ -70,6 +113,22 @@ public final class JavaParserUtils {
                                  ann -> toMuleApi(ann.value()));
   }
 
+  /**
+   * Monad for extracting information from an {@link Element} which might be annotated with two different annotations of similar
+   * semantics. Both annotations types are reduced to a single output type.
+   * <p>
+   * Simultaneous presence of both types will be considered an error
+   *
+   * @param element                 the annotated element
+   * @param legacyAnnotationClass   the legacy annotation type
+   * @param sdkAnnotationClass      the new annotation type
+   * @param legacyAnnotationMapping mapping function for the legacy annotation
+   * @param sdkAnnotationMapping    mapping function for the new annotation
+   * @param <R>                     Legacy annotation's generic type
+   * @param <S>                     New annotation's generic type
+   * @param <T>                     Output generic type
+   * @return a reduced value
+   */
   public static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
                                                                                                   Element element,
                                                                                                   Class<R> legacyAnnotationClass,
@@ -84,6 +143,13 @@ public final class JavaParserUtils {
                                  sdkAnnotationMapping);
   }
 
+  /**
+   * Transforms an sdk-api {@link org.mule.sdk.api.meta.ExpressionSupport} into a mule-api {@link ExpressionSupport}
+   *
+   * @param support an sdk-api representation of the expression support semantic
+   * @return the transformed value
+   * @throws IllegalModelDefinitionException if no equivalent semantic found.
+   */
   public static ExpressionSupport toMuleApi(org.mule.sdk.api.meta.ExpressionSupport support) {
     if (support == org.mule.sdk.api.meta.ExpressionSupport.SUPPORTED) {
       return ExpressionSupport.SUPPORTED;
@@ -96,6 +162,13 @@ public final class JavaParserUtils {
     }
   }
 
+  /**
+   * Transforms an sdk-api {@link org.mule.sdk.api.meta.Category} into a mule-api {@link Category}
+   *
+   * @param category an sdk-api representation of the Category semantic
+   * @return the transformed value
+   * @throws IllegalModelDefinitionException if no equivalent semantic found.
+   */
   public static Category toMuleApi(org.mule.sdk.api.meta.Category category) {
     if (category == org.mule.sdk.api.meta.Category.SELECT) {
       return Category.SELECT;
@@ -110,6 +183,13 @@ public final class JavaParserUtils {
     }
   }
 
+  /**
+   * Transforms an sdk-api {@link org.mule.sdk.api.meta.ExternalLibraryType} into a mule-api {@link ExternalLibraryType}
+   *
+   * @param type an sdk-api representation of the library type semantic
+   * @return the transformed value
+   * @throws IllegalModelDefinitionException if no equivalent semantic found.
+   */
   public static ExternalLibraryType toMuleApi(org.mule.sdk.api.meta.ExternalLibraryType type) {
     if (type == org.mule.sdk.api.meta.ExternalLibraryType.JAR) {
       return ExternalLibraryType.JAR;
