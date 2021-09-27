@@ -27,8 +27,7 @@ import javax.lang.model.element.Element;
 
 public final class JavaParserUtils {
 
-  private JavaParserUtils() {
-  }
+  private JavaParserUtils() {}
 
   public static String getAlias(Field field) {
     return getAlias(field, field::getName);
@@ -42,13 +41,15 @@ public final class JavaParserUtils {
     return getAlias(element::getAnnotation, defaultValue);
   }
 
-  public static String getAlias(Function<Class<? extends Annotation>, Annotation> annotationMapper, Supplier<String> defaultValue) {
+  public static String getAlias(Function<Class<? extends Annotation>, Annotation> annotationMapper,
+                                Supplier<String> defaultValue) {
     String name = null;
     Alias legacyAlias = (Alias) annotationMapper.apply(Alias.class);
     if (legacyAlias != null) {
       name = legacyAlias.value();
     } else {
-      org.mule.sdk.api.annotation.Alias alias = (org.mule.sdk.api.annotation.Alias) annotationMapper.apply(org.mule.sdk.api.annotation.Alias.class);
+      org.mule.sdk.api.annotation.Alias alias =
+          (org.mule.sdk.api.annotation.Alias) annotationMapper.apply(org.mule.sdk.api.annotation.Alias.class);
       if (alias != null) {
         name = alias.value();
       }
@@ -63,24 +64,24 @@ public final class JavaParserUtils {
 
   public static Optional<ExpressionSupport> getExpressionSupport(Function<Class<? extends Annotation>, ? extends Annotation> mapper) {
     return getInfoFromAnnotation(mapper,
-        Expression.class,
-        org.mule.sdk.api.annotation.Expression.class,
-        ann -> ann.value(),
-        ann -> toMuleApi(ann.value()));
+                                 Expression.class,
+                                 org.mule.sdk.api.annotation.Expression.class,
+                                 ann -> ann.value(),
+                                 ann -> toMuleApi(ann.value()));
   }
 
   public static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
-      Element element,
-      Class<R> legacyAnnotationClass,
-      Class<S> sdkAnnotationClass,
-      Function<R, T> legacyAnnotationMapping,
-      Function<S, T> sdkAnnotationMapping) {
+                                                                                                  Element element,
+                                                                                                  Class<R> legacyAnnotationClass,
+                                                                                                  Class<S> sdkAnnotationClass,
+                                                                                                  Function<R, T> legacyAnnotationMapping,
+                                                                                                  Function<S, T> sdkAnnotationMapping) {
 
     return getInfoFromAnnotation(element::getAnnotation,
-        legacyAnnotationClass,
-        sdkAnnotationClass,
-        legacyAnnotationMapping,
-        sdkAnnotationMapping);
+                                 legacyAnnotationClass,
+                                 sdkAnnotationClass,
+                                 legacyAnnotationMapping,
+                                 sdkAnnotationMapping);
   }
 
   private static ExpressionSupport toMuleApi(org.mule.sdk.api.meta.ExpressionSupport support) {
@@ -122,11 +123,11 @@ public final class JavaParserUtils {
   }
 
   private static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
-      Function<Class<? extends Annotation>, ? extends Annotation> mapper,
-      Class<R> legacyAnnotationClass,
-      Class<S> sdkAnnotationClass,
-      Function<R, T> legacyAnnotationMapping,
-      Function<S, T> sdkAnnotationMapping) {
+                                                                                                   Function<Class<? extends Annotation>, ? extends Annotation> mapper,
+                                                                                                   Class<R> legacyAnnotationClass,
+                                                                                                   Class<S> sdkAnnotationClass,
+                                                                                                   Function<R, T> legacyAnnotationMapping,
+                                                                                                   Function<S, T> sdkAnnotationMapping) {
 
     R legacyAnnotation = (R) mapper.apply(legacyAnnotationClass);
     S sdkAnnotation = (S) mapper.apply(sdkAnnotationClass);
