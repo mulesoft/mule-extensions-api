@@ -12,7 +12,6 @@ import static java.util.Collections.sort;
 import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 
@@ -39,7 +38,8 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
-import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.declaration.type.TypeUtils;
+import org.mule.runtime.extension.internal.loader.util.JavaParserUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
@@ -264,21 +264,24 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
                 .orElseThrow(() -> new IllegalArgumentException("No name information is available for the given type"))));
   }
 
+  /**
+   * @deprecated since 1.5.0 use {@link JavaParserUtils#getAlias(Class)} instead
+   */
+  @Deprecated
   public static String getAliasName(Class<?> type) {
-    return getAliasName(type.getSimpleName(), type.getAnnotation(Alias.class));
+    return JavaParserUtils.getAlias(type);
   }
 
+  /**
+   * @deprecated since 1.5.0 use {@link TypeUtils#getAlias(Field)} instead
+   */
+  @Deprecated
   public static String getAliasName(Field field) {
-    return getAliasName(field.getName(), field.getAnnotation(Alias.class));
+    return TypeUtils.getAlias(field);
   }
 
   public static String getAliasName(Parameter parameter) {
-    return getAliasName(parameter.getName(), parameter.getAnnotation(Alias.class));
-  }
-
-  private static String getAliasName(String defaultName, Alias aliasAnnotation) {
-    String alias = aliasAnnotation != null ? aliasAnnotation.value() : null;
-    return isEmpty(alias) ? defaultName : alias;
+    return JavaParserUtils.getAlias(parameter, parameter::getName);
   }
 
   public static String defaultNamespace(String extensionName) {
