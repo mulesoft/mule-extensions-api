@@ -107,7 +107,8 @@ public final class XmlModelUtils {
    * @return a wellformed {@link XmlDslModel}
    */
   public static XmlDslModel createXmlLanguageModel(Optional<String> prefix,
-                                                   Optional<String> namespace, String extensionName,
+                                                   Optional<String> namespace,
+                                                   String extensionName,
                                                    String extensionVersion) {
     final String stringPrefix =
         isPresentAndNotBlank(prefix) ? prefix.get() : defaultNamespace(extensionName);
