@@ -118,7 +118,7 @@
         <muleApiVersion>1.5.0-20211001</muleApiVersion>
         <muleConnectivityApiVersion>1.1.0-20211001</muleConnectivityApiVersion>
         <muleSdkApiVersion>1.0.0-20211001</muleSdkApiVersion>
-        <metadataModelApiVersion>1.5.0-20210917</metadataModelApiVersion>
+        <metadataModelApiVersion>1.5.0-20211001</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.4.0-20211001</muleModuleMavenPluginVersion>
         <mockitoVersion>2.23.4</mockitoVersion>
         <junitVersion>4.12</junitVersion>
