@@ -106,7 +106,7 @@ public final class JavaParserUtils {
    * @return the {@link ExpressionSupport} defined for the element, if defined. {@link Optional#empty()} otherwise.
    */
   public static Optional<ExpressionSupport> getExpressionSupport(Function<Class<? extends Annotation>, ? extends Annotation> mapper) {
-    return getInfoFromAnnotation(mapper,
+    return mapReduceAnnotation(mapper,
                                  Expression.class,
                                  org.mule.sdk.api.annotation.Expression.class,
                                  ann -> ann.value(),
@@ -129,18 +129,32 @@ public final class JavaParserUtils {
    * @param <T>                     Output generic type
    * @return a reduced value
    */
-  public static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
+  public static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
                                                                                                   Element element,
                                                                                                   Class<R> legacyAnnotationClass,
                                                                                                   Class<S> sdkAnnotationClass,
                                                                                                   Function<R, T> legacyAnnotationMapping,
                                                                                                   Function<S, T> sdkAnnotationMapping) {
 
-    return getInfoFromAnnotation(element::getAnnotation,
+    return mapReduceAnnotation(element::getAnnotation,
                                  legacyAnnotationClass,
                                  sdkAnnotationClass,
                                  legacyAnnotationMapping,
                                  sdkAnnotationMapping);
+  }
+
+  public static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
+      Class<?> type,
+      Class<R> legacyAnnotationClass,
+      Class<S> sdkAnnotationClass,
+      Function<R, T> legacyAnnotationMapping,
+      Function<S, T> sdkAnnotationMapping) {
+
+    return mapReduceAnnotation(type::getAnnotation,
+        legacyAnnotationClass,
+        sdkAnnotationClass,
+        legacyAnnotationMapping,
+        sdkAnnotationMapping);
   }
 
   /**
@@ -202,7 +216,7 @@ public final class JavaParserUtils {
     }
   }
 
-  private static <R extends Annotation, S extends Annotation, T> Optional<T> getInfoFromAnnotation(
+  private static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
                                                                                                    Function<Class<? extends Annotation>, ? extends Annotation> mapper,
                                                                                                    Class<R> legacyAnnotationClass,
                                                                                                    Class<S> sdkAnnotationClass,
