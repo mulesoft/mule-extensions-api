@@ -16,7 +16,7 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
  * Provides constants for all known implementations of {@link MuleStereotypes}.
  *
  * @since 1.0
- * @deprecated since 4.5.0, use {@code org.mule.sdk.api.stereotype.MuleStereotypes} instead
+ * @deprecated since 4.5.0, use {@link org.mule.sdk.api.stereotype.MuleStereotypes} instead
  */
 @Deprecated
 public final class MuleStereotypes {
