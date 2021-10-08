@@ -118,13 +118,15 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
 
   private void handleStereotype(Class<?> currentClass, final WithAnnotation annotatedBuilder, boolean allowTopLevelDefinition) {
     Optional<StereotypeTypeAnnotation> stereotypeTypeAnnotation = mapReduceAnnotation(
-        currentClass,
-        Stereotype.class,
-        org.mule.sdk.api.annotation.param.stereotype.Stereotype.class,
-        stereotype -> fromDefinitions(singletonList(stereotype.value())),
-        stereotype -> fromAllowedDefinitions(singletonList(stereotype.value())));
+                                                                                      currentClass,
+                                                                                      Stereotype.class,
+                                                                                      org.mule.sdk.api.annotation.param.stereotype.Stereotype.class,
+                                                                                      stereotype -> fromDefinitions(singletonList(stereotype
+                                                                                          .value())),
+                                                                                      stereotype -> fromAllowedDefinitions(singletonList(stereotype
+                                                                                          .value())));
 
-    if (stereotypeTypeAnnotation != null) {
+    if (stereotypeTypeAnnotation.isPresent()) {
       annotatedBuilder.with(stereotypeTypeAnnotation.get());
     } else {
       // We need to generate implicit stereotypes for top level elements and their interfaces. Thing is, we don't know if an

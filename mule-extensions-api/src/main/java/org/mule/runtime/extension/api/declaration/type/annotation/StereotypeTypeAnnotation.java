@@ -73,8 +73,8 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
   }
 
   public void resolveAllowedStereotypes(
-      Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver,
-      Function<Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> legacyResolver) {
+                                        Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver,
+                                        Function<Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> legacyResolver) {
 
     if (allowedStereotypes.isEmpty()) {
       definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(clazz)));
@@ -83,9 +83,9 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
   }
 
   public void resolveAllowedStereotypes(
-      ObjectType objectType,
-      BiFunction<ObjectType, Class<? extends StereotypeDefinition>, StereotypeModel> resolver,
-      BiFunction<ObjectType, Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> legacyResolver) {
+                                        ObjectType objectType,
+                                        BiFunction<ObjectType, Class<? extends StereotypeDefinition>, StereotypeModel> resolver,
+                                        BiFunction<ObjectType, Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> legacyResolver) {
 
     if (allowedStereotypes.isEmpty()) {
       definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(objectType, clazz)));
