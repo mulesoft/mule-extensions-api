@@ -26,7 +26,7 @@ public class ExtensionNamespaceUtils {
     return getExtensionsNamespace(extensionDeclaration.getXmlDslModel());
   }
 
-  private static String getExtensionsNamespace(XmlDslModel dslModel) {
+  public static String getExtensionsNamespace(XmlDslModel dslModel) {
     return dslModel.getPrefix().toUpperCase();
   }
 }
