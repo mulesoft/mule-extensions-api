@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
+import static java.lang.Thread.currentThread;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.java.api.JavaTypeLoader;
 
@@ -23,7 +25,7 @@ public class DefaultExtensionsTypeLoaderFactory implements ExtensionsTypeLoaderF
    */
   @Override
   public ClassTypeLoader createTypeLoader() {
-    return createTypeLoader(Thread.currentThread().getContextClassLoader());
+    return createTypeLoader(currentThread().getContextClassLoader());
   }
 
   /**
