@@ -90,9 +90,9 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.ConfigRefStereotypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.DefaultStereotypeEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ErrorMappingsParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
@@ -172,7 +172,7 @@ public final class ExtensionModelFactory {
                                                    new StreamingDeclarationEnricher(),
                                                    new OAuthDeclarationEnricher(),
                                                    new ConfigRefDeclarationEnricher(),
-                                                   new ConfigRefStereotypeDeclarationEnricher(),
+                                                   new DefaultStereotypeEnricher(),
                                                    new NamedObjectDeclarationEnricher(),
                                                    new TransactionalDeclarationEnricher()));
 

@@ -23,7 +23,8 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDecl
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
+import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
@@ -34,10 +35,9 @@ import org.mule.runtime.extension.api.runtime.config.ConfigurationProvider;
 import java.util.Collection;
 import java.util.List;
 
-import org.slf4j.Logger;
-
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
+import org.slf4j.Logger;
 
 /**
  * Enriches component models that depends on a configuration adding the `config-ref` parameter to the model.
@@ -63,6 +63,7 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
     Multimap<ComponentDeclaration, ConfigurationDeclaration> componentsConfigs = getComponentConfigsMap(declaration);
+
     componentsConfigs.asMap()
         .forEach((component, configs) -> {
           // This is ugly, but is needed so that in the rare case than an extension other than apikit happens to define a
@@ -81,7 +82,7 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
 
   private Multimap<ComponentDeclaration, ConfigurationDeclaration> getComponentConfigsMap(ExtensionDeclaration declaration) {
     Multimap<ComponentDeclaration, ConfigurationDeclaration> componentConfigs = LinkedListMultimap.create();
-    new IdempotentDeclarationWalker() {
+    new DeclarationWalker() {
 
       @Override
       protected void onConfiguration(ConfigurationDeclaration config) {
@@ -102,7 +103,12 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
     parameter.setDslConfiguration(ParameterDslConfiguration.builder().allowsReferences(true).build());
     parameter.setType(CONFIG_TYPE, false);
     parameter.setExpressionSupport(NOT_SUPPORTED);
+    parameter.setAllowedStereotypeModels(collectStereotypes(configs));
     return parameter;
+  }
+
+  private List<StereotypeModel> collectStereotypes(Collection<ConfigurationDeclaration> configs) {
+    return configs.stream().map(c -> c.getStereotype()).collect(toList());
   }
 
   private boolean hasAnImplicitConfig(Collection<ConfigurationDeclaration> configs) {
