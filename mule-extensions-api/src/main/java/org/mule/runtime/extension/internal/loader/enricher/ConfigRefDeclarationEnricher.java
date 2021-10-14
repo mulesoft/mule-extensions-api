@@ -10,7 +10,10 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
+import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
+import static org.mule.sdk.api.stereotype.MuleStereotypes.CONFIG;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -81,6 +84,7 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
   }
 
   private Multimap<ComponentDeclaration, ConfigurationDeclaration> getComponentConfigsMap(ExtensionDeclaration declaration) {
+    final String namespace = getExtensionsNamespace(declaration);
     Multimap<ComponentDeclaration, ConfigurationDeclaration> componentConfigs = LinkedListMultimap.create();
     new DeclarationWalker() {
 
@@ -89,6 +93,10 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
         config.getConstructs().forEach(construct -> componentConfigs.put(construct, config));
         config.getMessageSources().forEach(source -> componentConfigs.put(source, config));
         config.getOperations().forEach(operation -> componentConfigs.put(operation, config));
+
+        if (config.getStereotype() == null) {
+          config.withStereotype(newStereotype(config.getName(), namespace).withParent(CONFIG).build());
+        }
       }
     }.walk(declaration);
     return componentConfigs;
