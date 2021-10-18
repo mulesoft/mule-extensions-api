@@ -147,7 +147,7 @@
 
         <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
 
-        <muleBomVersion>4.4.1-SNAPSHOT</muleBomVersion>
+        <muleBomVersion>4.4.0-20211018</muleBomVersion>
     </properties>
 
     <!--
