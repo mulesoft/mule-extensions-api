@@ -33,6 +33,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.DEFAULT_PORT;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.DSL_PREFIX;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.GO_GET_THEM_TIGER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.HAS_NO_ARGS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.LISTENER;
@@ -98,6 +99,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclarer;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
 import org.mule.runtime.extension.api.declaration.type.DynamicConfigExpirationTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
@@ -121,6 +123,7 @@ import io.qameta.allure.Issue;
 
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
+  private static final String NAMESPACE = DSL_PREFIX.toUpperCase();
   private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer() {
 
     @Override
@@ -224,7 +227,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
           .onVersion("1.0")
           .fromVendor("MuleSoft")
           .withCategory(COMMUNITY)
-          .withXmlDsl(XmlDslModel.builder().build());
+          .withXmlDsl(XmlDslModel.builder().setPrefix(DSL_PREFIX).build());
 
       extensionDeclarer.withConfig(gamma).describedAs(gamma);
       extensionDeclarer.withConfig(beta).describedAs(beta);
@@ -400,7 +403,10 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     ExtensionModel extensionModel = load();
 
-    assertThat(extensionModel.getConfigurationModel("myConfig").get().getStereotype(), is(CONFIG));
+    StereotypeModel configStereotype = extensionModel.getConfigurationModel("myConfig").get().getStereotype();
+    assertThat(configStereotype.getType(), equalTo("MY_CONFIG"));
+    assertThat(configStereotype.getNamespace(), equalTo(DSL_PREFIX.toUpperCase()));
+    assertThat(configStereotype.getParent().get(), is(CONFIG));
   }
 
   @Test
@@ -415,7 +421,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     ExtensionModel extensionModel = load();
 
-    assertThat(extensionModel.getConnectionProviderModel("myConnection").get().getStereotype(), is(CONNECTION));
+    StereotypeModel connectionStereotype = extensionModel.getConnectionProviderModel("myConnection").get().getStereotype();
+    assertThat(connectionStereotype.getType(), equalTo("MY_CONNECTION"));
+    assertThat(connectionStereotype.getNamespace(), equalTo(NAMESPACE));
+    StereotypeModel parentStereotype = connectionStereotype.getParent().get();
+    assertThat(parentStereotype.getType(), equalTo(CONNECTION.getType()));
+    assertThat(parentStereotype.getParent().get(), is(CONNECTION));
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {
