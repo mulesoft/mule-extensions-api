@@ -17,20 +17,23 @@ import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
 import org.mule.metadata.api.model.ArrayType;
+import org.mule.metadata.api.model.IntersectionType;
 import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.UnionType;
 import org.mule.metadata.api.visitor.BasicTypeMetadataVisitor;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.java.api.utils.JavaTypeUtils;
+import org.mule.metadata.message.api.MessageMetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.api.metadata.TypedValue;
@@ -54,8 +57,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import org.slf4j.Logger;
-
 /**
  * Set of utility operations to handle {@link MetadataType}
  *
@@ -63,7 +64,6 @@ import org.slf4j.Logger;
  */
 public final class ExtensionMetadataTypeUtils {
 
-  private static final Logger LOGGER = getLogger(ExtensionMetadataTypeUtils.class);
   private static final List<MetadataFormat> KNOWN_METADATA_FORMATS = asList(JAVA, XML, JSON, CSV);
 
   private ExtensionMetadataTypeUtils() {}
@@ -370,5 +370,45 @@ public final class ExtensionMetadataTypeUtils {
     return type.getAnnotation(SemanticTermsTypeAnnotation.class)
         .map(SemanticTermsTypeAnnotation::getSemanticTerms)
         .orElse(emptySet());
+  }
+
+  public static void registerType(ExtensionDeclarer declarer, MetadataType type) {
+    if (!getId(type).isPresent() || type.getAnnotation(InfrastructureTypeAnnotation.class).isPresent()) {
+      return;
+    }
+
+    type.accept(new MetadataTypeVisitor() {
+
+      @Override
+      public void visitObject(ObjectType objectType) {
+        if (objectType instanceof MessageMetadataType) {
+          MessageMetadataType messageType = (MessageMetadataType) objectType;
+          messageType.getPayloadType().ifPresent(type -> type.accept(this));
+          messageType.getAttributesType().ifPresent(type -> type.accept(this));
+        }
+        declarer.withType(objectType);
+        objectType.getOpenRestriction().ifPresent(type -> type.accept(this));
+      }
+
+      @Override
+      public void visitArrayType(ArrayType arrayType) {
+        arrayType.getType().accept(this);
+      }
+
+      @Override
+      public void visitIntersection(IntersectionType intersectionType) {
+        intersectionType.getTypes().forEach(type -> type.accept(this));
+      }
+
+      @Override
+      public void visitUnion(UnionType unionType) {
+        unionType.getTypes().forEach(type -> type.accept(this));
+      }
+
+      @Override
+      public void visitObjectField(ObjectFieldType objectFieldType) {
+        objectFieldType.getValue().accept(this);
+      }
+    });
   }
 }

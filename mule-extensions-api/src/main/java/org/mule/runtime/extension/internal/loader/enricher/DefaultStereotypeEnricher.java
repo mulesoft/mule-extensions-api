@@ -9,10 +9,12 @@ package org.mule.runtime.extension.internal.loader.enricher;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
+import static org.mule.sdk.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.SOURCE;
 
+import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
@@ -43,10 +45,10 @@ public class DefaultStereotypeEnricher implements DeclarationEnricher {
 
     new DeclarationWalker() {
 
-      // @Override
-      // protected void onConfiguration(ConfigurationDeclaration declaration) {
-      // assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), CONFIG));
-      // }
+      @Override
+      protected void onConfiguration(ConfigurationDeclaration declaration) {
+        assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), CONFIG));
+      }
 
       @Override
       protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
