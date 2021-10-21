@@ -10,22 +10,33 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 
+/**
+ * Utilities for handling a extension's namespace
+ *
+ * @since 4.5.0
+ */
 public class ExtensionNamespaceUtils {
 
   /**
-   * @return the extension's error namespace for a given {@link ExtensionModel}
+   * @param extensionModel an {@link ExtensionModel}
+   * @return the extension's namespace for a given {@link ExtensionModel}
    */
   public static String getExtensionsNamespace(ExtensionModel extensionModel) {
     return getExtensionsNamespace(extensionModel.getXmlDslModel());
   }
 
   /**
-   * @return the extension's error namespace for a given {@link ExtensionDeclaration}
+   * @param extensionDeclaration a {@link ExtensionDeclaration}
+   * @return the extension's namespace for a given {@link ExtensionDeclaration}
    */
   public static String getExtensionsNamespace(ExtensionDeclaration extensionDeclaration) {
     return getExtensionsNamespace(extensionDeclaration.getXmlDslModel());
   }
 
+  /**
+   * @param dslModel a {@link XmlDslModel}
+   * @return the extension's namespace for a given {@link ExtensionDeclaration}
+   */
   public static String getExtensionsNamespace(XmlDslModel dslModel) {
     return dslModel.getPrefix().toUpperCase();
   }

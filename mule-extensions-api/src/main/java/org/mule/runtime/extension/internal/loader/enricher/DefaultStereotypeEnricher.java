@@ -31,6 +31,11 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
 import java.util.function.Supplier;
 
+/**
+ * Adds a default stereotype on all components which don't define one
+ *
+ * @since 4.5.0
+ */
 public class DefaultStereotypeEnricher implements DeclarationEnricher {
 
   @Override
