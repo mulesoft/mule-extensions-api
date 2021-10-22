@@ -333,7 +333,7 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     }
 
     private void validateInnerFields(String name, MetadataType fieldType, String parentType, DslElementSyntax parameterElement) {
-      if (parameterElement.supportsChildDeclaration()) {
+      if (parameterElement.supportsChildDeclaration() && !parameterElement.isWrapped()) {
         ExtensionMetadataTypeUtils.getType(fieldType).ifPresent(parameterType -> {
           Collection<Element> foundParameters = elements.get(parameterElement.getElementName());
 
