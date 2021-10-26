@@ -34,7 +34,7 @@ public class GenericXmlSerializer<T> {
     }
   }
 
-  public String serialize(T dto) {
+  public synchronized String serialize(T dto) {
     try {
       ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
       marshaller.marshal(dto, getXmlSerializer(out).asContentHandler());
@@ -45,7 +45,7 @@ public class GenericXmlSerializer<T> {
     }
   }
 
-  public <T> T deserialize(String xml) {
+  public synchronized <T> T deserialize(String xml) {
     try {
       return (T) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
     } catch (Exception e) {
@@ -53,7 +53,7 @@ public class GenericXmlSerializer<T> {
     }
   }
 
-  public <T> T deserialize(InputStream xml) {
+  public synchronized <T> T deserialize(InputStream xml) {
     try {
       return (T) unmarshaller.unmarshal(xml);
     } catch (Exception e) {
