@@ -80,8 +80,7 @@ public class DefaultStereotypeEnricher implements DeclarationEnricher {
 
   private StereotypeModel createStereotype(String namespace, String name, StereotypeModel parent) {
     return newStereotype(name, namespace)
-        .withParent(newStereotype(parent.getType(), namespace)
-            .withParent(parent).build())
+        .withParent(parent)
         .build();
   }
 }

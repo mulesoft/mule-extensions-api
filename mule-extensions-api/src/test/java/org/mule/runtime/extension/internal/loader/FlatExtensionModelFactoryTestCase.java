@@ -424,9 +424,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     StereotypeModel connectionStereotype = extensionModel.getConnectionProviderModel("myConnection").get().getStereotype();
     assertThat(connectionStereotype.getType(), equalTo("MY_CONNECTION"));
     assertThat(connectionStereotype.getNamespace(), equalTo(NAMESPACE));
-    StereotypeModel parentStereotype = connectionStereotype.getParent().get();
-    assertThat(parentStereotype.getType(), equalTo(CONNECTION.getType()));
-    assertThat(parentStereotype.getParent().get(), is(CONNECTION));
+    assertThat(connectionStereotype.getParent().get(), is(CONNECTION));
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {
