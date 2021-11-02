@@ -60,6 +60,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
+import static org.mule.runtime.api.util.NameUtils.underscorize;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.NAME_PARAM_DESCRIPTION;
@@ -76,6 +77,8 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PAR
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -113,13 +116,12 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import io.qameta.allure.Description;
-import io.qameta.allure.Issue;
 
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
@@ -193,10 +195,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
                is(sameInstance(extensionModel.getConfigurationModel(CONFIG_NAME).get())));
   }
 
+  @Test
   public void noSuchConfiguration() throws Exception {
     assertThat(extensionModel.getConfigurationModel("fake").isPresent(), is(false));
   }
 
+  @Test
   public void noSuchOperation() throws Exception {
     assertThat(extensionModel.getOperationModel("fake").isPresent(), is(false));
   }
@@ -208,6 +212,17 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertConsumeOperation(operationModels);
     assertBroadcastOperation(operationModels);
     assertArglessOperation(operationModels);
+
+    operationModels.forEach(operation -> {
+      StereotypeModel stereotypeModel = operation.getStereotype();
+      assertThat(stereotypeModel.getType(), equalTo(underscorize(operation.getName()).toUpperCase()));
+      assertThat(stereotypeModel.getNamespace(), equalTo(NAMESPACE));
+
+      StereotypeModel parent = stereotypeModel.getParent().get();
+      assertThat(parent.getNamespace(), equalTo(NAMESPACE));
+      assertThat(parent.getType(), equalTo(PROCESSOR.getType()));
+      assertThat(parent.getParent().get(), is(PROCESSOR));
+    });
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -368,6 +383,15 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertParameter(parameters.get(3), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
                     false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
+
+    StereotypeModel stereotype = sourceModel.getStereotype();
+    assertThat(stereotype.getType(), equalTo(LISTENER.toUpperCase()));
+    assertThat(stereotype.getNamespace(), equalTo(NAMESPACE));
+
+    StereotypeModel parent = stereotype.getParent().get();
+    assertThat(parent.getType(), equalTo(SOURCE.getType()));
+    assertThat(parent.getNamespace(), equalTo(NAMESPACE));
+    assertThat(parent.getParent().get(), is(SOURCE));
   }
 
   @Test
