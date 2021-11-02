@@ -11,8 +11,10 @@ import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
+import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromAllowedDefinitions;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.mapReduceAnnotation;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
@@ -31,6 +33,7 @@ import org.mule.runtime.extension.api.annotation.param.stereotype.Stereotype;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.LiteralTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterResolverTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypedValueTypeAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
@@ -104,9 +107,8 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
 
       annotatedBuilder.with(new TypeAliasAnnotation(getAlias(currentClass)));
 
-      Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
       boolean allowTopLevelDefinition = typeDslAnnotation.map(TypeDslAnnotation::allowsTopLevelDefinition).orElse(false);
-      handleStereotype(currentClass, annotatedBuilder, allowTopLevelDefinition, stereotype);
+      handleStereotype(currentClass, annotatedBuilder, allowTopLevelDefinition);
 
       enrichWithTypeAnnotation(currentClass, annotatedBuilder);
     }
@@ -114,10 +116,18 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     return typeBuilder;
   }
 
-  private void handleStereotype(Class<?> currentClass, final WithAnnotation annotatedBuilder, boolean allowTopLevelDefinition,
-                                Stereotype stereotype) {
-    if (stereotype != null) {
-      annotatedBuilder.with(fromDefinitions(singletonList(stereotype.value())));
+  private void handleStereotype(Class<?> currentClass, final WithAnnotation annotatedBuilder, boolean allowTopLevelDefinition) {
+    Optional<StereotypeTypeAnnotation> stereotypeTypeAnnotation = mapReduceAnnotation(
+                                                                                      currentClass,
+                                                                                      Stereotype.class,
+                                                                                      org.mule.sdk.api.annotation.param.stereotype.Stereotype.class,
+                                                                                      stereotype -> fromDefinitions(singletonList(stereotype
+                                                                                          .value())),
+                                                                                      stereotype -> fromAllowedDefinitions(singletonList(stereotype
+                                                                                          .value())));
+
+    if (stereotypeTypeAnnotation.isPresent()) {
+      annotatedBuilder.with(stereotypeTypeAnnotation.get());
     } else {
       // We need to generate implicit stereotypes for top level elements and their interfaces. Thing is, we don't know if an
       // interface is implemented only by top level elements when processing that interface, so to be safe, an implicit stereotype
@@ -163,8 +173,9 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     if (inheritedStereotype.get() != null) {
       return of(inheritedStereotype.get());
     } else {
-      Stereotype stereotype = currentClass.getAnnotation(Stereotype.class);
-      if (stereotype != null) {
+
+      if (currentClass.isAnnotationPresent(Stereotype.class)
+          || currentClass.isAnnotationPresent(org.mule.sdk.api.annotation.param.stereotype.Stereotype.class)) {
         return of(ImplicitStereotypeDefinition.class);
       } else {
         return Optional.empty();

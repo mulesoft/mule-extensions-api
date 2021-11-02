@@ -6,11 +6,13 @@
  */
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
+import static java.util.Collections.emptyList;
+
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
-import org.mule.runtime.extension.api.stereotype.StereotypeDefinition;
+import org.mule.sdk.api.stereotype.StereotypeDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
   public static final String NAME = "stereotype";
   private final List<StereotypeModel> allowedStereotypes;
   private transient List<Class<? extends StereotypeDefinition>> definitionClasses;
+  private transient List<Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>> legacyDefinitions;
 
   /**
    * Creates a new instance which only holds a reference to the {@code definitionClasses}.
@@ -37,9 +40,18 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
    *
    * @param definitionClasses stereotype definitions
    */
-  public static StereotypeTypeAnnotation fromDefinitions(List<Class<? extends StereotypeDefinition>> definitionClasses) {
+  public static StereotypeTypeAnnotation fromDefinitions(List<Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>> definitionClasses) {
+    StereotypeTypeAnnotation annotation = new StereotypeTypeAnnotation(new ArrayList<>(definitionClasses.size()));
+    annotation.legacyDefinitions = definitionClasses;
+    annotation.definitionClasses = emptyList();
+
+    return annotation;
+  }
+
+  public static StereotypeTypeAnnotation fromAllowedDefinitions(List<Class<? extends StereotypeDefinition>> definitionClasses) {
     StereotypeTypeAnnotation annotation = new StereotypeTypeAnnotation(new ArrayList<>(definitionClasses.size()));
     annotation.definitionClasses = definitionClasses;
+    annotation.legacyDefinitions = emptyList();
 
     return annotation;
   }
@@ -60,16 +72,45 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
     return allowedStereotypes;
   }
 
-  public void resolveStereotypes(Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
+  public void resolveAllowedStereotypes(
+                                        Function<Class<? extends StereotypeDefinition>, StereotypeModel> resolver,
+                                        Function<Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> legacyResolver) {
+
     if (allowedStereotypes.isEmpty()) {
       definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(clazz)));
+      legacyDefinitions.forEach(clazz -> allowedStereotypes.add(legacyResolver.apply(clazz)));
     }
   }
 
-  public void resolveStereotypes(ObjectType objectType,
-                                 BiFunction<ObjectType, Class<? extends StereotypeDefinition>, StereotypeModel> resolver) {
+  public void resolveAllowedStereotypes(
+                                        ObjectType objectType,
+                                        BiFunction<ObjectType, Class<? extends StereotypeDefinition>, StereotypeModel> resolver,
+                                        BiFunction<ObjectType, Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> legacyResolver) {
+
     if (allowedStereotypes.isEmpty()) {
       definitionClasses.forEach(clazz -> allowedStereotypes.add(resolver.apply(objectType, clazz)));
+      legacyDefinitions.forEach(clazz -> allowedStereotypes.add(legacyResolver.apply(objectType, clazz)));
+    }
+  }
+
+  /**
+   * @deprecated since 1.5.0. Use {@link #resolveAllowedStereotypes(Function, Function)} instead
+   */
+  @Deprecated
+  public void resolveStereotypes(Function<Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> resolver) {
+    if (allowedStereotypes.isEmpty()) {
+      legacyDefinitions.forEach(clazz -> allowedStereotypes.add(resolver.apply(clazz)));
+    }
+  }
+
+  /**
+   * @deprecated since 1.5.0. Use {@link #resolveAllowedStereotypes(ObjectType, BiFunction, BiFunction)} instead
+   */
+  @Deprecated
+  public void resolveStereotypes(ObjectType objectType,
+                                 BiFunction<ObjectType, Class<? extends org.mule.runtime.extension.api.stereotype.StereotypeDefinition>, StereotypeModel> resolver) {
+    if (allowedStereotypes.isEmpty()) {
+      legacyDefinitions.forEach(clazz -> allowedStereotypes.add(resolver.apply(objectType, clazz)));
     }
   }
 
@@ -119,5 +160,4 @@ public class StereotypeTypeAnnotation implements TypeAnnotation {
     }
     return true;
   }
-
 }

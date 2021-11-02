@@ -16,7 +16,9 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
  * Provides constants for all known implementations of {@link MuleStereotypes}.
  *
  * @since 1.0
+ * @deprecated since 4.5.0, use {@link org.mule.sdk.api.stereotype.MuleStereotypes} instead
  */
+@Deprecated
 public final class MuleStereotypes {
 
   private static final String STEREOTYPE_NAMESPACE = CORE_PREFIX.toUpperCase();

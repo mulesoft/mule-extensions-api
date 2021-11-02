@@ -33,6 +33,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONNECTION_PROVIDER_NAME;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.DEFAULT_PORT;
+import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.DSL_PREFIX;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.GO_GET_THEM_TIGER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.HAS_NO_ARGS;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.LISTENER;
@@ -59,6 +60,7 @@ import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WSDL_LOCATION;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER;
 import static org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer.WS_CONSUMER_DESCRIPTION;
+import static org.mule.runtime.api.util.NameUtils.underscorize;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.NAME_PARAM_DESCRIPTION;
@@ -75,6 +77,8 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PAR
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -98,6 +102,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclarer;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
+import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
 import org.mule.runtime.extension.api.declaration.type.DynamicConfigExpirationTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
@@ -111,16 +116,16 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Issue;
-
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
+  private static final String NAMESPACE = DSL_PREFIX.toUpperCase();
   private final TestWebServiceConsumerDeclarer reference = new TestWebServiceConsumerDeclarer() {
 
     @Override
@@ -190,10 +195,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
                is(sameInstance(extensionModel.getConfigurationModel(CONFIG_NAME).get())));
   }
 
+  @Test
   public void noSuchConfiguration() throws Exception {
     assertThat(extensionModel.getConfigurationModel("fake").isPresent(), is(false));
   }
 
+  @Test
   public void noSuchOperation() throws Exception {
     assertThat(extensionModel.getOperationModel("fake").isPresent(), is(false));
   }
@@ -205,6 +212,17 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertConsumeOperation(operationModels);
     assertBroadcastOperation(operationModels);
     assertArglessOperation(operationModels);
+
+    operationModels.forEach(operation -> {
+      StereotypeModel stereotypeModel = operation.getStereotype();
+      assertThat(stereotypeModel.getType(), equalTo(underscorize(operation.getName()).toUpperCase()));
+      assertThat(stereotypeModel.getNamespace(), equalTo(NAMESPACE));
+
+      StereotypeModel parent = stereotypeModel.getParent().get();
+      assertThat(parent.getNamespace(), equalTo(NAMESPACE));
+      assertThat(parent.getType(), equalTo(PROCESSOR.getType()));
+      assertThat(parent.getParent().get(), is(PROCESSOR));
+    });
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -224,7 +242,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
           .onVersion("1.0")
           .fromVendor("MuleSoft")
           .withCategory(COMMUNITY)
-          .withXmlDsl(XmlDslModel.builder().build());
+          .withXmlDsl(XmlDslModel.builder().setPrefix(DSL_PREFIX).build());
 
       extensionDeclarer.withConfig(gamma).describedAs(gamma);
       extensionDeclarer.withConfig(beta).describedAs(beta);
@@ -365,6 +383,15 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertParameter(parameters.get(3), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
                     false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
+
+    StereotypeModel stereotype = sourceModel.getStereotype();
+    assertThat(stereotype.getType(), equalTo(LISTENER.toUpperCase()));
+    assertThat(stereotype.getNamespace(), equalTo(NAMESPACE));
+
+    StereotypeModel parent = stereotype.getParent().get();
+    assertThat(parent.getType(), equalTo(SOURCE.getType()));
+    assertThat(parent.getNamespace(), equalTo(NAMESPACE));
+    assertThat(parent.getParent().get(), is(SOURCE));
   }
 
   @Test
@@ -400,7 +427,10 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     ExtensionModel extensionModel = load();
 
-    assertThat(extensionModel.getConfigurationModel("myConfig").get().getStereotype(), is(CONFIG));
+    StereotypeModel configStereotype = extensionModel.getConfigurationModel("myConfig").get().getStereotype();
+    assertThat(configStereotype.getType(), equalTo("MY_CONFIG"));
+    assertThat(configStereotype.getNamespace(), equalTo(DSL_PREFIX.toUpperCase()));
+    assertThat(configStereotype.getParent().get(), is(CONFIG));
   }
 
   @Test
@@ -415,7 +445,10 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     ExtensionModel extensionModel = load();
 
-    assertThat(extensionModel.getConnectionProviderModel("myConnection").get().getStereotype(), is(CONNECTION));
+    StereotypeModel connectionStereotype = extensionModel.getConnectionProviderModel("myConnection").get().getStereotype();
+    assertThat(connectionStereotype.getType(), equalTo("MY_CONNECTION"));
+    assertThat(connectionStereotype.getNamespace(), equalTo(NAMESPACE));
+    assertThat(connectionStereotype.getParent().get(), is(CONNECTION));
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {

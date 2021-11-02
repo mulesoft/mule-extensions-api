@@ -8,17 +8,10 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentDeclarationTypeName;
 
-import org.mule.metadata.api.model.ArrayType;
-import org.mule.metadata.api.model.IntersectionType;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.metadata.api.model.UnionType;
-import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.metadata.message.api.MessageMetadataType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
@@ -29,11 +22,11 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.declaration.type.annotation.InfrastructureTypeAnnotation;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 
 import java.util.Set;
 
@@ -44,9 +37,6 @@ import java.util.Set;
  */
 public final class ExtensionTypesDeclarationEnricher implements DeclarationEnricher {
 
-  /**
-   * This has to run before {@link StereotypesDeclarationEnricher}.
-   */
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
     return STRUCTURE;
@@ -59,6 +49,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
     // extension. Otherwise, the unenriched types from the parameters end up in the types.
     declareSubTypes(declarer);
     declareDefaultTypes(declarer);
+    declarer.getDeclaration().getNotificationModels().forEach(notification -> registerType(declarer, notification.getType()));
   }
 
   private void declareSubTypes(ExtensionDeclarer declarer) {
@@ -124,46 +115,9 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
 
     registerType(declarer, declaration.getOutput().getType());
     registerType(declarer, declaration.getOutputAttributes().getType());
-    declaration.getNotificationModels().forEach(notification -> registerType(declarer, notification.getType()));
   }
 
   private void registerType(ExtensionDeclarer declarer, MetadataType type) {
-    if (!getId(type).isPresent() || type.getAnnotation(InfrastructureTypeAnnotation.class).isPresent()) {
-      return;
-    }
-
-    type.accept(new MetadataTypeVisitor() {
-
-      @Override
-      public void visitObject(ObjectType objectType) {
-        if (objectType instanceof MessageMetadataType) {
-          MessageMetadataType messageType = (MessageMetadataType) objectType;
-          messageType.getPayloadType().ifPresent(type -> type.accept(this));
-          messageType.getAttributesType().ifPresent(type -> type.accept(this));
-        }
-        declarer.withType(objectType);
-        objectType.getOpenRestriction().ifPresent(type -> type.accept(this));
-      }
-
-      @Override
-      public void visitArrayType(ArrayType arrayType) {
-        arrayType.getType().accept(this);
-      }
-
-      @Override
-      public void visitIntersection(IntersectionType intersectionType) {
-        intersectionType.getTypes().forEach(type -> type.accept(this));
-      }
-
-      @Override
-      public void visitUnion(UnionType unionType) {
-        unionType.getTypes().forEach(type -> type.accept(this));
-      }
-
-      @Override
-      public void visitObjectField(ObjectFieldType objectFieldType) {
-        objectFieldType.getValue().accept(this);
-      }
-    });
+    ExtensionMetadataTypeUtils.registerType(declarer, type);
   }
 }

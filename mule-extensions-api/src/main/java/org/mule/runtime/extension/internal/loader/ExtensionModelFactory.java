@@ -92,6 +92,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclaratio
 import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.DefaultStereotypeEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.DynamicConfigDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ErrorMappingsParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
@@ -154,24 +155,25 @@ public final class ExtensionModelFactory {
   private final boolean validate;
 
   public ExtensionModelFactory() {
-    declarationEnrichers = unmodifiableList((asList(
-                                                    new ParameterDslDeclarationEnricher(),
-                                                    new ClassLoaderDeclarationEnricher(),
-                                                    new ContentParameterDeclarationEnricher(),
-                                                    new ExecutionTypeDeclarationEnricher(),
-                                                    new ExtensionTypesDeclarationEnricher(),
-                                                    new XmlDeclarationEnricher(),
-                                                    new TargetParameterDeclarationEnricher(),
-                                                    new ExtensionsErrorsDeclarationEnricher(),
-                                                    new ErrorMappingsParameterDeclarationEnricher(),
-                                                    new ConnectionProviderDeclarationEnricher(),
-                                                    new DynamicConfigDeclarationEnricher(),
-                                                    new ReconnectionStrategyDeclarationEnricher(),
-                                                    new StreamingDeclarationEnricher(),
-                                                    new OAuthDeclarationEnricher(),
-                                                    new ConfigRefDeclarationEnricher(),
-                                                    new NamedObjectDeclarationEnricher(),
-                                                    new TransactionalDeclarationEnricher())));
+    declarationEnrichers = unmodifiableList(asList(
+                                                   new ParameterDslDeclarationEnricher(),
+                                                   new ClassLoaderDeclarationEnricher(),
+                                                   new ContentParameterDeclarationEnricher(),
+                                                   new ExecutionTypeDeclarationEnricher(),
+                                                   new ExtensionTypesDeclarationEnricher(),
+                                                   new XmlDeclarationEnricher(),
+                                                   new TargetParameterDeclarationEnricher(),
+                                                   new ExtensionsErrorsDeclarationEnricher(),
+                                                   new ErrorMappingsParameterDeclarationEnricher(),
+                                                   new ConnectionProviderDeclarationEnricher(),
+                                                   new DynamicConfigDeclarationEnricher(),
+                                                   new ReconnectionStrategyDeclarationEnricher(),
+                                                   new StreamingDeclarationEnricher(),
+                                                   new OAuthDeclarationEnricher(),
+                                                   new ConfigRefDeclarationEnricher(),
+                                                   new DefaultStereotypeEnricher(),
+                                                   new NamedObjectDeclarationEnricher(),
+                                                   new TransactionalDeclarationEnricher()));
 
     extensionModelValidators = unmodifiableList(asList(
                                                        new ConnectionProviderNameModelValidator(),

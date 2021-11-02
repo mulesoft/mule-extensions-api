@@ -17,6 +17,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 
+import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -62,6 +63,7 @@ public class ConfigRefDeclarationEnricherTestCase {
     when(extensionDeclarer.getDeclaration()).thenReturn(extensionDeclaration);
     when(extensionDeclaration.getOperations()).thenReturn(singletonList(operationDeclaration));
     when(extensionDeclaration.getConfigurations()).thenReturn(singletonList(configurationDeclaration));
+    when(extensionDeclaration.getXmlDslModel()).thenReturn(XmlDslModel.builder().setPrefix("test").build());
   }
 
   @Test
