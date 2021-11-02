@@ -29,6 +29,8 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -45,42 +47,59 @@ public class DefaultStereotypeEnricher implements DeclarationEnricher {
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    final String namespace = getExtensionsNamespace(extensionDeclaration);
-
-    new DeclarationWalker() {
-
-      @Override
-      protected void onConfiguration(ConfigurationDeclaration declaration) {
-        assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), CONFIG));
-      }
-
-      @Override
-      protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
-        assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), CONNECTION));
-      }
-
-      @Override
-      protected void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
-        assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), PROCESSOR));
-      }
-
-      @Override
-      protected void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
-        assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), SOURCE));
-      }
-    }.walk(extensionDeclaration);
+    new Delegate().enrich(extensionLoadingContext);
   }
 
-  private void assureHasStereotype(WithStereotypesDeclaration declaration, Supplier<StereotypeModel> defaultStereotype) {
-    if (declaration.getStereotype() == null) {
-      declaration.withStereotype(defaultStereotype.get());
+  private class Delegate {
+
+    private final Map<String, StereotypeModel> parentsCache = new HashMap<>();
+
+    private void enrich(ExtensionLoadingContext extensionLoadingContext) {
+
+      final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+      final String namespace = getExtensionsNamespace(extensionDeclaration);
+
+      new DeclarationWalker() {
+
+        @Override
+        protected void onConfiguration(ConfigurationDeclaration declaration) {
+          assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), CONFIG));
+        }
+
+        @Override
+        protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+          assureHasStereotype(declaration, () -> createStereotype(namespace, declaration.getName(), CONNECTION));
+        }
+
+        @Override
+        protected void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+          assureHasStereotype(declaration, () -> createComponentStereotype(namespace, declaration.getName(), PROCESSOR));
+        }
+
+        @Override
+        protected void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+          assureHasStereotype(declaration, () -> createComponentStereotype(namespace, declaration.getName(), SOURCE));
+        }
+      }.walk(extensionDeclaration);
     }
-  }
 
-  private StereotypeModel createStereotype(String namespace, String name, StereotypeModel parent) {
-    return newStereotype(name, namespace)
-        .withParent(parent)
-        .build();
+    private void assureHasStereotype(WithStereotypesDeclaration declaration, Supplier<StereotypeModel> defaultStereotype) {
+      if (declaration.getStereotype() == null) {
+        declaration.withStereotype(defaultStereotype.get());
+      }
+    }
+
+    private StereotypeModel createStereotype(String namespace, String name, StereotypeModel parent) {
+      return newStereotype(name, namespace)
+          .withParent(parent)
+          .build();
+    }
+
+    private StereotypeModel createComponentStereotype(String namespace, String name, StereotypeModel parent) {
+      return newStereotype(name, namespace)
+          .withParent(parentsCache.computeIfAbsent(parent.getType(),
+                                                   key -> newStereotype(parent.getType(), namespace).withParent(parent).build()))
+          .build();
+    }
   }
 }
