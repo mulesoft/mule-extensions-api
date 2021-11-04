@@ -96,10 +96,13 @@ public class DefaultStereotypeEnricher implements DeclarationEnricher {
     }
 
     private StereotypeModel createComponentStereotype(String namespace, String name, StereotypeModel parent) {
-      return newStereotype(name, namespace)
-          .withParent(parentsCache.computeIfAbsent(parent.getType(),
-                                                   key -> newStereotype(parent.getType(), namespace).withParent(parent).build()))
-          .build();
+      if (!parent.getNamespace().equals(namespace)) {
+        StereotypeModel originalParent = parent;
+        parent = parentsCache.computeIfAbsent(parent.getType(),
+                                              key -> newStereotype(originalParent.getType(), namespace).withParent(originalParent)
+                                                  .build());
+      }
+      return createStereotype(namespace, name, parent);
     }
   }
 }
