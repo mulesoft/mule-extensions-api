@@ -39,9 +39,10 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SUB_FLOW;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
-import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExpressionSupport;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.isConfigOverride;
+import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -59,7 +60,6 @@ import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.annotation.ConfigReferences;
 import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
-import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
@@ -296,8 +296,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void processConfigOverride(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    ConfigOverride override = field.getAnnotation(ConfigOverride.class);
-    if (override != null) {
+    if (isConfigOverride(field)) {
       fieldBuilder.required(false);
       fieldBuilder.with(new ConfigOverrideTypeAnnotation());
     }
@@ -367,7 +366,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())) {
       fieldBuilder.required(false);
-      if (getDefaultValue(field) == null && field.getAnnotation(ConfigOverride.class) == null) {
+      if (getDefaultValue(field) == null && !isConfigOverride(field)) {
         fieldBuilder.with(new DefaultValueAnnotation(valueOf(FALSE)));
       }
     }

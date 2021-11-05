@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.util;
 
 import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.meta.Category;
@@ -14,6 +15,7 @@ import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.ExternalLibraryType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
 import java.lang.annotation.Annotation;
@@ -111,6 +113,18 @@ public final class JavaParserUtils {
                                org.mule.sdk.api.annotation.Expression.class,
                                ann -> ann.value(),
                                ann -> toMuleApi(ann.value()));
+  }
+
+  /**
+   * @param field a java Field
+   * @return {@code true} if the field is annotated with {@link ConfigOverride} or
+   *         {@link org.mule.sdk.api.annotation.param.ConfigOverride}
+   */
+  public static boolean isConfigOverride(Field field) {
+    ConfigOverride legacyOverride = field.getAnnotation(ConfigOverride.class);
+    org.mule.sdk.api.annotation.param.ConfigOverride sdkOverride =
+        field.getAnnotation(org.mule.sdk.api.annotation.param.ConfigOverride.class);
+    return legacyOverride != null || sdkOverride != null;
   }
 
   /**
