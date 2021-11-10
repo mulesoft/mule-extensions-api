@@ -40,6 +40,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_S
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SUB_FLOW;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExclusiveOptionalsIsOneRequired;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExpressionSupport;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.isConfigOverride;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
@@ -165,13 +166,13 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void processExclusiveOptionals(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    ExclusiveOptionals exclusiveOptionals = field.getType().getAnnotation(ExclusiveOptionals.class);
-    if (exclusiveOptionals != null) {
+    Optional<Boolean> exclusiveOptionalsIsOneRequired = getExclusiveOptionalsIsOneRequired(field.getType());
+    if (exclusiveOptionalsIsOneRequired.isPresent()) {
       Set<String> exclusiveParameters = getParameterFields(field.getType()).stream()
           .filter(TypeUtils::isOptional)
           .map(JavaParserUtils::getAlias)
           .collect(toCollection(LinkedHashSet::new));
-      fieldBuilder.with(new ExclusiveOptionalsTypeAnnotation(exclusiveParameters, exclusiveOptionals.isOneRequired()));
+      fieldBuilder.with(new ExclusiveOptionalsTypeAnnotation(exclusiveParameters, exclusiveOptionalsIsOneRequired.get()));
     }
   }
 

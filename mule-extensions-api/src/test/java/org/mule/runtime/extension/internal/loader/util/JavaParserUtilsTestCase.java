@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.mule.sdk.api.annotation.param.ConfigOverride;
+import org.mule.sdk.api.annotation.param.ExclusiveOptionals;
 
 import java.lang.reflect.Field;
 
@@ -28,6 +29,15 @@ public class JavaParserUtilsTestCase {
     assertThat(JavaParserUtils.isConfigOverride(noConfigOverride), is(false));
   }
 
+  @Test
+  public void isExclusiveOptional() throws Exception {
+    Field pojoWithSdkExclusiveOptional = MyParameterGroup.class.getDeclaredField("pojoWithSdkExclusiveOptional");
+    Field pojoWithLegacyExclusiveOptional = MyParameterGroup.class.getDeclaredField("pojoWithLegacyExclusiveOptional");
+
+    assertThat(JavaParserUtils.getExclusiveOptionalsIsOneRequired(pojoWithSdkExclusiveOptional.getType()).get(), is(true));
+    assertThat(JavaParserUtils.getExclusiveOptionalsIsOneRequired(pojoWithLegacyExclusiveOptional.getType()).get(), is(true));
+  }
+
   private static class WithConfigOverride {
 
     @ConfigOverride
@@ -37,5 +47,19 @@ public class JavaParserUtilsTestCase {
     private Object fieldWithLegacyConfigOverride;
 
     private Object noConfigOverride;
+  }
+
+  @ExclusiveOptionals(isOneRequired = true)
+  private static class PojoWithSdkExclusiveOptional {
+  }
+
+  @org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals(isOneRequired = true)
+  private static class PojoWithLegacyExclusiveOptional {
+  }
+
+  private static class MyParameterGroup {
+
+    PojoWithSdkExclusiveOptional pojoWithSdkExclusiveOptional;
+    PojoWithLegacyExclusiveOptional pojoWithLegacyExclusiveOptional;
   }
 }
