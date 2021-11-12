@@ -16,6 +16,7 @@ import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
+import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
 import java.lang.annotation.Annotation;
@@ -133,6 +134,14 @@ public final class JavaParserUtils {
                                org.mule.sdk.api.annotation.param.ExclusiveOptionals.class,
                                ExclusiveOptionals::isOneRequired,
                                org.mule.sdk.api.annotation.param.ExclusiveOptionals::isOneRequired);
+  }
+
+  public static Optional<Class<?>> getNullSafeDefaultImplementedType(Field field) {
+    return mapReduceAnnotation(field::getAnnotation,
+                               NullSafe.class,
+                               org.mule.sdk.api.annotation.param.NullSafe.class,
+                               NullSafe::defaultImplementingType,
+                               org.mule.sdk.api.annotation.param.NullSafe::defaultImplementingType);
   }
 
   /**

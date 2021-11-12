@@ -42,6 +42,7 @@ import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefault
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExclusiveOptionalsIsOneRequired;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExpressionSupport;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getNullSafeDefaultImplementedType;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.isConfigOverride;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
@@ -62,7 +63,6 @@ import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.annotation.ConfigReferences;
 import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
 import org.mule.runtime.extension.api.annotation.param.Content;
-import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.RefName;
@@ -267,32 +267,32 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
   private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder,
                                TypeHandlerManager typeHandlerManager, ParsingContext context) {
-    NullSafe nullSafe = field.getAnnotation(NullSafe.class);
-    if (nullSafe == null) {
-      return;
-    }
 
-    if (!isOptional(field) && !isParameterGroup(field)) {
-      throw new IllegalParameterModelDefinitionException(format(
-                                                                "Field '%s' in class '%s' is required but annotated with '@%s', which is redundant",
-                                                                field.getName(), declaringClass.getName(),
-                                                                NullSafe.class.getSimpleName()));
-    }
+    Optional<Class<?>> defaultImplementedType = getNullSafeDefaultImplementedType((field));
 
-    Class<?> defaultType = nullSafe.defaultImplementingType();
-    if (defaultType.equals(Object.class)) {
-      fieldBuilder.with(new NullSafeTypeAnnotation(field.getType(), false));
-    } else {
-      fieldBuilder.with(new NullSafeTypeAnnotation(defaultType, true));
-
-      final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(defaultType);
-      if (typeBuilder.isPresent()) {
-        fieldBuilder.with(new DefaultImplementingTypeAnnotation(typeBuilder.get().build()));
-      } else {
-        BaseTypeBuilder defaultTypeBuilder = BaseTypeBuilder.create(JAVA);
-        typeHandlerManager.handle(defaultType, context, defaultTypeBuilder);
-        fieldBuilder.with(new DefaultImplementingTypeAnnotation(defaultTypeBuilder.build()));
+    if (defaultImplementedType.isPresent()) {
+      if (!isOptional(field) && !isParameterGroup(field)) {
+        throw new IllegalParameterModelDefinitionException(format(
+                                                                  "Field '%s' in class '%s' is required but annotated with '@%s', which is redundant",
+                                                                  field.getName(), declaringClass.getName(),
+                                                                  NullSafe.class.getSimpleName()));
       }
+
+      Class<?> defaultType = defaultImplementedType.get();
+      if (defaultType.equals(Object.class)) {
+        fieldBuilder.with(new NullSafeTypeAnnotation(field.getType(), false));
+      } else {
+        fieldBuilder.with(new NullSafeTypeAnnotation(defaultType, true));
+
+        final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(defaultType);
+        if (typeBuilder.isPresent()) {
+          fieldBuilder.with(new DefaultImplementingTypeAnnotation(typeBuilder.get().build()));
+        } else {
+          BaseTypeBuilder defaultTypeBuilder = BaseTypeBuilder.create(JAVA);
+          typeHandlerManager.handle(defaultType, context, defaultTypeBuilder);
+          fieldBuilder.with(new DefaultImplementingTypeAnnotation(defaultTypeBuilder.build()));
+        }
+      } ;
     }
   }
 
