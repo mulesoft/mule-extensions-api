@@ -39,9 +39,12 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SUB_FLOW;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
-import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExclusiveOptionalsIsOneRequired;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExpressionSupport;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getNullSafeDefaultImplementedType;
+import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.isConfigOverride;
+import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -59,9 +62,7 @@ import org.mule.runtime.api.meta.model.display.PathModel;
 import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.annotation.ConfigReferences;
 import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
-import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
 import org.mule.runtime.extension.api.annotation.param.Content;
-import org.mule.runtime.extension.api.annotation.param.ExclusiveOptionals;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.RefName;
@@ -165,13 +166,13 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
   }
 
   private void processExclusiveOptionals(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    ExclusiveOptionals exclusiveOptionals = field.getType().getAnnotation(ExclusiveOptionals.class);
-    if (exclusiveOptionals != null) {
+    Optional<Boolean> exclusiveOptionalsIsOneRequired = getExclusiveOptionalsIsOneRequired(field.getType());
+    if (exclusiveOptionalsIsOneRequired.isPresent()) {
       Set<String> exclusiveParameters = getParameterFields(field.getType()).stream()
           .filter(TypeUtils::isOptional)
           .map(JavaParserUtils::getAlias)
           .collect(toCollection(LinkedHashSet::new));
-      fieldBuilder.with(new ExclusiveOptionalsTypeAnnotation(exclusiveParameters, exclusiveOptionals.isOneRequired()));
+      fieldBuilder.with(new ExclusiveOptionalsTypeAnnotation(exclusiveParameters, exclusiveOptionalsIsOneRequired.get()));
     }
   }
 
@@ -266,38 +267,37 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
   private void processNullSafe(Class<?> declaringClass, Field field, ObjectFieldTypeBuilder fieldBuilder,
                                TypeHandlerManager typeHandlerManager, ParsingContext context) {
-    NullSafe nullSafe = field.getAnnotation(NullSafe.class);
-    if (nullSafe == null) {
-      return;
-    }
 
-    if (!isOptional(field) && !isParameterGroup(field)) {
-      throw new IllegalParameterModelDefinitionException(format(
-                                                                "Field '%s' in class '%s' is required but annotated with '@%s', which is redundant",
-                                                                field.getName(), declaringClass.getName(),
-                                                                NullSafe.class.getSimpleName()));
-    }
+    Optional<Class<?>> defaultImplementedType = getNullSafeDefaultImplementedType((field));
 
-    Class<?> defaultType = nullSafe.defaultImplementingType();
-    if (defaultType.equals(Object.class)) {
-      fieldBuilder.with(new NullSafeTypeAnnotation(field.getType(), false));
-    } else {
-      fieldBuilder.with(new NullSafeTypeAnnotation(defaultType, true));
-
-      final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(defaultType);
-      if (typeBuilder.isPresent()) {
-        fieldBuilder.with(new DefaultImplementingTypeAnnotation(typeBuilder.get().build()));
-      } else {
-        BaseTypeBuilder defaultTypeBuilder = BaseTypeBuilder.create(JAVA);
-        typeHandlerManager.handle(defaultType, context, defaultTypeBuilder);
-        fieldBuilder.with(new DefaultImplementingTypeAnnotation(defaultTypeBuilder.build()));
+    if (defaultImplementedType.isPresent()) {
+      if (!isOptional(field) && !isParameterGroup(field)) {
+        throw new IllegalParameterModelDefinitionException(format(
+                                                                  "Field '%s' in class '%s' is required but annotated with '@%s', which is redundant",
+                                                                  field.getName(), declaringClass.getName(),
+                                                                  NullSafe.class.getSimpleName()));
       }
+
+      Class<?> defaultType = defaultImplementedType.get();
+      if (defaultType.equals(Object.class)) {
+        fieldBuilder.with(new NullSafeTypeAnnotation(field.getType(), false));
+      } else {
+        fieldBuilder.with(new NullSafeTypeAnnotation(defaultType, true));
+
+        final Optional<TypeBuilder<?>> typeBuilder = context.getTypeBuilder(defaultType);
+        if (typeBuilder.isPresent()) {
+          fieldBuilder.with(new DefaultImplementingTypeAnnotation(typeBuilder.get().build()));
+        } else {
+          BaseTypeBuilder defaultTypeBuilder = BaseTypeBuilder.create(JAVA);
+          typeHandlerManager.handle(defaultType, context, defaultTypeBuilder);
+          fieldBuilder.with(new DefaultImplementingTypeAnnotation(defaultTypeBuilder.build()));
+        }
+      } ;
     }
   }
 
   private void processConfigOverride(Field field, ObjectFieldTypeBuilder fieldBuilder) {
-    ConfigOverride override = field.getAnnotation(ConfigOverride.class);
-    if (override != null) {
+    if (isConfigOverride(field)) {
       fieldBuilder.required(false);
       fieldBuilder.with(new ConfigOverrideTypeAnnotation());
     }
@@ -367,7 +367,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
 
     if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())) {
       fieldBuilder.required(false);
-      if (getDefaultValue(field) == null && field.getAnnotation(ConfigOverride.class) == null) {
+      if (getDefaultValue(field) == null && !isConfigOverride(field)) {
         fieldBuilder.with(new DefaultValueAnnotation(valueOf(FALSE)));
       }
     }
