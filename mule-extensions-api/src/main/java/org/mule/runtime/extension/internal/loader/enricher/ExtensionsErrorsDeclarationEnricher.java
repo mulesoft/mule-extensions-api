@@ -103,14 +103,13 @@ public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher 
           validationErrorModel = newError(VALIDATION.getType(), getExtensionsNamespace(extensionDeclaration))
               .withParent(parent)
               .build();
-        }
 
-        extensionDeclaration.addErrorModel(validationErrorModel);
+          extensionDeclaration.addErrorModel(validationErrorModel);
+        }
       }
 
       return validationErrorModel;
     }
-
   }
 
   private void addErrorModel(OperationDeclaration declaration, ErrorModel errorModel, String type) {
