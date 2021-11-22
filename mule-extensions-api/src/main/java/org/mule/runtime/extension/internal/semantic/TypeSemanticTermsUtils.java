@@ -16,7 +16,9 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.Set;
 
 /**
- * Utility class for handling semantic terms declared at a type level
+ * Utility class for handling semantic terms declared at a type level.
+ * <p>
+ * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
  *
  * @since 1.4.0
  */
@@ -25,10 +27,10 @@ public final class TypeSemanticTermsUtils {
   /**
    * Introspects the given {@code element} for semantic annotations (by the rules of
    * {@link SemanticTermsHelper#getParameterTermsFromAnnotations(java.util.function.Function)}).
-   *
+   * <p>
    * If terms are found, the {@code annotatedBuilder} is enriched with a {@link SemanticTermsTypeAnnotation} carrying the found
    * terms. no
-   * 
+   *
    * @param element          an {@link AnnotatedElement}
    * @param annotatedBuilder a {@link WithAnnotation}
    */
