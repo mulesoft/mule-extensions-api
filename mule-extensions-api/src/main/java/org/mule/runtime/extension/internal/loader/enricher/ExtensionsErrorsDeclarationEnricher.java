@@ -7,8 +7,14 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
+import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
+import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
+import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.sdk.api.stereotype.MuleStereotypes.VALIDATOR;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
@@ -22,7 +28,6 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -45,17 +50,25 @@ public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher 
 
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new EnricherDelegate().enrich(extensionLoadingContext);
+    new EnricherDelegate(extensionLoadingContext).enrich();
   }
 
-  private class EnricherDelegate implements DeclarationEnricher {
+  private class EnricherDelegate {
 
-    @Override
-    public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-      ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-      Set<ErrorModel> errorModels = extensionDeclaration.getErrorModels();
-      Optional<ErrorModel> connectivityError = getErrorModel(CONNECTIVITY_ERROR_TYPE, errorModels);
-      Optional<ErrorModel> retryErrorModel = getErrorModel(RETRY_EXHAUSTED_ERROR_TYPE, errorModels);
+    private final ExtensionDeclaration extensionDeclaration;
+    private final Set<ErrorModel> errorModels;
+    private final ErrorModel connectivityError;
+    private final ErrorModel retryErrorModel;
+    private ErrorModel validationErrorModel;
+
+    public EnricherDelegate(ExtensionLoadingContext extensionLoadingContext) {
+      extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+      errorModels = extensionDeclaration.getErrorModels();
+      connectivityError = getErrorModel(CONNECTIVITY_ERROR_TYPE, errorModels);
+      retryErrorModel = getErrorModel(RETRY_EXHAUSTED_ERROR_TYPE, errorModels);
+    }
+
+    public void enrich() {
 
       new IdempotentDeclarationWalker() {
 
@@ -66,23 +79,53 @@ public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher 
             addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
             addErrorModel(operationDeclaration, retryErrorModel, RETRY_EXHAUSTED_ERROR_TYPE);
           }
+
+          assureValidationError(extensionDeclaration, operationDeclaration);
         }
       }.walk(extensionDeclaration);
     }
+
+    private void assureValidationError(ExtensionDeclaration extensionDeclaration, OperationDeclaration operation) {
+      if (operation.getStereotype() != null && operation.getStereotype().isAssignableTo(VALIDATOR)) {
+        if (!getValidationError(operation.getErrorModels()).isPresent()) {
+          operation.addErrorModel(getOrAddValidationError(extensionDeclaration));
+        }
+      }
+    }
+
+    private ErrorModel getOrAddValidationError(ExtensionDeclaration extensionDeclaration) {
+      if (validationErrorModel == null) {
+        validationErrorModel = getValidationError(extensionDeclaration.getErrorModels()).orElse(null);
+        if (validationErrorModel == null) {
+          ErrorModel parent = newError(VALIDATION.getType(), "MULE")
+              .withParent(newError(ANY.getType(), "MULE").build())
+              .build();
+          validationErrorModel = newError(VALIDATION.getType(), getExtensionsNamespace(extensionDeclaration))
+              .withParent(parent)
+              .build();
+        }
+
+        extensionDeclaration.addErrorModel(validationErrorModel);
+      }
+
+      return validationErrorModel;
+    }
+
   }
 
-  private void addErrorModel(OperationDeclaration declaration, Optional<ErrorModel> errorModel, String type) {
-    if (errorModel.isPresent()) {
-      declaration.getErrorModels().add(errorModel.get());
+  private void addErrorModel(OperationDeclaration declaration, ErrorModel errorModel, String type) {
+    if (errorModel != null) {
+      declaration.getErrorModels().add(errorModel);
     } else {
       throw new IllegalModelDefinitionException(format(ERROR_MASK, type, declaration.getName()));
     }
   }
 
-  private Optional<ErrorModel> getErrorModel(String type, Set<ErrorModel> errors) {
+  private ErrorModel getErrorModel(String type, Set<ErrorModel> errors) {
     return errors
         .stream()
         .filter(e -> !e.getNamespace().equals(CORE_NAMESPACE_NAME) && e.getType().equals(type))
-        .findFirst();
+        .findFirst()
+        .orElse(null);
   }
 }

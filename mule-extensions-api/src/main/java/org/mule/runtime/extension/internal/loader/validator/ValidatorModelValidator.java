@@ -7,11 +7,11 @@
 package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
-import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.VALIDATOR;
+import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
+
 import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
-import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.extension.api.annotation.param.stereotype.Validator;
@@ -42,12 +42,7 @@ public class ValidatorModelValidator implements ExtensionModelValidator {
                                                                   operation.getName())));
         }
 
-        boolean hasValidationError = operation.getErrorModels().stream()
-            .filter(e -> isValidation(e))
-            .findAny()
-            .isPresent();
-
-        if (!hasValidationError) {
+        if (!getValidationError(operation.getErrorModels()).isPresent()) {
           problemsReporter.addError(new Problem(operation,
                                                 format("Operation '%s' is a validator but it doesn't declare a validation error. "
                                                     + "Upon failure, all validators must throw a Mule validation error "
@@ -55,14 +50,5 @@ public class ValidatorModelValidator implements ExtensionModelValidator {
         }
       }
     }.walk(model);
-  }
-
-  private boolean isValidation(ErrorModel errorModel) {
-    if (VALIDATION.getType().equals(errorModel.getType()) &&
-        "MULE".equals(errorModel.getNamespace())) {
-      return true;
-    }
-
-    return errorModel.getParent().map(this::isValidation).orElse(false);
   }
 }
