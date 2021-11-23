@@ -88,7 +88,9 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
+import org.mule.runtime.extension.internal.loader.enricher.BackPressureDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ClusterSupportEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConnectionProviderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ContentParameterDeclarationEnricher;
@@ -173,7 +175,9 @@ public final class ExtensionModelFactory {
                                                    new ConfigRefDeclarationEnricher(),
                                                    new DefaultStereotypeEnricher(),
                                                    new NamedObjectDeclarationEnricher(),
-                                                   new TransactionalDeclarationEnricher()));
+                                                   new TransactionalDeclarationEnricher(),
+                                                   new BackPressureDeclarationEnricher(),
+                                                   new ClusterSupportEnricher()));
 
     extensionModelValidators = unmodifiableList(asList(
                                                        new ConnectionProviderNameModelValidator(),
