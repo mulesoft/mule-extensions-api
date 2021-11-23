@@ -12,6 +12,8 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 
 /**
  * Utilities for handling a extension's namespace
+ * <p>
+ * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
  *
  * @since 4.5.0
  */
