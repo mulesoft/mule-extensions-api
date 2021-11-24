@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPrimaryNodeParameter;
 
@@ -31,7 +32,7 @@ public class ClusterSupportEnricher implements DeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return WIRING;
+    return STRUCTURE;
   }
 
   @Override

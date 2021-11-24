@@ -13,6 +13,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.extension.api.ExtensionConstants.BACK_PRESSURE_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.BACK_PRESSURE_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
 import org.mule.metadata.api.annotation.EnumAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -24,6 +25,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
+import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.runtime.source.BackPressureMode;
 import org.mule.runtime.extension.internal.property.BackPressureStrategyModelProperty;
@@ -53,6 +55,11 @@ public class BackPressureDeclarationEnricher implements DeclarationEnricher {
         }
       }
     }.walk(extensionDeclaration);
+  }
+
+  @Override
+  public DeclarationEnricherPhase getExecutionPhase() {
+    return STRUCTURE;
   }
 
   private void addBackPressureParameter(ExtensionDeclaration extensionDeclaration,
