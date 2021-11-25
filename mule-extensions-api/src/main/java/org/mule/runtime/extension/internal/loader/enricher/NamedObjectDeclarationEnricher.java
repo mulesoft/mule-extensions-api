@@ -41,7 +41,7 @@ public class NamedObjectDeclarationEnricher implements DeclarationEnricher {
 
   private static final MetadataType STRING_TYPE = BaseTypeBuilder.create(JAVA).stringType().build();
 
-  private static final Map<String, Set<String>> blacklistedExtensionsOperations =
+  private static final Map<String, Set<String>> blocklistedExtensionsOperations =
       ImmutableMap.of("cxf", ImmutableSet.of("wsSecurity", "configuration"));
 
   @Override
@@ -52,13 +52,13 @@ public class NamedObjectDeclarationEnricher implements DeclarationEnricher {
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
     String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
-    Set<String> blacklisted = blacklistedExtensionsOperations.getOrDefault(extensionName, emptySet());
+    Set<String> blocklisted = blocklistedExtensionsOperations.getOrDefault(extensionName, emptySet());
 
     new IdempotentDeclarationWalker() {
 
       @Override
       protected void onConfiguration(ConfigurationDeclaration declaration) {
-        if (blacklisted.contains(declaration.getName())) {
+        if (blocklisted.contains(declaration.getName())) {
           return;
         }
 
