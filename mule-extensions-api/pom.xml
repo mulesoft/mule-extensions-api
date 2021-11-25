@@ -69,11 +69,5 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.ibm.jdbc</groupId>
-            <artifactId>db2jcc</artifactId>
-            <version>3.63.123</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 </project>
