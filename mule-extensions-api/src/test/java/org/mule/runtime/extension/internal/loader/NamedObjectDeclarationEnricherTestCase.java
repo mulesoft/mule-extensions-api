@@ -64,7 +64,7 @@ public class NamedObjectDeclarationEnricherTestCase {
   }
 
   @Test
-  public void blacklistedConfigurationDoesntHaveNameParameter() {
+  public void blocklistedConfigurationDoesntHaveNameParameter() {
     configurationDeclaration = new ExtensionDeclarer().withConfig("wsSecurity").getDeclaration();
 
     when(extensionLoadingContext.getExtensionDeclarer()).thenReturn(extensionDeclarer);
