@@ -56,7 +56,7 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
    * This map holds as key the names of the extensions that have Operations that will not be enriched and as value a {@link Set}
    * with the names of the Operations.
    */
-  private static final Map<String, Set<String>> blacklistedExtensionsOperations =
+  private static final Map<String, Set<String>> blocklistedExtensionsOperations =
       ImmutableMap.of("ee", ImmutableSet.of("transform"),
                       "cxf", ImmutableSet.of("simpleService", "jaxwsService", "proxyService",
                                              "simpleClient", "jaxwsClient", "proxyClient"));
@@ -69,21 +69,21 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
   @Override
   public void enrich(ExtensionLoadingContext extensionLoadingContext) {
     String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
-    Set<String> blacklistedOperationsNames = blacklistedExtensionsOperations.getOrDefault(extensionName, emptySet());
-    new EnricherDelegate(blacklistedOperationsNames).enrich(extensionLoadingContext);
+    Set<String> blocklistedOperationsNames = blocklistedExtensionsOperations.getOrDefault(extensionName, emptySet());
+    new EnricherDelegate(blocklistedOperationsNames).enrich(extensionLoadingContext);
   }
 
   private class EnricherDelegate implements DeclarationEnricher {
 
-    private final Set<String> blacklistedOperationsNames;
+    private final Set<String> blocklistedOperationsNames;
     private MetadataType attributeType;
     private MetadataType targetValue;
 
-    private EnricherDelegate(Set<String> blacklistedOperationsNames) {
+    private EnricherDelegate(Set<String> blocklistedOperationsNames) {
       ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
       this.attributeType = typeLoader.load(String.class);
       this.targetValue = typeLoader.load(String.class);
-      this.blacklistedOperationsNames = blacklistedOperationsNames;
+      this.blocklistedOperationsNames = blocklistedOperationsNames;
     }
 
     @Override
@@ -92,7 +92,7 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
 
         @Override
         protected void onOperation(OperationDeclaration declaration) {
-          if (blacklistedOperationsNames.contains(declaration.getName())) {
+          if (blocklistedOperationsNames.contains(declaration.getName())) {
             return;
           }
           final MetadataType outputType = declaration.getOutput().getType();
