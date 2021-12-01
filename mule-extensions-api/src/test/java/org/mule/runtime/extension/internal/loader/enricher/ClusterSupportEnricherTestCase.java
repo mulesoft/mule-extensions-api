@@ -31,7 +31,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclarat
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.internal.property.SourceClusterSupportModelProperty;
+import org.mule.runtime.extension.api.property.SourceClusterSupportModelProperty;
 import org.mule.sdk.api.annotation.source.SourceClusterSupport;
 
 import org.junit.Before;

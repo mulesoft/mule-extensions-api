@@ -28,7 +28,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.runtime.source.BackPressureMode;
-import org.mule.runtime.extension.internal.property.BackPressureStrategyModelProperty;
+import org.mule.runtime.extension.api.property.BackPressureStrategyModelProperty;
 
 import java.util.Optional;
 

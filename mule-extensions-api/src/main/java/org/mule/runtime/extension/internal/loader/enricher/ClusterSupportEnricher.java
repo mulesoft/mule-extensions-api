@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPrimaryNodeParameter;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
@@ -17,7 +16,7 @@ import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarat
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.internal.property.SourceClusterSupportModelProperty;
+import org.mule.runtime.extension.api.property.SourceClusterSupportModelProperty;
 import org.mule.sdk.api.annotation.source.SourceClusterSupport;
 
 import java.util.Optional;
@@ -50,12 +49,15 @@ public class ClusterSupportEnricher implements DeclarationEnricher {
           switch (sourceClusterSupport) {
             case DEFAULT_PRIMARY_NODE_ONLY:
               addPrimaryNodeParameter(declaration, true);
+              declaration.setRunsOnPrimaryNodeOnly(false);
               break;
             case DEFAULT_ALL_NODES:
               addPrimaryNodeParameter(declaration, false);
+              declaration.setRunsOnPrimaryNodeOnly(false);
               break;
             case NOT_SUPPORTED:
             default:
+              declaration.setRunsOnPrimaryNodeOnly(true);
           }
         }
 
