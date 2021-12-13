@@ -16,7 +16,8 @@ import javax.transaction.xa.XAResource;
  * @since 1.0
  */
 @MinMuleVersion("4.1")
-public interface XATransactionalConnection extends TransactionalConnection, org.mule.sdk.api.connectivity.XATransactionalConnection {
+public interface XATransactionalConnection
+    extends TransactionalConnection, org.mule.sdk.api.connectivity.XATransactionalConnection {
 
   /**
    * @return the {@link XAResource} which should be listed on the XA transaction
