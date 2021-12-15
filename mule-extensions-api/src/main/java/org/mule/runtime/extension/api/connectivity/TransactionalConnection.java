@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.api.connectivity;
 
-import org.mule.runtime.extension.api.tx.Transactional;
 import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
@@ -15,6 +14,6 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * @since 1.0
  */
 @MinMuleVersion("4.1")
-public interface TransactionalConnection extends Transactional {
+public interface TransactionalConnection extends org.mule.sdk.api.connectivity.TransactionalConnection {
 
 }
