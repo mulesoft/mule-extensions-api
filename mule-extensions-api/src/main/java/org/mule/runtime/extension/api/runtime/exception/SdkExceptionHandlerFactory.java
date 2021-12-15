@@ -11,6 +11,7 @@ import org.mule.sdk.api.runtime.exception.ExceptionHandler;
 /**
  * Creates an instance of an {@link ExceptionHandler}
  *
+ * @since 1.5.0
  */
 public interface SdkExceptionHandlerFactory {
 
