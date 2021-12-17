@@ -181,7 +181,7 @@ public final class ExtensionModelFactory {
                                                    new TransactionalDeclarationEnricher(),
                                                    new BackPressureDeclarationEnricher(),
                                                    new ClusterSupportEnricher(),
-        new RedeliveryPolicyDeclarationEnricher()));
+                                                   new RedeliveryPolicyDeclarationEnricher()));
 
     extensionModelValidators = unmodifiableList(asList(
                                                        new ConnectionProviderNameModelValidator(),
