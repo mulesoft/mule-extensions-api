@@ -8,6 +8,7 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.String.valueOf;
+import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 
 import org.mule.metadata.api.model.BooleanType;
@@ -50,6 +51,10 @@ public class BooleanParameterDeclarationEnricher implements DeclarationEnricher 
 
           @Override
           public void visitBoolean(BooleanType booleanType) {
+            if (declaration.getExpressionSupport() == REQUIRED) {
+              return;
+            }
+
             declaration.setRequired(false);
             if (declaration.getDefaultValue() == null && !declaration.isConfigOverride()) {
               declaration.setDefaultValue(valueOf(FALSE));
