@@ -118,7 +118,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
             new PropertiesEnricher(declaration, property.getGrantTypes()).enrich();
             declaration.getAllParameters().forEach(parameterDeclaration -> {
               parameterDeclaration.getModelProperty(OAuthParameterModelProperty.class)
-                .ifPresent(oAuthParameterModelProperty -> parameterDeclaration.setExpressionSupport(NOT_SUPPORTED));
+                  .ifPresent(oAuthParameterModelProperty -> parameterDeclaration.setExpressionSupport(NOT_SUPPORTED));
             });
           }
 
