@@ -104,6 +104,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ExtensionsErrorsDecla
 import org.mule.runtime.extension.internal.loader.enricher.NamedObjectDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ParameterDslDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ParameterLayoutOrderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ReconnectionStrategyDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.RedeliveryPolicyDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
@@ -181,7 +182,8 @@ public final class ExtensionModelFactory {
                                                    new TransactionalDeclarationEnricher(),
                                                    new BackPressureDeclarationEnricher(),
                                                    new ClusterSupportEnricher(),
-                                                   new RedeliveryPolicyDeclarationEnricher()));
+                                                   new RedeliveryPolicyDeclarationEnricher(),
+                                                   new ParameterLayoutOrderDeclarationEnricher()));
 
     extensionModelValidators = unmodifiableList(asList(
                                                        new ConnectionProviderNameModelValidator(),
