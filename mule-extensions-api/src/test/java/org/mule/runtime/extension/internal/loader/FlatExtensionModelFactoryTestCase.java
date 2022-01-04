@@ -68,6 +68,7 @@ import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CON
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_STRATEGY_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.REDELIVERY_POLICY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.STREAMING_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER_DESCRIPTION;
@@ -106,6 +107,7 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.api.meta.model.tck.TestWebServiceConsumerDeclarer;
 import org.mule.runtime.extension.api.declaration.type.DynamicConfigExpirationTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.ReconnectionStrategyTypeBuilder;
+import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuilder;
 import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuilder;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
@@ -376,11 +378,12 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
     List<ParameterModel> parameters = sourceModel.getAllParameterModels();
     assertByteStreamingStrategyParameter(parameters.get(0));
-    assertParameter(parameters.get(1), URL, URL_DESCRIPTION, SUPPORTED, true, stringType, StringType.class,
+    assertRedeliveryPolicyParameter(parameters.get(1));
+    assertParameter(parameters.get(2), URL, URL_DESCRIPTION, SUPPORTED, true, stringType, StringType.class,
                     null);
-    assertParameter(parameters.get(2), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
+    assertParameter(parameters.get(3), PORT, PORT_DESCRIPTION, SUPPORTED, false, typeLoader.load(Integer.class), NumberType.class,
                     DEFAULT_PORT);
-    assertParameter(parameters.get(3), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
+    assertParameter(parameters.get(4), RECONNECTION_STRATEGY_PARAMETER_NAME, RECONNECTION_STRATEGY_PARAMETER_DESCRIPTION,
                     NOT_SUPPORTED,
                     false, new ReconnectionStrategyTypeBuilder().buildReconnectionStrategyType(), UnionType.class, null);
 
@@ -514,6 +517,11 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
   private void assertStreamingStrategyParameter(ParameterModel parameter, MetadataType type) {
     assertParameter(parameter, STREAMING_STRATEGY_PARAMETER_NAME, STREAMING_STRATEGY_PARAMETER_DESCRIPTION, NOT_SUPPORTED, false,
                     type, UnionType.class, null);
+  }
+
+  private void assertRedeliveryPolicyParameter(ParameterModel redelivery) {
+    assertThat(redelivery.getName(), is(REDELIVERY_POLICY_PARAMETER_NAME));
+    assertThat(redelivery.getType(), is(equalTo(new RedeliveryPolicyTypeBuilder().buildRedeliveryPolicyType())));
   }
 
   private void assertArglessOperation(List<OperationModel> operationModels) {
