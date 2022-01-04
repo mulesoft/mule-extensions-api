@@ -25,8 +25,9 @@ import static org.mule.runtime.extension.api.ExtensionConstants.OPERATION_TRANSA
 import static org.mule.runtime.extension.api.ExtensionConstants.SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_ACTION_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
-import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
-import static org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE;
+import static org.mule.sdk.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
+import static org.mule.sdk.api.tx.SourceTransactionalAction.NONE;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -40,9 +41,9 @@ import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclarer;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
-import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
+import org.mule.sdk.api.tx.OperationTransactionalAction;
+import org.mule.sdk.api.tx.SourceTransactionalAction;
 
 import org.junit.Before;
 import org.junit.Test;
