@@ -18,7 +18,9 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.internal.loader.DefaultExtensionLoadingContext;
 import org.mule.runtime.extension.internal.loader.ExtensionModelFactory;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Loader of an {@link ExtensionModel} for a Mule plugin artifact from a set of attributes read by the {@link MulePluginModel}.
@@ -79,7 +81,7 @@ public abstract class ExtensionModelLoader {
   }
 
   /**
-   * Allows to add pre configured the given {@code context} before it's fed into
+   * Allows adding pre-configured the given {@code context} before it's fed into
    * {@link #declareExtension(ExtensionLoadingContext)}. This is the ideal place to register custom parameters, enrichers,
    * validators, etc.
    *
@@ -101,4 +103,80 @@ public abstract class ExtensionModelLoader {
    * @param context the context that will be used for the declaration
    */
   protected abstract void declareExtension(ExtensionLoadingContext context);
+
+  public static final class LoadRequest {
+
+
+  }
+
+  public static final class LoadRequestBuilder {
+
+    private LoadRequest product = new LoadRequest();
+
+
+
+    /**
+     * Adds a custom parameter registered under {@code key}
+     *
+     * @param key   the key under which the {@code value} is to be registered
+     * @param value the custom parameter value
+     * @throws IllegalArgumentException if {@code key} or {@code value} are {@code null}
+     */
+    void addParameter(String key, Object value);
+
+    /**
+     * Adds the contents of the given map as custom parameters
+     *
+     * @param parameters a map with custom parameters
+     */
+    void addParameters(Map<String, Object> parameters);
+
+    /**
+     * Obtains the custom parameter registered under {@code key}.
+     *
+     * @param key the key under which the wanted value is registered
+     * @param <T> generic type of the expected value
+     * @return an {@link Optional} value
+     */
+    <T> Optional<T> getParameter(String key);
+
+    /**
+     * Registers a custom {@link ExtensionModelValidator} to be executed on top of the ones which the runtime applies by default.
+     * <p>
+     * Custom validators will not apply globally but just for the model being loaded with this context.
+     *
+     * @param extensionModelValidator the custom validator
+     * @return {@code this} instance
+     */
+    ExtensionLoadingContext addCustomValidator(ExtensionModelValidator extensionModelValidator);
+
+    /**
+     * Registers custom {@link ExtensionModelValidator} to be executed on top of the ones which the runtime applies by default.
+     * <p>
+     * These custom validators will not apply globaly but just for the model being loaded with this context.
+     *
+     * @param extensionModelValidators the custom validators
+     * @return {@code this} instance
+     */
+    ExtensionLoadingContext addCustomValidators(Collection<ExtensionModelValidator> extensionModelValidators);
+
+    /**
+     * Registers a custom {@link DeclarationEnricher} which is executed <b>before</b> the ones that the runtime automatically
+     * applies.
+     *
+     * @param enricher the custom enricher
+     * @return {@code this} instance
+     */
+    ExtensionLoadingContext addCustomDeclarationEnricher(DeclarationEnricher enricher);
+
+    /**
+     * Registers custom {@link DeclarationEnricher} which are executed <b>before</b> the ones that the runtime automatically
+     * applies.
+     *
+     * @param enrichers the custom enrichers
+     * @return {@code this} instance
+     */
+    ExtensionLoadingContext addCustomDeclarationEnrichers(Collection<DeclarationEnricher> enrichers);
+
+  }
 }
