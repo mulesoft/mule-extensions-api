@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.loader;
 
 import static java.lang.Thread.currentThread;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -24,6 +25,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
+@NoImplement
 public abstract class ExtensionModelLoader {
 
   private final ExtensionModelFactory factory = new ExtensionModelFactory();
