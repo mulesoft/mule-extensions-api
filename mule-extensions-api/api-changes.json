@@ -1,4 +1,21 @@
 {
+  "1.5.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.loader.ExtensionModelLoader",
+          "new": "class org.mule.runtime.extension.api.loader.ExtensionModelLoader",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "ExtensionModelLoader",
+          "elementKind": "class",
+          "justification": "Unimplementable API"
+        }
+      ]
+    }
+  },
   "1.4.0": {
     "revapi": {
       "ignore": [
