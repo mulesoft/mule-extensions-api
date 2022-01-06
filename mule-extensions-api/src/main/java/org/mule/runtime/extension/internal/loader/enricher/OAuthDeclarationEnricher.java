@@ -76,6 +76,7 @@ import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantT
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantTypeVisitor;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
+import org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty;
 import org.mule.runtime.extension.api.connectivity.oauth.PlatformManagedOAuthGrantType;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -115,6 +116,10 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
         declaration.getModelProperty(OAuthModelProperty.class).ifPresent(property -> {
           if (visitedProviders.add(identityHashCode(declaration))) {
             new PropertiesEnricher(declaration, property.getGrantTypes()).enrich();
+            declaration.getAllParameters().forEach(parameterDeclaration -> {
+              parameterDeclaration.getModelProperty(OAuthParameterModelProperty.class)
+                  .ifPresent(oAuthParameterModelProperty -> parameterDeclaration.setExpressionSupport(NOT_SUPPORTED));
+            });
           }
 
           if (visitedOwners.add(identityHashCode(owner)) && ocsEnabled) {
