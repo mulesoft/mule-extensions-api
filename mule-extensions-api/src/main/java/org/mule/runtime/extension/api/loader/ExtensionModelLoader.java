@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.loader;
 
 
 import static java.lang.Thread.currentThread;
-import static org.mule.runtime.extension.api.loader.ExtensionLoadingRequest.builder;
+import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
@@ -62,7 +62,7 @@ public abstract class ExtensionModelLoader {
    * @return an {@link ExtensionModel} that represents the plugin being described
    * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
    *                                  one.
-   * @deprecated since 1.5.0. Use {@link #loadExtensionModel(ExtensionLoadingRequest)} instead
+   * @deprecated since 1.5.0. Use {@link #loadExtensionModel(ExtensionModelLoadingRequest)} instead
    */
   @Deprecated
   public final ExtensionModel loadExtensionModel(ClassLoader pluginClassLoader, DslResolvingContext dslResolvingContext,
@@ -72,7 +72,23 @@ public abstract class ExtensionModelLoader {
         .build());
   }
 
-  public final ExtensionModel loadExtensionModel(ExtensionLoadingRequest request) {
+  /**
+   * Creates an {@link ExtensionModel} from the {@code request}.
+   * <p>
+   * This method delegates into {@link #declareExtension(ExtensionLoadingContext)} in order to obtain the
+   * {@link ExtensionDeclaration}. That declaration is then transformed into an actual {@link ExtensionModel}. While loading the
+   * extension, a default set of {@link DeclarationEnricher} and {@link ExtensionModelValidator} will be applied.
+   * <p>
+   * The {@link ExtensionLoadingContext} received in {@link #declareExtension(ExtensionLoadingContext)} might additionally contain
+   * extra ones. The {@link #configureContextBeforeDeclaration(ExtensionLoadingContext)} allows to add custom configurations into
+   * the context before the declaration begins.
+   *
+   * @param request a {@link ExtensionModelLoadingRequest} which configures the loading operation
+   * @return an {@link ExtensionModel} that represents the plugin being described
+   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
+   *                                  one.
+   */
+  public final ExtensionModel loadExtensionModel(ExtensionModelLoadingRequest request) {
     ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(request);
     configureContextBeforeDeclaration(ctx);
 

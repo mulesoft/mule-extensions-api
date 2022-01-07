@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@link DeclarationEnricher} which walks through all the {@link ParameterDeclaration} of the entire extension and populates them
  * with the correspondent order.
  *
- * @since 4.0
+ * @since 1.5.0
  * @see LayoutModel
  */
 public final class ParameterLayoutOrderDeclarationEnricher implements DeclarationEnricher {

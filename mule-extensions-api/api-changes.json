@@ -21,6 +21,15 @@
           "methodName": "loadExtensionModel",
           "elementKind": "method",
           "justification": "Overloads an already final method"
+        },
+        {
+          "code": "java.method.finalMethodAddedToNonFinalClass",
+          "new": "method org.mule.runtime.api.meta.model.ExtensionModel org.mule.runtime.extension.api.loader.ExtensionModelLoader::loadExtensionModel(org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest)",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "ExtensionModelLoader",
+          "methodName": "loadExtensionModel",
+          "elementKind": "method",
+          "justification": "Overloads an already final method"
         }
       ]
     }

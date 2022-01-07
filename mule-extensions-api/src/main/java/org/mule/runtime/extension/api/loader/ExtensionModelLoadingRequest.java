@@ -11,20 +11,29 @@ import static java.util.Collections.unmodifiableMap;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
 import org.mule.runtime.api.dsl.DslResolvingContext;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public final class ExtensionLoadingRequest {
+/**
+ * Parameterizes the loading of one specific {@link ExtensionModel}
+ *
+ * @since 1.5.0
+ */
+public final class ExtensionModelLoadingRequest {
 
+  /**
+   * Builder for creating a new {@link ExtensionModelLoadingRequest}
+   */
   public static final class Builder {
 
-    private final ExtensionLoadingRequest product;
+    private final ExtensionModelLoadingRequest product;
 
     private Builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
-      this.product = new ExtensionLoadingRequest(extensionClassLoader, dslResolvingContext);
+      this.product = new ExtensionModelLoadingRequest(extensionClassLoader, dslResolvingContext);
     }
 
     /**
@@ -56,9 +65,7 @@ public final class ExtensionLoadingRequest {
     }
 
     /**
-     * Registers an {@link ExtensionModelValidator} executed after the ones which the runtime applies by default.
-     * <p>
-     * This validator will not apply globally but just for the model being loaded with this request.
+     * Registers an {@link ExtensionModelValidator} added to the ones applied by default.
      *
      * @param validator the added validator
      * @return {@code this} builder
@@ -72,7 +79,7 @@ public final class ExtensionLoadingRequest {
     }
 
     /**
-     * Registers a {@link DeclarationEnricher} which is executed <b>before</b> the ones that the runtime automatically applies.
+     * Registers a {@link DeclarationEnricher} added to the ones applied by default
      *
      * @param enricher the added enricher
      * @return {@code this} builder
@@ -85,11 +92,19 @@ public final class ExtensionLoadingRequest {
       return this;
     }
 
-    public ExtensionLoadingRequest build() {
+    /**
+     * @return The built request
+     */
+    public ExtensionModelLoadingRequest build() {
       return product;
     }
   }
 
+  /**
+   * @param extensionClassLoader The extension's {@link ClassLoader}
+   * @param dslResolvingContext  a {@link DslResolvingContext}
+   * @return a new {@link Builder}
+   */
   public static Builder builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     return new Builder(extensionClassLoader, dslResolvingContext);
   }
@@ -100,7 +115,7 @@ public final class ExtensionLoadingRequest {
   private final List<DeclarationEnricher> enrichers = new LinkedList<>();
   private final Map<String, Object> parameters = new HashMap<>();
 
-  private ExtensionLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
+  private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
     checkArgument(dslResolvingContext != null, "Dsl resolving context cannot be null");
 
@@ -108,22 +123,37 @@ public final class ExtensionLoadingRequest {
     this.dslResolvingContext = dslResolvingContext;
   }
 
+  /**
+   * @return The extension's classloader
+   */
   public ClassLoader getExtensionClassLoader() {
     return extensionClassLoader;
   }
 
+  /**
+   * @return the acting {@link DslResolvingContext}
+   */
   public DslResolvingContext getDslResolvingContext() {
     return dslResolvingContext;
   }
 
+  /**
+   * @return an unmodifiable list of custom validators added to the ones applied by default.
+   */
   public List<ExtensionModelValidator> getValidators() {
     return unmodifiableList(validators);
   }
 
+  /**
+   * @return an unmodifiable list of custom enrichers added to the ones applied by default.
+   */
   public List<DeclarationEnricher> getEnrichers() {
     return unmodifiableList(enrichers);
   }
 
+  /**
+   * @return parameters for this loading request
+   */
   public Map<String, Object> getParameters() {
     return unmodifiableMap(parameters);
   }

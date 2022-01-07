@@ -25,13 +25,9 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
 /**
- * A {@link DeclarationEnricher} which adds the following to all {@link SourceDeclaration}:
- * <p>
- * <ul>
- * <li>A Redelivery policy parameter</li>
- * </ul>
+ * A {@link DeclarationEnricher} which adds a redelivery policy parameter to all sources
  *
- * @since 1.0
+ * @since 1.5.0
  */
 public final class RedeliveryPolicyDeclarationEnricher implements DeclarationEnricher {
 

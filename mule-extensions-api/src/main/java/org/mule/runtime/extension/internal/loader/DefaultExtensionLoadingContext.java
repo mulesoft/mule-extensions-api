@@ -9,13 +9,13 @@ package org.mule.runtime.extension.internal.loader;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import static org.mule.runtime.extension.api.loader.ExtensionLoadingRequest.builder;
+import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.api.loader.ExtensionLoadingRequest;
+import org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import java.util.Optional;
  */
 public final class DefaultExtensionLoadingContext implements ExtensionLoadingContext {
 
-  private final ExtensionLoadingRequest request;
+  private final ExtensionModelLoadingRequest request;
   private final ExtensionDeclarer extensionDeclarer;
   private final List<ExtensionModelValidator> customValidators = new LinkedList<>();
   private final List<DeclarationEnricher> customDeclarationEnrichers = new LinkedList<>();
@@ -50,11 +50,11 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
     this(declarer, builder(extensionClassLoader, dslResolvingContext).build());
   }
 
-  public DefaultExtensionLoadingContext(ExtensionLoadingRequest request) {
+  public DefaultExtensionLoadingContext(ExtensionModelLoadingRequest request) {
     this(new ExtensionDeclarer(), request);
   }
 
-  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer, ExtensionLoadingRequest request) {
+  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer, ExtensionModelLoadingRequest request) {
     checkArgument(extensionDeclarer != null, "extension declarer cannot be null");
     checkArgument(request != null, "request cannot be null");
 
