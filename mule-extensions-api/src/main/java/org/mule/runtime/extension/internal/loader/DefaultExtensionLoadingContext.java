@@ -44,6 +44,12 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
     this(new ExtensionDeclarer(), builder(extensionClassLoader, dslResolvingContext).build());
   }
 
+  public DefaultExtensionLoadingContext(ExtensionDeclarer declarer,
+                                        ClassLoader extensionClassLoader,
+                                        DslResolvingContext dslResolvingContext) {
+    this(declarer, builder(extensionClassLoader, dslResolvingContext).build());
+  }
+
   public DefaultExtensionLoadingContext(ExtensionLoadingRequest request) {
     this(new ExtensionDeclarer(), request);
   }
