@@ -8,6 +8,7 @@ package org.mule.runtime.extension.api.loader;
 
 
 import static java.lang.Thread.currentThread;
+import static org.mule.runtime.extension.api.loader.ExtensionLoadingRequest.builder;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
@@ -18,9 +19,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.internal.loader.DefaultExtensionLoadingContext;
 import org.mule.runtime.extension.internal.loader.ExtensionModelFactory;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Loader of an {@link ExtensionModel} for a Mule plugin artifact from a set of attributes read by the {@link MulePluginModel}.
@@ -59,19 +58,26 @@ public abstract class ExtensionModelLoader {
    * @param dslResolvingContext context with all the {@link ExtensionModel}s already loaded that are mandatory to execute the
    *                            method properly.
    * @param attributes          a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader},
-   *                            which will be responsible of extracting the mandatory parameters (while casting, if needed).
+   *                            which will be responsible for extracting the mandatory parameters (while casting, if needed).
    * @return an {@link ExtensionModel} that represents the plugin being described
-   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or the type of any of them does not apply
-   *                                  to the expected one.
+   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
+   *                                  one.
+   * @deprecated since 1.5.0. Use {@link #loadExtensionModel(ExtensionLoadingRequest)} instead
    */
+  @Deprecated
   public final ExtensionModel loadExtensionModel(ClassLoader pluginClassLoader, DslResolvingContext dslResolvingContext,
                                                  Map<String, Object> attributes) {
-    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(pluginClassLoader, dslResolvingContext);
-    ctx.addParameters(attributes);
+    return loadExtensionModel(builder(pluginClassLoader, dslResolvingContext)
+        .addParameters(attributes)
+        .build());
+  }
+
+  public final ExtensionModel loadExtensionModel(ExtensionLoadingRequest request) {
+    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(request);
     configureContextBeforeDeclaration(ctx);
 
     ClassLoader currentClassLoader = currentThread().getContextClassLoader();
-    currentThread().setContextClassLoader(pluginClassLoader);
+    currentThread().setContextClassLoader(request.getExtensionClassLoader());
     try {
       declareExtension(ctx);
       return factory.create(ctx);
@@ -103,80 +109,4 @@ public abstract class ExtensionModelLoader {
    * @param context the context that will be used for the declaration
    */
   protected abstract void declareExtension(ExtensionLoadingContext context);
-
-  public static final class LoadRequest {
-
-
-  }
-
-  public static final class LoadRequestBuilder {
-
-    private LoadRequest product = new LoadRequest();
-
-
-
-    /**
-     * Adds a custom parameter registered under {@code key}
-     *
-     * @param key   the key under which the {@code value} is to be registered
-     * @param value the custom parameter value
-     * @throws IllegalArgumentException if {@code key} or {@code value} are {@code null}
-     */
-    void addParameter(String key, Object value);
-
-    /**
-     * Adds the contents of the given map as custom parameters
-     *
-     * @param parameters a map with custom parameters
-     */
-    void addParameters(Map<String, Object> parameters);
-
-    /**
-     * Obtains the custom parameter registered under {@code key}.
-     *
-     * @param key the key under which the wanted value is registered
-     * @param <T> generic type of the expected value
-     * @return an {@link Optional} value
-     */
-    <T> Optional<T> getParameter(String key);
-
-    /**
-     * Registers a custom {@link ExtensionModelValidator} to be executed on top of the ones which the runtime applies by default.
-     * <p>
-     * Custom validators will not apply globally but just for the model being loaded with this context.
-     *
-     * @param extensionModelValidator the custom validator
-     * @return {@code this} instance
-     */
-    ExtensionLoadingContext addCustomValidator(ExtensionModelValidator extensionModelValidator);
-
-    /**
-     * Registers custom {@link ExtensionModelValidator} to be executed on top of the ones which the runtime applies by default.
-     * <p>
-     * These custom validators will not apply globaly but just for the model being loaded with this context.
-     *
-     * @param extensionModelValidators the custom validators
-     * @return {@code this} instance
-     */
-    ExtensionLoadingContext addCustomValidators(Collection<ExtensionModelValidator> extensionModelValidators);
-
-    /**
-     * Registers a custom {@link DeclarationEnricher} which is executed <b>before</b> the ones that the runtime automatically
-     * applies.
-     *
-     * @param enricher the custom enricher
-     * @return {@code this} instance
-     */
-    ExtensionLoadingContext addCustomDeclarationEnricher(DeclarationEnricher enricher);
-
-    /**
-     * Registers custom {@link DeclarationEnricher} which are executed <b>before</b> the ones that the runtime automatically
-     * applies.
-     *
-     * @param enrichers the custom enrichers
-     * @return {@code this} instance
-     */
-    ExtensionLoadingContext addCustomDeclarationEnrichers(Collection<DeclarationEnricher> enrichers);
-
-  }
 }

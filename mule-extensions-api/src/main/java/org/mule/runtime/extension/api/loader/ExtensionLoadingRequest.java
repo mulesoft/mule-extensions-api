@@ -6,7 +6,11 @@
  */
 package org.mule.runtime.extension.api.loader;
 
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableMap;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
+import org.mule.runtime.api.dsl.DslResolvingContext;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,7 +21,11 @@ public final class ExtensionLoadingRequest {
 
   public static final class Builder {
 
-    private final ExtensionLoadingRequest product = new ExtensionLoadingRequest();
+    private final ExtensionLoadingRequest product;
+
+    private Builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
+      this.product = new ExtensionLoadingRequest(extensionClassLoader, dslResolvingContext);
+    }
 
     /**
      * Adds a custom parameter registered under {@code key}
@@ -64,8 +72,7 @@ public final class ExtensionLoadingRequest {
     }
 
     /**
-     * Registers a {@link DeclarationEnricher} which is executed <b>before</b> the ones that the runtime automatically
-     * applies.
+     * Registers a {@link DeclarationEnricher} which is executed <b>before</b> the ones that the runtime automatically applies.
      *
      * @param enricher the added enricher
      * @return {@code this} builder
@@ -81,25 +88,43 @@ public final class ExtensionLoadingRequest {
     public ExtensionLoadingRequest build() {
       return product;
     }
-
   }
 
+  public static Builder builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
+    return new Builder(extensionClassLoader, dslResolvingContext);
+  }
+
+  private final ClassLoader extensionClassLoader;
+  private final DslResolvingContext dslResolvingContext;
   private final List<ExtensionModelValidator> validators = new LinkedList<>();
   private final List<DeclarationEnricher> enrichers = new LinkedList<>();
   private final Map<String, Object> parameters = new HashMap<>();
 
-  private ExtensionLoadingRequest() {
+  private ExtensionLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
+    checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
+    checkArgument(dslResolvingContext != null, "Dsl resolving context cannot be null");
+
+    this.extensionClassLoader = extensionClassLoader;
+    this.dslResolvingContext = dslResolvingContext;
+  }
+
+  public ClassLoader getExtensionClassLoader() {
+    return extensionClassLoader;
+  }
+
+  public DslResolvingContext getDslResolvingContext() {
+    return dslResolvingContext;
   }
 
   public List<ExtensionModelValidator> getValidators() {
-    return validators;
+    return unmodifiableList(validators);
   }
 
   public List<DeclarationEnricher> getEnrichers() {
-    return enrichers;
+    return unmodifiableList(enrichers);
   }
 
   public Map<String, Object> getParameters() {
-    return parameters;
+    return unmodifiableMap(parameters);
   }
 }

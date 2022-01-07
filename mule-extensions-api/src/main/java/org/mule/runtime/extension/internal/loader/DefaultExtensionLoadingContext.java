@@ -9,13 +9,16 @@ package org.mule.runtime.extension.internal.loader;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+import static org.mule.runtime.extension.api.loader.ExtensionLoadingRequest.builder;
 
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.ExtensionLoadingRequest;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,26 +34,27 @@ import java.util.Optional;
  */
 public final class DefaultExtensionLoadingContext implements ExtensionLoadingContext {
 
-  private final ClassLoader extensionClassLoader;
+  private final ExtensionLoadingRequest request;
   private final ExtensionDeclarer extensionDeclarer;
   private final List<ExtensionModelValidator> customValidators = new LinkedList<>();
   private final List<DeclarationEnricher> customDeclarationEnrichers = new LinkedList<>();
-  private final Map<String, Object> customParameters = new HashMap<>();
-  private final DslResolvingContext dslResolvingContext;
+  private final Map<String, Object> customParameters;
 
   public DefaultExtensionLoadingContext(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
-    this(new ExtensionDeclarer(), extensionClassLoader, dslResolvingContext);
+    this(new ExtensionDeclarer(), builder(extensionClassLoader, dslResolvingContext).build());
   }
 
-  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer,
-                                        ClassLoader extensionClassLoader,
-                                        DslResolvingContext dslResolvingContext) {
+  public DefaultExtensionLoadingContext(ExtensionLoadingRequest request) {
+    this(new ExtensionDeclarer(), request);
+  }
+
+  public DefaultExtensionLoadingContext(ExtensionDeclarer extensionDeclarer, ExtensionLoadingRequest request) {
     checkArgument(extensionDeclarer != null, "extension declarer cannot be null");
-    checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
-    checkArgument(dslResolvingContext != null, "Dsl resolving context cannot be null");
+    checkArgument(request != null, "request cannot be null");
+
     this.extensionDeclarer = extensionDeclarer;
-    this.extensionClassLoader = extensionClassLoader;
-    this.dslResolvingContext = dslResolvingContext;
+    customParameters = new HashMap<>(request.getParameters());
+    this.request = request;
   }
 
   /**
@@ -133,7 +137,7 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
    */
   @Override
   public ClassLoader getExtensionClassLoader() {
-    return extensionClassLoader;
+    return request.getExtensionClassLoader();
   }
 
   /**
@@ -141,7 +145,7 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
    */
   @Override
   public DslResolvingContext getDslResolvingContext() {
-    return dslResolvingContext;
+    return request.getDslResolvingContext();
   }
 
   /**
@@ -149,7 +153,11 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
    */
   @Override
   public List<DeclarationEnricher> getCustomDeclarationEnrichers() {
-    return unmodifiableList(customDeclarationEnrichers);
+    List<DeclarationEnricher> enrichers = new ArrayList<>(customDeclarationEnrichers.size() + request.getEnrichers().size());
+    enrichers.addAll(customDeclarationEnrichers);
+    enrichers.addAll(request.getEnrichers());
+
+    return unmodifiableList(enrichers);
   }
 
   /**
@@ -157,7 +165,11 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
    */
   @Override
   public List<ExtensionModelValidator> getCustomValidators() {
-    return unmodifiableList(customValidators);
+    List<ExtensionModelValidator> validators = new ArrayList<>(customValidators.size() + request.getValidators().size());
+    validators.addAll(customValidators);
+    validators.addAll(request.getValidators());
+
+    return unmodifiableList(validators);
   }
 
 }
