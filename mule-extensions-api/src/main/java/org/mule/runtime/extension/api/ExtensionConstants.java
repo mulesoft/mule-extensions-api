@@ -15,6 +15,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.time.Time;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.api.util.DataUnit;
+import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.util.List;
@@ -306,6 +307,27 @@ public final class ExtensionConstants {
    * @since 1.4.0
    */
   public static final String POLLING_SOURCE_LIMIT_PARAMETER_DESCRIPTION = "Limits the amount of items per poll. ";
+
+  /**
+   * The id for the {@link ExtensionModelLoader} used to load Java based extensions
+   *
+   * @since 1.5.0
+   */
+  public static final String JAVA_SDK_LOADER_ID = "java";
+
+  /**
+   * The id for the {@link ExtensionModelLoader} used to load XML based extensions
+   *
+   * @since 1.5.0
+   */
+  public static final String XML_SDK_LOADER_ID = "xml-based";
+
+  /**
+   * The name of the property used while loading an XML based extension to point to the extension's main resource
+   *
+   * @since 1.5.0
+   */
+  public static final String XML_SDK_RESOURCE_PROPERTY_NAME = "resource-xml";
 
   private ExtensionConstants() {}
 }
