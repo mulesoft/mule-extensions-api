@@ -89,6 +89,7 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.BackPressureDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.BooleanParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ClusterSupportEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationEnricher;
@@ -103,7 +104,9 @@ import org.mule.runtime.extension.internal.loader.enricher.ExtensionsErrorsDecla
 import org.mule.runtime.extension.internal.loader.enricher.NamedObjectDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ParameterDslDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ParameterLayoutOrderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ReconnectionStrategyDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.RedeliveryPolicyDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
@@ -159,6 +162,7 @@ public final class ExtensionModelFactory {
   public ExtensionModelFactory() {
     declarationEnrichers = unmodifiableList(asList(
                                                    new ParameterDslDeclarationEnricher(),
+                                                   new BooleanParameterDeclarationEnricher(),
                                                    new ClassLoaderDeclarationEnricher(),
                                                    new ContentParameterDeclarationEnricher(),
                                                    new ExecutionTypeDeclarationEnricher(),
@@ -177,7 +181,9 @@ public final class ExtensionModelFactory {
                                                    new NamedObjectDeclarationEnricher(),
                                                    new TransactionalDeclarationEnricher(),
                                                    new BackPressureDeclarationEnricher(),
-                                                   new ClusterSupportEnricher()));
+                                                   new ClusterSupportEnricher(),
+                                                   new RedeliveryPolicyDeclarationEnricher(),
+                                                   new ParameterLayoutOrderDeclarationEnricher()));
 
     extensionModelValidators = unmodifiableList(asList(
                                                        new ConnectionProviderNameModelValidator(),
