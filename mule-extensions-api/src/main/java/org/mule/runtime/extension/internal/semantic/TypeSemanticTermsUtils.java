@@ -6,10 +6,9 @@
  */
 package org.mule.runtime.extension.internal.semantic;
 
-import static org.mule.runtime.connectivity.internal.platform.schema.SemanticTermsHelper.getParameterTermsFromAnnotations;
+import static org.mule.runtime.extension.internal.semantic.SemanticTermsHelper.getParameterTermsFromAnnotations;
 
 import org.mule.metadata.api.builder.WithAnnotation;
-import org.mule.runtime.connectivity.internal.platform.schema.SemanticTermsHelper;
 import org.mule.runtime.extension.api.declaration.type.annotation.SemanticTermsTypeAnnotation;
 
 import java.lang.reflect.AnnotatedElement;
