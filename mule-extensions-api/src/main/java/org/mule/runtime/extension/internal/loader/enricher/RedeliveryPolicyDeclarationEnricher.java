@@ -23,6 +23,7 @@ import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFacto
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.property.NoRedeliveryPolicyModelProperty;
 
 /**
  * A {@link DeclarationEnricher} which adds a redelivery policy parameter to all sources
@@ -45,6 +46,10 @@ public final class RedeliveryPolicyDeclarationEnricher implements DeclarationEnr
 
       @Override
       protected void onSource(SourceDeclaration declaration) {
+        if (declaration.getModelProperty(NoRedeliveryPolicyModelProperty.class).isPresent()) {
+          return;
+        }
+
         addRedeliveryPolicy(declaration);
         hasObjectStoreParams.set(true);
       }
