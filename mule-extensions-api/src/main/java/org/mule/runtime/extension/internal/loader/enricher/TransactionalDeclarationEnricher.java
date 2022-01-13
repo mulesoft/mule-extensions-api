@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static java.lang.String.format;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.tx.TransactionType.LOCAL;
@@ -20,6 +22,7 @@ import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOI
 import static org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE;
 
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -32,6 +35,7 @@ import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.tx.TransactionType;
 import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
@@ -40,6 +44,7 @@ import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 import org.mule.runtime.extension.internal.property.TransactionalActionModelProperty;
 import org.mule.runtime.extension.internal.property.TransactionalTypeModelProperty;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -72,12 +77,20 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
     private final MetadataType transactionType;
 
     private EnricherDelegate() {
-      ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-      operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
-      sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
-      sdkOperationTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
-      sdkSourceTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.SourceTransactionalAction.class);
-      transactionType = typeLoader.load(TransactionType.class);
+      operationTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+          .enumOf(Arrays.stream(OperationTransactionalAction.values()).map(Enum::name).toArray(String[]::new)).build();
+      sourceTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+          .enumOf(Arrays.stream(SourceTransactionalAction.values()).map(Enum::name).toArray(String[]::new)).build();
+      sdkOperationTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+          .enumOf(Arrays.stream(org.mule.sdk.api.tx.OperationTransactionalAction.values()).map(Enum::name).toArray(String[]::new))
+          .id("sdk")
+          .build();
+      sdkSourceTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+          .enumOf(Arrays.stream(org.mule.sdk.api.tx.SourceTransactionalAction.values()).map(Enum::name).toArray(String[]::new))
+          .id("sdk")
+          .build();
+      transactionType = BaseTypeBuilder.create(JAVA).stringType()
+          .enumOf(Arrays.stream(TransactionType.values()).map(Enum::name).toArray(String[]::new)).build();
     }
 
     @Override
@@ -87,9 +100,9 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
         @Override
         protected void onSource(SourceDeclaration declaration) {
           addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, sourceTransactionalActionType, sdkSourceTransactionalActionType,
-                         NONE,
+                         NONE, org.mule.sdk.api.tx.SourceTransactionalAction.NONE,
                          SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration, new TransactionalActionModelProperty());
-          addTxParameter(TRANSACTIONAL_TYPE_PARAMETER_NAME, transactionType, transactionType, LOCAL,
+          addTxParameter(TRANSACTIONAL_TYPE_PARAMETER_NAME, null, transactionType, null, LOCAL,
                          TRANSACTION_TYPE_PARAMETER_DESCRIPTION,
                          declaration,
                          new TransactionalTypeModelProperty());
@@ -99,6 +112,7 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
         protected void onOperation(OperationDeclaration declaration) {
           addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, operationTransactionalActionType,
                          sdkOperationTransactionalActionType, JOIN_IF_POSSIBLE,
+                         org.mule.sdk.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE,
                          OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration,
                          new TransactionalActionModelProperty());
         }
@@ -106,16 +120,24 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
     }
 
     private void addTxParameter(String parameterName, MetadataType metadataType, MetadataType sdkMetadataType,
-                                Object defaultValue, String description,
+                                Object defaultValue, Object sdkDefaultValue, String description,
                                 ExecutableComponentDeclaration<?> declaration, ModelProperty modelProperty) {
       if (declaration.isTransactional()) {
-        Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType, sdkMetadataType);
-        if (parameterDeclaration.isPresent()) {
+        Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
+        Optional<ParameterDeclaration> sdkParameterDeclaration = isPresent(declaration, sdkMetadataType);
+        if (parameterDeclaration.isPresent() && sdkParameterDeclaration.isPresent()) {
+          throw new IllegalModelDefinitionException(format("Component '%s' has transactional parameters from different APIs. Offending parameters are '%s' and '%s'.",
+                                                           declaration.getName(),
+                                                           parameterDeclaration.get().getName(),
+                                                           sdkParameterDeclaration.get().getName()));
+        } else if (parameterDeclaration.isPresent()) {
           enrichTransactionParameter(defaultValue, description, parameterDeclaration.get(), modelProperty);
+        } else if (sdkParameterDeclaration.isPresent()) {
+          enrichTransactionParameter(sdkDefaultValue, description, sdkParameterDeclaration.get(), modelProperty);
         } else {
           ParameterDeclaration transactionParameter = new ParameterDeclaration(parameterName);
           transactionParameter.setType(sdkMetadataType, false);
-          enrichTransactionParameter(defaultValue, description, transactionParameter, modelProperty);
+          enrichTransactionParameter(sdkDefaultValue, description, transactionParameter, modelProperty);
           declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(transactionParameter);
         }
       }
@@ -131,13 +153,14 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
       transactionParameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
     }
 
-    private Optional<ParameterDeclaration> isPresent(ComponentDeclaration<?> declaration, MetadataType metadataType,
-                                                     MetadataType sdkMetadataType) {
+    private Optional<ParameterDeclaration> isPresent(ComponentDeclaration<?> declaration, MetadataType metadataType) {
+      if (metadataType == null) {
+        return Optional.empty();
+      }
       return declaration.getParameterGroups()
           .stream()
           .flatMap(group -> group.getParameters().stream())
-          .filter(parameterDeclaration -> parameterDeclaration.getType().equals(metadataType)
-              || parameterDeclaration.getType().equals(sdkMetadataType))
+          .filter(parameterDeclaration -> parameterDeclaration.getType().equals(metadataType))
           .findAny();
     }
   }

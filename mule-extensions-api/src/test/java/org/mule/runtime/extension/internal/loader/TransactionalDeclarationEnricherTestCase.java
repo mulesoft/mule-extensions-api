@@ -19,6 +19,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
@@ -29,6 +30,7 @@ import static org.mule.sdk.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
 import static org.mule.sdk.api.tx.SourceTransactionalAction.NONE;
 
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
@@ -36,9 +38,12 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclarer;
+import org.mule.runtime.api.tx.TransactionType;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
@@ -46,11 +51,14 @@ import org.mule.sdk.api.tx.OperationTransactionalAction;
 import org.mule.sdk.api.tx.SourceTransactionalAction;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,10 +93,21 @@ public class TransactionalDeclarationEnricherTestCase {
   private MetadataType sourceTransactionalActionType;
   private ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
+
   @Before
   public void before() throws Exception {
-    operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
-    sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
+    operationTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+        .enumOf(Arrays.stream(OperationTransactionalAction.values()).map(Enum::name)
+            .toArray(String[]::new))
+        .id("sdk")
+        .build();
+    sourceTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+        .enumOf(Arrays.stream(SourceTransactionalAction.values()).map(Enum::name)
+            .toArray(String[]::new))
+        .id("sdk")
+        .build();
 
     transactionalOperation = spy(new ExtensionDeclarer()
         .withOperation(TRANSACTIONAL_OPERATION)
@@ -148,6 +167,23 @@ public class TransactionalDeclarationEnricherTestCase {
     assertTxParameter(transactionParameter, sourceTransactionalActionType, NONE,
                       SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION);
     assertThat(transactionParameter.getModelProperty(NullModelProperty.class), is(of(nullModelProperty)));
+  }
+
+  @Test
+  public void throwExceptionWhenParametersOfDifferentApisArePresent() throws Exception {
+    ParameterGroupDeclaration defaultParameterGroup = transactionalSourceWithTxParameter.getDefaultParameterGroup();
+    ParameterDeclaration parameterDeclaration = new ParameterDeclaration("oldApiParameter");
+    parameterDeclaration.setType(BaseTypeBuilder.create(JAVA).stringType().enumOf(Arrays
+        .stream(org.mule.runtime.extension.api.tx.SourceTransactionalAction.values()).map(Enum::name).toArray(String[]::new))
+        .build(), false);
+    parameterDeclaration.setRequired(true);
+    defaultParameterGroup.addParameter(parameterDeclaration);
+
+    when(extensionDeclaration.getMessageSources()).thenReturn(asList(transactionalSourceWithTxParameter));
+    expectedException.expect(IllegalModelDefinitionException.class);
+    expectedException
+        .expectMessage("Component 'transactionalSource' has transactional parameters from different APIs. Offending parameters are 'oldApiParameter' and 'transactionalAction'.");
+    enricher.enrich(extensionLoadingContext);
   }
 
   @Test
