@@ -8,7 +8,9 @@ package org.mule.runtime.extension.api.loader;
 
 
 import static java.lang.Thread.currentThread;
+import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -24,6 +26,7 @@ import java.util.Map;
  *
  * @since 1.0
  */
+@NoImplement
 public abstract class ExtensionModelLoader {
 
   private final ExtensionModelFactory factory = new ExtensionModelFactory();
@@ -55,19 +58,42 @@ public abstract class ExtensionModelLoader {
    * @param dslResolvingContext context with all the {@link ExtensionModel}s already loaded that are mandatory to execute the
    *                            method properly.
    * @param attributes          a set of attributes to work with in each concrete implementation of {@link ExtensionModelLoader},
-   *                            which will be responsible of extracting the mandatory parameters (while casting, if needed).
+   *                            which will be responsible for extracting the mandatory parameters (while casting, if needed).
    * @return an {@link ExtensionModel} that represents the plugin being described
-   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or the type of any of them does not apply
-   *                                  to the expected one.
+   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
+   *                                  one.
+   * @deprecated since 1.5.0. Use {@link #loadExtensionModel(ExtensionModelLoadingRequest)} instead
    */
+  @Deprecated
   public final ExtensionModel loadExtensionModel(ClassLoader pluginClassLoader, DslResolvingContext dslResolvingContext,
                                                  Map<String, Object> attributes) {
-    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(pluginClassLoader, dslResolvingContext);
-    ctx.addParameters(attributes);
+    return loadExtensionModel(builder(pluginClassLoader, dslResolvingContext)
+        .addParameters(attributes)
+        .build());
+  }
+
+  /**
+   * Creates an {@link ExtensionModel} from the {@code request}.
+   * <p>
+   * This method delegates into {@link #declareExtension(ExtensionLoadingContext)} in order to obtain the
+   * {@link ExtensionDeclaration}. That declaration is then transformed into an actual {@link ExtensionModel}. While loading the
+   * extension, a default set of {@link DeclarationEnricher} and {@link ExtensionModelValidator} will be applied.
+   * <p>
+   * The {@link ExtensionLoadingContext} received in {@link #declareExtension(ExtensionLoadingContext)} might additionally contain
+   * extra ones. The {@link #configureContextBeforeDeclaration(ExtensionLoadingContext)} allows to add custom configurations into
+   * the context before the declaration begins.
+   *
+   * @param request a {@link ExtensionModelLoadingRequest} which configures the loading operation
+   * @return an {@link ExtensionModel} that represents the plugin being described
+   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
+   *                                  one.
+   */
+  public final ExtensionModel loadExtensionModel(ExtensionModelLoadingRequest request) {
+    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(request);
     configureContextBeforeDeclaration(ctx);
 
     ClassLoader currentClassLoader = currentThread().getContextClassLoader();
-    currentThread().setContextClassLoader(pluginClassLoader);
+    currentThread().setContextClassLoader(request.getExtensionClassLoader());
     try {
       declareExtension(ctx);
       return factory.create(ctx);
@@ -77,7 +103,7 @@ public abstract class ExtensionModelLoader {
   }
 
   /**
-   * Allows to add pre configured the given {@code context} before it's fed into
+   * Allows adding pre-configured the given {@code context} before it's fed into
    * {@link #declareExtension(ExtensionLoadingContext)}. This is the ideal place to register custom parameters, enrichers,
    * validators, etc.
    *

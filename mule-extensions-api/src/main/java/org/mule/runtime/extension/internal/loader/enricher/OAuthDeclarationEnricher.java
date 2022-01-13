@@ -15,15 +15,15 @@ import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.CACHED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.CLIENT_ID;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.CLIENT_SECRET;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.CONNECTION_ID;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.TOKEN_URL;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.URL_PATH;
-import static org.mule.runtime.connectivity.api.platform.schema.ConnectivityVocabulary.URL_TEMPLATE;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_ID;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_SECRET;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CONNECTION_ID;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.TOKEN_URL;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_PATH;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_TEMPLATE;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.ACCESS_TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUTHORIZATION_URL_PARAMETER_NAME;
@@ -76,6 +76,7 @@ import org.mule.runtime.extension.api.connectivity.oauth.ClientCredentialsGrantT
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantType;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthGrantTypeVisitor;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
+import org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty;
 import org.mule.runtime.extension.api.connectivity.oauth.PlatformManagedOAuthGrantType;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -115,6 +116,10 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
         declaration.getModelProperty(OAuthModelProperty.class).ifPresent(property -> {
           if (visitedProviders.add(identityHashCode(declaration))) {
             new PropertiesEnricher(declaration, property.getGrantTypes()).enrich();
+            declaration.getAllParameters().forEach(parameterDeclaration -> {
+              parameterDeclaration.getModelProperty(OAuthParameterModelProperty.class)
+                  .ifPresent(oAuthParameterModelProperty -> parameterDeclaration.setExpressionSupport(NOT_SUPPORTED));
+            });
           }
 
           if (visitedOwners.add(identityHashCode(owner)) && ocsEnabled) {

@@ -1,4 +1,39 @@
 {
+  "1.5.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.annotation.added",
+          "old": "class org.mule.runtime.extension.api.loader.ExtensionModelLoader",
+          "new": "class org.mule.runtime.extension.api.loader.ExtensionModelLoader",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "ExtensionModelLoader",
+          "elementKind": "class",
+          "justification": "Unimplementable API"
+        },
+        {
+          "code": "java.method.finalMethodAddedToNonFinalClass",
+          "new": "method org.mule.runtime.api.meta.model.ExtensionModel org.mule.runtime.extension.api.loader.ExtensionModelLoader::loadExtensionModel(org.mule.runtime.extension.api.loader.ExtensionLoadingRequest)",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "ExtensionModelLoader",
+          "methodName": "loadExtensionModel",
+          "elementKind": "method",
+          "justification": "Overloads an already final method"
+        },
+        {
+          "code": "java.method.finalMethodAddedToNonFinalClass",
+          "new": "method org.mule.runtime.api.meta.model.ExtensionModel org.mule.runtime.extension.api.loader.ExtensionModelLoader::loadExtensionModel(org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest)",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "ExtensionModelLoader",
+          "methodName": "loadExtensionModel",
+          "elementKind": "method",
+          "justification": "Overloads an already final method"
+        }
+      ]
+    }
+  },
   "1.4.0": {
     "revapi": {
       "ignore": [
