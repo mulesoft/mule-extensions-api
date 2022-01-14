@@ -98,16 +98,16 @@ public class TransactionalDeclarationEnricherTestCase {
 
   @Before
   public void before() throws Exception {
-    operationTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
-        .enumOf(Arrays.stream(OperationTransactionalAction.values()).map(Enum::name)
-            .toArray(String[]::new))
-        .id("sdk")
-        .build();
-    sourceTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
-        .enumOf(Arrays.stream(SourceTransactionalAction.values()).map(Enum::name)
-            .toArray(String[]::new))
-        .id("sdk")
-        .build();
+    operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
+    sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
+
+
+    /*
+     * operationTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+     * .enumOf(Arrays.stream(OperationTransactionalAction.values()).map(Enum::name) .toArray(String[]::new)) .id("sdk") .build();
+     * sourceTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
+     * .enumOf(Arrays.stream(SourceTransactionalAction.values()).map(Enum::name) .toArray(String[]::new)) .id("sdk") .build();
+     */
 
     transactionalOperation = spy(new ExtensionDeclarer()
         .withOperation(TRANSACTIONAL_OPERATION)
@@ -171,11 +171,17 @@ public class TransactionalDeclarationEnricherTestCase {
 
   @Test
   public void throwExceptionWhenParametersOfDifferentApisArePresent() throws Exception {
+    /*
+     * ParameterGroupDeclaration defaultParameterGroup = transactionalSourceWithTxParameter.getDefaultParameterGroup();
+     * ParameterDeclaration parameterDeclaration = new ParameterDeclaration("oldApiParameter");
+     * parameterDeclaration.setType(BaseTypeBuilder.create(JAVA).stringType().enumOf(Arrays
+     * .stream(org.mule.runtime.extension.api.tx.SourceTransactionalAction.values()).map(Enum::name).toArray(String[]::new))
+     * .build(), false); parameterDeclaration.setRequired(true); defaultParameterGroup.addParameter(parameterDeclaration);
+     */
+
     ParameterGroupDeclaration defaultParameterGroup = transactionalSourceWithTxParameter.getDefaultParameterGroup();
     ParameterDeclaration parameterDeclaration = new ParameterDeclaration("oldApiParameter");
-    parameterDeclaration.setType(BaseTypeBuilder.create(JAVA).stringType().enumOf(Arrays
-        .stream(org.mule.runtime.extension.api.tx.SourceTransactionalAction.values()).map(Enum::name).toArray(String[]::new))
-        .build(), false);
+    parameterDeclaration.setType(typeLoader.load(org.mule.runtime.extension.api.tx.SourceTransactionalAction.class), false);
     parameterDeclaration.setRequired(true);
     defaultParameterGroup.addParameter(parameterDeclaration);
 

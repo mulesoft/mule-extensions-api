@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.tx.TransactionType.LOCAL;
@@ -22,7 +21,6 @@ import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOI
 import static org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE;
 
 import org.mule.metadata.api.ClassTypeLoader;
-import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -44,7 +42,6 @@ import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 import org.mule.runtime.extension.internal.property.TransactionalActionModelProperty;
 import org.mule.runtime.extension.internal.property.TransactionalTypeModelProperty;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -77,20 +74,12 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
     private final MetadataType transactionType;
 
     private EnricherDelegate() {
-      operationTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
-          .enumOf(Arrays.stream(OperationTransactionalAction.values()).map(Enum::name).toArray(String[]::new)).build();
-      sourceTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
-          .enumOf(Arrays.stream(SourceTransactionalAction.values()).map(Enum::name).toArray(String[]::new)).build();
-      sdkOperationTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
-          .enumOf(Arrays.stream(org.mule.sdk.api.tx.OperationTransactionalAction.values()).map(Enum::name).toArray(String[]::new))
-          .id("sdk")
-          .build();
-      sdkSourceTransactionalActionType = BaseTypeBuilder.create(JAVA).stringType()
-          .enumOf(Arrays.stream(org.mule.sdk.api.tx.SourceTransactionalAction.values()).map(Enum::name).toArray(String[]::new))
-          .id("sdk")
-          .build();
-      transactionType = BaseTypeBuilder.create(JAVA).stringType()
-          .enumOf(Arrays.stream(TransactionType.values()).map(Enum::name).toArray(String[]::new)).build();
+      ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+      operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
+      sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
+      sdkOperationTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
+      sdkSourceTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.SourceTransactionalAction.class);
+      transactionType = typeLoader.load(TransactionType.class);
     }
 
     @Override
