@@ -56,14 +56,6 @@ public final class MuleStereotypes {
       newStereotype(SERIALIZER_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel CHAIN = newStereotype(CHAIN_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
 
-  private static final String OPERATION_STEREOTYPE_NAMESPACE = "OPERATION_DSL";
-  public static final StereotypeModel OPERATION_DEF_STEREOTYPE = newStereotype("DEF", OPERATION_STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel OUTPUT_STEREOTYPE = newStereotype("OUTPUT", OPERATION_STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel OUTPUT_PAYLOAD_STEREOTYPE =
-      newStereotype("OUTPUT_PAYLOAD", OPERATION_STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel OUTPUT_ATTRIBUTES_STEREOTYPE =
-      newStereotype("OUTPUT_ATTRIBUTES", OPERATION_STEREOTYPE_NAMESPACE).build();
-
   private MuleStereotypes() {}
 
 }
