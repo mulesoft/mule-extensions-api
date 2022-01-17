@@ -315,9 +315,9 @@ public final class ExtensionMetadataTypeUtils {
    */
   public static MetadataFormat toMetadataFormat(String mediaType) {
     return KNOWN_METADATA_FORMATS.stream()
-            .filter(f -> f.getValidMimeTypes().stream().anyMatch(mediaType::matches))
-            .findFirst()
-            .orElseGet(() -> new MetadataFormat(mediaType, mediaType, mediaType));
+        .filter(f -> f.getValidMimeTypes().stream().anyMatch(mediaType::matches))
+        .findFirst()
+        .orElseGet(() -> new MetadataFormat(mediaType, mediaType, mediaType));
   }
 
   /**
