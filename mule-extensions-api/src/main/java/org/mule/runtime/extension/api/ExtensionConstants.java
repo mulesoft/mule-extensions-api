@@ -329,5 +329,11 @@ public final class ExtensionConstants {
    */
   public static final String XML_SDK_RESOURCE_PROPERTY_NAME = "resource-xml";
 
+  public static final String MULE_SDK_LOADER_ID = "mule";
+
+  public static final String MULE_SDK_ARTIFACT_DESCRIPTOR_PROPERTY_NAME = "artifactDescriptor";
+
+  public static final String MULE_SDK_ARTIFACT_AST_PROPERTY_NAME = "artifactAst";
+
   private ExtensionConstants() {}
 }
