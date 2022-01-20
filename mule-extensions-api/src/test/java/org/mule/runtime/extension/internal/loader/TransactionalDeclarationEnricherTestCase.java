@@ -162,6 +162,31 @@ public class TransactionalDeclarationEnricherTestCase {
   }
 
   @Test
+  public void enrichExistingTransactionalActionParameterFromOldApiIfExist() throws Exception {
+    MetadataType sourceTransactionalActionOldApiType =
+        typeLoader.load(org.mule.runtime.extension.api.tx.SourceTransactionalAction.class);
+    SourceDeclarer transactional = new ExtensionDeclarer()
+        .withMessageSource(TRANSACTIONAL_SOURCE)
+        .transactional(true);
+    transactional
+        .onDefaultParameterGroup()
+        .withRequiredParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME)
+        .withModelProperty(nullModelProperty)
+        .ofType(sourceTransactionalActionOldApiType);
+
+    transactionalSourceWithTxParameter = spy(transactional.getDeclaration());
+
+    when(extensionDeclaration.getMessageSources()).thenReturn(asList(transactionalSourceWithTxParameter));
+    enricher.enrich(extensionLoadingContext);
+
+    ParameterDeclaration transactionParameter = getTransactionActionParameter(transactionalSourceWithTxParameter).orElse(null);
+    assertTxParameter(transactionParameter, sourceTransactionalActionOldApiType,
+                      org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE,
+                      SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION);
+    assertThat(transactionParameter.getModelProperty(NullModelProperty.class), is(of(nullModelProperty)));
+  }
+
+  @Test
   public void throwExceptionWhenParametersOfDifferentApisArePresent() throws Exception {
     ParameterGroupDeclaration defaultParameterGroup = transactionalSourceWithTxParameter.getDefaultParameterGroup();
     ParameterDeclaration parameterDeclaration = new ParameterDeclaration("oldApiParameter");
