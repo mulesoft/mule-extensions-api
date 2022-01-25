@@ -108,7 +108,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
     }
 
     private void validateScope(ComponentModel model) {
-      validateNoInlineParameters(model, "Scope");
+//      validateNoInlineParameters(model, "Scope");
       validateSingleNestedChain(model, model, "Scope");
     }
 
