@@ -331,7 +331,7 @@ public final class ExtensionConstants {
 
   public static final String MULE_SDK_PREFIX = "muleSDK.";
 
-  public static final String MULE_SDK_LOADER_ID = MULE_SDK_PREFIX + "mule";
+  public static final String MULE_SDK_LOADER_ID = "mule";
 
   public static final String MULE_SDK_EXTENSION_NAME_PROPERTY_NAME = MULE_SDK_PREFIX + "artifactDescriptor";
 
