@@ -15,7 +15,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
  * <p>
  * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
  *
- * @since 4.5.0
+ * @since 1.5.0
  */
 public class ExtensionNamespaceUtils {
 

@@ -508,10 +508,22 @@ public class ExtensionModelUtils {
         .flatMap(g -> g.getParameterModels().stream().map(p -> new Pair<>(g, p)));
   }
 
+  /**
+   * @param model a {@link ComponentModel}
+   * @return Whether the given {@code model} represents a Scope
+   *
+   * @since 1.5.0
+   */
   public static boolean isScope(ComponentModel model) {
     return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedChainModel);
   }
 
+  /**
+   * @param model a {@link ComponentModel}
+   * @return Whether the given {@code model} represents a Router
+   *
+   * @since 1.5.0
+   */
   public static boolean isRouter(ConstructModel model) {
     return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
   }

@@ -19,7 +19,7 @@ import java.util.Optional;
  * <p>
  * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
  *
- * @since 4.5.0
+ * @since 1.5.0
  */
 public final class ExtensionErrorUtils {
 

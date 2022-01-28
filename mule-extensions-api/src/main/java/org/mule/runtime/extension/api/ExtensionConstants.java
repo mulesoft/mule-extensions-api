@@ -10,6 +10,7 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.mule.runtime.api.util.DataUnit.KB;
 
+import org.mule.metadata.api.TypeLoader;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.time.Time;
@@ -329,14 +330,34 @@ public final class ExtensionConstants {
    */
   public static final String XML_SDK_RESOURCE_PROPERTY_NAME = "resource-xml";
 
-  public static final String MULE_SDK_PREFIX = "muleSDK.";
+  private static final String MULE_SDK_PREFIX = "muleSDK.";
 
+  /**
+   * The id for the Mule SDK {@link ExtensionModelLoader}
+   *
+   * @since 1.5.0
+   */
   public static final String MULE_SDK_LOADER_ID = "mule";
 
+  /**
+   * Property name for Mule SDK {@link ExtensionModelLoader} for specifying the extension name
+   *
+   * @since 1.5.0
+   */
   public static final String MULE_SDK_EXTENSION_NAME_PROPERTY_NAME = MULE_SDK_PREFIX + "artifactDescriptor";
 
+  /**
+   * Property name for Mule SDK {@link ExtensionModelLoader} for specifying artifact AST
+   *
+   * @since 1.5.0
+   */
   public static final String MULE_SDK_ARTIFACT_AST_PROPERTY_NAME = MULE_SDK_PREFIX + "artifactAst";
 
+  /**
+   * Property name for Mule SDK {@link ExtensionModelLoader} for specifying the {@link TypeLoader} to use
+   *
+   * @since 1.5.0
+   */
   public static final String MULE_SDK_TYPE_LOADER_PROPERTY_NAME = MULE_SDK_PREFIX + "typeLoader";
 
   private ExtensionConstants() {}

@@ -14,8 +14,24 @@ import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
+/**
+ * Utilities for validating extension models.
+ * <p>
+ * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
+ *
+ * @since 1.5.0
+ */
 public final class ExtensionValidationUtils {
 
+  /**
+   * Validates that the given {@code model} doesn't have parameters defined inline. If found, said parameters will be reported
+   * through the {@code problemsReporter}
+   *
+   * @param model            the model being validated
+   * @param kind             the kind of component being validated (Operation, Source, etc)
+   * @param problemsReporter a {@link ProblemsReporter}
+   * @param dsl              a {@link DslSyntaxResolver}
+   */
   public static void validateNoInlineParameters(ParameterizedModel model,
                                                 String kind,
                                                 ProblemsReporter problemsReporter,
