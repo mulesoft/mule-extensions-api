@@ -36,8 +36,11 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.meta.model.nested.NestedChainModel;
+import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
@@ -503,5 +506,13 @@ public class ExtensionModelUtils {
     return model.getParameterGroupModels()
         .stream()
         .flatMap(g -> g.getParameterModels().stream().map(p -> new Pair<>(g, p)));
+  }
+
+  public static boolean isScope(ComponentModel model) {
+    return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedChainModel);
+  }
+
+  public static boolean isRouter(ConstructModel model) {
+    return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
   }
 }
