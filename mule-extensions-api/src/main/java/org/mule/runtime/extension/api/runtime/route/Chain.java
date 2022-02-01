@@ -19,9 +19,9 @@ import java.util.function.Consumer;
  * A {@link Chain} allows a given {@link OperationModel Operation} to receive a chain of message processors to be executed as part
  * of the operation's execution.
  * <p>
- * When executing the {@link Chain}, all it's inner components will be executed in the order declared by the user, using the
- * output of one processor as the input of the next one in the {@link Chain}. The execution of the {@link Chain} is completed
- * either when all the components were invoked successfully or when an error occurs in one processor and it is propagated to the
+ * When executing the {@link Chain}, all its inner components will be executed in the order declared by the user, using the output
+ * of one processor as the input of the next one in the {@link Chain}. The execution of the {@link Chain} is completed either when
+ * all the components were invoked successfully or when an error occurs in one processor, and it is propagated to the
  * {@link Chain}
  *
  * @since 1.0

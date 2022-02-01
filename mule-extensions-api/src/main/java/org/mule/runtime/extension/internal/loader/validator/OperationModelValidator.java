@@ -9,7 +9,10 @@ package org.mule.runtime.extension.internal.loader.validator;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isRouter;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isScope;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
+import static org.mule.runtime.extension.internal.util.ExtensionValidationUtils.validateNoInlineParameters;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComposableModel;
@@ -25,14 +28,12 @@ import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
-import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
-import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -108,16 +109,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
     }
 
     private void validateScope(ComponentModel model) {
-      validateNoInlineParameters(model, "Scope");
       validateSingleNestedChain(model, model, "Scope");
-    }
-
-    private boolean isRouter(ConstructModel model) {
-      return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
-    }
-
-    private boolean isScope(ComponentModel model) {
-      return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedChainModel);
     }
 
     private void validateRouter(ConstructModel model) {
@@ -143,7 +135,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
     }
 
     private void validateRoute(NestedRouteModel route, ConstructModel model) {
-      validateNoInlineParameters(route, "Route");
+      validateNoInlineParameters(route, "Route", problemsReporter, dsl);
       validateSingleNestedChain(route, model, "Route");
     }
 
@@ -178,29 +170,6 @@ public final class OperationModelValidator implements ExtensionModelValidator {
         problemsReporter.addError(new Problem(model, format("Only a single Chain component is supported as part of the %s [%s], "
             + "remove redundant declarations", kind, container.getName())));
       }
-    }
-
-    private void validateNoInlineParameters(ParameterizedModel model, String kind) {
-      model.getParameterGroupModels().stream()
-          .forEach(group -> {
-            if (group.isShowInDsl()) {
-              problemsReporter.addError(new Problem(model,
-                                                    format("Invalid parameter group [%s] found in operation [%s], inline groups are not allowed in %s",
-                                                           group.getName(), model.getName(), kind)));
-            }
-            group.getParameterModels().stream()
-                // an example of this is error-mappings that are allowed in a scope
-                .filter(parameter -> !parameter.getModelProperty(InfrastructureParameterModelProperty.class).isPresent())
-                .forEach(parameter -> {
-                  if (dsl.resolve(parameter).supportsChildDeclaration()) {
-                    problemsReporter.addError(new Problem(model,
-                                                          format("Invalid parameter [%s] found in group [%s] of operation [%s], "
-                                                              + "parameters that allow inline declaration are not allowed in %s. "
-                                                              + "Use attribute declaration only for all the parameters.",
-                                                                 parameter.getName(), group.getName(), model.getName(), kind)));
-                  }
-                });
-          });
     }
 
     private void validateConnection(HasOperationModels owner, OperationModel model, boolean hasGlobalConnectionProviders) {
