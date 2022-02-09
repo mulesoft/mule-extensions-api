@@ -321,7 +321,8 @@ public final class ExtensionConstants {
    *
    * @since 1.5.0
    */
-  public static final String SEQUENTIAL_POLLS_PARAMETER_DESCRIPTION = "ADD DESCRIPTION";
+  public static final String SEQUENTIAL_POLLS_PARAMETER_DESCRIPTION =
+      "Configure whether processing of items from different polls can overlap.";
 
   /**
    * The id for the {@link ExtensionModelLoader} used to load Java based extensions
