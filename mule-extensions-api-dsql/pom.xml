@@ -5,12 +5,12 @@
     <parent>
         <artifactId>mule-extensions-api-parent</artifactId>
         <groupId>org.mule.runtime</groupId>
-        <version>1.2.1-HF-SNAPSHOT</version>
+        <version>1.2.1-20220221</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mule-extensions-api-dsql</artifactId>
-    <version>1.2.1-HF-SNAPSHOT</version>
+    <version>1.2.1-20220221</version>
     <packaging>jar</packaging>
     <name>Mule Extensions API DSQL</name>
     <description>API for Mule Extensions to add DateSense Query Language support.</description>
