@@ -288,12 +288,11 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     if (isBlank(extensionName)) {
       throw new IllegalArgumentException("No Namespace can be created from an empty name");
     }
-
-    String namespace = deleteWhitespace(extensionName);
+    String namespace = extensionName.replace(" ", "-");
     namespace = removeEndIgnoreCase(namespace, "extension");
     namespace = removeEndIgnoreCase(namespace, "connector");
     namespace = removeEndIgnoreCase(namespace, "module");
-    return hyphenize(isBlank(namespace) ? extensionName : namespace);
+    return isBlank(namespace) ? extensionName : namespace.toLowerCase();
   }
 
   public static String getComponentModelTypeName(ParameterizedModel component) {
