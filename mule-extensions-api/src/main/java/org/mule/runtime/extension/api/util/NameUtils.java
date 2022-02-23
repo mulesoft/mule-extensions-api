@@ -10,7 +10,8 @@ import static java.lang.Math.max;
 import static java.lang.String.format;
 import static java.util.Collections.sort;
 import static java.util.Comparator.comparing;
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
+import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
@@ -294,10 +295,27 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     namespace = removeEndIgnoreCase(namespace, "connector");
     namespace = removeEndIgnoreCase(namespace, "module");
 
-    if (namespace.contains(" ")) {
-      namespace.replace(" ", "-").toLowerCase();
+    if (namespace.contains(SPACE)) {
+      namespace = toProperCase(namespace);
     }
     return hyphenize(isBlank(namespace) ? extensionName : namespace);
+  }
+
+  private static String toProperCase(String string) {
+    if (isBlank(string)) {
+      return string;
+    }
+
+    StringBuilder result = new StringBuilder();
+    String[] parts = string.toLowerCase().split(SPACE);
+
+    for (int i = 0; i < parts.length; i++) {
+      result.append(capitalize(parts[i].trim()));
+      if (i < parts.length - 1) {
+        result.append(SPACE);
+      }
+    }
+    return result.toString();
   }
 
   public static String getComponentModelTypeName(ParameterizedModel component) {

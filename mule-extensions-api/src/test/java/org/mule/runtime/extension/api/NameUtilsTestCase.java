@@ -15,6 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
+import static org.mule.runtime.extension.api.util.NameUtils.defaultNamespace;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
@@ -89,6 +90,13 @@ public class NameUtilsTestCase {
     assertThat("my-parameter-name", is(hyphenize("MyParameterName")));
     assertThat("parameter-dsl", is(hyphenize("ParameterDSL")));
     assertThat("parameter-dsl-name", is(hyphenize("ParameterDSLName")));
+  }
+
+  @Test
+  public void defaultNamespaceWithCamelCaseWordsSeparatedBySpaces() {
+    assertThat(defaultNamespace("AbCd Efgh"), is("abcd-efgh"));
+    assertThat(defaultNamespace(" AbCd Efgh "), is("abcd-efgh"));
+    assertThat(defaultNamespace("Abcd  EFGh"), is("abcd-efgh"));
   }
 
   @Alias(TYPE_ALIAS)
