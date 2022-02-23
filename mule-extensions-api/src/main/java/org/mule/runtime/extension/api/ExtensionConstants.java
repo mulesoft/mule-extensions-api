@@ -360,5 +360,12 @@ public final class ExtensionConstants {
    */
   public static final String MULE_SDK_TYPE_LOADER_PROPERTY_NAME = MULE_SDK_PREFIX + "typeLoader";
 
+  /**
+   * Property name for referencing an extension's name.
+   *
+   * @since 1.5.0
+   */
+  public static final String VERSION_PROPERTY_NAME = "version";
+
   private ExtensionConstants() {}
 }
