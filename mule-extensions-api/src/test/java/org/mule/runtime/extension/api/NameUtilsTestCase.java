@@ -94,9 +94,10 @@ public class NameUtilsTestCase {
 
   @Test
   public void defaultNamespaceWithCamelCaseWordsSeparatedBySpaces() {
-    assertThat(defaultNamespace("AbCd Efgh"), is("abcd-efgh"));
-    assertThat(defaultNamespace(" AbCd Efgh "), is("abcd-efgh"));
-    assertThat(defaultNamespace("Abcd  EFGh"), is("abcd-efgh"));
+    assertThat(defaultNamespace("AbCd Properties Provider"), is("abcd-properties-provider"));
+    assertThat(defaultNamespace("AbCd properties provider"), is("abcdpropertiesprovider"));
+    assertThat(defaultNamespace(" CoastCapital Properties Provider "), is("coastcapital-properties-provider"));
+    assertThat(defaultNamespace("Coastcapital Properties Provider"), is("coastcapital-properties-provider"));
   }
 
   @Alias(TYPE_ALIAS)

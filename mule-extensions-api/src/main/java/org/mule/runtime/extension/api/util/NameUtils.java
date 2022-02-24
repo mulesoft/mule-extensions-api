@@ -296,24 +296,25 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     namespace = removeEndIgnoreCase(namespace, "module");
 
     if (namespace.contains(SPACE)) {
-      namespace = toProperCase(namespace);
+      namespace = normalize(namespace);
     }
     return hyphenize(isBlank(namespace) ? extensionName : namespace);
   }
 
-  private static String toProperCase(String string) {
+  private static String normalize(String string) {
     if (isBlank(string)) {
       return string;
     }
 
     StringBuilder result = new StringBuilder();
-    String[] parts = string.toLowerCase().split(SPACE);
+    String[] parts = string.split(SPACE);
 
     for (int i = 0; i < parts.length; i++) {
-      result.append(capitalize(parts[i].trim()));
-      if (i < parts.length - 1) {
-        result.append(SPACE);
+      String part = parts[i].trim();
+      if (Character.isUpperCase(part.charAt(0))) {
+        part = capitalize(part.toLowerCase());
       }
+      result.append(part);
     }
     return result.toString();
   }
