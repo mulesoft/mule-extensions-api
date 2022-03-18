@@ -150,9 +150,9 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    */
   @Override
   public Set<String> getSemanticTerms() {
-    // if (semanticTerms == null) {
-    // semanticTerms = emptySet();
-    // }
+    if (semanticTerms == null) {
+      semanticTerms = emptySet();
+    }
     return semanticTerms;
   }
 }
