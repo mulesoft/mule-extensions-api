@@ -44,7 +44,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final boolean isConfigOverride;
   private final boolean isComponentId;
   private final ValueProviderModel valueProviderModel;
-  private final List<FieldValueProviderModel> fieldValueProviderModels;
+  private List<FieldValueProviderModel> fieldValueProviderModels;
   private final ExpressionSupport expressionSupport;
   private final Object defaultValue;
   private final ParameterRole role;
@@ -52,7 +52,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final LayoutModel layoutModel;
   private final List<StereotypeModel> allowedStereotypeModels;
   private final DeprecationModel deprecationModel;
-  private final Set<String> semanticTerms;
+  private Set<String> semanticTerms;
 
   /**
    * Creates a new instance with the given state
@@ -333,6 +333,9 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
 
   @Override
   public List<FieldValueProviderModel> getFieldValueProviderModels() {
+    if (fieldValueProviderModels == null) {
+      fieldValueProviderModels = emptyList();
+    }
     return fieldValueProviderModels;
   }
 
@@ -361,6 +364,9 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    */
   @Override
   public Set<String> getSemanticTerms() {
+    if (semanticTerms == null) {
+      semanticTerms = emptySet();
+    }
     return semanticTerms;
   }
 

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.model;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableSet;
 
@@ -19,6 +20,7 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractStereotypedModel;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,9 +35,9 @@ import com.google.common.collect.ImmutableSet;
 public abstract class AbstractComponentModel extends AbstractStereotypedModel
     implements ComponentModel {
 
-  private final List<? extends NestableElementModel> nestedComponents;
-  private final Set<ErrorModel> errors;
-  private final Set<String> semanticTerms;
+  private List<? extends NestableElementModel> nestedComponents;
+  private Set<ErrorModel> errors;
+  private Set<String> semanticTerms;
 
   /**
    * Creates a new instance
@@ -124,6 +126,9 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    * {@inheritDoc}
    */
   public Set<ErrorModel> getErrorModels() {
+    if (errors == null) {
+      errors = emptySet();
+    }
     return errors;
   }
 
@@ -132,6 +137,9 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    */
   @Override
   public List<? extends NestableElementModel> getNestedComponents() {
+    if (nestedComponents == null) {
+      nestedComponents = emptyList();
+    }
     return nestedComponents;
   }
 
@@ -142,6 +150,9 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    */
   @Override
   public Set<String> getSemanticTerms() {
+    if (semanticTerms == null) {
+      semanticTerms = emptySet();
+    }
     return semanticTerms;
   }
 }

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.model.parameter;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -24,7 +25,7 @@ import java.util.Set;
  */
 public abstract class AbstractParameterizedModel extends AbstractNamedImmutableModel implements ParameterizedModel {
 
-  private final List<ParameterGroupModel> parameterGroupModels;
+  private List<ParameterGroupModel> parameterGroupModels;
 
   /**
    * Creates a new instance
@@ -47,6 +48,9 @@ public abstract class AbstractParameterizedModel extends AbstractNamedImmutableM
 
   @Override
   public List<ParameterGroupModel> getParameterGroupModels() {
+    if (parameterGroupModels == null) {
+      parameterGroupModels = emptyList();
+    }
     return parameterGroupModels;
   }
 }
