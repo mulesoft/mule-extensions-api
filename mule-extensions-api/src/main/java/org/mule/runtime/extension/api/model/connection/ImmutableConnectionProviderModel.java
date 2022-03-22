@@ -32,7 +32,7 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
   private final ConnectionManagementType connectionManagementType;
   private final Set<ExternalLibraryModel> externalLibraryModels;
   private final boolean supportsConnectivityTesting;
-  private final Set<String> semanticTerms;
+  private Set<String> semanticTerms;
 
   /**
    * Creates a new instance with the given state
@@ -155,6 +155,9 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
    */
   @Override
   public Set<String> getSemanticTerms() {
+    if (semanticTerms == null) {
+      semanticTerms = emptySet();
+    }
     return semanticTerms;
   }
 }

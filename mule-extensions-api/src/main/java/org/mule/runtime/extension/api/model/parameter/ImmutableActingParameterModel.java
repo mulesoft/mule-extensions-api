@@ -21,7 +21,7 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
 
   private final String name;
   private final boolean required;
-  private final String extractionExpression;
+  private String extractionExpression;
 
   /**
    * Creates a new instance with the given state
@@ -59,6 +59,9 @@ public class ImmutableActingParameterModel implements ActingParameterModel {
 
   @Override
   public String getExtractionExpression() {
+    if (extractionExpression == null) {
+      extractionExpression = name;
+    }
     return extractionExpression;
   }
 
