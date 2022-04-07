@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
@@ -110,7 +110,7 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
     parameter.addModelProperty(new SyntheticModelModelProperty());
     parameter.setDslConfiguration(ParameterDslConfiguration.builder().allowsReferences(true).build());
     parameter.setType(CONFIG_TYPE, false);
-    parameter.setExpressionSupport(NOT_SUPPORTED);
+    parameter.setExpressionSupport(SUPPORTED);
     parameter.setAllowedStereotypeModels(collectStereotypes(configs));
     return parameter;
   }
