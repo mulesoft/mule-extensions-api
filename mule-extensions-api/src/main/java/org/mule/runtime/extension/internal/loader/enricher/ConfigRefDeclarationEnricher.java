@@ -8,6 +8,7 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
@@ -19,11 +20,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
@@ -79,7 +82,7 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
             return;
           }
 
-          component.getDefaultParameterGroup().addParameter(buildConfigRefParameter(configs));
+          component.getDefaultParameterGroup().addParameter(buildConfigRefParameter(component, configs));
         });
   }
 
@@ -102,7 +105,8 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
     return componentConfigs;
   }
 
-  private ParameterDeclaration buildConfigRefParameter(Collection<ConfigurationDeclaration> configs) {
+  private ParameterDeclaration buildConfigRefParameter(ComponentDeclaration componentDeclaration,
+                                                       Collection<ConfigurationDeclaration> configs) {
     ParameterDeclaration parameter = new ParameterDeclaration(CONFIG_REF_NAME);
     parameter.setDescription("The name of the configuration to be used to execute this component");
     parameter.setRequired(!hasAnImplicitConfig(configs));
@@ -110,7 +114,7 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
     parameter.addModelProperty(new SyntheticModelModelProperty());
     parameter.setDslConfiguration(ParameterDslConfiguration.builder().allowsReferences(true).build());
     parameter.setType(CONFIG_TYPE, false);
-    parameter.setExpressionSupport(SUPPORTED);
+    parameter.setExpressionSupport(expressionSupport(componentDeclaration));
     parameter.setAllowedStereotypeModels(collectStereotypes(configs));
     return parameter;
   }
@@ -137,6 +141,10 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
     }
 
     return parameterized.getAllParameters().stream().noneMatch(ParameterDeclaration::isRequired);
+  }
+
+  private static ExpressionSupport expressionSupport(ComponentDeclaration<?> componentDeclaration) {
+    return componentDeclaration instanceof OperationDeclaration ? SUPPORTED : NOT_SUPPORTED;
   }
 
   private static MetadataType buildConfigRefType() {
