@@ -11,6 +11,7 @@ import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableSet;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -20,7 +21,6 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.model.parameter.AbstractStereotypedModel;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +38,8 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
   private List<? extends NestableElementModel> nestedComponents;
   private Set<ErrorModel> errors;
   private Set<String> semanticTerms;
+
+  private final ComponentVisibility visibility;
 
   /**
    * Creates a new instance
@@ -58,6 +60,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
                                    DisplayModel displayModel,
                                    Set<ErrorModel> errors,
                                    StereotypeModel stereotype,
+                                   ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties) {
     this(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties, null);
   }
@@ -83,6 +86,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
                                    DisplayModel displayModel,
                                    Set<ErrorModel> errors,
                                    StereotypeModel stereotype,
+                                   ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel) {
     this(name, description, parameterGroupModels, nestedComponents, displayModel, errors,
@@ -112,6 +116,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
                                    DisplayModel displayModel,
                                    Set<ErrorModel> errors,
                                    StereotypeModel stereotype,
+                                   ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel,
                                    Set<String> semanticTerms) {
@@ -120,6 +125,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
     this.nestedComponents = copy(nestedComponents);
     this.errors = ImmutableSet.copyOf(errors);
     this.semanticTerms = semanticTerms != null ? unmodifiableSet(semanticTerms) : emptySet();
+    this.visibility = visibility;
   }
 
   /**
@@ -154,5 +160,10 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
       semanticTerms = emptySet();
     }
     return semanticTerms;
+  }
+
+  @Override
+  public ComponentVisibility getVisibility() {
+    return visibility;
   }
 }
