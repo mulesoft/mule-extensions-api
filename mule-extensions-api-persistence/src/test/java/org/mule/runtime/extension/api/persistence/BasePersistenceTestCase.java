@@ -17,6 +17,7 @@ import static java.util.stream.Collectors.toSet;
 import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.ComponentVisibility.PUBLIC;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
@@ -225,7 +226,7 @@ abstract class BasePersistenceTestCase {
                                     emptyList(), outputModel,
                                     outputAttributesModel,
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
-                                    singleton(ERROR_MODEL), PROCESSOR, modelProperties, emptySet(),
+                                    singleton(ERROR_MODEL), PROCESSOR, PUBLIC, modelProperties, emptySet(),
                                     new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"),
                                     defaultSampleDataProviderModel, of("test", "car"));
 
@@ -256,7 +257,7 @@ abstract class BasePersistenceTestCase {
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(), SOURCE, emptySet(),
-                                           emptySet(), emptySet(), null, null, of("test", "source"));
+                                           PUBLIC, emptySet(), emptySet(), null, null, of("test", "source"));
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",

@@ -361,6 +361,7 @@ public final class ExtensionModelFactory {
                                                          declaration.getDisplayModel(),
                                                          declaration.getErrorModels(),
                                                          getProcessorStereotype(declaration.getStereotype()),
+                                                         declaration.getVisibility(),
                                                          declaration.getModelProperties(),
                                                          declaration.getDeprecation().orElse(null)));
     }
@@ -387,6 +388,7 @@ public final class ExtensionModelFactory {
                                                       declaration.getDisplayModel(),
                                                       getSourceStereotypes(declaration),
                                                       declaration.getErrorModels(),
+                                                      declaration.getVisibility(),
                                                       declaration.getModelProperties(),
                                                       declaration.getNotificationModels(),
                                                       declaration.getDeprecation().orElse(null),
@@ -450,6 +452,7 @@ public final class ExtensionModelFactory {
                                                 declaration.getDisplayModel(),
                                                 declaration.getErrorModels(),
                                                 getProcessorStereotype(declaration.getStereotype()),
+                                                declaration.getVisibility(),
                                                 declaration.getModelProperties(),
                                                 declaration.getNotificationModels(),
                                                 declaration.getDeprecation().orElse(null),
@@ -475,6 +478,7 @@ public final class ExtensionModelFactory {
                                              declaration.getMaxOccurs(),
                                              toNestedComponentModels(declaration.getNestedComponents()),
                                              declaration.getStereotype(),
+                                             declaration.getVisibility(),
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
                                              declaration.getSemanticTerms());
@@ -491,6 +495,7 @@ public final class ExtensionModelFactory {
                                              declaration.getDisplayModel(),
                                              declaration.getErrorModels(),
                                              declaration.getStereotype(),
+                                             declaration.getVisibility(),
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
                                              declaration.getSemanticTerms());
@@ -507,6 +512,7 @@ public final class ExtensionModelFactory {
                                                declaration.getDisplayModel(),
                                                declaration.getErrorModels(),
                                                declaration.getStereotype(),
+                                               declaration.getVisibility(),
                                                declaration.getModelProperties(),
                                                (DeprecationModel) declaration.getDeprecation().orElse(null),
                                                declaration.getSemanticTerms());

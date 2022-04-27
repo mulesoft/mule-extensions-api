@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.model.source;
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.data.sample.SampleDataProviderModel;
@@ -57,6 +58,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this source is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
    *             {@link #ImmutableSourceModel(String, String, boolean, boolean, List, List, OutputModel, OutputModel, Optional, Optional, Optional, boolean, boolean, boolean, DisplayModel, StereotypeModel, Set, Set, Set)}
@@ -78,10 +80,11 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               DisplayModel displayModel,
                               StereotypeModel stereotype,
                               Set<ErrorModel> errors,
+                              ComponentVisibility visibility,
                               Set<ModelProperty> modelProperties) {
     this(name, description, hasResponse, false, parameterGroupModels, nestedComponents, output, outputAttributes,
          successCallbackModel, errorCallbackModel, terminateCallbackModel, requiresConnection, transactional, supportsStreaming,
-         displayModel, stereotype, errors, modelProperties, emptySet());
+         displayModel, stereotype, errors, visibility, modelProperties, emptySet());
   }
 
   /**
@@ -102,6 +105,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param supportsStreaming     whether this component supports streaming
    * @param displayModel          a model which contains directive about how this source is displayed in the UI
    * @param stereotype            the {@link StereotypeModel stereotype} of this component
+   * @param visibility            the model's {@link ComponentVisibility}
    * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param notifications         A {@link Set} of {@link NotificationModel} which describes the source's notifications
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
@@ -124,11 +128,13 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               DisplayModel displayModel,
                               StereotypeModel stereotype,
                               Set<ErrorModel> errors,
+                              ComponentVisibility visibility,
                               Set<ModelProperty> modelProperties,
                               Set<NotificationModel> notifications) {
     this(name, description, hasResponse, runsOnPrimaryNodeOnly, parameterGroupModels, nestedComponents, output,
          outputAttributes, successCallbackModel, errorCallbackModel, terminateCallbackModel, requiresConnection,
-         transactional, supportsStreaming, displayModel, stereotype, errors, modelProperties, notifications, null);
+         transactional, supportsStreaming, displayModel, stereotype, errors, visibility, modelProperties, notifications,
+         null);
   }
 
   /**
@@ -149,6 +155,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param supportsStreaming     whether this component supports streaming
    * @param displayModel          a model which contains directive about how this source is displayed in the UI
    * @param stereotype            the {@link StereotypeModel stereotype} of this component
+   * @param visibility            the model's {@link ComponentVisibility}
    * @param modelProperties       A {@link Set} of custom properties which extend this model
    * @param notifications         A {@link Set} of {@link NotificationModel} which describes the source's notifications
    */
@@ -168,11 +175,12 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               DisplayModel displayModel,
                               StereotypeModel stereotype,
                               Set<ErrorModel> errors,
+                              ComponentVisibility visibility,
                               Set<ModelProperty> modelProperties,
                               Set<NotificationModel> notifications,
                               DeprecationModel deprecationModel) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-          supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+          supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, notifications,
           deprecationModel);
     this.hasResponse = hasResponse;
     this.runsOnPrimaryNodeOnly = runsOnPrimaryNodeOnly;
@@ -199,6 +207,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param supportsStreaming       whether this component supports streaming
    * @param displayModel            a model which contains directive about how this source is displayed in the UI
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param visibility              the model's {@link ComponentVisibility}
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the source's notifications
    * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
@@ -221,13 +230,14 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               DisplayModel displayModel,
                               StereotypeModel stereotype,
                               Set<ErrorModel> errors,
+                              ComponentVisibility visibility,
                               Set<ModelProperty> modelProperties,
                               Set<NotificationModel> notifications,
                               DeprecationModel deprecationModel,
                               SampleDataProviderModel sampleDataProviderModel) {
     this(name, description, hasResponse, runsOnPrimaryNodeOnly, parameterGroupModels, nestedComponents, output,
          outputAttributes, successCallbackModel, errorCallbackModel, terminateCallbackModel, requiresConnection,
-         transactional, supportsStreaming, displayModel, stereotype, errors, modelProperties, notifications,
+         transactional, supportsStreaming, displayModel, stereotype, errors, visibility, modelProperties, notifications,
          deprecationModel, sampleDataProviderModel, null);
   }
 
@@ -249,6 +259,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    * @param supportsStreaming       whether this component supports streaming
    * @param displayModel            a model which contains directive about how this source is displayed in the UI
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param visibility              the model's {@link ComponentVisibility}
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the source's notifications
    * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
@@ -272,13 +283,14 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
                               DisplayModel displayModel,
                               StereotypeModel stereotype,
                               Set<ErrorModel> errors,
+                              ComponentVisibility visibility,
                               Set<ModelProperty> modelProperties,
                               Set<NotificationModel> notifications,
                               DeprecationModel deprecationModel,
                               SampleDataProviderModel sampleDataProviderModel,
                               Set<String> semanticTerms) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-          supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+          supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, notifications,
           deprecationModel, sampleDataProviderModel, semanticTerms);
     this.hasResponse = hasResponse;
     this.runsOnPrimaryNodeOnly = runsOnPrimaryNodeOnly;

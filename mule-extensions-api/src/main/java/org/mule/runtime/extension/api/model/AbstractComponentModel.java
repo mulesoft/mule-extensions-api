@@ -50,6 +50,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
@@ -62,7 +63,8 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
                                    StereotypeModel stereotype,
                                    ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties) {
-    this(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties, null);
+    this(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, visibility, modelProperties,
+         null);
   }
 
   /**
@@ -74,6 +76,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
    *                             not deprecated.
@@ -90,7 +93,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel) {
     this(name, description, parameterGroupModels, nestedComponents, displayModel, errors,
-         stereotype, modelProperties, deprecationModel, null);
+         stereotype, visibility, modelProperties, deprecationModel, null);
   }
 
   /**
@@ -102,6 +105,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
    *                             not deprecated.

@@ -6,11 +6,11 @@
  */
 package org.mule.runtime.extension.api.model.nested;
 
-import static java.util.Collections.EMPTY_SET;
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -45,6 +45,7 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
    * @param minOccurs            the minimum amount of times that this component can be used inside the owning one.
    * @param maxOccurs            the maximum number of instances allowed for this route. {@code null} means unbounded.
    * @param childComponents      the route's child components
+   *
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
@@ -54,9 +55,10 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
                                    int minOccurs,
                                    Integer maxOccurs,
                                    List<? extends NestableElementModel> childComponents,
+                                   ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties) {
-    this(name, description, parameterGroupModels, displayModel, minOccurs, maxOccurs, childComponents, null, modelProperties,
-         null, emptySet());
+    this(name, description, parameterGroupModels, displayModel, minOccurs, maxOccurs, childComponents, null, visibility,
+         modelProperties, null, emptySet());
   }
 
   /**
@@ -70,6 +72,7 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
    * @param maxOccurs            the maximum number of instances allowed for this kind of route
    * @param childComponents      the route's child components
    * @param stereotypeModel      this component's stereotype or {@code null} if it doesn't have one
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
    *                             not deprecated.
@@ -84,11 +87,12 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
                                    Integer maxOccurs,
                                    List<? extends NestableElementModel> childComponents,
                                    StereotypeModel stereotypeModel,
+                                   ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel,
                                    Set<String> semanticTerms) {
-    super(name, description, parameterGroupModels, childComponents, displayModel, emptySet(), stereotypeModel, modelProperties,
-          deprecationModel, semanticTerms);
+    super(name, description, parameterGroupModels, childComponents, displayModel, emptySet(), stereotypeModel,
+          visibility, modelProperties, deprecationModel, semanticTerms);
     this.minOccurs = minOccurs;
     this.maxOccurs = maxOccurs;
   }

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.model.nested;
 
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -35,6 +36,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
    * @param isRequired         whether or not this component is required
    * @param allowedStereotypes A {@link Set} of custom properties which extend this model
    * @param displayModel       a model containing directives about how this component is to be displayed in the UI
+   * @param visibility         the model's {@link ComponentVisibility}
    * @param modelProperties    A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
@@ -42,8 +44,9 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    DisplayModel displayModel,
                                    boolean isRequired,
                                    Set<StereotypeModel> allowedStereotypes,
+                                   ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties) {
-    super(name, description, displayModel, isRequired, allowedStereotypes, modelProperties);
+    super(name, description, displayModel, isRequired, allowedStereotypes, visibility, modelProperties);
   }
 
   /**
@@ -57,6 +60,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
    *                             not deprecated.
@@ -73,6 +77,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    DisplayModel displayModel,
                                    Set<ErrorModel> errors,
                                    StereotypeModel stereotype,
+                                   ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel,
                                    Set<String> semanticTerms) {
@@ -86,6 +91,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
           displayModel,
           errors,
           stereotype,
+          visibility,
           modelProperties,
           deprecationModel,
           semanticTerms);
