@@ -273,6 +273,8 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * @param artifactCoordinates   The extension's {@link ArtifactCoordinates}
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
    *                                  with non unique names, or if {@code name} is blank.
+   *
+   * @since 1.5
    */
   public ImmutableExtensionModel(String name,
                                  String description,
