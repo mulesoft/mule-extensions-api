@@ -39,7 +39,7 @@
           "classSimpleName": "AbstractComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -49,7 +49,7 @@
           "classSimpleName": "AbstractComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -59,7 +59,7 @@
           "classSimpleName": "AbstractComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -69,7 +69,7 @@
           "classSimpleName": "AbstractExecutableComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -79,7 +79,7 @@
           "classSimpleName": "AbstractExecutableComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -89,7 +89,7 @@
           "classSimpleName": "AbstractExecutableComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -99,7 +99,7 @@
           "classSimpleName": "AbstractExecutableComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -109,7 +109,7 @@
           "classSimpleName": "AbstractExecutableComponentModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -119,7 +119,7 @@
           "classSimpleName": "ImmutableOperationModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -129,7 +129,7 @@
           "classSimpleName": "ImmutableOperationModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -139,7 +139,7 @@
           "classSimpleName": "ImmutableOperationModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -149,7 +149,7 @@
           "classSimpleName": "ImmutableOperationModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -159,7 +159,7 @@
           "classSimpleName": "ImmutableOperationModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -169,7 +169,7 @@
           "classSimpleName": "ImmutableSourceModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -179,7 +179,7 @@
           "classSimpleName": "ImmutableSourceModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -189,7 +189,7 @@
           "classSimpleName": "ImmutableSourceModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -199,7 +199,7 @@
           "classSimpleName": "ImmutableSourceModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         },
         {
           "code": "java.method.numberOfParametersChanged",
@@ -209,7 +209,7 @@
           "classSimpleName": "ImmutableSourceModel",
           "methodName": "<init>",
           "elementKind": "constructor",
-          "justification": "Added ComponentVisibility"
+          "justification": "W-10618625: Added ComponentVisibility"
         }
       ]
     }
