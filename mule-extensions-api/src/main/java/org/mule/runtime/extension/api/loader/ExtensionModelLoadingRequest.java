@@ -10,6 +10,7 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
+import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 
@@ -93,6 +94,20 @@ public final class ExtensionModelLoadingRequest {
     }
 
     /**
+     * Registers a {@link ArtifactCoordinates}
+     *
+     * @param artifactCoordinates to be set
+     * @return {@code this} builder
+     * @throws IllegalArgumentException if the artifactCoordinates is {@code null}
+     */
+    public Builder setArtifactCoordinates(ArtifactCoordinates artifactCoordinates) {
+      checkArgument(artifactCoordinates != null, "artifactCoordinates cannot be null");
+      product.artifactCoordinates = artifactCoordinates;
+
+      return this;
+    }
+
+    /**
      * @return The built request
      */
     public ExtensionModelLoadingRequest build() {
@@ -114,6 +129,7 @@ public final class ExtensionModelLoadingRequest {
   private final List<ExtensionModelValidator> validators = new LinkedList<>();
   private final List<DeclarationEnricher> enrichers = new LinkedList<>();
   private final Map<String, Object> parameters = new HashMap<>();
+  private ArtifactCoordinates artifactCoordinates;
 
   private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
@@ -156,5 +172,12 @@ public final class ExtensionModelLoadingRequest {
    */
   public Map<String, Object> getParameters() {
     return unmodifiableMap(parameters);
+  }
+
+  /**
+   * @return the {@link ArtifactCoordinates} of the Extension
+   */
+  public ArtifactCoordinates getArtifactCoordinates() {
+    return artifactCoordinates;
   }
 }

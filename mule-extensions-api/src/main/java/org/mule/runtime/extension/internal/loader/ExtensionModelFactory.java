@@ -292,7 +292,8 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getPrivilegedPackages(), extensionDeclaration.getPrivilegedArtifacts(),
                                       extensionDeclaration.getModelProperties(),
                                       extensionDeclaration.getNotificationModels(),
-                                      extensionDeclaration.getDeprecation().orElse(null));
+                                      extensionDeclaration.getDeprecation().orElse(null),
+                                      extensionDeclaration.getArtifactCoordinates().orElse(null));
 
       return extensionModel;
     }

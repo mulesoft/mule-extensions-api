@@ -96,6 +96,7 @@ public abstract class ExtensionModelLoader {
     currentThread().setContextClassLoader(request.getExtensionClassLoader());
     try {
       declareExtension(ctx);
+      ctx.getExtensionDeclarer().withArtifactCoordinates(request.getArtifactCoordinates());
       return factory.create(ctx);
     } finally {
       currentThread().setContextClassLoader(currentClassLoader);
