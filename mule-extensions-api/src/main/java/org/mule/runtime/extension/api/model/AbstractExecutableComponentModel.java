@@ -10,7 +10,11 @@ import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.message.Message;
-import org.mule.runtime.api.meta.model.*;
+import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.ComponentVisibility;
+import org.mule.runtime.api.meta.model.ConnectableComponentModel;
+import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.data.sample.SampleDataProviderModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
