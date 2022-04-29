@@ -100,7 +100,7 @@ public final class ExtensionModelLoadingRequest {
      * @return {@code this} builder
      * @throws IllegalArgumentException if the artifactCoordinates is {@code null}
      */
-    public Builder addArtifactCoordinates(ArtifactCoordinates artifactCoordinates) {
+    public Builder setArtifactCoordinates(ArtifactCoordinates artifactCoordinates) {
       checkArgument(artifactCoordinates != null, "artifactCoordinates cannot be null");
       product.artifactCoordinates = artifactCoordinates;
 
