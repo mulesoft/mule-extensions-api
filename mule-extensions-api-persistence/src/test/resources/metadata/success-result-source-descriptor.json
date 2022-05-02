@@ -648,6 +648,7 @@
       "test",
       "source"
     ],
+    "visibility": "PUBLIC",
     "stereotype": {
       "type": "SOURCE",
       "namespace": "MULE"

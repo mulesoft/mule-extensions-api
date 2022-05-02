@@ -78,6 +78,7 @@
       "test",
       "car"
     ],
+    "visibility": "PUBLIC",
     "stereotype": {
       "type": "PROCESSOR",
       "namespace": "MULE"
