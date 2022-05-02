@@ -68,6 +68,7 @@
         "test",
         "car"
       ],
+      "visibility": "PUBLIC",
       "stereotype": {
         "type": "PROCESSOR",
         "namespace": "MULE"
@@ -847,6 +848,7 @@
       "nestedComponents": [],
       "errors": [],
       "semanticTerms": [],
+      "visibility": "PUBLIC",
       "stereotype": {
         "type": "PROCESSOR",
         "namespace": "MULE"
@@ -900,6 +902,7 @@
           "minOccurs": 1,
           "errors": [],
           "semanticTerms": [],
+          "visibility": "PUBLIC",
           "parameterGroupModels": [],
           "name": "when",
           "description": "",
@@ -918,6 +921,7 @@
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
+              "visibility": "PUBLIC",
               "parameterGroupModels": [],
               "name": "processors",
               "description": "",
@@ -936,6 +940,7 @@
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
+              "visibility": "PUBLIC",
               "parameterGroupModels": [
                 {
                   "parameters": [
@@ -986,6 +991,7 @@
           "maxOccurs": 1,
           "errors": [],
           "semanticTerms": [],
+          "visibility": "PUBLIC",
           "parameterGroupModels": [],
           "name": "otherwise",
           "description": "",
@@ -1004,6 +1010,7 @@
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
+              "visibility": "PUBLIC",
               "parameterGroupModels": [],
               "name": "processors",
               "description": "",
@@ -1016,6 +1023,7 @@
       ],
       "errors": [],
       "semanticTerms": [],
+      "visibility": "PUBLIC",
       "stereotype": {
         "type": "PROCESSOR",
         "namespace": "MULE"
@@ -1829,6 +1837,7 @@
         "test",
         "source"
       ],
+      "visibility": "PUBLIC",
       "stereotype": {
         "type": "SOURCE",
         "namespace": "MULE"
