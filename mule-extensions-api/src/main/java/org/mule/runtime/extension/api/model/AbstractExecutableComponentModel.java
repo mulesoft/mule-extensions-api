@@ -11,6 +11,7 @@ import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
@@ -60,6 +61,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @throws IllegalArgumentException if {@code name} is blank
@@ -79,10 +81,11 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              DisplayModel displayModel,
                                              Set<ErrorModel> errors,
                                              StereotypeModel stereotype,
+                                             ComponentVisibility visibility,
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents) {
     this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
-         displayModel, errors, stereotype, modelProperties, nestedComponents, emptySet());
+         displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, emptySet());
   }
 
   /**
@@ -98,6 +101,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param notifications        A {@link Set} of {@link NotificationModel} which describes the component's notifications
@@ -114,11 +118,12 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              DisplayModel displayModel,
                                              Set<ErrorModel> errors,
                                              StereotypeModel stereotype,
+                                             ComponentVisibility visibility,
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents,
                                              Set<NotificationModel> notifications) {
     this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-         supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+         supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, notifications,
          null);
   }
 
@@ -135,6 +140,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param supportsStreaming    whether this component supports streaming
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param notifications        A {@link Set} of {@link NotificationModel} which describes the component's notifications
@@ -153,12 +159,13 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              DisplayModel displayModel,
                                              Set<ErrorModel> errors,
                                              StereotypeModel stereotype,
+                                             ComponentVisibility visibility,
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents,
                                              Set<NotificationModel> notifications,
                                              DeprecationModel deprecationModel) {
     this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-         supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+         supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, notifications,
          null, null);
   }
 
@@ -176,6 +183,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param supportsStreaming       whether this component supports streaming
    * @param displayModel            a model which contains directive about how this component is displayed in the UI
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param visibility              the model's {@link ComponentVisibility}
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param nestedComponents        a {@link List} with the components contained by this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the component's notifications
@@ -197,13 +205,14 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              DisplayModel displayModel,
                                              Set<ErrorModel> errors,
                                              StereotypeModel stereotype,
+                                             ComponentVisibility visibility,
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents,
                                              Set<NotificationModel> notifications,
                                              DeprecationModel deprecationModel,
                                              SampleDataProviderModel sampleDataProviderModel) {
     this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional,
-         supportsStreaming, displayModel, errors, stereotype, modelProperties, nestedComponents, notifications,
+         supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, notifications,
          deprecationModel, sampleDataProviderModel, null);
   }
 
@@ -221,6 +230,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
    * @param supportsStreaming       whether this component supports streaming
    * @param displayModel            a model which contains directive about how this component is displayed in the UI
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param visibility              the model's {@link ComponentVisibility}
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param nestedComponents        a {@link List} with the components contained by this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the component's notifications
@@ -243,13 +253,15 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              DisplayModel displayModel,
                                              Set<ErrorModel> errors,
                                              StereotypeModel stereotype,
+                                             ComponentVisibility visibility,
                                              Set<ModelProperty> modelProperties,
                                              List<? extends NestableElementModel> nestedComponents,
                                              Set<NotificationModel> notifications,
                                              DeprecationModel deprecationModel,
                                              SampleDataProviderModel sampleDataProviderModel,
                                              Set<String> semanticTerms) {
-    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties,
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, visibility,
+          modelProperties,
           deprecationModel, semanticTerms);
     this.output = output;
     this.outputAttributes = outputAttributes;

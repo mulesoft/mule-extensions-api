@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.model.construct;
 
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -39,6 +40,7 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
    * @param allowsTopLevelDefinition whether or not {@code this} model can be declared as a root component in the application
    * @param displayModel             a model which contains directive about how this operation is displayed in the UI
    * @param stereotype               the {@link StereotypeModel stereotype} of this component
+   * @param visibility               the model's {@link ComponentVisibility}
    * @param modelProperties          A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    */
@@ -50,9 +52,10 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties) {
     this(name, description, parameterGroupModels, nestedComponents, allowsTopLevelDefinition, displayModel, errors, stereotype,
-         modelProperties, null);
+         visibility, modelProperties, null);
   }
 
   /**
@@ -65,6 +68,7 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
    * @param allowsTopLevelDefinition whether or not {@code this} model can be declared as a root component in the application
    * @param displayModel             a model which contains directive about how this operation is displayed in the UI
    * @param stereotype               the {@link StereotypeModel stereotype} of this component
+   * @param visibility               the model's {@link ComponentVisibility}
    * @param modelProperties          A {@link Set} of custom properties which extend this model
    * @param deprecationModel         a {@link DeprecationModel} describing if the construct is deprecated. A null value means it
    *                                 is not deprecated.
@@ -78,10 +82,11 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties,
                                  DeprecationModel deprecationModel) {
     this(name, description, parameterGroupModels, nestedComponents, allowsTopLevelDefinition, displayModel, errors, stereotype,
-         modelProperties,
+         visibility, modelProperties,
          deprecationModel, null);
   }
 
@@ -95,6 +100,7 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
    * @param allowsTopLevelDefinition whether or not {@code this} model can be declared as a root component in the application
    * @param displayModel             a model which contains directive about how this operation is displayed in the UI
    * @param stereotype               the {@link StereotypeModel stereotype} of this component
+   * @param visibility               the model's {@link ComponentVisibility}
    * @param modelProperties          A {@link Set} of custom properties which extend this model
    * @param deprecationModel         a {@link DeprecationModel} describing if the construct is deprecated. A null value means it
    *                                 is not deprecated.
@@ -108,10 +114,12 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties,
                                  DeprecationModel deprecationModel,
                                  Set<String> semanticTerms) {
-    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties,
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, visibility,
+          modelProperties,
           deprecationModel, semanticTerms);
     this.allowsTopLevelDefinition = allowsTopLevelDefinition;
   }

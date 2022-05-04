@@ -68,6 +68,7 @@
         "test",
         "car"
       ],
+      "visibility": "PUBLIC",
       "stereotype": {
         "type": "PROCESSOR",
         "namespace": "MULE"
@@ -847,6 +848,7 @@
       "nestedComponents": [],
       "errors": [],
       "semanticTerms": [],
+      "visibility": "PUBLIC",
       "stereotype": {
         "type": "PROCESSOR",
         "namespace": "MULE"
@@ -901,6 +903,7 @@
           "errors": [],
           "semanticTerms": [],
           "parameterGroupModels": [],
+          "visibility": "PUBLIC",
           "name": "when",
           "description": "",
           "modelProperties": {},
@@ -916,6 +919,7 @@
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
+              "visibility": "PUBLIC",
               "parameterGroupModels": [],
               "name": "processors",
               "description": "",
@@ -931,6 +935,7 @@
                 }
               ],
               "nestedComponents": [],
+              "visibility": "PUBLIC",
               "errors": [],
               "semanticTerms": [],
               "parameterGroupModels": [
@@ -983,6 +988,7 @@
           "maxOccurs": 1,
           "errors": [],
           "semanticTerms": [],
+          "visibility": "PUBLIC",
           "parameterGroupModels": [],
           "name": "otherwise",
           "description": "",
@@ -999,6 +1005,7 @@
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
+              "visibility": "PUBLIC",
               "parameterGroupModels": [],
               "name": "processors",
               "description": "",
@@ -1011,6 +1018,7 @@
       ],
       "errors": [],
       "semanticTerms": [],
+      "visibility": "PUBLIC",
       "stereotype": {
         "type": "PROCESSOR",
         "namespace": "MULE"
@@ -1820,6 +1828,7 @@
       "notifications": [],
       "nestedComponents": [],
       "errors": [],
+      "visibility": "PUBLIC",
       "semanticTerms": [
         "test",
         "source"

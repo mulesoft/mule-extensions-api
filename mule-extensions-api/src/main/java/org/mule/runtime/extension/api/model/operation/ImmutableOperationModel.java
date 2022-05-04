@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.model.operation;
 import static java.util.Collections.emptySet;
 
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.data.sample.SampleDataProviderModel;
@@ -53,6 +54,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
    * @deprecated This constructor is deprecated and will be removed in Mule 5. Use
@@ -73,9 +75,11 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties) {
     this(name, description, parameterGroupModels, nestedComponents, output, outputAttributes, blocking, executionType,
-         requiresConnection, transactional, supportsStreaming, displayModel, errors, stereotype, modelProperties, emptySet());
+         requiresConnection, transactional, supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties,
+         emptySet());
   }
 
   /**
@@ -95,6 +99,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param notifications        A {@link Set} of {@link NotificationModel} which describes the operation's notifications
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
@@ -112,11 +117,12 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties,
                                  Set<NotificationModel> notifications) {
     this(name, description, parameterGroupModels, nestedComponents, output, outputAttributes, blocking, executionType,
-         requiresConnection, transactional, supportsStreaming, displayModel, errors, stereotype, modelProperties, notifications,
-         null);
+         requiresConnection, transactional, supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties,
+         notifications, null);
   }
 
   /**
@@ -136,6 +142,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param displayModel         a model which contains directive about how this operation is displayed in the UI
    * @param errors               A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param notifications        A {@link Set} of {@link NotificationModel} which describes the operation's notifications
    * @param deprecationModel     a {@link DeprecationModel} describing if the operation is deprecated. A null value means it is
@@ -155,11 +162,12 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties,
                                  Set<NotificationModel> notifications,
                                  DeprecationModel deprecationModel) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
-          displayModel, errors, stereotype, modelProperties, nestedComponents, notifications, deprecationModel);
+          displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, notifications, deprecationModel);
     this.blocking = blocking;
     this.executionType = executionType;
 
@@ -182,6 +190,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param displayModel            a model which contains directive about how this operation is displayed in the UI
    * @param errors                  A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param visibility              the model's {@link ComponentVisibility}
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the operation's notifications
    * @param deprecationModel        a {@link DeprecationModel} describing if the operation is deprecated. A null value means it is
@@ -204,12 +213,13 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties,
                                  Set<NotificationModel> notifications,
                                  DeprecationModel deprecationModel,
                                  SampleDataProviderModel sampleDataProviderModel) {
     this(name, description, parameterGroupModels, nestedComponents, output, outputAttributes, blocking, executionType,
-         requiresConnection, transactional, supportsStreaming, displayModel, errors, stereotype, modelProperties,
+         requiresConnection, transactional, supportsStreaming, displayModel, errors, stereotype, visibility, modelProperties,
          notifications, deprecationModel, sampleDataProviderModel, null);
   }
 
@@ -230,6 +240,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param displayModel            a model which contains directive about how this operation is displayed in the UI
    * @param errors                  A {@link Set} with all the {@link ErrorModel} that are declared to be thrown by the operation
    * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param visibility              the model's {@link ComponentVisibility}
    * @param modelProperties         A {@link Set} of custom properties which extend this model
    * @param notifications           A {@link Set} of {@link NotificationModel} which describes the operation's notifications
    * @param deprecationModel        a {@link DeprecationModel} describing if the operation is deprecated. A null value means it is
@@ -253,13 +264,14 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
                                  DisplayModel displayModel,
                                  Set<ErrorModel> errors,
                                  StereotypeModel stereotype,
+                                 ComponentVisibility visibility,
                                  Set<ModelProperty> modelProperties,
                                  Set<NotificationModel> notifications,
                                  DeprecationModel deprecationModel,
                                  SampleDataProviderModel sampleDataProviderModel,
                                  Set<String> semanticTerms) {
     super(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
-          displayModel, errors, stereotype, modelProperties, nestedComponents, notifications, deprecationModel,
+          displayModel, errors, stereotype, visibility, modelProperties, nestedComponents, notifications, deprecationModel,
           sampleDataProviderModel, semanticTerms);
     this.blocking = blocking;
     this.executionType = executionType;

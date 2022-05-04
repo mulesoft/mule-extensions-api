@@ -11,6 +11,7 @@ import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
+import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -52,6 +53,7 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
    * @param isRequired         whether or not this component is required
    * @param allowedStereotypes A {@link Set} of custom properties which extend this model
    * @param displayModel       a model containing directives about how this component is to be displayed in the UI
+   * @param visibility         the model's {@link ComponentVisibility}
    * @param modelProperties    A {@link Set} of custom properties which extend this model
    * @throws IllegalArgumentException if {@code name} is blank
    */
@@ -59,9 +61,10 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
                                        DisplayModel displayModel,
                                        boolean isRequired,
                                        Set<StereotypeModel> allowedStereotypes,
+                                       ComponentVisibility visibility,
                                        Set<ModelProperty> modelProperties) {
     this(name, description, emptyList(), isRequired ? 1 : 0, 1, allowedStereotypes, emptyList(), displayModel, emptySet(),
-         null, modelProperties, null, emptySet());
+         null, visibility, modelProperties, null, emptySet());
   }
 
   /**
@@ -77,6 +80,7 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
    * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
    * @param modelProperties      A {@link Set} of custom properties which extend this model
    * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
    *                             not deprecated.
@@ -94,10 +98,12 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
                                        DisplayModel displayModel,
                                        Set<ErrorModel> errors,
                                        StereotypeModel stereotype,
+                                       ComponentVisibility visibility,
                                        Set<ModelProperty> modelProperties,
                                        DeprecationModel deprecationModel,
                                        Set<String> semanticTerms) {
-    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, modelProperties,
+    super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, visibility,
+          modelProperties,
           deprecationModel, semanticTerms);
     this.isRequired = minOccurs > 0;
     this.minOccurs = minOccurs;

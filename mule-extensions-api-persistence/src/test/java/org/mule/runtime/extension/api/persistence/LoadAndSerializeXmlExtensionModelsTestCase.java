@@ -19,6 +19,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.model.ComponentVisibility.PUBLIC;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
@@ -92,7 +93,8 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
                                                                           emptyList(), outputModel,
                                                                           outputAttributesModel,
                                                                           true, CPU_LITE, false, false, false,
-                                                                          defaultDisplayModel, emptySet(), PROCESSOR, emptySet(),
+                                                                          defaultDisplayModel, emptySet(), PROCESSOR, PUBLIC,
+                                                                          emptySet(),
                                                                           emptySet(), null);
 
     originalExtensionModel =
