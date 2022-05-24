@@ -19,6 +19,7 @@ import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuil
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.internal.property.NoStreamingConfigurationModelProperty;
 import org.mule.runtime.extension.internal.property.PagedOperationModelProperty;
 
 import java.io.InputStream;
@@ -54,19 +55,21 @@ public class StreamingDeclarationEnricher implements DeclarationEnricher {
   }
 
   private void enrich(ExecutableComponentDeclaration declaration) {
-    if (declaration.isSupportsStreaming()) {
-      MetadataType type;
-      QName qName;
-      if (declaration.getModelProperty(PagedOperationModelProperty.class).isPresent()) {
-        type = new StreamingStrategyTypeBuilder().getObjectStreamingStrategyType();
-        qName = MULE_ABSTRACT_OBJECT_STREAMING_STRATEGY_QNAME;
-      } else {
-        type = new StreamingStrategyTypeBuilder().getByteStreamingStrategyType();
-        qName = MULE_ABSTRACT_BYTE_STREAMING_STRATEGY_QNAME;
-      }
-
-      addStreamingParameter(declaration, type, qName);
+    if (!declaration.isSupportsStreaming()
+        || declaration.getModelProperty(NoStreamingConfigurationModelProperty.class).isPresent()) {
+      return;
     }
+    MetadataType type;
+    QName qName;
+    if (declaration.getModelProperty(PagedOperationModelProperty.class).isPresent()) {
+      type = new StreamingStrategyTypeBuilder().getObjectStreamingStrategyType();
+      qName = MULE_ABSTRACT_OBJECT_STREAMING_STRATEGY_QNAME;
+    } else {
+      type = new StreamingStrategyTypeBuilder().getByteStreamingStrategyType();
+      qName = MULE_ABSTRACT_BYTE_STREAMING_STRATEGY_QNAME;
+    }
+
+    addStreamingParameter(declaration, type, qName);
   }
 
 }
