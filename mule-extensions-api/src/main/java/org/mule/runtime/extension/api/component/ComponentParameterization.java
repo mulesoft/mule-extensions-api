@@ -6,8 +6,13 @@
  */
 package org.mule.runtime.extension.api.component;
 
+import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
+import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.internal.component.ComponentParameterizationBuilder;
+
+import java.util.Map;
 
 /**
  * Represents a specific configuration for a concrete {@link ParameterizedModel}.
@@ -37,7 +42,29 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
   Object getParameter(String paramGroupName, String paramName);
 
   /**
-   * Iterates through the parameters and calls the provided {@code action} on each one.
+   * Obtains the value of a parameter of the declared component.
+   * 
+   * @param paramGroup the model of the parameter group
+   * @param param      the model of the parameter within the group
+   * @return the value of the parameter.
+   */
+  // TODO W-11214395 determine how complex parameters will be represented.
+  Object getParameter(ParameterGroupModel paramGroup, ParameterModel param);
+
+  /**
+   * Returns all the parameters of the declared model that have values.
+   * <p>
+   * Parameters with a default value but no explicit value set are contained in the returned map.
+   * 
+   * @return the parameters as a map.
+   */
+  // TODO W-11214395 determine how complex parameters will be represented.
+  Map<Pair<ParameterGroupModel, ParameterModel>, Object> getParameters();
+
+  /**
+   * Iterates through the parameters that have values and calls the provided {@code action} on each one.
+   * <p>
+   * Parameters with a default value but no explicit value set have the action called for.
    * 
    * @param action a callback to be called for every parameter.
    */
@@ -50,7 +77,7 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
   public interface ParameterAction {
 
     // TODO W-11214395 determine how complex parameters will be represented.
-    void accept(String paramGroupName, String paramName, Object paramValue);
+    void accept(ParameterGroupModel paramGroup, ParameterModel param, Object paramValue);
   }
 
   /**
@@ -81,6 +108,17 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      *                                  a valid type.
      */
     Builder<M> withParameter(String paramGroupName, String paramName, Object paramValue) throws IllegalArgumentException;
+
+    /**
+     * Sets a parameter with a given value, automatically determining the group the parameter belongs to.
+     * 
+     * @param paramName  the name of the parameter within the {@code paramGroupName} group to set.
+     * @param paramValue the value of the parameter to set
+     * @return this builder
+     * @throws IllegalArgumentException if the provided parameter name does not exist for the {@code model}, a parameter with the
+     *                                  same name exists in more than on parameter group, or is not of a valid type.
+     */
+    Builder<M> withParameter(String paramName, Object paramValue) throws IllegalArgumentException;
   }
 
   /**
