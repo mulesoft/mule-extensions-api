@@ -113,6 +113,7 @@ import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclar
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.validator.BackPressureModelValidator;
+import org.mule.runtime.extension.internal.loader.validator.ConfigurationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ContentParameterModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ExclusiveParameterModelValidator;
@@ -199,7 +200,9 @@ public final class ExtensionModelFactory {
                                                        new ValidatorModelValidator(),
                                                        new NameModelValidator(),
                                                        new BackPressureModelValidator(),
-                                                       new NoWrapperModelValidator()));
+                                                       new NoWrapperModelValidator(),
+                                                       new ConnectionProviderNameModelValidator(),
+                                                       new ConfigurationModelValidator()));
 
     validate = isTestingMode() || isForceExtensionValidation();
   }
