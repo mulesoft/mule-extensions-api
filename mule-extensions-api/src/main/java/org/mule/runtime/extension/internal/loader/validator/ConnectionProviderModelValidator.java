@@ -20,7 +20,7 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
  * 
  * This validator makes sure that:
  * <ul>
- * <li>No parameter of any {@link ConnectionProviderModel} is defined as a confiuration override</li>
+ * <li>No parameter of any {@link ConnectionProviderModel} is defined as a configuration override</li>
  * </ul>
  *
  * @since 1.5
