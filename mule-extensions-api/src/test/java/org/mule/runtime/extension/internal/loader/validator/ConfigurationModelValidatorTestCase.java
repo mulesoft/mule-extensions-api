@@ -112,7 +112,7 @@ public class ConfigurationModelValidatorTestCase {
   @Test
   public void configurationWithNonSyntheticNameParameter() {
     when(nameParameterModel.getModelProperty(SyntheticModelModelProperty.class)).thenReturn(empty());
-    validateError("");
+    validateError("Configuration '" + CONFIG_NAME + "' declares a parameter whose name is 'name', which is not allowed");
   }
 
   private void validate() {
