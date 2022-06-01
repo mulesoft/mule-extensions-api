@@ -39,6 +39,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
 import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
+import org.mule.runtime.extension.internal.property.NoTransactionalActionModelProperty;
 import org.mule.runtime.extension.internal.property.TransactionalActionModelProperty;
 import org.mule.runtime.extension.internal.property.TransactionalTypeModelProperty;
 
@@ -111,24 +112,25 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
     private void addTxParameter(String parameterName, MetadataType metadataType, MetadataType sdkMetadataType,
                                 Object defaultValue, Object sdkDefaultValue, String description,
                                 ExecutableComponentDeclaration<?> declaration, ModelProperty modelProperty) {
-      if (declaration.isTransactional()) {
-        Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
-        Optional<ParameterDeclaration> sdkParameterDeclaration = isPresent(declaration, sdkMetadataType);
-        if (parameterDeclaration.isPresent() && sdkParameterDeclaration.isPresent()) {
-          throw new IllegalModelDefinitionException(format("Component '%s' has transactional parameters from different APIs. Offending parameters are '%s' and '%s'.",
-                                                           declaration.getName(),
-                                                           parameterDeclaration.get().getName(),
-                                                           sdkParameterDeclaration.get().getName()));
-        } else if (parameterDeclaration.isPresent()) {
-          enrichTransactionParameter(defaultValue, description, parameterDeclaration.get(), modelProperty);
-        } else if (sdkParameterDeclaration.isPresent()) {
-          enrichTransactionParameter(sdkDefaultValue, description, sdkParameterDeclaration.get(), modelProperty);
-        } else {
-          ParameterDeclaration transactionParameter = new ParameterDeclaration(parameterName);
-          transactionParameter.setType(sdkMetadataType, false);
-          enrichTransactionParameter(sdkDefaultValue, description, transactionParameter, modelProperty);
-          declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(transactionParameter);
-        }
+      if (!declaration.isTransactional() || declaration.getModelProperty(NoTransactionalActionModelProperty.class).isPresent()) {
+        return;
+      }
+      Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
+      Optional<ParameterDeclaration> sdkParameterDeclaration = isPresent(declaration, sdkMetadataType);
+      if (parameterDeclaration.isPresent() && sdkParameterDeclaration.isPresent()) {
+        throw new IllegalModelDefinitionException(format("Component '%s' has transactional parameters from different APIs. Offending parameters are '%s' and '%s'.",
+                                                         declaration.getName(),
+                                                         parameterDeclaration.get().getName(),
+                                                         sdkParameterDeclaration.get().getName()));
+      } else if (parameterDeclaration.isPresent()) {
+        enrichTransactionParameter(defaultValue, description, parameterDeclaration.get(), modelProperty);
+      } else if (sdkParameterDeclaration.isPresent()) {
+        enrichTransactionParameter(sdkDefaultValue, description, sdkParameterDeclaration.get(), modelProperty);
+      } else {
+        ParameterDeclaration transactionParameter = new ParameterDeclaration(parameterName);
+        transactionParameter.setType(sdkMetadataType, false);
+        enrichTransactionParameter(sdkDefaultValue, description, transactionParameter, modelProperty);
+        declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(transactionParameter);
       }
     }
 
