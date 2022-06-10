@@ -49,6 +49,9 @@ public class ConfigurationModelValidatorTestCase {
   public static final String OPERATION_NAME = "operation";
   public static final String PARAMETER_NAME = "parameterName";
 
+  public static final String ALLOWLISTED_EXTENSION_NAME = "cxf";
+  public static final String ALLOWLISTED_CONFIGURATION_NAME = "wsSecurity";
+
   @Rule
   public ExpectedException expectedException = none();
 
@@ -113,6 +116,14 @@ public class ConfigurationModelValidatorTestCase {
   public void configurationWithNonSyntheticNameParameter() {
     when(nameParameterModel.getModelProperty(SyntheticModelModelProperty.class)).thenReturn(empty());
     validateError("Configuration '" + CONFIG_NAME + "' declares a parameter whose name is 'name', which is not allowed");
+  }
+
+  @Test
+  public void configurationWithNonSyntheticNameParameterFromAllowList() {
+    when(extensionModel.getName()).thenReturn(ALLOWLISTED_EXTENSION_NAME);
+    when(configurationModel.getName()).thenReturn(ALLOWLISTED_CONFIGURATION_NAME);
+    when(nameParameterModel.getModelProperty(SyntheticModelModelProperty.class)).thenReturn(empty());
+    validate();
   }
 
   private void validate() {
