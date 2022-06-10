@@ -44,7 +44,7 @@ public final class ConfigurationModelValidator implements ExtensionModelValidato
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
 
-    Set<String> allowListed = allowlistedExtensionsConfigurations.getOrDefault(model, emptySet());
+    Set<String> allowListed = allowlistedExtensionsConfigurations.getOrDefault(model.getName(), emptySet());
 
     new ExtensionWalker() {
 

@@ -123,6 +123,7 @@ public class ConfigurationModelValidatorTestCase {
     when(extensionModel.getName()).thenReturn(ALLOWLISTED_EXTENSION_NAME);
     when(configurationModel.getName()).thenReturn(ALLOWLISTED_CONFIGURATION_NAME);
     when(nameParameterModel.getModelProperty(SyntheticModelModelProperty.class)).thenReturn(empty());
+    validate();
   }
 
   private void validate() {
