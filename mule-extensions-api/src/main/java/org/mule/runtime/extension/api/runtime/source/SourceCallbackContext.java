@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.runtime.source;
 
+import static org.mule.sdk.api.runtime.source.SdkDistributedTraceContextMapGetter.emptyTraceContextMapGetter;
+
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.metadata.TypedValue;
@@ -16,6 +18,7 @@ import org.mule.runtime.extension.api.notification.NotificationActionDefinition;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.tx.TransactionHandle;
 import org.mule.sdk.api.annotation.MinMuleVersion;
+import org.mule.sdk.api.runtime.source.SdkDistributedTraceContextMapGetter;
 
 import java.util.Optional;
 
@@ -128,4 +131,16 @@ public interface SourceCallbackContext {
    * @since 4.1
    */
   void fireOnHandle(NotificationActionDefinition<?> action, TypedValue<?> data);
+
+  /**
+   * @param sdkTraceContextMapGetter the {@link SdkDistributedTraceContextMapGetter} associated to the source.
+   */
+  default void setSdkTraceContextMapGetter(SdkDistributedTraceContextMapGetter sdkTraceContextMapGetter) {};
+
+  /**
+   * @return the {@link SdkDistributedTraceContextMapGetter} associated to the source.
+   */
+  default SdkDistributedTraceContextMapGetter getSdkTraceContextMapGetter() {
+    return emptyTraceContextMapGetter();
+  }
 }
