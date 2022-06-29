@@ -92,7 +92,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
       parametersByNames = unmodifiableMap(parameters.entrySet().stream()
           .collect(toMap(e -> new Pair<>(e.getKey().getFirst().getName(), e.getKey().getSecond().getName()),
-                         identity())));
+                         e -> e.getValue())));
     }
 
     @Override
