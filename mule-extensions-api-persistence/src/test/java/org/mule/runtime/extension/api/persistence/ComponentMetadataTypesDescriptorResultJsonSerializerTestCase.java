@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;
 import static org.junit.Assert.assertThat;
@@ -16,8 +17,12 @@ import static org.mule.runtime.api.metadata.resolving.FailureCode.UNKNOWN;
 import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.newFailure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+
+import org.mule.metadata.api.annotation.EnumLabelsAnnotation;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
+import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.impl.DefaultStringType;
 import org.mule.metadata.internal.utils.MetadataTypeWriter;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataTypesDescriptor;
@@ -28,6 +33,11 @@ import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.metadata.ComponentMetadataTypesDescriptorResultJsonSerializer;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
 
@@ -112,6 +122,58 @@ public class ComponentMetadataTypesDescriptorResultJsonSerializerTestCase {
 
     assertThat(deserializedComponentMetadataTypes.getOutputMetadata().isPresent(), is(true));
     assertMetadataTypeEquals(deserializedComponentMetadataTypes.getOutputAttributesMetadata().get(), outputAttributesType);
+  }
+
+  @Test
+  public void successOutputWithEnumLabelsAnnotation() {
+    DefaultStringType outputAttributesType = create(JAVA)
+        .stringType()
+        .defaultValue("defaultValue")
+        .length(1)
+        .build();
+
+    StringType outputType = create(JAVA)
+        .stringType().enumLabelsOf("Hola", "CustomEnumLabels")
+        .build();
+
+    OutputMetadataDescriptor outputMetadataResult = OutputMetadataDescriptor.builder()
+        .withReturnType(TypeMetadataDescriptor.builder().withType(outputType).dynamic(true).build())
+        .withAttributesType(TypeMetadataDescriptor.builder().withType(outputAttributesType).dynamic(true).build())
+        .build();
+    MetadataResult<ComponentMetadataTypesDescriptor> success =
+        success(ComponentMetadataTypesDescriptor.builder().withOutputMetadataDescriptor(outputMetadataResult).build());
+
+    MetadataResult<ComponentMetadataTypesDescriptor> deserialize = serializer.deserialize(serializer.serialize(success));
+
+    assertThat(deserialize.isSuccess(), is(true));
+    assertThat(deserialize.get().getOutputMetadata().get().getAnnotation(EnumLabelsAnnotation.class).get().getLabels(),
+               hasItemInArray("Hola"));
+    assertThat(deserialize.get().getOutputMetadata().get().getAnnotation(EnumLabelsAnnotation.class).get().getLabels(),
+               hasItemInArray("CustomEnumLabels"));
+  }
+
+  @Test
+  public void testWithCaseExample() throws IOException {
+
+    String serialized = getResourceAsString("metadataResult.json");
+
+    MetadataResult<ComponentMetadataTypesDescriptor> deserialize = serializer.deserialize(serialized);
+    assertThat((((ObjectType) ((((ObjectType) (deserialize.get().getInputMetadata().get("recordContent")))
+        .getFieldByName("properties")).get().getValue())).getFieldByName("hs_lead_status").get().getValue()
+            .getAnnotation(EnumLabelsAnnotation.class).get().getLabels()), hasItemInArray("New"));
+
+    assertThat((((ObjectType) ((((ObjectType) (deserialize.get().getInputMetadata().get("recordContent")))
+        .getFieldByName("properties")).get().getValue())).getFieldByName("hs_lead_status").get().getValue()
+            .getAnnotation(EnumLabelsAnnotation.class).get().getLabels()), hasItemInArray("Open"));
+
+    assertThat((((ObjectType) ((((ObjectType) (deserialize.get().getInputMetadata().get("recordContent")))
+        .getFieldByName("properties")).get().getValue())).getFieldByName("hs_lead_status").get().getValue()
+            .getAnnotation(EnumLabelsAnnotation.class).get().getLabels()), hasItemInArray("In Progress"));
+  }
+
+  protected String getResourceAsString(String fileName) throws IOException {
+    final InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+    return IOUtils.toString(resourceAsStream);
   }
 
   static void assertMetadataTypeEquals(MetadataType expected, MetadataType actual) {
