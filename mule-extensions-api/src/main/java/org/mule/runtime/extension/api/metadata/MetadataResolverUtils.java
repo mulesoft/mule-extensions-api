@@ -62,6 +62,7 @@ public abstract class MetadataResolverUtils {
    */
   public static boolean isNullResolver(NamedTypeResolver resolver) {
     return resolver.getClass().equals(NullMetadataResolver.class)
+        || resolver.getClass().equals(org.mule.sdk.api.metadata.NullMetadataResolver.class)
         || resolver.getClass().equals(NullQueryMetadataResolver.class);
   }
 }
