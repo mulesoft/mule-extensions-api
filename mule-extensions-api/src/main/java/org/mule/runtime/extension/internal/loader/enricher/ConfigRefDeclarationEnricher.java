@@ -60,6 +60,14 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
   private static final String CONFIG_REF_NAME = "config-ref";
   private static final MetadataType CONFIG_TYPE = buildConfigRefType();
 
+  /**
+   * @return The {@link MetadataType} suitable for a config-ref parameter.
+   * @since 1.5.0
+   */
+  public static MetadataType getConfigType() {
+    return CONFIG_TYPE;
+  }
+
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
     return STRUCTURE;
