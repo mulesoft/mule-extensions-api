@@ -17,10 +17,13 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.component.ComponentParameterization;
 import org.mule.runtime.extension.api.component.ComponentParameterization.Builder;
+import org.mule.runtime.extension.api.component.value.AbstractValueDeclarerFactory;
+import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 
 public class ComponentParameterizationBuilder<M extends ParameterizedModel> implements Builder<M> {
@@ -68,6 +71,28 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
     ParameterGroupModel paramGroup = paramGroupsWithParamNamed.get(0);
     parameters.put(new Pair<>(paramGroup, paramGroupsWithParamNamed.get(0).getParameter(paramName).get()), paramValue);
+
+    return this;
+  }
+
+  @Override
+  public Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
+      throws IllegalArgumentException {
+    // DO NOT REPEAT THIS CODE
+    ParameterGroupModel paramGroup = model.getParameterGroupModels()
+        .stream()
+        .filter(pgm -> pgm.getName().equals(paramGroupName))
+        .findAny()
+        .orElseThrow(() -> new IllegalArgumentException("ParameterGroup does not exist: " + paramGroupName));
+
+    ParameterModel parameter = paramGroup.getParameter(paramName)
+        .orElseThrow(() -> new IllegalArgumentException("Parameter does not exist in group '" + paramGroupName + "': "
+            + paramName));
+
+    ValueDeclarer valueDeclarer = AbstractValueDeclarerFactory.getDefaultValueDeclarerFactory().create(parameter);
+
+    valueDeclarerConsumer.accept(valueDeclarer);
+    parameters.put(new Pair<>(paramGroup, parameter), valueDeclarer.getValue());
 
     return this;
   }

@@ -10,9 +10,11 @@ import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.util.Pair;
+import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 import org.mule.runtime.extension.internal.component.ComponentParameterizationBuilder;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Represents a specific configuration for a concrete {@link ParameterizedModel}.
@@ -119,6 +121,9 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      *                                  same name exists in more than on parameter group, or is not of a valid type.
      */
     Builder<M> withParameter(String paramName, Object paramValue) throws IllegalArgumentException;
+
+    Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> helper)
+        throws IllegalArgumentException;
   }
 
   /**
