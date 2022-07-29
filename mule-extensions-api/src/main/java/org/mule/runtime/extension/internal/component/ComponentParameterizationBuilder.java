@@ -17,8 +17,8 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.component.ComponentParameterization;
 import org.mule.runtime.extension.api.component.ComponentParameterization.Builder;
-import org.mule.runtime.extension.api.component.value.AbstractValueDeclarerFactory;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
+import org.mule.runtime.extension.internal.component.value.DefaultValueDeclarer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +89,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
         .orElseThrow(() -> new IllegalArgumentException("Parameter does not exist in group '" + paramGroupName + "': "
             + paramName));
 
-    ValueDeclarer valueDeclarer = AbstractValueDeclarerFactory.getDefaultValueDeclarerFactory().create(parameter);
+    DefaultValueDeclarer valueDeclarer = new DefaultValueDeclarer();
 
     valueDeclarerConsumer.accept(valueDeclarer);
     parameters.put(new Pair<>(paramGroup, parameter), valueDeclarer.getValue());

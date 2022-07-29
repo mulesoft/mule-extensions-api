@@ -22,6 +22,4 @@ public interface ValueDeclarer {
 
   void withValue(Object value);
 
-  Object getValue();
-
 }
