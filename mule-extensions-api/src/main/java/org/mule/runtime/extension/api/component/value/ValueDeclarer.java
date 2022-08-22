@@ -10,16 +10,38 @@ import org.mule.api.annotation.NoImplement;
 
 /**
  * ADD JDOC
+ *
+ * @since 1.5.0
  */
 @NoImplement
 public interface ValueDeclarer {
 
+  /**
+   * ADD JDOC
+   *
+   * @return
+   */
   MapValueDeclarer asMapValue();
 
+  /**
+   * ADD JDOC
+   *
+   * @return
+   */
   ObjectValueDeclarer asObjectValue();
 
+  /**
+   * ADD JDOC
+   *
+   * @return
+   */
   ArrayValueDeclarer asArrayValue();
 
+  /**
+   * ADD JDOC
+   *
+   * @param value
+   */
   void withValue(Object value);
 
 }

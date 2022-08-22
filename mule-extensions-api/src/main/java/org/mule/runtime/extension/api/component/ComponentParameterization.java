@@ -122,7 +122,16 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      */
     Builder<M> withParameter(String paramName, Object paramValue) throws IllegalArgumentException;
 
-    Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> helper)
+    /**
+     * Sets a parameter with a given value defined by a consumer of a {@link ValueDeclarer}
+     *
+     * @param paramGroupName        the name of the group containing the parameter to set.
+     * @param paramName             the name of the parameter within the {@code paramGroupName} group to set.
+     * @param valueDeclarerConsumer a consumer to configure
+     * @return this builder
+     * @throws IllegalArgumentException if the provided parameter group and name does not exist for the {@code model}
+     */
+    Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
         throws IllegalArgumentException;
   }
 
