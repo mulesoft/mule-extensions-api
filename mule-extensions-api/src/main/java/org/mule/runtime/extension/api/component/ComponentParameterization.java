@@ -127,7 +127,7 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      *
      * @param paramGroupName        the name of the group containing the parameter to set.
      * @param paramName             the name of the parameter within the {@code paramGroupName} group to set.
-     * @param valueDeclarerConsumer a consumer to configure
+     * @param valueDeclarerConsumer a consumer to configure the value of the parameter
      * @return this builder
      * @throws IllegalArgumentException if the provided parameter group and name does not exist for the {@code model}
      */

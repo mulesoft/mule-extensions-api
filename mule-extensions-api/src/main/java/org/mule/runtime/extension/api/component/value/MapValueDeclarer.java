@@ -11,13 +11,29 @@ import org.mule.api.annotation.NoImplement;
 import java.util.function.Consumer;
 
 /**
- * ADD JDOC
+ * Describes a Map value to be created.
+ *
+ * @since 1.5.0
  */
 @NoImplement
 public interface MapValueDeclarer {
 
+  /**
+   * Describe an entry of the map
+   *
+   * @param name  the name of the entry being declared
+   * @param value the value to be associated with the entry
+   * @return this declarer
+   */
   MapValueDeclarer withEntry(String name, Object value);
 
+  /**
+   * Describe an entry of the map
+   *
+   * @param name                  the name of the entry being declared
+   * @param valueDeclarerConsumer a consumer to configure the value of the entry
+   * @return this declarer
+   */
   MapValueDeclarer withEntry(String name, Consumer<ValueDeclarer> valueDeclarerConsumer);
 
 }

@@ -7,9 +7,10 @@
 package org.mule.runtime.extension.api.component.value;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.runtime.api.connection.ConnectionProvider;
 
 /**
- * ADD JDOC
+ * Describes a value to be created.
  *
  * @since 1.5.0
  */
@@ -17,30 +18,30 @@ import org.mule.api.annotation.NoImplement;
 public interface ValueDeclarer {
 
   /**
-   * ADD JDOC
+   * Declares that the described value represents a Map value and returns a declarer to describe it.
    *
-   * @return
+   * @return the declarer to be used to declare the map value
    */
   MapValueDeclarer asMapValue();
 
   /**
-   * ADD JDOC
+   * Declares that the described value represents an Object value and returns a declarer to describe it.
    *
-   * @return
+   * @return the declarer to be used to declare the object value
    */
   ObjectValueDeclarer asObjectValue();
 
   /**
-   * ADD JDOC
+   * Declares that the described value represents an Array value and returns a declarer to describe it.
    *
-   * @return
+   * @return the declarer to be used to declare the array value
    */
   ArrayValueDeclarer asArrayValue();
 
   /**
-   * ADD JDOC
+   * Declares the value that is described by this declarer.
    *
-   * @param value
+   * @param value the actual value
    */
   void withValue(Object value);
 

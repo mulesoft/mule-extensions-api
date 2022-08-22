@@ -11,13 +11,27 @@ import org.mule.api.annotation.NoImplement;
 import java.util.function.Consumer;
 
 /**
- * ADD JDOC
+ * Describes an Array value to be created.
+ *
+ * @since 1.5.0
  */
 @NoImplement
 public interface ArrayValueDeclarer {
 
+  /**
+   * Describe an item of the array
+   *
+   * @param value the value to be associated with the entry
+   * @return this declarer
+   */
   ArrayValueDeclarer withItem(Object value);
 
+  /**
+   * Describe an item of the array
+   *
+   * @param valueDeclarerConsumer a consumer to configure the value of the item
+   * @return this declarer
+   */
   ArrayValueDeclarer withItem(Consumer<ValueDeclarer> valueDeclarerConsumer);
 
 }

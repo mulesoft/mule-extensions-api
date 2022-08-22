@@ -40,7 +40,19 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
   @Override
   public Builder<M> withParameter(String paramGroupName, String paramName, Object paramValue) throws IllegalArgumentException {
-    return withParameter(paramGroupName, paramName, valueDeclarer -> valueDeclarer.withValue(paramValue));
+    ParameterGroupModel paramGroup = model.getParameterGroupModels()
+        .stream()
+        .filter(pgm -> pgm.getName().equals(paramGroupName))
+        .findAny()
+        .orElseThrow(() -> new IllegalArgumentException("ParameterGroup does not exist: " + paramGroupName));
+
+    ParameterModel parameter = paramGroup.getParameter(paramName)
+        .orElseThrow(() -> new IllegalArgumentException("Parameter does not exist in group '" + paramGroupName + "': "
+            + paramName));
+
+    parameters.put(new Pair<>(paramGroup, parameter), paramValue);
+
+    return this;
   }
 
   @Override
@@ -66,22 +78,9 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   @Override
   public Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
       throws IllegalArgumentException {
-    ParameterGroupModel paramGroup = model.getParameterGroupModels()
-        .stream()
-        .filter(pgm -> pgm.getName().equals(paramGroupName))
-        .findAny()
-        .orElseThrow(() -> new IllegalArgumentException("ParameterGroup does not exist: " + paramGroupName));
-
-    ParameterModel parameter = paramGroup.getParameter(paramName)
-        .orElseThrow(() -> new IllegalArgumentException("Parameter does not exist in group '" + paramGroupName + "': "
-            + paramName));
-
     DefaultValueDeclarer valueDeclarer = new DefaultValueDeclarer();
-
     valueDeclarerConsumer.accept(valueDeclarer);
-    parameters.put(new Pair<>(paramGroup, parameter), valueDeclarer.getValue());
-
-    return this;
+    return withParameter(paramGroupName, paramName, valueDeclarer.getValue());
   }
 
   @Override
