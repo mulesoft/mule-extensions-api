@@ -83,4 +83,8 @@ public interface ExtensionsClient {
    */
   <T, A> Result<T, A> execute(String extension, String operation, OperationParameters parameters)
       throws MuleException;
+
+
+  <T, A> CompletableFuture<Result<T, A>> executeAsync2(String extension, String operation,
+                                                      OperationParameters parameters);
 }
