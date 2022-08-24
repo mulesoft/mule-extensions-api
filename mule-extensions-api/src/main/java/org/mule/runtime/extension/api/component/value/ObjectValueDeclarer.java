@@ -13,6 +13,9 @@ import java.util.function.Consumer;
 /**
  * Describes an Object value to be created.
  *
+ * It describes the Object structure but not its format. This should be used the same way regardless of the final format it will
+ * have, be it a JSON document or a CSV line.
+ *
  * @since 1.5.0
  */
 @NoImplement

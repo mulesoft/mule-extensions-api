@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.component.value;
 
 import org.mule.runtime.extension.api.component.value.ArrayValueDeclarer;
-import org.mule.runtime.extension.api.component.value.MapValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ObjectValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 
@@ -20,12 +19,6 @@ import java.util.function.Consumer;
 public class DefaultValueDeclarer implements ValueDeclarer {
 
   private HasValue value;
-
-  @Override
-  public MapValueDeclarer asMapValue() {
-    value = new DefaultMapValueDeclarer();
-    return (MapValueDeclarer) value;
-  }
 
   @Override
   public ObjectValueDeclarer asObjectValue() {
@@ -57,33 +50,6 @@ public class DefaultValueDeclarer implements ValueDeclarer {
   private interface HasValue {
 
     Object getValue();
-  }
-
-  private static class DefaultMapValueDeclarer implements MapValueDeclarer, HasValue {
-
-    private final Map<String, Object> mapValue;
-
-    public DefaultMapValueDeclarer() {
-      mapValue = new HashMap();
-    }
-
-    @Override
-    public MapValueDeclarer withEntry(String name, Object value) {
-      mapValue.put(name, value);
-      return this;
-    }
-
-    @Override
-    public MapValueDeclarer withEntry(String name, Consumer<ValueDeclarer> valueDeclarerConsumer) {
-      mapValue.put(name, DefaultValueDeclarer.getValue(valueDeclarerConsumer));
-      return this;
-    }
-
-
-    @Override
-    public Object getValue() {
-      return mapValue;
-    }
   }
 
   private static class DefaultObjectValueDeclarer implements ObjectValueDeclarer, HasValue {

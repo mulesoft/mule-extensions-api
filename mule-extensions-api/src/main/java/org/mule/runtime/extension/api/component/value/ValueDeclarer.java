@@ -18,13 +18,6 @@ import org.mule.runtime.api.connection.ConnectionProvider;
 public interface ValueDeclarer {
 
   /**
-   * Declares that the described value represents a Map value and returns a declarer to describe it.
-   *
-   * @return the declarer to be used to declare the map value
-   */
-  MapValueDeclarer asMapValue();
-
-  /**
    * Declares that the described value represents an Object value and returns a declarer to describe it.
    *
    * @return the declarer to be used to declare the object value
