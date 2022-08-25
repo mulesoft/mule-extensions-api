@@ -13,6 +13,9 @@ import java.util.function.Consumer;
 /**
  * Describes an Array value to be created.
  *
+ * It describes the Array items but not its format. This should be used the same way regardless of the final format it will have,
+ * for example a JSON array.
+ * 
  * @since 1.5.0
  */
 @NoImplement

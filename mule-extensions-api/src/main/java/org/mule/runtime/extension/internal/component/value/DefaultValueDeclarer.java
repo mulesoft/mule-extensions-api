@@ -21,15 +21,15 @@ public class DefaultValueDeclarer implements ValueDeclarer {
   private HasValue value;
 
   @Override
-  public ObjectValueDeclarer asObjectValue() {
+  public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer) {
     value = new DefaultObjectValueDeclarer();
-    return (DefaultObjectValueDeclarer) value;
+    objectValueDeclarerConsumer.accept((ObjectValueDeclarer) value);
   }
 
   @Override
-  public ArrayValueDeclarer asArrayValue() {
+  public void arrayValue(Consumer<ArrayValueDeclarer> arrayValueDeclarerConsumer) {
     value = new DefaultArrayValueDeclarer();
-    return (ArrayValueDeclarer) value;
+    arrayValueDeclarerConsumer.accept((ArrayValueDeclarer) value);
   }
 
   @Override

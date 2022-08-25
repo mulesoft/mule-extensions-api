@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.component.value;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 
+import java.util.function.Consumer;
+
 /**
  * Describes a value to be created.
  *
@@ -18,18 +20,20 @@ import org.mule.runtime.api.connection.ConnectionProvider;
 public interface ValueDeclarer {
 
   /**
-   * Declares that the described value represents an Object value and returns a declarer to describe it.
+   * Declares that the described value represents an Object value.
    *
+   * @param objectValueDeclarerConsumer a consumer to configure the value of the object
    * @return the declarer to be used to declare the object value
    */
-  ObjectValueDeclarer asObjectValue();
+  void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer);
 
   /**
-   * Declares that the described value represents an Array value and returns a declarer to describe it.
+   * Declares that the described value represents an Array value.
    *
+   * @param arrayValueDeclarerConsumer a consumer to configure the value of the array
    * @return the declarer to be used to declare the array value
    */
-  ArrayValueDeclarer asArrayValue();
+  void arrayValue(Consumer<ArrayValueDeclarer> arrayValueDeclarerConsumer);
 
   /**
    * Declares the value that is described by this declarer.
