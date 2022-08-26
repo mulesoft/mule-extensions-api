@@ -12,6 +12,7 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 /**
  * The {@link ExtensionsClient} is a simple common interface for executing extension operations programmatically without the need
@@ -85,6 +86,7 @@ public interface ExtensionsClient {
       throws MuleException;
 
 
-  <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension, String operation,
-                                                      OperationParameterizer parameters);
+  <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension,
+                                                      String operation,
+                                                      Consumer<OperationParameterizer> parameters);
 }

@@ -10,8 +10,6 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.util.DataSize;
 import org.mule.runtime.extension.api.component.ComponentParameterization;
 
-import java.util.function.Consumer;
-
 public interface OperationParameterizer {
 
   OperationParameterizer withConfigRef(String configurationName);
@@ -22,41 +20,24 @@ public interface OperationParameterizer {
 
   OperationParameterizer reconnectingForever(int frequency);
 
-  OperationParameterizer withInMemoryRepeatableStream(Consumer<InMemoryRepeatableStreamConfigurer> configurer);
+  OperationParameterizer withDefaultInMemoryRepeatableStreaming();
 
-  OperationParameterizer withInMemoryRepeatableIterable(Consumer<InMemoryRepeatableIterableConfigurer> configurer);
+  OperationParameterizer withInMemoryRepeatableStreaming(DataSize initialBufferSize,
+                                                         DataSize bufferSizeIncrement,
+                                                         DataSize maxBufferSize);
 
-  OperationParameterizer withFileStoreRepeatableStream(Consumer<FileStoreRepeatableStreamConfigurer> configurer);
+  OperationParameterizer withDefaultInMemoryRepeatableIterables();
 
-  OperationParameterizer withNonRepeatableStreams();
+  OperationParameterizer withInMemoryRepeatableIterables(int initialBufferSize, int bufferSizeIncrement, int maxBufferSize);
 
+  OperationParameterizer withDefaultFileStoreRepeatableStreaming();
 
-  interface InMemoryRepeatableStreamConfigurer {
+  OperationParameterizer withFileStoreRepeatableStreaming(DataSize maxInMemorySize);
 
-    InMemoryRepeatableStreamConfigurer initialBufferSize(DataSize bufferSize);
+  OperationParameterizer withDefaultFileStoreRepeatableIterables();
 
-    InMemoryRepeatableStreamConfigurer bufferSizeIncrement(DataSize delta);
+  OperationParameterizer withFileStoreRepeatableIterables(int maxInMemoryInstances);
 
-    InMemoryRepeatableStreamConfigurer maxBufferSize(DataSize bufferSize);
-  }
-
-  interface InMemoryRepeatableIterableConfigurer {
-
-    InMemoryRepeatableIterableConfigurer initialBufferSize(int bufferSize);
-
-    InMemoryRepeatableIterableConfigurer bufferSizeIncrement(int delta);
-
-    InMemoryRepeatableIterableConfigurer maxBufferSize(int bufferSize);
-  }
-  interface FileStoreRepeatableStreamConfigurer {
-
-    FileStoreRepeatableStreamConfigurer inMemoryBufferSize(DataSize bufferSize);
-
-  }
-
-  interface FileStoreRepeatableIterableConfigurer {
-
-    FileStoreRepeatableIterableConfigurer inMemoryObjects(int bufferSize);
-  }
+  OperationParameterizer withNonRepeatableStreaming();
 
 }
