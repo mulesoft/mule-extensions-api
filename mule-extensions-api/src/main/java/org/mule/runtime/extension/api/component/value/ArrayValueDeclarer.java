@@ -13,8 +13,7 @@ import java.util.function.Consumer;
 /**
  * Describes an Array value to be created.
  *
- * It describes the Array items but not its format. This should be used the same way regardless of the final format it will have,
- * for example a JSON array.
+ * This should be used the same way regardless of its actual format (Java object, Json/XML document, CSV line, etc).
  * 
  * @since 1.5.0
  */
