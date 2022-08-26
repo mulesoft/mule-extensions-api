@@ -17,10 +17,13 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.component.ComponentParameterization;
 import org.mule.runtime.extension.api.component.ComponentParameterization.Builder;
+import org.mule.runtime.extension.api.component.value.ValueDeclarer;
+import org.mule.runtime.extension.internal.component.value.DefaultValueDeclarer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 
 public class ComponentParameterizationBuilder<M extends ParameterizedModel> implements Builder<M> {
@@ -70,6 +73,14 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     parameters.put(new Pair<>(paramGroup, paramGroupsWithParamNamed.get(0).getParameter(paramName).get()), paramValue);
 
     return this;
+  }
+
+  @Override
+  public Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
+      throws IllegalArgumentException {
+    DefaultValueDeclarer valueDeclarer = new DefaultValueDeclarer();
+    valueDeclarerConsumer.accept(valueDeclarer);
+    return withParameter(paramGroupName, paramName, valueDeclarer.getValue());
   }
 
   @Override
