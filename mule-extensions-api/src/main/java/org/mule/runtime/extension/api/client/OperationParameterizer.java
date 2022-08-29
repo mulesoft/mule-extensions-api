@@ -26,15 +26,9 @@ public interface OperationParameterizer {
                                                          DataSize bufferSizeIncrement,
                                                          DataSize maxBufferSize);
 
-  OperationParameterizer withDefaultInMemoryRepeatableIterables();
-
   OperationParameterizer withInMemoryRepeatableIterables(int initialBufferSize, int bufferSizeIncrement, int maxBufferSize);
 
-  OperationParameterizer withDefaultFileStoreRepeatableStreaming();
-
   OperationParameterizer withFileStoreRepeatableStreaming(DataSize maxInMemorySize);
-
-  OperationParameterizer withDefaultFileStoreRepeatableIterables();
 
   OperationParameterizer withFileStoreRepeatableIterables(int maxInMemoryInstances);
 
