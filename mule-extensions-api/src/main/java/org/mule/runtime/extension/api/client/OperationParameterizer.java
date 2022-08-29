@@ -6,29 +6,46 @@
  */
 package org.mule.runtime.extension.api.client;
 
-import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.util.DataSize;
-import org.mule.runtime.extension.api.component.ComponentParameterization;
 
 public interface OperationParameterizer {
 
   OperationParameterizer withConfigRef(String configurationName);
 
-  OperationParameterizer parameters(ComponentParameterization<OperationModel> parameterization);
+  /**
+   * Sets a parameter with a given value, automatically determining the group the parameter belongs to.
+   *
+   * @param parameterName the name of the parameter within the {@code paramGroupName} group to set.
+   * @param value         the value of the parameter to set
+   * @return {@code this} instance
+   */
+  OperationParameterizer withParameter(String parameterName, Object value);
+
+  /**
+   * Sets a parameter with a given value.
+   *
+   * @param parameterGroup the name of the group containing the parameter to set.
+   * @param parameterName  the name of the parameter within the {@code paramGroupName} group to set.
+   * @param value          the value of the parameter to set
+   * @return {@code this} instance
+   */
+  OperationParameterizer withParameter(String parameterGroup, String parameterName, Object value);
 
   OperationParameterizer withSimpleReconnection(int frequency, int count);
 
   OperationParameterizer reconnectingForever(int frequency);
 
-  OperationParameterizer withDefaultInMemoryRepeatableStreaming();
+  OperationParameterizer withDefaultRepeatableStreaming();
 
   OperationParameterizer withInMemoryRepeatableStreaming(DataSize initialBufferSize,
                                                          DataSize bufferSizeIncrement,
                                                          DataSize maxBufferSize);
 
-  OperationParameterizer withInMemoryRepeatableIterables(int initialBufferSize, int bufferSizeIncrement, int maxBufferSize);
-
   OperationParameterizer withFileStoreRepeatableStreaming(DataSize maxInMemorySize);
+
+  OperationParameterizer withDefaultRepeatableIterables();
+
+  OperationParameterizer withInMemoryRepeatableIterables(int initialBufferSize, int bufferSizeIncrement, int maxBufferSize);
 
   OperationParameterizer withFileStoreRepeatableIterables(int maxInMemoryInstances);
 
