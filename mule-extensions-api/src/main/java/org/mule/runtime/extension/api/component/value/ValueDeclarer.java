@@ -7,6 +7,8 @@
 package org.mule.runtime.extension.api.component.value;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.connection.ConnectionProvider;
 
 import java.util.function.Consumer;
@@ -26,6 +28,16 @@ public interface ValueDeclarer {
    * @return the declarer to be used to declare the object value
    */
   void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer);
+
+  /**
+   * Declares that the described value represents an Object value.
+   *
+   * @param objectValueDeclarerConsumer a consumer to configure the value of the object
+   * @param objectType                  the type that represents the value being declared, this is necessary when the value has
+   *                                    multiple types available and it is needed to know which is chosen.
+   * @return the declarer to be used to declare the object value
+   */
+  void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, ObjectType objectType);
 
   /**
    * Declares that the described value represents an Array value.

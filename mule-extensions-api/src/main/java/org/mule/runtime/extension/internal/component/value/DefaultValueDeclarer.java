@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.component.value;
 
+import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.extension.api.component.value.ArrayValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ObjectValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
@@ -23,6 +24,12 @@ public class DefaultValueDeclarer implements ValueDeclarer {
   @Override
   public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer) {
     value = new DefaultObjectValueDeclarer();
+    objectValueDeclarerConsumer.accept((ObjectValueDeclarer) value);
+  }
+
+  @Override
+  public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, ObjectType objectType) {
+    value = new DefaultObjectValueDeclarer(objectType);
     objectValueDeclarerConsumer.accept((ObjectValueDeclarer) value);
   }
 
@@ -58,6 +65,11 @@ public class DefaultValueDeclarer implements ValueDeclarer {
 
     public DefaultObjectValueDeclarer() {
       mapValue = new LinkedHashMap();
+    }
+
+    public DefaultObjectValueDeclarer(ObjectType objectType) {
+      this();
+      mapValue.put("METADATATYPE", objectType);
     }
 
     @Override
