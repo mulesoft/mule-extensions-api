@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.client;
 
+import org.mule.runtime.api.event.Event;
 import org.mule.runtime.api.util.DataSize;
 
 public interface OperationParameterizer {
@@ -50,5 +51,7 @@ public interface OperationParameterizer {
   OperationParameterizer withFileStoreRepeatableIterables(int maxInMemoryInstances);
 
   OperationParameterizer withNonRepeatableStreaming();
+
+  OperationParameterizer inTheContextOf(Event event);
 
 }
