@@ -79,7 +79,7 @@ public interface PoolingProfileValueDeclarer {
   /**
    * List the policies on how can a pool be initialised
    *
-   * @since 1.0
+   * @since 1.5
    */
   @Experimental
   enum InitialisationPolicy {
@@ -102,7 +102,7 @@ public interface PoolingProfileValueDeclarer {
   /**
    * Policies on how to act when the pool is exhausted
    *
-   * @since 1.0
+   * @since 1.5
    */
   @Experimental
   enum ExhaustedAction {
