@@ -10,8 +10,6 @@ import static java.util.Optional.ofNullable;
 
 import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
 
-import org.mule.runtime.api.event.Event;
-import org.mule.runtime.extension.internal.client.InternalOperationParameters;
 import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.Map;
@@ -26,10 +24,9 @@ import com.google.common.collect.ImmutableMap;
  * @since 1.0
  */
 @MinMuleVersion("4.1")
-public class DefaultOperationParameters implements InternalOperationParameters {
+public class DefaultOperationParameters implements OperationParameters {
 
   private final Map<String, Object> parameters;
-  private Event contextEvent;
 
   DefaultOperationParameters(Map<String, Object> parameters) {
     this.parameters = ImmutableMap.copyOf(parameters);
@@ -64,21 +61,5 @@ public class DefaultOperationParameters implements InternalOperationParameters {
   @Override
   public Map<String, Object> get() {
     return parameters;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Optional<Event> getContextEvent() {
-    return ofNullable(contextEvent);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void setContextEvent(Event contextEvent) {
-    this.contextEvent = contextEvent;
   }
 }
