@@ -14,7 +14,7 @@ import org.mule.runtime.api.connection.ConnectionProvider;
 /**
  * Configures the {@link PoolingProfile} of a {@link ConnectionProvider} capable of pooling connections
  *
- * @since 1.0
+ * @since 1.5
  */
 @Experimental
 @NoImplement
