@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.component.value;
 
+import org.mule.api.annotation.Experimental;
 import org.mule.api.annotation.NoImplement;
 
 import java.util.function.Consumer;
@@ -17,6 +18,7 @@ import java.util.function.Consumer;
  * 
  * @since 1.5.0
  */
+@Experimental
 @NoImplement
 public interface ArrayValueDeclarer {
 

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.component.value;
 
+import org.mule.api.annotation.Experimental;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.connection.ConnectionProvider;
 
@@ -16,6 +17,7 @@ import java.util.function.Consumer;
  *
  * @since 1.5.0
  */
+@Experimental
 @NoImplement
 public interface ValueDeclarer {
 
@@ -34,6 +36,14 @@ public interface ValueDeclarer {
    * @return the declarer to be used to declare the array value
    */
   void arrayValue(Consumer<ArrayValueDeclarer> arrayValueDeclarerConsumer);
+
+  /**
+   * Declares that the described value represents a {@link org.mule.runtime.api.config.PoolingProfile}
+   *
+   * @param poolingProfileValueDeclarerConsumer a consumer to configure the value of the pooling profile
+   * @return the declarer to be used to declare the pooling profile value
+   */
+  void poolingProfile(Consumer<PoolingProfileValueDeclarer> poolingProfileValueDeclarerConsumer);
 
   /**
    * Declares the value that is described by this declarer.

@@ -8,6 +8,7 @@ package org.mule.runtime.extension.internal.component.value;
 
 import org.mule.runtime.extension.api.component.value.ArrayValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ObjectValueDeclarer;
+import org.mule.runtime.extension.api.component.value.PoolingProfileValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 
 import java.util.ArrayList;
@@ -33,6 +34,12 @@ public class DefaultValueDeclarer implements ValueDeclarer {
   }
 
   @Override
+  public void poolingProfile(Consumer<PoolingProfileValueDeclarer> poolingProfileValueDeclarerConsumer) {
+    value = new DefaultPoolingProfileValueDeclarer();
+    poolingProfileValueDeclarerConsumer.accept((PoolingProfileValueDeclarer) value);
+  }
+
+  @Override
   public void withValue(Object value) {
     this.value = new SimpleHasValue(value);
   }
@@ -47,7 +54,7 @@ public class DefaultValueDeclarer implements ValueDeclarer {
     return valueDeclarer.getValue();
   }
 
-  private interface HasValue {
+  public static interface HasValue {
 
     Object getValue();
   }
