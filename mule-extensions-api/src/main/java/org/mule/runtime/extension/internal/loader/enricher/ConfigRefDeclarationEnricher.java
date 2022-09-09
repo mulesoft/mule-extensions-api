@@ -7,19 +7,16 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.util.stream.Collectors.toList;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
+import static org.mule.runtime.extension.internal.declaration.type.MetadataTypeConstants.CONFIG_TYPE;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.CONFIG;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import org.mule.metadata.api.builder.BaseTypeBuilder;
-import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
@@ -36,7 +33,6 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
-import org.mule.runtime.extension.api.runtime.config.ConfigurationProvider;
 
 import java.util.Collection;
 import java.util.List;
@@ -58,15 +54,6 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
   private static final Logger LOGGER = getLogger(ConfigRefDeclarationEnricher.class);
 
   private static final String CONFIG_REF_NAME = "config-ref";
-  private static final MetadataType CONFIG_TYPE = buildConfigRefType();
-
-  /**
-   * @return The {@link MetadataType} suitable for a config-ref parameter.
-   * @since 1.5.0
-   */
-  public static MetadataType getConfigType() {
-    return CONFIG_TYPE;
-  }
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -153,12 +140,5 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
 
   private static ExpressionSupport expressionSupport(ComponentDeclaration<?> componentDeclaration) {
     return componentDeclaration instanceof OperationDeclaration ? SUPPORTED : NOT_SUPPORTED;
-  }
-
-  private static MetadataType buildConfigRefType() {
-    return BaseTypeBuilder.create(JAVA).objectType()
-        .id(ConfigurationProvider.class.getName())
-        .with(new ClassInformationAnnotation(ConfigurationProvider.class))
-        .build();
   }
 }
