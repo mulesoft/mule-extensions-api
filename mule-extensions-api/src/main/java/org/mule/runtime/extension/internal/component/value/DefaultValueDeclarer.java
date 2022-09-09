@@ -68,8 +68,7 @@ public class DefaultValueDeclarer implements ValueDeclarer {
     }
 
     public DefaultObjectValueDeclarer(ObjectType objectType) {
-      this();
-      mapValue.put("METADATATYPE", objectType);
+      mapValue = new ObjectTypedMap(objectType);
     }
 
     @Override
@@ -87,6 +86,19 @@ public class DefaultValueDeclarer implements ValueDeclarer {
     @Override
     public Object getValue() {
       return mapValue;
+    }
+  }
+
+  private static class ObjectTypedMap<K, V> extends HashMap<K, V> implements HasObjectType {
+
+    private ObjectType objectType;
+
+    public ObjectTypedMap(ObjectType objectType) {
+      this.objectType = objectType;
+    }
+
+    public ObjectType getObjectType() {
+      return objectType;
     }
   }
 
