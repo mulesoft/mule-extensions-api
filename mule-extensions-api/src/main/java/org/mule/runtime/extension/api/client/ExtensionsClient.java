@@ -15,35 +15,35 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
- * The {@link ExtensionsClient} is a simple common interface for executing extension operations programmatically without the need
- * of much manual coding and allowing to scale quickly all of this without a the need of compile dependency to the executed
- * extension.
+ * The {@link ExtensionsClient} is a simple interface for executing extension operations programmatically.
  * <p>
- * This API is simple and easy to use, the user just needs to define the extension and the corresponding operation that want's to
- * invoke and pass a set of named parameters that will be attached when the operation gets executed. This implies that the user
- * should know the parameter names and types to create them using an {@link OperationParameters} instance. The idea is that
- * different extensions can provide different {@link OperationParameters} implementations for key operations.
+ * The operation to execute is referenced through its name and the name of the extension in which it's defined. Notice that the
+ * extension is referenced by name and not GAV, which means that the extension is assumed to be present and activated on the
+ * current execution context.
  * <p>
- * This client lets the user reference complex configurations defined in the application and also has the capability to resolve
- * expressions.
+ * Once the operation is located, the operation execution is parameterized by not only providing parameter values, but also config
+ * reference, reconnection and streaming strategies, etc.
  * <p>
- * Note that this client will be reachable through the mule registry and you will be able to inject it in any class with
+ * Note that this client will be reachable through the mule registry, and you will be able to inject it in any class with
  * lifecycle.
  * <p>
- * An usage example for an operation with this signature {@code public String getName(@UseConfig config, int account)} could be:
- * 
+ * A usage example for an operation with this signature {@code public String getName(@UseConfig config, int account)} could be:
+ *
  * <pre>
  * {@code
  * public class UsingExtensionsClient {
  *  &#64;Inject ExtensionsClient client;
  *  ...
  *  public void executeWithClient() {
- *    OperationParameters parameters = DefaultOperationParameters.builder().configName("conf").addParameter("account", 12).build();
- *    Result<String, Object> result = client.execute(CustomExtension.class, "getName", parameters);
- *    if (result.getOutput().equals("DeveloperAccount"))
- *    ...
- *  }
- * }
+ *    client.&lt;String, Object&gt;executeAsync("myExtensionName", "getName", params ->
+ *  		params.withConfigRef("conf").withParameter("account", 12)
+ *  	).whenComplete((result, e) -> {
+ *  		if (e != null) {
+ *  			logError(e);
+ *            } else {
+ *  			processResult(result);
+ *      }
+ *   });
  * }
  * </pre>
  *
@@ -53,11 +53,29 @@ import java.util.function.Consumer;
 @NoImplement
 public interface ExtensionsClient {
 
+
   /**
    * Executes an operation asynchronously by returning a {@link CompletableFuture} instance that will complete into a
    * {@link Result} with the corresponding payload and attributes after the operation execution finished.
    * <p>
-   * This is the recommended method to use when the executed operation is non-blocking.
+   * If the executed operation is not asynchronous in nature, the client might choose to actually execute in a synchronous manner.
+   *
+   * @param extension  the name of the extension that contains the operation to be executed.
+   * @param operation  the name of the operation to be executed.
+   * @param parameters
+   * @param <T>        The generic type of the result's payload
+   * @param <A>        The generic type of the result's attribute
+   * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and the
+   *         corresponding attributes.
+   * @since 4.5.0
+   */
+  <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension,
+                                                      String operation,
+                                                      Consumer<OperationParameterizer> parameters);
+
+  /**
+   * Executes an operation asynchronously by returning a {@link CompletableFuture} instance that will complete into a
+   * {@link Result} with the corresponding payload and attributes after the operation execution finished.
    * <p>
    * If the executed operation is not asynchronous in nature, the client might choose to actually execute in a synchronous manner.
    *
@@ -66,7 +84,9 @@ public interface ExtensionsClient {
    * @param parameters an {@link OperationParameters} instance with all the parameters required to execute the operation.
    * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and the
    *         corresponding attributes.
+   * @deprecated since 4.5.0. Use {@link #executeAsync(String, String, Consumer)} instead
    */
+  @Deprecated
   <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension, String operation,
                                                       OperationParameters parameters);
 
@@ -81,12 +101,9 @@ public interface ExtensionsClient {
    * @param parameters an {@link OperationParameters} instance with all the parameters required to execute the operation.
    * @return a {@link Result} instance with the payload content and the corresponding attributes after the operation execution.
    * @throws MuleException if any error occurred while executing the operation.
+   * @deprecated since 4.5.0. Use {@link #executeAsync(String, String, Consumer)} instead
    */
+  @Deprecated
   <T, A> Result<T, A> execute(String extension, String operation, OperationParameters parameters)
       throws MuleException;
-
-
-  <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension,
-                                                      String operation,
-                                                      Consumer<OperationParameterizer> parameters);
 }
