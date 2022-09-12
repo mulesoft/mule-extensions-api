@@ -69,6 +69,7 @@ public interface ExtensionsClient {
    *         corresponding attributes.
    * @since 4.5.0
    */
+  @MinMuleVersion("4.5.0")
   <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension,
                                                       String operation,
                                                       Consumer<OperationParameterizer> parameters);
