@@ -18,7 +18,9 @@ import org.mule.runtime.extension.api.runtime.config.ConfigurationProvider;
  */
 public class MetadataTypeConstants {
 
-  /** {@link MetadataType} representing a {@link ConfigurationProvider}, suitable for config-ref parameters. */
+  /**
+   * {@link MetadataType} representing a {@link ConfigurationProvider}, suitable for config-ref parameters.
+   */
   public static final MetadataType CONFIG_TYPE = BaseTypeBuilder.create(JAVA)
       .objectType()
       .id(ConfigurationProvider.class.getName())
