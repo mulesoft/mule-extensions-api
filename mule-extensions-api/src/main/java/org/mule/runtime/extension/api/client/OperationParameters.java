@@ -9,13 +9,17 @@ package org.mule.runtime.extension.api.client;
 import org.mule.api.annotation.NoImplement;
 import org.mule.sdk.api.annotation.MinMuleVersion;
 
+import java.util.function.Consumer;
+
 /**
  * A simple interface for parameters that aims to be used to execute an extension operation using the {@link ExtensionsClient}.
  *
  * @since 1.0
+ * @deprecated since 1.5.0. Use {@link ExtensionsClient#executeAsync(String, String, Consumer)} instead
  */
 @MinMuleVersion("4.1")
 @NoImplement
+@Deprecated
 public interface OperationParameters extends org.mule.sdk.api.client.OperationParameters {
 
 }
