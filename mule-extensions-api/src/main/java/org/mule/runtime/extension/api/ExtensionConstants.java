@@ -354,11 +354,11 @@ public final class ExtensionConstants {
   public static final String MULE_SDK_ARTIFACT_AST_PROPERTY_NAME = MULE_SDK_PREFIX + "artifactAst";
 
   /**
-   * Property name for Mule SDK {@link ExtensionModelLoader} for specifying the {@link TypeLoader} to use
+   * Property name for Mule SDK {@link ExtensionModelLoader} for specifying the extension's main resource.
    *
    * @since 1.5.0
    */
-  public static final String MULE_SDK_TYPE_LOADER_PROPERTY_NAME = MULE_SDK_PREFIX + "typeLoader";
+  public static final String MULE_SDK_RESOURCE_PROPERTY_NAME = MULE_SDK_PREFIX + "resource";
 
   /**
    * Property name for referencing an extension's name.
