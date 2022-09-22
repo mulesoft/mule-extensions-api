@@ -7,9 +7,7 @@
 package org.mule.runtime.extension.api.component.value;
 
 import org.mule.api.annotation.NoImplement;
-import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
-import org.mule.runtime.api.connection.ConnectionProvider;
 
 import java.util.function.Consumer;
 
@@ -25,25 +23,23 @@ public interface ValueDeclarer {
    * Declares that the described value represents an Object value.
    *
    * @param objectValueDeclarerConsumer a consumer to configure the value of the object
-   * @return the declarer to be used to declare the object value
    */
   void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer);
 
   /**
-   * Declares that the described value represents an Object value.
+   * Declares that the described value represents an Object value with the type that represents the value being declared, this is
+   * necessary when the value has multiple types available and it is needed to know which is chosen.
    *
    * @param objectValueDeclarerConsumer a consumer to configure the value of the object
-   * @param objectType                  the type that represents the value being declared, this is necessary when the value has
-   *                                    multiple types available and it is needed to know which is chosen.
-   * @return the declarer to be used to declare the object value
+   * @param extensionName               the name of the extension that defines the type.
+   * @param typeIdOrAlias               the typeId or typeAlias of the type.
    */
-  void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, ObjectType objectType);
+  void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, String extensionName, String typeIdOrAlias);
 
   /**
    * Declares that the described value represents an Array value.
    *
    * @param arrayValueDeclarerConsumer a consumer to configure the value of the array
-   * @return the declarer to be used to declare the array value
    */
   void arrayValue(Consumer<ArrayValueDeclarer> arrayValueDeclarerConsumer);
 

@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.component.value;
 
 import org.mule.metadata.api.model.ObjectType;
+import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.component.value.ArrayValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ObjectValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
@@ -20,6 +21,7 @@ import java.util.function.Consumer;
 public class DefaultValueDeclarer implements ValueDeclarer {
 
   private HasValue value;
+  private Pair<String, String> typeInformation = null;
 
   @Override
   public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer) {
@@ -28,8 +30,8 @@ public class DefaultValueDeclarer implements ValueDeclarer {
   }
 
   @Override
-  public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, ObjectType objectType) {
-    value = new DefaultObjectValueDeclarer(objectType);
+  public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, String extensionName, String typeIdOrAlias) {
+    value = new TypedObjectValueDeclarer(extensionName, typeIdOrAlias);
     objectValueDeclarerConsumer.accept((ObjectValueDeclarer) value);
   }
 
@@ -67,10 +69,6 @@ public class DefaultValueDeclarer implements ValueDeclarer {
       mapValue = new LinkedHashMap();
     }
 
-    public DefaultObjectValueDeclarer(ObjectType objectType) {
-      mapValue = new ObjectTypedMap(objectType);
-    }
-
     @Override
     public ObjectValueDeclarer withField(String name, Object value) {
       mapValue.put(name, value);
@@ -89,17 +87,20 @@ public class DefaultValueDeclarer implements ValueDeclarer {
     }
   }
 
-  private static class ObjectTypedMap<K, V> extends HashMap<K, V> implements HasObjectType {
+  private static class TypedObjectValueDeclarer extends DefaultObjectValueDeclarer {
 
-    private ObjectType objectType;
+    private Pair<String, String> typeInformation = null;
 
-    public ObjectTypedMap(ObjectType objectType) {
-      this.objectType = objectType;
+    public TypedObjectValueDeclarer(String extensionName, String typeIdOrAlias) {
+      super();
+      typeInformation = new Pair<>(extensionName, typeIdOrAlias);
     }
 
-    public ObjectType getObjectType() {
-      return objectType;
+    @Override
+    public Object getValue() {
+      return new EnrichedValue(super.getValue(), typeInformation);
     }
+
   }
 
   private static class DefaultArrayValueDeclarer implements ArrayValueDeclarer, HasValue {
