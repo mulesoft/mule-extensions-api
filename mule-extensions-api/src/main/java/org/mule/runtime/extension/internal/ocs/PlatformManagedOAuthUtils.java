@@ -39,7 +39,7 @@ public final class PlatformManagedOAuthUtils {
    */
   public static boolean isPlatformManagedOAuthEnabled(ConfigurationProperties configurationProperties) {
     if (configurationProperties != null) {
-      return configurationProperties.resolveBooleanProperty(OCS_ENABLED).orElse(false);
+      return configurationProperties.resolveBooleanProperty(OCS_ENABLED).orElse(false) || isPlatformManagedOAuthEnabled();
     } else {
       return isPlatformManagedOAuthEnabled();
     }
