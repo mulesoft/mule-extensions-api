@@ -11,6 +11,7 @@ import static java.util.Collections.unmodifiableMap;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
+import org.mule.runtime.api.component.ConfigurationProperties;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 
@@ -33,8 +34,9 @@ public final class ExtensionModelLoadingRequest {
 
     private final ExtensionModelLoadingRequest product;
 
-    private Builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
-      this.product = new ExtensionModelLoadingRequest(extensionClassLoader, dslResolvingContext);
+    private Builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext,
+                    ConfigurationProperties configurationProperties) {
+      this.product = new ExtensionModelLoadingRequest(extensionClassLoader, dslResolvingContext, configurationProperties);
     }
 
     /**
@@ -121,22 +123,37 @@ public final class ExtensionModelLoadingRequest {
    * @return a new {@link Builder}
    */
   public static Builder builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
-    return new Builder(extensionClassLoader, dslResolvingContext);
+    return new Builder(extensionClassLoader, dslResolvingContext, ConfigurationProperties.nullConfigurationProperties());
+  }
+
+  /**
+   * @param extensionClassLoader    The extension's {@link ClassLoader}
+   * @param dslResolvingContext     a {@link DslResolvingContext}
+   * @param configurationProperties the {@link ConfigurationProperties} needed to configure the extension
+   * @return a new {@link Builder}
+   */
+  public static Builder builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext,
+                                ConfigurationProperties configurationProperties) {
+    return new Builder(extensionClassLoader, dslResolvingContext, configurationProperties);
   }
 
   private final ClassLoader extensionClassLoader;
   private final DslResolvingContext dslResolvingContext;
+  private final ConfigurationProperties configurationProperties;
   private final List<ExtensionModelValidator> validators = new LinkedList<>();
   private final List<DeclarationEnricher> enrichers = new LinkedList<>();
   private final Map<String, Object> parameters = new HashMap<>();
   private ArtifactCoordinates artifactCoordinates;
 
-  private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
+  private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext,
+                                       ConfigurationProperties configurationProperties) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
     checkArgument(dslResolvingContext != null, "Dsl resolving context cannot be null");
+    checkArgument(configurationProperties != null, "Configuration properties cannot be null");
 
     this.extensionClassLoader = extensionClassLoader;
     this.dslResolvingContext = dslResolvingContext;
+    this.configurationProperties = configurationProperties;
   }
 
   /**
@@ -151,6 +168,13 @@ public final class ExtensionModelLoadingRequest {
    */
   public DslResolvingContext getDslResolvingContext() {
     return dslResolvingContext;
+  }
+
+  /**
+   * @return the properties needed to configure the extension
+   */
+  public ConfigurationProperties getConfigurationProperties() {
+    return configurationProperties;
   }
 
   /**

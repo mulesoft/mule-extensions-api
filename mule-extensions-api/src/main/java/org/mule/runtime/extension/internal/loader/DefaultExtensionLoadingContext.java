@@ -11,6 +11,7 @@ import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 
+import org.mule.runtime.api.component.ConfigurationProperties;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -152,6 +153,14 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   @Override
   public DslResolvingContext getDslResolvingContext() {
     return request.getDslResolvingContext();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ConfigurationProperties getConfigurationProperties() {
+    return request.getConfigurationProperties();
   }
 
   /**
