@@ -108,7 +108,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
     final Set<Integer> visitedOwners = new HashSet<>();
     final Set<Integer> visitedProviders = new HashSet<>();
     final Reference<ConnectionProviderDeclaration> ocsConnectionProvider = new Reference<>(null);
-    final boolean ocsEnabled = isPlatformManagedOAuthEnabled(extensionLoadingContext.getConfigurationProperties());
+    final boolean ocsEnabled = isPlatformManagedOAuthEnabled() || extensionLoadingContext.isOCSEnabled();
     new DeclarationWalker() {
 
       @Override

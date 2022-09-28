@@ -24,25 +24,11 @@ public final class PlatformManagedOAuthUtils {
   /**
    * Determines if the Platform Managed OAuth connections feature is enabled
    *
+   * @param configurationProperties the application's {@link ConfigurationProperties}
    * @return Whether the feature is enabled or not
    */
   public static boolean isPlatformManagedOAuthEnabled() {
     return getProperty(OCS_ENABLED) != null;
-  }
-
-  /**
-   * Determines if the Platform Managed OAuth connections feature is enabled
-   *
-   * @param configurationProperties the application's {@link ConfigurationProperties}
-   * @return Whether the feature is enabled or not
-   * @since 1.5
-   */
-  public static boolean isPlatformManagedOAuthEnabled(ConfigurationProperties configurationProperties) {
-    if (configurationProperties != null) {
-      return configurationProperties.resolveBooleanProperty(OCS_ENABLED).orElse(false) || isPlatformManagedOAuthEnabled();
-    } else {
-      return isPlatformManagedOAuthEnabled();
-    }
   }
 
   private PlatformManagedOAuthUtils() {}
