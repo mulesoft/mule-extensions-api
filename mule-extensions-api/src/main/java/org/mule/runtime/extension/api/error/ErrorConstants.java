@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.error;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.CLIENT_SECURITY;
 import static org.mule.runtime.extension.api.error.MuleErrors.CONNECTIVITY;
@@ -20,9 +21,11 @@ import static org.mule.runtime.extension.api.error.MuleErrors.TRANSFORMATION;
 
 import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
+import org.mule.runtime.api.message.Error;
 
 /**
- * Provides useful static values fir use in extensions declarers dealing with error types.
+ * Provides useful static values for use in extensions declarers dealing with error types.
  *
  * @since 1.4
  */
@@ -64,4 +67,10 @@ public final class ErrorConstants {
               "TIMEOUT")
       .build();
 
+  // TODO (W-11793405): Review this type
+  public static final MetadataType ERROR = create(JAVA)
+      .objectType()
+      .id(Error.class.getName())
+      .with(new ClassInformationAnnotation(Error.class))
+      .build();
 }
