@@ -33,9 +33,8 @@ public final class ExtensionModelLoadingRequest {
 
     private final ExtensionModelLoadingRequest product;
 
-    private Builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext,
-                    boolean ocsEnabled) {
-      this.product = new ExtensionModelLoadingRequest(extensionClassLoader, dslResolvingContext, ocsEnabled);
+    private Builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
+      this.product = new ExtensionModelLoadingRequest(extensionClassLoader, dslResolvingContext);
     }
 
     /**
@@ -109,6 +108,18 @@ public final class ExtensionModelLoadingRequest {
     }
 
     /**
+     * Enables or disables OCS.
+     *
+     * @param ocsEnabled whether OCS is enabled
+     * @return {@code this} builder
+     */
+    public Builder setOCSEnabled(boolean ocsEnabled) {
+      product.ocsEnabled = ocsEnabled;
+
+      return this;
+    }
+
+    /**
      * @return The built request
      */
     public ExtensionModelLoadingRequest build() {
@@ -122,36 +133,23 @@ public final class ExtensionModelLoadingRequest {
    * @return a new {@link Builder}
    */
   public static Builder builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
-    return new Builder(extensionClassLoader, dslResolvingContext, false);
-  }
-
-  /**
-   * @param extensionClassLoader The extension's {@link ClassLoader}
-   * @param dslResolvingContext  a {@link DslResolvingContext}
-   * @param ocsEnabled           whether OCS is enabled
-   * @return a new {@link Builder}
-   */
-  public static Builder builder(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext,
-                                boolean ocsEnabled) {
-    return new Builder(extensionClassLoader, dslResolvingContext, ocsEnabled);
+    return new Builder(extensionClassLoader, dslResolvingContext);
   }
 
   private final ClassLoader extensionClassLoader;
   private final DslResolvingContext dslResolvingContext;
-  private final boolean ocsEnabled;
   private final List<ExtensionModelValidator> validators = new LinkedList<>();
   private final List<DeclarationEnricher> enrichers = new LinkedList<>();
   private final Map<String, Object> parameters = new HashMap<>();
   private ArtifactCoordinates artifactCoordinates;
+  private boolean ocsEnabled;
 
-  private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext,
-                                       boolean ocsEnabled) {
+  private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
     checkArgument(dslResolvingContext != null, "Dsl resolving context cannot be null");
 
     this.extensionClassLoader = extensionClassLoader;
     this.dslResolvingContext = dslResolvingContext;
-    this.ocsEnabled = ocsEnabled;
   }
 
   /**
