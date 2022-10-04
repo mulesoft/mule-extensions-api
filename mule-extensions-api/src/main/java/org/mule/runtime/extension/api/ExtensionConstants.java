@@ -332,12 +332,12 @@ public final class ExtensionConstants {
   private static final String MULE_SDK_PREFIX = "muleSDK.";
 
   /**
-   * The id for the Mule SDK {@link ExtensionModelLoader} for extensions defined as part of the same artifact from where they are
-   * consumed.
+   * The id for the Mule SDK {@link ExtensionModelLoader} for extensions defined as part of the same application from where they
+   * are consumed.
    *
    * @since 1.5.0
    */
-  public static final String MULE_SDK_THIS_LOADER_ID = "this";
+  public static final String MULE_SDK_APPLICATION_LOADER_ID = "mule_app";
 
   /**
    * The id for the Mule SDK {@link ExtensionModelLoader}
