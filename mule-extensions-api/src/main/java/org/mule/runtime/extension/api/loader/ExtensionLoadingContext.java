@@ -116,4 +116,10 @@ public interface ExtensionLoadingContext {
    * @return the {@link DslResolvingContext} with all the dependencies to load an {@link ExtensionModel}
    */
   DslResolvingContext getDslResolvingContext();
+
+  /**
+   * @return whether OCS is enabled
+   * @since 1.5
+   */
+  boolean isOCSEnabled();
 }

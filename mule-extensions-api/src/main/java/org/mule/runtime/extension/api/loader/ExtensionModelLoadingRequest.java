@@ -108,6 +108,18 @@ public final class ExtensionModelLoadingRequest {
     }
 
     /**
+     * Enables or disables OCS.
+     *
+     * @param ocsEnabled whether OCS is enabled
+     * @return {@code this} builder
+     */
+    public Builder setOCSEnabled(boolean ocsEnabled) {
+      product.ocsEnabled = ocsEnabled;
+
+      return this;
+    }
+
+    /**
      * @return The built request
      */
     public ExtensionModelLoadingRequest build() {
@@ -130,6 +142,7 @@ public final class ExtensionModelLoadingRequest {
   private final List<DeclarationEnricher> enrichers = new LinkedList<>();
   private final Map<String, Object> parameters = new HashMap<>();
   private ArtifactCoordinates artifactCoordinates;
+  private boolean ocsEnabled;
 
   private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
@@ -151,6 +164,13 @@ public final class ExtensionModelLoadingRequest {
    */
   public DslResolvingContext getDslResolvingContext() {
     return dslResolvingContext;
+  }
+
+  /**
+   * @return whether OCS is enabled
+   */
+  public boolean isOCSEnabled() {
+    return ocsEnabled;
   }
 
   /**

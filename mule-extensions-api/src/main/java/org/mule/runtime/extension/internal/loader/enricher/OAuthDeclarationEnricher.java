@@ -57,7 +57,6 @@ import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STR
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
-import static org.mule.runtime.extension.internal.ocs.PlatformManagedOAuthUtils.isPlatformManagedOAuthEnabled;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
@@ -108,7 +107,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
     final Set<Integer> visitedOwners = new HashSet<>();
     final Set<Integer> visitedProviders = new HashSet<>();
     final Reference<ConnectionProviderDeclaration> ocsConnectionProvider = new Reference<>(null);
-    final boolean ocsEnabled = isPlatformManagedOAuthEnabled();
+    final boolean ocsEnabled = extensionLoadingContext.isOCSEnabled();
     new DeclarationWalker() {
 
       @Override
