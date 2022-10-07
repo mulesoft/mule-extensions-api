@@ -11,6 +11,7 @@ import static java.lang.Thread.currentThread;
 import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -95,12 +96,30 @@ public abstract class ExtensionModelLoader {
     ClassLoader currentClassLoader = currentThread().getContextClassLoader();
     currentThread().setContextClassLoader(request.getExtensionClassLoader());
     try {
-      declareExtension(ctx);
-      ctx.getExtensionDeclarer().withArtifactCoordinates(request.getArtifactCoordinates());
-      return factory.create(ctx);
+      return loadExtensionModel(ctx, request.getArtifactCoordinates());
     } finally {
       currentThread().setContextClassLoader(currentClassLoader);
     }
+  }
+
+  /**
+   * Creates an {@link ExtensionModel} from the {@code context}.
+   * <p>
+   * This method delegates into {@link #declareExtension(ExtensionLoadingContext)} in order to obtain the
+   * {@link ExtensionDeclaration}. That declaration is then transformed into an actual {@link ExtensionModel}. While loading the
+   * extension, a default set of {@link DeclarationEnricher} and {@link ExtensionModelValidator} will be applied.
+   * <p>
+   *
+   * @param context             the context that will be used for the declaration.
+   * @param artifactCoordinates the coordinates to add to the declarer before creating the model.
+   * @return an {@link ExtensionModel} that represents the plugin being described
+   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
+   *                                  one.
+   */
+  protected ExtensionModel loadExtensionModel(ExtensionLoadingContext context, ArtifactCoordinates artifactCoordinates) {
+    declareExtension(context);
+    context.getExtensionDeclarer().withArtifactCoordinates(artifactCoordinates);
+    return factory.create(context);
   }
 
   /**
