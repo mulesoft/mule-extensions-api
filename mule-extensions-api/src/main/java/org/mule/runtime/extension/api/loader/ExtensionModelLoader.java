@@ -88,7 +88,7 @@ public abstract class ExtensionModelLoader {
    * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
    *                                  one.
    */
-  public final ExtensionModel loadExtensionModel(ExtensionModelLoadingRequest request) {
+  public ExtensionModel loadExtensionModel(ExtensionModelLoadingRequest request) {
     ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(request);
     configureContextBeforeDeclaration(ctx);
 
