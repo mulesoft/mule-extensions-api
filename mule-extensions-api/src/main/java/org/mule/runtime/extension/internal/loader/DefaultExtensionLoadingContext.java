@@ -12,6 +12,7 @@ import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 import static org.mule.runtime.extension.internal.ocs.PlatformManagedOAuthUtils.isPlatformManagedOAuthEnabled;
 
+import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -161,6 +162,14 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   @Override
   public boolean isOCSEnabled() {
     return request.isOCSEnabled() || isPlatformManagedOAuthEnabled();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ArtifactCoordinates getArtifactCoordinates() {
+    return request.getArtifactCoordinates();
   }
 
   /**
