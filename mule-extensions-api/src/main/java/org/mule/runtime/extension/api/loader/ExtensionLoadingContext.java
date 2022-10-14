@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.loader;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -122,4 +123,12 @@ public interface ExtensionLoadingContext {
    * @since 1.5
    */
   boolean isOCSEnabled();
+
+  /**
+   * @return the {@link ArtifactCoordinates} of the Extension
+   * @since 1.5
+   */
+  default Optional<ArtifactCoordinates> getArtifactCoordinates() {
+    return Optional.empty();
+  }
 }
