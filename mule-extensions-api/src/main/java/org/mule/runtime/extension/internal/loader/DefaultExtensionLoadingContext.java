@@ -168,8 +168,8 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
    * {@inheritDoc}
    */
   @Override
-  public ArtifactCoordinates getArtifactCoordinates() {
-    return request.getArtifactCoordinates();
+  public Optional<ArtifactCoordinates> getArtifactCoordinates() {
+    return ofNullable(request.getArtifactCoordinates());
   }
 
   /**

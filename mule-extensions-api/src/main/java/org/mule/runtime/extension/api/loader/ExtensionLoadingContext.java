@@ -128,5 +128,7 @@ public interface ExtensionLoadingContext {
    * @return the {@link ArtifactCoordinates} of the Extension
    * @since 1.5
    */
-  ArtifactCoordinates getArtifactCoordinates();
+  default Optional<ArtifactCoordinates> getArtifactCoordinates() {
+    return Optional.empty();
+  }
 }

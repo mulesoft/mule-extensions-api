@@ -117,7 +117,7 @@ public abstract class ExtensionModelLoader {
    */
   protected ExtensionModel doCreate(ExtensionLoadingContext context) {
     declareExtension(context);
-    context.getExtensionDeclarer().withArtifactCoordinates(context.getArtifactCoordinates());
+    context.getArtifactCoordinates().ifPresent(context.getExtensionDeclarer()::withArtifactCoordinates);
     return factory.create(context);
   }
 
