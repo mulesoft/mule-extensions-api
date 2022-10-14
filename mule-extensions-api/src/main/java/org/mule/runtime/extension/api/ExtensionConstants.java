@@ -12,6 +12,7 @@ import static org.mule.runtime.api.util.DataUnit.KB;
 
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
+import org.mule.runtime.api.metadata.ExpressionLanguageMetadataService;
 import org.mule.runtime.api.time.Time;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.api.util.DataUnit;
@@ -366,6 +367,15 @@ public final class ExtensionConstants {
    * @since 1.5.0
    */
   public static final String MULE_SDK_RESOURCE_PROPERTY_NAME = MULE_SDK_PREFIX + "resource";
+
+  /**
+   * Property name for Mule SDK {@link ExtensionModelLoader} for specifying the {@link ExpressionLanguageMetadataService}
+   * implementation to use.
+   *
+   * @since 1.5.0
+   */
+  public static final String MULE_SDK_EXPRESSION_LANGUAGE_METADATA_SERVICE_PROPERTY_NAME =
+      MULE_SDK_PREFIX + "expressionLanguageMetadataService";
 
   /**
    * Property name for referencing an extension's name.
