@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.component;
 
 import org.mule.runtime.api.component.ComponentIdentifier;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
@@ -86,6 +87,8 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
 
   Optional<ComponentIdentifier> getComponentIdentifier();
 
+  Optional<ComponentParameterization<ConfigurationModel>> getConfigParameterization();
+
   /**
    * Builder that allows to create new {@link ComponentParameterization} instances.
    *
@@ -139,6 +142,8 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
         throws IllegalArgumentException;
 
     Builder<M> withComponentIdentifier(ComponentIdentifier identifier);
+
+    Builder<M> withConfigurationParameterization(ComponentParameterization<ConfigurationModel> configParameterization);
   }
 
   /**
