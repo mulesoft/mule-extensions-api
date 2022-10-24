@@ -36,7 +36,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
   private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters = new HashMap<>();
   private Optional<ComponentIdentifier> identifier = empty();
-  private Optional<ComponentParameterization<ConfigurationModel>> configParam = empty();
+  private Optional<ComponentParameterization<?>> configParam = empty();
 
   public Builder<M> withModel(M model) {
     this.model = model;
@@ -96,7 +96,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   }
 
   @Override
-  public Builder<M> withConfigurationParameterization(ComponentParameterization<ConfigurationModel> configParameterization) {
+  public Builder<M> withConfigurationParameterization(ComponentParameterization<?> configParameterization) {
     this.configParam = of(configParameterization);
     return this;
   }
@@ -115,11 +115,11 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters;
     private final Map<Pair<String, String>, Object> parametersByNames;
     private final Optional<ComponentIdentifier> identifier;
-    private final Optional<ComponentParameterization<ConfigurationModel>> configParam;
+    private final Optional<ComponentParameterization<?>> configParam;
 
     public DefaultComponentParameterization(M model, Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters,
                                             Optional<ComponentIdentifier> identifier,
-                                            Optional<ComponentParameterization<ConfigurationModel>> configParameterization) {
+                                            Optional<ComponentParameterization<?>> configParameterization) {
       this.model = model;
       this.parameters = parameters;
       this.identifier = identifier;
@@ -161,7 +161,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     }
 
     @Override
-    public Optional<ComponentParameterization<ConfigurationModel>> getConfigParameterization() {
+    public Optional<ComponentParameterization<?>> getConfigParameterization() {
       return configParam;
     }
   }

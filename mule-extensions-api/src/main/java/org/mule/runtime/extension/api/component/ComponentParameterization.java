@@ -87,7 +87,7 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
 
   Optional<ComponentIdentifier> getComponentIdentifier();
 
-  Optional<ComponentParameterization<ConfigurationModel>> getConfigParameterization();
+  Optional<ComponentParameterization<?>> getConfigParameterization();
 
   /**
    * Builder that allows to create new {@link ComponentParameterization} instances.
@@ -143,7 +143,7 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
 
     Builder<M> withComponentIdentifier(ComponentIdentifier identifier);
 
-    Builder<M> withConfigurationParameterization(ComponentParameterization<ConfigurationModel> configParameterization);
+    Builder<M> withConfigurationParameterization(ComponentParameterization<?> configParameterization);
   }
 
   /**
