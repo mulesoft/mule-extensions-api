@@ -15,6 +15,7 @@ import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 import org.mule.runtime.extension.internal.component.ComponentParameterizationBuilder;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -89,6 +90,8 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
 
   Optional<ComponentParameterization<?>> getConfigParameterization();
 
+  List<ComponentIdentifier> childrenComponentIdentifier();
+
   /**
    * Builder that allows to create new {@link ComponentParameterization} instances.
    *
@@ -142,6 +145,8 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
         throws IllegalArgumentException;
 
     Builder<M> withComponentIdentifier(ComponentIdentifier identifier);
+
+    Builder<M> withChildComponentIdentifier(ComponentIdentifier identifier);
 
     Builder<M> withConfigurationParameterization(ComponentParameterization<?> configParameterization);
   }

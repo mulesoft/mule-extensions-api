@@ -23,10 +23,7 @@ import org.mule.runtime.extension.api.component.ComponentParameterization.Builde
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 import org.mule.runtime.extension.internal.component.value.DefaultValueDeclarer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 
 
@@ -36,6 +33,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
   private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters = new HashMap<>();
   private Optional<ComponentIdentifier> identifier = empty();
+  private List<ComponentIdentifier> childrenIdentifiers = new ArrayList<>();
   private Optional<ComponentParameterization<?>> configParam = empty();
 
   public Builder<M> withModel(M model) {
@@ -96,6 +94,12 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   }
 
   @Override
+  public Builder<M> withChildComponentIdentifier(ComponentIdentifier identifier) {
+    this.childrenIdentifiers.add(identifier);
+    return this;
+  }
+
+  @Override
   public Builder<M> withConfigurationParameterization(ComponentParameterization<?> configParameterization) {
     this.configParam = of(configParameterization);
     return this;
@@ -105,7 +109,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   public ComponentParameterization<M> build() {
     // TODO W-11214382 validate all required params are present
     // TODO W-11214382 set values for unset params withdefault values
-    return new DefaultComponentParameterization<>(model, unmodifiableMap(parameters), identifier, configParam);
+    return new DefaultComponentParameterization<>(model, unmodifiableMap(parameters), identifier, childrenIdentifiers, configParam);
   }
 
   private static class DefaultComponentParameterization<M extends ParameterizedModel> implements ComponentParameterization<M> {
@@ -115,14 +119,16 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters;
     private final Map<Pair<String, String>, Object> parametersByNames;
     private final Optional<ComponentIdentifier> identifier;
+    private final List<ComponentIdentifier> childrenIdentifiers;
     private final Optional<ComponentParameterization<?>> configParam;
 
     public DefaultComponentParameterization(M model, Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters,
-                                            Optional<ComponentIdentifier> identifier,
+                                            Optional<ComponentIdentifier> identifier, List<ComponentIdentifier> childrenIdentifiers,
                                             Optional<ComponentParameterization<?>> configParameterization) {
       this.model = model;
       this.parameters = parameters;
       this.identifier = identifier;
+      this.childrenIdentifiers = childrenIdentifiers;
       this.configParam = configParameterization;
 
       parametersByNames = unmodifiableMap(parameters.entrySet().stream()
@@ -163,6 +169,11 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     @Override
     public Optional<ComponentParameterization<?>> getConfigParameterization() {
       return configParam;
+    }
+
+    @Override
+    public List<ComponentIdentifier> childrenComponentIdentifier() {
+      return childrenIdentifiers;
     }
   }
 }
