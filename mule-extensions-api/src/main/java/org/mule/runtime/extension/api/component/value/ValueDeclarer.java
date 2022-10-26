@@ -28,7 +28,7 @@ public interface ValueDeclarer {
 
   /**
    * Declares that the described value represents an Object value with the type that represents the value being declared, this is
-   * necessary when the value has multiple types available and it is needed to know which is chosen.
+   * necessary when the value has multiple types available and is needed to know which is chosen.
    *
    * @param objectValueDeclarerConsumer a consumer to configure the value of the object
    * @param extensionName               the name of the extension that defines the type.

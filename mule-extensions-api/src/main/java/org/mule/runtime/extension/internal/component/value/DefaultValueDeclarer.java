@@ -89,7 +89,7 @@ public class DefaultValueDeclarer implements ValueDeclarer {
 
   private static class TypedObjectValueDeclarer extends DefaultObjectValueDeclarer {
 
-    private Pair<String, String> typeInformation = null;
+    private final  Pair<String, String> typeInformation;
 
     public TypedObjectValueDeclarer(String extensionName, String typeIdOrAlias) {
       super();
