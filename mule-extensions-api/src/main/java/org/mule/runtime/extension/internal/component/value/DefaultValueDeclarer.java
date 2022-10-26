@@ -11,7 +11,7 @@ import org.mule.runtime.extension.api.component.value.ObjectValueDeclarer;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -57,7 +57,7 @@ public class DefaultValueDeclarer implements ValueDeclarer {
     private final Map<String, Object> mapValue;
 
     public DefaultObjectValueDeclarer() {
-      mapValue = new HashMap();
+      mapValue = new LinkedHashMap();
     }
 
     @Override
