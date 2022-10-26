@@ -33,8 +33,6 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
   private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters = new HashMap<>();
   private Optional<ComponentIdentifier> identifier = empty();
-  private List<ComponentIdentifier> childrenIdentifiers = new ArrayList<>();
-  private Optional<ComponentParameterization<?>> configParam = empty();
 
   public Builder<M> withModel(M model) {
     this.model = model;
@@ -94,22 +92,10 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   }
 
   @Override
-  public Builder<M> withChildComponentIdentifier(ComponentIdentifier identifier) {
-    this.childrenIdentifiers.add(identifier);
-    return this;
-  }
-
-  @Override
-  public Builder<M> withConfigurationParameterization(ComponentParameterization<?> configParameterization) {
-    this.configParam = of(configParameterization);
-    return this;
-  }
-
-  @Override
   public ComponentParameterization<M> build() {
     // TODO W-11214382 validate all required params are present
     // TODO W-11214382 set values for unset params withdefault values
-    return new DefaultComponentParameterization<>(model, unmodifiableMap(parameters), identifier, childrenIdentifiers, configParam);
+    return new DefaultComponentParameterization<>(model, unmodifiableMap(parameters), identifier);
   }
 
   private static class DefaultComponentParameterization<M extends ParameterizedModel> implements ComponentParameterization<M> {
@@ -119,17 +105,12 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters;
     private final Map<Pair<String, String>, Object> parametersByNames;
     private final Optional<ComponentIdentifier> identifier;
-    private final List<ComponentIdentifier> childrenIdentifiers;
-    private final Optional<ComponentParameterization<?>> configParam;
 
     public DefaultComponentParameterization(M model, Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters,
-                                            Optional<ComponentIdentifier> identifier, List<ComponentIdentifier> childrenIdentifiers,
-                                            Optional<ComponentParameterization<?>> configParameterization) {
+                                            Optional<ComponentIdentifier> identifier) {
       this.model = model;
       this.parameters = parameters;
       this.identifier = identifier;
-      this.childrenIdentifiers = childrenIdentifiers;
-      this.configParam = configParameterization;
 
       parametersByNames = unmodifiableMap(parameters.entrySet().stream()
           .collect(toMap(e -> new Pair<>(e.getKey().getFirst().getName(), e.getKey().getSecond().getName()),
@@ -166,14 +147,5 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
       return identifier;
     }
 
-    @Override
-    public Optional<ComponentParameterization<?>> getConfigParameterization() {
-      return configParam;
-    }
-
-    @Override
-    public List<ComponentIdentifier> childrenComponentIdentifier() {
-      return childrenIdentifiers;
-    }
   }
 }

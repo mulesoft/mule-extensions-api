@@ -86,11 +86,10 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
     void accept(ParameterGroupModel paramGroup, ParameterModel param, Object paramValue);
   }
 
+  /**
+   * @return {@link ComponentIdentifier} of the component this parameterizes.
+   */
   Optional<ComponentIdentifier> getComponentIdentifier();
-
-  Optional<ComponentParameterization<?>> getConfigParameterization();
-
-  List<ComponentIdentifier> childrenComponentIdentifier();
 
   /**
    * Builder that allows to create new {@link ComponentParameterization} instances.
@@ -144,11 +143,12 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
     Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
         throws IllegalArgumentException;
 
+    /**
+     * @param identifier - the {@link ComponentIdentifier} of the parameterized component.
+     * @return this builder
+     */
     Builder<M> withComponentIdentifier(ComponentIdentifier identifier);
 
-    Builder<M> withChildComponentIdentifier(ComponentIdentifier identifier);
-
-    Builder<M> withConfigurationParameterization(ComponentParameterization<?> configParameterization);
   }
 
   /**
