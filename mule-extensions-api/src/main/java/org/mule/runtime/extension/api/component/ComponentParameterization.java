@@ -120,6 +120,9 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      */
     Builder<M> withParameter(String paramGroupName, String paramName, Object paramValue) throws IllegalArgumentException;
 
+    Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue)
+        throws IllegalArgumentException;
+
     /**
      * Sets a parameter with a given value, automatically determining the group the parameter belongs to.
      * 

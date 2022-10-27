@@ -58,6 +58,13 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   }
 
   @Override
+  public Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue)
+      throws IllegalArgumentException {
+    parameters.put(new Pair<>(paramGroup, paramModel), paramValue);
+    return this;
+  }
+
+  @Override
   public Builder<M> withParameter(String paramName, Object paramValue) throws IllegalArgumentException {
     List<ParameterGroupModel> paramGroupsWithParamNamed = model.getParameterGroupModels()
         .stream()
