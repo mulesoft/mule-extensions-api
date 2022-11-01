@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.component.value;
 
 import org.mule.api.annotation.NoImplement;
-import org.mule.metadata.api.model.ObjectType;
 
 import java.util.function.Consumer;
 
