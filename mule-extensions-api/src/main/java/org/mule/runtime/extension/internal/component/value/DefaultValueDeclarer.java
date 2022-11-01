@@ -30,8 +30,9 @@ public class DefaultValueDeclarer implements ValueDeclarer {
   }
 
   @Override
-  public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, String extensionName, String typeIdOrAlias) {
-    value = new TypedObjectValueDeclarer(extensionName, typeIdOrAlias);
+  public void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, String extensionIdentifier,
+                          String typeIdOrAlias) {
+    value = new TypedObjectValueDeclarer(extensionIdentifier, typeIdOrAlias);
     objectValueDeclarerConsumer.accept((ObjectValueDeclarer) value);
   }
 
@@ -91,9 +92,9 @@ public class DefaultValueDeclarer implements ValueDeclarer {
 
     private final Pair<String, String> typeInformation;
 
-    public TypedObjectValueDeclarer(String extensionName, String typeIdOrAlias) {
+    public TypedObjectValueDeclarer(String extensionIdentifier, String typeIdOrAlias) {
       super();
-      typeInformation = new Pair<>(extensionName, typeIdOrAlias);
+      typeInformation = new Pair<>(extensionIdentifier, typeIdOrAlias);
     }
 
     @Override
