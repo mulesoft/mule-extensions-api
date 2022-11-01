@@ -6,10 +6,15 @@
  */
 package org.mule.runtime.extension.internal.component.value;
 
+import static java.util.Optional.ofNullable;
+
 import org.mule.runtime.api.util.Pair;
 
+import java.util.Optional;
+
+
 /**
- * ADD JDOC
+ * Represents a value that holds extra information about that value
  *
  * @since 1.5
  */
@@ -17,6 +22,10 @@ public class EnrichedValue {
 
   private final Object value;
 
+  /**
+   * The typeInformation contains the extensionIdentifier which indicates the extension in which the
+   * {@link org.mule.metadata.api.model.MetadataType} is defined and the typeIdentifier which is either its typeId or typeAlias
+   */
   private final Pair<String, String> typeInformation;
 
   public EnrichedValue(Object value, Pair<String, String> typeInformation) {
@@ -28,8 +37,8 @@ public class EnrichedValue {
     return value;
   }
 
-  public Pair<String, String> getTypeInformation() {
-    return typeInformation;
+  public Optional<Pair<String, String>> getTypeInformation() {
+    return ofNullable(typeInformation);
   }
 
 }
