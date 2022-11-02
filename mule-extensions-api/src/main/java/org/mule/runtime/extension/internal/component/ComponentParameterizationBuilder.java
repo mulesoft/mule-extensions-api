@@ -7,13 +7,12 @@
 package org.mule.runtime.extension.internal.component;
 
 import static java.util.Collections.unmodifiableMap;
-import static java.util.Optional.*;
-import static java.util.function.UnaryOperator.identity;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 import org.mule.runtime.api.component.ComponentIdentifier;
-import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
@@ -23,7 +22,10 @@ import org.mule.runtime.extension.api.component.ComponentParameterization.Builde
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 import org.mule.runtime.extension.internal.component.value.DefaultValueDeclarer;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 
@@ -58,8 +60,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   }
 
   @Override
-  public Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue)
-      throws IllegalArgumentException {
+  public Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue) {
     parameters.put(new Pair<>(paramGroup, paramModel), paramValue);
     return this;
   }
@@ -94,14 +95,14 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
   @Override
   public Builder<M> withComponentIdentifier(ComponentIdentifier identifier) {
-    this.identifier = ofNullable(identifier);
+    this.identifier = of(identifier);
     return this;
   }
 
   @Override
   public ComponentParameterization<M> build() {
     // TODO W-11214382 validate all required params are present
-    // TODO W-11214382 set values for unset params withdefault values
+    // TODO W-11214382 set values for unset params with default values
     return new DefaultComponentParameterization<>(model, unmodifiableMap(parameters), identifier);
   }
 

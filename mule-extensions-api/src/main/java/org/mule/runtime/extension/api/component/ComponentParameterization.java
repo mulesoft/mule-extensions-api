@@ -120,9 +120,6 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      */
     Builder<M> withParameter(String paramGroupName, String paramName, Object paramValue) throws IllegalArgumentException;
 
-    Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue)
-        throws IllegalArgumentException;
-
     /**
      * Sets a parameter with a given value, automatically determining the group the parameter belongs to.
      * 
@@ -145,6 +142,16 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      */
     Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
         throws IllegalArgumentException;
+
+    /**
+     * Sets a parameter with the given ParameterGroupModel and ParameterModel
+     *
+     * @param paramGroup - the {@link ParameterGroupModel} of the Parameter
+     * @param paramModel - the {@link ParameterModel} of the Parameter
+     * @param paramValue - the value of the parameter to set.
+     * @return this Builder.
+     */
+    Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue);
 
     /**
      * @param identifier - the {@link ComponentIdentifier} of the parameterized component.
