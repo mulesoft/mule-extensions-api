@@ -80,9 +80,8 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     }
 
     ParameterGroupModel paramGroup = paramGroupsWithParamNamed.get(0);
-    parameters.put(new Pair<>(paramGroup, paramGroupsWithParamNamed.get(0).getParameter(paramName).get()), paramValue);
-
-    return this;
+    ParameterModel paramModel = paramGroupsWithParamNamed.get(0).getParameter(paramName).get();
+    return this.withParameter(paramGroup, paramModel, paramValue);
   }
 
   @Override
