@@ -7,10 +7,12 @@
 package org.mule.runtime.extension.internal.component;
 
 import static java.util.Collections.unmodifiableMap;
-import static java.util.function.UnaryOperator.identity;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
+import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
@@ -23,6 +25,7 @@ import org.mule.runtime.extension.internal.component.value.DefaultValueDeclarer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 
@@ -31,6 +34,7 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   private M model;
 
   private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters = new HashMap<>();
+  private Optional<ComponentIdentifier> identifier = empty();
 
   public Builder<M> withModel(M model) {
     this.model = model;
@@ -56,6 +60,12 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   }
 
   @Override
+  public Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue) {
+    parameters.put(new Pair<>(paramGroup, paramModel), paramValue);
+    return this;
+  }
+
+  @Override
   public Builder<M> withParameter(String paramName, Object paramValue) throws IllegalArgumentException {
     List<ParameterGroupModel> paramGroupsWithParamNamed = model.getParameterGroupModels()
         .stream()
@@ -70,9 +80,8 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     }
 
     ParameterGroupModel paramGroup = paramGroupsWithParamNamed.get(0);
-    parameters.put(new Pair<>(paramGroup, paramGroupsWithParamNamed.get(0).getParameter(paramName).get()), paramValue);
-
-    return this;
+    ParameterModel paramModel = paramGroupsWithParamNamed.get(0).getParameter(paramName).get();
+    return this.withParameter(paramGroup, paramModel, paramValue);
   }
 
   @Override
@@ -84,10 +93,16 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
   }
 
   @Override
+  public Builder<M> withComponentIdentifier(ComponentIdentifier identifier) {
+    this.identifier = of(identifier);
+    return this;
+  }
+
+  @Override
   public ComponentParameterization<M> build() {
     // TODO W-11214382 validate all required params are present
-    // TODO W-11214382 set values for unset params withdefault values
-    return new DefaultComponentParameterization<>(model, unmodifiableMap(parameters));
+    // TODO W-11214382 set values for unset params with default values
+    return new DefaultComponentParameterization<>(model, unmodifiableMap(parameters), identifier);
   }
 
   private static class DefaultComponentParameterization<M extends ParameterizedModel> implements ComponentParameterization<M> {
@@ -96,10 +111,13 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
 
     private final Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters;
     private final Map<Pair<String, String>, Object> parametersByNames;
+    private final Optional<ComponentIdentifier> identifier;
 
-    public DefaultComponentParameterization(M model, Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters) {
+    public DefaultComponentParameterization(M model, Map<Pair<ParameterGroupModel, ParameterModel>, Object> parameters,
+                                            Optional<ComponentIdentifier> identifier) {
       this.model = model;
       this.parameters = parameters;
+      this.identifier = identifier;
 
       parametersByNames = unmodifiableMap(parameters.entrySet().stream()
           .collect(toMap(e -> new Pair<>(e.getKey().getFirst().getName(), e.getKey().getSecond().getName()),
@@ -130,5 +148,11 @@ public class ComponentParameterizationBuilder<M extends ParameterizedModel> impl
     public void forEachParameter(ParameterAction action) {
       parameters.entrySet().forEach(e -> action.accept(e.getKey().getFirst(), e.getKey().getSecond(), e.getValue()));
     }
+
+    @Override
+    public Optional<ComponentIdentifier> getComponentIdentifier() {
+      return identifier;
+    }
+
   }
 }

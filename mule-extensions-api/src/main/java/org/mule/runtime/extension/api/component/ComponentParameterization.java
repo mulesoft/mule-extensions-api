@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.component;
 
+import org.mule.runtime.api.component.ComponentIdentifier;
+import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
@@ -13,7 +15,9 @@ import org.mule.runtime.api.util.Pair;
 import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 import org.mule.runtime.extension.internal.component.ComponentParameterizationBuilder;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -83,6 +87,11 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
   }
 
   /**
+   * @return {@link ComponentIdentifier} of the component this parameterizes.
+   */
+  Optional<ComponentIdentifier> getComponentIdentifier();
+
+  /**
    * Builder that allows to create new {@link ComponentParameterization} instances.
    *
    * @param <M> the actual {@link ParameterizedModel} sub-type of the component being built.
@@ -133,6 +142,23 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      */
     Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
         throws IllegalArgumentException;
+
+    /**
+     * Sets a parameter with the given ParameterGroupModel and ParameterModel
+     *
+     * @param paramGroup - the {@link ParameterGroupModel} of the Parameter
+     * @param paramModel - the {@link ParameterModel} of the Parameter
+     * @param paramValue - the value of the parameter to set.
+     * @return this Builder.
+     */
+    Builder<M> withParameter(ParameterGroupModel paramGroup, ParameterModel paramModel, Object paramValue);
+
+    /**
+     * @param identifier - the {@link ComponentIdentifier} of the parameterized component.
+     * @return this builder
+     */
+    Builder<M> withComponentIdentifier(ComponentIdentifier identifier);
+
   }
 
   /**
