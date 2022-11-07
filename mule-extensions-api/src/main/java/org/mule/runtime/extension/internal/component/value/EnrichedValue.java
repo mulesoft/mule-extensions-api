@@ -22,23 +22,19 @@ public class EnrichedValue {
 
   private final Object value;
 
-  /**
-   * The typeInformation contains the extensionIdentifier which indicates the extension in which the
-   * {@link org.mule.metadata.api.model.MetadataType} is defined and the typeIdentifier which is either its typeId or typeAlias
-   */
-  private final Pair<String, String> typeInformation;
+  private final String typeIdentifier;
 
-  public EnrichedValue(Object value, Pair<String, String> typeInformation) {
+  public EnrichedValue(Object value, String typeIdentifier) {
     this.value = value;
-    this.typeInformation = typeInformation;
+    this.typeIdentifier = typeIdentifier;
   }
 
   public Object getValue() {
     return value;
   }
 
-  public Optional<Pair<String, String>> getTypeInformation() {
-    return ofNullable(typeInformation);
+  public Optional<String> getTypeIdentifier() {
+    return ofNullable(typeIdentifier);
   }
 
 }

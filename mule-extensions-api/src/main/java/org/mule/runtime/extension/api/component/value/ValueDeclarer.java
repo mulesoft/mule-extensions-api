@@ -30,10 +30,9 @@ public interface ValueDeclarer {
    * necessary when the value has multiple types available and is needed to know which is chosen.
    *
    * @param objectValueDeclarerConsumer a consumer to configure the value of the object
-   * @param extensionIdentifier         the identifier of the extension that defines the type.
-   * @param typeIdOrAlias               the typeId or typeAlias of the type.
+   * @param typeIdentifier              the of the type the value represents.
    */
-  void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, String extensionIdentifier, String typeIdOrAlias);
+  void objectValue(Consumer<ObjectValueDeclarer> objectValueDeclarerConsumer, String typeIdentifier);
 
   /**
    * Declares that the described value represents an Array value.
