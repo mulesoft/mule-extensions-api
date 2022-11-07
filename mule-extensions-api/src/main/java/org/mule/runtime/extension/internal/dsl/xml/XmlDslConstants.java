@@ -12,6 +12,8 @@ import static java.lang.String.format;
 
 /**
  * Constants related with XML based DSLs.
+ *
+ * @since 1.5
  */
 public final class XmlDslConstants {
 
