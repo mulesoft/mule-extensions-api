@@ -11,6 +11,7 @@ import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
+import org.mule.runtime.extension.api.annotation.Ignore;
 
 import java.util.Collection;
 import java.util.List;
@@ -125,7 +126,7 @@ public interface ExtensionLoadingContext {
   boolean isOCSEnabled();
 
   /**
-   * @return whether components that have been disabled with the {@code Ignore} directive are to be included
+   * @return whether components that have been disabled with the {@link Ignore} directive are to be included
    * @since 1.5
    */
   boolean isEnableIgnoredComponents();

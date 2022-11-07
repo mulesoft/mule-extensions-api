@@ -13,6 +13,7 @@ import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.extension.api.annotation.Ignore;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -120,9 +121,9 @@ public final class ExtensionModelLoadingRequest {
     }
 
     /**
-     * Enables components that have been disabled with the {@code Ignore} directive.
+     * Enables components that have been disabled with the {@link Ignore} directive.
      *
-     * @param enableIgnoredComponents whether components that have been disabled with the {@code Ignore} directive are to be
+     * @param enableIgnoredComponents whether components that have been disabled with the {@link Ignore} directive are to be
      *                                included
      * @return {@code this} builder
      */
@@ -188,7 +189,7 @@ public final class ExtensionModelLoadingRequest {
   }
 
   /**
-   * @return whether components that have been disabled with the {@code Ignore} directive are to be included
+   * @return whether components that have been disabled with the {@link Ignore} directive are to be included
    */
   public boolean isEnableIgnoredComponents() {
     return enableIgnoredComponents;
