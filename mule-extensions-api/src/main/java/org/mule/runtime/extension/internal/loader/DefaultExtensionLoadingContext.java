@@ -168,6 +168,14 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
    * {@inheritDoc}
    */
   @Override
+  public boolean isEnableIgnoredComponents() {
+    return request.isEnableIgnoredComponents();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public Optional<ArtifactCoordinates> getArtifactCoordinates() {
     return ofNullable(request.getArtifactCoordinates());
   }
