@@ -126,12 +126,6 @@ public interface ExtensionLoadingContext {
   boolean isOCSEnabled();
 
   /**
-   * @return whether components that have been disabled with the {@link Ignore} directive are to be included
-   * @since 1.5
-   */
-  boolean isEnableIgnoredComponents();
-
-  /**
    * @return the {@link ArtifactCoordinates} of the Extension
    * @since 1.5
    */

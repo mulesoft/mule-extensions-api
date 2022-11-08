@@ -13,7 +13,6 @@ import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
-import org.mule.runtime.extension.api.annotation.Ignore;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -121,19 +120,6 @@ public final class ExtensionModelLoadingRequest {
     }
 
     /**
-     * Enables components that have been disabled with the {@link Ignore} directive.
-     *
-     * @param enableIgnoredComponents whether components that have been disabled with the {@link Ignore} directive are to be
-     *                                included
-     * @return {@code this} builder
-     */
-    public Builder setEnableIgnoredComponents(boolean enableIgnoredComponents) {
-      product.enableIgnoredComponents = enableIgnoredComponents;
-
-      return this;
-    }
-
-    /**
      * @return The built request
      */
     public ExtensionModelLoadingRequest build() {
@@ -157,7 +143,6 @@ public final class ExtensionModelLoadingRequest {
   private final Map<String, Object> parameters = new HashMap<>();
   private ArtifactCoordinates artifactCoordinates;
   private boolean ocsEnabled;
-  private boolean enableIgnoredComponents;
 
   private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
@@ -186,13 +171,6 @@ public final class ExtensionModelLoadingRequest {
    */
   public boolean isOCSEnabled() {
     return ocsEnabled;
-  }
-
-  /**
-   * @return whether components that have been disabled with the {@link Ignore} directive are to be included
-   */
-  public boolean isEnableIgnoredComponents() {
-    return enableIgnoredComponents;
   }
 
   /**
