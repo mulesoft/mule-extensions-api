@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
@@ -21,13 +22,15 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.error.MuleErrors;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -36,7 +39,7 @@ import java.util.Set;
  *
  * @since 1.5.0
  */
-public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher {
+public class ExtensionsErrorsDeclarationEnricher implements WalkingDeclarationEnricher {
 
   private static final String CORE_NAMESPACE_NAME = CORE_PREFIX.toUpperCase();
   private static final String CONNECTIVITY_ERROR_TYPE = "CONNECTIVITY";
@@ -49,11 +52,11 @@ public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher 
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new EnricherDelegate(extensionLoadingContext).enrich();
+  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new WalkDelegateDelegateDeclaration(extensionLoadingContext));
   }
 
-  private class EnricherDelegate {
+  private class WalkDelegateDelegateDeclaration extends IdempotentDeclarationEnricherWalkDelegate {
 
     private final ExtensionDeclaration extensionDeclaration;
     private final Set<ErrorModel> errorModels;
@@ -61,28 +64,23 @@ public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher 
     private final ErrorModel retryErrorModel;
     private ErrorModel validationErrorModel;
 
-    public EnricherDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    public WalkDelegateDelegateDeclaration(ExtensionLoadingContext extensionLoadingContext) {
       extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
       errorModels = extensionDeclaration.getErrorModels();
       connectivityError = getErrorModel(CONNECTIVITY_ERROR_TYPE, errorModels);
       retryErrorModel = getErrorModel(RETRY_EXHAUSTED_ERROR_TYPE, errorModels);
     }
 
-    public void enrich() {
 
-      new IdempotentDeclarationWalker() {
+    @Override
+    public void onOperation(WithOperationsDeclaration owner, OperationDeclaration operationDeclaration) {
+      errorModels.addAll(operationDeclaration.getErrorModels());
+      if (operationDeclaration.isRequiresConnection()) {
+        addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
+        addErrorModel(operationDeclaration, retryErrorModel, RETRY_EXHAUSTED_ERROR_TYPE);
+      }
 
-        @Override
-        public void onOperation(WithOperationsDeclaration owner, OperationDeclaration operationDeclaration) {
-          errorModels.addAll(operationDeclaration.getErrorModels());
-          if (operationDeclaration.isRequiresConnection()) {
-            addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
-            addErrorModel(operationDeclaration, retryErrorModel, RETRY_EXHAUSTED_ERROR_TYPE);
-          }
-
-          assureValidationError(extensionDeclaration, operationDeclaration);
-        }
-      }.walk(extensionDeclaration);
+      assureValidationError(extensionDeclaration, operationDeclaration);
     }
 
     private void assureValidationError(ExtensionDeclaration extensionDeclaration, OperationDeclaration operation) {
@@ -110,21 +108,21 @@ public class ExtensionsErrorsDeclarationEnricher implements DeclarationEnricher 
 
       return validationErrorModel;
     }
-  }
 
-  private void addErrorModel(OperationDeclaration declaration, ErrorModel errorModel, String type) {
-    if (errorModel != null) {
-      declaration.getErrorModels().add(errorModel);
-    } else {
-      throw new IllegalModelDefinitionException(format(ERROR_MASK, type, declaration.getName()));
+    private void addErrorModel(OperationDeclaration declaration, ErrorModel errorModel, String type) {
+      if (errorModel != null) {
+        declaration.getErrorModels().add(errorModel);
+      } else {
+        throw new IllegalModelDefinitionException(format(ERROR_MASK, type, declaration.getName()));
+      }
     }
-  }
 
-  private ErrorModel getErrorModel(String type, Set<ErrorModel> errors) {
-    return errors
-        .stream()
-        .filter(e -> !e.getNamespace().equals(CORE_NAMESPACE_NAME) && e.getType().equals(type))
-        .findFirst()
-        .orElse(null);
+    private ErrorModel getErrorModel(String type, Set<ErrorModel> errors) {
+      return errors
+          .stream()
+          .filter(e -> !e.getNamespace().equals(CORE_NAMESPACE_NAME) && e.getType().equals(type))
+          .findFirst()
+          .orElse(null);
+    }
   }
 }

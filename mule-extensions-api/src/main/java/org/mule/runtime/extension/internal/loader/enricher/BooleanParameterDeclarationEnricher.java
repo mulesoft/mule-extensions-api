@@ -8,19 +8,20 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.String.valueOf;
+import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 
 import org.mule.metadata.api.model.BooleanType;
-import org.mule.metadata.api.visitor.MetadataTypeVisitor;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
+
+import java.util.Optional;
 
 /**
  * {@link DeclarationEnricher} implementation that walks through all the {@link BooleanType} parameters and sets them as optional.
@@ -31,7 +32,7 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
  *
  * @since 1.5.0
  */
-public class BooleanParameterDeclarationEnricher implements DeclarationEnricher {
+public class BooleanParameterDeclarationEnricher implements WalkingDeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -39,29 +40,26 @@ public class BooleanParameterDeclarationEnricher implements DeclarationEnricher 
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    new DeclarationWalker() {
+  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new DeclarationEnricherWalkDelegate() {
 
       @Override
-      protected void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
-                                 ParameterDeclaration declaration) {
-        declaration.getType().accept(new MetadataTypeVisitor() {
+      public void onParameter(ParameterizedDeclaration owner,
+                              ParameterGroupDeclaration parameterGroup,
+                              ParameterDeclaration declaration) {
 
-          @Override
-          public void visitBoolean(BooleanType booleanType) {
-            if (declaration.getExpressionSupport() == REQUIRED) {
-              return;
-            }
-
-            declaration.setRequired(false);
-            if (declaration.getDefaultValue() == null && !declaration.isConfigOverride()) {
-              declaration.setDefaultValue(valueOf(FALSE));
-            }
+        if (declaration.getType() instanceof BooleanType) {
+          if (declaration.getExpressionSupport() == REQUIRED) {
+            return;
           }
-        });
+
+          declaration.setRequired(false);
+          if (declaration.getDefaultValue() == null && !declaration.isConfigOverride()) {
+            declaration.setDefaultValue(valueOf(FALSE));
+          }
+        }
       }
-    }.walk(extensionDeclaration);
+    });
   }
 }
 
