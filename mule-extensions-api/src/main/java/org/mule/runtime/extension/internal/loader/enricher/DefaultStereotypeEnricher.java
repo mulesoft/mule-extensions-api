@@ -90,8 +90,9 @@ public class DefaultStereotypeEnricher implements WalkingDeclarationEnricher {
         if (!parent.getNamespace().equals(namespace)) {
           StereotypeModel originalParent = parent;
           parent = parentsCache.computeIfAbsent(parent.getType(),
-              key -> newStereotype(originalParent.getType(), namespace).withParent(originalParent)
-                  .build());
+                                                key -> newStereotype(originalParent.getType(), namespace)
+                                                    .withParent(originalParent)
+                                                    .build());
         }
         return createStereotype(namespace, name, parent);
       }

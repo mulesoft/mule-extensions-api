@@ -38,6 +38,7 @@ public class ClusterSupportEnricher implements WalkingDeclarationEnricher {
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
     return of(new IdempotentDeclarationEnricherWalkDelegate() {
+
       @Override
       protected void onSource(SourceDeclaration declaration) {
         Optional<SourceClusterSupport> optionalSourceClusterSupport =

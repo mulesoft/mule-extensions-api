@@ -103,12 +103,12 @@ public final class ExtensionTypesDeclarationEnricher implements WalkingDeclarati
   private void registerType(ExtensionDeclarer declarer, ExecutableComponentDeclaration<?> declaration) {
     if (declaration.getOutput() == null) {
       throw new IllegalModelDefinitionException(format("%s '%s' doesn't specify an output type",
-          getComponentDeclarationTypeName(declaration), declaration.getName()));
+                                                       getComponentDeclarationTypeName(declaration), declaration.getName()));
     }
 
     if (declaration.getOutputAttributes() == null) {
       throw new IllegalModelDefinitionException(format("%s '%s' doesn't specify output attributes types",
-          getComponentDeclarationTypeName(declaration), declaration.getName()));
+                                                       getComponentDeclarationTypeName(declaration), declaration.getName()));
     }
 
     registerType(declarer, declaration.getOutput().getType());

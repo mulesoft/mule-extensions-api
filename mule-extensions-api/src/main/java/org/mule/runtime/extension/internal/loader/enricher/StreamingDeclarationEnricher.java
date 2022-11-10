@@ -44,6 +44,7 @@ public class StreamingDeclarationEnricher implements WalkingDeclarationEnricher 
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
     return of(new IdempotentDeclarationEnricherWalkDelegate() {
+
       @Override
       protected void onOperation(OperationDeclaration declaration) {
         enrich(declaration);

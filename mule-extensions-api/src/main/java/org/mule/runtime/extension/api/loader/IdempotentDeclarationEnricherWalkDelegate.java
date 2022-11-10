@@ -62,7 +62,7 @@ public class IdempotentDeclarationEnricherWalkDelegate extends DeclarationEnrich
    */
   @Override
   public void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
-                             ParameterDeclaration declaration) {
+                          ParameterDeclaration declaration) {
     doOnce(parameters, declaration, p -> onParameter(parameterGroup, declaration));
   }
 

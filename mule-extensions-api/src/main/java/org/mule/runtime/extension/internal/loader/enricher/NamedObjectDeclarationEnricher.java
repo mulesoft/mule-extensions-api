@@ -9,7 +9,6 @@ package org.mule.runtime.extension.internal.loader.enricher;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Collections.unmodifiableSet;
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
@@ -60,22 +59,17 @@ public class NamedObjectDeclarationEnricher implements WalkingDeclarationEnriche
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
     Set<String> blockListed = BLOCK_LIST.get(extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName());
+    return of(new DeclarationEnricherWalkDelegate() {
 
-    if (blockListed != null) {
-      return of(new DeclarationEnricherWalkDelegate() {
-
-        @Override
-        public void onConfiguration(ConfigurationDeclaration declaration) {
-          if (blockListed.contains(declaration.getName())) {
-            return;
-          }
-
-          declaration.getDefaultParameterGroup().addParameter(buildNameParameter());
+      @Override
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        if (blockListed != null && blockListed.contains(declaration.getName())) {
+          return;
         }
-      });
-    }
 
-    return empty();
+        declaration.getDefaultParameterGroup().addParameter(buildNameParameter());
+      }
+    });
   }
 
   private ParameterDeclaration buildNameParameter() {

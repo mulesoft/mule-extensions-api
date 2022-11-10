@@ -12,7 +12,6 @@ import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Collections.unmodifiableSet;
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -69,7 +68,7 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
     Map<String, Set<String>> block = new SmallMap<>();
     block.put("ee", singleton("transform"));
     block.put("cxf", unmodifiableSet(new HashSet<>(asList("simpleService", "jaxwsService", "proxyService",
-        "simpleClient", "jaxwsClient", "proxyClient"))));
+                                                          "simpleClient", "jaxwsClient", "proxyClient"))));
 
     BLOCK_LIST = unmodifiableMap(block);
   }
@@ -82,9 +81,7 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
     String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
-    Set<String> blockedOperationNames = BLOCK_LIST.getOrDefault(extensionName, emptySet());
-
-    return blockedOperationNames.isEmpty() ? empty() : of(new WalkDelegateDelegateDeclaration(blockedOperationNames));
+    return of(new WalkDelegateDelegateDeclaration(BLOCK_LIST.getOrDefault(extensionName, emptySet())));
   }
 
   private class WalkDelegateDelegateDeclaration extends IdempotentDeclarationEnricherWalkDelegate {
@@ -108,7 +105,7 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
       final MetadataType outputType = declaration.getOutput().getType();
       if (outputType == null) {
         throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",
-            declaration.getName()));
+                                                                  declaration.getName()));
       }
 
       if (!(outputType instanceof VoidType)) {

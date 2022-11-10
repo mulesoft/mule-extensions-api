@@ -40,6 +40,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
@@ -56,6 +57,11 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclarat
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithConstructsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithFunctionsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
@@ -73,6 +79,8 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher.DeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
@@ -129,23 +137,21 @@ import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValida
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual {@link ExtensionModel}.
  * <p>
- * This factory is also responsible of applying the {@link DeclarationEnricher} which are default to the runtime plus the ones
+ * This factory is also responsible for applying the {@link DeclarationEnricher} which are default to the runtime plus the ones
  * specified through {@link ExtensionLoadingContext#addCustomValidators(Collection)}
  * <p>
  * This class is not part of the API and should not be used by anyone (or anything) but the runtime. Backwards compatibility not
@@ -216,7 +222,7 @@ public final class ExtensionModelFactory {
    */
   public ExtensionModel create(ExtensionLoadingContext extensionLoadingContext) {
 
-    enrichModel(extensionLoadingContext);
+    enrichDeclaration(extensionLoadingContext);
 
     ExtensionModel extensionModel =
         new FactoryDelegate().toExtension(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
@@ -257,11 +263,68 @@ public final class ExtensionModelFactory {
     }
   }
 
-  private void enrichModel(ExtensionLoadingContext extensionLoadingContext) {
-    List<DeclarationEnricher> enrichers = new LinkedList<>(extensionLoadingContext.getCustomDeclarationEnrichers());
+  private void enrichDeclaration(ExtensionLoadingContext extensionLoadingContext) {
+    List<DeclarationEnricher> enrichers = new ArrayList<>(50);
+    enrichers.addAll(extensionLoadingContext.getCustomDeclarationEnrichers());
     enrichers.addAll(declarationEnrichers);
     enrichers.sort(comparing(DeclarationEnricher::getExecutionPhase));
-    enrichers.forEach(enricher -> enricher.enrich(extensionLoadingContext));
+
+    List<DeclarationEnricherWalkDelegate> walkDelegates = new ArrayList<>(50);
+
+    for (DeclarationEnricher enricher : enrichers) {
+      if (enricher instanceof WalkingDeclarationEnricher) {
+        ((WalkingDeclarationEnricher) enricher).getWalker(extensionLoadingContext).ifPresent(walkDelegates::add);
+      } else {
+        enricher.enrich(extensionLoadingContext);
+      }
+    }
+
+    if (!walkDelegates.isEmpty()) {
+      new DeclarationWalker() {
+
+        @Override
+        protected void onConfiguration(ConfigurationDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onConfiguration(declaration));
+        }
+
+        @Override
+        protected void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onOperation(owner, declaration));
+        }
+
+        @Override
+        protected void onFunction(WithFunctionsDeclaration owner, FunctionDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onFunction(owner, declaration));
+        }
+
+        @Override
+        protected void onConstruct(WithConstructsDeclaration owner, ConstructDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onConstruct(owner, declaration));
+        }
+
+        @Override
+        protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onConnectionProvider(owner, declaration));
+        }
+
+        @Override
+        protected void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onSource(owner, declaration));
+        }
+
+        @Override
+        protected void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onParameterGroup(owner, declaration));
+        }
+
+        @Override
+        protected void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                                   ParameterDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onParameter(owner, parameterGroup, declaration));
+        }
+      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+      walkDelegates.forEach(DeclarationEnricherWalkDelegate::onWalkFinished);
+    }
   }
 
   private boolean isExpression(String value) {
@@ -270,7 +333,7 @@ public final class ExtensionModelFactory {
 
   private class FactoryDelegate {
 
-    private final Cache<ParameterizedDeclaration, ParameterizedModel> modelCache = CacheBuilder.newBuilder().build();
+    private final Map<ParameterizedDeclaration, ParameterizedModel> modelCache = new HashMap<>();
 
     private ExtensionModel toExtension(ExtensionDeclaration extensionDeclaration) {
       validateMuleVersion(extensionDeclaration);
@@ -317,13 +380,10 @@ public final class ExtensionModelFactory {
     private <T extends ParameterizedModel> T fromCache(ParameterizedDeclaration declaration,
                                                        Supplier<ParameterizedModel> supplier) {
       try {
-        return (T) modelCache.get(declaration, supplier::get);
-      } catch (UncheckedExecutionException e) {
-        if (e.getCause() instanceof RuntimeException) {
-          throw (RuntimeException) e.getCause();
-        }
+        return (T) modelCache.computeIfAbsent(declaration, k -> supplier.get());
+      } catch (RuntimeException e) {
         throw e;
-      } catch (ExecutionException e) {
+      } catch (Exception e) {
         throw new MuleRuntimeException(e);
       }
     }

@@ -93,7 +93,7 @@ public class ParameterDslDeclarationEnricher implements WalkingDeclarationEnrich
               public void visitArrayType(ArrayType arrayType) {
                 MetadataType genericType = arrayType.getType();
                 boolean supportsInline = supportsInlineDeclaration(arrayType, declaration.getExpressionSupport(),
-                    dslConfiguration, isContent);
+                                                                   dslConfiguration, isContent);
                 boolean isWrapped = allowsInlineAsWrappedType(genericType, typeCatalog);
 
                 builder.allowsInlineDefinition(dslConfiguration.allowsInlineDefinition() && (supportsInline || isWrapped))
@@ -120,7 +120,7 @@ public class ParameterDslDeclarationEnricher implements WalkingDeclarationEnrich
                 } else if (!declaration.getModelProperty(InfrastructureParameterModelProperty.class).isPresent()) {
 
                   boolean supportsInline = supportsInlineDeclaration(objectType, declaration.getExpressionSupport(),
-                      dslConfiguration, isContent);
+                                                                     dslConfiguration, isContent);
 
                   boolean isWrapped = allowsInlineAsWrappedType(objectType, typeCatalog);
 
@@ -163,13 +163,13 @@ public class ParameterDslDeclarationEnricher implements WalkingDeclarationEnrich
                 // the type to be processed has to have the annotations that were specifically set for this type as a parameter
                 declaration.getType().getAnnotation(ClassInformationAnnotation.class)
                     .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ClassInformationAnnotation.class,
-                        paramClassInfo));
+                                                                                  paramClassInfo));
                 declaration.getType().getAnnotation(ParameterDslAnnotation.class)
                     .ifPresent(paramClassInfo -> normalizedAnnotationsByClass.put(ParameterDslAnnotation.class,
-                        paramClassInfo));
+                                                                                  paramClassInfo));
                 return new DefaultObjectType(((ObjectType) type).getFields(), ((ObjectType) type).isOrdered(),
-                    ((ObjectType) type).getOpenRestriction().orElse(null),
-                    type.getMetadataFormat(), normalizedAnnotationsByClass);
+                                             ((ObjectType) type).getOpenRestriction().orElse(null),
+                                             type.getMetadataFormat(), normalizedAnnotationsByClass);
               } else {
                 return type;
               }

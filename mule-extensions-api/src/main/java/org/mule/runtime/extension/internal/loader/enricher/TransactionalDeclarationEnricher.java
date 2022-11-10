@@ -70,28 +70,29 @@ public final class TransactionalDeclarationEnricher implements WalkingDeclaratio
       final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
       final MetadataType operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
       final MetadataType sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
-      final MetadataType sdkOperationTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
+      final MetadataType sdkOperationTransactionalActionType =
+          typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
       final MetadataType sdkSourceTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.SourceTransactionalAction.class);
       final MetadataType transactionType = typeLoader.load(TransactionType.class);
 
       @Override
       protected void onSource(SourceDeclaration declaration) {
         addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, sourceTransactionalActionType, sdkSourceTransactionalActionType,
-            NONE, org.mule.sdk.api.tx.SourceTransactionalAction.NONE,
-            SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration, new TransactionalActionModelProperty());
+                       NONE, org.mule.sdk.api.tx.SourceTransactionalAction.NONE,
+                       SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration, new TransactionalActionModelProperty());
         addTxParameter(TRANSACTIONAL_TYPE_PARAMETER_NAME, null, transactionType, null, LOCAL,
-            TRANSACTION_TYPE_PARAMETER_DESCRIPTION,
-            declaration,
-            new TransactionalTypeModelProperty());
+                       TRANSACTION_TYPE_PARAMETER_DESCRIPTION,
+                       declaration,
+                       new TransactionalTypeModelProperty());
       }
 
       @Override
       protected void onOperation(OperationDeclaration declaration) {
         addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, operationTransactionalActionType,
-            sdkOperationTransactionalActionType, JOIN_IF_POSSIBLE,
-            org.mule.sdk.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE,
-            OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration,
-            new TransactionalActionModelProperty());
+                       sdkOperationTransactionalActionType, JOIN_IF_POSSIBLE,
+                       org.mule.sdk.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE,
+                       OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration,
+                       new TransactionalActionModelProperty());
       }
     });
   }
@@ -107,9 +108,9 @@ public final class TransactionalDeclarationEnricher implements WalkingDeclaratio
     Optional<ParameterDeclaration> sdkParameterDeclaration = isPresent(declaration, sdkMetadataType);
     if (parameterDeclaration.isPresent() && sdkParameterDeclaration.isPresent()) {
       throw new IllegalModelDefinitionException(format("Component '%s' has transactional parameters from different APIs. Offending parameters are '%s' and '%s'.",
-          declaration.getName(),
-          parameterDeclaration.get().getName(),
-          sdkParameterDeclaration.get().getName()));
+                                                       declaration.getName(),
+                                                       parameterDeclaration.get().getName(),
+                                                       sdkParameterDeclaration.get().getName()));
     } else if (parameterDeclaration.isPresent()) {
       enrichTransactionParameter(defaultValue, description, parameterDeclaration.get(), modelProperty);
     } else if (sdkParameterDeclaration.isPresent()) {

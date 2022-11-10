@@ -104,7 +104,7 @@ public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher 
               // config-ref parameter that is valid, the behavior is not affected.
               if ("APIKit".equals(declaration.getName())
                   && component.getDefaultParameterGroup().getParameters().stream()
-                  .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
+                      .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
                 LOGGER.warn("Component '" + component.getName() + "' in extension '" + declaration.getName() + "' already has a '"
                     + CONFIG_REF_NAME + "' parameter defined. Skipping ConfigRefDeclarationEnricher for it.");
                 return;
