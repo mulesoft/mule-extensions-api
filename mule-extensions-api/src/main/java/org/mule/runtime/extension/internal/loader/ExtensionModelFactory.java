@@ -137,16 +137,18 @@ import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValida
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual {@link ExtensionModel}.
@@ -333,7 +335,7 @@ public final class ExtensionModelFactory {
 
   private class FactoryDelegate {
 
-    private final Map<ParameterizedDeclaration, ParameterizedModel> modelCache = new HashMap<>();
+    private final Cache<ParameterizedDeclaration, ParameterizedModel> modelCache = CacheBuilder.newBuilder().build();
 
     private ExtensionModel toExtension(ExtensionDeclaration extensionDeclaration) {
       validateMuleVersion(extensionDeclaration);
@@ -380,10 +382,13 @@ public final class ExtensionModelFactory {
     private <T extends ParameterizedModel> T fromCache(ParameterizedDeclaration declaration,
                                                        Supplier<ParameterizedModel> supplier) {
       try {
-        return (T) modelCache.computeIfAbsent(declaration, k -> supplier.get());
-      } catch (RuntimeException e) {
+        return (T) modelCache.get(declaration, supplier::get);
+      } catch (UncheckedExecutionException e) {
+        if (e.getCause() instanceof RuntimeException) {
+          throw (RuntimeException) e.getCause();
+        }
         throw e;
-      } catch (Exception e) {
+      } catch (ExecutionException e) {
         throw new MuleRuntimeException(e);
       }
     }
