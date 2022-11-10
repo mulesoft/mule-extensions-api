@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static java.util.Optional.of;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addRedeliveryPolicy;
@@ -17,20 +18,22 @@ import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.store.ObjectStore;
-import org.mule.runtime.api.util.Reference;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.property.NoRedeliveryPolicyModelProperty;
+
+import java.util.Optional;
 
 /**
  * A {@link DeclarationEnricher} which adds a redelivery policy parameter to all sources
  *
  * @since 1.5.0
  */
-public final class RedeliveryPolicyDeclarationEnricher implements DeclarationEnricher {
+public final class RedeliveryPolicyDeclarationEnricher implements WalkingDeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -38,11 +41,11 @@ public final class RedeliveryPolicyDeclarationEnricher implements DeclarationEnr
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    final Reference<Boolean> hasObjectStoreParams = new Reference<>(false);
+  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
-    ExtensionDeclaration extension = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    new IdempotentDeclarationWalker() {
+      ExtensionDeclaration extension = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+      boolean hasObjectStoreParams = false;
 
       @Override
       protected void onSource(SourceDeclaration declaration) {
@@ -51,14 +54,17 @@ public final class RedeliveryPolicyDeclarationEnricher implements DeclarationEnr
         }
 
         addRedeliveryPolicy(declaration);
-        hasObjectStoreParams.set(true);
+        hasObjectStoreParams = true;
       }
-    }.walk(extension);
 
-    if (hasObjectStoreParams.get() && !isObjectStoreAlreadyImported(extension)) {
-      ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-      extension.getImportedTypes().add(new ImportedTypeModel((ObjectType) typeLoader.load(ObjectStore.class)));
-    }
+      @Override
+      public void onWalkFinished() {
+        if (hasObjectStoreParams && !isObjectStoreAlreadyImported(extension)) {
+          ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+          extension.getImportedTypes().add(new ImportedTypeModel((ObjectType) typeLoader.load(ObjectStore.class)));
+        }
+      }
+    });
   }
 
   private boolean isObjectStoreAlreadyImported(ExtensionDeclaration extension) {

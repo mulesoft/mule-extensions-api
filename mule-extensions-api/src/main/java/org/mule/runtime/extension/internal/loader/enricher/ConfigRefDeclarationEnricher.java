@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static com.google.common.collect.LinkedListMultimap.create;
+import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
@@ -22,22 +24,26 @@ import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
+import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithConstructsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 
@@ -49,7 +55,7 @@ import org.slf4j.Logger;
  *
  * @since 1.2
  */
-public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
+public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher {
 
   private static final Logger LOGGER = getLogger(ConfigRefDeclarationEnricher.class);
 
@@ -61,43 +67,59 @@ public class ConfigRefDeclarationEnricher implements DeclarationEnricher {
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    Multimap<ComponentDeclaration, ConfigurationDeclaration> componentsConfigs = getComponentConfigsMap(declaration);
+  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new DeclarationEnricherWalkDelegate() {
 
-    componentsConfigs.asMap()
-        .forEach((component, configs) -> {
-          // This is ugly, but is needed so that in the rare case than an extension other than apikit happens to define a
-          // config-ref parameter that is valid, the behavior is not affected.
-          if ("APIKit".equals(declaration.getName())
-              && component.getDefaultParameterGroup().getParameters().stream()
-                  .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
-            LOGGER.warn("Component '" + component.getName() + "' in extension '" + declaration.getName() + "' already has a '"
-                + CONFIG_REF_NAME + "' parameter defined. Skipping ConfigRefDeclarationEnricher for it.");
-            return;
-          }
-
-          component.getDefaultParameterGroup().addParameter(buildConfigRefParameter(component, configs));
-        });
-  }
-
-  private Multimap<ComponentDeclaration, ConfigurationDeclaration> getComponentConfigsMap(ExtensionDeclaration declaration) {
-    final String namespace = getExtensionsNamespace(declaration);
-    Multimap<ComponentDeclaration, ConfigurationDeclaration> componentConfigs = LinkedListMultimap.create();
-    new DeclarationWalker() {
+      final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+      final String namespace = getExtensionsNamespace(declaration);
+      Multimap<ComponentDeclaration, ConfigurationDeclaration> componentConfigs = create();
 
       @Override
-      protected void onConfiguration(ConfigurationDeclaration config) {
-        config.getConstructs().forEach(construct -> componentConfigs.put(construct, config));
-        config.getMessageSources().forEach(source -> componentConfigs.put(source, config));
-        config.getOperations().forEach(operation -> componentConfigs.put(operation, config));
-
+      public void onConfiguration(ConfigurationDeclaration config) {
         if (config.getStereotype() == null) {
           config.withStereotype(newStereotype(config.getName(), namespace).withParent(CONFIG).build());
         }
       }
-    }.walk(declaration);
-    return componentConfigs;
+
+      @Override
+      public void onConstruct(WithConstructsDeclaration owner, ConstructDeclaration declaration) {
+        collectComponent(declaration, owner);
+      }
+
+      @Override
+      public void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+        collectComponent(declaration, owner);
+      }
+
+      @Override
+      public void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+        collectComponent(declaration, owner);
+      }
+
+      @Override
+      public void onWalkFinished() {
+        componentConfigs.asMap()
+            .forEach((component, configs) -> {
+              // This is ugly, but is needed so that in the rare case than an extension other than apikit happens to define a
+              // config-ref parameter that is valid, the behavior is not affected.
+              if ("APIKit".equals(declaration.getName())
+                  && component.getDefaultParameterGroup().getParameters().stream()
+                  .anyMatch(param -> param.getName().equals(CONFIG_REF_NAME))) {
+                LOGGER.warn("Component '" + component.getName() + "' in extension '" + declaration.getName() + "' already has a '"
+                    + CONFIG_REF_NAME + "' parameter defined. Skipping ConfigRefDeclarationEnricher for it.");
+                return;
+              }
+
+              component.getDefaultParameterGroup().addParameter(buildConfigRefParameter(component, configs));
+            });
+      }
+
+      private void collectComponent(ComponentDeclaration declaration, Object owner) {
+        if (owner instanceof ConfigurationDeclaration) {
+          componentConfigs.put(declaration, (ConfigurationDeclaration) owner);
+        }
+      }
+    });
   }
 
   private ParameterDeclaration buildConfigRefParameter(ComponentDeclaration componentDeclaration,

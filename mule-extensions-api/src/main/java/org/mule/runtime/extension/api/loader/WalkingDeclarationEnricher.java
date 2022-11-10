@@ -123,7 +123,7 @@ public interface WalkingDeclarationEnricher {
                             ParameterDeclaration declaration) {
     }
 
-    public void finishEnrichment() {
+    public void onWalkFinished() {
     }
 
   }
