@@ -141,15 +141,12 @@ public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher 
   }
 
   private boolean hasAnImplicitConfig(Collection<ConfigurationDeclaration> configs) {
-    List<ConfigurationDeclaration> implicitConfigs = configs.stream()
+    return configs.stream()
         .filter(this::canBeUsedImplicitly)
-        .collect(toList());
-
-    return implicitConfigs.stream().anyMatch(config -> {
-      List<ConnectionProviderDeclaration> providers = config.getConnectionProviders();
-      return providers.isEmpty() || providers.stream().anyMatch(this::canBeUsedImplicitly);
-    });
-
+        .anyMatch(config -> {
+          List<ConnectionProviderDeclaration> providers = config.getConnectionProviders();
+          return providers.isEmpty() || providers.stream().anyMatch(this::canBeUsedImplicitly);
+        });
   }
 
   private boolean canBeUsedImplicitly(ParameterizedDeclaration<?> parameterized) {
@@ -157,7 +154,9 @@ public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher 
       return false;
     }
 
-    return parameterized.getAllParameters().stream().noneMatch(ParameterDeclaration::isRequired);
+    return parameterized.getAllParameters().stream()
+        .filter(p -> !p.isComponentId())
+        .noneMatch(ParameterDeclaration::isRequired);
   }
 
   private static ExpressionSupport expressionSupport(ComponentDeclaration<?> componentDeclaration) {
