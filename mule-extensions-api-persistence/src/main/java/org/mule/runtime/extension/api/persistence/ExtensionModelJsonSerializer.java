@@ -15,6 +15,7 @@ import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.ObjectTypeReferenceHandler;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
+import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -48,6 +49,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
+import org.mule.runtime.extension.internal.persistence.ArtifactCoordinatesTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.ConstructModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ElementDslModelTypeAdapter;
@@ -191,6 +193,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapter(ParameterDslConfiguration.class, new ElementDslModelTypeAdapter())
         .registerTypeAdapter(ErrorModel.class, new ErrorModelToIdentifierTypeAdapter(errorModelRepository))
         .registerTypeAdapter(NotificationModel.class, new NotificationModelToIdentifierTypeAdapter(notificationModelRepository))
+        .registerTypeAdapter(ArtifactCoordinates.class, new ArtifactCoordinatesTypeAdapter())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
         .registerTypeAdapterFactory(new SourceModelTypeAdapterFactory())

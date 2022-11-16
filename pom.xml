@@ -178,6 +178,11 @@
                 <artifactId>mule-metadata-model-persistence</artifactId>
                 <version>${metadataModelApiVersion}</version>
             </dependency>
+            <dependency>
+                <groupId>org.mule.runtime</groupId>
+                <artifactId>mule-module-artifact</artifactId>
+                <version>${muleBomVersion}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
