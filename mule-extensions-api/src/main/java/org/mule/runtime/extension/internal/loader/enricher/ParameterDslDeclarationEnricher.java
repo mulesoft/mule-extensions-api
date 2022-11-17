@@ -6,15 +6,17 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static com.google.common.base.Functions.identity;
-import static java.util.Optional.of;
-import static java.util.stream.Collectors.toMap;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isReferableType;
+
+import static java.util.Optional.of;
+import static java.util.stream.Collectors.toMap;
+
+import static com.google.common.base.Functions.identity;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
 import org.mule.metadata.api.model.AnyType;
@@ -54,7 +56,7 @@ public class ParameterDslDeclarationEnricher implements WalkingDeclarationEnrich
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE;
+    return WIRING;
   }
 
   @Override

@@ -6,7 +6,21 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
-import static com.google.common.collect.ImmutableSet.of;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
+import static org.mule.runtime.api.util.MuleSystemProperties.FORCE_EXTENSION_VALIDATION_PROPERTY_NAME;
+import static org.mule.runtime.api.util.MuleSystemProperties.isForceExtensionValidation;
+import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.INITIALIZE;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
+import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
+
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
@@ -15,19 +29,8 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
-import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
-import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
-import static org.mule.runtime.api.util.MuleSystemProperties.FORCE_EXTENSION_VALIDATION_PROPERTY_NAME;
-import static org.mule.runtime.api.util.MuleSystemProperties.isForceExtensionValidation;
-import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
+
+import static com.google.common.collect.ImmutableSet.of;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
@@ -76,6 +79,7 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
+import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
@@ -266,14 +270,23 @@ public final class ExtensionModelFactory {
   }
 
   private void enrichDeclaration(ExtensionLoadingContext extensionLoadingContext) {
-    List<DeclarationEnricher> enrichers = new ArrayList<>(50);
-    enrichers.addAll(extensionLoadingContext.getCustomDeclarationEnrichers());
+    final int enricherCount = declarationEnrichers.size() + extensionLoadingContext.getCustomDeclarationEnrichers().size();
+    List<DeclarationEnricher> enrichers = new ArrayList<>(enricherCount);
     enrichers.addAll(declarationEnrichers);
+    enrichers.addAll(extensionLoadingContext.getCustomDeclarationEnrichers());
     enrichers.sort(comparing(DeclarationEnricher::getExecutionPhase));
 
-    List<DeclarationEnricherWalkDelegate> walkDelegates = new ArrayList<>(50);
+    List<DeclarationEnricherWalkDelegate> walkDelegates = new ArrayList<>(enricherCount);
 
+    DeclarationEnricherPhase currentPhase = INITIALIZE;
     for (DeclarationEnricher enricher : enrichers) {
+      DeclarationEnricherPhase enricherPhase = enricher.getExecutionPhase();
+      if (currentPhase != enricherPhase) {
+        processEnricherWalkDelegates(extensionLoadingContext, walkDelegates);
+        walkDelegates.clear();
+        currentPhase = enricherPhase;
+      }
+
       if (enricher instanceof WalkingDeclarationEnricher) {
         ((WalkingDeclarationEnricher) enricher).getWalker(extensionLoadingContext).ifPresent(walkDelegates::add);
       } else {
@@ -281,6 +294,11 @@ public final class ExtensionModelFactory {
       }
     }
 
+    processEnricherWalkDelegates(extensionLoadingContext, walkDelegates);
+  }
+
+  private void processEnricherWalkDelegates(ExtensionLoadingContext extensionLoadingContext,
+                                            List<DeclarationEnricherWalkDelegate> walkDelegates) {
     if (!walkDelegates.isEmpty()) {
       new DeclarationWalker() {
 
@@ -328,6 +346,8 @@ public final class ExtensionModelFactory {
       walkDelegates.forEach(DeclarationEnricherWalkDelegate::onWalkFinished);
     }
   }
+
+
 
   private boolean isExpression(String value) {
     return value.startsWith("#[") && value.endsWith("]");

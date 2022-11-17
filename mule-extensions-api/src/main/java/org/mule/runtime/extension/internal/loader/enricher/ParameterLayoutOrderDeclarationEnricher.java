@@ -6,16 +6,16 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.Integer.min;
-import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.model.display.LayoutModel.builderFrom;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
 
+import static java.lang.Integer.min;
+import static java.util.Optional.of;
+
 import org.mule.runtime.api.meta.model.declaration.fluent.AbstractParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
@@ -54,8 +54,6 @@ public final class ParameterLayoutOrderDeclarationEnricher implements WalkingDec
 
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
-    ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-
     return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
       @Override
