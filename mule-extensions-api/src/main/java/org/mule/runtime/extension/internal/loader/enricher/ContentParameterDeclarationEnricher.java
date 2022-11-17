@@ -6,10 +6,10 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.FINALIZE;
 
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
@@ -46,7 +46,7 @@ public final class ContentParameterDeclarationEnricher implements WalkingDeclara
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE;
+    return FINALIZE;
   }
 
   @Override
@@ -94,6 +94,6 @@ public final class ContentParameterDeclarationEnricher implements WalkingDeclara
   }
 
   private List<ParameterDeclaration> getContentParameters(List<ParameterDeclaration> parameters) {
-    return parameters.stream().filter(p -> p.getRole() != BEHAVIOUR).collect(toList());
+    return parameters.stream().filter(p -> p.getRole() == PRIMARY_CONTENT || p.getRole() == CONTENT).collect(toList());
   }
 }
