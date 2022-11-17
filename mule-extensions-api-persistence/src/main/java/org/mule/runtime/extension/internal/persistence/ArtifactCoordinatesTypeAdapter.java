@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
-import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.module.artifact.api.descriptor.BundleDescriptor.Builder;
 
 import java.io.IOException;
@@ -19,9 +18,9 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * A {@link TypeAdapter} for serializing instances of {@link ParameterDslConfiguration}
+ * A {@link TypeAdapter} for serializing instances of {@link ArtifactCoordinates}
  *
- * @since 1.0
+ * @since 1.5
  */
 public class ArtifactCoordinatesTypeAdapter extends TypeAdapter<ArtifactCoordinates> {
 
