@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.internal.persistence;
 
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
-import org.mule.runtime.module.artifact.api.descriptor.BundleDescriptor.Builder;
 
 import java.io.IOException;
 
@@ -42,12 +41,37 @@ public class ArtifactCoordinatesTypeAdapter extends TypeAdapter<ArtifactCoordina
   @Override
   public ArtifactCoordinates read(JsonReader in) throws IOException {
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
-    return new Builder()
-        .setArtifactId(read(json, ARTIFACT_ID))
-        .setGroupId(read(json, GROUP_ID))
-        .setVersion(read(json, VERSION))
-        .build();
+    return new ArtifactCoordinatesImpl(read(json, GROUP_ID), read(json, ARTIFACT_ID), read(json, VERSION));
   }
+
+  private static class ArtifactCoordinatesImpl implements ArtifactCoordinates {
+
+    private final String groupId;
+    private final String artifactId;
+    private final String version;
+
+    private ArtifactCoordinatesImpl(String groupId, String artifactId, String version) {
+      this.groupId = groupId;
+      this.artifactId = artifactId;
+      this.version = version;
+    }
+
+    @Override
+    public String getGroupId() {
+      return groupId;
+    }
+
+    @Override
+    public String getArtifactId() {
+      return artifactId;
+    }
+
+    @Override
+    public String getVersion() {
+      return version;
+    }
+  }
+
 
   private String read(JsonObject json, String memberName) {
     return json.get(memberName).getAsString();
