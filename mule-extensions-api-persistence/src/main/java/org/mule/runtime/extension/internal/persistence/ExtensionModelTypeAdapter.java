@@ -6,13 +6,16 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+
 import static java.lang.String.format;
 import static java.util.Collections.emptySet;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.persistence.JsonMetadataTypeLoader;
 import org.mule.metadata.persistence.JsonMetadataTypeWriter;
 import org.mule.metadata.persistence.SerializationContext;
+import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
@@ -32,6 +35,14 @@ import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -41,14 +52,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * A {@link TypeAdapter} to handle {@link ExtensionModel} instances
@@ -81,6 +84,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String DEPRECATION_MODEL = "deprecationModel";
   static final String ERRORS = "errors";
   static final String NOTIFICATIONS = "notifications";
+  private static final String ARTIFACT_COORDINATES = "artifactCoordinates";
 
   private final Gson gsonDelegate;
   private final JsonMetadataTypeLoader typeLoader = new JsonMetadataTypeLoader();
@@ -125,6 +129,10 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                       new TypeToken<List<ConnectionProviderModel>>() {});
     writeWithDelegate(model.getSourceModels(), MESSAGE_SOURCES, out, new TypeToken<List<SourceModel>>() {});
 
+    if (model.getArtifactCoordinates().isPresent()) {
+      writeWithDelegate(model.getArtifactCoordinates().get(), ARTIFACT_COORDINATES, out, new TypeToken<ArtifactCoordinates>() {});
+    }
+
     notificationModelDelegate.writeNotifications(model.getNotificationModels(), out);
     errorModelDelegate.writeErrors(model.getErrorModels(), out);
     writeExtensionLevelModelProperties(out, model);
@@ -164,6 +172,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     List<SourceModel> sources = parseWithDelegate(json, MESSAGE_SOURCES, new TypeToken<List<SourceModel>>() {});
     List<FunctionModel> functions = parseWithDelegate(json, FUNCTIONS, new TypeToken<List<FunctionModel>>() {});
     List<ConstructModel> constructs = parseWithDelegate(json, CONSTRUCTS, new TypeToken<List<ConstructModel>>() {});
+    ArtifactCoordinates coordinates = parseWithDelegate(json, ARTIFACT_COORDINATES, new TypeToken<ArtifactCoordinates>() {});
 
     return new ImmutableExtensionModel(json.get(NAME).getAsString(),
                                        json.get(DESCRIPTION).getAsString(),
@@ -185,7 +194,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        new LinkedHashSet<>(parsedErrors.values()),
                                        externalLibraries,
                                        privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json),
-                                       new LinkedHashSet<>(parsedNotifications.values()));
+                                       new LinkedHashSet<>(parsedNotifications.values()),
+                                       null,
+                                       coordinates);
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {
