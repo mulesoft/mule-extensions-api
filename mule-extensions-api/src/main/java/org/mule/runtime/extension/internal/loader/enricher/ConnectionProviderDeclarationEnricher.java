@@ -48,7 +48,7 @@ public class ConnectionProviderDeclarationEnricher implements WalkingDeclaration
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
 
     if (!declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent()) {

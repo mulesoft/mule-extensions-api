@@ -287,7 +287,7 @@ public final class ExtensionModelFactory {
       }
 
       if (enricher instanceof WalkingDeclarationEnricher) {
-        ((WalkingDeclarationEnricher) enricher).getWalker(extensionLoadingContext).ifPresent(walkDelegates::add);
+        ((WalkingDeclarationEnricher) enricher).getWalkDelegate(extensionLoadingContext).ifPresent(walkDelegates::add);
       } else {
         enricher.enrich(extensionLoadingContext);
       }
@@ -345,8 +345,6 @@ public final class ExtensionModelFactory {
       walkDelegates.forEach(DeclarationEnricherWalkDelegate::onWalkFinished);
     }
   }
-
-
 
   private boolean isExpression(String value) {
     return value.startsWith("#[") && value.endsWith("]");

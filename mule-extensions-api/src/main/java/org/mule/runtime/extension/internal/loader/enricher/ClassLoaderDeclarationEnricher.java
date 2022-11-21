@@ -30,7 +30,7 @@ public class ClassLoaderDeclarationEnricher implements WalkingDeclarationEnriche
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     ClassLoader classLoader = extensionLoadingContext.getExtensionClassLoader();
     if (classLoader == null) {
       throw new IllegalModelDefinitionException("No ClassLoader was specified for extension " +

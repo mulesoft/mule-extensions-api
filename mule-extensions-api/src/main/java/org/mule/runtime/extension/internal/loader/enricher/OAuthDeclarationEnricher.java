@@ -102,7 +102,7 @@ public class OAuthDeclarationEnricher implements WalkingDeclarationEnricher {
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     return of(new DeclarationEnricherWalkDelegate() {
 
       final Set<Integer> visitedOwners = new HashSet<>();

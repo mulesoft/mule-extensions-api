@@ -50,7 +50,7 @@ public final class ContentParameterDeclarationEnricher implements WalkingDeclara
   }
 
   @Override
-  public java.util.Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public java.util.Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
       @Override

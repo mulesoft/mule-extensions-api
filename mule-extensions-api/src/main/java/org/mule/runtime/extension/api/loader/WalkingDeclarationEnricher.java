@@ -24,11 +24,34 @@ import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker
 
 import java.util.Optional;
 
+/**
+ * Optimization for {@link DeclarationEnricher enrichers} which would normally use a {@link DeclarationEnricher} to implement
+ * their logic, a pattern we found to be quite common. This results in several &quot;walks&quots; being performed over the
+ * declaration, which becomes computationally expensive.
+ * <p>
+ * This interface allows to optimize that by extracting the performed logic to the
+ * {@link #getWalkDelegate(ExtensionLoadingContext)} method, which gives Mule the ability to reduce the number of walks necessary
+ * to perform the enrichment.
+ * <p>
+ * This interface still adheres to the {@link DeclarationEnricher} contract and thus the {@link #enrich(ExtensionLoadingContext)}
+ * method must still work, but delegating to the {@link DeclarationEnricherWalkDelegate} returned by the
+ * {@link #getWalkDelegate(ExtensionLoadingContext)} method.
+ *
+ * @since 1.5.0
+ */
 public interface WalkingDeclarationEnricher extends DeclarationEnricher {
 
+  /**
+   * Enriches the declaration in the {@code extensionLoadingContext} by using a {@link DeclarationWalker} using the result of
+   * {@link #getWalkDelegate(ExtensionLoadingContext)} as a delegate. If said method returns an {@link Optional#empty()} then
+   * nothing is done. {@link DeclarationEnricherWalkDelegate#onWalkFinished()} is invoked in compliance with the delegate's
+   * contract.
+   *
+   * @param extensionLoadingContext a {@link ExtensionLoadingContext}
+   */
   @Override
   default void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    getWalker(extensionLoadingContext).ifPresent(delegate -> {
+    getWalkDelegate(extensionLoadingContext).ifPresent(delegate -> {
       new DeclarationWalker() {
 
         @Override
@@ -77,13 +100,23 @@ public interface WalkingDeclarationEnricher extends DeclarationEnricher {
   }
 
   /**
-   * Enriches the descriptor provided in the given {@code extensionLoadingContext}.
+   * Optionally returns a {@link DeclarationEnricherWalkDelegate} that contains the enrichment logic.
+   * <p>
+   * If {@link Optional#empty()} is returned, it means that this enricher does not apply to the given declaration and it should be
+   * skipped
    *
    * @param extensionLoadingContext a {@link ExtensionLoadingContext}
+   * @return an optional delegate
    */
-  Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext);
+  Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext);
 
 
+  /**
+   * A delegate containing the enrichment logic of a {@link WalkingDeclarationEnricher}. Implementations <b>MUST</b> be
+   * thread-safe.
+   *
+   * @since 1.5.0
+   */
   class DeclarationEnricherWalkDelegate {
 
     /**
@@ -155,6 +188,10 @@ public interface WalkingDeclarationEnricher extends DeclarationEnricher {
                             ParameterGroupDeclaration parameterGroup,
                             ParameterDeclaration declaration) {}
 
+    /**
+     * This method <b>MUST</b> be called when traversing is finished. The responsibility of calling this method lies upon the
+     * component orchestrating the enrichment.
+     */
     public void onWalkFinished() {}
   }
 }

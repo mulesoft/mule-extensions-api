@@ -45,7 +45,7 @@ public final class ExtensionTypesDeclarationEnricher implements WalkingDeclarati
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclarer declarer = extensionLoadingContext.getExtensionDeclarer();
     // subtypes have to be declared first so that any enrichment already done on them is available on the types from the
     // extension. Otherwise, the unenriched types from the parameters end up in the types.

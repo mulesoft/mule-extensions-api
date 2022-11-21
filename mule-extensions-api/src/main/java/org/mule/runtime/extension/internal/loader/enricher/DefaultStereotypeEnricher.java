@@ -47,7 +47,7 @@ public class DefaultStereotypeEnricher implements WalkingDeclarationEnricher {
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     return of(new DeclarationEnricherWalkDelegate() {
 
       final Map<String, StereotypeModel> parentsCache = new HashMap<>();

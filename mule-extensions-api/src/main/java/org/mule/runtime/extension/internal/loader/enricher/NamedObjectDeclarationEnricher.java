@@ -57,7 +57,7 @@ public class NamedObjectDeclarationEnricher implements WalkingDeclarationEnriche
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     Set<String> blockListed = BLOCK_LIST.get(extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName());
     return of(new DeclarationEnricherWalkDelegate() {
 

@@ -33,7 +33,7 @@ public class DynamicConfigDeclarationEnricher implements WalkingDeclarationEnric
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     extensionLoadingContext.getExtensionDeclarer().getDeclaration().getConfigurations().forEach(config -> {
       if (canBeDynamic(config)) {
         addExpirationPolicy(config);

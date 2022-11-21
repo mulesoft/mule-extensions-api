@@ -41,7 +41,7 @@ public final class RedeliveryPolicyDeclarationEnricher implements WalkingDeclara
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalker(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
       ExtensionDeclaration extension = extensionLoadingContext.getExtensionDeclarer().getDeclaration();

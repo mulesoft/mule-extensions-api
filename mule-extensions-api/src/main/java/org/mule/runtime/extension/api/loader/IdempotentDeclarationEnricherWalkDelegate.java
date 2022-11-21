@@ -20,6 +20,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.WithFunctionsDeclarati
 import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
 import org.mule.runtime.api.util.Reference;
+import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher.DeclarationEnricherWalkDelegate;
 
 import java.util.HashSet;
@@ -27,6 +28,17 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
+/**
+ * A {@link DeclarationEnricherWalkDelegate} which assures that each component is visited only once, making it easy to handle the
+ * fact that some components such as {@link OperationDeclaration}, {@link SourceDeclaration},
+ * {@link ConnectionProviderDeclaration}, etc, implement the flyweight pattern, which means that the same instance might be
+ * present at different levels. This is the delegate equivalent of {@link IdempotentDeclarationWalker} and should be used whenever
+ * a traditional walker would use it.
+ * <p>
+ * The use of this delegate makes it unnecessary to manually control if a given component has already been seen.
+ *
+ * @since 1.5
+ */
 public class IdempotentDeclarationEnricherWalkDelegate extends DeclarationEnricherWalkDelegate {
 
   private Set<Reference<SourceDeclaration>> sources = new LinkedHashSet<>();
