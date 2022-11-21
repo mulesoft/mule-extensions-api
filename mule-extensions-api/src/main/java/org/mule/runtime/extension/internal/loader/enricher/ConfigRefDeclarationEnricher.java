@@ -6,17 +6,19 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static com.google.common.collect.LinkedListMultimap.create;
-import static java.util.Optional.of;
-import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 import static org.mule.runtime.extension.internal.declaration.type.MetadataTypeConstants.CONFIG_TYPE;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.CONFIG;
+
+import static java.util.Optional.of;
+import static java.util.stream.Collectors.toList;
+
+import static com.google.common.collect.LinkedListMultimap.create;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -63,7 +65,7 @@ public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher 
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return STRUCTURE;
+    return POST_STRUCTURE;
   }
 
   @Override
