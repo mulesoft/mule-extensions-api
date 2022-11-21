@@ -11,7 +11,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportsInlineDeclaration;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.typeRequiresWrapperElement;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.LAYOUT;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isMap;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isReferableType;
 
@@ -57,7 +57,7 @@ public class ParameterDslDeclarationEnricher implements WalkingDeclarationEnrich
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE;
+    return LAYOUT;
   }
 
   @Override
