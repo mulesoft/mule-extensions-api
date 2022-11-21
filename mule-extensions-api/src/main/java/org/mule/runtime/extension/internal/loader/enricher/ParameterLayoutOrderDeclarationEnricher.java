@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.loader.enricher;
 
 import static org.mule.runtime.api.meta.model.display.LayoutModel.builderFrom;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.LAYOUT;
 
 import static java.lang.Integer.min;
 import static java.util.Optional.of;
@@ -49,7 +49,7 @@ public final class ParameterLayoutOrderDeclarationEnricher implements WalkingDec
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return WIRING;
+    return LAYOUT;
   }
 
   @Override

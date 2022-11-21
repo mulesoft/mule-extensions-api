@@ -13,7 +13,6 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.api.util.MuleSystemProperties.FORCE_EXTENSION_VALIDATION_PROPERTY_NAME;
 import static org.mule.runtime.api.util.MuleSystemProperties.isForceExtensionValidation;
 import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.INITIALIZE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
@@ -272,13 +271,13 @@ public final class ExtensionModelFactory {
   private void enrichDeclaration(ExtensionLoadingContext extensionLoadingContext) {
     final int enricherCount = declarationEnrichers.size() + extensionLoadingContext.getCustomDeclarationEnrichers().size();
     List<DeclarationEnricher> enrichers = new ArrayList<>(enricherCount);
-    enrichers.addAll(declarationEnrichers);
     enrichers.addAll(extensionLoadingContext.getCustomDeclarationEnrichers());
+    enrichers.addAll(declarationEnrichers);
     enrichers.sort(comparing(DeclarationEnricher::getExecutionPhase));
 
     List<DeclarationEnricherWalkDelegate> walkDelegates = new ArrayList<>(enricherCount);
 
-    DeclarationEnricherPhase currentPhase = INITIALIZE;
+    DeclarationEnricherPhase currentPhase = DeclarationEnricherPhase.values()[0];
     for (DeclarationEnricher enricher : enrichers) {
       DeclarationEnricherPhase enricherPhase = enricher.getExecutionPhase();
       if (currentPhase != enricherPhase) {
