@@ -6,31 +6,28 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.util.Optional.empty;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.INITIALIZE;
 
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
+import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
-
-import java.util.Optional;
 
 /**
  * Adds a {@link ClassLoaderModelProperty} pointing to {@link ExtensionLoadingContext#getExtensionClassLoader()}
  *
  * @since 1.0
  */
-public class ClassLoaderDeclarationEnricher implements WalkingDeclarationEnricher {
+public class ClassLoaderDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE;
+    return INITIALIZE;
   }
 
   @Override
-  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
     ClassLoader classLoader = extensionLoadingContext.getExtensionClassLoader();
     if (classLoader == null) {
       throw new IllegalModelDefinitionException("No ClassLoader was specified for extension " +
@@ -38,7 +35,5 @@ public class ClassLoaderDeclarationEnricher implements WalkingDeclarationEnriche
     }
 
     extensionLoadingContext.getExtensionDeclarer().withModelProperty(new ClassLoaderModelProperty(classLoader));
-
-    return empty();
   }
 }
