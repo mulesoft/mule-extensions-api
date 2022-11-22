@@ -7,7 +7,12 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableMap;
+import static java.util.Collections.unmodifiableSet;
+import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.OUTPUT;
@@ -29,19 +34,20 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.util.collection.SmallMap;
 import org.mule.runtime.extension.api.ExtensionConstants;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.exception.IllegalOperationModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.internal.property.TargetModelProperty;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -50,16 +56,22 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class TargetParameterDeclarationEnricher implements DeclarationEnricher {
+public final class TargetParameterDeclarationEnricher implements WalkingDeclarationEnricher {
 
   /**
    * This map holds as key the names of the extensions that have Operations that will not be enriched and as value a {@link Set}
    * with the names of the Operations.
    */
-  private static final Map<String, Set<String>> blocklistedExtensionsOperations =
-      ImmutableMap.of("ee", ImmutableSet.of("transform"),
-                      "cxf", ImmutableSet.of("simpleService", "jaxwsService", "proxyService",
-                                             "simpleClient", "jaxwsClient", "proxyClient"));
+  private static final Map<String, Set<String>> BLOCK_LIST;
+
+  static {
+    Map<String, Set<String>> block = new SmallMap<>();
+    block.put("ee", singleton("transform"));
+    block.put("cxf", unmodifiableSet(new HashSet<>(asList("simpleService", "jaxwsService", "proxyService",
+                                                          "simpleClient", "jaxwsClient", "proxyClient"))));
+
+    BLOCK_LIST = unmodifiableMap(block);
+  }
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -67,45 +79,38 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
-    Set<String> blocklistedOperationsNames = blocklistedExtensionsOperations.getOrDefault(extensionName, emptySet());
-    new EnricherDelegate(blocklistedOperationsNames).enrich(extensionLoadingContext);
+    return of(new WalkDelegateDelegateDeclaration(BLOCK_LIST.getOrDefault(extensionName, emptySet())));
   }
 
-  private class EnricherDelegate implements DeclarationEnricher {
+  private class WalkDelegateDelegateDeclaration extends IdempotentDeclarationEnricherWalkDelegate {
 
-    private final Set<String> blocklistedOperationsNames;
+    private final Set<String> blockedOperationsNames;
     private MetadataType attributeType;
     private MetadataType targetValue;
 
-    private EnricherDelegate(Set<String> blocklistedOperationsNames) {
+    private WalkDelegateDelegateDeclaration(Set<String> blockedOperationsNames) {
       ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
       this.attributeType = typeLoader.load(String.class);
       this.targetValue = typeLoader.load(String.class);
-      this.blocklistedOperationsNames = blocklistedOperationsNames;
+      this.blockedOperationsNames = blockedOperationsNames;
     }
 
     @Override
-    public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-      new IdempotentDeclarationWalker() {
+    protected void onOperation(OperationDeclaration declaration) {
+      if (blockedOperationsNames.contains(declaration.getName())) {
+        return;
+      }
+      final MetadataType outputType = declaration.getOutput().getType();
+      if (outputType == null) {
+        throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",
+                                                                  declaration.getName()));
+      }
 
-        @Override
-        protected void onOperation(OperationDeclaration declaration) {
-          if (blocklistedOperationsNames.contains(declaration.getName())) {
-            return;
-          }
-          final MetadataType outputType = declaration.getOutput().getType();
-          if (outputType == null) {
-            throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",
-                                                                      declaration.getName()));
-          }
-
-          if (!(outputType instanceof VoidType)) {
-            declaration.getParameterGroup(OUTPUT).addParameter(declareTarget()).addParameter(declareTargetValue());
-          }
-        }
-      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+      if (!(outputType instanceof VoidType)) {
+        declaration.getParameterGroup(OUTPUT).addParameter(declareTarget()).addParameter(declareTargetValue());
+      }
     }
 
     private ParameterDeclaration declareTarget() {

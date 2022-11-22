@@ -6,25 +6,27 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.Integer.min;
 import static org.mule.runtime.api.meta.model.display.LayoutModel.builderFrom;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.LAYOUT;
+
+import static java.lang.Integer.min;
+import static java.util.Optional.of;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.AbstractParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,20 +43,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 1.5.0
  * @see LayoutModel
  */
-public final class ParameterLayoutOrderDeclarationEnricher implements DeclarationEnricher {
+public final class ParameterLayoutOrderDeclarationEnricher implements WalkingDeclarationEnricher {
 
   private static final int INITIAL_ORDER = 1;
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return WIRING;
+    return LAYOUT;
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-
-    new IdempotentDeclarationWalker() {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
       @Override
       public void onOperation(OperationDeclaration declaration) {
@@ -75,7 +75,7 @@ public final class ParameterLayoutOrderDeclarationEnricher implements Declaratio
       protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
         establishOrder(declaration);
       }
-    }.walk(declaration);
+    });
   }
 
   private void establishOrder(ParameterizedDeclaration declaration) {

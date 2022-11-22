@@ -6,15 +6,6 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
-import static com.google.common.collect.ImmutableSet.of;
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.unmodifiableList;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -29,6 +20,17 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
 
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+
+import static com.google.common.collect.ImmutableSet.of;
+
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -40,6 +42,7 @@ import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
@@ -56,6 +59,11 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclarat
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithConstructsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithFunctionsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
@@ -70,9 +78,12 @@ import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
+import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher.DeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.ImmutableOutputModel;
 import org.mule.runtime.extension.api.model.config.ImmutableConfigurationModel;
@@ -145,7 +156,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 /**
  * A factory that can take an {@link ExtensionDeclarer} and transform it into an actual {@link ExtensionModel}.
  * <p>
- * This factory is also responsible of applying the {@link DeclarationEnricher} which are default to the runtime plus the ones
+ * This factory is also responsible for applying the {@link DeclarationEnricher} which are default to the runtime plus the ones
  * specified through {@link ExtensionLoadingContext#addCustomValidators(Collection)}
  * <p>
  * This class is not part of the API and should not be used by anyone (or anything) but the runtime. Backwards compatibility not
@@ -216,7 +227,7 @@ public final class ExtensionModelFactory {
    */
   public ExtensionModel create(ExtensionLoadingContext extensionLoadingContext) {
 
-    enrichModel(extensionLoadingContext);
+    enrichDeclaration(extensionLoadingContext);
 
     ExtensionModel extensionModel =
         new FactoryDelegate().toExtension(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
@@ -257,11 +268,82 @@ public final class ExtensionModelFactory {
     }
   }
 
-  private void enrichModel(ExtensionLoadingContext extensionLoadingContext) {
-    List<DeclarationEnricher> enrichers = new LinkedList<>(extensionLoadingContext.getCustomDeclarationEnrichers());
+  private void enrichDeclaration(ExtensionLoadingContext extensionLoadingContext) {
+    final int enricherCount = declarationEnrichers.size() + extensionLoadingContext.getCustomDeclarationEnrichers().size();
+    List<DeclarationEnricher> enrichers = new ArrayList<>(enricherCount);
+    enrichers.addAll(extensionLoadingContext.getCustomDeclarationEnrichers());
     enrichers.addAll(declarationEnrichers);
     enrichers.sort(comparing(DeclarationEnricher::getExecutionPhase));
-    enrichers.forEach(enricher -> enricher.enrich(extensionLoadingContext));
+
+    List<DeclarationEnricherWalkDelegate> walkDelegates = new ArrayList<>(enricherCount);
+
+    DeclarationEnricherPhase currentPhase = DeclarationEnricherPhase.values()[0];
+    for (DeclarationEnricher enricher : enrichers) {
+      DeclarationEnricherPhase enricherPhase = enricher.getExecutionPhase();
+      if (currentPhase != enricherPhase) {
+        processEnricherWalkDelegates(extensionLoadingContext, walkDelegates);
+        walkDelegates.clear();
+        currentPhase = enricherPhase;
+      }
+
+      if (enricher instanceof WalkingDeclarationEnricher) {
+        ((WalkingDeclarationEnricher) enricher).getWalkDelegate(extensionLoadingContext).ifPresent(walkDelegates::add);
+      } else {
+        enricher.enrich(extensionLoadingContext);
+      }
+    }
+
+    processEnricherWalkDelegates(extensionLoadingContext, walkDelegates);
+  }
+
+  private void processEnricherWalkDelegates(ExtensionLoadingContext extensionLoadingContext,
+                                            List<DeclarationEnricherWalkDelegate> walkDelegates) {
+    if (!walkDelegates.isEmpty()) {
+      new DeclarationWalker() {
+
+        @Override
+        protected void onConfiguration(ConfigurationDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onConfiguration(declaration));
+        }
+
+        @Override
+        protected void onOperation(WithOperationsDeclaration owner, OperationDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onOperation(owner, declaration));
+        }
+
+        @Override
+        protected void onFunction(WithFunctionsDeclaration owner, FunctionDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onFunction(owner, declaration));
+        }
+
+        @Override
+        protected void onConstruct(WithConstructsDeclaration owner, ConstructDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onConstruct(owner, declaration));
+        }
+
+        @Override
+        protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onConnectionProvider(owner, declaration));
+        }
+
+        @Override
+        protected void onSource(WithSourcesDeclaration owner, SourceDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onSource(owner, declaration));
+        }
+
+        @Override
+        protected void onParameterGroup(ParameterizedDeclaration owner, ParameterGroupDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onParameterGroup(owner, declaration));
+        }
+
+        @Override
+        protected void onParameter(ParameterizedDeclaration owner, ParameterGroupDeclaration parameterGroup,
+                                   ParameterDeclaration declaration) {
+          walkDelegates.forEach(d -> d.onParameter(owner, parameterGroup, declaration));
+        }
+      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+      walkDelegates.forEach(DeclarationEnricherWalkDelegate::onWalkFinished);
+    }
   }
 
   private boolean isExpression(String value) {

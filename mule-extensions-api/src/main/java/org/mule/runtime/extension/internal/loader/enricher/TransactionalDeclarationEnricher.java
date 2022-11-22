@@ -7,14 +7,15 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.tx.TransactionType.LOCAL;
 import static org.mule.runtime.extension.api.ExtensionConstants.OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
-import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTION_TYPE_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_ACTION_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TYPE_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTION_TYPE_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
@@ -31,12 +32,13 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.tx.TransactionType;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
 import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 import org.mule.runtime.extension.internal.property.NoTransactionalActionModelProperty;
@@ -54,7 +56,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
-public final class TransactionalDeclarationEnricher implements DeclarationEnricher {
+public final class TransactionalDeclarationEnricher implements WalkingDeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -62,97 +64,83 @@ public final class TransactionalDeclarationEnricher implements DeclarationEnrich
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new EnricherDelegate().enrich(extensionLoadingContext);
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new IdempotentDeclarationEnricherWalkDelegate() {
+
+      final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+      final MetadataType operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
+      final MetadataType sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
+      final MetadataType sdkOperationTransactionalActionType =
+          typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
+      final MetadataType sdkSourceTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.SourceTransactionalAction.class);
+      final MetadataType transactionType = typeLoader.load(TransactionType.class);
+
+      @Override
+      protected void onSource(SourceDeclaration declaration) {
+        addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, sourceTransactionalActionType, sdkSourceTransactionalActionType,
+                       NONE, org.mule.sdk.api.tx.SourceTransactionalAction.NONE,
+                       SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration, new TransactionalActionModelProperty());
+        addTxParameter(TRANSACTIONAL_TYPE_PARAMETER_NAME, null, transactionType, null, LOCAL,
+                       TRANSACTION_TYPE_PARAMETER_DESCRIPTION,
+                       declaration,
+                       new TransactionalTypeModelProperty());
+      }
+
+      @Override
+      protected void onOperation(OperationDeclaration declaration) {
+        addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, operationTransactionalActionType,
+                       sdkOperationTransactionalActionType, JOIN_IF_POSSIBLE,
+                       org.mule.sdk.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE,
+                       OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration,
+                       new TransactionalActionModelProperty());
+      }
+    });
   }
 
-  private class EnricherDelegate implements DeclarationEnricher {
 
-    private final MetadataType operationTransactionalActionType;
-    private final MetadataType sourceTransactionalActionType;
-    private final MetadataType sdkOperationTransactionalActionType;
-    private final MetadataType sdkSourceTransactionalActionType;
-    private final MetadataType transactionType;
-
-    private EnricherDelegate() {
-      ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-      operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
-      sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
-      sdkOperationTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
-      sdkSourceTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.SourceTransactionalAction.class);
-      transactionType = typeLoader.load(TransactionType.class);
+  private void addTxParameter(String parameterName, MetadataType metadataType, MetadataType sdkMetadataType,
+                              Object defaultValue, Object sdkDefaultValue, String description,
+                              ExecutableComponentDeclaration<?> declaration, ModelProperty modelProperty) {
+    if (!declaration.isTransactional() || declaration.getModelProperty(NoTransactionalActionModelProperty.class).isPresent()) {
+      return;
     }
-
-    @Override
-    public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-      new IdempotentDeclarationWalker() {
-
-        @Override
-        protected void onSource(SourceDeclaration declaration) {
-          addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, sourceTransactionalActionType, sdkSourceTransactionalActionType,
-                         NONE, org.mule.sdk.api.tx.SourceTransactionalAction.NONE,
-                         SOURCE_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration, new TransactionalActionModelProperty());
-          addTxParameter(TRANSACTIONAL_TYPE_PARAMETER_NAME, null, transactionType, null, LOCAL,
-                         TRANSACTION_TYPE_PARAMETER_DESCRIPTION,
-                         declaration,
-                         new TransactionalTypeModelProperty());
-        }
-
-        @Override
-        protected void onOperation(OperationDeclaration declaration) {
-          addTxParameter(TRANSACTIONAL_ACTION_PARAMETER_NAME, operationTransactionalActionType,
-                         sdkOperationTransactionalActionType, JOIN_IF_POSSIBLE,
-                         org.mule.sdk.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE,
-                         OPERATION_TRANSACTIONAL_ACTION_PARAMETER_DESCRIPTION, declaration,
-                         new TransactionalActionModelProperty());
-        }
-      }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
+    Optional<ParameterDeclaration> sdkParameterDeclaration = isPresent(declaration, sdkMetadataType);
+    if (parameterDeclaration.isPresent() && sdkParameterDeclaration.isPresent()) {
+      throw new IllegalModelDefinitionException(format("Component '%s' has transactional parameters from different APIs. Offending parameters are '%s' and '%s'.",
+                                                       declaration.getName(),
+                                                       parameterDeclaration.get().getName(),
+                                                       sdkParameterDeclaration.get().getName()));
+    } else if (parameterDeclaration.isPresent()) {
+      enrichTransactionParameter(defaultValue, description, parameterDeclaration.get(), modelProperty);
+    } else if (sdkParameterDeclaration.isPresent()) {
+      enrichTransactionParameter(sdkDefaultValue, description, sdkParameterDeclaration.get(), modelProperty);
+    } else {
+      ParameterDeclaration transactionParameter = new ParameterDeclaration(parameterName);
+      transactionParameter.setType(sdkMetadataType, false);
+      enrichTransactionParameter(sdkDefaultValue, description, transactionParameter, modelProperty);
+      declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(transactionParameter);
     }
+  }
 
-    private void addTxParameter(String parameterName, MetadataType metadataType, MetadataType sdkMetadataType,
-                                Object defaultValue, Object sdkDefaultValue, String description,
-                                ExecutableComponentDeclaration<?> declaration, ModelProperty modelProperty) {
-      if (!declaration.isTransactional() || declaration.getModelProperty(NoTransactionalActionModelProperty.class).isPresent()) {
-        return;
-      }
-      Optional<ParameterDeclaration> parameterDeclaration = isPresent(declaration, metadataType);
-      Optional<ParameterDeclaration> sdkParameterDeclaration = isPresent(declaration, sdkMetadataType);
-      if (parameterDeclaration.isPresent() && sdkParameterDeclaration.isPresent()) {
-        throw new IllegalModelDefinitionException(format("Component '%s' has transactional parameters from different APIs. Offending parameters are '%s' and '%s'.",
-                                                         declaration.getName(),
-                                                         parameterDeclaration.get().getName(),
-                                                         sdkParameterDeclaration.get().getName()));
-      } else if (parameterDeclaration.isPresent()) {
-        enrichTransactionParameter(defaultValue, description, parameterDeclaration.get(), modelProperty);
-      } else if (sdkParameterDeclaration.isPresent()) {
-        enrichTransactionParameter(sdkDefaultValue, description, sdkParameterDeclaration.get(), modelProperty);
-      } else {
-        ParameterDeclaration transactionParameter = new ParameterDeclaration(parameterName);
-        transactionParameter.setType(sdkMetadataType, false);
-        enrichTransactionParameter(sdkDefaultValue, description, transactionParameter, modelProperty);
-        declaration.getParameterGroup(DEFAULT_GROUP_NAME).addParameter(transactionParameter);
-      }
-    }
+  private void enrichTransactionParameter(Object defaultValue, String description, ParameterDeclaration transactionParameter,
+                                          ModelProperty modelProperty) {
+    transactionParameter.setExpressionSupport(NOT_SUPPORTED);
+    transactionParameter.setRequired(false);
+    transactionParameter.setDefaultValue(defaultValue);
+    transactionParameter.setDescription(description);
+    transactionParameter.addModelProperty(modelProperty);
+    transactionParameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+  }
 
-    private void enrichTransactionParameter(Object defaultValue, String description, ParameterDeclaration transactionParameter,
-                                            ModelProperty modelProperty) {
-      transactionParameter.setExpressionSupport(NOT_SUPPORTED);
-      transactionParameter.setRequired(false);
-      transactionParameter.setDefaultValue(defaultValue);
-      transactionParameter.setDescription(description);
-      transactionParameter.addModelProperty(modelProperty);
-      transactionParameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+  private Optional<ParameterDeclaration> isPresent(ComponentDeclaration<?> declaration, MetadataType metadataType) {
+    if (metadataType == null) {
+      return Optional.empty();
     }
-
-    private Optional<ParameterDeclaration> isPresent(ComponentDeclaration<?> declaration, MetadataType metadataType) {
-      if (metadataType == null) {
-        return Optional.empty();
-      }
-      return declaration.getParameterGroups()
-          .stream()
-          .flatMap(group -> group.getParameters().stream())
-          .filter(parameterDeclaration -> parameterDeclaration.getType().equals(metadataType))
-          .findAny();
-    }
+    return declaration.getParameterGroups()
+        .stream()
+        .flatMap(group -> group.getParameters().stream())
+        .filter(parameterDeclaration -> parameterDeclaration.getType().equals(metadataType))
+        .findAny();
   }
 }

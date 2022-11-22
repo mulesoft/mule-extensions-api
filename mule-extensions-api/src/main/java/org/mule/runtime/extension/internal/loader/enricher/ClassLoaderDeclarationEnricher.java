@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.INITIALIZE;
 
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -23,7 +23,7 @@ public class ClassLoaderDeclarationEnricher implements DeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
-    return POST_STRUCTURE;
+    return INITIALIZE;
   }
 
   @Override

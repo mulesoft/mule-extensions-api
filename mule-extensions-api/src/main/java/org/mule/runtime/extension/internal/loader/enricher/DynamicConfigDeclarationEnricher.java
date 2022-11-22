@@ -9,6 +9,7 @@ package org.mule.runtime.extension.internal.loader.enricher;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.acceptsExpressions;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addExpirationPolicy;
+
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;

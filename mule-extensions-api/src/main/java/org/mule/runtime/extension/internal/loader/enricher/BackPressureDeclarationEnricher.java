@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static java.util.Optional.of;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
@@ -23,12 +24,12 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
-import org.mule.runtime.extension.api.runtime.source.BackPressureMode;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.property.BackPressureStrategyModelProperty;
+import org.mule.runtime.extension.api.runtime.source.BackPressureMode;
 
 import java.util.Optional;
 
@@ -37,12 +38,13 @@ import java.util.Optional;
  *
  * @since 1.1
  */
-public class BackPressureDeclarationEnricher implements DeclarationEnricher {
+public class BackPressureDeclarationEnricher implements WalkingDeclarationEnricher {
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    new IdempotentDeclarationWalker() {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new IdempotentDeclarationEnricherWalkDelegate() {
+
+      final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
 
       @Override
       protected void onSource(SourceDeclaration sourceDeclaration) {
@@ -54,7 +56,7 @@ public class BackPressureDeclarationEnricher implements DeclarationEnricher {
           addBackPressureParameter(extensionDeclaration, sourceDeclaration, backPressureStrategyModelProperty.get());
         }
       }
-    }.walk(extensionDeclaration);
+    });
   }
 
   @Override

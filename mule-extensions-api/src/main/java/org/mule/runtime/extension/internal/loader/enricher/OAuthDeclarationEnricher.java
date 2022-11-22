@@ -10,20 +10,12 @@ import static java.lang.System.identityHashCode;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.CACHED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_SECRET;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CONNECTION_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.TOKEN_URL;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_PATH;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_TEMPLATE;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.ACCESS_TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AFTER_FLOW_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.AUTHORIZATION_URL_PARAMETER_NAME;
@@ -57,6 +49,15 @@ import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STR
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_ID;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_SECRET;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CONNECTION_ID;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.TOKEN_URL;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_PATH;
+import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_TEMPLATE;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
@@ -64,10 +65,8 @@ import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclarer;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantType;
@@ -78,14 +77,15 @@ import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthParameterModelProperty;
 import org.mule.runtime.extension.api.connectivity.oauth.PlatformManagedOAuthGrantType;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -94,7 +94,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public class OAuthDeclarationEnricher implements DeclarationEnricher {
+public class OAuthDeclarationEnricher implements WalkingDeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -102,16 +102,16 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    final Set<Integer> visitedOwners = new HashSet<>();
-    final Set<Integer> visitedProviders = new HashSet<>();
-    final Reference<ConnectionProviderDeclaration> ocsConnectionProvider = new Reference<>(null);
-    final boolean ocsEnabled = extensionLoadingContext.isOCSEnabled();
-    new DeclarationWalker() {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new DeclarationEnricherWalkDelegate() {
+
+      final Set<Integer> visitedOwners = new HashSet<>();
+      final Set<Integer> visitedProviders = new HashSet<>();
+      final Reference<ConnectionProviderDeclaration> ocsConnectionProvider = new Reference<>(null);
+      final boolean ocsEnabled = extensionLoadingContext.isOCSEnabled();
 
       @Override
-      protected void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
+      public void onConnectionProvider(ConnectedDeclaration owner, ConnectionProviderDeclaration declaration) {
         declaration.getModelProperty(OAuthModelProperty.class).ifPresent(property -> {
           if (visitedProviders.add(identityHashCode(declaration))) {
             new PropertiesEnricher(declaration, property.getGrantTypes()).enrich();
@@ -156,7 +156,7 @@ public class OAuthDeclarationEnricher implements DeclarationEnricher {
           owner.addConnectionProvider(ocsConnectionProvider.get());
         }
       }
-    }.walk(extensionDeclaration);
+    });
   }
 
   private class PropertiesEnricher implements OAuthGrantTypeVisitor {

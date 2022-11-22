@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.internal.loader.enricher;
 
 import static java.lang.String.format;
+import static java.util.Optional.of;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentDeclarationTypeName;
 
@@ -21,13 +22,14 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -35,7 +37,7 @@ import java.util.Set;
  *
  * @since 1.0
  */
-public final class ExtensionTypesDeclarationEnricher implements DeclarationEnricher {
+public final class ExtensionTypesDeclarationEnricher implements WalkingDeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -43,24 +45,14 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclarer declarer = extensionLoadingContext.getExtensionDeclarer();
     // subtypes have to be declared first so that any enrichment already done on them is available on the types from the
     // extension. Otherwise, the unenriched types from the parameters end up in the types.
     declareSubTypes(declarer);
-    declareDefaultTypes(declarer);
     declarer.getDeclaration().getNotificationModels().forEach(notification -> registerType(declarer, notification.getType()));
-  }
 
-  private void declareSubTypes(ExtensionDeclarer declarer) {
-    declarer.getDeclaration().getSubTypes().forEach(type -> {
-      registerType(declarer, type.getBaseType());
-      registerTypes(declarer, type.getSubTypes());
-    });
-  }
-
-  private void declareDefaultTypes(final ExtensionDeclarer declarer) {
-    new IdempotentDeclarationWalker() {
+    return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
       @Override
       public void onSource(SourceDeclaration declaration) {
@@ -80,7 +72,7 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
       }
 
       @Override
-      protected void onConfiguration(ConfigurationDeclaration declaration) {
+      public void onConfiguration(ConfigurationDeclaration declaration) {
         registerParametersType(declaration);
       }
 
@@ -94,8 +86,14 @@ public final class ExtensionTypesDeclarationEnricher implements DeclarationEnric
           registerType(declarer, parameterDeclaration.getType());
         }
       }
+    });
+  }
 
-    }.walk(declarer.getDeclaration());
+  private void declareSubTypes(ExtensionDeclarer declarer) {
+    declarer.getDeclaration().getSubTypes().forEach(type -> {
+      registerType(declarer, type.getBaseType());
+      registerTypes(declarer, type.getSubTypes());
+    });
   }
 
   private void registerTypes(ExtensionDeclarer declarer, Set<ObjectType> types) {

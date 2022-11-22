@@ -6,7 +6,10 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.util.Collections.emptySet;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableMap;
+import static java.util.Collections.unmodifiableSet;
+import static java.util.Optional.of;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
@@ -17,16 +20,15 @@ import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
+import org.mule.runtime.api.util.collection.SmallMap;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.property.SyntheticModelModelProperty;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -37,12 +39,17 @@ import java.util.Set;
  *
  * @since 1.2
  */
-public class NamedObjectDeclarationEnricher implements DeclarationEnricher {
+public class NamedObjectDeclarationEnricher implements WalkingDeclarationEnricher {
 
   private static final MetadataType STRING_TYPE = BaseTypeBuilder.create(JAVA).stringType().build();
 
-  private static final Map<String, Set<String>> blocklistedExtensionsOperations =
-      ImmutableMap.of("cxf", ImmutableSet.of("wsSecurity", "configuration"));
+  private static final Map<String, Set<String>> BLOCK_LIST;
+
+  static {
+    Map<String, Set<String>> blockList = new SmallMap<>();
+    blockList.put("cxf", unmodifiableSet(new HashSet<>(asList("wsSecurity", "configuration"))));
+    BLOCK_LIST = unmodifiableMap(blockList);
+  }
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -50,22 +57,19 @@ public class NamedObjectDeclarationEnricher implements DeclarationEnricher {
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
-    Set<String> blocklisted = blocklistedExtensionsOperations.getOrDefault(extensionName, emptySet());
-
-    new IdempotentDeclarationWalker() {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    Set<String> blockListed = BLOCK_LIST.get(extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName());
+    return of(new DeclarationEnricherWalkDelegate() {
 
       @Override
-      protected void onConfiguration(ConfigurationDeclaration declaration) {
-        if (blocklisted.contains(declaration.getName())) {
+      public void onConfiguration(ConfigurationDeclaration declaration) {
+        if (blockListed != null && blockListed.contains(declaration.getName())) {
           return;
         }
 
         declaration.getDefaultParameterGroup().addParameter(buildNameParameter());
       }
-
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    });
   }
 
   private ParameterDeclaration buildNameParameter() {

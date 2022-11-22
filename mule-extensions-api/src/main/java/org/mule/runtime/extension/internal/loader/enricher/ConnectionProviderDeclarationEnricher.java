@@ -6,19 +6,23 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static java.util.Optional.empty;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.POOLING;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
-import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionConfigParameter;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPoolingProfileParameter;
+import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionConfigParameter;
+
 import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
+
+import java.util.Optional;
 
 /**
  * Enriches all the {@link ConnectionProviderDeclaration} by adding language rules parameters.
@@ -35,7 +39,7 @@ import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelP
  *
  * @since 1.0
  */
-public class ConnectionProviderDeclarationEnricher implements DeclarationEnricher {
+public class ConnectionProviderDeclarationEnricher implements WalkingDeclarationEnricher {
 
 
   @Override
@@ -44,10 +48,11 @@ public class ConnectionProviderDeclarationEnricher implements DeclarationEnriche
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+
     if (!declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent()) {
-      new IdempotentDeclarationWalker() {
+      return Optional.of(new IdempotentDeclarationEnricherWalkDelegate() {
 
         @Override
         protected void onConnectionProvider(ConnectionProviderDeclaration declaration) {
@@ -58,8 +63,10 @@ public class ConnectionProviderDeclarationEnricher implements DeclarationEnriche
             addPoolingProfileParameter(declaration);
           }
         }
-      }.walk(declaration);
+      });
     }
+
+    return empty();
   }
 
 }

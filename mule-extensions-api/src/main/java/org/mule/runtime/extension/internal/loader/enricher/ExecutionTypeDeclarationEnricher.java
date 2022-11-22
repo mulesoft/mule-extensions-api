@@ -6,16 +6,19 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.BLOCKING;
 import static org.mule.runtime.api.meta.model.operation.ExecutionType.CPU_LITE;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 
-import org.mule.runtime.api.meta.model.operation.ExecutionType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
+import org.mule.runtime.api.meta.model.operation.ExecutionType;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
+
+import java.util.Optional;
 
 /**
  * Sets the {@link ExecutionType} on all operations which didn't explicitly set one. This is done by doing a best guess with the
@@ -32,7 +35,7 @@ import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
  *
  * @since 1.0
  */
-public final class ExecutionTypeDeclarationEnricher implements DeclarationEnricher {
+public final class ExecutionTypeDeclarationEnricher implements WalkingDeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -40,14 +43,14 @@ public final class ExecutionTypeDeclarationEnricher implements DeclarationEnrich
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new IdempotentDeclarationWalker() {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
       @Override
       protected void onOperation(OperationDeclaration declaration) {
         declaration.setExecutionType(resolve(declaration));
       }
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    });
   }
 
   private ExecutionType resolve(OperationDeclaration declaration) {

@@ -6,16 +6,17 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static java.util.Optional.of;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPrimaryNodeParameter;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.ExtensionConstants;
-import org.mule.runtime.extension.api.declaration.fluent.util.IdempotentDeclarationWalker;
-import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
+import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
+import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.api.property.SourceClusterSupportModelProperty;
 import org.mule.sdk.api.annotation.source.SourceClusterSupport;
 
@@ -27,7 +28,7 @@ import java.util.Optional;
  *
  * @since 1.1
  */
-public class ClusterSupportEnricher implements DeclarationEnricher {
+public class ClusterSupportEnricher implements WalkingDeclarationEnricher {
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -35,8 +36,8 @@ public class ClusterSupportEnricher implements DeclarationEnricher {
   }
 
   @Override
-  public void enrich(ExtensionLoadingContext extensionLoadingContext) {
-    new IdempotentDeclarationWalker() {
+  public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
+    return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
       @Override
       protected void onSource(SourceDeclaration declaration) {
@@ -60,9 +61,7 @@ public class ClusterSupportEnricher implements DeclarationEnricher {
               declaration.setRunsOnPrimaryNodeOnly(true);
           }
         }
-
       }
-    }.walk(extensionLoadingContext.getExtensionDeclarer().getDeclaration());
+    });
   }
-
 }
