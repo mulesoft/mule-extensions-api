@@ -10,15 +10,16 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
+import static org.mule.runtime.api.util.MuleSystemProperties.ENABLE_DYNAMIC_CONFIG_REF_PROPERTY;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 import static org.mule.runtime.extension.internal.declaration.type.MetadataTypeConstants.CONFIG_TYPE;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.CONFIG;
 
+import static com.google.common.collect.LinkedListMultimap.create;
+import static java.lang.Boolean.getBoolean;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
-
-import static com.google.common.collect.LinkedListMultimap.create;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -58,6 +59,8 @@ import org.slf4j.Logger;
  * @since 1.2
  */
 public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher {
+
+  private final boolean isExpressionSupportEnabled = getBoolean(ENABLE_DYNAMIC_CONFIG_REF_PROPERTY);
 
   private static final Logger LOGGER = getLogger(ConfigRefDeclarationEnricher.class);
 
@@ -161,7 +164,7 @@ public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher 
         .noneMatch(ParameterDeclaration::isRequired);
   }
 
-  private static ExpressionSupport expressionSupport(ComponentDeclaration<?> componentDeclaration) {
-    return componentDeclaration instanceof OperationDeclaration ? SUPPORTED : NOT_SUPPORTED;
+  private ExpressionSupport expressionSupport(ComponentDeclaration<?> componentDeclaration) {
+    return isExpressionSupportEnabled && componentDeclaration instanceof OperationDeclaration ? SUPPORTED : NOT_SUPPORTED;
   }
 }
