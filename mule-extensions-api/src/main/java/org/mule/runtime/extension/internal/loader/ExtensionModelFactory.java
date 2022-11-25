@@ -101,7 +101,6 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.BackPressureDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.BooleanParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ClassLoaderDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ClusterSupportEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ConfigRefDeclarationEnricher;
@@ -175,7 +174,6 @@ public final class ExtensionModelFactory {
   public ExtensionModelFactory() {
     declarationEnrichers = unmodifiableList(asList(
                                                    new ParameterDslDeclarationEnricher(),
-                                                   new BooleanParameterDeclarationEnricher(),
                                                    new ClassLoaderDeclarationEnricher(),
                                                    new ContentParameterDeclarationEnricher(),
                                                    new ExecutionTypeDeclarationEnricher(),

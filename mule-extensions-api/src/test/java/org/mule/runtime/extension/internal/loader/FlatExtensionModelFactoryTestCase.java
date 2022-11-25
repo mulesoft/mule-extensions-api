@@ -6,13 +6,6 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
@@ -81,6 +74,15 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTI
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
+
 import org.mule.metadata.api.builder.ArrayTypeBuilder;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.WithAnnotation;
@@ -98,6 +100,7 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclarer;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -118,12 +121,13 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Issue;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 
 public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactoryTestCase {
 
@@ -143,6 +147,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
   };
   private final MetadataType voidType = typeLoader.load(void.class);
   private final MetadataType stringType = typeLoader.load(String.class);
+  private final MetadataType booleanType = typeLoader.load(Boolean.class);
   private final MetadataType targetValue = typeLoader.load(String.class);
 
   @Rule
@@ -454,6 +459,31 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertThat(connectionStereotype.getParent().get(), is(CONNECTION));
   }
 
+  @Test
+  @Issue("W-12003688")
+  @Description("Before the refactor for MULE-20027, "
+      + "the BooleanParameterDeclarationEnricher was only executed for java extensions, not for xmlSdk or crafted ones. "
+      + "This caused a regression on the cxf-facade (a crafted extension) "
+      + "that used a boolean paramerter as a 3 value provider (null, false, true)")
+  public void booleanEnricherNotForCraftedExtModelLoader() {
+    declare(declarer -> {
+      declarer = declareBase(declarer);
+      ConfigurationDeclarer config = declarer.withConfig("configWithBoolean").describedAs("");
+      config.onDefaultParameterGroup().withOptionalParameter("booleanParam")
+          .ofType(booleanType).withExpressionSupport(NOT_SUPPORTED);
+    });
+
+    ExtensionModel extensionModel = load();
+
+    ParameterModel booleanParamModel = extensionModel.getConfigurationModel("configWithBoolean").get().getAllParameterModels()
+        .stream()
+        .filter(p -> p.getName().equals("booleanParam"))
+        .findAny()
+        .get();
+
+    assertThat(booleanParamModel.getDefaultValue(), nullValue());
+  }
+
   private void assertConsumeOperation(List<OperationModel> operationModels) {
     OperationModel operationModel = operationModels.get(2);
     assertThat(operationModel, is(sameInstance(extensionModel.getOperationModel(CONSUMER).get())));
@@ -469,7 +499,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertParameter(parameterModels.get(1), OPERATION, THE_OPERATION_TO_USE, SUPPORTED, true, stringType,
                     StringType.class, null);
     assertParameter(parameterModels.get(2), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false,
-                    typeLoader.load(Boolean.class), BooleanType.class, true);
+                    booleanType, BooleanType.class, true);
     assertTargetParameter(parameterModels.get(3), parameterModels.get(4));
   }
 
@@ -491,7 +521,7 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
     assertParameter(parameterModels.get(0), COLLECTION_PARAMETER, THE_OPERATION_TO_USE, SUPPORTED, true,
                     arrayType, ArrayType.class, null);
     assertParameter(parameterModels.get(1), MTOM_ENABLED, MTOM_DESCRIPTION, SUPPORTED, false,
-                    typeLoader.load(Boolean.class), BooleanType.class, true);
+                    booleanType, BooleanType.class, true);
     assertParameter(parameterModels.get(2), CALLBACK, CALLBACK_DESCRIPTION, REQUIRED, true, typeLoader.load(OperationModel.class),
                     ObjectType.class, null);
   }

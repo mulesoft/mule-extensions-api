@@ -6,7 +6,12 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
+import static org.mule.runtime.api.util.MuleSystemProperties.TESTING_MODE_PROPERTY_NAME;
+
 import static java.util.Collections.emptySet;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -14,9 +19,7 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
-import static org.mule.runtime.api.util.MuleSystemProperties.TESTING_MODE_PROPERTY_NAME;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -34,11 +37,12 @@ import java.util.function.Consumer;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
 public abstract class BaseExtensionModelFactoryTestCase {
 
   @BeforeClass
@@ -50,6 +54,9 @@ public abstract class BaseExtensionModelFactoryTestCase {
   public static void afterClass() {
     System.clearProperty(TESTING_MODE_PROPERTY_NAME);
   }
+
+  @Rule
+  public MockitoRule mockitorule = MockitoJUnit.rule();
 
   protected ExtensionModel extensionModel;
   private Consumer<ExtensionDeclarer> declarerConsumer = d -> {
@@ -68,7 +75,7 @@ public abstract class BaseExtensionModelFactoryTestCase {
   };
 
   protected ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-  private ClassLoader extensionClassLoader = getClass().getClassLoader();
+  private final ClassLoader extensionClassLoader = getClass().getClassLoader();
 
   @Test
   public void classLoaderModelProperty() {
