@@ -210,6 +210,26 @@
           "methodName": "<init>",
           "elementKind": "constructor",
           "justification": "W-10618625: Added ComponentVisibility"
+        },
+        {
+          "code": "java.class.noLongerImplementsInterface",
+          "old": "class org.mule.runtime.extension.api.client.DefaultOperationParameters",
+          "new": "class org.mule.runtime.extension.api.client.DefaultOperationParameters",
+          "interface": "org.mule.sdk.api.client.OperationParameters",
+          "package": "org.mule.runtime.extension.api.client",
+          "classSimpleName": "DefaultOperationParameters",
+          "elementKind": "class",
+          "justification": "Removing sdk-api support on deprecated methods"
+        },
+        {
+          "code": "java.class.noLongerImplementsInterface",
+          "old": "interface org.mule.runtime.extension.api.client.OperationParameters",
+          "new": "interface org.mule.runtime.extension.api.client.OperationParameters",
+          "interface": "org.mule.sdk.api.client.OperationParameters",
+          "package": "org.mule.runtime.extension.api.client",
+          "classSimpleName": "OperationParameters",
+          "elementKind": "interface",
+          "justification": "Removing sdk-api support on deprecated methods"
         }
       ]
     }
