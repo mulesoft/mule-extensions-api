@@ -28,6 +28,8 @@ import java.util.Optional;
 @NoImplement
 public interface ExtensionLoadingContext {
 
+  final String EXTENSION_LOADER_PROPERTY_PREFIX = "EXTENSION_LOADER_";
+
   /**
    * The {@link ExtensionDeclarer} in which the extension is being described into
    *
