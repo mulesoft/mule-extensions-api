@@ -6,17 +6,21 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
+import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.extension.internal.loader.enricher.BooleanParameterDeclarationEnricher.DONT_SET_DEFAULT_VALUE_TO_BOOLEAN_PARAMS;
+
 import static java.util.Arrays.asList;
+import static java.util.Optional.of;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
-import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
-import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
@@ -26,13 +30,19 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclarat
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import io.qameta.allure.Issue;
+
 public class BooleanParameterDeclarationEnricherTestCase {
+
+  @Rule
+  public MockitoRule mockitorule = MockitoJUnit.rule();
 
   @Mock
   private ExtensionDeclarer declarer;
@@ -48,7 +58,7 @@ public class BooleanParameterDeclarationEnricherTestCase {
 
   private ParameterDeclaration parameter;
 
-  private BooleanParameterDeclarationEnricher enricher = new BooleanParameterDeclarationEnricher();
+  private final BooleanParameterDeclarationEnricher enricher = new BooleanParameterDeclarationEnricher();
 
   @Before
   public void setUp() {
@@ -98,5 +108,15 @@ public class BooleanParameterDeclarationEnricherTestCase {
     enricher.enrich(context);
     assertThat(parameter.isRequired(), is(false));
     assertThat(parameter.getDefaultValue(), equalTo("true"));
+  }
+
+  @Test
+  @Issue("W-12003688")
+  public void dontSetDefaultValueToBooleanParams() {
+    when(context.getParameter(DONT_SET_DEFAULT_VALUE_TO_BOOLEAN_PARAMS)).thenReturn(of(true));
+    enricher.enrich(context);
+
+    assertThat(parameter.isRequired(), is(true));
+    assertThat(parameter.getDefaultValue(), is(nullValue()));
   }
 }
