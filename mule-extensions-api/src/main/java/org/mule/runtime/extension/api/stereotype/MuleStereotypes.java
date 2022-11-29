@@ -25,7 +25,7 @@ public final class MuleStereotypes {
 
   public static final StereotypeDefinition CONFIG_DEFINITION = new ModuleConfigStereotype();
   public static final StereotypeDefinition APP_CONFIG_DEFINITION = new AppConfigStereotype();
-  public static final StereotypeDefinition EXTRA_APP_CONFIG_DEFINITION = new ExtraAppConfigStereotype();
+  public static final StereotypeDefinition CONFIGURATION_ELEMENT_DEFINITION = new ConfigurationElementStereotype();
   public static final StereotypeDefinition CONNECTION_DEFINITION = new ConnectionStereotype();
   public static final StereotypeDefinition PROCESSOR_DEFINITION = new ProcessorStereotype();
   public static final StereotypeDefinition SOURCE_DEFINITION = new SourceStereotype();
@@ -40,8 +40,8 @@ public final class MuleStereotypes {
 
   public static final StereotypeModel CONFIG = newStereotype(CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel APP_CONFIG = newStereotype(APP_CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
-  public static final StereotypeModel EXTRA_APP_CONFIG =
-      newStereotype(EXTRA_APP_CONFIG_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
+  public static final StereotypeModel CONFIGURATION_ELEMENT =
+      newStereotype(CONFIGURATION_ELEMENT_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel CONNECTION = newStereotype(CONNECTION_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel PROCESSOR = newStereotype(PROCESSOR_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
   public static final StereotypeModel SOURCE = newStereotype(SOURCE_DEFINITION.getName(), STEREOTYPE_NAMESPACE).build();
