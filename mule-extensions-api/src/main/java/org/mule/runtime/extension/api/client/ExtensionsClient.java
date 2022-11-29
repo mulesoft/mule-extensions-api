@@ -70,9 +70,9 @@ public interface ExtensionsClient {
    * @since 4.5.0
    */
   @MinMuleVersion("4.5.0")
-  <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension,
-                                                      String operation,
-                                                      Consumer<OperationParameterizer> parameters);
+  <T, A> CompletableFuture<Result<T, A>> execute(String extension,
+                                                 String operation,
+                                                 Consumer<OperationParameterizer> parameters);
 
   /**
    * Executes an operation asynchronously by returning a {@link CompletableFuture} instance that will complete into a
@@ -85,7 +85,7 @@ public interface ExtensionsClient {
    * @param parameters an {@link OperationParameters} instance with all the parameters required to execute the operation.
    * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and the
    *         corresponding attributes.
-   * @deprecated since 4.5.0. Use {@link #executeAsync(String, String, Consumer)} instead
+   * @deprecated since 4.5.0. Use {@link #execute(String, String, Consumer)} instead
    */
   @Deprecated
   <T, A> CompletableFuture<Result<T, A>> executeAsync(String extension, String operation,
@@ -102,7 +102,7 @@ public interface ExtensionsClient {
    * @param parameters an {@link OperationParameters} instance with all the parameters required to execute the operation.
    * @return a {@link Result} instance with the payload content and the corresponding attributes after the operation execution.
    * @throws MuleException if any error occurred while executing the operation.
-   * @deprecated since 4.5.0. Use {@link #executeAsync(String, String, Consumer)} instead
+   * @deprecated since 4.5.0. Use {@link #execute(String, String, Consumer)} instead
    */
   @Deprecated
   <T, A> Result<T, A> execute(String extension, String operation, OperationParameters parameters)
