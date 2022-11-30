@@ -7,18 +7,14 @@
 package org.mule.runtime.extension.api.component;
 
 import org.mule.runtime.api.component.ComponentIdentifier;
-import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.util.Pair;
-import org.mule.runtime.extension.api.component.value.ValueDeclarer;
 import org.mule.runtime.extension.internal.component.ComponentParameterizationBuilder;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 /**
  * Represents a specific configuration for a concrete {@link ParameterizedModel}.
@@ -130,18 +126,6 @@ public interface ComponentParameterization<M extends ParameterizedModel> {
      *                                  same name exists in more than on parameter group, or is not of a valid type.
      */
     Builder<M> withParameter(String paramName, Object paramValue) throws IllegalArgumentException;
-
-    /**
-     * Sets a parameter with a given value defined by a consumer of a {@link ValueDeclarer}
-     *
-     * @param paramGroupName        the name of the group containing the parameter to set.
-     * @param paramName             the name of the parameter within the {@code paramGroupName} group to set.
-     * @param valueDeclarerConsumer a consumer to configure the value of the parameter
-     * @return this builder
-     * @throws IllegalArgumentException if the provided parameter group and name does not exist for the {@code model}
-     */
-    Builder<M> withParameter(String paramGroupName, String paramName, Consumer<ValueDeclarer> valueDeclarerConsumer)
-        throws IllegalArgumentException;
 
     /**
      * Sets a parameter with the given ParameterGroupModel and ParameterModel
