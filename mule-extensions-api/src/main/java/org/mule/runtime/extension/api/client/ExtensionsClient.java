@@ -8,6 +8,9 @@ package org.mule.runtime.extension.api.client;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.exception.MuleException;
+import org.mule.runtime.extension.api.client.source.SourceHandler;
+import org.mule.runtime.extension.api.client.source.SourceParameterizer;
+import org.mule.runtime.extension.api.client.source.SourceResultCallback;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.sdk.api.annotation.MinMuleVersion;
 
@@ -73,6 +76,12 @@ public interface ExtensionsClient {
   <T, A> CompletableFuture<Result<T, A>> execute(String extension,
                                                  String operation,
                                                  Consumer<OperationParameterizer> parameters);
+
+  @MinMuleVersion("4.6.0")
+  <T, A> SourceHandler createSource(String extension,
+                                    String sourceName,
+                                    Consumer<SourceResultCallback<T, A>> callback,
+                                    Consumer<SourceParameterizer> parameters);
 
   /**
    * Executes an operation asynchronously by returning a {@link CompletableFuture} instance that will complete into a
