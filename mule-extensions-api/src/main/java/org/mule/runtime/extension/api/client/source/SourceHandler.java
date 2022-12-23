@@ -6,9 +6,11 @@
  */
 package org.mule.runtime.extension.api.client.source;
 
-import org.mule.runtime.api.lifecycle.Lifecycle;
+import org.mule.runtime.api.lifecycle.Disposable;
+import org.mule.runtime.api.lifecycle.Startable;
+import org.mule.runtime.api.lifecycle.Stoppable;
 
-public interface SourceHandler extends Lifecycle {
+public interface SourceHandler extends Startable, Stoppable, Disposable {
 
 
 }
