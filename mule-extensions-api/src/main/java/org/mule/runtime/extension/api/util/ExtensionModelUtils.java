@@ -37,6 +37,7 @@ import org.mule.runtime.api.meta.model.SubTypesModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
+import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
@@ -58,6 +59,7 @@ import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
 import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
+import org.mule.runtime.extension.internal.property.NoConnectionProvisioningModelProperty;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Collection;
@@ -230,6 +232,26 @@ public class ExtensionModelUtils {
   }
 
   /**
+   * @param componentModel a {@link ConnectableComponentModel}
+   * @return Whether a component modeled by the given {@code componentModel} would need a connection to be provided in order to
+   *         function.
+   */
+  public static boolean requiresConnectionProvisioning(ConnectableComponentModel componentModel) {
+    return componentModel.requiresConnection()
+        && !componentModel.getModelProperty(NoConnectionProvisioningModelProperty.class).isPresent();
+  }
+
+  /**
+   * @param operationDeclaration an {@link OperationDeclaration}
+   * @return Whether an operation declared with the given {@code operationDeclaration} would need a connection to be provided in
+   *         order to function.
+   */
+  public static boolean requiresConnectionProvisioning(OperationDeclaration operationDeclaration) {
+    return operationDeclaration.isRequiresConnection()
+        && !operationDeclaration.getModelProperty(NoConnectionProvisioningModelProperty.class).isPresent();
+  }
+
+  /**
    * @param extensionModel the model which owns the {@code component}
    * @param component      a component
    * @return Whether the given {@code component} needs to be provided with a config in order to function
@@ -239,8 +261,7 @@ public class ExtensionModelUtils {
       return false;
     }
 
-    ConnectableComponentModel model = (ConnectableComponentModel) component;
-    if (model.requiresConnection()) {
+    if (requiresConnectionProvisioning((ConnectableComponentModel) component)) {
       return true;
     }
 

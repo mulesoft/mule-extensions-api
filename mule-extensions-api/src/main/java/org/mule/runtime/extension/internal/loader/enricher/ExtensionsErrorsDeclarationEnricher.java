@@ -12,6 +12,7 @@ import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConnectionProvisioning;
 import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
@@ -75,7 +76,7 @@ public class ExtensionsErrorsDeclarationEnricher implements WalkingDeclarationEn
     @Override
     public void onOperation(WithOperationsDeclaration owner, OperationDeclaration operationDeclaration) {
       errorModels.addAll(operationDeclaration.getErrorModels());
-      if (operationDeclaration.isRequiresConnection()) {
+      if (requiresConnectionProvisioning(operationDeclaration)) {
         addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
         addErrorModel(operationDeclaration, retryErrorModel, RETRY_EXHAUSTED_ERROR_TYPE);
       }

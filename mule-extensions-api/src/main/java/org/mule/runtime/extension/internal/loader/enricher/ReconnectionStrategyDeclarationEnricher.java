@@ -57,8 +57,9 @@ public final class ReconnectionStrategyDeclarationEnricher implements WalkingDec
           addReconnectionIfRequired(declaration);
         }
 
-        private void addReconnectionIfRequired(ExecutableComponentDeclaration declaration) {
-          if (declaration.isRequiresConnection()) {
+        private void addReconnectionIfRequired(ExecutableComponentDeclaration<?> declaration) {
+          if (declaration.isRequiresConnection()
+              && !declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent()) {
             addReconnectionStrategyParameter(declaration);
           }
         }
