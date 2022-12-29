@@ -12,7 +12,7 @@ import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConnectionProvisioning;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.requiresConnectionProvisioning;
 import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;

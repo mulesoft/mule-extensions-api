@@ -11,8 +11,8 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isRouter;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isScope;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConnectionProvisioning;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.requiresConnectionProvisioning;
 import static org.mule.runtime.extension.internal.util.ExtensionValidationUtils.validateNoInlineParameters;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
