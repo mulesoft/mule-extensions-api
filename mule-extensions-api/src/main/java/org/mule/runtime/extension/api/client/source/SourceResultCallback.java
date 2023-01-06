@@ -9,12 +9,14 @@ package org.mule.runtime.extension.api.client.source;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public interface SourceResultCallback<T, A> {
 
   Result<T, A> getResult();
 
-  CompletableFuture<Void> completeWithSuccess();
+  CompletableFuture<Void> completeWithSuccess(Consumer<SourceParameterizer> successCallbackParameters);
 
-  CompletableFuture<Void> completeWithError();
+  CompletableFuture<Void> completeWithError(Exception exception,
+                                            Consumer<SourceParameterizer> errorCallbackParameters);
 }
