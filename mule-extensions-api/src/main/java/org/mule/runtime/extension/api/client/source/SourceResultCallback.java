@@ -17,6 +17,6 @@ public interface SourceResultCallback<T, A> {
 
   CompletableFuture<Void> completeWithSuccess(Consumer<SourceParameterizer> successCallbackParameters);
 
-  CompletableFuture<Void> completeWithError(Exception exception,
+  CompletableFuture<Void> completeWithError(Throwable exception,
                                             Consumer<SourceParameterizer> errorCallbackParameters);
 }
