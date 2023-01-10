@@ -13,7 +13,7 @@ import org.mule.runtime.extension.api.ExtensionConstants;
  * Marker {@link ModelProperty} for connectable components that require a connection yet connection provisioning needs to be
  * skipped.
  *
- * @since 1.5
+ * @since 1.6
  */
 public class NoConnectionProvisioningModelProperty implements ModelProperty {
 
