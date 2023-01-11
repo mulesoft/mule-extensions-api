@@ -6,10 +6,11 @@
  */
 package org.mule.runtime.extension.internal.util;
 
+import static org.mule.runtime.extension.internal.property.SdkFlavorModelProperty.SdkFlavor.SDK_FLAVOR_MULE_IN_APP;
+
 import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
-import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
-import org.mule.runtime.extension.internal.property.NoConnectionProvisioningModelProperty;
+import org.mule.runtime.extension.internal.property.SdkFlavorModelProperty;
 
 /**
  * Utility methods for analyzing connectivity aspects of {@link ExtensionModel} instances.
@@ -25,18 +26,10 @@ public class ExtensionConnectivityUtils {
    * @return Whether a component modeled by the given {@code componentModel} would need a connection to be provided in order to
    *         function.
    */
-  public static boolean requiresConnectionProvisioning(ConnectableComponentModel componentModel) {
+  public static boolean requiresConnectionProvisioning(ExtensionModel extensionModel, ConnectableComponentModel componentModel) {
     return componentModel.requiresConnection()
-        && !componentModel.getModelProperty(NoConnectionProvisioningModelProperty.class).isPresent();
-  }
-
-  /**
-   * @param operationDeclaration an {@link OperationDeclaration}
-   * @return Whether an operation declared with the given {@code operationDeclaration} would need a connection to be provided in
-   *         order to function.
-   */
-  public static boolean requiresConnectionProvisioning(OperationDeclaration operationDeclaration) {
-    return operationDeclaration.isRequiresConnection()
-        && !operationDeclaration.getModelProperty(NoConnectionProvisioningModelProperty.class).isPresent();
+        && extensionModel.getModelProperty(SdkFlavorModelProperty.class)
+            .map(mp -> !mp.getFlavor().equals(SDK_FLAVOR_MULE_IN_APP))
+            .orElse(true);
   }
 }

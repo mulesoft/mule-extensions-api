@@ -240,7 +240,7 @@ public class ExtensionModelUtils {
       return false;
     }
 
-    if (requiresConnectionProvisioning((ConnectableComponentModel) component)) {
+    if (requiresConnectionProvisioning(extensionModel, (ConnectableComponentModel) component)) {
       return true;
     }
 

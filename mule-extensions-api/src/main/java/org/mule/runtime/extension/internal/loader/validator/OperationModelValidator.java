@@ -78,7 +78,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
         protected void onOperation(HasOperationModels owner, OperationModel model) {
           validateErrors(extensionModel, model, problemsReporter);
           validateOutput(model);
-          validateConnection(owner, model, hasGlobalConnectionProviders);
+          validateConnection(extensionModel, owner, model, hasGlobalConnectionProviders);
 
           if (isScope(model)) {
             validateScope(model);
@@ -173,8 +173,9 @@ public final class OperationModelValidator implements ExtensionModelValidator {
       }
     }
 
-    private void validateConnection(HasOperationModels owner, OperationModel model, boolean hasGlobalConnectionProviders) {
-      if (requiresConnectionProvisioning(model)) {
+    private void validateConnection(ExtensionModel extensionModel, HasOperationModels owner, OperationModel model,
+                                    boolean hasGlobalConnectionProviders) {
+      if (requiresConnectionProvisioning(extensionModel, model)) {
         boolean connectable;
         if (owner instanceof HasConnectionProviderModels) {
           connectable =
