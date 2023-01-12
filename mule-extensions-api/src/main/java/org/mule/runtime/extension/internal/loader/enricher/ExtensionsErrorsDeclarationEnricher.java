@@ -12,7 +12,9 @@ import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
-import static org.mule.runtime.extension.internal.property.SdkFlavorModelProperty.SdkFlavor.SDK_FLAVOR_MULE_IN_APP;
+import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.MULE_DSL;
+import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.isExtensionDevelopmentFramework;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
 import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
@@ -30,8 +32,6 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
-import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
-import org.mule.runtime.extension.internal.property.SdkFlavorModelProperty;
 
 import java.util.Optional;
 import java.util.Set;
@@ -93,14 +93,12 @@ public class ExtensionsErrorsDeclarationEnricher implements WalkingDeclarationEn
     private boolean requiresConnectivityError(ExtensionDeclaration extensionDeclaration) {
       // Composite operations defined in the same application should not declare the connectivity error type.
       // They will just propagate the errors from the inner operations.
-      return extensionDeclaration.getModelProperty(SdkFlavorModelProperty.class)
-          .map(mp -> !mp.getFlavor().equals(SDK_FLAVOR_MULE_IN_APP))
-          .orElse(true);
+      return !isExtensionDevelopmentFramework(extensionDeclaration, MULE_DSL);
     }
 
     private boolean requiresRetryExhaustedError(OperationDeclaration operationDeclaration) {
       // Operations that don't allow for controlling the reconnection strategy should not declare the retry exhausted error type.
-      return !operationDeclaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent();
+      return isReconnectionStrategySupported(operationDeclaration);
     }
 
     private void assureValidationError(ExtensionDeclaration extensionDeclaration, OperationDeclaration operation) {

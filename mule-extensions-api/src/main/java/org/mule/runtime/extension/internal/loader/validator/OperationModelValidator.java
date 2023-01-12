@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isRouter;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isScope;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
-import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.requiresConnectionProvisioning;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isConnectionProvisioningRequired;
 import static org.mule.runtime.extension.internal.util.ExtensionValidationUtils.validateNoInlineParameters;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
@@ -175,7 +175,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
 
     private void validateConnection(ExtensionModel extensionModel, HasOperationModels owner, OperationModel model,
                                     boolean hasGlobalConnectionProviders) {
-      if (requiresConnectionProvisioning(extensionModel, model)) {
+      if (isConnectionProvisioningRequired(extensionModel, model)) {
         boolean connectable;
         if (owner instanceof HasConnectionProviderModels) {
           connectable =

@@ -11,6 +11,7 @@ import static org.mule.runtime.api.meta.model.connection.ConnectionManagementTyp
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPoolingProfileParameter;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionConfigParameter;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
 
 import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
@@ -20,7 +21,6 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
-import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
 
 import java.util.Optional;
 
@@ -51,7 +51,7 @@ public class ConnectionProviderDeclarationEnricher implements WalkingDeclaration
   public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
 
-    if (!declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent()) {
+    if (isReconnectionStrategySupported(declaration)) {
       return Optional.of(new IdempotentDeclarationEnricherWalkDelegate() {
 
         @Override

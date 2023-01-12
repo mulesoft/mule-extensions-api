@@ -21,7 +21,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
-import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.requiresConnectionProvisioning;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isConnectionProvisioningRequired;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -240,7 +240,7 @@ public class ExtensionModelUtils {
       return false;
     }
 
-    if (requiresConnectionProvisioning(extensionModel, (ConnectableComponentModel) component)) {
+    if (isConnectionProvisioningRequired(extensionModel, (ConnectableComponentModel) component)) {
       return true;
     }
 

@@ -6,11 +6,16 @@
  */
 package org.mule.runtime.extension.internal.util;
 
-import static org.mule.runtime.extension.internal.property.SdkFlavorModelProperty.SdkFlavor.SDK_FLAVOR_MULE_IN_APP;
+import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.MULE_DSL;
+import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.isExtensionDevelopmentFramework;
 
 import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
-import org.mule.runtime.extension.internal.property.SdkFlavorModelProperty;
+import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
+import org.mule.runtime.extension.internal.ExtensionDevelopmentFramework;
+import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
 
 /**
  * Utility methods for analyzing connectivity aspects of {@link ExtensionModel} instances.
@@ -26,10 +31,38 @@ public class ExtensionConnectivityUtils {
    * @return Whether a component modeled by the given {@code componentModel} would need a connection to be provided in order to
    *         function.
    */
-  public static boolean requiresConnectionProvisioning(ExtensionModel extensionModel, ConnectableComponentModel componentModel) {
+  public static boolean isConnectionProvisioningRequired(ExtensionModel extensionModel,
+                                                         ConnectableComponentModel componentModel) {
     return componentModel.requiresConnection()
-        && extensionModel.getModelProperty(SdkFlavorModelProperty.class)
-            .map(mp -> !mp.getFlavor().equals(SDK_FLAVOR_MULE_IN_APP))
-            .orElse(true);
+        && !ExtensionDevelopmentFramework.isExtensionDevelopmentFramework(extensionModel, MULE_DSL);
+  }
+
+  /**
+   * @param componentModel an {@link ConnectableComponentModel}
+   * @return Whether the component modeled by the given {@code componentModel} supports having a reconnection strategy.
+   */
+  public static boolean isReconnectionStrategySupported(ConnectableComponentModel componentModel) {
+    return !componentModel.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent();
+  }
+
+  /**
+   * @param declaration an {@link ExtensionDeclaration}.
+   * @return Whether the components belonging to the extension declared by the given {@code declaration} support having a
+   *         reconnection strategy.
+   */
+  public static boolean isReconnectionStrategySupported(ExtensionDeclaration declaration) {
+    return isReconnectionStrategySupported((BaseDeclaration<?>) declaration);
+  }
+
+  /**
+   * @param declaration an {@link ExecutableComponentDeclaration}.
+   * @return Whether the component declared by the given {@code declaration} supports having a reconnection strategy.
+   */
+  public static boolean isReconnectionStrategySupported(ExecutableComponentDeclaration<?> declaration) {
+    return isReconnectionStrategySupported((BaseDeclaration<?>) declaration);
+  }
+
+  private static boolean isReconnectionStrategySupported(BaseDeclaration<?> declaration) {
+    return !declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent();
   }
 }
