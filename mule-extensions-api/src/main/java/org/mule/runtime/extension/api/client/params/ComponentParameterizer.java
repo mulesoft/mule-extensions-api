@@ -6,9 +6,21 @@
  */
 package org.mule.runtime.extension.api.client.params;
 
+import org.mule.api.annotation.Experimental;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.util.DataSize;
+import org.mule.runtime.extension.api.client.ExtensionsClient;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
+/**
+ * Parameterizes a component executed or created through the {@link ExtensionsClient}
+ * <p>
+ * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
+ *
+ * @since 4.6.0
+ */
+@Experimental
+@MinMuleVersion("4.6.0")
 public interface ComponentParameterizer<T extends ComponentParameterizer> {
 
   /**

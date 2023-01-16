@@ -6,12 +6,16 @@
  */
 package org.mule.runtime.extension.api.client;
 
+import org.mule.api.annotation.Experimental;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.exception.MuleException;
+import org.mule.runtime.api.lifecycle.Initialisable;
+import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.client.source.SourceHandler;
 import org.mule.runtime.extension.api.client.source.SourceParameterizer;
 import org.mule.runtime.extension.api.client.source.SourceResultCallback;
 import org.mule.runtime.extension.api.runtime.operation.Result;
+import org.mule.runtime.extension.api.runtime.source.Source;
 import org.mule.sdk.api.annotation.MinMuleVersion;
 
 import java.util.concurrent.CompletableFuture;
@@ -65,7 +69,7 @@ public interface ExtensionsClient {
    *
    * @param extension  the name of the extension that contains the operation to be executed.
    * @param operation  the name of the operation to be executed.
-   * @param parameters
+   * @param parameters consumers an {@link OperationParameterizer} used to configure the operation
    * @param <T>        The generic type of the result's payload
    * @param <A>        The generic type of the result's attribute
    * @return a {@link CompletableFuture} instance that completes into a {@link Result} with the payload content and the
@@ -77,7 +81,41 @@ public interface ExtensionsClient {
                                                  String operation,
                                                  Consumer<OperationParameterizer> parameters);
 
+  /**
+   * Creates and initialises a {@link Source} using a given parameterization.
+   * <p>
+   * The generated messages will be passed back to the caller through a {@link Consumer} passed in the {@code callback} argument.
+   * The provided {@link SourceResultCallback} has a pretty strict contract around how it should be consumed. Follow that contract
+   * <b>thoroughly</b> in order to avoid resource leaks or protocol issues with the remote system.
+   * <p>
+   * The created source is returned in the form of a {@link SourceHandler}. The main purpose of it is to control the lifecycle of
+   * the underlying source. When returned, the source is already is initialised (as defined in {@link Initialisable#initialise()})
+   * but not started, which means it isn't producing any messages. The source will be started when {@link SourceHandler#start()}
+   * is invoked. {@link SourceHandler#stop()} can be called for the source to stop producing messages, and
+   * {@link SourceHandler#dispose()} when the source is no longer needed. Stopped sources can be restarted, but disposed sources
+   * are not recoverable, they need to be created again through another call to this method.
+   * <p>
+   * When {{@code this} {@link ExtensionsClient} is disposed, all active {@link SourceHandler} will be stopped and disposed as
+   * well.
+   * <p>
+   * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
+   *
+   * @param extension  the name of the extension in which the source is defined
+   * @param sourceName the name of the source to be created (as it appears in the {@link ExtensionModel}
+   * @param callback   a {@link Consumer} that will be invoked each time the source produces a new message, in the form of a
+   *                   {@link SourceResultCallback}
+   * @param parameters consumers an {@link OperationParameterizer} used to configure the source. This is for the source main
+   *                   parameters, not it's callbacks
+   * @param <T>        the generic type of the result output values produced by the source
+   * @param <A>        the generic type of the result attribute values produced by the source
+   * @return a {@link SourceHandler}
+   * @see SourceHandler
+   * @see SourceResultCallback
+   * @see SourceParameterizer
+   * @since 1.6.0
+   */
   @MinMuleVersion("4.6.0")
+  @Experimental
   <T, A> SourceHandler createSource(String extension,
                                     String sourceName,
                                     Consumer<SourceResultCallback<T, A>> callback,

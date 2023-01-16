@@ -8,12 +8,14 @@ package org.mule.runtime.extension.api.client;
 
 import org.mule.runtime.api.event.Event;
 import org.mule.runtime.extension.api.client.params.ComponentParameterizer;
+import org.mule.sdk.api.annotation.MinMuleVersion;
 
 /**
  * Parameterizes an operation execution performed through the {@link ExtensionsClient}
  *
  * @since 1.5.0
  */
+@MinMuleVersion("4.5.0")
 public interface OperationParameterizer extends ComponentParameterizer<OperationParameterizer> {
 
   /**
