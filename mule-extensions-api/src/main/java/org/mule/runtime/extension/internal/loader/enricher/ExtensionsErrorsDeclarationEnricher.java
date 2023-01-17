@@ -12,6 +12,9 @@ import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
+import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.MULE_DSL;
+import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.isExtensionDevelopmentFramework;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
 import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
@@ -76,11 +79,26 @@ public class ExtensionsErrorsDeclarationEnricher implements WalkingDeclarationEn
     public void onOperation(WithOperationsDeclaration owner, OperationDeclaration operationDeclaration) {
       errorModels.addAll(operationDeclaration.getErrorModels());
       if (operationDeclaration.isRequiresConnection()) {
-        addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
-        addErrorModel(operationDeclaration, retryErrorModel, RETRY_EXHAUSTED_ERROR_TYPE);
+        if (requiresConnectivityError(extensionDeclaration)) {
+          addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
+        }
+        if (requiresRetryExhaustedError(operationDeclaration)) {
+          addErrorModel(operationDeclaration, retryErrorModel, RETRY_EXHAUSTED_ERROR_TYPE);
+        }
       }
 
       assureValidationError(extensionDeclaration, operationDeclaration);
+    }
+
+    private boolean requiresConnectivityError(ExtensionDeclaration extensionDeclaration) {
+      // Composite operations defined in the same application should not declare the connectivity error type.
+      // They will just propagate the errors from the inner operations.
+      return !isExtensionDevelopmentFramework(extensionDeclaration, MULE_DSL);
+    }
+
+    private boolean requiresRetryExhaustedError(OperationDeclaration operationDeclaration) {
+      // Operations that don't allow for controlling the reconnection strategy should not declare the retry exhausted error type.
+      return isReconnectionStrategySupported(operationDeclaration);
     }
 
     private void assureValidationError(ExtensionDeclaration extensionDeclaration, OperationDeclaration operation) {

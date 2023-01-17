@@ -10,6 +10,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionStrategyParameter;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
@@ -20,7 +21,6 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
-import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
 
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public final class ReconnectionStrategyDeclarationEnricher implements WalkingDec
   public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclaration declaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
 
-    if (!declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent()) {
+    if (isReconnectionStrategySupported(declaration)) {
       return of(new IdempotentDeclarationEnricherWalkDelegate() {
 
         @Override
@@ -57,8 +57,8 @@ public final class ReconnectionStrategyDeclarationEnricher implements WalkingDec
           addReconnectionIfRequired(declaration);
         }
 
-        private void addReconnectionIfRequired(ExecutableComponentDeclaration declaration) {
-          if (declaration.isRequiresConnection()) {
+        private void addReconnectionIfRequired(ExecutableComponentDeclaration<?> declaration) {
+          if (declaration.isRequiresConnection() && isReconnectionStrategySupported(declaration)) {
             addReconnectionStrategyParameter(declaration);
           }
         }
