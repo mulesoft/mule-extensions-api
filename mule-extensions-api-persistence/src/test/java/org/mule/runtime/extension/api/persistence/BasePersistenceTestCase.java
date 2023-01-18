@@ -41,6 +41,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.json.api.JsonTypeLoader;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -112,6 +113,10 @@ abstract class BasePersistenceTestCase {
   public static final String CREATE_CUSTOMER_REQUEST_TYPE_SCHEMA_JSON = "schemas/create-customer-request-type-schema.json";
   public static final String TEST_PACKAGE_EXPORTED_CLASS = "test.package.ExportedClass";
   private static final String FUNCTION_NAME = "myFunction";
+
+  private static final MuleVersion OPERATION_MIN_MULE_VERSION = new MuleVersion("4.4.0");
+
+  private static final MuleVersion CONNECTION_PROVIDER_MIN_MULE_VERSION = new MuleVersion("4.3.0");
 
   protected final DisplayModel defaultDisplayModel = DisplayModel.builder().build();
   protected final ClassTypeLoader typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
@@ -228,7 +233,7 @@ abstract class BasePersistenceTestCase {
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
                                     singleton(ERROR_MODEL), PROCESSOR, PUBLIC, modelProperties, emptySet(),
                                     new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"),
-                                    defaultSampleDataProviderModel, of("test", "car"));
+                                    defaultSampleDataProviderModel, of("test", "car"), OPERATION_MIN_MULE_VERSION);
 
     createCoreOperations();
 
@@ -242,7 +247,7 @@ abstract class BasePersistenceTestCase {
                                              defaultDisplayModel,
                                              CONNECTION,
                                              emptySet(),
-                                             null);
+                                             null, emptySet(), CONNECTION_PROVIDER_MIN_MULE_VERSION);
 
     sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true, false,
                                            asParameterGroup(carNameParameter, noIdParameter),

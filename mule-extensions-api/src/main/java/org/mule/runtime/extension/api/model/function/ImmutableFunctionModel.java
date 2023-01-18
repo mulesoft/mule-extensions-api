@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.model.function;
 
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -29,6 +30,7 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
 
   private final OutputModel output;
   private final DeprecationModel deprecationModel;
+  private final MuleVersion minMuleVersion;
 
   /**
    * Creates a new instance with the given state
@@ -70,9 +72,36 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
                                 DisplayModel displayModel,
                                 Set<ModelProperty> modelProperties,
                                 DeprecationModel deprecationModel) {
+    this(name, description, parameterGroupModels, output, displayModel, modelProperties, deprecationModel, null);
+  }
+
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name                 the operation's name. Cannot be blank
+   * @param description          the operation's descriptor
+   * @param parameterGroupModels a {@link List} with the operation's {@link ParameterGroupModel parameter group models}
+   * @param output               an {@link OutputModel} which represents the operation's output content
+   * @param displayModel         a model which contains directive about how this operation is displayed in the UI
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the function is deprecated. A null value means it is not
+   *                             deprecated.
+   * @param minMuleVersion       the min mule version of the function
+   * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
+   * @since 1.6
+   */
+  public ImmutableFunctionModel(String name,
+                                String description,
+                                List<ParameterGroupModel> parameterGroupModels,
+                                OutputModel output,
+                                DisplayModel displayModel,
+                                Set<ModelProperty> modelProperties,
+                                DeprecationModel deprecationModel,
+                                MuleVersion minMuleVersion) {
     super(name, description, parameterGroupModels, displayModel, modelProperties);
     this.output = output;
     this.deprecationModel = deprecationModel;
+    this.minMuleVersion = minMuleVersion;
   }
 
   @Override
@@ -88,5 +117,13 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
   @Override
   public boolean isDeprecated() {
     return deprecationModel != null;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<MuleVersion> getMinMuleVersion() {
+    return ofNullable(minMuleVersion);
   }
 }

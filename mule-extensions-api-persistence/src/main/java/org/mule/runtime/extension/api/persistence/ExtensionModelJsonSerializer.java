@@ -186,7 +186,7 @@ public class ExtensionModelJsonSerializer {
 
     final GsonBuilder gsonBuilder = new GsonBuilder()
         .registerTypeAdapter(MetadataType.class, new MetadataTypeGsonTypeAdapter(referenceHandler))
-        .registerTypeAdapter(MuleVersion.class, new MuleVersionTypeAdapter())
+        .registerTypeAdapter(MuleVersion.class, new MuleVersionTypeAdapter().nullSafe())
         .registerTypeAdapter(ImportedTypeModel.class, new ImportedTypesModelTypeAdapter())
         .registerTypeAdapter(SubTypesModel.class, new SubTypesModelTypeAdapter(referenceHandler))
         .registerTypeAdapter(XmlDslModel.class, new XmlDslModelTypeAdapter())

@@ -14,6 +14,7 @@ import static java.util.Optional.ofNullable;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
@@ -53,6 +54,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
   private final List<StereotypeModel> allowedStereotypeModels;
   private final DeprecationModel deprecationModel;
   private Set<String> semanticTerms;
+  private final MuleVersion minMuleVersion;
 
   /**
    * Creates a new instance with the given state
@@ -228,6 +230,61 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
                                  DeprecationModel deprecationModel,
                                  Set<String> semanticTerms,
                                  List<FieldValueProviderModel> fieldValueProviderModels) {
+    this(name, description, type, hasDynamicType, required, isConfigOverride, isComponentId, expressionSupport, defaultValue,
+         role, dslConfiguration, displayModel, layoutModel,
+         valueProviderModel, allowedStereotypeModels, modelProperties, deprecationModel, semanticTerms, fieldValueProviderModels,
+         null);
+  }
+
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name                     the parameter's name. Cannot be blank.
+   * @param description              the parameter's description
+   * @param type                     the parameter's {@link MetadataType}. Cannot be {@code null}
+   * @param hasDynamicType           if the given {@code type} is of dynamic kind and has to be discovered during design time
+   * @param required                 whether this parameter is required or not
+   * @param isConfigOverride         whether this parameter is a configuration override or not
+   * @param isComponentId            whether this parameter serves as a {@link ComponentModel} ID or not
+   * @param expressionSupport        the {@link ExpressionSupport} that applies to {@code this} {@link ParameterModel}
+   * @param defaultValue             this parameter's default value
+   * @param role                     this parameter's purpose
+   * @param dslConfiguration         a model which describes the DSL semantics for this parameter
+   * @param displayModel             a model which contains directive about how the parameter is displayed in the UI
+   * @param layoutModel              a model which contains directives about the parameter's layout in the UI
+   * @param valueProviderModel       a value provider model
+   * @param allowedStereotypeModels  A {@link Set} with the stereotypes of the allowed values
+   * @param modelProperties          A {@link Set} of custom properties which extend this model
+   * @param deprecationModel         a {@link DeprecationModel} describing if the parameter is deprecated. A null value means it
+   *                                 is not deprecated.
+   * @param semanticTerms            a {@link Set} of semantic terms which describe the parameter's meaning and effect
+   * @param fieldValueProviderModels {@link List} of field value provider models.
+   * @param minMuleVersion           the min mule version of the parameter
+   * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
+   *                                  time
+   *
+   * @since 1.6.0
+   */
+  public ImmutableParameterModel(String name,
+                                 String description,
+                                 MetadataType type,
+                                 boolean hasDynamicType,
+                                 boolean required,
+                                 boolean isConfigOverride,
+                                 boolean isComponentId,
+                                 ExpressionSupport expressionSupport,
+                                 Object defaultValue,
+                                 ParameterRole role,
+                                 ParameterDslConfiguration dslConfiguration,
+                                 DisplayModel displayModel,
+                                 LayoutModel layoutModel,
+                                 ValueProviderModel valueProviderModel,
+                                 List<StereotypeModel> allowedStereotypeModels,
+                                 Set<ModelProperty> modelProperties,
+                                 DeprecationModel deprecationModel,
+                                 Set<String> semanticTerms,
+                                 List<FieldValueProviderModel> fieldValueProviderModels,
+                                 MuleVersion minMuleVersion) {
     super(name, description, displayModel, modelProperties);
     this.type = type;
     this.required = required;
@@ -244,6 +301,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
     this.deprecationModel = deprecationModel;
     this.semanticTerms = semanticTerms != null ? unmodifiableSet(semanticTerms) : emptySet();
     this.fieldValueProviderModels = unmodifiableList(fieldValueProviderModels);
+    this.minMuleVersion = minMuleVersion;
   }
 
   /**
@@ -368,6 +426,15 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
       semanticTerms = emptySet();
     }
     return semanticTerms;
+  }
+
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<MuleVersion> getMinMuleVersion() {
+    return ofNullable(minMuleVersion);
   }
 
   public String toString() {

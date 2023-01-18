@@ -22,6 +22,7 @@ import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
@@ -41,6 +42,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.mule.sdk.api.connectivity.ConnectionProvider;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
@@ -156,6 +158,19 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     String serializedModel = extensionModelJsonSerializer.serialize(deserializedModel);
 
     assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON_NO_CATALOG, false);
+  }
+
+  @Test
+  public void operationMinMuleVersionCorrectlyDeserialized() {
+    OperationModel operation = deserializedExtensionModel.getOperationModel(GET_CAR_OPERATION_NAME).get();
+    assertThat(operation.getMinMuleVersion(), is(getCarOperation.getMinMuleVersion()));
+  }
+
+  @Test
+  public void connectionProviderMinMuleVersionCorrectlyDeserialized() {
+    ConnectionProviderModel deserializedConnectionProvider = deserializedExtensionModel.getConnectionProviders().get(0);
+    ConnectionProviderModel originalConnectionProvider = originalExtensionModel.getConnectionProviders().get(0);
+    assertThat(deserializedConnectionProvider.getMinMuleVersion(), is(originalConnectionProvider.getMinMuleVersion()));
   }
 
   private Set<String> getExtensionTypeIds(JsonObject jsonExtensionModel) {
