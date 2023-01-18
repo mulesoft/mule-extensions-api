@@ -34,7 +34,7 @@ import java.util.function.Consumer;
  */
 @Experimental
 @MinMuleVersion("4.6.0")
-public interface SourceResultCallback<T, A> {
+public interface SourceResultHandler<T, A> {
 
   /**
    * @return a {@link Result} produced by the message source
@@ -52,6 +52,9 @@ public interface SourceResultCallback<T, A> {
    * Unlike what happens with a source created inside a Mule app, should this method fail (either synchronously upon invocation or
    * asynchronously with an exceptional completion of the return future), the {@link #completeWithError(Throwable, Consumer)}
    * method <b>will not</b> be called automatically.
+   * <p>
+   * Finally, this method should only be called <b>at most once</b> per instance and should be mutually exclusive with
+   * {@link #completeWithError(Throwable, Consumer)}, which means that if one is called, the other one shouldn't.
    *
    * @param successCallbackParameters parameterizes the source's success callback.
    * @return a {@link CompletableFuture}
@@ -66,7 +69,11 @@ public interface SourceResultCallback<T, A> {
    * The actual effect of calling this method will depend on the source (some will emit a response back to the client, some will
    * update internal state, etc.). The action is however asynchronously, for which the method returns a {@link CompletableFuture},
    * which will either complete with a void value or an Exception.
+   * <p>
+   * Finally, this method should only be called <b>at most once</b> per instance and should be mutually exclusive with
+   * {@link #completeWithSuccess(Consumer)}, which means that if one is called, the other one shouldn't.
    *
+   * 
    * @param exception               The exception found
    * @param errorCallbackParameters parameterizes the source's error callback.
    * @return a {@link CompletableFuture}

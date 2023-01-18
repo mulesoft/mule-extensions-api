@@ -13,7 +13,7 @@ import org.mule.runtime.api.lifecycle.Initialisable;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.client.source.SourceHandler;
 import org.mule.runtime.extension.api.client.source.SourceParameterizer;
-import org.mule.runtime.extension.api.client.source.SourceResultCallback;
+import org.mule.runtime.extension.api.client.source.SourceResultHandler;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.extension.api.runtime.source.Source;
 import org.mule.sdk.api.annotation.MinMuleVersion;
@@ -85,7 +85,7 @@ public interface ExtensionsClient {
    * Creates and initialises a {@link Source} using a given parameterization.
    * <p>
    * The generated messages will be passed back to the caller through a {@link Consumer} passed in the {@code callback} argument.
-   * The provided {@link SourceResultCallback} has a pretty strict contract around how it should be consumed. Follow that contract
+   * The provided {@link SourceResultHandler} has a pretty strict contract around how it should be consumed. Follow that contract
    * <b>thoroughly</b> in order to avoid resource leaks or protocol issues with the remote system.
    * <p>
    * The created source is returned in the form of a {@link SourceHandler}. The main purpose of it is to control the lifecycle of
@@ -102,15 +102,15 @@ public interface ExtensionsClient {
    *
    * @param extension  the name of the extension in which the source is defined
    * @param sourceName the name of the source to be created (as it appears in the {@link ExtensionModel}
-   * @param callback   a {@link Consumer} that will be invoked each time the source produces a new message, in the form of a
-   *                   {@link SourceResultCallback}
+   * @param handler    a {@link Consumer} that will be invoked each time the source produces a new message, in the form of a
+   *                   {@link SourceResultHandler}
    * @param parameters consumers an {@link OperationParameterizer} used to configure the source. This is for the source main
    *                   parameters, not it's callbacks
    * @param <T>        the generic type of the result output values produced by the source
    * @param <A>        the generic type of the result attribute values produced by the source
    * @return a {@link SourceHandler}
    * @see SourceHandler
-   * @see SourceResultCallback
+   * @see SourceResultHandler
    * @see SourceParameterizer
    * @since 1.6.0
    */
@@ -118,7 +118,7 @@ public interface ExtensionsClient {
   @Experimental
   <T, A> SourceHandler createSource(String extension,
                                     String sourceName,
-                                    Consumer<SourceResultCallback<T, A>> callback,
+                                    Consumer<SourceResultHandler<T, A>> handler,
                                     Consumer<SourceParameterizer> parameters);
 
   /**
