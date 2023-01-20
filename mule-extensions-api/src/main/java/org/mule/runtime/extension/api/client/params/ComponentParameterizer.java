@@ -21,7 +21,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  */
 @Experimental
 @MinMuleVersion("4.6.0")
-public interface ComponentParameterizer<T extends ComponentParameterizer> {
+public interface ComponentParameterizer<T extends ComponentParameterizer> extends Parameterizer<T> {
 
   /**
    * Specifies the name of a config element this component refers to
@@ -30,25 +30,6 @@ public interface ComponentParameterizer<T extends ComponentParameterizer> {
    * @return {@code this} instance
    */
   T withConfigRef(String configurationName);
-
-  /**
-   * Sets a parameter with a given value, automatically determining the group the parameter belongs to.
-   *
-   * @param parameterName the name of the parameter within the {@code paramGroupName} group to set.
-   * @param value         the value of the parameter to set
-   * @return {@code this} instance
-   */
-  T withParameter(String parameterName, Object value);
-
-  /**
-   * Sets a parameter with a given value.
-   *
-   * @param parameterGroup the name of the group containing the parameter to set.
-   * @param parameterName  the name of the parameter within the {@code paramGroupName} group to set.
-   * @param value          the value of the parameter to set
-   * @return {@code this} instance
-   */
-  T withParameter(String parameterGroup, String parameterName, Object value);
 
   /**
    * Specifies that in the case of a {@link ConnectionException}, the connection is to be re-established and the operation retried
