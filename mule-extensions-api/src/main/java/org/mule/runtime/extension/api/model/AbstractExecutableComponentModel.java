@@ -48,7 +48,6 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
   private final boolean supportsStreaming;
   private final Set<NotificationModel> notifications;
   private final SampleDataProviderModel sampleDataProviderModel;
-  private final MuleVersion minMuleVersion;
 
   /**
    * Creates a new instance
@@ -316,7 +315,7 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              MuleVersion minMuleVersion) {
     super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, visibility,
           modelProperties,
-          deprecationModel, semanticTerms);
+          deprecationModel, semanticTerms, minMuleVersion);
     this.output = output;
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;
@@ -324,7 +323,6 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
     this.supportsStreaming = supportsStreaming;
     this.notifications = ImmutableSet.copyOf(notifications);
     this.sampleDataProviderModel = sampleDataProviderModel;
-    this.minMuleVersion = minMuleVersion;
   }
 
   /**
@@ -379,11 +377,4 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
     return ofNullable(sampleDataProviderModel);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Optional<MuleVersion> getMinMuleVersion() {
-    return ofNullable(minMuleVersion);
-  }
 }

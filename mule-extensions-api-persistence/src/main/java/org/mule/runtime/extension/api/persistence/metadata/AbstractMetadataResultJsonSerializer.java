@@ -10,6 +10,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.reduced.ReducedMetadataTypeGsonTypeAdapter;
 import org.mule.metadata.persistence.type.adapter.OptionalTypeAdapterFactory;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
@@ -38,6 +39,7 @@ import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.metadata.ComponentMetadataTypesTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.ComponentResultTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.metadata.FailureCodeTypeAdapterFactory;
@@ -98,6 +100,7 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapterFactory(new ComponentResultTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentMetadataTypesTypeAdapterFactory())
         .registerTypeAdapter(MetadataKey.class, new MetadataKeyTypeAdapter())
+        .registerTypeAdapter(MuleVersion.class, new MuleVersionTypeAdapter().nullSafe())
         .registerTypeAdapterFactory(sourceModelTypeAdapterFactory)
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

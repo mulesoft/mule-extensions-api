@@ -36,7 +36,6 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
   private final Set<ExternalLibraryModel> externalLibraryModels;
   private final boolean supportsConnectivityTesting;
   private Set<String> semanticTerms;
-  private final MuleVersion minMuleVersion;
 
   /**
    * Creates a new instance with the given state
@@ -153,13 +152,12 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
                                           DeprecationModel deprecationModel,
                                           Set<String> semanticTerms,
                                           MuleVersion minMuleVersion) {
-    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties, deprecationModel);
+    super(name, description, parameterGroupModels, displayModel, stereotype, modelProperties, deprecationModel, minMuleVersion);
     checkArgument(connectionManagementType != null, "connectionManagementType cannot be null");
     this.connectionManagementType = connectionManagementType;
     this.externalLibraryModels = unmodifiableSet(externalLibraryModels);
     this.supportsConnectivityTesting = supportsConnectivityTesting;
     this.semanticTerms = semanticTerms != null ? unmodifiableSet(semanticTerms) : emptySet();
-    this.minMuleVersion = minMuleVersion;
   }
 
   /**
@@ -199,12 +197,4 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
     return semanticTerms;
   }
 
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Optional<MuleVersion> getMinMuleVersion() {
-    return ofNullable(minMuleVersion);
-  }
 }
