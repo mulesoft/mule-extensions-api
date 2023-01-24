@@ -7,8 +7,16 @@
 package org.mule.runtime.extension.api.client.params;
 
 import org.mule.api.annotation.Experimental;
+import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.sdk.api.annotation.MinMuleVersion;
 
+/**
+ * Parameterizes a generic entity executed or created through the {@link ExtensionsClient}
+ * <p>
+ * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
+ *
+ * @since 1.6.0
+ */
 @Experimental
 @MinMuleVersion("4.6.0")
 public interface Parameterizer<T extends Parameterizer> {
