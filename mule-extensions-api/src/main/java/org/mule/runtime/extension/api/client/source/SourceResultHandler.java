@@ -59,7 +59,7 @@ public interface SourceResultHandler<T, A> {
    * @param successCallbackParameters parameterizes the source's success callback.
    * @return a {@link CompletableFuture}
    */
-  CompletableFuture<Void> completeWithSuccess(Consumer<SourceParameterizer> successCallbackParameters);
+  CompletableFuture<Void> completeWithSuccess(Consumer<SourceCallbackParameterizer> successCallbackParameters);
 
   /**
    * Executes the source's error callback. This method <b>MUST</b> be invoked when the client has encountered an Exception while
@@ -79,5 +79,5 @@ public interface SourceResultHandler<T, A> {
    * @return a {@link CompletableFuture}
    */
   CompletableFuture<Void> completeWithError(Throwable exception,
-                                            Consumer<SourceParameterizer> errorCallbackParameters);
+                                            Consumer<SourceCallbackParameterizer> errorCallbackParameters);
 }
