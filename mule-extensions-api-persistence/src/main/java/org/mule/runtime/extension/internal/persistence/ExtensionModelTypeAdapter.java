@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
-import static java.util.Collections.min;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 
 import static java.lang.String.format;

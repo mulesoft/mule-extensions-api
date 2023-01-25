@@ -451,7 +451,9 @@ public final class ExtensionModelFactory {
                                                          getProcessorStereotype(declaration.getStereotype()),
                                                          declaration.getVisibility(),
                                                          declaration.getModelProperties(),
-                                                         declaration.getDeprecation().orElse(null)));
+                                                         declaration.getDeprecation().orElse(null),
+                                                         declaration.getSemanticTerms(),
+                                                         declaration.getMinMuleVersion().orElse(null)));
     }
 
     private List<SourceModel> toMessageSources(List<SourceDeclaration> declarations) {
@@ -571,7 +573,8 @@ public final class ExtensionModelFactory {
                                              declaration.getVisibility(),
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
-                                             declaration.getSemanticTerms());
+                                             declaration.getSemanticTerms(),
+                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null));
       }
       if (declaration instanceof NestedChainDeclaration) {
         return new ImmutableNestedChainModel(
@@ -588,7 +591,8 @@ public final class ExtensionModelFactory {
                                              declaration.getVisibility(),
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
-                                             declaration.getSemanticTerms());
+                                             declaration.getSemanticTerms(),
+                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null));
       }
       return new ImmutableNestedComponentModel(
                                                declaration.getName(),
@@ -605,7 +609,8 @@ public final class ExtensionModelFactory {
                                                declaration.getVisibility(),
                                                declaration.getModelProperties(),
                                                (DeprecationModel) declaration.getDeprecation().orElse(null),
-                                               declaration.getSemanticTerms());
+                                               declaration.getSemanticTerms(),
+                                               (MuleVersion) declaration.getMinMuleVersion().orElse(null));
     }
 
     private List<ConnectionProviderModel> toConnectionProviders(List<ConnectionProviderDeclaration> declarations) {
