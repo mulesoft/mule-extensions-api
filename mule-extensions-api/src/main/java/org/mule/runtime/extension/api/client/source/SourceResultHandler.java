@@ -46,7 +46,7 @@ public interface SourceResultHandler<T, A> {
    * {@link #getResult()}, even if the {@link SourceModel} doesn't explicitly define a success {@link SourceCallbackModel}.
    * <p>
    * The actual effect of calling this method will depend on the source (some will emit a response back to the client, some will
-   * update internal state, etc.). The action is however asynchronously, for which the method returns a {@link CompletableFuture},
+   * update internal state, etc.). The action is however asynchronous, for which the method returns a {@link CompletableFuture},
    * which will either complete with a void value or an Exception.
    * <p>
    * Unlike what happens with a source created inside a Mule app, should this method fail (either synchronously upon invocation or
@@ -63,11 +63,11 @@ public interface SourceResultHandler<T, A> {
 
   /**
    * Executes the source's error callback. This method <b>MUST</b> be invoked when the client has encountered an Exception while
-   * processing the {@link #getResult()} which should be notified back to the source so that it considers the Result as failed
-   * even. This must be done even if the {@link SourceModel} doesn't explicitly define an error {@link SourceCallbackModel}.
+   * processing the {@link #getResult()} which should be notified back to the source so that it considers the Result as a failed
+   * event. This must be done even if the {@link SourceModel} doesn't explicitly define an error {@link SourceCallbackModel}.
    * <p>
    * The actual effect of calling this method will depend on the source (some will emit a response back to the client, some will
-   * update internal state, etc.). The action is however asynchronously, for which the method returns a {@link CompletableFuture},
+   * update internal state, etc.). The action is however asynchronous, for which the method returns a {@link CompletableFuture},
    * which will either complete with a void value or an Exception.
    * <p>
    * Finally, this method should only be called <b>at most once</b> per instance and should be mutually exclusive with

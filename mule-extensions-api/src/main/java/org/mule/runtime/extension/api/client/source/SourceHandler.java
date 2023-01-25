@@ -26,23 +26,31 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
 public interface SourceHandler extends Startable, Stoppable, Disposable {
 
   /**
-   * Starts the source, which means it will start producing messages
-   * 
-   * @throws MuleException if it fails to start
+   * Starts the source, which means it will start producing messages.
+   * <p>
+   * Calling this method on an already started instance has no effect.
+   *
+   * @throws MuleException         if it fails to start
+   * @throws IllegalStateException if {@link #dispose()} has already been invoked
    */
   @Override
   void start() throws MuleException;
 
   /**
-   * Stops the source, which means it will stop producing messages. It can be restarted by invoking {@link #start()} again
-   * 
-   * @throws MuleException if it fails to stop
+   * Stops the source, which means it will stop producing messages. It can be restarted by invoking {@link #start()} again.
+   * <p>
+   * Calling this method on an already stopped instance has no effect.
+   *
+   * @throws MuleException         if it fails to stop
+   * @throws IllegalStateException if {@link #dispose()} has already been invoked
    */
   @Override
   void stop() throws MuleException;
 
   /**
    * Completely disposes the source and all its allocated resources. It can't be restarted, a new instance needs to be created.
+   *
+   * Invoking this method on an already disposed instance has no effect.
    */
   @Override
   void dispose();
