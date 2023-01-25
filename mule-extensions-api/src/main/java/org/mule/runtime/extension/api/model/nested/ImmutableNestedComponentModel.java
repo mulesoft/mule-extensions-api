@@ -10,6 +10,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -102,9 +103,49 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
                                        Set<ModelProperty> modelProperties,
                                        DeprecationModel deprecationModel,
                                        Set<String> semanticTerms) {
+    this(name, description, parameterGroupModels, minOccurs, maxOccurs, allowedStereotypes, nestedComponents, displayModel,
+         errors, stereotype, visibility, modelProperties, deprecationModel, semanticTerms, null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name                 the model's name
+   * @param description          the model's description
+   * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param minOccurs            the minimum number of instances required for this component
+   * @param maxOccurs            maximum amount of times that this component can be used inside the owning one. {@code null} means
+   *                             unbounded.
+   * @param allowedStereotypes   a {@link Set} with the {@link StereotypeModel}s that can be assigned to this nested element.
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
+   * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
+   * @throws IllegalArgumentException if {@code name} is blank
+   * @since 1.6.0
+   */
+  public ImmutableNestedComponentModel(String name,
+                                       String description,
+                                       List<ParameterGroupModel> parameterGroupModels,
+                                       int minOccurs,
+                                       Integer maxOccurs,
+                                       Set<StereotypeModel> allowedStereotypes,
+                                       List<? extends NestableElementModel> nestedComponents,
+                                       DisplayModel displayModel,
+                                       Set<ErrorModel> errors,
+                                       StereotypeModel stereotype,
+                                       ComponentVisibility visibility,
+                                       Set<ModelProperty> modelProperties,
+                                       DeprecationModel deprecationModel,
+                                       Set<String> semanticTerms,
+                                       MuleVersion minMuleVersion) {
     super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, visibility,
           modelProperties,
-          deprecationModel, semanticTerms);
+          deprecationModel, semanticTerms, minMuleVersion);
     this.isRequired = minOccurs > 0;
     this.minOccurs = minOccurs;
     this.maxOccurs = maxOccurs;

@@ -41,6 +41,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.json.api.JsonTypeLoader;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -113,6 +114,16 @@ abstract class BasePersistenceTestCase {
   public static final String TEST_PACKAGE_EXPORTED_CLASS = "test.package.ExportedClass";
   private static final String FUNCTION_NAME = "myFunction";
 
+  private static final MuleVersion OPERATION_MIN_MULE_VERSION = new MuleVersion("4.4.0");
+
+  private static final MuleVersion CONNECTION_PROVIDER_MIN_MULE_VERSION = new MuleVersion("4.3.0");
+
+  private static final MuleVersion PARAMETER_MIN_MULE_VERSION = new MuleVersion("4.4.0");
+
+  private static final MuleVersion SOURCE_MIN_MULE_VERSION = new MuleVersion("4.2.2");
+
+  private static final MuleVersion EXTENSION_MIN_MULE_VERSION = new MuleVersion("4.2.0");
+
   protected final DisplayModel defaultDisplayModel = DisplayModel.builder().build();
   protected final ClassTypeLoader typeLoader = new DefaultExtensionsTypeLoaderFactory().createTypeLoader();
   protected final BaseTypeBuilder typeBuilder = BaseTypeBuilder.create(MetadataFormat.JAVA);
@@ -161,7 +172,8 @@ abstract class BasePersistenceTestCase {
                                     "",
                                     BEHAVIOUR, defaultParameterDsl, defaultDisplayModel, defaultLayoutModel,
                                     defaultValueProviderModel, emptyList(), emptySet(),
-                                    new ImmutableDeprecationModel("This is deprecated", "1.3.0", null));
+                                    new ImmutableDeprecationModel("This is deprecated", "1.3.0", null), emptySet(), emptyList(),
+                                    PARAMETER_MIN_MULE_VERSION);
 
     final ImmutableParameterModel usernameParameter =
         new ImmutableParameterModel("username", "Username", stringType, true, true, false, false, SUPPORTED, "",
@@ -228,7 +240,7 @@ abstract class BasePersistenceTestCase {
                                     true, CPU_LITE, false, false, false, defaultDisplayModel,
                                     singleton(ERROR_MODEL), PROCESSOR, PUBLIC, modelProperties, emptySet(),
                                     new ImmutableDeprecationModel("This operation is deprecated", "1.3.0", "2.0.0"),
-                                    defaultSampleDataProviderModel, of("test", "car"));
+                                    defaultSampleDataProviderModel, of("test", "car"), OPERATION_MIN_MULE_VERSION);
 
     createCoreOperations();
 
@@ -242,7 +254,7 @@ abstract class BasePersistenceTestCase {
                                              defaultDisplayModel,
                                              CONNECTION,
                                              emptySet(),
-                                             null);
+                                             null, emptySet(), CONNECTION_PROVIDER_MIN_MULE_VERSION);
 
     sourceModel = new ImmutableSourceModel(SOURCE_NAME, "A Message Source", true, false,
                                            asParameterGroup(carNameParameter, noIdParameter),
@@ -257,7 +269,8 @@ abstract class BasePersistenceTestCase {
                                                                                     emptySet())),
                                            empty(), empty(), false, false, false,
                                            DisplayModel.builder().build(), SOURCE, emptySet(),
-                                           PUBLIC, emptySet(), emptySet(), null, null, of("test", "source"));
+                                           PUBLIC, emptySet(), emptySet(), null, null, of("test", "source"),
+                                           SOURCE_MIN_MULE_VERSION);
 
 
     functionModel = new ImmutableFunctionModel(FUNCTION_NAME, "An Expression Function",
@@ -283,7 +296,7 @@ abstract class BasePersistenceTestCase {
                                     emptySet(), emptySet(),
                                     of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
                                     externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet(),
-                                    null);
+                                    null, null, EXTENSION_MIN_MULE_VERSION);
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.model.nested;
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ModelProperty;
@@ -91,8 +92,44 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
                                    Set<ModelProperty> modelProperties,
                                    DeprecationModel deprecationModel,
                                    Set<String> semanticTerms) {
+    this(name, description, parameterGroupModels, displayModel, minOccurs, maxOccurs, childComponents, stereotypeModel,
+         visibility, modelProperties, deprecationModel, semanticTerms, null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name                 the model's name
+   * @param description          the model's description
+   * @param parameterGroupModels a {@link List} with the component's {@link ParameterGroupModel parameter group models}
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param minOccurs            the minimum number of instances required for this kind of route
+   * @param maxOccurs            the maximum number of instances allowed for this kind of route
+   * @param childComponents      the route's child components
+   * @param stereotypeModel      this component's stereotype or {@code null} if it doesn't have one
+   * @param visibility           the model's {@link ComponentVisibility}
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
+   * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
+   * @param minMuleVersion       the min mule version of the route model.
+   * @throws IllegalArgumentException if {@code name} is blank
+   * @since 1.6.0
+   */
+  public ImmutableNestedRouteModel(String name, String description,
+                                   List<ParameterGroupModel> parameterGroupModels,
+                                   DisplayModel displayModel,
+                                   int minOccurs,
+                                   Integer maxOccurs,
+                                   List<? extends NestableElementModel> childComponents,
+                                   StereotypeModel stereotypeModel,
+                                   ComponentVisibility visibility,
+                                   Set<ModelProperty> modelProperties,
+                                   DeprecationModel deprecationModel,
+                                   Set<String> semanticTerms,
+                                   MuleVersion minMuleVersion) {
     super(name, description, parameterGroupModels, childComponents, displayModel, emptySet(), stereotypeModel,
-          visibility, modelProperties, deprecationModel, semanticTerms);
+          visibility, modelProperties, deprecationModel, semanticTerms, minMuleVersion);
     this.minOccurs = minOccurs;
     this.maxOccurs = maxOccurs;
   }

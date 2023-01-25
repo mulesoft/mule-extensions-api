@@ -10,6 +10,7 @@ import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComponentVisibility;
 import org.mule.runtime.api.meta.model.ConnectableComponentModel;
@@ -260,9 +261,61 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
                                              DeprecationModel deprecationModel,
                                              SampleDataProviderModel sampleDataProviderModel,
                                              Set<String> semanticTerms) {
+    this(name, description, parameterGroupModels, output, outputAttributes, requiresConnection, transactional, supportsStreaming,
+         displayModel, errors, stereotype,
+         visibility, modelProperties, nestedComponents, notifications, deprecationModel, sampleDataProviderModel, semanticTerms,
+         null);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param name                    the model's name
+   * @param description             the model's description
+   * @param parameterGroupModels    a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param output                  an {@link OutputModel} which represents the component's output content
+   * @param outputAttributes        an {@link OutputModel} which represents the component's attributes on the output
+   *                                {@link Message}
+   * @param requiresConnection      whether this component requires connectivity
+   * @param transactional           whether this component supports transactions
+   * @param supportsStreaming       whether this component supports streaming
+   * @param displayModel            a model which contains directive about how this component is displayed in the UI
+   * @param stereotype              the {@link StereotypeModel stereotype} of this component
+   * @param visibility              the model's {@link ComponentVisibility}
+   * @param modelProperties         A {@link Set} of custom properties which extend this model
+   * @param nestedComponents        a {@link List} with the components contained by this model
+   * @param notifications           A {@link Set} of {@link NotificationModel} which describes the component's notifications
+   * @param deprecationModel        a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                                not deprecated.
+   * @param sampleDataProviderModel A nullable {@link SampleDataProviderModel} which describes the component's sample data
+   *                                capabilities
+   * @param semanticTerms           a {@link Set} of semantic terms which describe the component's meaning and effect
+   * @param minMuleVersion          the min mule version of the component
+   * @throws IllegalArgumentException if {@code name} is blank
+   * @since 1.6.0
+   */
+  protected AbstractExecutableComponentModel(String name,
+                                             String description,
+                                             List<ParameterGroupModel> parameterGroupModels,
+                                             OutputModel output,
+                                             OutputModel outputAttributes,
+                                             boolean requiresConnection,
+                                             boolean transactional,
+                                             boolean supportsStreaming,
+                                             DisplayModel displayModel,
+                                             Set<ErrorModel> errors,
+                                             StereotypeModel stereotype,
+                                             ComponentVisibility visibility,
+                                             Set<ModelProperty> modelProperties,
+                                             List<? extends NestableElementModel> nestedComponents,
+                                             Set<NotificationModel> notifications,
+                                             DeprecationModel deprecationModel,
+                                             SampleDataProviderModel sampleDataProviderModel,
+                                             Set<String> semanticTerms,
+                                             MuleVersion minMuleVersion) {
     super(name, description, parameterGroupModels, nestedComponents, displayModel, errors, stereotype, visibility,
           modelProperties,
-          deprecationModel, semanticTerms);
+          deprecationModel, semanticTerms, minMuleVersion);
     this.output = output;
     this.outputAttributes = outputAttributes;
     this.requiresConnection = requiresConnection;
@@ -323,4 +376,5 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
   public Optional<SampleDataProviderModel> getSampleDataProviderModel() {
     return ofNullable(sampleDataProviderModel);
   }
+
 }

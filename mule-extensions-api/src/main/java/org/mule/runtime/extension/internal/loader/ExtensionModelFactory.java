@@ -378,7 +378,8 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getModelProperties(),
                                       extensionDeclaration.getNotificationModels(),
                                       extensionDeclaration.getDeprecation().orElse(null),
-                                      extensionDeclaration.getArtifactCoordinates().orElse(null));
+                                      extensionDeclaration.getArtifactCoordinates().orElse(null),
+                                      extensionDeclaration.getMinMuleVersion().orElse(null));
 
       return extensionModel;
     }
@@ -422,7 +423,8 @@ public final class ExtensionModelFactory {
                                                              declaration.getDisplayModel(),
                                                              getConfigStereotype(declaration.getStereotype()),
                                                              declaration.getModelProperties(),
-                                                             declaration.getDeprecation().orElse(null)));
+                                                             declaration.getDeprecation().orElse(null),
+                                                             declaration.getMinMuleVersion().orElse(null)));
     }
 
     private StereotypeModel getConfigStereotype(StereotypeModel stereotypeModel) {
@@ -449,7 +451,9 @@ public final class ExtensionModelFactory {
                                                          getProcessorStereotype(declaration.getStereotype()),
                                                          declaration.getVisibility(),
                                                          declaration.getModelProperties(),
-                                                         declaration.getDeprecation().orElse(null)));
+                                                         declaration.getDeprecation().orElse(null),
+                                                         declaration.getSemanticTerms(),
+                                                         declaration.getMinMuleVersion().orElse(null)));
     }
 
     private List<SourceModel> toMessageSources(List<SourceDeclaration> declarations) {
@@ -479,7 +483,8 @@ public final class ExtensionModelFactory {
                                                       declaration.getNotificationModels(),
                                                       declaration.getDeprecation().orElse(null),
                                                       declaration.getSampleDataProviderModel().orElse(null),
-                                                      declaration.getSemanticTerms()));
+                                                      declaration.getSemanticTerms(),
+                                                      declaration.getMinMuleVersion().orElse(null)));
 
     }
 
@@ -543,7 +548,8 @@ public final class ExtensionModelFactory {
                                                 declaration.getNotificationModels(),
                                                 declaration.getDeprecation().orElse(null),
                                                 declaration.getSampleDataProviderModel().orElse(null),
-                                                declaration.getSemanticTerms());
+                                                declaration.getSemanticTerms(),
+                                                declaration.getMinMuleVersion().orElse(null));
 
         return operation;
       });
@@ -567,7 +573,8 @@ public final class ExtensionModelFactory {
                                              declaration.getVisibility(),
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
-                                             declaration.getSemanticTerms());
+                                             declaration.getSemanticTerms(),
+                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null));
       }
       if (declaration instanceof NestedChainDeclaration) {
         return new ImmutableNestedChainModel(
@@ -584,7 +591,8 @@ public final class ExtensionModelFactory {
                                              declaration.getVisibility(),
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
-                                             declaration.getSemanticTerms());
+                                             declaration.getSemanticTerms(),
+                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null));
       }
       return new ImmutableNestedComponentModel(
                                                declaration.getName(),
@@ -601,7 +609,8 @@ public final class ExtensionModelFactory {
                                                declaration.getVisibility(),
                                                declaration.getModelProperties(),
                                                (DeprecationModel) declaration.getDeprecation().orElse(null),
-                                               declaration.getSemanticTerms());
+                                               declaration.getSemanticTerms(),
+                                               (MuleVersion) declaration.getMinMuleVersion().orElse(null));
     }
 
     private List<ConnectionProviderModel> toConnectionProviders(List<ConnectionProviderDeclaration> declarations) {
@@ -627,7 +636,8 @@ public final class ExtensionModelFactory {
                                                                   getConnectionStereotype(declaration.getStereotype()),
                                                                   declaration.getModelProperties(),
                                                                   declaration.getDeprecation().orElse(null),
-                                                                  declaration.getSemanticTerms()));
+                                                                  declaration.getSemanticTerms(),
+                                                                  declaration.getMinMuleVersion().orElse(null)));
     }
 
     private StereotypeModel getConnectionStereotype(StereotypeModel stereotypeModel) {
@@ -720,7 +730,8 @@ public final class ExtensionModelFactory {
                                          parameter.getModelProperties(),
                                          parameter.getDeprecation().orElse(null),
                                          parameter.getSemanticTerms(),
-                                         parameter.getFieldValueProviderModels());
+                                         parameter.getFieldValueProviderModels(),
+                                         parameter.getMinMuleVersion().orElse(null));
     }
 
     private List<FunctionModel> toFunctions(List<FunctionDeclaration> expressionFunctions) {
@@ -732,7 +743,8 @@ public final class ExtensionModelFactory {
                                                          toOutputModel(declaration.getOutput()),
                                                          declaration.getDisplayModel(),
                                                          declaration.getModelProperties(),
-                                                         declaration.getDeprecation().orElse(null)))
+                                                         declaration.getDeprecation().orElse(null),
+                                                         declaration.getMinMuleVersion().orElse(null)))
           .collect(toList()));
     }
   }

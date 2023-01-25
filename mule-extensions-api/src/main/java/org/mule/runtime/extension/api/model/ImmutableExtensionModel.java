@@ -8,10 +8,12 @@ package org.mule.runtime.extension.api.model;
 
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableSet;
+import static java.util.Optional.ofNullable;
 
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.meta.Category;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
@@ -64,6 +66,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final Set<ExternalLibraryModel> externalLibraries;
   private final Set<NotificationModel> notifications;
   private final ArtifactCoordinates artifactCoordinates;
+  private final MuleVersion minMuleVersion;
 
   /**
    * Creates a new instance with the given state
@@ -300,6 +303,73 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<NotificationModel> notifications,
                                  DeprecationModel deprecationModel,
                                  ArtifactCoordinates artifactCoordinates) {
+    this(name, description, version, vendor, category, configurationModels, operationModels, connectionProviders, sourceModels,
+         functions, constructModels, displayModel, xmlDslModel, subTypes,
+         types, resources, importedTypes, errors, externalLibraryModels, privilegedPackages, privilegedArtifacts, modelProperties,
+         notifications, deprecationModel, artifactCoordinates, null);
+  }
+
+  /**
+   * Creates a new instance with the given state
+   *
+   * @param name                  The extension's name. Cannot be blank
+   * @param description           The extension's description
+   * @param version               The extension's version
+   * @param vendor                The extension's vendor name
+   * @param category              The extension's {@link Category}
+   * @param configurationModels   A {@link List} with the extension's {@link ConfigurationModel configurationModels}
+   * @param operationModels       A {@link List} with the extension's {@link OperationModel operationModels}
+   * @param connectionProviders   A {@link List} with the extension's {@link ConnectionProviderModel connection provider models}
+   * @param sourceModels          A {@link List} with the extension's {@link SourceModel message source models}
+   * @param functions             A {@link List} with the extension's {@link FunctionModel function models}
+   * @param displayModel          A model which contains directive about how the extension is displayed in the UI
+   * @param xmlDslModel           The {@link XmlDslModel} which describes the XML language
+   * @param subTypes              A {@link Set} with the sub types defined by this extension
+   * @param types                 A {@link Set} with the custom types defined by this extension
+   * @param resources             A {@link Set} with the paths to all the resources exposed by this extension
+   * @param importedTypes         A {@link Set} of {@link ImportedTypeModel} which describes the types that are imported from
+   *                              other extensions
+   * @param errors                A {@link Set} of {@link ErrorModel} which communicates the errors that the current extension
+   *                              handles
+   * @param externalLibraryModels a {@link Set} with the extension's {@link ExternalLibraryModel external libraries}
+   * @param privilegedPackages    a {@link Set} of Java package names to export on the extension's privileged API.
+   * @param privilegedArtifacts   a {@link Set} of artifact ID that have access to the extension's privileged API.
+   * @param modelProperties       A {@link Set} of custom properties which extend this model
+   * @param notifications         A {@link Set} of {@link NotificationModel} which describes the extension's notifications
+   * @param deprecationModel      a {@link DeprecationModel} describing if the extension is deprecated. A null value means it is
+   *                              not deprecated.
+   * @param artifactCoordinates   The extension's {@link ArtifactCoordinates}
+   * @param minMuleVersion        the min mule version of the extension
+   * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
+   *                                  with non unique names, or if {@code name} is blank.
+   *
+   * @since 1.6
+   */
+  public ImmutableExtensionModel(String name,
+                                 String description,
+                                 String version,
+                                 String vendor,
+                                 Category category,
+                                 List<ConfigurationModel> configurationModels,
+                                 List<OperationModel> operationModels,
+                                 List<ConnectionProviderModel> connectionProviders,
+                                 List<SourceModel> sourceModels,
+                                 List<FunctionModel> functions,
+                                 List<ConstructModel> constructModels,
+                                 DisplayModel displayModel,
+                                 XmlDslModel xmlDslModel,
+                                 Set<SubTypesModel> subTypes,
+                                 Set<ObjectType> types,
+                                 Set<String> resources,
+                                 Set<ImportedTypeModel> importedTypes,
+                                 Set<ErrorModel> errors,
+                                 Set<ExternalLibraryModel> externalLibraryModels,
+                                 Set<String> privilegedPackages, Set<String> privilegedArtifacts,
+                                 Set<ModelProperty> modelProperties,
+                                 Set<NotificationModel> notifications,
+                                 DeprecationModel deprecationModel,
+                                 ArtifactCoordinates artifactCoordinates,
+                                 MuleVersion minMuleVersion) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, deprecationModel);
     this.configurations = copy(configurationModels);
 
@@ -324,6 +394,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.functions = copy(functions);
     this.notifications = copy(notifications);
     this.artifactCoordinates = artifactCoordinates;
+    this.minMuleVersion = minMuleVersion;
   }
 
   /**
@@ -502,7 +573,15 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
 
   @Override
   public Optional<ArtifactCoordinates> getArtifactCoordinates() {
-    return Optional.ofNullable(artifactCoordinates);
+    return ofNullable(artifactCoordinates);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<MuleVersion> getMinMuleVersion() {
+    return ofNullable(minMuleVersion);
   }
 
   private <T extends HasOperationModels & HasSourceModels> Optional<ComponentModel> doFindComponentModel(T owner,
