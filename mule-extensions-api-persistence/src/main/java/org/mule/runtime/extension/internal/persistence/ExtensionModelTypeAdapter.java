@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import static java.util.Collections.min;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 
 import static java.lang.String.format;
@@ -17,6 +18,7 @@ import org.mule.metadata.persistence.JsonMetadataTypeWriter;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.meta.Category;
+import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -71,6 +73,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String DESCRIPTION = "description";
   private static final String VERSION = "version";
   private static final String VENDOR = "vendor";
+  private static final String MIN_MULE_VERSION = "minMuleVersion";
   private static final String CATEGORY = "category";
   private static final String TYPES = "types";
   private static final String RESOURCES = "resources";
@@ -109,6 +112,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     out.name(DESCRIPTION).value(model.getDescription());
     out.name(VERSION).value(model.getVersion());
     out.name(VENDOR).value(model.getVendor());
+    if (model.getMinMuleVersion().isPresent()) {
+      out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().get().toCompleteNumericVersion());
+    }
 
     writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
     writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {});
@@ -145,6 +151,10 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     JsonObject json = new JsonParser().parse(in).getAsJsonObject();
 
     Set<ObjectType> types = parseTypes(TYPES, json);
+    MuleVersion minMuleVersion = null;
+    if (json.has(MIN_MULE_VERSION)) {
+      minMuleVersion = new MuleVersion(json.get(MIN_MULE_VERSION).getAsString());
+    }
 
     Map<String, NotificationModel> parsedNotifications;
     if (json.has(NOTIFICATIONS)) {
@@ -196,7 +206,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        privilegedPackages, privilegedArtifacts, parseExtensionLevelModelProperties(json),
                                        new LinkedHashSet<>(parsedNotifications.values()),
                                        null,
-                                       coordinates);
+                                       coordinates,
+                                       minMuleVersion);
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {

@@ -653,6 +653,7 @@
       "type": "SOURCE",
       "namespace": "MULE"
     },
+    "minMuleVersion": "4.2.2",
     "parameterGroupModels": [
       {
         "parameters": [
@@ -697,6 +698,7 @@
               "deprecatedSince": "1.3.0"
             },
             "semanticTerms": [],
+            "minMuleVersion": "4.4.0",
             "name": "carName",
             "displayModel": {},
             "description": "Name of the car",

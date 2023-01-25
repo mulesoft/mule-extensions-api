@@ -5,6 +5,7 @@
     "version": "4.0.0",
     "vendor": "MuleSoft",
     "category": "COMMUNITY",
+    "minMuleVersion": "4.2.0",
     "xmlDsl": {
       "prefix": "",
       "namespace": "",
@@ -79,6 +80,7 @@
           "deprecatedSince": "1.3.0",
           "toRemoveIn": "2.0.0"
         },
+        "minMuleVersion": "4.4.0",
         "parameterGroupModels": [
           {
             "parameters": [
@@ -121,6 +123,7 @@
                   "deprecatedSince": "1.3.0"
                 },
                 "semanticTerms": [],
+                "minMuleVersion": "4.4.0",
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -1024,7 +1027,9 @@
           }
         ],
         "errors": [],
-        "semanticTerms": [],
+        "semanticTerms": [
+          "router"
+        ],
         "visibility": "PUBLIC",
         "stereotype": {
           "type": "PROCESSOR",
@@ -1056,6 +1061,7 @@
           "type": "CONNECTION",
           "namespace": "MULE"
         },
+        "minMuleVersion": "4.3.0",
         "parameterGroupModels": [
           {
             "parameters": [
@@ -1844,6 +1850,7 @@
           "type": "SOURCE",
           "namespace": "MULE"
         },
+        "minMuleVersion": "4.2.2",
         "parameterGroupModels": [
           {
             "parameters": [
@@ -1886,6 +1893,7 @@
                   "deprecatedSince": "1.3.0"
                 },
                 "semanticTerms": [],
+                "minMuleVersion": "4.4.0",
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -2203,6 +2211,7 @@
     "description": "Test extension",
     "version": "4.0.0",
     "vendor": "MuleSoft",
+    "minMuleVersion": "4.2.0",
     "category": "COMMUNITY",
     "xmlDsl": {
       "prefix": "",
@@ -2278,6 +2287,7 @@
           "deprecatedSince": "1.3.0",
           "toRemoveIn": "2.0.0"
         },
+        "minMuleVersion": "4.4.0",
         "parameterGroupModels": [
           {
             "parameters": [
@@ -2320,6 +2330,7 @@
                   "deprecatedSince": "1.3.0"
                 },
                 "semanticTerms": [],
+                "minMuleVersion": "4.4.0",
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
@@ -3222,7 +3233,9 @@
           }
         ],
         "errors": [],
-        "semanticTerms": [],
+        "semanticTerms": [
+          "router"
+        ],
         "visibility": "PUBLIC",
         "stereotype": {
           "type": "PROCESSOR",
@@ -3254,6 +3267,7 @@
           "type": "CONNECTION",
           "namespace": "MULE"
         },
+        "minMuleVersion": "4.3.0",
         "parameterGroupModels": [
           {
             "parameters": [
@@ -4042,6 +4056,7 @@
           "type": "SOURCE",
           "namespace": "MULE"
         },
+        "minMuleVersion": "4.2.2",
         "parameterGroupModels": [
           {
             "parameters": [
@@ -4084,6 +4099,7 @@
                   "deprecatedSince": "1.3.0"
                 },
                 "semanticTerms": [],
+                "minMuleVersion": "4.4.0",
                 "name": "carName",
                 "displayModel": {},
                 "description": "Name of the car",
