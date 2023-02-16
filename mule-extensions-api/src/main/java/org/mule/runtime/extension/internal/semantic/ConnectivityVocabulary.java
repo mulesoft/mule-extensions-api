@@ -41,7 +41,7 @@ public final class ConnectivityVocabulary {
   /**
    * EndPoint in the API holding a number of executable operations
    */
-  public static final String ENDPOINT = API_CONTRACT_PREFIX + "endPoint";
+  public static final String ENDPOINT = API_CONTRACT_PREFIX + "endpoint";
 
   /**
    * Path template for an endpoint
