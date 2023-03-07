@@ -141,7 +141,7 @@
         <javax.transaction-api.version>1.3</javax.transaction-api.version>
         <reactive-streams.version>1.0.2</reactive-streams.version>
 
-        <muleRevapiExtensionVersion>1.4.1-SNAPSHOT</muleRevapiExtensionVersion>
+        <muleRevapiExtensionVersion>1.4.0-20230307</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
 
