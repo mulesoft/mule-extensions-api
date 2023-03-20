@@ -19,7 +19,6 @@ import org.mule.runtime.extension.api.persistence.metadata.ComponentResultJsonSe
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class OperationMetadataResultPersistenceTestCase extends AbstractMetadataPersistenceTestCase {
@@ -38,7 +37,6 @@ public class OperationMetadataResultPersistenceTestCase extends AbstractMetadata
   }
 
   @Test
-  @Ignore("Additional interfaces in JDK classes")
   public void serializeSuccessMetadataDescriptorResult() throws IOException {
     MetadataResult<ComponentMetadataDescriptor<OperationModel>> success = success(operationMetadataDescriptor);
     String serialized = metadataDescriptorSerializer.serialize(success);

@@ -41,10 +41,7 @@ import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import org.apache.commons.io.IOUtils;
-
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
@@ -106,14 +103,12 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   }
 
   @Test
-  @Ignore("Additional interfaces in JDK classes")
   public void validateJsonStructure() throws IOException {
     String serializedModel = extensionModelJsonSerializer.serialize(originalExtensionModel);
     assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON);
   }
 
   @Test
-  @Ignore("Additional interfaces in JDK classes")
   public void validateJsonListStructure() throws IOException {
     final String serializedList = extensionModelJsonSerializer.serializeList(extensionModelList);
     assertSerializedJson(serializedList, LIST_OF_SERIALIZED_EXTENSION_MODEL_JSON);
