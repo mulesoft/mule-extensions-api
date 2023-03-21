@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.property;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.extension.internal.util.QNameDTO;
 
 import javax.xml.namespace.QName;
 
@@ -18,8 +19,11 @@ import javax.xml.namespace.QName;
  */
 public final class QNameModelProperty implements ModelProperty {
 
+  private static final long serialVersionUID = -5990616758297636399L;
+
   public static final String NAME = "QName";
-  private final QName value;
+
+  private final QNameDTO value;
 
   /**
    * Creates a new instance
@@ -27,14 +31,14 @@ public final class QNameModelProperty implements ModelProperty {
    * @param value the referenced {@link QName}
    */
   public QNameModelProperty(QName value) {
-    this.value = value;
+    this.value = new QNameDTO(value);
   }
 
   /**
    * @return The referenced {@link QName}
    */
   public QName getValue() {
-    return value;
+    return value.getValue();
   }
 
   /**

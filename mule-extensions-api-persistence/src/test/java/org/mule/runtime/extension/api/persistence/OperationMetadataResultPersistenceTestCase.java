@@ -6,9 +6,11 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
@@ -24,9 +26,10 @@ public class OperationMetadataResultPersistenceTestCase extends AbstractMetadata
   private static final String METADATA_OPERATION_RESULT_JSON = "metadata/success-result-operation-descriptor.json";
 
   private ComponentMetadataDescriptor<OperationModel> operationMetadataDescriptor;
-  private ComponentResultJsonSerializer<OperationModel> metadataDescriptorSerializer =
+  private final ComponentResultJsonSerializer<OperationModel> metadataDescriptorSerializer =
       new ComponentResultJsonSerializer<>(true, true);
 
+  @Override
   @Before
   public void setUp() throws IOException {
     super.setUp();

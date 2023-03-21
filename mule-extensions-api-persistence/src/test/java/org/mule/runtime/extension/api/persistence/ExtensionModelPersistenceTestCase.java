@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,7 +17,6 @@ import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.model.ArrayType;
@@ -42,7 +43,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.mule.sdk.api.connectivity.ConnectionProvider;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 

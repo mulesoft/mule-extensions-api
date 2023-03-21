@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.declaration.type.annotation;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
+import org.mule.runtime.extension.internal.util.QNameDTO;
 
 import javax.xml.namespace.QName;
 
@@ -19,7 +20,7 @@ import javax.xml.namespace.QName;
 public final class QNameTypeAnnotation implements TypeAnnotation {
 
   public static final String NAME = "QName";
-  private final QName value;
+  private final QNameDTO value;
 
   /**
    * Creates a new instance
@@ -27,14 +28,14 @@ public final class QNameTypeAnnotation implements TypeAnnotation {
    * @param value the referenced {@link QName}
    */
   public QNameTypeAnnotation(QName value) {
-    this.value = value;
+    this.value = new QNameDTO(value);
   }
 
   /**
    * @return The referenced {@link QName}
    */
   public QName getValue() {
-    return value;
+    return value.getValue();
   }
 
   /**
