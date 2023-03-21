@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal;
+package org.mule.runtime.extension.internal.xml;
 
 import org.mule.apache.xml.serialize.OutputFormat;
 import org.mule.apache.xml.serialize.XMLSerializer;
@@ -19,9 +19,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 /**
- * @deprecated Use org.mule.runtime.extension.internal.xml.GenericXmlSerializer instead, this will be removed in 1.6.0
+ * Moved from org.mule.runtime.extension.internal.GenericXmlSerializer<T>.
  */
-@Deprecated
 public class GenericXmlSerializer<T> {
 
   private JAXBContext jaxbContext;
