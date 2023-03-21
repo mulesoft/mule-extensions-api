@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.api.util.ExtensionModelTestUtils.visitableMock;
+import static org.mule.runtime.api.util.tck.ExtensionModelTestUtils.visitableMock;
 
 import org.mule.runtime.api.meta.model.nested.NestedComponentModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;

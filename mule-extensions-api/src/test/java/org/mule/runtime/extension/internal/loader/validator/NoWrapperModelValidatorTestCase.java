@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.api.util.ExtensionModelTestUtils.visitableMock;
+import static org.mule.runtime.api.util.tck.ExtensionModelTestUtils.visitableMock;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.api.meta.model.ExtensionModel;
