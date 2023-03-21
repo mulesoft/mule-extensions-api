@@ -19,7 +19,7 @@ import javax.xml.namespace.QName;
  */
 public final class QNameModelProperty implements ModelProperty {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = -5990616758297636399L;
 
   public static final String NAME = "QName";
 
