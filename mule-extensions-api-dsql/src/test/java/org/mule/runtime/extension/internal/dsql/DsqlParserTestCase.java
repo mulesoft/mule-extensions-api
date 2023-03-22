@@ -4,12 +4,15 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.dsql;
+package org.mule.runtime.extension.internal.dsql;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.mule.runtime.extension.internal.operator.EqualsOperator;
+import org.mule.runtime.extension.api.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.DsqlParser;
+import org.mule.runtime.extension.api.dsql.DsqlQuery;
 import org.mule.runtime.extension.internal.expression.FieldComparison;
 import org.mule.runtime.extension.internal.operator.LessOperator;
 

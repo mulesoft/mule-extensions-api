@@ -4,7 +4,15 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.dsql;
+package org.mule.runtime.extension.internal.dsql;
+
+import org.mule.runtime.extension.api.dsql.DefaultOperatorTranslator;
+import org.mule.runtime.extension.api.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.EntityType;
+import org.mule.runtime.extension.api.dsql.Field;
+import org.mule.runtime.extension.api.dsql.OperatorTranslator;
+import org.mule.runtime.extension.api.dsql.QueryTranslator;
+import org.mule.runtime.extension.api.dsql.Value;
 
 import java.util.Iterator;
 import java.util.List;

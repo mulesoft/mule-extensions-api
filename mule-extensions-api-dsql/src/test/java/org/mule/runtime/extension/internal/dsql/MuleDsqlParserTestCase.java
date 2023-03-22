@@ -4,14 +4,16 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.dsql;
+package org.mule.runtime.extension.internal.dsql;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertThat;
 
-import org.mule.runtime.extension.internal.MuleDsqlLexer;
-import org.mule.runtime.extension.internal.MuleDsqlParser;
+import org.mule.runtime.extension.api.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.DsqlParser;
+import org.mule.runtime.extension.api.dsql.DsqlQuery;
+import org.mule.runtime.extension.api.dsql.Expression;
 import org.mule.runtime.extension.internal.exception.DsqlParsingException;
 import org.mule.runtime.extension.internal.expression.BinaryLogicalExpression;
 import org.mule.runtime.extension.internal.expression.FieldComparison;

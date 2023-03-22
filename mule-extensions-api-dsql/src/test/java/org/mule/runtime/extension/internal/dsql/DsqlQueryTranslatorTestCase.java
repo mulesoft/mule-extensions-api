@@ -4,12 +4,17 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.dsql;
+package org.mule.runtime.extension.internal.dsql;
 
 import static org.mule.runtime.extension.internal.value.IdentifierValue.fromLiteral;
 
 import static org.junit.Assert.assertEquals;
 
+import org.mule.runtime.extension.api.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.EntityType;
+import org.mule.runtime.extension.api.dsql.Expression;
+import org.mule.runtime.extension.api.dsql.Field;
+import org.mule.runtime.extension.api.dsql.QueryBuilder;
 import org.mule.runtime.extension.internal.dsql.DefaultQueryBuilder;
 import org.mule.runtime.extension.internal.expression.And;
 import org.mule.runtime.extension.internal.expression.FieldComparison;
