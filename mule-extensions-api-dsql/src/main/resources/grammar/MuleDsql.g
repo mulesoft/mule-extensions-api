@@ -13,7 +13,7 @@ options {
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal;
+package org.mule.runtime.extension.internal.dsql;
 }
 
 @lexer::header {
@@ -23,7 +23,7 @@ package org.mule.runtime.extension.internal;
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal;
+package org.mule.runtime.extension.internal.dsql;
 }
 
 @rulecatch {

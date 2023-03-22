@@ -48,7 +48,7 @@
                 <version>${antlrVersion}</version>
                 <configuration>
                     <sourceDirectory>${basedir}/src/main/resources/grammar</sourceDirectory>
-                    <outputDirectory>${basedir}/src/main/java/org/mule/runtime/extension/internal</outputDirectory>
+                    <outputDirectory>${basedir}/src/main/java/org/mule/runtime/extension/internal/dsql</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>
