@@ -6,18 +6,20 @@
  */
 package org.mule.runtime.extension.api.dsql;
 
-import static org.junit.Assert.assertEquals;
 import static org.mule.runtime.extension.internal.value.IdentifierValue.fromLiteral;
+
+import static org.junit.Assert.assertEquals;
+
+import org.mule.runtime.extension.internal.dsql.DefaultQueryBuilder;
 import org.mule.runtime.extension.internal.expression.And;
-import org.mule.runtime.extension.internal.operator.EqualsOperator;
-import org.mule.runtime.extension.internal.expression.Expression;
 import org.mule.runtime.extension.internal.expression.FieldComparison;
+import org.mule.runtime.extension.internal.expression.Or;
+import org.mule.runtime.extension.internal.operator.EqualsOperator;
 import org.mule.runtime.extension.internal.operator.GreaterOperator;
-import org.mule.runtime.extension.internal.value.IntegerValue;
 import org.mule.runtime.extension.internal.operator.LessOperator;
 import org.mule.runtime.extension.internal.operator.NotEqualsOperator;
+import org.mule.runtime.extension.internal.value.IntegerValue;
 import org.mule.runtime.extension.internal.value.NumberValue;
-import org.mule.runtime.extension.internal.expression.Or;
 import org.mule.runtime.extension.internal.value.StringValue;
 
 import org.junit.Test;

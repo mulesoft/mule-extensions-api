@@ -11,7 +11,7 @@ import org.mule.runtime.extension.api.dsql.DsqlQuery;
 import java.util.List;
 
 /**
- * Generic contract for all the nodes that can be part of a {@link DsqlQuery}.
+ * Generic contract for all the nodes that can be part of a {@link DefaultDsqlQuery}.
  *
  * @since 1.0
  */
@@ -37,7 +37,7 @@ interface DsqlNode {
   String getText();
 
   /**
-   * Parses {@code this} node into a {@link DsqlQuery} element, using the provided
+   * Parses {@code this} node into a {@link DefaultDsqlQuery} element, using the provided
    * {@link DsqlGrammarVisitor}.
    *
    * @param visitor an {@link DsqlGrammarVisitor} instance.

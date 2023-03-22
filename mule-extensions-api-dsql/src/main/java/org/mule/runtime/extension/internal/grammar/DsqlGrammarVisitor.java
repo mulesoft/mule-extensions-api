@@ -10,7 +10,7 @@ import org.mule.runtime.extension.api.dsql.DsqlQuery;
 
 /**
  * Generic contract for a visitor that goes over a DSQL Grammar and creates
- * and generates a {@link DsqlQuery}
+ * and generates a {@link DefaultDsqlQuery}
  *
  * @since 1.0
  */

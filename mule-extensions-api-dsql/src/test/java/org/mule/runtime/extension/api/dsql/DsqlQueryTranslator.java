@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * An {@link QueryTranslator} implementation that translates an DSQL query represented as
- * {@link DsqlQuery} object to its {@link String} representation.
+ * {@link DefaultDsqlQuery} object to its {@link String} representation.
  *
  * @since 1.0
  */

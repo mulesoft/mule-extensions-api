@@ -4,10 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.expression;
-
-
-import org.mule.runtime.extension.api.dsql.QueryTranslator;
+package org.mule.runtime.extension.api.dsql;
 
 /**
  * Generic contract for a DSQL expression.
@@ -17,8 +14,7 @@ import org.mule.runtime.extension.api.dsql.QueryTranslator;
 public abstract class Expression {
 
   /**
-   * Translates an expression using the specified {@code queryTranslator} from
-   * DSQL into an expression in Native Query Language.
+   * Translates an expression using the specified {@code queryTranslator} from DSQL into an expression in Native Query Language.
    *
    * @param queryTranslator a {@link QueryTranslator} instance.
    */

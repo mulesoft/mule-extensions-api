@@ -7,28 +7,29 @@
 package org.mule.runtime.extension.internal.grammar;
 
 import static java.lang.Integer.parseInt;
-import org.mule.runtime.extension.api.dsql.DefaultQueryBuilder;
-import org.mule.runtime.extension.api.dsql.QueryBuilder;
+
 import org.mule.runtime.extension.api.dsql.EntityType;
+import org.mule.runtime.extension.api.dsql.Expression;
 import org.mule.runtime.extension.api.dsql.Field;
+import org.mule.runtime.extension.api.dsql.QueryBuilder;
 import org.mule.runtime.extension.api.dsql.Value;
 import org.mule.runtime.extension.internal.MuleDsqlParser;
+import org.mule.runtime.extension.internal.dsql.DefaultQueryBuilder;
+import org.mule.runtime.extension.internal.expression.And;
+import org.mule.runtime.extension.internal.expression.FieldComparison;
+import org.mule.runtime.extension.internal.expression.Not;
+import org.mule.runtime.extension.internal.expression.Or;
 import org.mule.runtime.extension.internal.operator.BinaryOperator;
 import org.mule.runtime.extension.internal.value.BooleanValue;
+import org.mule.runtime.extension.internal.value.DateTimeValue;
 import org.mule.runtime.extension.internal.value.DateValue;
-import org.mule.runtime.extension.internal.expression.Expression;
 import org.mule.runtime.extension.internal.value.IdentifierValue;
 import org.mule.runtime.extension.internal.value.IntegerValue;
 import org.mule.runtime.extension.internal.value.MuleExpressionValue;
 import org.mule.runtime.extension.internal.value.NullValue;
 import org.mule.runtime.extension.internal.value.NumberValue;
-import org.mule.runtime.extension.internal.expression.Or;
 import org.mule.runtime.extension.internal.value.StringValue;
 import org.mule.runtime.extension.internal.value.UnknownValue;
-import org.mule.runtime.extension.internal.expression.And;
-import org.mule.runtime.extension.internal.value.DateTimeValue;
-import org.mule.runtime.extension.internal.expression.FieldComparison;
-import org.mule.runtime.extension.internal.expression.Not;
 
 import java.util.List;
 import java.util.Stack;
@@ -40,8 +41,8 @@ import java.util.Stack;
  */
 public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
-  private QueryBuilder queryBuilder;
-  private Stack<Expression> expressions = new Stack<>();
+  private final QueryBuilder queryBuilder;
+  private final Stack<Expression> expressions = new Stack<>();
   private int expressionLevel;
 
   public DefaultDsqlGrammarVisitor() {
