@@ -26,7 +26,7 @@ public abstract class DsqlParser {
    * @return a new {@link DsqlParser} instance.
    */
   public static DsqlParser getInstance() {
-    return ServiceLoader.load(DsqlParser.class).iterator().next();
+    return ServiceLoader.load(DsqlParser.class, DsqlParser.class.getClassLoader()).iterator().next();
   }
 
   /**
