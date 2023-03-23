@@ -30,7 +30,6 @@
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr-runtime</artifactId>
-            <version>${antlrVersion}</version>
             <exclusions>
                 <exclusion>
                     <groupId>antlr</groupId>
