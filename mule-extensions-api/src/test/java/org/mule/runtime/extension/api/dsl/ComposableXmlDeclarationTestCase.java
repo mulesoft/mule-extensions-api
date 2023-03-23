@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.api.util.ExtensionModelTestUtils.visitableMock;
+import static org.mule.runtime.api.util.tck.ExtensionModelTestUtils.visitableMock;
 import static org.mule.runtime.api.util.NameUtils.hyphenize;
 
 import org.mule.runtime.api.meta.ExpressionSupport;
