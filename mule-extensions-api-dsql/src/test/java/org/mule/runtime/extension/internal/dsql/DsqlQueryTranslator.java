@@ -8,6 +8,7 @@ package org.mule.runtime.extension.internal.dsql;
 
 import org.mule.runtime.extension.api.dsql.DefaultOperatorTranslator;
 import org.mule.runtime.extension.api.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.DsqlQuery;
 import org.mule.runtime.extension.api.dsql.EntityType;
 import org.mule.runtime.extension.api.dsql.Field;
 import org.mule.runtime.extension.api.dsql.OperatorTranslator;
@@ -18,14 +19,14 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * An {@link QueryTranslator} implementation that translates an DSQL query represented as
- * {@link DefaultDsqlQuery} object to its {@link String} representation.
+ * An {@link QueryTranslator} implementation that translates an DSQL query represented as {@link DsqlQuery} object to its
+ * {@link String} representation.
  *
  * @since 1.0
  */
 public class DsqlQueryTranslator implements QueryTranslator {
 
-  private StringBuilder queryBuilder;
+  private final StringBuilder queryBuilder;
 
   DsqlQueryTranslator() {
     queryBuilder = new StringBuilder();

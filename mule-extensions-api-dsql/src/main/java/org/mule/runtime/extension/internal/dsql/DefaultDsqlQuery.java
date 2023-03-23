@@ -91,6 +91,7 @@ public final class DefaultDsqlQuery implements DsqlQuery {
   /**
    * @return the selected fields from the queried entity.
    */
+  @Override
   public List<Field> getFields() {
     return unmodifiableList(fields);
   }
@@ -98,6 +99,7 @@ public final class DefaultDsqlQuery implements DsqlQuery {
   /**
    * @return the fields used to sort the result set.
    */
+  @Override
   public List<Field> getOrderByFields() {
     return unmodifiableList(orderByFields);
   }
@@ -105,6 +107,7 @@ public final class DefaultDsqlQuery implements DsqlQuery {
   /**
    * @return the sorting direction.
    */
+  @Override
   public Direction getDirection() {
     return direction;
   }
@@ -112,6 +115,7 @@ public final class DefaultDsqlQuery implements DsqlQuery {
   /**
    * @return an {@link Expression} to filter the queried result set.
    */
+  @Override
   public Expression getFilterExpression() {
     return filterExpression;
   }
@@ -119,6 +123,7 @@ public final class DefaultDsqlQuery implements DsqlQuery {
   /**
    * @return the entity that is being queried.
    */
+  @Override
   public EntityType getType() {
     return type;
   }
@@ -126,6 +131,7 @@ public final class DefaultDsqlQuery implements DsqlQuery {
   /**
    * @return the maximum number of item returned in the result set.
    */
+  @Override
   public int getLimit() {
     return limit;
   }
@@ -133,16 +139,18 @@ public final class DefaultDsqlQuery implements DsqlQuery {
   /**
    * @return the number of items to skip from the beginning of the result set.
    */
+  @Override
   public int getOffset() {
     return offset;
   }
 
   /**
-   * Translates {@code this} {@link DefaultDsqlQuery} to a query in another query language using the specified {@code queryTranslator}.
+   * Translates {@code this} {@link DsqlQuery} to a query in another query language using the specified {@code queryTranslator}.
    *
    * @param queryTranslator a {@link QueryTranslator} instance used to translate from DSQL to another query language.
    * @return a {@link String} that represents a translated query using the {@code queryTranslator}.
    */
+  @Override
   public String translate(QueryTranslator queryTranslator) {
     queryTranslator.translateFields(fields);
     queryTranslator.translateTypes(type);

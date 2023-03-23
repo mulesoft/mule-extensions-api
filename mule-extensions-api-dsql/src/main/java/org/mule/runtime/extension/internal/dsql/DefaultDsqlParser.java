@@ -19,16 +19,16 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
 /**
- * This class works as a processor of {@link DefaultDsqlQuery}s, conforming to the rules of the formal defined grammar.
+ * This class works as a processor of {@link DsqlQuery}s, conforming to the rules of the formal defined grammar.
  * <p>
- * Basically receives a Dsql Query as a {@link String} instance and process it to return a {@link DefaultDsqlQuery} object to work with.
+ * Basically receives a Dsql Query as a {@link String} instance and process it to return a {@link DsqlQuery} object to work with.
  *
  * @since 1.0
  */
 public final class DefaultDsqlParser extends DsqlParser {
 
   /**
-   * A prefix that marks that a query is a {@link DefaultDsqlQuery}
+   * A prefix that marks that a query is a {@link DsqlQuery}
    */
   private static final String DSQL_QUERY_PREFIX = "dsql:";
 
@@ -40,7 +40,7 @@ public final class DefaultDsqlParser extends DsqlParser {
   }
 
   /**
-   * Checks if a {@link String} that represents a query is a {@link DefaultDsqlQuery} or another kind of query (Native Query).
+   * Checks if a {@link String} that represents a query is a {@link DsqlQuery} or another kind of query (Native Query).
    *
    * @param query a {@link String} representing a query.
    * @return true if the query is a dsql query, false otherwise.
@@ -50,10 +50,10 @@ public final class DefaultDsqlParser extends DsqlParser {
   }
 
   /**
-   * Parses a {@link String} representing a dsql query into a proper {@link DefaultDsqlQuery} instance.
+   * Parses a {@link String} representing a dsql query into a proper {@link DsqlQuery} instance.
    *
-   * @param dsqlQuery a {@link String} that represents a {@link DefaultDsqlQuery}.
-   * @return a parsed {@link DefaultDsqlQuery} instance.
+   * @param dsqlQuery a {@link String} that represents a {@link DsqlQuery}.
+   * @return a parsed {@link DsqlQuery} instance.
    */
   @Override
   public DsqlQuery parse(final String dsqlQuery) {

@@ -8,6 +8,7 @@ package org.mule.runtime.extension.internal.dsql;
 
 
 import org.mule.runtime.extension.api.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.DsqlQuery;
 import org.mule.runtime.extension.api.dsql.EntityType;
 import org.mule.runtime.extension.api.dsql.Expression;
 import org.mule.runtime.extension.api.dsql.Field;
@@ -139,7 +140,7 @@ public class DefaultQueryBuilder implements QueryBuilder {
    * {@inheritDoc}
    */
   @Override
-  public DefaultDsqlQuery build() {
+  public DsqlQuery build() {
     if (type == null) {
       throw new IllegalArgumentException("Cannot build query. Missing queried entity type");
     }
