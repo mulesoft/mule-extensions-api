@@ -40,22 +40,18 @@
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams</artifactId>
-            <version>${reactive-streams.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mule.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${java.xml.bind.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.activation</groupId>
             <artifactId>javax.activation</artifactId>
-            <version>${javax.activation.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
-            <version>${javax.transaction-api.version}</version>
         </dependency>
 
         <dependency>
