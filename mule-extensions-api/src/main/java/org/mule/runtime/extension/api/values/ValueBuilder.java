@@ -6,12 +6,11 @@
  */
 package org.mule.runtime.extension.api.values;
 
+import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
-
-import static org.mule.metadata.internal.utils.StringUtils.isNotEmpty;
-import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
 import org.mule.runtime.api.value.Value;
 import org.mule.sdk.api.annotation.MinMuleVersion;
@@ -163,5 +162,9 @@ public class ValueBuilder {
     return new ImmutableValue(id, name, childs.stream().map(ValueBuilder::build).collect(toCollection(LinkedHashSet::new)),
                               partName);
 
+  }
+
+  private static boolean isNotEmpty(String description) {
+    return description != null && !description.isEmpty();
   }
 }

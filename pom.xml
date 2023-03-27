@@ -113,6 +113,7 @@
 
     <properties>
         <javaVersion>1.8</javaVersion>
+        <javaReleaseVersion>8</javaReleaseVersion>
         <xDocLint>-Xdoclint:none</xDocLint>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <muleApiVersion>1.6.0-SNAPSHOT</muleApiVersion>
@@ -123,12 +124,12 @@
         <hamcrestVersion>2.2</hamcrestVersion>
         <mockitoVersion>4.11.0</mockitoVersion>
         <aspectjVersion>1.9.2</aspectjVersion>
-        <allureJunitVersion>2.8.1</allureJunitVersion>
-        <allureReportVersion>2.8.1</allureReportVersion>
+        <allureJunitVersion>2.21.0</allureJunitVersion>
+        <allureReportVersion>2.21.0</allureReportVersion>
         <allure.maven.plugin.version>2.9</allure.maven.plugin.version>
         <jacoco.version>0.8.8</jacoco.version>
         <javaFormatter.plugin.version>2.14.0</javaFormatter.plugin.version>
-        <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>3.0.0</maven.surefire.plugin.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
         <formatterGoal>validate</formatterGoal>
         <skipCodeFormatting>false</skipCodeFormatting>
@@ -229,11 +230,31 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.11.0</version>
+                    <executions>
+                        <execution>
+                            <id>default-compile</id>
+                            <configuration>
+                                <release>11</release>
+                                <!-- no excludes: compile everything to ensure module-info contains right entries -->
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>base-compile</id>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <configuration>
+                                <release>${javaReleaseVersion}</release>
+                                <!-- recompile everything for target VM except the module-info.java -->
+                                <excludes>
+                                    <exclude>module-info.java</exclude>
+                                </excludes>
+                            </configuration>
+                        </execution>
+                    </executions>
                     <configuration>
                         <encoding>ISO-8859-1</encoding>
-                        <source>${javaVersion}</source>
-                        <target>${javaVersion}</target>
                         <proc>none</proc>
                     </configuration>
                 </plugin>
@@ -252,6 +273,7 @@
                     </configuration>
                     <executions>
                         <execution>
+                            <phase>process-sources</phase>
                             <goals>
                                 <goal>${formatterGoal}</goal>
                             </goals>
@@ -280,7 +302,7 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <phase>compile</phase>
+                            <phase>process-sources</phase>
                             <goals>
                                 <goal>check</goal>
                             </goals>
@@ -321,7 +343,7 @@
                     <executions>
                         <execution>
                             <id>analyze</id>
-                            <phase>compile</phase>
+                            <phase>verify</phase>
                             <goals>
                                 <goal>analyze</goal>
                             </goals>

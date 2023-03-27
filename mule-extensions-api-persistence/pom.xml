@@ -21,6 +21,40 @@
         <jsonassert.version>1.5.2</jsonassert.version>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <executions>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <configuration>
+                            <release>11</release>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>base-testCompile</id>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <release>${javaReleaseVersion}</release>
+                            <testExcludes>
+                                <testExclude>module-info.java</testExclude>
+                            </testExcludes>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <encoding>ISO-8859-1</encoding>
+                    <proc>none</proc>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.mule.runtime</groupId>
@@ -61,11 +95,14 @@
             <artifactId>mule-metadata-model-json</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- TODO W-12732035: replace with a skyscreamer version that addresses split packages -->
+        <!--
         <dependency>
             <groupId>org.mule.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
             <version>${jsonassert.version}</version>
             <scope>test</scope>
         </dependency>
+        -->
     </dependencies>
 </project>

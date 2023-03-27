@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.api.persistence.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,6 +13,7 @@ import static org.mule.runtime.api.metadata.resolving.FailureCode.INVALID_METADA
 import static org.mule.runtime.api.metadata.resolving.FailureCode.NO_DYNAMIC_METADATA_AVAILABLE;
 import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.newFailure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
+
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.metadata.descriptor.ComponentMetadataDescriptor;
 import org.mule.runtime.api.metadata.resolving.MetadataFailure;
@@ -26,9 +27,9 @@ import org.junit.Test;
 
 public class ComponentMetadataResultPersistenceTestCase extends AbstractMetadataPersistenceTestCase {
 
-  private static final String METADATA_RESULT_FAILURE_JSON = "metadata/failure-result.json";
-  private static final String METADATA_RESULT_FAILURE_NO_DESCRIPTOR_JSON = "metadata/failure-no-descriptor-result.json";
-  private static final String METADATA_WITHOUT_INPUT_FAILURE_JSON = "metadata/failure-no-dynamic-metadata-available.json";
+  private static final String METADATA_RESULT_FAILURE_JSON = "/metadata/failure-result.json";
+  private static final String METADATA_RESULT_FAILURE_NO_DESCRIPTOR_JSON = "/metadata/failure-no-descriptor-result.json";
+  private static final String METADATA_WITHOUT_INPUT_FAILURE_JSON = "/metadata/failure-no-dynamic-metadata-available.json";
   private static final String METADATA_RESULT_ERROR_MESSAGE = "Metadata Failure Error";
   private static final String FIRST_ERROR_MESSAGE = "FIRST_ERROR";
   private static final String SECOND_ERROR_MESSAGE = "SECOND_ERROR";
