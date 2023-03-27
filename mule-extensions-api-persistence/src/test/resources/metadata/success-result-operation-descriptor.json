@@ -182,9 +182,7 @@
                             "isInstantiable": false,
                             "isAbstract": true,
                             "isFinal": false,
-                            "implementedInterfaces": [
-                              "java.util.Collection"
-                            ],
+                            "implementedInterfaces": [],
                             "parent": "",
                             "genericTypes": [
                               "org.mule.runtime.extension.api.dsl.model.ExtensibleType"
@@ -339,9 +337,7 @@
                             "isInstantiable": false,
                             "isAbstract": false,
                             "isFinal": true,
-                            "implementedInterfaces": [
-                              "java.lang.Comparable"
-                            ],
+                            "implementedInterfaces": [],
                             "parent": "java.lang.Number",
                             "genericTypes": [],
                             "isMap": false
@@ -370,9 +366,7 @@
                             "isInstantiable": false,
                             "isAbstract": true,
                             "isFinal": false,
-                            "implementedInterfaces": [
-                              "java.util.Collection"
-                            ],
+                            "implementedInterfaces": [],
                             "parent": "",
                             "genericTypes": [
                               "java.lang.Integer"
@@ -390,9 +384,7 @@
                               "isInstantiable": false,
                               "isAbstract": false,
                               "isFinal": true,
-                              "implementedInterfaces": [
-                                "java.lang.Comparable"
-                              ],
+                              "implementedInterfaces": [],
                               "parent": "java.lang.Number",
                               "genericTypes": [],
                               "isMap": false
@@ -464,9 +456,7 @@
                             "isInstantiable": false,
                             "isAbstract": false,
                             "isFinal": true,
-                            "implementedInterfaces": [
-                              "java.lang.Comparable"
-                            ],
+                            "implementedInterfaces": [],
                             "parent": "java.lang.Number",
                             "genericTypes": [],
                             "isMap": false
@@ -554,9 +544,7 @@
                             "isInstantiable": false,
                             "isAbstract": false,
                             "isFinal": true,
-                            "implementedInterfaces": [
-                              "java.lang.Comparable"
-                            ],
+                            "implementedInterfaces": [],
                             "parent": "java.lang.Number",
                             "genericTypes": [],
                             "isMap": false
