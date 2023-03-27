@@ -141,9 +141,7 @@
         <reactive-streams.version>1.0.2</reactive-streams.version>
 
         <muleRevapiExtensionVersion>1.6.0-SNAPSHOT</muleRevapiExtensionVersion>
-
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
-
         <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
 
         <muleBomVersion>4.6.0-SNAPSHOT</muleBomVersion>
