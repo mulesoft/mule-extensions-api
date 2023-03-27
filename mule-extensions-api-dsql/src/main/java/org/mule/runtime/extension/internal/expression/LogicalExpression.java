@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.internal.expression;
 
+import org.mule.runtime.extension.api.dsql.Expression;
+
 /**
  * Marker contract for all logical expressions.
  *

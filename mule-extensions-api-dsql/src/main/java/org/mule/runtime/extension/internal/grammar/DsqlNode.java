@@ -37,8 +37,7 @@ interface DsqlNode {
   String getText();
 
   /**
-   * Parses {@code this} node into a {@link DsqlQuery} element, using the provided
-   * {@link DsqlGrammarVisitor}.
+   * Parses {@code this} node into a {@link DsqlQuery} element, using the provided {@link DsqlGrammarVisitor}.
    *
    * @param visitor an {@link DsqlGrammarVisitor} instance.
    */

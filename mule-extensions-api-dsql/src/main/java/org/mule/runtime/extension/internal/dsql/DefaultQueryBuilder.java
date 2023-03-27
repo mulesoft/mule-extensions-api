@@ -4,16 +4,21 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.dsql;
+package org.mule.runtime.extension.internal.dsql;
 
 
-import org.mule.runtime.extension.internal.expression.Expression;
+import org.mule.runtime.extension.api.dsql.Direction;
+import org.mule.runtime.extension.api.dsql.DsqlQuery;
+import org.mule.runtime.extension.api.dsql.EntityType;
+import org.mule.runtime.extension.api.dsql.Expression;
+import org.mule.runtime.extension.api.dsql.Field;
+import org.mule.runtime.extension.api.dsql.QueryBuilder;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Builder pattern implementation to build {@link DsqlQuery}s incrementally.
+ * Builder pattern implementation to build {@link DefaultDsqlQuery}s incrementally.
  * <p>
  * Intended to be used by Studio/Mozart.
  *
@@ -29,12 +34,12 @@ public class DefaultQueryBuilder implements QueryBuilder {
   /**
    * Fields to be retrieved
    */
-  private List<Field> fields = new LinkedList<>();
+  private final List<Field> fields = new LinkedList<>();
 
   /**
    * Fields for sorting the query
    */
-  private List<Field> orderByFields = new LinkedList<>();
+  private final List<Field> orderByFields = new LinkedList<>();
 
   /**
    * Direction to determine the ascending or descending sorting
@@ -144,6 +149,6 @@ public class DefaultQueryBuilder implements QueryBuilder {
       fields.add(new Field("*"));
     }
 
-    return new DsqlQuery(type, fields, orderByFields, direction, filterExpression, limit, offset);
+    return new DefaultDsqlQuery(type, fields, orderByFields, direction, filterExpression, limit, offset);
   }
 }

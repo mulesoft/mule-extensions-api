@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.expression;
 
+import org.mule.runtime.extension.api.dsql.Expression;
 import org.mule.runtime.extension.api.dsql.Field;
 import org.mule.runtime.extension.api.dsql.QueryTranslator;
 import org.mule.runtime.extension.api.dsql.Value;
@@ -24,9 +25,9 @@ public class FieldComparison extends Expression {
     this.value = value;
   }
 
-  private Field field;
-  private BinaryOperator operator;
-  private Value value;
+  private final Field field;
+  private final BinaryOperator operator;
+  private final Value value;
 
   public Field getField() {
     return field;

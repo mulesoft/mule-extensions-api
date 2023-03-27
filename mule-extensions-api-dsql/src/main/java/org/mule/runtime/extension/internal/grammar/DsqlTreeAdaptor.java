@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.grammar;
 
 
 
-import org.mule.runtime.extension.internal.MuleDsqlParser;
+import org.mule.runtime.extension.internal.dsql.MuleDsqlParser;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;

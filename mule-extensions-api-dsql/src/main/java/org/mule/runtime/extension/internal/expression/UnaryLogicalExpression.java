@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.internal.expression;
 
+import org.mule.runtime.extension.api.dsql.Expression;
+
 /**
  * Base class for unary expressions.
  *

@@ -7,12 +7,14 @@
 /**
  *
  */
-package org.mule.runtime.extension.api.dsql;
+package org.mule.runtime.extension.internal.dsql;
 
 
 import org.mule.runtime.extension.internal.value.BooleanValue;
 import org.mule.runtime.extension.internal.value.DateTimeValue;
 import org.mule.runtime.extension.internal.value.DateValue;
+import org.mule.runtime.extension.api.dsql.DsqlParser;
+import org.mule.runtime.extension.api.dsql.DsqlQuery;
 import org.mule.runtime.extension.internal.expression.FieldComparison;
 import org.mule.runtime.extension.internal.value.IdentifierValue;
 import org.mule.runtime.extension.internal.value.IntegerValue;

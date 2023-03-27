@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.dsql;
+package org.mule.runtime.extension.internal.dsql;
 
 import static org.junit.Assert.assertEquals;
 import org.mule.runtime.extension.internal.operator.EqualsOperator;
