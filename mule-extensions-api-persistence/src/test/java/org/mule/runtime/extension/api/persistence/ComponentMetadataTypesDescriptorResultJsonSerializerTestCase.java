@@ -6,9 +6,6 @@
  */
 package org.mule.runtime.extension.api.persistence;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;
-import static org.junit.Assert.assertThat;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.metadata.descriptor.ParameterMetadataDescriptor.builder;
@@ -16,6 +13,11 @@ import static org.mule.runtime.api.metadata.resolving.FailureCode.UNKNOWN;
 import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.newFailure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.text.IsEqualCompressingWhiteSpace.equalToCompressingWhiteSpace;
+import static org.junit.Assert.assertThat;
+
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.impl.DefaultStringType;
@@ -28,12 +30,13 @@ import org.mule.runtime.api.metadata.resolving.MetadataFailure;
 import org.mule.runtime.api.metadata.resolving.MetadataResult;
 import org.mule.runtime.extension.api.persistence.metadata.ComponentMetadataTypesDescriptorResultJsonSerializer;
 
-import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
+
+import org.hamcrest.collection.IsCollectionWithSize;
 
 public class ComponentMetadataTypesDescriptorResultJsonSerializerTestCase {
 
-  private ComponentMetadataTypesDescriptorResultJsonSerializer serializer =
+  private final ComponentMetadataTypesDescriptorResultJsonSerializer serializer =
       new ComponentMetadataTypesDescriptorResultJsonSerializer(false, true);
 
   @Test
@@ -119,7 +122,7 @@ public class ComponentMetadataTypesDescriptorResultJsonSerializerTestCase {
   }
 
   static private void assertMetadataTypeEquals(String expected, MetadataType actual) {
-    assertThat(expected, equalToIgnoringWhiteSpace(toText(actual)));
+    assertThat(expected, equalToCompressingWhiteSpace(toText(actual)));
   }
 
   static String toText(MetadataType metadataType) {
