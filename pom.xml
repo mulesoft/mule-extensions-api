@@ -120,7 +120,7 @@
         <metadataModelApiVersion>1.6.0-SNAPSHOT</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.5.0-SNAPSHOT</muleModuleMavenPluginVersion>
         <junitVersion>4.12</junitVersion>
-        <hamcrestVersion>1.3</hamcrestVersion>
+        <hamcrestVersion>2.2</hamcrestVersion>
         <mockitoVersion>4.11.0</mockitoVersion>
         <aspectjVersion>1.9.2</aspectjVersion>
         <allureJunitVersion>2.8.1</allureJunitVersion>
