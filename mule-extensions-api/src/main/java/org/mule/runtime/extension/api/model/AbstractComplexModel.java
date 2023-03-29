@@ -183,4 +183,14 @@ public abstract class AbstractComplexModel extends AbstractNamedImmutableModel
   public boolean isDeprecated() {
     return deprecationModel != null;
   }
+
+  @Override
+  public String toString() {
+    return "AbstractComplexModel{" +
+        "operations=" + operations +
+        ", connectionProviders=" + connectionProviders +
+        ", messageSources=" + messageSources +
+        ", deprecationModel=" + deprecationModel +
+        "} " + super.toString();
+  }
 }

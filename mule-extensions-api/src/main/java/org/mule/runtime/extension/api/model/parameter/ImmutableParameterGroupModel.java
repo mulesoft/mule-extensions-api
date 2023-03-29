@@ -97,4 +97,13 @@ public final class ImmutableParameterGroupModel extends AbstractNamedImmutableMo
     return showInDsl;
   }
 
+  @Override
+  public String toString() {
+    return "ImmutableParameterGroupModel{" +
+        "parameters=" + parameters +
+        ", exclusiveParametersModels=" + exclusiveParametersModels +
+        ", layoutModel=" + layoutModel +
+        ", showInDsl=" + showInDsl +
+        "} " + super.toString();
+  }
 }

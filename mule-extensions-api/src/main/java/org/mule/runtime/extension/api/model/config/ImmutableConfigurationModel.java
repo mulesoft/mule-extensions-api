@@ -171,4 +171,14 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
   public Optional<MuleVersion> getMinMuleVersion() {
     return ofNullable(minMuleVersion);
   }
+
+  @Override
+  public String toString() {
+    return "ImmutableConfigurationModel{" +
+        "stereotype=" + stereotype +
+        ", parameterGroupModels=" + parameterGroupModels +
+        ", externalLibraryModels=" + externalLibraryModels +
+        ", minMuleVersion=" + minMuleVersion +
+        "} " + super.toString();
+  }
 }

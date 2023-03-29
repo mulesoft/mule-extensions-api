@@ -53,4 +53,11 @@ public abstract class AbstractParameterizedModel extends AbstractNamedImmutableM
     }
     return parameterGroupModels;
   }
+
+  @Override
+  public String toString() {
+    return "AbstractParameterizedModel{" +
+        "parameterGroupModels=" + parameterGroupModels +
+        "} " + super.toString();
+  }
 }

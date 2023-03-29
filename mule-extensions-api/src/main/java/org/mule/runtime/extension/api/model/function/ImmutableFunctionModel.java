@@ -126,4 +126,13 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
   public Optional<MuleVersion> getMinMuleVersion() {
     return ofNullable(minMuleVersion);
   }
+
+  @Override
+  public String toString() {
+    return "ImmutableFunctionModel{" +
+        "output=" + output +
+        ", deprecationModel=" + deprecationModel +
+        ", minMuleVersion=" + minMuleVersion +
+        "} " + super.toString();
+  }
 }

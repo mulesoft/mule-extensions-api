@@ -163,4 +163,12 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
   public Optional<Integer> getMaxOccurs() {
     return ofNullable(maxOccurs);
   }
+
+  @Override
+  public String toString() {
+    return "ImmutableNestedRouteModel{" +
+        "minOccurs=" + minOccurs +
+        ", maxOccurs=" + maxOccurs +
+        "} " + super.toString();
+  }
 }

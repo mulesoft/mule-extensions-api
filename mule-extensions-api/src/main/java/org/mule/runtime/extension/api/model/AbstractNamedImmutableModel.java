@@ -7,11 +7,11 @@
 package org.mule.runtime.extension.api.model;
 
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import org.mule.runtime.api.meta.NamedObject;
-import org.mule.runtime.api.meta.model.display.HasDisplayModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
+import org.mule.runtime.api.meta.model.display.HasDisplayModel;
 
 import java.util.Optional;
 import java.util.Set;
@@ -92,7 +92,9 @@ public abstract class AbstractNamedImmutableModel extends AbstractImmutableModel
 
   @Override
   public String toString() {
-    return reflectionToString(this);
+    return "AbstractNamedImmutableModel{" +
+        "name='" + name + '\'' +
+        ", displayModel=" + displayModel +
+        "} " + super.toString();
   }
-
 }

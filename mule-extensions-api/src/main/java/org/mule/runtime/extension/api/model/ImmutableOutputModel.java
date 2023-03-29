@@ -46,4 +46,11 @@ public class ImmutableOutputModel extends AbstractImmutableModel implements Outp
     return hasDynamicType;
   }
 
+  @Override
+  public String toString() {
+    return "ImmutableOutputModel{" +
+        "type=" + type +
+        ", hasDynamicType=" + hasDynamicType +
+        "} " + super.toString();
+  }
 }

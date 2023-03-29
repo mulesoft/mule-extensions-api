@@ -89,4 +89,13 @@ public abstract class AbstractStereotypedModel extends AbstractParameterizedMode
   public Optional<MuleVersion> getMinMuleVersion() {
     return ofNullable(minMuleVersion);
   }
+
+  @Override
+  public String toString() {
+    return "AbstractStereotypedModel{" +
+        "stereotype=" + stereotype +
+        ", deprecationModel=" + deprecationModel +
+        ", minMuleVersion=" + minMuleVersion +
+        "} " + super.toString();
+  }
 }

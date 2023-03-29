@@ -377,4 +377,16 @@ public abstract class AbstractExecutableComponentModel extends AbstractComponent
     return ofNullable(sampleDataProviderModel);
   }
 
+  @Override
+  public String toString() {
+    return "AbstractExecutableComponentModel{" +
+        "output=" + output +
+        ", outputAttributes=" + outputAttributes +
+        ", transactional=" + transactional +
+        ", requiresConnection=" + requiresConnection +
+        ", supportsStreaming=" + supportsStreaming +
+        ", notifications=" + notifications +
+        ", sampleDataProviderModel=" + sampleDataProviderModel +
+        "} " + super.toString();
+  }
 }
