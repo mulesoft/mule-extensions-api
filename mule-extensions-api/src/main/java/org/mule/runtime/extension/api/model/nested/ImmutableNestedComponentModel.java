@@ -205,4 +205,14 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
   public void accept(NestableElementModelVisitor visitor) {
     visitor.visit(this);
   }
+
+  @Override
+  public String toString() {
+    return "ImmutableNestedComponentModel{" +
+        "isRequired=" + isRequired +
+        ", allowedStereotypes=" + allowedStereotypes +
+        ", minOccurs=" + minOccurs +
+        ", maxOccurs=" + maxOccurs +
+        "} " + super.toString();
+  }
 }

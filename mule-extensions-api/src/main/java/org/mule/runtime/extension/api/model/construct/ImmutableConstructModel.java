@@ -164,4 +164,10 @@ public class ImmutableConstructModel extends AbstractComponentModel implements C
     return allowsTopLevelDefinition;
   }
 
+  @Override
+  public String toString() {
+    return "ImmutableConstructModel{" +
+        "allowsTopLevelDefinition=" + allowsTopLevelDefinition +
+        "} " + super.toString();
+  }
 }

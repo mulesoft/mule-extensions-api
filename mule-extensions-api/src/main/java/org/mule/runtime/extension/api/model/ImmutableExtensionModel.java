@@ -602,4 +602,28 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
 
     return component;
   }
+
+  @Override
+  public String toString() {
+    return "ImmutableExtensionModel{" +
+        "vendor='" + vendor + '\'' +
+        ", version='" + version + '\'' +
+        ", category=" + category +
+        ", configurations=" + configurations +
+        ", constructModels=" + constructModels +
+        ", functions=" + functions +
+        ", privilegedPackages=" + privilegedPackages +
+        ", privilegedArtifacts=" + privilegedArtifacts +
+        ", errors=" + errors +
+        ", types=" + types +
+        ", resources=" + resources +
+        ", xmlDslModel=" + xmlDslModel +
+        ", subTypes=" + subTypes +
+        ", importedTypes=" + importedTypes +
+        ", externalLibraries=" + externalLibraries +
+        ", notifications=" + notifications +
+        ", artifactCoordinates=" + artifactCoordinates +
+        ", minMuleVersion=" + minMuleVersion +
+        "} " + super.toString();
+  }
 }

@@ -205,4 +205,14 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
   public ComponentVisibility getVisibility() {
     return visibility;
   }
+
+  @Override
+  public String toString() {
+    return "AbstractComponentModel{" +
+        "nestedComponents=" + nestedComponents +
+        ", errors=" + errors +
+        ", semanticTerms=" + semanticTerms +
+        ", visibility=" + visibility +
+        "} " + super.toString();
+  }
 }

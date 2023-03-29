@@ -395,4 +395,15 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
   public boolean runsOnPrimaryNodeOnly() {
     return runsOnPrimaryNodeOnly;
   }
+
+  @Override
+  public String toString() {
+    return "ImmutableSourceModel{" +
+        "hasResponse=" + hasResponse +
+        ", runsOnPrimaryNodeOnly=" + runsOnPrimaryNodeOnly +
+        ", successCallback=" + successCallback +
+        ", errorCallback=" + errorCallback +
+        ", terminateCallbackModel=" + terminateCallbackModel +
+        "} " + super.toString();
+  }
 }

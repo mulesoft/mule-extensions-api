@@ -197,4 +197,13 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
     return semanticTerms;
   }
 
+  @Override
+  public String toString() {
+    return "ImmutableConnectionProviderModel{" +
+        "connectionManagementType=" + connectionManagementType +
+        ", externalLibraryModels=" + externalLibraryModels +
+        ", supportsConnectivityTesting=" + supportsConnectivityTesting +
+        ", semanticTerms=" + semanticTerms +
+        "} " + super.toString();
+  }
 }
