@@ -10,6 +10,7 @@ import static java.util.Objects.hash;
 
 import org.mule.metadata.api.annotation.TypeAnnotation;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -87,15 +88,16 @@ public class TypeDslAnnotation implements TypeAnnotation {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof TypeDslAnnotation) {
-      TypeDslAnnotation other = (TypeDslAnnotation) obj;
-      return allowInlineDefinition == other.allowsInlineDefinition() &&
-          allowTopLevelDefinition == other.allowsTopLevelDefinition()
-          && Optional.ofNullable(substitutionGroup) == other.getSubstitutionGroup()
-          && Optional.ofNullable(dslBaseType) == other.getDslBaseType();
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    return false;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TypeDslAnnotation that = (TypeDslAnnotation) o;
+    return allowInlineDefinition == that.allowInlineDefinition && allowTopLevelDefinition == that.allowTopLevelDefinition
+        && Objects.equals(substitutionGroup, that.substitutionGroup) && Objects.equals(dslBaseType,
+                                                                                       that.dslBaseType);
   }
-
 }
