@@ -96,8 +96,9 @@ public class TypeDslAnnotation implements TypeAnnotation {
       return false;
     }
     TypeDslAnnotation that = (TypeDslAnnotation) o;
-    return allowInlineDefinition == that.allowInlineDefinition && allowTopLevelDefinition == that.allowTopLevelDefinition
-        && Objects.equals(substitutionGroup, that.substitutionGroup) && Objects.equals(dslBaseType,
-                                                                                       that.dslBaseType);
+    return allowInlineDefinition == that.allowInlineDefinition
+        && allowTopLevelDefinition == that.allowTopLevelDefinition
+        && Objects.equals(substitutionGroup, that.substitutionGroup)
+        && Objects.equals(dslBaseType, that.dslBaseType);
   }
 }
