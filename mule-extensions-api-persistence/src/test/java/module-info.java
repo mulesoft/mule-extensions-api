@@ -24,5 +24,6 @@ module org.mule.runtime.extensions.api.persistence.test {
   requires net.bytebuddy.agent;
 
   exports org.mule.runtime.extension.api.persistence.test to
-      junit;
+      junit,
+      com.google.gson;
 }

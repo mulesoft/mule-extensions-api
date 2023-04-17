@@ -102,6 +102,8 @@ import org.apache.commons.io.IOUtils;
 
 import org.junit.Before;
 
+import org.skyscreamer.jsonassert.JSONAssert;
+
 abstract class BasePersistenceTestCase {
 
   protected static final String SERIALIZED_EXTENSION_MODEL_JSON = "/extension/serialized-extension-model.json";
@@ -351,15 +353,14 @@ abstract class BasePersistenceTestCase {
   }
 
   void assertSerializedJson(String serializedResult, String expectedFileName, boolean strict) throws IOException {
-    // TODO W-12732035: uncomment this
-    // String expected = getResourceAsString(expectedFileName);
-    // try {
-    // JSONAssert.assertEquals(expected, serializedResult, strict);
-    // } catch (AssertionError e) {
-    // System.out.println("Expected the contents of " + expectedFileName + " but got:\n" + serializedResult);
-    //
-    // throw e;
-    // }
+    String expected = getResourceAsString(expectedFileName);
+    try {
+      JSONAssert.assertEquals(expected, serializedResult, strict);
+    } catch (AssertionError e) {
+      System.out.println("Expected the contents of " + expectedFileName + " but got:\n" + serializedResult);
+
+      throw e;
+    }
   }
 
   public static class NonExternalizableModelProperty implements ModelProperty {

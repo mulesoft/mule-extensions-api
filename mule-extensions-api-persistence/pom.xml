@@ -95,14 +95,11 @@
             <artifactId>mule-metadata-model-json</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- TODO W-12732035: replace with a skyscreamer version that addresses split packages -->
-        <!--
         <dependency>
             <groupId>org.mule.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
             <version>${jsonassert.version}</version>
             <scope>test</scope>
         </dependency>
-        -->
     </dependencies>
 </project>

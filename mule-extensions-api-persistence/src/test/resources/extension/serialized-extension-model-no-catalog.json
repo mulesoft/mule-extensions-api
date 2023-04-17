@@ -91,7 +91,7 @@
       "displayModel": {},
       "description": "Obtains a car",
       "modelProperties": {
-        "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
+        "org.mule.runtime.extension.api.persistence.test.BasePersistenceTestCase$ExternalizableModelProperty": {}
       },
       "kind": "operation"
     }

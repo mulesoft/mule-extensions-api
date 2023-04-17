@@ -59,6 +59,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.skyscreamer.jsonassert.JSONAssert;
+
 public class LoadAndSerializeXmlExtensionModelsTestCase {
 
   public static final String SCHEMAS_GET_JOB_JSON = "/schemas/greenhouse-get-job.json";
@@ -119,8 +121,7 @@ public class LoadAndSerializeXmlExtensionModelsTestCase {
     ExtensionModel externalModel = extensionModelJsonSerializer.deserialize(external);
     String serializedResult = extensionModelJsonSerializer.serialize(externalModel);
 
-    // TODO W-12732035: uncomment this
-    // JSONAssert.assertEquals(external, serializedResult, true);
+    JSONAssert.assertEquals(external, serializedResult, true);
   }
 
   @Test

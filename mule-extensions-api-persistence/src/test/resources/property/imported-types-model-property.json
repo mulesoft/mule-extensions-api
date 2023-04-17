@@ -5,7 +5,7 @@
         "format": "java",
         "type": "Object",
         "annotations": {
-          "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexFieldsType",
+          "typeId": "org.mule.runtime.extension.api.persistence.test.model.ComplexFieldsType",
           "classInformation": {
             "hasDefaultConstructor": true,
             "isInterface": false,
@@ -34,7 +34,7 @@
               "item": {
                 "type": "Object",
                 "annotations": {
-                  "typeId": "org.mule.runtime.extension.api.persistence.model.ExtensibleType",
+                  "typeId": "org.mule.runtime.extension.api.persistence.test.model.ExtensibleType",
                   "classInformation": {
                     "hasDefaultConstructor": true,
                     "isInterface": false,
@@ -113,7 +113,7 @@
               "required": "true",
               "type": "Object",
               "annotations": {
-                "typeId": "org.mule.runtime.extension.api.persistence.model.SimpleFieldsType",
+                "typeId": "org.mule.runtime.extension.api.persistence.test.model.SimpleFieldsType",
                 "classInformation": {
                   "hasDefaultConstructor": true,
                   "isInterface": false,
@@ -184,7 +184,7 @@
               "required": "true",
               "type": "Object",
               "annotations": {
-                "typeId": "org.mule.runtime.extension.api.persistence.model.NotGlobalType",
+                "typeId": "org.mule.runtime.extension.api.persistence.test.model.NotGlobalType",
                 "classInformation": {
                   "hasDefaultConstructor": true,
                   "isInterface": false,
@@ -238,7 +238,7 @@
               "required": "true",
               "type": "Object",
               "annotations": {
-                "typeId": "org.mule.runtime.extension.api.persistence.model.ParameterGroupType",
+                "typeId": "org.mule.runtime.extension.api.persistence.test.model.ParameterGroupType",
                 "classInformation": {
                   "hasDefaultConstructor": true,
                   "isInterface": false,
@@ -306,7 +306,7 @@
               "required": "true",
               "type": "Object",
               "annotations": {
-                "typeId": "org.mule.runtime.extension.api.persistence.model.ComplexTypeFieldGroup",
+                "typeId": "org.mule.runtime.extension.api.persistence.test.model.ComplexTypeFieldGroup",
                 "classInformation": {
                   "hasDefaultConstructor": true,
                   "isInterface": false,
