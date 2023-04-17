@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.api.persistence.test;
 
 import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
 
@@ -41,7 +41,9 @@ import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import org.apache.commons.io.IOUtils;
+
 import org.junit.Test;
 
 public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
@@ -117,7 +119,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   @Test
   public void validateJsonStructureWithoutOccurencesInNestedElements() throws IOException {
     ExtensionModel extensionModel = extensionModelJsonSerializer
-        .deserialize(getResourceAsString("extension/serialized-extension-model-without-nested-occurs.json"));
+        .deserialize(getResourceAsString("/extension/serialized-extension-model-without-nested-occurs.json"));
     String serializedModel = extensionModelJsonSerializer.serialize(extensionModel);
     assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON, false);
   }
@@ -151,9 +153,8 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
 
   @Test
   public void assertDeserializationOfExtensionModelWithNoTypes() throws IOException {
-    String serializedExtensionModelWithNoTypes = IOUtils
-        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(
-                                                                                     SERIALIZED_EXTENSION_MODEL_JSON_NO_CATALOG));
+    String serializedExtensionModelWithNoTypes =
+        IOUtils.toString(this.getClass().getResourceAsStream(SERIALIZED_EXTENSION_MODEL_JSON_NO_CATALOG));
     ExtensionModel deserializedModel = extensionModelJsonSerializer.deserialize(serializedExtensionModelWithNoTypes);
     String serializedModel = extensionModelJsonSerializer.serialize(deserializedModel);
 

@@ -752,7 +752,7 @@
       "displayModel": {},
       "description": "Obtains a car",
       "modelProperties": {
-        "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExternalizableModelProperty": {}
+        "org.mule.runtime.extension.api.persistence.test.BasePersistenceTestCase$ExternalizableModelProperty": {}
       },
       "kind": "operation"
     }
@@ -1990,7 +1990,7 @@
       "annotations": {
         "typeId": "test.package.ExportedClass",
         "classInformation": {
-          "classname": "org.mule.runtime.extension.api.persistence.BasePersistenceTestCase$ExportedClass",
+          "classname": "org.mule.runtime.extension.api.persistence.test.BasePersistenceTestCase$ExportedClass",
           "hasDefaultConstructor": true,
           "isInterface": false,
           "isInstantiable": true,

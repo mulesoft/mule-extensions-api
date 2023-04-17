@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.api.persistence.test;
 
 import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 
@@ -23,7 +23,7 @@ import org.junit.Test;
 
 public class OperationMetadataResultPersistenceTestCase extends AbstractMetadataPersistenceTestCase {
 
-  private static final String METADATA_OPERATION_RESULT_JSON = "metadata/success-result-operation-descriptor.json";
+  private static final String METADATA_OPERATION_RESULT_JSON = "/metadata/success-result-operation-descriptor.json";
 
   private ComponentMetadataDescriptor<OperationModel> operationMetadataDescriptor;
   private final ComponentResultJsonSerializer<OperationModel> metadataDescriptorSerializer =

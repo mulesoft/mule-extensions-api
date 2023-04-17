@@ -1,3 +1,4 @@
 upstreamProjects:
   Mule-runtime/mule-api/master
 projectType: runtime
+jdkTool: OPEN-JDK17

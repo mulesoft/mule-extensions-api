@@ -4,9 +4,10 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.api.persistence.test;
 
 import static java.util.Arrays.asList;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +23,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import org.apache.commons.io.IOUtils;
+
 import org.junit.Test;
 
 public class SampleDataPersistenceTestCase {
@@ -32,8 +35,8 @@ public class SampleDataPersistenceTestCase {
                                          buildActingParameterModel("param3", false)),
                                   "sample data", true, true);
 
-  private JsonParser jsonParser = new JsonParser();
-  private Gson gson = new GsonBuilder()
+  private final JsonParser jsonParser = new JsonParser();
+  private final Gson gson = new GsonBuilder()
       .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(ActingParameterModel.class,
                                                                                 ImmutableActingParameterModel.class))
       .create();
@@ -41,14 +44,14 @@ public class SampleDataPersistenceTestCase {
   @Test
   public void serializeSampleDataProvider() throws IOException {
     JsonElement serialized = gson.toJsonTree(SAMPLE_DATA_PERSISTENCE_MODEL);
-    JsonElement expected = loadAsJson("data/sample/sample-data-provider-model.json");
+    JsonElement expected = loadAsJson("/data/sample/sample-data-provider-model.json");
     assertThat(serialized, is(expected));
   }
 
   @Test
   public void deserializedPartModelProperty() throws IOException {
     SampleDataProviderModel model =
-        gson.fromJson(loadAsJson("data/sample/sample-data-provider-model.json"), SampleDataProviderModel.class);
+        gson.fromJson(loadAsJson("/data/sample/sample-data-provider-model.json"), SampleDataProviderModel.class);
     assertThat(model, equalTo(SAMPLE_DATA_PERSISTENCE_MODEL));
   }
 
@@ -57,8 +60,7 @@ public class SampleDataPersistenceTestCase {
   }
 
   private String loadAsString(String name) throws IOException {
-    return IOUtils
-        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(name));
+    return IOUtils.toString(this.getClass().getResourceAsStream(name));
   }
 
   private static ActingParameterModel buildActingParameterModel(String name, boolean required) {

@@ -4,7 +4,14 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.api.persistence.test;
+
+import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
+import static org.mule.runtime.api.metadata.resolving.FailureCode.CONNECTION_FAILURE;
+import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED;
+import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.newFailure;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
+import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -12,12 +19,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEmptyString.isEmptyString;
 import static org.mockito.Mockito.mock;
-import static org.mule.runtime.api.metadata.MetadataKeyBuilder.newKey;
-import static org.mule.runtime.api.metadata.resolving.FailureCode.CONNECTION_FAILURE;
-import static org.mule.runtime.api.metadata.resolving.FailureCode.NOT_AUTHORIZED;
-import static org.mule.runtime.api.metadata.resolving.MetadataFailure.Builder.newFailure;
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.failure;
-import static org.mule.runtime.api.metadata.resolving.MetadataResult.success;
 
 import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataKeyBuilder;
@@ -38,19 +39,21 @@ import java.util.Set;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import org.apache.commons.io.IOUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersistenceTestCase {
 
-  private static final String METADATA_KEYS_RESULT_JSON = "metadata/success-result-keys.json";
-  private static final String NULL_METADATA_KEYS_RESULT_JSON = "metadata/success-result-null-keys.json";
-  private static final String NULL_VALUE_METADATA_KEYS_RESULT_JSON = "metadata/success-result-null-value-keys.json";
-  private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "metadata/success-result-multilevel-keys.json";
-  private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "metadata/failure-keys-result.json";
-  private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "metadata/failure-entity-result.json";
-  private static final String METADATA_MULTI_LEVEL_KEY_RESULT_JSON = "metadata/multi-level-key-result.json";
+  private static final String METADATA_KEYS_RESULT_JSON = "/metadata/success-result-keys.json";
+  private static final String NULL_METADATA_KEYS_RESULT_JSON = "/metadata/success-result-null-keys.json";
+  private static final String NULL_VALUE_METADATA_KEYS_RESULT_JSON = "/metadata/success-result-null-value-keys.json";
+  private static final String METADATA_MULTILEVEL_KEYS_RESULT_JSON = "/metadata/success-result-multilevel-keys.json";
+  private static final String METADATA_KEYS_RESULT_FAILURE_JSON = "/metadata/failure-keys-result.json";
+  private static final String METADATA_ENTITY_RESULT_FAILURE_JSON = "/metadata/failure-entity-result.json";
+  private static final String METADATA_MULTI_LEVEL_KEY_RESULT_JSON = "/metadata/multi-level-key-result.json";
 
   private static final String FIRST_KEY_ID = "firstKey";
   private static final String SECOND_KEY_ID = "secondKey";
@@ -59,7 +62,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
   private static final String SECOND_CHILD = "secondChild";
   private static final String THIRD_LEVEL_CHILD = "3rd Level Child";
 
-  private MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
+  private final MetadataKeysResultJsonSerializer keysResultSerializer = new MetadataKeysResultJsonSerializer(true);
   private final EntityMetadataResultJsonSerializer typeDescriptorResultJsonSerializer =
       new EntityMetadataResultJsonSerializer(true);
   private MetadataKeysContainerBuilder builder = MetadataKeysContainerBuilder.getInstance();
@@ -74,8 +77,7 @@ public class MetadataKeyResultPersistenceTestCase extends AbstractMetadataPersis
 
   @Test
   public void multiLevelLoadAndSerialize() throws Exception {
-    String keys = IOUtils
-        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(METADATA_MULTI_LEVEL_KEY_RESULT_JSON));
+    String keys = IOUtils.toString(this.getClass().getResourceAsStream(METADATA_MULTI_LEVEL_KEY_RESULT_JSON));
 
     assertLoadAndSerialize(keys);
   }

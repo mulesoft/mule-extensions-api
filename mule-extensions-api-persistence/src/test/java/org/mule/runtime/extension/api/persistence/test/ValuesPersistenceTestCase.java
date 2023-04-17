@@ -4,14 +4,16 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.persistence;
+package org.mule.runtime.extension.api.persistence.test;
+
+import static org.mule.runtime.api.value.ValueResult.resultFrom;
+import static org.mule.runtime.extension.api.values.ValueBuilder.newValue;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mule.runtime.api.value.ValueResult.resultFrom;
-import static org.mule.runtime.extension.api.values.ValueBuilder.newValue;
 
 import org.mule.runtime.api.meta.model.parameter.ActingParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ValueProviderModel;
@@ -22,15 +24,18 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableActingParameterMo
 import org.mule.runtime.extension.api.persistence.value.ValueResultJsonSerializer;
 import org.mule.runtime.extension.api.values.ImmutableValue;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
+
+import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
 
-import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+
+import org.junit.Test;
 
 public class ValuesPersistenceTestCase {
 
@@ -45,9 +50,9 @@ public class ValuesPersistenceTestCase {
                              "Category 1", "Id 1");
   private static final ValueResult MULTI_LEVEL_VALUE_RESULT = resultFrom(singleton(MULTI_LEVEL_VALUE));
 
-  private JsonParser jsonParser = new JsonParser();
-  private ValueResultJsonSerializer valueResultJsonSerializer = new ValueResultJsonSerializer();
-  private Gson gson = new GsonBuilder()
+  private final JsonParser jsonParser = new JsonParser();
+  private final ValueResultJsonSerializer valueResultJsonSerializer = new ValueResultJsonSerializer();
+  private final Gson gson = new GsonBuilder()
       .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(Value.class, ImmutableValue.class))
       .registerTypeAdapterFactory(new DefaultImplementationTypeAdapterFactory<>(ActingParameterModel.class,
                                                                                 ImmutableActingParameterModel.class))
@@ -56,51 +61,51 @@ public class ValuesPersistenceTestCase {
   @Test
   public void serializePartModelProperty() throws IOException {
     JsonElement serialized = gson.toJsonTree(VALUE_PROVIDER_MODEL);
-    JsonElement expected = loadAsJson("values/values-provider-model.json");
+    JsonElement expected = loadAsJson("/values/values-provider-model.json");
     assertThat(serialized, is(expected));
   }
 
   @Test
   public void deserializedPartModelProperty() throws IOException {
     ValueProviderModel valueProviderModel =
-        gson.fromJson(loadAsJson("values/values-provider-model.json"), ValueProviderModel.class);
+        gson.fromJson(loadAsJson("/values/values-provider-model.json"), ValueProviderModel.class);
     assertThat(valueProviderModel, is(VALUE_PROVIDER_MODEL));
   }
 
   @Test
   public void serializeValuesResult() throws IOException {
     JsonElement serialized = gson.toJsonTree(MULTI_LEVEL_VALUE);
-    JsonElement expected = loadAsJson("values/values.json");
+    JsonElement expected = loadAsJson("/values/values.json");
     assertThat(serialized, is(expected));
   }
 
   @Test
   public void deserializeValuesResult() throws IOException {
-    Value values = gson.fromJson(loadAsJson("values/values.json"), new TypeToken<Value>() {}.getType());
+    Value values = gson.fromJson(loadAsJson("/values/values.json"), new TypeToken<Value>() {}.getType());
     assertThat(MULTI_LEVEL_VALUE, is(values));
   }
 
   @Test
   public void deserializeMultiLevelValueResult() throws IOException {
-    ValueResult deserialize = valueResultJsonSerializer.deserialize(loadAsString("values/multi-level-value-result.json"));
+    ValueResult deserialize = valueResultJsonSerializer.deserialize(loadAsString("/values/multi-level-value-result.json"));
     assertThat(deserialize, is(MULTI_LEVEL_VALUE_RESULT));
   }
 
   @Test
   public void serializeMultiLevelValueResult() throws IOException {
     String serialize = valueResultJsonSerializer.serialize(MULTI_LEVEL_VALUE_RESULT);
-    assertThat(jsonParser.parse(serialize), is(loadAsJson("values/multi-level-value-result.json")));
+    assertThat(jsonParser.parse(serialize), is(loadAsJson("/values/multi-level-value-result.json")));
   }
 
   @Test
   public void serializeFailureValueResult() throws IOException {
     String serialize = valueResultJsonSerializer.serialize(FAILURE_VALUE_RESULT);
-    assertThat(jsonParser.parse(serialize), is(loadAsJson("values/failure-value-result.json")));
+    assertThat(jsonParser.parse(serialize), is(loadAsJson("/values/failure-value-result.json")));
   }
 
   @Test
   public void deserializeFailureValueResult() throws IOException {
-    ValueResult deserialize = valueResultJsonSerializer.deserialize(loadAsString("values/failure-value-result.json"));
+    ValueResult deserialize = valueResultJsonSerializer.deserialize(loadAsString("/values/failure-value-result.json"));
     assertThat(deserialize, is(FAILURE_VALUE_RESULT));
   }
 
@@ -109,8 +114,7 @@ public class ValuesPersistenceTestCase {
   }
 
   private String loadAsString(String name) throws IOException {
-    return IOUtils
-        .toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(name));
+    return IOUtils.toString(this.getClass().getResourceAsStream(name));
   }
 
   private static ActingParameterModel buildActingParameterModel(String name, boolean required) {
