@@ -91,7 +91,8 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.persistence.test;
   exports org.mule.runtime.extension.api.model.deprecated to
       org.mule.runtime.extensions.api.persistence,
-      org.mule.runtime.extensions.api.persistence.test;
+      org.mule.runtime.extensions.api.persistence.test,
+      org.mule.runtime.extension.model;
   exports org.mule.runtime.extension.api.model.function to
       org.mule.runtime.extensions.api.persistence,
       org.mule.runtime.extensions.api.persistence.test;
@@ -99,6 +100,18 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.persistence;
   exports org.mule.runtime.extension.api.model.notification to
       org.mule.runtime.extensions.api.persistence;
+
+  exports org.mule.runtime.extension.internal.dsl.xml to
+      org.mule.runtime.artifact.ast.xmlParser;
+  exports org.mule.runtime.extension.internal.loader to
+      org.mule.runtime.extension.model;
+  exports org.mule.runtime.extension.internal.loader.util to
+      org.mule.runtime.artifact.ast,
+      org.mule.runtime.artifact.ast.serialization,
+      org.mule.runtime.extension.model;
+  exports org.mule.runtime.extension.internal.property to
+      org.mule.runtime.artifact.ast,
+      org.mule.runtime.extension.model;
   
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
