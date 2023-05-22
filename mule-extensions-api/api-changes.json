@@ -3,6 +3,14 @@
     "revapi": {
       "ignore": [
         {
+          "code": "java.class.removed",
+          "old": "interface org.mule.runtime.extension.api.loader.ExtensionModelLoaderProvider",
+          "package": "org.mule.runtime.extension.api.loader",
+          "classSimpleName": "ExtensionModelLoaderProvider",
+          "elementKind": "interface",
+          "justification": "W-13312344: Moved to org.mule.runtime.module.artifact.activation.api.extension.discovery.ExtensionModelLoaderProvider in mule-module-artifact-activation"
+        },
+        {
           "code": "java.annotation.added",
           "old": "interface org.mule.runtime.extension.api.client.OperationParameterizer",
           "new": "interface org.mule.runtime.extension.api.client.OperationParameterizer",
