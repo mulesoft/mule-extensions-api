@@ -379,7 +379,9 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getNotificationModels(),
                                       extensionDeclaration.getDeprecation().orElse(null),
                                       extensionDeclaration.getArtifactCoordinates().orElse(null),
-                                      extensionDeclaration.getMinMuleVersion().orElse(null));
+                                      extensionDeclaration.getMinMuleVersion().orElse(null),
+                                      // TODO: implement
+                                      emptySet());
 
       return extensionModel;
     }

@@ -206,7 +206,9 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        new LinkedHashSet<>(parsedNotifications.values()),
                                        null,
                                        coordinates,
-                                       minMuleVersion);
+                                       minMuleVersion,
+                                       // TODO);
+                                       emptySet());
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {
