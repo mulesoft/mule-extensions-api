@@ -6,7 +6,8 @@
  */
 
 /**
- * test module with the requires clauses needed only for the tests but not the productive code. 
+ * test module with the {@code requires} clauses needed only for the tests but not the productive code.
+ * @since 1.5
  */
 module org.mule.runtime.extensions.api.persistence.test {
   
@@ -22,6 +23,13 @@ module org.mule.runtime.extensions.api.persistence.test {
   requires com.google.gson;
   requires net.bytebuddy;
   requires net.bytebuddy.agent;
+  requires com.google.common;
+
+  requires junit;
+  requires org.hamcrest;
+  requires org.apache.commons.io;
+  requires jsonassert;
+  requires org.mockito;
 
   exports org.mule.runtime.extension.api.persistence.test to
       junit,

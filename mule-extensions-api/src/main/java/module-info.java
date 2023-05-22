@@ -9,7 +9,7 @@
  * API for Mule Extensions to integrate with the Mule Runtime in a decoupled way.
  * 
  * @moduleGraph
- * @since 1.6
+ * @since 1.5
  */
 module org.mule.runtime.extensions.api {
   
@@ -22,6 +22,7 @@ module org.mule.runtime.extensions.api {
   requires java.compiler;
   // Required for using java.beans.Introspector.
   requires java.desktop;
+  requires com.google.common;
   
   // Required for the deprecated org.mule.runtime.extension.api.runtime.operation.ComponentExecutor<T>
   // that has its API defined in terms of org.reactivestreams.Publisher<Object>.

@@ -9,6 +9,8 @@ package org.mule.runtime.extension.api.persistence.test;
 import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
+import static org.mule.runtime.api.meta.JavaVersion.JAVA_11;
+import static org.mule.runtime.api.meta.JavaVersion.JAVA_8;
 import static org.mule.runtime.api.meta.model.ComponentVisibility.PUBLIC;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
@@ -43,6 +45,7 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.json.api.JsonTypeLoader;
+import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
@@ -86,6 +89,7 @@ import org.mule.runtime.extension.api.persistence.test.BasePersistenceTestCase.N
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -303,7 +307,8 @@ abstract class BasePersistenceTestCase {
                                     emptySet(), emptySet(),
                                     of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
                                     externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet(),
-                                    null, null, EXTENSION_MIN_MULE_VERSION);
+                                    null, null, EXTENSION_MIN_MULE_VERSION,
+                                    new LinkedHashSet<>(Arrays.asList(JAVA_8, JAVA_11)));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

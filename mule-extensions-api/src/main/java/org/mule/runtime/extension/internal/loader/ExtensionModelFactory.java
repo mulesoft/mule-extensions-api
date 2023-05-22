@@ -380,8 +380,7 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getDeprecation().orElse(null),
                                       extensionDeclaration.getArtifactCoordinates().orElse(null),
                                       extensionDeclaration.getMinMuleVersion().orElse(null),
-                                      // TODO: implement
-                                      emptySet());
+                                      extensionDeclaration.getSupportedJavaVersions());
 
       return extensionModel;
     }
