@@ -14,7 +14,9 @@ module org.mule.runtime.extensions.api.persistence.test {
   requires org.mule.runtime.extensions.api.persistence;
   
   requires org.mule.runtime.api;
+  requires org.mule.runtime.api.test;
   requires org.mule.runtime.extensions.api;
+  requires org.mule.runtime.extensions.api.test;
   requires org.mule.runtime.metadata.model.api;
   requires org.mule.runtime.metadata.model.java;
   requires org.mule.runtime.metadata.model.json;
