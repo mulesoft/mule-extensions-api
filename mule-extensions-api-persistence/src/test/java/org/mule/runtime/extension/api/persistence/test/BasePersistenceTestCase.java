@@ -45,7 +45,6 @@ import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.java.api.annotation.ClassInformationAnnotation;
 import org.mule.metadata.json.api.JsonTypeLoader;
-import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
@@ -68,7 +67,7 @@ import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantT
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
 import org.mule.runtime.extension.api.declaration.type.DefaultExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
@@ -83,9 +82,6 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.persistence.ExtensionModelJsonSerializer;
-import org.mule.runtime.extension.api.persistence.test.BasePersistenceTestCase.ExportedClass;
-import org.mule.runtime.extension.api.persistence.test.BasePersistenceTestCase.ExternalizableModelProperty;
-import org.mule.runtime.extension.api.persistence.test.BasePersistenceTestCase.NonExternalizableModelProperty;
 
 import java.io.IOException;
 import java.io.InputStream;

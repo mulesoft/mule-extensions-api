@@ -124,10 +124,10 @@
         <hamcrestVersion>2.2</hamcrestVersion>
         <mockitoVersion>4.11.0</mockitoVersion>
         <aspectjVersion>1.9.2</aspectjVersion>
-        <allureJunitVersion>2.21.0</allureJunitVersion>
-        <allureReportVersion>2.21.0</allureReportVersion>
-        <allure.maven.plugin.version>2.9</allure.maven.plugin.version>
-        <jacoco.version>0.8.8</jacoco.version>
+        <allureJunitVersion>2.22.0</allureJunitVersion>
+        <allureReportVersion>2.22.0</allureReportVersion>
+        <allure.maven.plugin.version>2.12.0</allure.maven.plugin.version>
+        <jacoco.version>0.8.10</jacoco.version>
         <javaFormatter.plugin.version>2.14.0</javaFormatter.plugin.version>
         <maven.surefire.plugin.version>3.0.0</maven.surefire.plugin.version>
         <formatterConfigPath>formatter.xml</formatterConfigPath>
@@ -137,7 +137,7 @@
         <revapi-maven-plugin.version>0.9.5</revapi-maven-plugin.version>
         <oldMuleArtifactVersion>1.5.0-SNAPSHOT</oldMuleArtifactVersion>
         <reactive-streams.version>1.0.2</reactive-streams.version>
-
+        <jsonassert.version>1.5.0</jsonassert.version>
         <muleRevapiExtensionVersion>1.6.0-SNAPSHOT</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
@@ -222,6 +222,17 @@
             <version>${allureJunitVersion}</version>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.json</groupId>-->
+<!--            <artifactId>json</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.skyscreamer</groupId>-->
+<!--            <artifactId>jsonassert</artifactId>-->
+<!--            <version>${jsonassert.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -237,6 +248,15 @@
                             <configuration>
                                 <release>11</release>
                                 <!-- no excludes: compile everything to ensure module-info contains right entries -->
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>default-testCompile</id>
+                            <goals>
+                                <goal>testCompile</goal>
+                            </goals>
+                            <configuration>
+                                <release>11</release>
                             </configuration>
                         </execution>
                         <execution>
