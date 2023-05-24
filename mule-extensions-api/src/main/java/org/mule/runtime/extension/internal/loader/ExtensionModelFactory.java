@@ -13,6 +13,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.api.util.MuleSystemProperties.FORCE_EXTENSION_VALIDATION_PROPERTY_NAME;
 import static org.mule.runtime.api.util.MuleSystemProperties.isForceExtensionValidation;
 import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_SUPPORTED_JAVA_VERSIONS;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
@@ -34,6 +35,7 @@ import static com.google.common.collect.ImmutableSet.of;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
+import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -380,9 +382,14 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getDeprecation().orElse(null),
                                       extensionDeclaration.getArtifactCoordinates().orElse(null),
                                       extensionDeclaration.getMinMuleVersion().orElse(null),
-                                      extensionDeclaration.getSupportedJavaVersions());
+                                      resolveSupportedJavaVersions(extensionDeclaration));
 
       return extensionModel;
+    }
+
+    private Set<JavaVersion> resolveSupportedJavaVersions(ExtensionDeclaration declaration) {
+      Set<JavaVersion> versions = declaration.getSupportedJavaVersions();
+      return versions != null && !versions.isEmpty() ? versions : DEFAULT_SUPPORTED_JAVA_VERSIONS;
     }
 
     private List<ConfigurationModel> sortConfigurations(List<ConfigurationModel> configurationModels) {

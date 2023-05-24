@@ -263,7 +263,7 @@ public final class ImmutableParameterModel extends AbstractNamedImmutableModel i
    * @throws IllegalArgumentException if {@code required} is {@code true} and {@code defaultValue} is not {@code null} at the same
    *                                  time
    *
-   * @since 1.6.0
+   * @since 1.5.0
    */
   public ImmutableParameterModel(String name,
                                  String description,

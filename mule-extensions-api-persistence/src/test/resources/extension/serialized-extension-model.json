@@ -4,6 +4,10 @@
   "version": "4.0.0",
   "vendor": "MuleSoft",
   "minMuleVersion": "4.2.0",
+  "supportedJavaVersions": [
+    "JAVA_8",
+    "JAVA_11"
+  ],
   "category": "COMMUNITY",
   "xmlDsl": {
     "prefix": "",
@@ -133,9 +137,9 @@
                 "format": "java",
                 "type": "Object",
                 "annotations": {
-                  "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
+                  "typeId": "org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType",
                   "classInformation": {
-                    "classname": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
+                    "classname": "org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType",
                     "hasDefaultConstructor": true,
                     "isInterface": false,
                     "isInstantiable": true,
@@ -169,7 +173,7 @@
                           "implementedInterfaces": [],
                           "parent": "",
                           "genericTypes": [
-                            "org.mule.runtime.extension.api.dsl.model.ExtensibleType"
+                            "org.mule.runtime.extension.api.test.dsl.model.ExtensibleType"
                           ],
                           "isMap": false
                         }
@@ -177,9 +181,9 @@
                       "item": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
+                          "typeId": "org.mule.runtime.extension.api.test.dsl.model.ExtensibleType",
                           "classInformation": {
-                            "classname": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
+                            "classname": "org.mule.runtime.extension.api.test.dsl.model.ExtensibleType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -315,9 +319,9 @@
                     "model": {
                       "type": "Object",
                       "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
+                        "typeId": "org.mule.runtime.extension.api.test.dsl.model.SimpleFieldsType",
                         "classInformation": {
-                          "classname": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
+                          "classname": "org.mule.runtime.extension.api.test.dsl.model.SimpleFieldsType",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -416,9 +420,9 @@
                     "model": {
                       "type": "Object",
                       "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                        "typeId": "org.mule.runtime.extension.api.test.dsl.model.NotGlobalType",
                         "classInformation": {
-                          "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                          "classname": "org.mule.runtime.extension.api.test.dsl.model.NotGlobalType",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -493,9 +497,9 @@
                     "model": {
                       "type": "Object",
                       "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
+                        "typeId": "org.mule.runtime.extension.api.test.dsl.model.ParameterGroupType",
                         "classInformation": {
-                          "classname": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
+                          "classname": "org.mule.runtime.extension.api.test.dsl.model.ParameterGroupType",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -563,9 +567,9 @@
                     "model": {
                       "type": "Object",
                       "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                        "typeId": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                         "classInformation": {
-                          "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                          "classname": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -610,9 +614,9 @@
                     "model": {
                       "type": "Object",
                       "annotations": {
-                        "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                        "typeId": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                         "classInformation": {
-                          "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                          "classname": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                           "hasDefaultConstructor": true,
                           "isInterface": false,
                           "isInstantiable": true,
@@ -1212,9 +1216,9 @@
                   "format": "java",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
+                    "typeId": "org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType",
                     "classInformation": {
-                      "classname": "org.mule.runtime.extension.api.dsl.model.ComplexFieldsType",
+                      "classname": "org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType",
                       "hasDefaultConstructor": true,
                       "isInterface": false,
                       "isInstantiable": true,
@@ -1248,7 +1252,7 @@
                             "implementedInterfaces": [],
                             "parent": "",
                             "genericTypes": [
-                              "org.mule.runtime.extension.api.dsl.model.ExtensibleType"
+                              "org.mule.runtime.extension.api.test.dsl.model.ExtensibleType"
                             ],
                             "isMap": false
                           }
@@ -1256,9 +1260,9 @@
                         "item": {
                           "type": "Object",
                           "annotations": {
-                            "typeId": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
+                            "typeId": "org.mule.runtime.extension.api.test.dsl.model.ExtensibleType",
                             "classInformation": {
-                              "classname": "org.mule.runtime.extension.api.dsl.model.ExtensibleType",
+                              "classname": "org.mule.runtime.extension.api.test.dsl.model.ExtensibleType",
                               "hasDefaultConstructor": true,
                               "isInterface": false,
                               "isInstantiable": true,
@@ -1394,9 +1398,9 @@
                       "model": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
+                          "typeId": "org.mule.runtime.extension.api.test.dsl.model.SimpleFieldsType",
                           "classInformation": {
-                            "classname": "org.mule.runtime.extension.api.dsl.model.SimpleFieldsType",
+                            "classname": "org.mule.runtime.extension.api.test.dsl.model.SimpleFieldsType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1495,9 +1499,9 @@
                       "model": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                          "typeId": "org.mule.runtime.extension.api.test.dsl.model.NotGlobalType",
                           "classInformation": {
-                            "classname": "org.mule.runtime.extension.api.dsl.model.NotGlobalType",
+                            "classname": "org.mule.runtime.extension.api.test.dsl.model.NotGlobalType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1572,9 +1576,9 @@
                       "model": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
+                          "typeId": "org.mule.runtime.extension.api.test.dsl.model.ParameterGroupType",
                           "classInformation": {
-                            "classname": "org.mule.runtime.extension.api.dsl.model.ParameterGroupType",
+                            "classname": "org.mule.runtime.extension.api.test.dsl.model.ParameterGroupType",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1642,9 +1646,9 @@
                       "model": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                          "typeId": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                           "classInformation": {
-                            "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                            "classname": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,
@@ -1689,9 +1693,9 @@
                       "model": {
                         "type": "Object",
                         "annotations": {
-                          "typeId": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                          "typeId": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                           "classInformation": {
-                            "classname": "org.mule.runtime.extension.api.dsl.model.ComplexTypeFieldGroup",
+                            "classname": "org.mule.runtime.extension.api.test.dsl.model.ComplexTypeFieldGroup",
                             "hasDefaultConstructor": true,
                             "isInterface": false,
                             "isInstantiable": true,

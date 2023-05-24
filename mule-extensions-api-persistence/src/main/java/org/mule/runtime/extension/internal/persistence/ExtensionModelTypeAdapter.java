@@ -6,9 +6,11 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_SUPPORTED_JAVA_VERSIONS;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
 
 import org.mule.metadata.api.model.ObjectType;
@@ -17,6 +19,7 @@ import org.mule.metadata.persistence.JsonMetadataTypeWriter;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.meta.Category;
+import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
@@ -37,7 +40,6 @@ import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.util.HierarchyClassMap;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +85,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String EXTERNAL_LIBRARIES = "externalLibraries";
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
-  private static final String DEPRECATION_MODEL = "deprecationModel";
+  private static final String SUPPORTED_JAVA_VERSIONS = "supportedJavaVersions";
   static final String ERRORS = "errors";
   static final String NOTIFICATIONS = "notifications";
   private static final String ARTIFACT_COORDINATES = "artifactCoordinates";
@@ -114,6 +116,12 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     if (model.getMinMuleVersion().isPresent()) {
       out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().get().toCompleteNumericVersion());
     }
+
+    JsonWriter versionsArray = out.name(SUPPORTED_JAVA_VERSIONS).beginArray();
+    for (JavaVersion version : model.getSupportedJavaVersions()) {
+      versionsArray.value(version.name());
+    }
+    versionsArray.endArray();
 
     writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
     writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {});
@@ -160,7 +168,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
       JsonArray notifications = json.get(NOTIFICATIONS).getAsJsonArray();
       parsedNotifications = notificationModelDelegate.parseNotifications(notifications);
     } else {
-      parsedNotifications = Collections.emptyMap();
+      parsedNotifications = emptyMap();
     }
 
     JsonArray errors = json.get(ERRORS).getAsJsonArray();
@@ -207,8 +215,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        null,
                                        coordinates,
                                        minMuleVersion,
-                                       // TODO);
-                                       emptySet());
+                                       parseSupportedJavaVersions(json));
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {
@@ -249,6 +256,24 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     }));
 
     return types;
+  }
+
+  private Set<JavaVersion> parseSupportedJavaVersions(JsonObject json) {
+    JsonArray array = json.getAsJsonArray(SUPPORTED_JAVA_VERSIONS);
+    if (array == null) {
+      return DEFAULT_SUPPORTED_JAVA_VERSIONS;
+    }
+
+    Set<JavaVersion> versions = new LinkedHashSet<>();
+    array.forEach(version -> {
+      try {
+        versions.add(JavaVersion.valueOf(version.getAsString()));
+      } catch (IllegalArgumentException e) {
+        // ignore forward-looking version
+      }
+    });
+
+    return versions.isEmpty() ? DEFAULT_SUPPORTED_JAVA_VERSIONS : versions;
   }
 
   private Set<ImportedTypeModel> parseImportedTypes(JsonObject json) {

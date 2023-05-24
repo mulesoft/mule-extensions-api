@@ -6,11 +6,16 @@
  */
 package org.mule.runtime.extension.api;
 
-import static java.util.Arrays.asList;
-import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.mule.runtime.api.meta.JavaVersion.JAVA_11;
+import static org.mule.runtime.api.meta.JavaVersion.JAVA_8;
 import static org.mule.runtime.api.util.DataUnit.KB;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.metadata.ExpressionLanguageMetadataService;
 import org.mule.runtime.api.time.Time;
@@ -19,7 +24,9 @@ import org.mule.runtime.api.util.DataUnit;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Extensions API constants
@@ -383,6 +390,9 @@ public final class ExtensionConstants {
    * @since 1.5.0
    */
   public static final String VERSION_PROPERTY_NAME = "version";
+
+  public static final Set<JavaVersion> DEFAULT_SUPPORTED_JAVA_VERSIONS =
+      unmodifiableSet(new LinkedHashSet<>(asList(JAVA_8, JAVA_11)));
 
   private ExtensionConstants() {}
 }

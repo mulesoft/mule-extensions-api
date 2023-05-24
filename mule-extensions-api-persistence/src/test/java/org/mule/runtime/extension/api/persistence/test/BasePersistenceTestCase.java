@@ -67,7 +67,6 @@ import org.mule.runtime.extension.api.connectivity.oauth.AuthorizationCodeGrantT
 import org.mule.runtime.extension.api.connectivity.oauth.OAuthModelProperty;
 import org.mule.runtime.extension.api.declaration.type.DefaultExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
-import org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
@@ -82,10 +81,10 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.api.persistence.ExtensionModelJsonSerializer;
+import org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -97,11 +96,8 @@ import java.util.stream.Stream;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import org.apache.commons.io.IOUtils;
-
 import org.junit.Before;
-
 import org.skyscreamer.jsonassert.JSONAssert;
 
 abstract class BasePersistenceTestCase {
@@ -304,7 +300,7 @@ abstract class BasePersistenceTestCase {
                                     of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
                                     externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet(),
                                     null, null, EXTENSION_MIN_MULE_VERSION,
-                                    new LinkedHashSet<>(Arrays.asList(JAVA_8, JAVA_11)));
+                                    new LinkedHashSet<>(asList(JAVA_8, JAVA_11)));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =
