@@ -112,6 +112,10 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.property to
       org.mule.runtime.artifact.ast,
       org.mule.runtime.extension.model;
+  exports org.mule.runtime.extension.internal.spi to
+      org.mule.runtime.artifact.activation,
+      org.mule.runtime.extensions.spring.support,
+      org.mule.test.runner;
   
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
@@ -150,5 +154,9 @@ module org.mule.runtime.extensions.api {
       com.google.gson;
 
   uses org.mule.runtime.extension.api.dsql.DsqlParser;
+  uses org.mule.runtime.extension.api.dsl.syntax.resources.spi.DslResourceFactory;
+  uses org.mule.runtime.extension.api.dsl.syntax.resources.spi.ExtensionSchemaGenerator;
+  uses org.mule.runtime.extension.api.loader.ExtensionModelLoaderProvider;
+  uses org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory;
 
 }
