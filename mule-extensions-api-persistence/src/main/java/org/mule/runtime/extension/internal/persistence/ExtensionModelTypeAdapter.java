@@ -19,7 +19,6 @@ import org.mule.metadata.persistence.JsonMetadataTypeWriter;
 import org.mule.metadata.persistence.SerializationContext;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.meta.Category;
-import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
@@ -118,8 +117,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     }
 
     JsonWriter versionsArray = out.name(SUPPORTED_JAVA_VERSIONS).beginArray();
-    for (JavaVersion version : model.getSupportedJavaVersions()) {
-      versionsArray.value(version.name());
+    for (String version : model.getSupportedJavaVersions()) {
+      versionsArray.value(version);
     }
     versionsArray.endArray();
 
@@ -258,20 +257,14 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     return types;
   }
 
-  private Set<JavaVersion> parseSupportedJavaVersions(JsonObject json) {
+  private Set<String> parseSupportedJavaVersions(JsonObject json) {
     JsonArray array = json.getAsJsonArray(SUPPORTED_JAVA_VERSIONS);
     if (array == null) {
       return DEFAULT_SUPPORTED_JAVA_VERSIONS;
     }
 
-    Set<JavaVersion> versions = new LinkedHashSet<>();
-    array.forEach(version -> {
-      try {
-        versions.add(JavaVersion.valueOf(version.getAsString()));
-      } catch (IllegalArgumentException e) {
-        // ignore forward-looking version
-      }
-    });
+    Set<String> versions = new LinkedHashSet<>();
+    array.forEach(version -> versions.add(version.getAsString()));
 
     return versions.isEmpty() ? DEFAULT_SUPPORTED_JAVA_VERSIONS : versions;
   }

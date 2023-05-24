@@ -13,7 +13,6 @@ import static java.util.Optional.ofNullable;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.meta.Category;
-import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -68,7 +67,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final Set<NotificationModel> notifications;
   private final ArtifactCoordinates artifactCoordinates;
   private final MuleVersion minMuleVersion;
-  private final Set<JavaVersion> supportedJavaVersions;
+  private final Set<String> supportedJavaVersions;
 
   /**
    * Creates a new instance with the given state
@@ -373,7 +372,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  DeprecationModel deprecationModel,
                                  ArtifactCoordinates artifactCoordinates,
                                  MuleVersion minMuleVersion,
-                                 Set<JavaVersion> supportedJavaVersions) {
+                                 Set<String> supportedJavaVersions) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, deprecationModel);
     this.configurations = copy(configurationModels);
 
@@ -593,7 +592,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    * {@inheritDoc}
    */
   @Override
-  public Set<JavaVersion> getSupportedJavaVersions() {
+  public Set<String> getSupportedJavaVersions() {
     return supportedJavaVersions;
   }
 

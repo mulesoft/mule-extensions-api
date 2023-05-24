@@ -35,7 +35,6 @@ import static com.google.common.collect.ImmutableSet.of;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
-import org.mule.runtime.api.meta.JavaVersion;
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
@@ -387,8 +386,8 @@ public final class ExtensionModelFactory {
       return extensionModel;
     }
 
-    private Set<JavaVersion> resolveSupportedJavaVersions(ExtensionDeclaration declaration) {
-      Set<JavaVersion> versions = declaration.getSupportedJavaVersions();
+    private Set<String> resolveSupportedJavaVersions(ExtensionDeclaration declaration) {
+      Set<String> versions = declaration.getSupportedJavaVersions();
       return versions != null && !versions.isEmpty() ? versions : DEFAULT_SUPPORTED_JAVA_VERSIONS;
     }
 

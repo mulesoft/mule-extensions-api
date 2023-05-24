@@ -9,8 +9,6 @@ package org.mule.runtime.extension.api.persistence.test;
 import static org.mule.runtime.api.dsl.DslResolvingContext.getDefault;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
-import static org.mule.runtime.api.meta.JavaVersion.JAVA_11;
-import static org.mule.runtime.api.meta.JavaVersion.JAVA_8;
 import static org.mule.runtime.api.meta.model.ComponentVisibility.PUBLIC;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.NONE;
 import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
@@ -21,6 +19,8 @@ import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.
 import static org.mule.runtime.api.test.meta.model.tck.TestCoreExtensionDeclarer.CHOICE_OPERATION_NAME;
 import static org.mule.runtime.api.test.meta.model.tck.TestCoreExtensionDeclarer.FOREACH_OPERATION_NAME;
 import static org.mule.runtime.api.test.meta.model.tck.TestWebServiceConsumerDeclarer.EXTERNAL_LIBRARY_MODEL;
+import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_11;
+import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_8;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
@@ -300,7 +300,7 @@ abstract class BasePersistenceTestCase {
                                     of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
                                     externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet(),
                                     null, null, EXTENSION_MIN_MULE_VERSION,
-                                    new LinkedHashSet<>(asList(JAVA_8, JAVA_11)));
+                                    new LinkedHashSet<>(asList(JAVA_VERSION_8, JAVA_VERSION_11)));
 
     extensionModelJsonSerializer = new ExtensionModelJsonSerializer(true);
     final String serializedExtensionModelString =

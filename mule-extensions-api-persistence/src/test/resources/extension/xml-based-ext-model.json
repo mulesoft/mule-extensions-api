@@ -5,8 +5,8 @@
   "vendor": "MuleSoft",
   "category": "COMMUNITY",
   "supportedJavaVersions": [
-    "JAVA_8",
-    "JAVA_11"
+    "1.8",
+    "11"
   ],
   "xmlDsl": {
     "prefix": "github",
