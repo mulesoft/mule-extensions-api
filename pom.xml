@@ -125,7 +125,7 @@
         <mockitoVersion>4.11.0</mockitoVersion>
         <aspectjVersion>1.9.2</aspectjVersion>
         <allureJunitVersion>2.22.0</allureJunitVersion>
-        <allureReportVersion>2.22.0</allureReportVersion>
+        <allureReportVersion>2.8.1</allureReportVersion>
         <allure.maven.plugin.version>2.12.0</allure.maven.plugin.version>
         <jacoco.version>0.8.10</jacoco.version>
         <javaFormatter.plugin.version>2.14.0</javaFormatter.plugin.version>
@@ -251,15 +251,6 @@
                             </configuration>
                         </execution>
                         <execution>
-                            <id>default-testCompile</id>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                            <configuration>
-                                <release>11</release>
-                            </configuration>
-                        </execution>
-                        <execution>
                             <id>base-compile</id>
                             <goals>
                                 <goal>compile</goal>
@@ -270,6 +261,26 @@
                                 <excludes>
                                     <exclude>module-info.java</exclude>
                                 </excludes>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>default-testCompile</id>
+                            <configuration>
+                                <release>11</release>
+                                <!-- no excludes: compile everything to ensure module-info contains right entries -->
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>base-testCompile</id>
+                            <goals>
+                                <goal>testCompile</goal>
+                            </goals>
+                            <configuration>
+                                <release>${javaReleaseVersion}</release>
+                                <!-- recompile everything for target VM except the module-info.java -->
+                                <testExcludes>
+                                    <testExclude>module-info.java</testExclude>
+                                </testExcludes>
                             </configuration>
                         </execution>
                     </executions>

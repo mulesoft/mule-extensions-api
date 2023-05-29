@@ -29,9 +29,30 @@
                 <version>3.11.0</version>
                 <executions>
                     <execution>
+                        <id>default-compile</id>
+                        <configuration>
+                            <release>11</release>
+                            <!-- no excludes: compile everything to ensure module-info contains right entries -->
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>base-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <release>${javaReleaseVersion}</release>
+                            <!-- recompile everything for target VM except the module-info.java -->
+                            <excludes>
+                                <exclude>module-info.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>default-testCompile</id>
                         <configuration>
                             <release>11</release>
+                            <!-- no excludes: compile everything to ensure module-info contains right entries -->
                         </configuration>
                     </execution>
                     <execution>
@@ -41,6 +62,7 @@
                         </goals>
                         <configuration>
                             <release>${javaReleaseVersion}</release>
+                            <!-- recompile everything for target VM except the module-info.java -->
                             <testExcludes>
                                 <testExclude>module-info.java</testExclude>
                             </testExcludes>
