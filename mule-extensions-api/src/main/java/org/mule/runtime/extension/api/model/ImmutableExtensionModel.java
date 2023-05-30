@@ -341,7 +341,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    *                              not deprecated.
    * @param artifactCoordinates   The extension's {@link ArtifactCoordinates}
    * @param minMuleVersion        the min mule version of the extension
-   * @param supportedJavaVersions the Java versions in which this extension is supported
+   * @param supportedJavaVersions the Java versions supported by this extension
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
    *                                  with non unique names, or if {@code name} is blank.
    *
