@@ -6,18 +6,20 @@
  */
 package org.mule.runtime.extension.api.test.dsl;
 
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
+import static org.mule.runtime.api.util.NameUtils.hyphenize;
+
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assume.assumeThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
-import static org.mule.runtime.api.util.NameUtils.hyphenize;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -27,16 +29,15 @@ import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterRole;
-import org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType;
-import org.mule.runtime.extension.api.test.dsl.model.ImportedContainerType;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
+import org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.test.dsl.model.ImportedContainerType;
 
 import java.util.stream.Stream;
 
 import javax.xml.namespace.QName;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,7 +105,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     DslElementSyntax result = getSyntaxResolver().resolve(operation);
 
     assertThat(result.getElementName(), is(hyphenize(OPERATION_NAME)));
-    assertThat(result.getPrefix(), CoreMatchers.is(PREFIX));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(true));
     assertTopElementDeclarationIs(false, result);
     assertChildElementDeclarationIs(true, result);
@@ -122,7 +123,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
     assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(hyphenize(SOURCE_NAME)));
-    assertThat(result.getPrefix(), CoreMatchers.is(PREFIX));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(true));
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
@@ -138,7 +139,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
     assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(CONFIGURATION_NAME + "-" + CONFIGURATION_SUFFIX));
-    assertThat(result.getPrefix(), CoreMatchers.is(PREFIX));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
@@ -182,7 +183,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
 
     assertThat(result.getAttributeName(), is(""));
     assertThat(result.getElementName(), is(CONNECTION_PROVIDER_NAME + "-" + CONNECTION_PROVIDER_SUFFIX));
-    assertThat(result.getPrefix(), CoreMatchers.is(PREFIX));
+    assertThat(result.getPrefix(), is(PREFIX));
     assertThat(result.requiresConfig(), is(false));
     assertChildElementDeclarationIs(true, result);
     assertIsWrappedElement(false, result);
@@ -243,7 +244,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     DslElementSyntax inlineDsl = getChildFieldDsl(INLINE_GROUP, result);
 
     assertThat(inlineDsl.getElementName(), is(hyphenize(INLINE_GROUP)));
-    assertThat(inlineDsl.getPrefix(), CoreMatchers.is(PREFIX));
+    assertThat(inlineDsl.getPrefix(), is(PREFIX));
     assertChildElementDeclarationIs(true, inlineDsl);
     assertTopElementDeclarationIs(false, inlineDsl);
     assertAttributeDeclaration(false, inlineDsl);

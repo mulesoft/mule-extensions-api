@@ -114,10 +114,10 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.enricher to
-    org.mule.runtime.extensions.api.test;
+      org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.validator to
-    org.mule.runtime.extensions.api.test;
+      org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.property to
       org.mule.runtime.artifact.ast,
@@ -125,12 +125,12 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.spi to
-    org.mule.runtime.artifact.activation,
-    org.mule.runtime.extensions.spring.support,
-    org.mule.test.runner;
+      org.mule.runtime.artifact.activation,
+      org.mule.runtime.extensions.spring.support,
+      org.mule.test.runner;
 
   exports org.mule.runtime.extension.internal.semantic to
-    org.mule.runtime.extensions.api.test;
+      org.mule.runtime.extensions.api.test;
 
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to

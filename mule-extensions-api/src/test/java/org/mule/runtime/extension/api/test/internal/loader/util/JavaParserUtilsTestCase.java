@@ -26,7 +26,7 @@ public class JavaParserUtilsTestCase {
     Field fieldWithLegacyConfigOverride = WithConfigOverride.class.getDeclaredField("fieldWithLegacyConfigOverride");
     Field noConfigOverride = WithConfigOverride.class.getDeclaredField("noConfigOverride");
 
-    MatcherAssert.assertThat(JavaParserUtils.isConfigOverride(fieldWithSdkConfigOverride), is(true));
+    assertThat(JavaParserUtils.isConfigOverride(fieldWithSdkConfigOverride), is(true));
     assertThat(JavaParserUtils.isConfigOverride(fieldWithLegacyConfigOverride), is(true));
     assertThat(JavaParserUtils.isConfigOverride(noConfigOverride), is(false));
   }
