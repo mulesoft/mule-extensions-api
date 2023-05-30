@@ -15,7 +15,6 @@ import org.mule.sdk.api.annotation.param.ExclusiveOptionals;
 
 import java.lang.reflect.Field;
 
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 public class JavaParserUtilsTestCase {
