@@ -67,7 +67,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   private final Set<NotificationModel> notifications;
   private final ArtifactCoordinates artifactCoordinates;
   private final MuleVersion minMuleVersion;
-  private final Set<String> supportedJavaVersions;
 
   /**
    * Creates a new instance with the given state
@@ -307,7 +306,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this(name, description, version, vendor, category, configurationModels, operationModels, connectionProviders, sourceModels,
          functions, constructModels, displayModel, xmlDslModel, subTypes,
          types, resources, importedTypes, errors, externalLibraryModels, privilegedPackages, privilegedArtifacts, modelProperties,
-         notifications, deprecationModel, artifactCoordinates, null, emptySet());
+         notifications, deprecationModel, artifactCoordinates, null);
   }
 
   /**
@@ -341,11 +340,10 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
    *                              not deprecated.
    * @param artifactCoordinates   The extension's {@link ArtifactCoordinates}
    * @param minMuleVersion        the min mule version of the extension
-   * @param supportedJavaVersions the Java versions supported by this extension
    * @throws IllegalArgumentException if {@code configurations} or {@link ParameterModel} are {@code null} or contain instances
    *                                  with non unique names, or if {@code name} is blank.
    *
-   * @since 1.5
+   * @since 1.6
    */
   public ImmutableExtensionModel(String name,
                                  String description,
@@ -371,8 +369,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
                                  Set<NotificationModel> notifications,
                                  DeprecationModel deprecationModel,
                                  ArtifactCoordinates artifactCoordinates,
-                                 MuleVersion minMuleVersion,
-                                 Set<String> supportedJavaVersions) {
+                                 MuleVersion minMuleVersion) {
     super(name, description, operationModels, connectionProviders, sourceModels, displayModel, modelProperties, deprecationModel);
     this.configurations = copy(configurationModels);
 
@@ -398,7 +395,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this.notifications = copy(notifications);
     this.artifactCoordinates = artifactCoordinates;
     this.minMuleVersion = minMuleVersion;
-    this.supportedJavaVersions = copy(supportedJavaVersions);
   }
 
   /**
@@ -586,14 +582,6 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
   @Override
   public Optional<MuleVersion> getMinMuleVersion() {
     return ofNullable(minMuleVersion);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Set<String> getSupportedJavaVersions() {
-    return supportedJavaVersions;
   }
 
   private <T extends HasOperationModels & HasSourceModels> Optional<ComponentModel> doFindComponentModel(T owner,
