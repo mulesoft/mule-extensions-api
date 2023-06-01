@@ -13,6 +13,7 @@ import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFA
 import static org.mule.runtime.api.util.MuleSystemProperties.FORCE_EXTENSION_VALIDATION_PROPERTY_NAME;
 import static org.mule.runtime.api.util.MuleSystemProperties.isForceExtensionValidation;
 import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_SUPPORTED_JAVA_VERSIONS;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
@@ -379,9 +380,15 @@ public final class ExtensionModelFactory {
                                       extensionDeclaration.getNotificationModels(),
                                       extensionDeclaration.getDeprecation().orElse(null),
                                       extensionDeclaration.getArtifactCoordinates().orElse(null),
-                                      extensionDeclaration.getMinMuleVersion().orElse(null));
+                                      extensionDeclaration.getMinMuleVersion().orElse(null),
+                                      resolveSupportedJavaVersions(extensionDeclaration));
 
       return extensionModel;
+    }
+
+    private Set<String> resolveSupportedJavaVersions(ExtensionDeclaration declaration) {
+      Set<String> versions = declaration.getSupportedJavaVersions();
+      return versions != null && !versions.isEmpty() ? versions : DEFAULT_SUPPORTED_JAVA_VERSIONS;
     }
 
     private List<ConfigurationModel> sortConfigurations(List<ConfigurationModel> configurationModels) {

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.persistence;
 
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_SUPPORTED_JAVA_VERSIONS;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 
 import static java.lang.String.format;
@@ -83,7 +84,7 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
   private static final String EXTERNAL_LIBRARIES = "externalLibraries";
   private static final String DISPLAY_MODEL = "displayModel";
   private static final String IMPORTED_TYPES = "importedTypes";
-  private static final String DEPRECATION_MODEL = "deprecationModel";
+  private static final String SUPPORTED_JAVA_VERSIONS = "supportedJavaVersions";
   static final String ERRORS = "errors";
   static final String NOTIFICATIONS = "notifications";
   private static final String ARTIFACT_COORDINATES = "artifactCoordinates";
@@ -114,6 +115,12 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     if (model.getMinMuleVersion().isPresent()) {
       out.name(MIN_MULE_VERSION).value(model.getMinMuleVersion().get().toCompleteNumericVersion());
     }
+
+    JsonWriter versionsArray = out.name(SUPPORTED_JAVA_VERSIONS).beginArray();
+    for (String version : model.getSupportedJavaVersions()) {
+      versionsArray.value(version);
+    }
+    versionsArray.endArray();
 
     writeWithDelegate(model.getCategory(), CATEGORY, out, new TypeToken<Category>() {});
     writeWithDelegate(model.getXmlDslModel(), XML_DSL, out, new TypeToken<XmlDslModel>() {});
@@ -206,7 +213,8 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
                                        new LinkedHashSet<>(parsedNotifications.values()),
                                        null,
                                        coordinates,
-                                       minMuleVersion);
+                                       minMuleVersion,
+                                       parseSupportedJavaVersions(json));
   }
 
   private <T> T parseWithDelegate(JsonObject json, String elementName, TypeToken<T> typeToken) {
@@ -247,6 +255,18 @@ public final class ExtensionModelTypeAdapter extends TypeAdapter<ExtensionModel>
     }));
 
     return types;
+  }
+
+  private Set<String> parseSupportedJavaVersions(JsonObject json) {
+    JsonArray array = json.getAsJsonArray(SUPPORTED_JAVA_VERSIONS);
+    if (array == null) {
+      return DEFAULT_SUPPORTED_JAVA_VERSIONS;
+    }
+
+    Set<String> versions = new LinkedHashSet<>();
+    array.forEach(version -> versions.add(version.getAsString()));
+
+    return versions.isEmpty() ? DEFAULT_SUPPORTED_JAVA_VERSIONS : versions;
   }
 
   private Set<ImportedTypeModel> parseImportedTypes(JsonObject json) {

@@ -7,8 +7,12 @@
 package org.mule.runtime.extension.api;
 
 import static org.mule.runtime.api.util.DataUnit.KB;
+import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_11;
+import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_17;
+import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_8;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import org.mule.runtime.api.message.Message;
@@ -20,7 +24,9 @@ import org.mule.runtime.api.util.DataUnit;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Extensions API constants
@@ -384,6 +390,22 @@ public final class ExtensionConstants {
    * @since 1.5.0
    */
   public static final String VERSION_PROPERTY_NAME = "version";
+
+  /**
+   * The Java versions that an Extension is assumed to support if not explicitly stated
+   *
+   * @since 1.5.0
+   */
+  public static final Set<String> DEFAULT_SUPPORTED_JAVA_VERSIONS =
+      unmodifiableSet(new LinkedHashSet<>(asList(JAVA_VERSION_8, JAVA_VERSION_11)));
+
+  /**
+   * The full set of Java versions that an Extension can possibly support
+   *
+   * @since 1.5.0
+   */
+  public static final Set<String> ALL_SUPPORTED_JAVA_VERSIONS =
+      unmodifiableSet(new LinkedHashSet<>(asList(JAVA_VERSION_8, JAVA_VERSION_11, JAVA_VERSION_17)));
 
   private ExtensionConstants() {}
 }

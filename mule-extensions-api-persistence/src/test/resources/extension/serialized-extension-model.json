@@ -4,6 +4,10 @@
   "version": "4.0.0",
   "vendor": "MuleSoft",
   "minMuleVersion": "4.2.0",
+  "supportedJavaVersions": [
+    "1.8",
+    "11"
+  ],
   "category": "COMMUNITY",
   "xmlDsl": {
     "prefix": "",
