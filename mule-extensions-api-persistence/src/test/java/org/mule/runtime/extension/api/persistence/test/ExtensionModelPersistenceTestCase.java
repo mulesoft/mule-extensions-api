@@ -29,8 +29,8 @@ import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.extension.api.declaration.type.annotation.ExtensibleTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.ParameterDslAnnotation;
-import org.mule.runtime.extension.api.dsl.model.ComplexFieldsType;
-import org.mule.runtime.extension.api.dsl.model.ExtensibleType;
+import org.mule.runtime.extension.api.test.dsl.model.ComplexFieldsType;
+import org.mule.runtime.extension.api.test.dsl.model.ExtensibleType;
 import org.mule.runtime.extension.api.model.ImmutableExtensionModel;
 import org.mule.runtime.extension.api.model.connection.ImmutableConnectionProviderModel;
 

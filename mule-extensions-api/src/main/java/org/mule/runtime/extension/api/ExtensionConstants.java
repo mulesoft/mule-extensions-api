@@ -6,9 +6,10 @@
  */
 package org.mule.runtime.extension.api;
 
+import static org.mule.runtime.api.util.DataUnit.KB;
+
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static org.mule.runtime.api.util.DataUnit.KB;
 
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;

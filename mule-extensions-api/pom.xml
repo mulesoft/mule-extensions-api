@@ -31,11 +31,6 @@
                         <goals>
                             <goal>test-jar</goal>
                         </goals>
-                        <configuration>
-                            <includes>
-                                <include>org/mule/runtime/extension/api/dsl/model/**</include>
-                            </includes>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -54,6 +49,10 @@
         <dependency>
             <groupId>org.mule.runtime</groupId>
             <artifactId>mule-metadata-model-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-message-metadata-model</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -81,6 +80,18 @@
             <artifactId>mule-api</artifactId>
             <version>${muleApiVersion}</version>
             <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>${jsonassert.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
