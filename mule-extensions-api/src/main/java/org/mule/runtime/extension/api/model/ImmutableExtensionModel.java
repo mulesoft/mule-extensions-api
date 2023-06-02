@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.model;
 
+import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_SUPPORTED_JAVA_VERSIONS;
+
 import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;
@@ -307,7 +309,7 @@ public class ImmutableExtensionModel extends AbstractComplexModel implements Ext
     this(name, description, version, vendor, category, configurationModels, operationModels, connectionProviders, sourceModels,
          functions, constructModels, displayModel, xmlDslModel, subTypes,
          types, resources, importedTypes, errors, externalLibraryModels, privilegedPackages, privilegedArtifacts, modelProperties,
-         notifications, deprecationModel, artifactCoordinates, null, emptySet());
+         notifications, deprecationModel, artifactCoordinates, null, DEFAULT_SUPPORTED_JAVA_VERSIONS);
   }
 
   /**
