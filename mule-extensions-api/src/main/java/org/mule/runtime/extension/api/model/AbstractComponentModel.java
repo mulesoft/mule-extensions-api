@@ -145,7 +145,7 @@ public abstract class AbstractComponentModel extends AbstractStereotypedModel
    * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
    * @param minMuleVersion       the min mule version of the component
    * @throws IllegalArgumentException if {@code name} is blank
-   * @since 1.6.0
+   * @since 1.5.0
    */
   protected AbstractComponentModel(String name,
                                    String description,

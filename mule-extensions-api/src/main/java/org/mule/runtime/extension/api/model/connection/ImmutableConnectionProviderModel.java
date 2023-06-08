@@ -138,7 +138,7 @@ public class ImmutableConnectionProviderModel extends AbstractStereotypedModel i
    * @param minMuleVersion              the min mule version of the connection provider
    * @throws IllegalArgumentException if {@code connectionProviderFactory}, {@code configurationType} or {@code connectionType}
    *                                  are {@code null}
-   * @since 1.6.0
+   * @since 1.5.0
    */
   public ImmutableConnectionProviderModel(String name,
                                           String description,

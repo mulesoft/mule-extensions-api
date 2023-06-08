@@ -321,7 +321,7 @@ public class ImmutableSourceModel extends AbstractExecutableComponentModel imple
    *                                capabilities
    * @param semanticTerms           a {@link Set} of semantic terms which describe the source's meaning and effect
    * @param minMuleVersion          the min mule version of the source
-   * @since 1.6.0
+   * @since 1.5.0
    */
   public ImmutableSourceModel(String name,
                               String description,

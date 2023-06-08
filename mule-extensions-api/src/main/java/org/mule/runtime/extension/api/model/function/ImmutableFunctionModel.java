@@ -88,7 +88,7 @@ public class ImmutableFunctionModel extends AbstractParameterizedModel implement
    *                             deprecated.
    * @param minMuleVersion       the min mule version of the function
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
-   * @since 1.6
+   * @since 1.5
    */
   public ImmutableFunctionModel(String name,
                                 String description,

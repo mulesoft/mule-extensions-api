@@ -126,7 +126,7 @@ public class ImmutableNestedComponentModel extends AbstractComponentModel implem
    *                             not deprecated.
    * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
    * @throws IllegalArgumentException if {@code name} is blank
-   * @since 1.6.0
+   * @since 1.5.0
    */
   public ImmutableNestedComponentModel(String name,
                                        String description,

@@ -112,7 +112,7 @@ public interface ExtensionsClient {
    * @see SourceHandler
    * @see SourceResultHandler
    * @see SourceParameterizer
-   * @since 1.6.0
+   * @since 1.5.0
    */
   @MinMuleVersion("4.6.0")
   @Experimental

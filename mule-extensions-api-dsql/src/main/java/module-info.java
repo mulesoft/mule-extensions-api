@@ -9,7 +9,7 @@
  * API for Mule Extensions to add DateSense Query Language support.
  * 
  * @moduleGraph
- * @since 1.6
+ * @since 1.5
  */
 module org.mule.runtime.extensions.api.dsql {
   

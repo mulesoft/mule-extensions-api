@@ -303,7 +303,7 @@ public class ImmutableOperationModel extends AbstractExecutableComponentModel im
    * @param semanticTerms           a {@link Set} of semantic terms which describe the operation's meaning and effect
    * @param minMuleVersion          the min mule version for the operation
    * @throws IllegalArgumentException if {@code name} is blank or {@code executorFactory} is {@code null}
-   * @since 1.6.0
+   * @since 1.5.0
    */
   public ImmutableOperationModel(String name,
                                  String description,

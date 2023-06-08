@@ -12,7 +12,7 @@ import javax.xml.namespace.QName;
  * DTO to avoid serialization frameworks form introspecting the JVM class {@link javax.xml.namespace.QName}, which is forbidden by
  * default from Java 17.
  * 
- * @since 1.6
+ * @since 1.5
  */
 public final class QNameDTO {
 

@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
  *
- * @since 1.6.0
+ * @since 1.5.0
  */
 @Experimental
 @MinMuleVersion("4.6.0")
