@@ -20,7 +20,7 @@ import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelP
 /**
  * Utility methods for analyzing connectivity aspects of {@link ExtensionModel} instances.
  *
- * @since 1.6
+ * @since 1.5
  */
 public class ExtensionConnectivityUtils {
 

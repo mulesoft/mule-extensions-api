@@ -114,7 +114,7 @@ public class ImmutableNestedRouteModel extends AbstractComponentModel implements
    * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
    * @param minMuleVersion       the min mule version of the route model.
    * @throws IllegalArgumentException if {@code name} is blank
-   * @since 1.6.0
+   * @since 1.5.0
    */
   public ImmutableNestedRouteModel(String name, String description,
                                    List<ParameterGroupModel> parameterGroupModels,

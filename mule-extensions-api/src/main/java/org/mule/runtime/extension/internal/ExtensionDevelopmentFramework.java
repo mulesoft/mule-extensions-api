@@ -13,7 +13,7 @@ import org.mule.runtime.extension.internal.property.DevelopmentFrameworkModelPro
 /**
  * The main extension development frameworks.
  *
- * @since 1.6
+ * @since 1.5
  */
 public enum ExtensionDevelopmentFramework {
 

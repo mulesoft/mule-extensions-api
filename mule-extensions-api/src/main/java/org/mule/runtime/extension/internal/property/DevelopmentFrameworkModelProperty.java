@@ -15,7 +15,7 @@ import org.mule.runtime.extension.internal.ExtensionDevelopmentFramework;
  * Note that some extensions may not have this property, meaning they were not developed by any of the main development
  * frameworks. An example of this could be extensions programmatically declared.
  *
- * @since 1.6
+ * @since 1.5
  */
 public class DevelopmentFrameworkModelProperty implements ModelProperty {
 

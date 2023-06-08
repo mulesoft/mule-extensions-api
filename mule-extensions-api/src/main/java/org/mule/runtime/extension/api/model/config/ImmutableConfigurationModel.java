@@ -119,7 +119,7 @@ public class ImmutableConfigurationModel extends AbstractComplexModel implements
    *                              is not deprecated.
    * @param minMuleVersion        the min mule version of the configuration
    * @throws IllegalArgumentException if {@code name} is blank or {@code configurationFactory} is {@code null}
-   * @since 1.6
+   * @since 1.5
    */
   public ImmutableConfigurationModel(String name,
                                      String description,

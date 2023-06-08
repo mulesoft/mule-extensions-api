@@ -9,7 +9,7 @@
  * API for Mule SOAP Based Extensions to integrate with the Mule Runtime in a decoupled way.
  * 
  * @moduleGraph
- * @since 1.6
+ * @since 1.5
  */
 module org.mule.runtime.extensions.soap.api {
   

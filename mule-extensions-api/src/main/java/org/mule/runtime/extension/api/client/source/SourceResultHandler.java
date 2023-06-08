@@ -30,7 +30,7 @@ import java.util.function.Consumer;
  *
  * @param <T> the generic type of the result output value
  * @param <A> the generic type of the result attributes value
- * @since 1.6.0
+ * @since 1.5.0
  */
 @Experimental
 @MinMuleVersion("4.6.0")

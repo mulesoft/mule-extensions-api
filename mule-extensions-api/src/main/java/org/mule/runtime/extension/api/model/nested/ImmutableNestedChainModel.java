@@ -115,7 +115,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
    * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
    * @param minMuleVersion       the min mule version of the nested chain model
    * @throws IllegalArgumentException if {@code name} is blank
-   * @since 1.6.0
+   * @since 1.5.0
    */
   public ImmutableNestedChainModel(String name,
                                    String description,

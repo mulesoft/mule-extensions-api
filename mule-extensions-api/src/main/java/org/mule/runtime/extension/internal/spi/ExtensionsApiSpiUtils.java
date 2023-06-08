@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 /**
  * Provides utilities to lookup and load implementations of interfaces defined in {@code extensions-api} through SPI.
  * 
- * @since 1.6
+ * @since 1.5
  */
 public final class ExtensionsApiSpiUtils {
 
