@@ -106,6 +106,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.artifact.ast.xmlParser;
   exports org.mule.runtime.extension.internal.loader to
       org.mule.runtime.extension.model,
+      com.mulesoft.mule.runtime.ee.extension.model,
       org.mule.runtime.extensions.api.test;
   exports org.mule.runtime.extension.internal.loader.util to
       org.mule.runtime.artifact.ast,
@@ -122,6 +123,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.property to
       org.mule.runtime.artifact.ast,
       org.mule.runtime.extension.model,
+      com.mulesoft.mule.runtime.ee.extension.model,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.spi to
