@@ -22,7 +22,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * @since 1.5.0
  */
 @Experimental
-@MinMuleVersion("4.6.0")
+@MinMuleVersion("4.5.0")
 public interface SourceHandler extends Startable, Stoppable, Disposable {
 
   /**

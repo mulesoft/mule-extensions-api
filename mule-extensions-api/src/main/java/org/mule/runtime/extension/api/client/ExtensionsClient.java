@@ -114,7 +114,7 @@ public interface ExtensionsClient {
    * @see SourceParameterizer
    * @since 1.5.0
    */
-  @MinMuleVersion("4.6.0")
+  @MinMuleVersion("4.5.0")
   @Experimental
   <T, A> SourceHandler createSource(String extension,
                                     String sourceName,

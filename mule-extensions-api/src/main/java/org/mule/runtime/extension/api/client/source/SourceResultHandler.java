@@ -33,7 +33,7 @@ import java.util.function.Consumer;
  * @since 1.5.0
  */
 @Experimental
-@MinMuleVersion("4.6.0")
+@MinMuleVersion("4.5.0")
 public interface SourceResultHandler<T, A> {
 
   /**

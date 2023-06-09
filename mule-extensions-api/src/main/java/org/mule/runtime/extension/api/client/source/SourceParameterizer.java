@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.5.0
  */
 @Experimental
-@MinMuleVersion("4.6.0")
+@MinMuleVersion("4.5.0")
 public interface SourceParameterizer extends ComponentParameterizer<SourceParameterizer> {
 
   /**
