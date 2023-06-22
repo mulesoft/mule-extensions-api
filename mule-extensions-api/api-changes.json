@@ -4,6 +4,30 @@
       "ignore": [
         {
           "code": "java.annotation.added",
+          "old": "field org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.HEADERS",
+          "new": "field org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.HEADERS",
+          "annotationType": "org.mule.sdk.api.annotation.MinMuleVersion",
+          "annotation": "@org.mule.sdk.api.annotation.MinMuleVersion(\"4.2.1\")",
+          "package": "org.mule.runtime.extension.api.runtime.parameter",
+          "classSimpleName": "HttpParameterPlacement",
+          "fieldName": "HEADERS",
+          "elementKind": "enumConstant",
+          "justification": "Missing forward compatibility annotation"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "field org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.QUERY_PARAMS",
+          "new": "field org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.QUERY_PARAMS",
+          "annotationType": "org.mule.sdk.api.annotation.MinMuleVersion",
+          "annotation": "@org.mule.sdk.api.annotation.MinMuleVersion(\"4.2.1\")",
+          "package": "org.mule.runtime.extension.api.runtime.parameter",
+          "classSimpleName": "HttpParameterPlacement",
+          "fieldName": "QUERY_PARAMS",
+          "elementKind": "enumConstant",
+          "justification": "Missing forward compatibility annotation"
+        },
+        {
+          "code": "java.annotation.added",
           "old": "interface org.mule.runtime.extension.api.client.OperationParameterizer",
           "new": "interface org.mule.runtime.extension.api.client.OperationParameterizer",
           "annotationType": "org.mule.sdk.api.annotation.MinMuleVersion",

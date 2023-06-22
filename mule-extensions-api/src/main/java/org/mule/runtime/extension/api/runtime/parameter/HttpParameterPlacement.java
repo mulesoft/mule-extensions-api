@@ -19,10 +19,15 @@ public enum HttpParameterPlacement {
   /**
    * The parameter will be sent as a query parameter
    */
+  @MinMuleVersion("4.2.1")
   QUERY_PARAMS,
 
   /**
    * The parameter will be sent as a header
    */
-  HEADERS
+  @MinMuleVersion("4.2.1")
+  HEADERS,
+
+  @MinMuleVersion("4.5.0")
+  BODY
 }
