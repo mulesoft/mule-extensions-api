@@ -27,7 +27,9 @@ module org.mule.runtime.extensions.api.persistence {
 
   exports org.mule.runtime.extension.internal.persistence to
       org.mule.runtime.extensions.api.persistence.test;
-
+  exports org.mule.runtime.extension.internal.xml to
+      org.mule.runtime.extensions.support;
+  
   provides org.mule.metadata.persistence.api.TypeAnnotationSerializerExtender
       with org.mule.runtime.extension.internal.persistence.ExtensionTypeAnnotationSerializerExtender;
 
