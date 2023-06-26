@@ -23,7 +23,8 @@ module org.mule.runtime.extensions.api {
   // Required for using java.beans.Introspector.
   requires java.desktop;
   requires com.google.common;
-  
+  requires com.sun.xml.bind;
+
   // Required for the deprecated org.mule.runtime.extension.api.runtime.operation.ComponentExecutor<T>
   // that has its API defined in terms of org.reactivestreams.Publisher<Object>.
   requires transitive org.reactivestreams;
