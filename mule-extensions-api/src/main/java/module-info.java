@@ -22,6 +22,7 @@ module org.mule.runtime.extensions.api {
   requires java.compiler;
   // Required for using java.beans.Introspector.
   requires java.desktop;
+
   requires com.google.common;
   requires com.sun.xml.bind;
 
@@ -86,6 +87,10 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.util;
   exports org.mule.runtime.extension.api.property;
   
+  exports org.mule.runtime.extension.api.annotation.privileged to
+      org.mule.runtime.extensions.support;
+  exports org.mule.runtime.extension.api.annotation.license to
+      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.api.model.construct to
       org.mule.runtime.extensions.api.persistence;
   exports org.mule.runtime.extension.api.model.connection to
@@ -94,15 +99,19 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.model.deprecated to
       org.mule.runtime.extensions.api.persistence,
       org.mule.runtime.extensions.api.persistence.test,
-      org.mule.runtime.extension.model;
+      org.mule.runtime.extension.model,
+      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.api.model.function to
       org.mule.runtime.extensions.api.persistence,
       org.mule.runtime.extensions.api.persistence.test;
   exports org.mule.runtime.extension.api.model.nested to
       org.mule.runtime.extensions.api.persistence;
   exports org.mule.runtime.extension.api.model.notification to
-      org.mule.runtime.extensions.api.persistence;
+      org.mule.runtime.extensions.api.persistence,
+      org.mule.runtime.extensions.support;
 
+  exports org.mule.runtime.extension.internal to
+      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.internal.dsl.xml to
       org.mule.runtime.artifact.ast.xmlParser;
   exports org.mule.runtime.extension.internal.loader to
@@ -113,6 +122,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.artifact.ast,
       org.mule.runtime.artifact.ast.serialization,
       org.mule.runtime.extension.model,
+      org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.enricher to
@@ -125,6 +135,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.artifact.ast,
       org.mule.runtime.extension.model,
       com.mulesoft.mule.runtime.ee.extension.model,
+      org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.spi to
@@ -133,8 +144,16 @@ module org.mule.runtime.extensions.api {
       org.mule.test.runner;
 
   exports org.mule.runtime.extension.internal.semantic to
+      org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.api.test;
 
+  exports org.mule.runtime.extension.internal.util to
+      org.mule.runtime.extensions.support;
+  
+  // Allow extensions-support to create objects from these packages dynamically
+  opens org.mule.runtime.extension.api.runtime.route to
+      org.mule.runtime.extensions.support;
+  
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
       com.google.gson;
