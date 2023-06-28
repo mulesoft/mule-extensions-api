@@ -28,30 +28,34 @@ public final class ExtensionsApiSpiUtils {
   }
 
   public static Stream<ExtensionModelLoaderProvider> loadExtensionModelLoaderProviders(ClassLoader classLoader) {
-    return stream(((Iterable<ExtensionModelLoaderProvider>) () -> load(ExtensionModelLoaderProvider.class, classLoader)
-        .iterator())
-            .spliterator(),
+    return stream(((Iterable<ExtensionModelLoaderProvider>) () -> load(ExtensionModelLoaderProvider.class,
+                                                                       ExtensionsApiSpiUtils.class.getClassLoader())
+                                                                           .iterator())
+                                                                               .spliterator(),
                   false);
   }
 
   public static Stream<ExtensionSchemaGenerator> loadExtensionSchemaGenerators(ClassLoader classLoader) {
-    return stream(((Iterable<ExtensionSchemaGenerator>) () -> load(ExtensionSchemaGenerator.class, classLoader)
-        .iterator())
-            .spliterator(),
+    return stream(((Iterable<ExtensionSchemaGenerator>) () -> load(ExtensionSchemaGenerator.class,
+                                                                   ExtensionsApiSpiUtils.class.getClassLoader())
+                                                                       .iterator())
+                                                                           .spliterator(),
                   false);
   }
 
   public static Stream<DslResourceFactory> loadDslResourceFactories(ClassLoader classLoader) {
-    return stream(((Iterable<DslResourceFactory>) () -> load(DslResourceFactory.class, classLoader)
-        .iterator())
-            .spliterator(),
+    return stream(((Iterable<DslResourceFactory>) () -> load(DslResourceFactory.class,
+                                                             ExtensionsApiSpiUtils.class.getClassLoader())
+                                                                 .iterator())
+                                                                     .spliterator(),
                   false);
   }
 
   public static Stream<GeneratedResourceFactory> loadGeneratedResourceFactories(ClassLoader classLoader) {
-    return stream(((Iterable<GeneratedResourceFactory>) () -> load(GeneratedResourceFactory.class, classLoader)
-        .iterator())
-            .spliterator(),
+    return stream(((Iterable<GeneratedResourceFactory>) () -> load(GeneratedResourceFactory.class,
+                                                                   ExtensionsApiSpiUtils.class.getClassLoader())
+                                                                       .iterator())
+                                                                           .spliterator(),
                   false);
   }
 
