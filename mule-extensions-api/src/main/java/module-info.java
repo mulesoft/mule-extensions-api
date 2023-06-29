@@ -25,6 +25,9 @@ module org.mule.runtime.extensions.api {
 
   requires com.google.common;
   requires com.sun.xml.bind;
+  
+  requires com.github.benmanes.caffeine;
+  requires org.apache.commons.lang3;
 
   // Required for the deprecated org.mule.runtime.extension.api.runtime.operation.ComponentExecutor<T>
   // that has its API defined in terms of org.reactivestreams.Publisher<Object>.
@@ -43,53 +46,55 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.annotation.notification;
   exports org.mule.runtime.extension.api.annotation.values;
   exports org.mule.runtime.extension.api.annotation.param;
+  exports org.mule.runtime.extension.api.annotation.param.display;
   exports org.mule.runtime.extension.api.annotation.param.reference;
   exports org.mule.runtime.extension.api.annotation.param.stereotype;
-  exports org.mule.runtime.extension.api.annotation.param.display;
   exports org.mule.runtime.extension.api.annotation.source;
   exports org.mule.runtime.extension.api.connectivity;
   exports org.mule.runtime.extension.api.connectivity.oauth;
   exports org.mule.runtime.extension.api.client;
   exports org.mule.runtime.extension.api.client.params;
   exports org.mule.runtime.extension.api.client.source;
+  exports org.mule.runtime.extension.api.error;
   exports org.mule.runtime.extension.api.exception;
-  exports org.mule.runtime.extension.api.loader;
-  exports org.mule.runtime.extension.api.tx;
+  exports org.mule.runtime.extension.api.metadata;
   exports org.mule.runtime.extension.api.model;
   exports org.mule.runtime.extension.api.model.config;
-  exports org.mule.runtime.extension.api.runtime.config;
-  exports org.mule.runtime.extension.api.runtime.connectivity;
-  exports org.mule.runtime.extension.api.dsl.syntax;
-  exports org.mule.runtime.extension.api.values;
-  exports org.mule.runtime.extension.api.dsl.syntax.resolver;
-  exports org.mule.runtime.extension.api.dsl.syntax.resources.spi;
-  exports org.mule.runtime.extension.api.dsql;
-  exports org.mule.runtime.extension.api.declaration.type;
-  exports org.mule.runtime.extension.api.declaration.type.annotation;
-  exports org.mule.runtime.extension.api.error;
-  exports org.mule.runtime.extension.api.runtime.exception;
-  exports org.mule.runtime.extension.api.metadata;
   exports org.mule.runtime.extension.api.model.operation;
   exports org.mule.runtime.extension.api.model.parameter;
   exports org.mule.runtime.extension.api.model.source;
   exports org.mule.runtime.extension.api.notification;
-  exports org.mule.runtime.extension.api.runtime.streaming;
+  exports org.mule.runtime.extension.api.loader;
   exports org.mule.runtime.extension.api.resources;
   exports org.mule.runtime.extension.api.resources.spi;
+  exports org.mule.runtime.extension.api.property;
   exports org.mule.runtime.extension.api.runtime;
-  exports org.mule.runtime.extension.api.runtime.source;
+  exports org.mule.runtime.extension.api.runtime.config;
+  exports org.mule.runtime.extension.api.runtime.connectivity;
+  exports org.mule.runtime.extension.api.runtime.exception;
   exports org.mule.runtime.extension.api.runtime.operation;
   exports org.mule.runtime.extension.api.runtime.parameter;
   exports org.mule.runtime.extension.api.runtime.process;
   exports org.mule.runtime.extension.api.runtime.route;
+  exports org.mule.runtime.extension.api.runtime.source;
+  exports org.mule.runtime.extension.api.runtime.streaming;
   exports org.mule.runtime.extension.api.security;
   exports org.mule.runtime.extension.api.stereotype;
+  exports org.mule.runtime.extension.api.tx;
   exports org.mule.runtime.extension.api.util;
-  exports org.mule.runtime.extension.api.property;
+  exports org.mule.runtime.extension.api.values;
+  exports org.mule.runtime.extension.api.declaration.type;
+  exports org.mule.runtime.extension.api.declaration.type.annotation;
+  exports org.mule.runtime.extension.api.dsl.syntax;
+  exports org.mule.runtime.extension.api.dsl.syntax.resolver;
+  exports org.mule.runtime.extension.api.dsl.syntax.resources.spi;
+  exports org.mule.runtime.extension.api.dsql;
   
   exports org.mule.runtime.extension.api.annotation.privileged to
       org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.api.annotation.license to
+      org.mule.runtime.extensions.support;
+  exports org.mule.runtime.extension.api.data.sample to
       org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.api.model.construct to
       org.mule.runtime.extensions.api.persistence;
@@ -100,7 +105,8 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.persistence,
       org.mule.runtime.extensions.api.persistence.test,
       org.mule.runtime.extension.model,
-      org.mule.runtime.extensions.support;
+      org.mule.runtime.extensions.support,
+      org.mule.runtime.extensions.mule.support;
   exports org.mule.runtime.extension.api.model.function to
       org.mule.runtime.extensions.api.persistence,
       org.mule.runtime.extensions.api.persistence.test;
@@ -113,16 +119,21 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal to
       org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.internal.dsl.xml to
-      org.mule.runtime.artifact.ast.xmlParser;
+      org.mule.runtime.artifact.ast.xmlParser,
+      org.mule.runtime.extensions.mule.support,
+      org.mule.runtime.extensions.xml.support,
+      org.mule.runtime.spring.config;
   exports org.mule.runtime.extension.internal.loader to
       org.mule.runtime.extension.model,
       com.mulesoft.mule.runtime.ee.extension.model,
+      org.mule.runtime.extensions.xml.support,
       org.mule.runtime.extensions.api.test;
   exports org.mule.runtime.extension.internal.loader.util to
       org.mule.runtime.artifact.ast,
       org.mule.runtime.artifact.ast.serialization,
       org.mule.runtime.extension.model,
       org.mule.runtime.extensions.support,
+      org.mule.runtime.extensions.spring.support,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.enricher to
@@ -136,6 +147,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extension.model,
       com.mulesoft.mule.runtime.ee.extension.model,
       org.mule.runtime.extensions.support,
+      org.mule.runtime.extensions.spring.support,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.spi to
