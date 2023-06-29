@@ -6,10 +6,11 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax.resources.spi;
 
+import org.mule.api.annotation.NoImplement;
+import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.resources.GeneratedResource;
 import org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory;
-import org.mule.runtime.api.dsl.DslResolvingContext;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoImplement
 public interface DslResourceFactory extends GeneratedResourceFactory {
 
   /**

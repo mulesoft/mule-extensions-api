@@ -4,6 +4,39 @@
       "ignore": [
         {
           "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.dsl.syntax.resources.spi.DslResourceFactory",
+          "new": "interface org.mule.runtime.extension.api.dsl.syntax.resources.spi.DslResourceFactory",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.dsl.syntax.resources.spi",
+          "classSimpleName": "DslResourceFactory",
+          "elementKind": "interface",
+          "justification": "Implementations are provided only by the runtime"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.dsl.syntax.resources.spi.ExtensionSchemaGenerator",
+          "new": "interface org.mule.runtime.extension.api.dsl.syntax.resources.spi.ExtensionSchemaGenerator",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.dsl.syntax.resources.spi",
+          "classSimpleName": "ExtensionSchemaGenerator",
+          "elementKind": "interface",
+          "justification": "Implementations are provided only by the runtime"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "interface org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory",
+          "new": "interface org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory",
+          "annotationType": "org.mule.api.annotation.NoImplement",
+          "annotation": "@org.mule.api.annotation.NoImplement",
+          "package": "org.mule.runtime.extension.api.resources.spi",
+          "classSimpleName": "GeneratedResourceFactory",
+          "elementKind": "interface",
+          "justification": "Implementations are provided only by the runtime"
+        },
+        {
+          "code": "java.annotation.added",
           "old": "field org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.HEADERS",
           "new": "field org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement.HEADERS",
           "annotationType": "org.mule.sdk.api.annotation.MinMuleVersion",

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.resources.spi;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.resources.GeneratedResource;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
  *
  * @since 1.0
  */
+@NoImplement
 public interface GeneratedResourceFactory {
 
   /**
