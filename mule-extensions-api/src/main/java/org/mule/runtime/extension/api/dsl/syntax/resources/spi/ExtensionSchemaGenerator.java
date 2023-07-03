@@ -7,6 +7,7 @@
 
 package org.mule.runtime.extension.api.dsl.syntax.resources.spi;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 
@@ -15,6 +16,7 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
  *
  * @since 1.0
  */
+@NoImplement
 public interface ExtensionSchemaGenerator {
 
   /**
