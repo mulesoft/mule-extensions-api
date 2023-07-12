@@ -19,7 +19,9 @@ module org.mule.runtime.extensions.api.persistence {
   requires org.mule.runtime.metadata.model.persistence;
   
   requires java.xml.bind;
+  requires com.google.common;
   requires com.google.gson;
+  requires org.apache.commons.lang3;
 
   exports org.mule.runtime.extension.api.persistence;
   exports org.mule.runtime.extension.api.persistence.metadata;
