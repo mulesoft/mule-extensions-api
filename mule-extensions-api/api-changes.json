@@ -3,6 +3,14 @@
     "revapi": {
       "ignore": [
         {
+          "code": "java.method.visibilityIncreased",
+          "old": "method java.lang.String org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils::getSanitizedElementName(org.mule.runtime.api.meta.NamedObject)",
+          "new": "method java.lang.String org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils::getSanitizedElementName(org.mule.runtime.api.meta.NamedObject)",
+          "oldVisibility": "package",
+          "newVisibility": "public",
+          "justification": "W-13742675: Upgrade revapi version"
+        },
+        {
           "code": "java.annotation.added",
           "old": "interface org.mule.runtime.extension.api.dsl.syntax.resources.spi.DslResourceFactory",
           "new": "interface org.mule.runtime.extension.api.dsl.syntax.resources.spi.DslResourceFactory",
