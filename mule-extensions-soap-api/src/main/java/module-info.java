@@ -16,6 +16,8 @@ module org.mule.runtime.extensions.soap.api {
   requires org.mule.runtime.api;
   requires org.mule.runtime.extensions.api;
   requires org.mule.runtime.metadata.model.api;
+  
+  requires org.apache.commons.io;
 
   exports org.mule.runtime.extension.api.soap;
   exports org.mule.runtime.extension.api.soap.message;
