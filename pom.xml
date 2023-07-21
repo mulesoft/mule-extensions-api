@@ -145,6 +145,11 @@
         <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
 
         <muleBomVersion>4.5.0-SNAPSHOT</muleBomVersion>
+
+        <mulesoftLicenseVersion>1.1.0</mulesoftLicenseVersion>
+        <license.maven.plugin.version>4.2</license.maven.plugin.version>
+        <licensePath>LICENSE_HEADER_80.txt</licensePath>
+        <licenseYear>2023</licenseYear>
     </properties>
 
     <!--
@@ -306,12 +311,18 @@
                 <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>2.11</version>
+                    <version>${license.maven.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.mulesoft.license</groupId>
+                            <artifactId>license</artifactId>
+                            <version>${mulesoftLicenseVersion}</version>
+                        </dependency>
+                    </dependencies>
                     <configuration>
-                        <header>com/mycila/maven/plugin/license/templates/CPAL.txt</header>
+                        <header>${licensePath}</header>
                         <properties>
-                            <owner>MuleSoft, Inc</owner>
-                            <project.url>http://www.mulesoft.com</project.url>
+                            <year>${licenseYear}</year>
                         </properties>
                         <includes>
                             <include>**/*.java</include>
