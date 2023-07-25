@@ -114,6 +114,8 @@ module org.mule.runtime.extensions.api {
 
   exports org.mule.runtime.extension.internal to
       org.mule.runtime.extensions.support;
+  exports org.mule.runtime.extension.internal.client to
+      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.internal.dsl.xml to
       org.mule.runtime.artifact.ast.xmlParser,
       org.mule.runtime.extensions.mule.support,
