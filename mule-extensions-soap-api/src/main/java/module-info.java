@@ -8,12 +8,13 @@
  * @since 1.5
  */
 module org.mule.runtime.extensions.soap.api {
-  
+
   requires org.mule.runtime.api;
   requires org.mule.runtime.extensions.api;
   requires org.mule.runtime.metadata.model.api;
-  
+
   requires org.apache.commons.io;
+  requires com.google.common;
 
   exports org.mule.runtime.extension.api.soap;
   exports org.mule.runtime.extension.api.soap.message;
@@ -21,5 +22,8 @@ module org.mule.runtime.extensions.soap.api {
   exports org.mule.runtime.extension.api.soap.security;
   exports org.mule.runtime.extension.api.soap.security.config;
   exports org.mule.runtime.extension.api.soap.annotation;
+
+  opens org.mule.runtime.extension.api.soap to
+      org.mule.runtime.extensions.support;
 
 }
