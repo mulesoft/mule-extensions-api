@@ -1,5 +1,5 @@
 upstreamProjects:
-  Mule-runtime/mule-api/master
+  Mule-runtime/mule-api/1.5.0-rc10
 projectType: runtime
 jdkTool: OPEN-JDK17
 additionalTestConfigs:
