@@ -3,12 +3,6 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singleton;
-import static java.util.Collections.sort;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.util.FunctionalUtils.computeIfAbsent;
@@ -37,6 +31,13 @@ import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
+import static java.util.Collections.sort;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.stream.Collectors.toList;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.ArrayType;
@@ -336,7 +337,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     boolean isSubtype = !typeCatalog.getSuperTypes(type).isEmpty();
 
     boolean requiresWrapper = typeRequiresWrapperElement(type, typeCatalog);
-    boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED) || (isInstantiable(type) && isSubtype);
+    boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED) || isInstantiable(type);
     boolean supportTopLevelElement = supportTopLevelElement(type);
 
     if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper && !isSubtype) {
