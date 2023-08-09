@@ -12,7 +12,6 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeId
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isExtensible;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlattened;
-import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isInstantiable;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isText;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isValidBean;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportAttributeDeclaration;
@@ -334,13 +333,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private Optional<DslElementSyntax> resolvePojoDsl(ObjectType type) {
 
-    boolean isSubtype = !typeCatalog.getSuperTypes(type).isEmpty();
-
     boolean requiresWrapper = typeRequiresWrapperElement(type, typeCatalog);
-    boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED) || isInstantiable(type);
+    boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
     boolean supportTopLevelElement = supportTopLevelElement(type);
 
-    if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper && !isSubtype) {
+    if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper) {
       return empty();
     }
 
