@@ -125,12 +125,14 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.mule.support,
       org.mule.runtime.extensions.xml.support,
       org.mule.runtime.spring.config;
+  // required by modules creating crafted extension models
   exports org.mule.runtime.extension.internal.loader to
       org.mule.runtime.extension.model,
       org.mule.runtime.extensions.xml.support,
       org.mule.runtime.extensions.mule.support,
       com.mulesoft.mule.runtime.ee.extension.model,
       com.mulesoft.mule.runtime.cluster,
+      com.mulesoft.anypoint.gw.module.autodiscovery,
       org.mule.runtime.extensions.api.test;
   exports org.mule.runtime.extension.internal.loader.util to
       org.mule.runtime.artifact.ast,
