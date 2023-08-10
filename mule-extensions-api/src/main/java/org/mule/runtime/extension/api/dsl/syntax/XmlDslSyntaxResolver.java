@@ -12,6 +12,7 @@ import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeId
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.getTypeKey;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isExtensible;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isFlattened;
+import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isInstantiable;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isText;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.isValidBean;
 import static org.mule.runtime.extension.api.dsl.syntax.DslSyntaxUtils.supportAttributeDeclaration;
@@ -70,6 +71,7 @@ import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
+import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
@@ -332,12 +334,17 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   }
 
   private Optional<DslElementSyntax> resolvePojoDsl(ObjectType type) {
+    boolean isSubtype = !typeCatalog.getSuperTypes(type).isEmpty();
 
     boolean requiresWrapper = typeRequiresWrapperElement(type, typeCatalog);
-    boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
     boolean supportTopLevelElement = supportTopLevelElement(type);
 
-    if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper) {
+    boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
+    if (!supportsInlineDeclaration && !type.getAnnotation(TypeDslAnnotation.class).isPresent()) {
+      supportsInlineDeclaration = isSubtype && isInstantiable(type);
+    }
+
+    if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper && !isSubtype) {
       return empty();
     }
 
