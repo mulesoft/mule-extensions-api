@@ -3,13 +3,6 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
-import static java.util.Collections.unmodifiableMap;
-import static java.util.Collections.unmodifiableSet;
-import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.OUTPUT;
@@ -24,9 +17,16 @@ import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableMap;
+import static java.util.Collections.unmodifiableSet;
+import static java.util.Optional.of;
+
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
-import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -81,11 +81,11 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
     return of(new WalkDelegateDelegateDeclaration(BLOCK_LIST.getOrDefault(extensionName, emptySet())));
   }
 
-  private class WalkDelegateDelegateDeclaration extends IdempotentDeclarationEnricherWalkDelegate {
+  private static class WalkDelegateDelegateDeclaration extends IdempotentDeclarationEnricherWalkDelegate {
 
     private final Set<String> blockedOperationsNames;
-    private MetadataType attributeType;
-    private MetadataType targetValue;
+    private final MetadataType attributeType;
+    private final MetadataType targetValue;
 
     private WalkDelegateDelegateDeclaration(Set<String> blockedOperationsNames) {
       ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
@@ -105,35 +105,58 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
                                                                   declaration.getName()));
       }
 
-      if (!(outputType instanceof VoidType)) {
-        declaration.getParameterGroup(OUTPUT).addParameter(declareTarget()).addParameter(declareTargetValue());
+      enrichWithTargetParameterDeclaration(declaration);
+      enrichWithTargetValueParameterDeclaration(declaration);
+    }
+
+    private void enrichWithTargetParameterDeclaration(OperationDeclaration operationDeclaration) {
+      if (!definesTargetParameter(operationDeclaration)) {
+        ParameterDeclaration targetParameterDeclaration = new ParameterDeclaration(TARGET_PARAMETER_NAME);
+        targetParameterDeclaration.setDescription(TARGET_PARAMETER_DESCRIPTION);
+        targetParameterDeclaration.setExpressionSupport(NOT_SUPPORTED);
+        targetParameterDeclaration.setRequired(false);
+        targetParameterDeclaration.setParameterRole(BEHAVIOUR);
+        targetParameterDeclaration.setType(attributeType, false);
+        targetParameterDeclaration.setDisplayModel(DisplayModel.builder().displayName(TARGET_PARAMETER_DISPLAY_NAME).build());
+        targetParameterDeclaration.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+        addTargetParameter(operationDeclaration, targetParameterDeclaration);
       }
     }
 
-    private ParameterDeclaration declareTarget() {
-      ParameterDeclaration parameter = new ParameterDeclaration(TARGET_PARAMETER_NAME);
-      parameter.setDescription(TARGET_PARAMETER_DESCRIPTION);
-      parameter.setExpressionSupport(NOT_SUPPORTED);
-      parameter.setRequired(false);
-      parameter.setParameterRole(BEHAVIOUR);
-      parameter.setType(attributeType, false);
-      parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_PARAMETER_DISPLAY_NAME).build());
-      parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-      return parameter;
+    private void enrichWithTargetValueParameterDeclaration(OperationDeclaration operationDeclaration) {
+      if (!definesTargetValueParameter(operationDeclaration)) {
+        ParameterDeclaration targetValueParameterDeclaration = new ParameterDeclaration(TARGET_VALUE_PARAMETER_NAME);
+        targetValueParameterDeclaration.setDescription(TARGET_VALUE_PARAMETER_DESCRIPTION);
+        targetValueParameterDeclaration.setExpressionSupport(REQUIRED);
+        targetValueParameterDeclaration.setRequired(false);
+        targetValueParameterDeclaration.setDefaultValue(PAYLOAD);
+        targetValueParameterDeclaration.setParameterRole(BEHAVIOUR);
+        targetValueParameterDeclaration.setType(targetValue, false);
+        targetValueParameterDeclaration
+            .setDisplayModel(DisplayModel.builder().displayName(TARGET_VALUE_PARAMETER_DISPLAY_NAME).build());
+        targetValueParameterDeclaration.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
+        targetValueParameterDeclaration.addModelProperty(new TargetModelProperty());
+        addTargetValueParameter(operationDeclaration, targetValueParameterDeclaration);
+      }
     }
+  }
 
-    private ParameterDeclaration declareTargetValue() {
-      ParameterDeclaration parameter = new ParameterDeclaration(TARGET_VALUE_PARAMETER_NAME);
-      parameter.setDescription(TARGET_VALUE_PARAMETER_DESCRIPTION);
-      parameter.setExpressionSupport(REQUIRED);
-      parameter.setRequired(false);
-      parameter.setDefaultValue(PAYLOAD);
-      parameter.setParameterRole(BEHAVIOUR);
-      parameter.setType(targetValue, false);
-      parameter.setDisplayModel(DisplayModel.builder().displayName(TARGET_VALUE_PARAMETER_DISPLAY_NAME).build());
-      parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
-      parameter.addModelProperty(new TargetModelProperty());
-      return parameter;
-    }
+  private static void addTargetValueParameter(OperationDeclaration operationDeclaration,
+                                              ParameterDeclaration targetValueParameter) {
+    operationDeclaration.getParameterGroup(OUTPUT).addParameter(targetValueParameter);
+  }
+
+  private static void addTargetParameter(OperationDeclaration operationDeclaration, ParameterDeclaration targetParameter) {
+    operationDeclaration.getParameterGroup(OUTPUT).addParameter(targetParameter);
+  }
+
+  private static boolean definesTargetValueParameter(OperationDeclaration operationDeclaration) {
+    return operationDeclaration.getParameterGroup(OUTPUT).getParameters().stream()
+        .anyMatch(parameterDeclaration -> parameterDeclaration.getName().equals(TARGET_VALUE_PARAMETER_NAME));
+  }
+
+  private static boolean definesTargetParameter(OperationDeclaration operationDeclaration) {
+    return operationDeclaration.getParameterGroup(OUTPUT).getParameters().stream()
+        .anyMatch(parameterDeclaration -> parameterDeclaration.getName().equals(TARGET_PARAMETER_NAME));
   }
 }
