@@ -27,6 +27,7 @@ import static java.util.Optional.of;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.VoidType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
@@ -104,9 +105,10 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
         throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",
                                                                   declaration.getName()));
       }
-
-      enrichWithTargetParameterDeclaration(declaration);
-      enrichWithTargetValueParameterDeclaration(declaration);
+      if (!(outputType instanceof VoidType)) {
+        enrichWithTargetParameterDeclaration(declaration);
+        enrichWithTargetValueParameterDeclaration(declaration);
+      }
     }
 
     private void enrichWithTargetParameterDeclaration(OperationDeclaration operationDeclaration) {
