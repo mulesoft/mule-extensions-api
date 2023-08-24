@@ -134,7 +134,7 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
         targetValueParameterDeclaration.setParameterRole(BEHAVIOUR);
         targetValueParameterDeclaration.setType(targetValue, false);
         targetValueParameterDeclaration
-                .setDisplayModel(DisplayModel.builder().displayName(TARGET_VALUE_PARAMETER_DISPLAY_NAME).build());
+            .setDisplayModel(DisplayModel.builder().displayName(TARGET_VALUE_PARAMETER_DISPLAY_NAME).build());
         targetValueParameterDeclaration.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
         targetValueParameterDeclaration.addModelProperty(new TargetModelProperty());
         addTargetValueParameter(operationDeclaration, targetValueParameterDeclaration);
@@ -153,11 +153,11 @@ public final class TargetParameterDeclarationEnricher implements DeclarationEnri
 
   private static boolean definesTargetValueParameter(OperationDeclaration operationDeclaration) {
     return operationDeclaration.getParameterGroup(OUTPUT).getParameters().stream()
-            .anyMatch(parameterDeclaration -> parameterDeclaration.getName().equals(TARGET_VALUE_PARAMETER_NAME));
+        .anyMatch(parameterDeclaration -> parameterDeclaration.getName().equals(TARGET_VALUE_PARAMETER_NAME));
   }
 
   private static boolean definesTargetParameter(OperationDeclaration operationDeclaration) {
     return operationDeclaration.getParameterGroup(OUTPUT).getParameters().stream()
-            .anyMatch(parameterDeclaration -> parameterDeclaration.getName().equals(TARGET_PARAMETER_NAME));
+        .anyMatch(parameterDeclaration -> parameterDeclaration.getName().equals(TARGET_PARAMETER_NAME));
   }
 }
