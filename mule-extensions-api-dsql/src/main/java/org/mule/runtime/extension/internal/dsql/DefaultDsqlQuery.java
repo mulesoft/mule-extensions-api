@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public final class DefaultDsqlQuery implements DsqlQuery {
+public final class DefaultDsqlQuery extends DsqlQuery {
 
   /**
    * Type or types to be queried
