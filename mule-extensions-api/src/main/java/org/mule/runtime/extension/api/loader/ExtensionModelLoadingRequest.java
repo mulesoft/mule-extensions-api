@@ -115,7 +115,11 @@ public final class ExtensionModelLoadingRequest {
      */
     public Builder setOCSEnabled(boolean ocsEnabled) {
       product.ocsEnabled = ocsEnabled;
+      return this;
+    }
 
+    public Builder setIsDesignTime(boolean isDesignTime) {
+      product.isDesignTime = isDesignTime;
       return this;
     }
 
@@ -143,6 +147,7 @@ public final class ExtensionModelLoadingRequest {
   private final Map<String, Object> parameters = new HashMap<>();
   private ArtifactCoordinates artifactCoordinates;
   private boolean ocsEnabled;
+  private boolean isDesignTime = true;
 
   private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
@@ -173,6 +178,10 @@ public final class ExtensionModelLoadingRequest {
     return ocsEnabled;
   }
 
+  public boolean isDesignTime() {
+    return isDesignTime;
+  }
+
   /**
    * @return an unmodifiable list of custom validators added to the ones applied by default.
    */
@@ -200,4 +209,5 @@ public final class ExtensionModelLoadingRequest {
   public ArtifactCoordinates getArtifactCoordinates() {
     return artifactCoordinates;
   }
+
 }
