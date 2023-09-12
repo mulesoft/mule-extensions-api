@@ -98,7 +98,8 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.declaration.fluent.util to
       org.mule.runtime.extensions.xml.support;
   exports org.mule.runtime.extension.api.model.construct to
-      org.mule.runtime.extensions.api.persistence;
+      org.mule.runtime.extensions.api.persistence,
+      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.api.model.connection to
       org.mule.runtime.extensions.api.persistence,
       org.mule.runtime.extensions.api.persistence.test;
@@ -150,8 +151,9 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.enricher to
-      org.mule.runtime.extensions.xml.support,
-      org.mule.runtime.extensions.api.test;
+      org.mule.runtime.extensions.api.test,
+      org.mule.runtime.extensions.support,
+      org.mule.runtime.extensions.xml.support;
 
   exports org.mule.runtime.extension.internal.loader.validator to
       org.mule.runtime.extensions.api.test;
@@ -184,6 +186,9 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.mule.support,
       org.mule.runtime.extensions.soap.support;
 
+  exports org.mule.runtime.extension.internal.ocs to
+      org.mule.runtime.extensions.support;
+  
   // Allow extensions-support to create objects from these packages dynamically
   opens org.mule.runtime.extension.api.runtime.route to
       org.mule.runtime.extensions.support;
