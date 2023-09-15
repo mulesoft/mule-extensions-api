@@ -147,6 +147,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.spring.support,
       org.mule.runtime.spring.config,
+      org.mule.runtime.ast.extension,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.enricher to
