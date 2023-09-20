@@ -101,6 +101,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.persistence;
   exports org.mule.runtime.extension.api.model.connection to
       org.mule.runtime.extensions.api.persistence,
+      org.mule.runtime.spring.config,
       org.mule.runtime.extensions.api.persistence.test;
   exports org.mule.runtime.extension.api.model.deprecated to
       org.mule.runtime.extensions.api.persistence,
