@@ -172,6 +172,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.spi to
+      org.mule.runtime.artifact.ast.xmlParser,
       org.mule.runtime.artifact.activation,
       org.mule.runtime.extensions.spring.support,
       org.mule.test.runner;
