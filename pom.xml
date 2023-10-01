@@ -118,7 +118,7 @@
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <muleApiVersion>1.5.1-SNAPSHOT</muleApiVersion>
         <muleConnectivityApiVersion>1.1.0-SNAPSHOT</muleConnectivityApiVersion>
-        <metadataModelApiVersion>1.5.0-SNAPSHOT</metadataModelApiVersion>
+        <metadataModelApiVersion>1.5.1-SNAPSHOT</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.4.1-SNAPSHOT</muleModuleMavenPluginVersion>
         <junitVersion>4.12</junitVersion>
         <hamcrestVersion>2.2</hamcrestVersion>
