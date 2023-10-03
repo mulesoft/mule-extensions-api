@@ -98,7 +98,8 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.declaration.fluent.util to
       org.mule.runtime.extensions.xml.support;
   exports org.mule.runtime.extension.api.model.construct to
-      org.mule.runtime.extensions.api.persistence;
+      org.mule.runtime.extensions.api.persistence,
+      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.api.model.connection to
       org.mule.runtime.extensions.api.persistence,
       org.mule.runtime.spring.config,
@@ -152,6 +153,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.enricher to
+      org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.xml.support,
       org.mule.runtime.extensions.api.test;
 
@@ -161,6 +163,8 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.notification to
       org.mule.runtime.extensions.support;
 
+  exports org.mule.runtime.extension.internal.ocs to
+      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.internal.property to
       org.mule.runtime.artifact.ast,
       org.mule.runtime.extension.model,
