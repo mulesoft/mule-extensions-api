@@ -29,6 +29,7 @@
     </mailingLists>
 
     <modules>
+        <module>mule-extensions-mime-types</module>
         <module>mule-extensions-api</module>
         <module>mule-extensions-api-persistence</module>
         <module>mule-extensions-api-dsql</module>

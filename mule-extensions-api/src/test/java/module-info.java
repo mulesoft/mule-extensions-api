@@ -17,6 +17,8 @@ module org.mule.runtime.extensions.api.test {
   requires org.mule.runtime.metadata.model.java;
   requires org.mule.sdk.api;
 
+  requires jakarta.activation;
+
   requires com.github.benmanes.caffeine;
   requires com.google.common;
   requires com.google.gson;
@@ -46,6 +48,7 @@ module org.mule.runtime.extensions.api.test {
   exports org.mule.runtime.extension.api.test.internal.loader.util;
   exports org.mule.runtime.extension.api.test.internal.loader.validator;
   exports org.mule.runtime.extension.api.test.internal.semantic;
+  exports org.mule.runtime.extension.api.test.mimetype;
   exports org.mule.runtime.extension.api.test.runtime;
   exports org.mule.runtime.extension.api.test.runtime.operation;
   exports org.mule.runtime.extension.api.test.runtime.parameters;
