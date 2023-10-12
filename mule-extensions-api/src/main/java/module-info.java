@@ -4,12 +4,31 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
+import org.mule.api.annotation.jpms.PrivilegedApi;
+
 /**
  * API for Mule Extensions to integrate with the Mule Runtime in a decoupled way.
  * 
  * @moduleGraph
  * @since 1.5
  */
+@PrivilegedApi(
+    privilegedPackages = {
+        "org.mule.runtime.extension.api.annotation.privileged"
+    },
+    privilegedArtifactIds = {
+        "com.mulesoft.munit:munit-runner",
+        "com.mulesoft.munit:munit-tools",
+        "com.mulesoft.munit:mtf-tools",
+        "org.mule.runtime:mule-module-extensions-support",
+        "org.mule.tests:test-components",
+        "org.mule.modules:mule-tracing-module",
+        "org.mule.modules:mule-scripting-module",
+        "org.mule.modules:mule-validation-module",
+        "org.mule.modules:mule-soapkit-module",
+        "org.mule.modules:mule-aggregators-module",
+        "org.mule.modules:mule-streaming-utils-module"
+    })
 module org.mule.runtime.extensions.api {
 
   requires org.mule.runtime.metadata.model.api;
@@ -30,7 +49,7 @@ module org.mule.runtime.extensions.api {
 
   // Required for the deprecated org.mule.runtime.extension.api.runtime.operation.ComponentExecutor<T>
   // that has its API defined in terms of org.reactivestreams.Publisher<Object>.
-  requires org.reactivestreams;
+  requires transitive org.reactivestreams;
 
   exports org.mule.runtime.extension.api;
   exports org.mule.runtime.extension.api.annotation;
