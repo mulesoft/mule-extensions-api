@@ -21,6 +21,7 @@ module org.mule.runtime.extensions.api.persistence {
   requires com.google.common;
   requires com.google.gson;
   requires org.apache.commons.lang3;
+  requires org.mule.apache.xerces;
 
   exports org.mule.runtime.extension.api.persistence;
   exports org.mule.runtime.extension.api.persistence.metadata;

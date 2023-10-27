@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.internal.xml;
 
+import static java.lang.Thread.currentThread;
+
 import org.mule.apache.xml.serialize.OutputFormat;
 import org.mule.apache.xml.serialize.XMLSerializer;
 
@@ -28,12 +30,16 @@ public class GenericXmlSerializer<T> {
   private Unmarshaller unmarshaller;
 
   public GenericXmlSerializer(Class<T> serializedType) {
+    final ClassLoader tccl = currentThread().getContextClassLoader();
+    currentThread().setContextClassLoader(GenericXmlSerializer.class.getClassLoader());
     try {
       jaxbContext = JAXBContext.newInstance(serializedType);
       marshaller = jaxbContext.createMarshaller();
       unmarshaller = jaxbContext.createUnmarshaller();
     } catch (Exception e) {
       throw new RuntimeException(e);
+    } finally {
+      currentThread().setContextClassLoader(tccl);
     }
   }
 
