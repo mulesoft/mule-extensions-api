@@ -168,6 +168,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extension.model,
       org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.spring.support,
+      org.mule.runtime.extensions.xml.support,
       org.mule.runtime.spring.config,
       org.mule.runtime.ast.extension,
       org.mule.runtime.extensions.api.test;
