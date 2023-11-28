@@ -6,10 +6,6 @@
  */
 package org.mule.runtime.extension.api.util;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptySet;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.mule.metadata.api.model.MetadataFormat.CSV;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
@@ -17,6 +13,11 @@ import static org.mule.metadata.api.model.MetadataFormat.XML;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.isCollection;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
@@ -88,11 +89,7 @@ public final class ExtensionMetadataTypeUtils {
    *         {@link Optional#empty()} otherwise.
    */
   public static <T> Optional<Class<T>> getType(MetadataType metadataType, ClassLoader classloader) {
-    try {
-      return Optional.of(JavaTypeUtils.getType(metadataType, classloader));
-    } catch (Throwable e) {
-      return empty();
-    }
+    return JavaTypeUtils.getTypeOptional(metadataType, classloader);
   }
 
   /**
