@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static com.google.common.collect.Sets.newHashSet;
-import static java.util.Collections.singletonList;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
+
+import static java.util.Collections.singletonList;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -40,19 +43,19 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
    * @return a {@link MetadataType} representation of a redelivery policy
    */
   public MetadataType buildRedeliveryPolicyType() {
-    ObjectTypeBuilder objectType = create(JAVA).objectType()
+    ObjectTypeBuilder objectType = create(MULE_INFRASTRUCTURE_FORMAT).objectType()
         .id(REDELIVERY_POLICY);
-    BaseTypeBuilder typeBuilder = create(JAVA);
+    BaseTypeBuilder fieldTypeBuilder = create(JAVA);
 
     objectType.with(new InfrastructureTypeAnnotation());
 
-    addIntField(objectType, typeBuilder,
+    addIntField(objectType, fieldTypeBuilder,
                 MAX_REDELIVERY_COUNT,
                 "The maximum number of times a message can be redelivered and processed unsuccessfully before triggering "
                     + "process-failed-message",
                 5);
 
-    addStringField(objectType, typeBuilder,
+    addStringField(objectType, fieldTypeBuilder,
                    MESSAGE_DIGEST_ALGORITHM,
                    "The secure hashing algorithm to use. If not set, the default is SHA-256.",
                    null);
@@ -73,17 +76,18 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
   }
 
   private MetadataType buildMessageFilterType() {
-    final ObjectTypeBuilder objectTypeBuilder = create(JAVA).objectType().id("RedeliveryPolicyMessageIdentifier")
-        .with(new ExclusiveOptionalsTypeAnnotation(newHashSet(USE_SECURE_HASH, ID_EXPRESSION), true));
+    final ObjectTypeBuilder objectTypeBuilder =
+        create(MULE_INFRASTRUCTURE_FORMAT).objectType().id("RedeliveryPolicyMessageIdentifier")
+            .with(new ExclusiveOptionalsTypeAnnotation(newHashSet(USE_SECURE_HASH, ID_EXPRESSION), true));
 
-    BaseTypeBuilder typeBuilder = create(JAVA);
+    BaseTypeBuilder fieldTypeBuilder = create(JAVA);
 
-    addBooleanField(objectTypeBuilder, typeBuilder,
+    addBooleanField(objectTypeBuilder, fieldTypeBuilder,
                     USE_SECURE_HASH,
                     "Whether to use a secure hash algorithm to identify a redelivered message",
                     true);
 
-    addStringField(objectTypeBuilder, typeBuilder,
+    addStringField(objectTypeBuilder, fieldTypeBuilder,
                    ID_EXPRESSION,
                    "Defines one or more expressions to use to determine when a message has been redelivered. "
                        + "This property may only be set if useSecureHash is false.",

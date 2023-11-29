@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.declaration.type;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.ExtensionConstants.ERROR_MAPPING_DESCRIPTION;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 import static org.mule.runtime.extension.api.error.ErrorConstants.ERROR_TYPE_DEFINITION;
 import static org.mule.runtime.extension.api.error.ErrorConstants.ERROR_TYPE_MATCHER;
 
@@ -26,7 +27,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotat
 public class ErrorMappingsTypeBuilder extends InfrastructureTypeBuilder {
 
   public MetadataType buildErrorMappingsType() {
-    final ObjectTypeBuilder errorMappingType = create(JAVA).objectType().id("errorMapping");
+    final ObjectTypeBuilder errorMappingType = create(MULE_INFRASTRUCTURE_FORMAT).objectType().id("errorMapping");
     // 'source' is not required, not setting it means ANY
     errorMappingType.addField()
         .key("source")

@@ -6,13 +6,13 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static java.util.Arrays.asList;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Location.EMBEDDED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureTypeMapping.TLS_NAMESPACE_URI;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CRL_FILE_ELEMENT_IDENTIFIER;
@@ -22,6 +22,8 @@ import static org.mule.runtime.internal.dsl.DslConstants.TLS_PREFIX;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_TRUST_STORE_ELEMENT_IDENTIFIER;
+
+import static java.util.Arrays.asList;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -79,7 +81,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
                                     BaseTypeBuilder typeBuilder) {
 
     ObjectTypeBuilder type = objectType(typeBuilder, TlsContextFactory.class, context);
-    typeBuilder = create(JAVA);
+    typeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
     type.with(new TypeAliasAnnotation("Tls"));
     type.with(new InfrastructureTypeAnnotation());
     type.with(new TypeDslAnnotation(true, true, null, null));

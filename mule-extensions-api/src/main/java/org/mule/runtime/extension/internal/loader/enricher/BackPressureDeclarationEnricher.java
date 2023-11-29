@@ -6,15 +6,16 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.String.format;
-import static java.util.Optional.of;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.BACK_PRESSURE_STRATEGY_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.BACK_PRESSURE_STRATEGY_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
+
+import static java.lang.String.format;
+import static java.util.Optional.of;
 
 import org.mule.metadata.api.annotation.EnumAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -75,7 +76,7 @@ public class BackPressureDeclarationEnricher implements WalkingDeclarationEnrich
     parameter.setExpressionSupport(NOT_SUPPORTED);
     parameter.setLayoutModel(LayoutModel.builder().tabName(ADVANCED_TAB).build());
 
-    MetadataType type = BaseTypeBuilder.create(JAVA).stringType()
+    MetadataType type = BaseTypeBuilder.create(MULE_INFRASTRUCTURE_FORMAT).stringType()
         .id(format("%s-%s-backPressureStrategy", extensionDeclaration.getName(), sourceDeclaration.getName()))
         .with(new EnumAnnotation<>(property.getSupportedModes().stream().map(BackPressureMode::name).toArray(String[]::new)))
         .with(new ClassInformationAnnotation(BackPressureMode.class))
