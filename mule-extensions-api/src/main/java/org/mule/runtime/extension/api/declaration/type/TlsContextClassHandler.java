@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Location.EMBEDDED;
 import static org.mule.runtime.api.meta.model.display.PathModel.Type.FILE;
@@ -79,6 +78,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
                                     TypeHandlerManager typeHandlerManager,
                                     ParsingContext context,
                                     BaseTypeBuilder typeBuilder) {
+    typeBuilder.withFormat(MULE_INFRASTRUCTURE_FORMAT);
 
     ObjectTypeBuilder type = objectType(typeBuilder, TlsContextFactory.class, context);
     typeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
@@ -108,7 +108,7 @@ final class TlsContextClassHandler extends InfrastructureTypeBuilder implements 
         .with(new QNameTypeAnnotation(new QName(TLS_NAMESPACE_URI, TLS_TRUST_STORE_ELEMENT_IDENTIFIER, TLS_PREFIX)))
         .description("Trust store configuration. If used client side, the trust store contains the certificates of the "
             + "trusted servers. If used server side, it contains the certificates of the trusted clients.");
-    typeBuilder = create(JAVA);
+    typeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
     addStringField(trustStoreType, typeBuilder, "path", "The location (which will be resolved relative to the current "
         + "classpath and file system, if possible) of the trust store.", null)
             .with(filePathDisplayModel());

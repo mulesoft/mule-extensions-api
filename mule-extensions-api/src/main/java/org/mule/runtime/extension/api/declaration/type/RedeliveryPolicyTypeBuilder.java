@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
 
@@ -45,7 +44,7 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
   public MetadataType buildRedeliveryPolicyType() {
     ObjectTypeBuilder objectType = create(MULE_INFRASTRUCTURE_FORMAT).objectType()
         .id(REDELIVERY_POLICY);
-    BaseTypeBuilder fieldTypeBuilder = create(JAVA);
+    BaseTypeBuilder fieldTypeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
 
     objectType.with(new InfrastructureTypeAnnotation());
 
@@ -80,7 +79,7 @@ public final class RedeliveryPolicyTypeBuilder extends InfrastructureTypeBuilder
         create(MULE_INFRASTRUCTURE_FORMAT).objectType().id("RedeliveryPolicyMessageIdentifier")
             .with(new ExclusiveOptionalsTypeAnnotation(newHashSet(USE_SECURE_HASH, ID_EXPRESSION), true));
 
-    BaseTypeBuilder fieldTypeBuilder = create(JAVA);
+    BaseTypeBuilder fieldTypeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
 
     addBooleanField(objectTypeBuilder, fieldTypeBuilder,
                     USE_SECURE_HASH,

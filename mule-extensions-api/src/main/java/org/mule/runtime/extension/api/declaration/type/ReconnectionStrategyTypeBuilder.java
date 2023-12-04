@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.declaration.type;
 
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.ExtensionConstants.RECONNECTION_CONFIG_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 
@@ -36,7 +35,7 @@ public final class ReconnectionStrategyTypeBuilder extends InfrastructureTypeBui
    * @return a {@link MetadataType} representation of a reconnection configuration
    */
   public MetadataType buildReconnectionConfigType() {
-    BaseTypeBuilder failsDeploymentTypeBuilder = create(JAVA);
+    BaseTypeBuilder failsDeploymentTypeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
     ObjectTypeBuilder type = create(MULE_INFRASTRUCTURE_FORMAT).objectType()
         .id(RECONNECTION_CONFIG)
         .with(new InfrastructureTypeAnnotation());
