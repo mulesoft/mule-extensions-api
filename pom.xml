@@ -138,7 +138,7 @@
         <oldMuleArtifactVersion>1.5.1</oldMuleArtifactVersion>
         <reactive-streams.version>1.0.2</reactive-streams.version>
         <jsonassert.version>1.5.2</jsonassert.version>
-        <muleRevapiExtensionVersion>1.5.3-SNAPSHOT</muleRevapiExtensionVersion>
+        <muleRevapiExtensionVersion>1.5.3-rc1</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
 
