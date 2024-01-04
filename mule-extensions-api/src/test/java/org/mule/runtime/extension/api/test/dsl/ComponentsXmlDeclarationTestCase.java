@@ -42,7 +42,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.mockito.Mock;
+
+import io.qameta.allure.Issue;
 
 @RunWith(Parameterized.class)
 public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase {
@@ -53,9 +54,6 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   private static final String GROUPED_COMPLEX_PARAMETER = "groupedComplexParameter";
   private static final String SIMPLE_PARAMETER = "simpleParameter";
   private static final String INLINE_GROUP = "inlineGroup";
-
-  @Mock(lenient = true)
-  protected ParameterModel importedTypeParameterModel;
 
   public ComponentsXmlDeclarationTestCase(ParameterRole role) {
     super(role);
@@ -205,6 +203,7 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
   public void importedTypeParameter() {
     assumeThat(role, is(BEHAVIOUR));
 
+    ParameterModel importedTypeParameterModel = mock(ParameterModel.class);
     when(importedTypeParameterModel.getName()).thenReturn(PARAMETER_NAME);
     when(importedTypeParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
     when(importedTypeParameterModel.getModelProperty(any())).thenReturn(empty());
@@ -225,6 +224,29 @@ public class ComponentsXmlDeclarationTestCase extends BaseXmlDeclarationTestCase
     assertThat(result.getContainedElement("notGlobal").get().getPrefix(), is("mule"));
     assertThat(result.getContainedElement("notGlobal").get().getNamespace(), is("http://www.mulesoft.org/schema/mule/core"));
     assertThat(result.getContainedElement("notGlobal").get().getElementName(), is("not-global"));
+  }
+
+  @Test
+  @Issue("W-14616115")
+  public void attributesWithNamespace() {
+    assumeThat(role, is(BEHAVIOUR));
+
+    ParameterModel withNamespaceParameterModel = mock(ParameterModel.class);
+    when(withNamespaceParameterModel.getName()).thenReturn(PARAMETER_NAME);
+    when(withNamespaceParameterModel.getExpressionSupport()).thenReturn(ExpressionSupport.SUPPORTED);
+    when(withNamespaceParameterModel.getModelProperty(QNameModelProperty.class))
+        .thenReturn(of(new QNameModelProperty(new QName("http://namespace", PARAMETER_NAME + "_qname", "ns"))));
+    when(withNamespaceParameterModel.getDslConfiguration()).thenReturn(ParameterDslConfiguration.getDefaultInstance());
+    when(withNamespaceParameterModel.getLayoutModel()).thenReturn(empty());
+    when(withNamespaceParameterModel.getRole()).thenReturn(role);
+
+    when(withNamespaceParameterModel.getType()).thenReturn(TYPE_LOADER.load(Boolean.class));
+
+    DslElementSyntax result = getSyntaxResolver().resolve(withNamespaceParameterModel);
+
+    assertThat(result.getAttributeName(), is(PARAMETER_NAME + "_qname"));
+    assertThat(result.getNamespace(), is("http://namespace"));
+    assertThat(result.getPrefix(), is("ns"));
   }
 
   private void assertStringTypeComponentParameter(DslElementSyntax result) {

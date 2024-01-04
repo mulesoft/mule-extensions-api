@@ -66,12 +66,13 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.Rule;
 import org.junit.runners.Parameterized;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
 public abstract class BaseXmlDeclarationTestCase {
 
   static final String PREFIX = "mockns";
@@ -100,6 +101,9 @@ public abstract class BaseXmlDeclarationTestCase {
   public static Collection<ParameterRole> data() {
     return asList(ParameterRole.values());
   }
+
+  @Rule
+  public MockitoRule rule = MockitoJUnit.rule();
 
   @Mock(lenient = true)
   protected ExtensionModel extension;
