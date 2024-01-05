@@ -350,10 +350,6 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
           .orElseGet(() -> isInstantiable(type));
     }
 
-    // if (!supportsInlineDeclaration && !type.getAnnotation(TypeDslAnnotation.class).isPresent()) {
-    // supportsInlineDeclaration = isSubtype && isInstantiable(type);
-    // }
-
     if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper && !isSubtype) {
       return empty();
     }
