@@ -343,8 +343,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     boolean supportTopLevelElement = supportTopLevelElement(type);
 
     boolean supportsInlineDeclaration = supportsInlineDeclaration(type, NOT_SUPPORTED);
-    if (!supportsInlineDeclaration && !type.getAnnotation(TypeDslAnnotation.class).isPresent()) {
-      supportsInlineDeclaration = isSubtype && isInstantiable(type);
+
+    if (!supportsInlineDeclaration && isSubtype) {
+      supportsInlineDeclaration = type.getAnnotation(TypeDslAnnotation.class)
+          .map(TypeDslAnnotation::allowsInlineDefinition)
+          .orElseGet(() -> isInstantiable(type));
     }
 
     if (!supportsInlineDeclaration && !supportTopLevelElement && !requiresWrapper && !isSubtype) {
