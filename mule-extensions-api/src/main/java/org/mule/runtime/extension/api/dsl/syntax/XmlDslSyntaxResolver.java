@@ -198,7 +198,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     Reference<String> namespace = new Reference<>(languageModel.getNamespace());
     Reference<String> elementName = new Reference<>(hyphenize(parameter.getName()));
 
-    getCustomQName(parameter).ifPresent(qName -> {
+    final Optional<QName> customQName = getCustomQName(parameter);
+    customQName.ifPresent(qName -> {
       elementName.set(qName.getLocalPart());
       prefix.set(qName.getPrefix());
       namespace.set(qName.getNamespaceURI());
@@ -230,9 +231,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    if (isContent) {
                                      addContentChildWithNoAttribute();
                                    } else {
-                                     builder.supportsAttributeDeclaration(true)
-                                         .supportsChildDeclaration(false)
-                                         .withAttributeName(parameter.getName());
+                                     addAttribute();
                                    }
                                  }
 
@@ -242,9 +241,19 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    if (isText(parameter) || isContent) {
                                      addContentChildWithNoAttribute();
                                    } else {
-                                     builder.supportsAttributeDeclaration(true)
-                                         .supportsChildDeclaration(false)
-                                         .withAttributeName(parameter.getName());
+                                     addAttribute();
+                                   }
+                                 }
+
+                                 private void addAttribute() {
+                                   builder.supportsAttributeDeclaration(true)
+                                       .supportsChildDeclaration(false);
+
+                                   if (customQName.isPresent()) {
+                                     builder.withNamespace(prefix.get(), namespace.get());
+                                     builder.withAttributeName(elementName.get());
+                                   } else {
+                                     builder.withAttributeName(parameter.getName());
                                    }
                                  }
 
