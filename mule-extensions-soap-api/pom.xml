@@ -6,6 +6,7 @@
         <artifactId>mule-extensions-api-parent</artifactId>
         <groupId>org.mule.runtime</groupId>
         <version>1.1.8-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
