@@ -33,6 +33,8 @@ module org.mule.runtime.extensions.api.persistence.test {
   requires org.mockito;
 
   exports org.mule.runtime.extension.api.persistence.test to
-      junit,
       com.google.gson;
+
+  opens org.mule.runtime.extension.api.persistence.test to
+      junit;
 }
