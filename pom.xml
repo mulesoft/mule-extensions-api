@@ -120,7 +120,7 @@
         <muleApiVersion>1.6.0-rc5</muleApiVersion>
         <muleConnectivityApiVersion>1.1.0-SNAPSHOT</muleConnectivityApiVersion>
         <metadataModelApiVersion>1.6.1-rc4</metadataModelApiVersion>
-        <muleModuleMavenPluginVersion>1.5.1-rc4</muleModuleMavenPluginVersion>
+        <muleModuleMavenPluginVersion>1.5.1-rc5</muleModuleMavenPluginVersion>
         <junitVersion>4.12</junitVersion>
         <hamcrestVersion>2.2</hamcrestVersion>
         <mockitoVersion>4.11.0</mockitoVersion>
