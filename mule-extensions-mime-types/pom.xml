@@ -17,7 +17,6 @@
 
     <properties>
         <formatterConfigPath>../formatter.xml</formatterConfigPath>
-        <oldMuleArtifactVersion>1.6.0-SNAPSHOT</oldMuleArtifactVersion>
     </properties>
 
     <build>
