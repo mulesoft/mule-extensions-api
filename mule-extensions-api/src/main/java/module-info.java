@@ -79,6 +79,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.model;
   exports org.mule.runtime.extension.api.model.config;
   exports org.mule.runtime.extension.api.model.operation;
+  exports org.mule.runtime.extension.api.model.notification;
   exports org.mule.runtime.extension.api.model.parameter;
   exports org.mule.runtime.extension.api.model.source;
   exports org.mule.runtime.extension.api.notification;
@@ -134,9 +135,6 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.persistence.test;
   exports org.mule.runtime.extension.api.model.nested to
       org.mule.runtime.extensions.api.persistence;
-  exports org.mule.runtime.extension.api.model.notification to
-      org.mule.runtime.extensions.api.persistence,
-      org.mule.runtime.extensions.support;
 
   exports org.mule.runtime.extension.internal to
       org.mule.runtime.extensions.support,
