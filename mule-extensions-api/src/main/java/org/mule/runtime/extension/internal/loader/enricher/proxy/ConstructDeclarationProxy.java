@@ -19,6 +19,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Implementation of {@link ConstructDeclaration} that proxies to the {@link OperationDeclaration} that it actually
+ * models, after making the Routers be modeled as Operations instead of Constructs. This is only to be used to
+ * ensure Backward Compatibility with preexistent privilege extensions that have routers, as Aggregators.
+ *
+ * @since 1.7
+ */
 public class ConstructDeclarationProxy extends ConstructDeclaration {
 
   private final OperationDeclaration delegate;

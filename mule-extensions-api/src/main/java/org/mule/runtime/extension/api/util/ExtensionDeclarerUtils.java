@@ -6,9 +6,15 @@
  */
 package org.mule.runtime.extension.api.util;
 
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestedRouteDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 
+/**
+ * Utility methods for analyzing and decomposing {@link ExtensionDeclarer} instances.
+ *
+ * @since 1.7
+ */
 public final class ExtensionDeclarerUtils {
 
   private ExtensionDeclarerUtils() {
