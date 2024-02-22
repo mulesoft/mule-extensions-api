@@ -82,6 +82,8 @@ public final class OperationModelValidator implements ExtensionModelValidator {
 
           if (isScope(model)) {
             validateScope(model);
+          } else if (isRouter(model)) {
+            validateRouter(model);
           }
         }
 
@@ -113,7 +115,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
       validateSingleNestedChain(model, model, "Scope");
     }
 
-    private void validateRouter(ConstructModel model) {
+    private void validateRouter(ComponentModel model) {
       model.getNestedComponents().stream()
           .forEach(nested -> nested.accept(new NestableElementModelVisitor() {
 
@@ -135,7 +137,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
           }));
     }
 
-    private void validateRoute(NestedRouteModel route, ConstructModel model) {
+    private void validateRoute(NestedRouteModel route, ComponentModel model) {
       validateNoInlineParameters(route, "Route", problemsReporter, dsl);
       validateSingleNestedChain(route, model, "Route");
     }

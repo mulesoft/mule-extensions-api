@@ -524,7 +524,7 @@ public class ExtensionModelUtils {
    *
    * @since 1.5.0
    */
-  public static boolean isRouter(ConstructModel model) {
+  public static boolean isRouter(ComponentModel model) {
     return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
   }
 }

@@ -20,6 +20,7 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSO
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
+import static org.mule.runtime.extension.api.util.ExtensionDeclarerUtils.isRouter;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -36,34 +37,14 @@ import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.meta.MuleVersion;
+import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.construct.ConstructModel;
-import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
-import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.NestableElementDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.NestedChainDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.NestedComponentDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.NestedRouteDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.OutputDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterGroupDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.SourceCallbackDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.WithConstructsDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.WithFunctionsDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.WithOperationsDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.WithSourcesDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.*;
 import org.mule.runtime.api.meta.model.declaration.fluent.util.DeclarationWalker;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
@@ -100,6 +81,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+import org.mule.runtime.extension.api.util.ExtensionDeclarerUtils;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.BackPressureDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.BooleanParameterDeclarationEnricher;
@@ -124,6 +106,7 @@ import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationE
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.proxy.ConstructDeclarationProxy;
 import org.mule.runtime.extension.internal.loader.validator.BackPressureModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConfigurationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
@@ -148,6 +131,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -168,6 +152,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 public final class ExtensionModelFactory {
 
   public static final String PROBLEMS_HANDLER = "PROBLEMS_HANDLER";
+  private static final String AGGREGATORS_PACKAGE = "org.mule.extension.aggregator";
 
   private final List<DeclarationEnricher> declarationEnrichers;
   private final List<ExtensionModelValidator> extensionModelValidators;
@@ -289,12 +274,39 @@ public final class ExtensionModelFactory {
 
       if (enricher instanceof WalkingDeclarationEnricher) {
         ((WalkingDeclarationEnricher) enricher).getWalkDelegate(extensionLoadingContext).ifPresent(walkDelegates::add);
+      } else if (isAggregatorEnricher(enricher)) {
+        // Enrichers use information of the declaration. Since the routers used to be constructs, to make sure to keep backward
+        // compatibility, we have to add a proxy construct that inflict the changes to the now-operation declaration.
+        // Since this only affects privileged extensions, and routers are the only one that has routers, we keep this especial
+        // case only for this.
+        // Is this the best code you will ever see? no, but it was the only (and most performant) solution.
+        addRoutersAsProxyConstructs(extensionLoadingContext);
+        enricher.enrich(extensionLoadingContext);
+        removeProxyConstructs(extensionLoadingContext);
       } else {
         enricher.enrich(extensionLoadingContext);
       }
     }
 
     processEnricherWalkDelegates(extensionLoadingContext, walkDelegates);
+  }
+
+  private boolean isAggregatorEnricher(DeclarationEnricher enricher) {
+    return enricher.getClass().getPackage().getName().startsWith(AGGREGATORS_PACKAGE);
+  }
+
+  private void addRoutersAsProxyConstructs(ExtensionLoadingContext extensionLoadingContext) {
+    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+    extensionDeclaration.getOperations().stream().filter(ExtensionDeclarerUtils::isRouter)
+        .map(ConstructDeclarationProxy::new)
+        .forEach(proxyConstruct -> extensionDeclaration.addConstruct(proxyConstruct));
+  }
+
+  private void removeProxyConstructs(ExtensionLoadingContext extensionLoadingContext) {
+    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+    Set<String> operationNames = extensionDeclaration.getOperations().stream().map(NamedDeclaration::getName).collect(toSet());
+    extensionDeclaration.getConstructs().stream().filter(construct -> operationNames.contains(construct.getName()))
+        .forEach(extensionDeclaration::removeConstruct);
   }
 
   private void processEnricherWalkDelegates(ExtensionLoadingContext extensionLoadingContext,
