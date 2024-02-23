@@ -49,6 +49,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.NamedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestableElementDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestedChainDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestedComponentDeclaration;
@@ -100,6 +101,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterGroupMod
 import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
+import org.mule.runtime.extension.api.util.ExtensionDeclarerUtils;
 import org.mule.runtime.extension.api.util.ParameterModelComparator;
 import org.mule.runtime.extension.internal.loader.enricher.BackPressureDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.BooleanParameterDeclarationEnricher;
@@ -124,6 +126,7 @@ import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationE
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.adapter.ConstructForwarderDecorator;
 import org.mule.runtime.extension.internal.loader.validator.BackPressureModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConfigurationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
@@ -168,6 +171,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 public final class ExtensionModelFactory {
 
   public static final String PROBLEMS_HANDLER = "PROBLEMS_HANDLER";
+  private static final String AGGREGATORS_PACKAGE = "org.mule.extension.aggregator";
 
   private final List<DeclarationEnricher> declarationEnrichers;
   private final List<ExtensionModelValidator> extensionModelValidators;
@@ -289,12 +293,43 @@ public final class ExtensionModelFactory {
 
       if (enricher instanceof WalkingDeclarationEnricher) {
         ((WalkingDeclarationEnricher) enricher).getWalkDelegate(extensionLoadingContext).ifPresent(walkDelegates::add);
+      } else if (isAggregatorEnricher(enricher)) {
+        applyEnricherWithProxyDeclaration(extensionLoadingContext, enricher);
       } else {
         enricher.enrich(extensionLoadingContext);
       }
     }
 
     processEnricherWalkDelegates(extensionLoadingContext, walkDelegates);
+  }
+
+  /**
+   * Enrichers use information of the declaration. Since the routers used to be constructs, to make sure to keep backward
+   * compatibility, we have to add a proxy construct that inflict the changes to the now-operation declaration. Since this only
+   * affects privileged extensions, and routers are the only one that has routers, we keep this especial case only for this. Is
+   * this the best code you will ever see? no, but it is the hero the Mule needs, not the one it deserves. Issue: W-14954379
+   * 
+   * @since 1.7
+   */
+  private void applyEnricherWithProxyDeclaration(ExtensionLoadingContext extensionLoadingContext, DeclarationEnricher enricher) {
+    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+    List<ConstructDeclaration> oldConstructs = addRoutersAsProxyConstructs(extensionDeclaration);
+    enricher.enrich(extensionLoadingContext);
+    extensionDeclaration.setConstructs(oldConstructs);
+  }
+
+  private boolean isAggregatorEnricher(DeclarationEnricher enricher) {
+    return enricher.getClass().getPackage().getName().startsWith(AGGREGATORS_PACKAGE);
+  }
+
+  private List<ConstructDeclaration> addRoutersAsProxyConstructs(ExtensionDeclaration extensionDeclaration) {
+    List<ConstructDeclaration> oldConstructs = extensionDeclaration.getConstructs();
+    List<ConstructDeclaration> newConstructs = new ArrayList<>(oldConstructs);
+    extensionDeclaration.getOperations().stream().filter(ExtensionDeclarerUtils::isRouter)
+        .map(ConstructForwarderDecorator::new)
+        .forEach(newConstructs::add);
+    extensionDeclaration.setConstructs(newConstructs);
+    return oldConstructs;
   }
 
   private void processEnricherWalkDelegates(ExtensionLoadingContext extensionLoadingContext,

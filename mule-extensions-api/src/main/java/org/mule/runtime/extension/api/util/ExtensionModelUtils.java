@@ -519,12 +519,22 @@ public class ExtensionModelUtils {
   }
 
   /**
-   * @param model a {@link ComponentModel}
+   * @param model a {@link ConstructModel}
    * @return Whether the given {@code model} represents a Router
    *
    * @since 1.5.0
    */
   public static boolean isRouter(ConstructModel model) {
+    return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
+  }
+
+  /**
+   * @param model a {@link ComponentModel}
+   * @return Whether the given {@code model} represents a Router
+   *
+   * @since 1.7.0
+   */
+  public static boolean isRouter(ComponentModel model) {
     return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
   }
 }
