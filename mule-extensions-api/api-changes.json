@@ -1,18 +1,4 @@
 {
-  "1.7.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "ignore": true,
-          "code": "java.method.parameterTypeChanged",
-          "old": "parameter boolean org.mule.runtime.extension.api.util.ExtensionModelUtils::isRouter(===org.mule.runtime.api.meta.model.construct.ConstructModel===)",
-          "new": "parameter boolean org.mule.runtime.extension.api.util.ExtensionModelUtils::isRouter(===org.mule.runtime.api.meta.model.ComponentModel===)",
-          "parameterIndex": "0",
-          "justification": "W-15090480: Aggregators' special case for enrichers when changing routers to be Operations"
-        }
-      ]
-    }
-  },
   "1.5.0": {
     "revapi": {
       "ignore": [

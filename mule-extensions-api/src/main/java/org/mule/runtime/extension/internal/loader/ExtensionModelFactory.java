@@ -126,7 +126,7 @@ import org.mule.runtime.extension.internal.loader.enricher.StreamingDeclarationE
 import org.mule.runtime.extension.internal.loader.enricher.TargetParameterDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.TransactionalDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.XmlDeclarationEnricher;
-import org.mule.runtime.extension.internal.loader.enricher.proxy.ConstructDeclarationProxy;
+import org.mule.runtime.extension.internal.loader.enricher.adapter.ConstructForwarderDecorator;
 import org.mule.runtime.extension.internal.loader.validator.BackPressureModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConfigurationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ConnectionProviderNameModelValidator;
@@ -151,7 +151,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -295,20 +294,27 @@ public final class ExtensionModelFactory {
       if (enricher instanceof WalkingDeclarationEnricher) {
         ((WalkingDeclarationEnricher) enricher).getWalkDelegate(extensionLoadingContext).ifPresent(walkDelegates::add);
       } else if (isAggregatorEnricher(enricher)) {
-        // Enrichers use information of the declaration. Since the routers used to be constructs, to make sure to keep backward
-        // compatibility, we have to add a proxy construct that inflict the changes to the now-operation declaration.
-        // Since this only affects privileged extensions, and routers are the only one that has routers, we keep this especial
-        // case only for this.
-        // Is this the best code you will ever see? no, but it was the only (and most performant) solution.
-        addRoutersAsProxyConstructs(extensionLoadingContext);
-        enricher.enrich(extensionLoadingContext);
-        removeProxyConstructs(extensionLoadingContext);
+        applyEnricherWithProxyDeclaration(extensionLoadingContext, enricher);
       } else {
         enricher.enrich(extensionLoadingContext);
       }
     }
 
     processEnricherWalkDelegates(extensionLoadingContext, walkDelegates);
+  }
+
+  /**
+   * Enrichers use information of the declaration. Since the routers used to be constructs, to make sure to keep backward
+   * compatibility, we have to add a proxy construct that inflict the changes to the now-operation declaration. Since this only
+   * affects privileged extensions, and routers are the only one that has routers, we keep this especial case only for this. Is
+   * this the best code you will ever see? no, but it is the hero the Mule needs, not the one it deserves. Issue: W-14954379
+   * 
+   * @since 1.7
+   */
+  private void applyEnricherWithProxyDeclaration(ExtensionLoadingContext extensionLoadingContext, DeclarationEnricher enricher) {
+    addRoutersAsProxyConstructs(extensionLoadingContext);
+    enricher.enrich(extensionLoadingContext);
+    removeProxyConstructs(extensionLoadingContext);
   }
 
   private boolean isAggregatorEnricher(DeclarationEnricher enricher) {
@@ -318,7 +324,7 @@ public final class ExtensionModelFactory {
   private void addRoutersAsProxyConstructs(ExtensionLoadingContext extensionLoadingContext) {
     final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
     extensionDeclaration.getOperations().stream().filter(ExtensionDeclarerUtils::isRouter)
-        .map(ConstructDeclarationProxy::new)
+        .map(ConstructForwarderDecorator::new)
         .forEach(proxyConstruct -> extensionDeclaration.addConstruct(proxyConstruct));
   }
 

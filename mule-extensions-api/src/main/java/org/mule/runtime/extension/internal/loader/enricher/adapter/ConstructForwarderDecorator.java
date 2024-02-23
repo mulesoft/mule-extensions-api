@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.loader.enricher.proxy;
+package org.mule.runtime.extension.internal.loader.enricher.adapter;
 
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentVisibility;
@@ -26,11 +26,11 @@ import java.util.Set;
  *
  * @since 1.7
  */
-public class ConstructDeclarationProxy extends ConstructDeclaration {
+public class ConstructForwarderDecorator extends ConstructDeclaration {
 
   private final OperationDeclaration delegate;
 
-  public ConstructDeclarationProxy(OperationDeclaration delegate) {
+  public ConstructForwarderDecorator(OperationDeclaration delegate) {
     super(delegate.getName());
     this.delegate = delegate;
   }
