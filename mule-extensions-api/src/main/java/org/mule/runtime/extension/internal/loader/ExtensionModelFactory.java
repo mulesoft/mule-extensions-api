@@ -312,27 +312,24 @@ public final class ExtensionModelFactory {
    * @since 1.7
    */
   private void applyEnricherWithProxyDeclaration(ExtensionLoadingContext extensionLoadingContext, DeclarationEnricher enricher) {
-    addRoutersAsProxyConstructs(extensionLoadingContext);
+    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+    List<ConstructDeclaration> oldConstructs = addRoutersAsProxyConstructs(extensionDeclaration);
     enricher.enrich(extensionLoadingContext);
-    removeProxyConstructs(extensionLoadingContext);
+    extensionDeclaration.setConstructs(oldConstructs);
   }
 
   private boolean isAggregatorEnricher(DeclarationEnricher enricher) {
     return enricher.getClass().getPackage().getName().startsWith(AGGREGATORS_PACKAGE);
   }
 
-  private void addRoutersAsProxyConstructs(ExtensionLoadingContext extensionLoadingContext) {
-    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
+  private List<ConstructDeclaration> addRoutersAsProxyConstructs(ExtensionDeclaration extensionDeclaration) {
+    List<ConstructDeclaration> oldConstructs = extensionDeclaration.getConstructs();
+    List<ConstructDeclaration> newConstructs = new ArrayList<>(oldConstructs);
     extensionDeclaration.getOperations().stream().filter(ExtensionDeclarerUtils::isRouter)
         .map(ConstructForwarderDecorator::new)
-        .forEach(proxyConstruct -> extensionDeclaration.addConstruct(proxyConstruct));
-  }
-
-  private void removeProxyConstructs(ExtensionLoadingContext extensionLoadingContext) {
-    final ExtensionDeclaration extensionDeclaration = extensionLoadingContext.getExtensionDeclarer().getDeclaration();
-    Set<String> operationNames = extensionDeclaration.getOperations().stream().map(NamedDeclaration::getName).collect(toSet());
-    extensionDeclaration.getConstructs().stream().filter(construct -> operationNames.contains(construct.getName()))
-        .forEach(extensionDeclaration::removeConstruct);
+        .forEach(newConstructs::add);
+    extensionDeclaration.setConstructs(newConstructs);
+    return oldConstructs;
   }
 
   private void processEnricherWalkDelegates(ExtensionLoadingContext extensionLoadingContext,
