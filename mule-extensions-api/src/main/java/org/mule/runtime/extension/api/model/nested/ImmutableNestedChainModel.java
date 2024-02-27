@@ -32,14 +32,14 @@ import java.util.Set;
  */
 public class ImmutableNestedChainModel extends ImmutableNestedComponentModel implements NestedChainModel {
 
-  private final ChainExecutionOccurrence occurrence;
+  private final ChainExecutionOccurrence executionOccurrence;
 
   /**
    * Creates a new instance
    *
    * @param name               the model's name
    * @param description        the model's description
-   * @param isRequired         whether or not this component is required
+   * @param isRequired         whether this component is required
    * @param allowedStereotypes A {@link Set} of custom properties which extend this model
    * @param displayModel       a model containing directives about how this component is to be displayed in the UI
    * @param visibility         the model's {@link ComponentVisibility}
@@ -53,7 +53,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, isRequired, allowedStereotypes, visibility, modelProperties);
-    occurrence = UNKNOWN;
+    executionOccurrence = UNKNOWN;
   }
 
   /**
@@ -168,7 +168,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    DeprecationModel deprecationModel,
                                    Set<String> semanticTerms,
                                    MuleVersion minMuleVersion,
-                                   ChainExecutionOccurrence occurrence) {
+                                   ChainExecutionOccurrence executionOccurrence) {
     super(name,
           description,
           parameterGroupModels,
@@ -184,7 +184,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
           deprecationModel,
           semanticTerms,
           minMuleVersion);
-    this.occurrence = occurrence;
+    this.executionOccurrence = executionOccurrence;
   }
 
   /**
@@ -204,6 +204,6 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
 
   @Override
   public ChainExecutionOccurrence getChainExecutionOccurrence() {
-    return occurrence;
+    return executionOccurrence;
   }
 }

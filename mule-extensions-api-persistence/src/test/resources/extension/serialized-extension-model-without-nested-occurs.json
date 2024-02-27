@@ -3,12 +3,12 @@
   "description": "Test extension",
   "version": "4.0.0",
   "vendor": "MuleSoft",
+  "category": "COMMUNITY",
   "minMuleVersion": "4.2.0",
   "supportedJavaVersions": [
     "1.8",
     "11"
   ],
-  "category": "COMMUNITY",
   "xmlDsl": {
     "prefix": "",
     "namespace": "",
@@ -897,8 +897,8 @@
           "minOccurs": 1,
           "errors": [],
           "semanticTerms": [],
-          "visibility": "PUBLIC",
           "parameterGroupModels": [],
+          "visibility": "PUBLIC",
           "name": "when",
           "description": "",
           "modelProperties": {},
@@ -911,8 +911,6 @@
                   "namespace": "MULE"
                 }
               ],
-              "minOccurs": 1,
-              "maxOccurs": 1,
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
@@ -921,7 +919,8 @@
               "name": "processors",
               "description": "",
               "modelProperties": {},
-              "kind": "chain"
+              "kind": "chain",
+              "executionOccurrence": "ONCE_OR_NONE"
             },
             {
               "isRequired": false,
@@ -931,12 +930,10 @@
                   "namespace": "MULE"
                 }
               ],
-              "minOccurs": 0,
-              "maxOccurs": 1,
               "nestedComponents": [],
+              "visibility": "PUBLIC",
               "errors": [],
               "semanticTerms": [],
-              "visibility": "PUBLIC",
               "parameterGroupModels": [
                 {
                   "parameters": [
@@ -1001,17 +998,17 @@
                   "namespace": "MULE"
                 }
               ],
-              "minOccurs": 1,
-              "maxOccurs": 1,
               "nestedComponents": [],
               "errors": [],
               "semanticTerms": [],
               "visibility": "PUBLIC",
+
               "parameterGroupModels": [],
               "name": "processors",
               "description": "",
               "modelProperties": {},
-              "kind": "chain"
+              "kind": "chain",
+              "executionOccurrence": "ONCE_OR_NONE"
             }
           ],
           "kind": "route"
@@ -1820,11 +1817,11 @@
       "notifications": [],
       "nestedComponents": [],
       "errors": [],
+      "visibility": "PUBLIC",
       "semanticTerms": [
         "test",
         "source"
       ],
-      "visibility": "PUBLIC",
       "stereotype": {
         "type": "SOURCE",
         "namespace": "MULE"
@@ -1952,12 +1949,8 @@
   "notifications": [],
   "errors": [
     {
-      "error": "MULE:CONNECTIVITY",
-      "parent": "MULE:ANY",
-      "handleable": true
-    },
-    {
-      "error": "MULE:ANY",
+      "error": "ERROR_NAMESPACE:SOME_ERROR",
+      "parent": "ERROR_NAMESPACE:PARENT_ERROR_MODEL",
       "handleable": true
     },
     {
@@ -1966,8 +1959,12 @@
       "handleable": true
     },
     {
-      "error": "ERROR_NAMESPACE:SOME_ERROR",
-      "parent": "ERROR_NAMESPACE:PARENT_ERROR_MODEL",
+      "error": "MULE:CONNECTIVITY",
+      "parent": "MULE:ANY",
+      "handleable": true
+    },
+    {
+      "error": "MULE:ANY",
       "handleable": true
     }
   ],

@@ -905,7 +905,7 @@
             "modelProperties": {},
             "childComponents": [
               {
-                "occurrence": "ONCE_OR_NONE",
+                "executionOccurrence": "ONCE_OR_NONE",
                 "isRequired": true,
                 "allowedStereotypes": [
                   {
@@ -996,7 +996,7 @@
             "modelProperties": {},
             "childComponents": [
               {
-                "occurrence": "ONCE_OR_NONE",
+                "executionOccurrence": "ONCE_OR_NONE",
                 "isRequired": true,
                 "allowedStereotypes": [
                   {
@@ -3094,7 +3094,7 @@
             "modelProperties": {},
             "childComponents": [
               {
-                "occurrence": "ONCE_OR_NONE",
+                "executionOccurrence": "ONCE_OR_NONE",
                 "isRequired": true,
                 "allowedStereotypes": [
                   {
@@ -3184,7 +3184,7 @@
             "modelProperties": {},
             "childComponents": [
               {
-                "occurrence": "ONCE_OR_NONE",
+                "executionOccurrence": "ONCE_OR_NONE",
                 "isRequired": true,
                 "allowedStereotypes": [
                   {
