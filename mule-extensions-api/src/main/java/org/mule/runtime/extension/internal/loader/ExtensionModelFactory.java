@@ -6,6 +6,15 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
+import static com.google.common.collect.ImmutableSet.of;
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
@@ -20,17 +29,6 @@ import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSO
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.api.util.NameUtils.alphaSortDescribedList;
-
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.unmodifiableList;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
-
-import static com.google.common.collect.ImmutableSet.of;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ObjectType;
@@ -49,7 +47,6 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.NamedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestableElementDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestedChainDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestedComponentDeclaration;
@@ -634,7 +631,8 @@ public final class ExtensionModelFactory {
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
                                              declaration.getSemanticTerms(),
-                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null));
+                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null),
+                                             ((NestedChainDeclaration) declaration).getOccurrence());
       }
       return new ImmutableNestedComponentModel(
                                                declaration.getName(),

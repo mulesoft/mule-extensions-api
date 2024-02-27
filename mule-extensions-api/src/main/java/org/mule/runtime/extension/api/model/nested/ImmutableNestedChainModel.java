@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.model.nested;
 
+import static org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence.UNKNOWN;
+
 import org.mule.runtime.api.meta.MuleVersion;
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ComponentVisibility;
@@ -13,6 +15,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.error.ErrorModel;
+import org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.nested.NestableElementModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
@@ -28,6 +31,8 @@ import java.util.Set;
  * @since 1.0
  */
 public class ImmutableNestedChainModel extends ImmutableNestedComponentModel implements NestedChainModel {
+
+  private final ChainExecutionOccurrence occurrence;
 
   /**
    * Creates a new instance
@@ -48,6 +53,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    ComponentVisibility visibility,
                                    Set<ModelProperty> modelProperties) {
     super(name, description, displayModel, isRequired, allowedStereotypes, visibility, modelProperties);
+    occurrence = UNKNOWN;
   }
 
   /**
@@ -56,7 +62,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
    * @param name                 the model's name
    * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-   * @param isRequired           whether or not {@code this} element is required for its owner element
+   * @param isRequired           whether {@code this} element is required for its owner element
    * @param allowedStereotypes   a {@link Set} with the {@link StereotypeModel}s that can be assigned to this nested element.
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
@@ -103,7 +109,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
    * @param name                 the model's name
    * @param description          the model's description
    * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
-   * @param isRequired           whether or not {@code this} element is required for its owner element
+   * @param isRequired           whether {@code this} element is required for its owner element
    * @param allowedStereotypes   a {@link Set} with the {@link StereotypeModel}s that can be assigned to this nested element.
    * @param nestedComponents     a {@link List} with the components contained by this model
    * @param displayModel         a model which contains directive about how this component is displayed in the UI
@@ -131,6 +137,38 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
                                    DeprecationModel deprecationModel,
                                    Set<String> semanticTerms,
                                    MuleVersion minMuleVersion) {
+    this(name,
+         description,
+         parameterGroupModels,
+         isRequired,
+         allowedStereotypes,
+         nestedComponents,
+         displayModel,
+         errors,
+         stereotype,
+         visibility,
+         modelProperties,
+         deprecationModel,
+         semanticTerms,
+         minMuleVersion,
+         UNKNOWN);
+  }
+
+  public ImmutableNestedChainModel(String name,
+                                   String description,
+                                   List<ParameterGroupModel> parameterGroupModels,
+                                   boolean isRequired,
+                                   Set<StereotypeModel> allowedStereotypes,
+                                   List<? extends NestableElementModel> nestedComponents,
+                                   DisplayModel displayModel,
+                                   Set<ErrorModel> errors,
+                                   StereotypeModel stereotype,
+                                   ComponentVisibility visibility,
+                                   Set<ModelProperty> modelProperties,
+                                   DeprecationModel deprecationModel,
+                                   Set<String> semanticTerms,
+                                   MuleVersion minMuleVersion,
+                                   ChainExecutionOccurrence occurrence) {
     super(name,
           description,
           parameterGroupModels,
@@ -146,6 +184,7 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
           deprecationModel,
           semanticTerms,
           minMuleVersion);
+    this.occurrence = occurrence;
   }
 
   /**
@@ -163,4 +202,8 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
     visitor.visit(this);
   }
 
+  @Override
+  public ChainExecutionOccurrence getChainExecutionOccurrence() {
+    return occurrence;
+  }
 }
