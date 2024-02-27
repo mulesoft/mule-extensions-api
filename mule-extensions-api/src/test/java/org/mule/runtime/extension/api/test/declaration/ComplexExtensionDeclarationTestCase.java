@@ -6,7 +6,14 @@
  */
 package org.mule.runtime.extension.api.test.declaration;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
+import static org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence.ONCE;
+import static org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence.UNKNOWN;
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.ANOTHER_COMPLEX_TYPE;
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.COMPLEX_TYPE;
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.EXTENSION_DESCRIPTION;
@@ -24,12 +31,6 @@ import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.VENDOR;
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.VERSION;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
-
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.NumberType;
 import org.mule.metadata.api.model.ObjectType;
@@ -37,6 +38,7 @@ import org.mule.metadata.api.model.StringType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConfigurationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.NestedChainDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
@@ -122,6 +124,46 @@ public class ComplexExtensionDeclarationTestCase extends BaseDeclarationTestCase
     ParameterDeclaration parameter = operation.getAllParameters().get(0);
     assertThat(parameter.getName(), is(PATH));
     assertDataType(parameter.getType(), String.class, StringType.class);
+  }
+
+  @Test
+  public void chainWithDefaultOccurrence() {
+    NestedChainDeclarer chainDeclarer = testDeclarer.getExtensionDeclarer()
+        .withOperation("scope")
+        .withChain();
+
+    assertThat(chainDeclarer.getDeclaration().getOccurrence(), is(UNKNOWN));
+  }
+
+  @Test
+  public void chainWithOccurrence() {
+    NestedChainDeclarer chainDeclarer = testDeclarer.getExtensionDeclarer()
+        .withOperation("scope")
+        .withChain()
+        .setExecutionOccurrence(ONCE);
+
+    assertThat(chainDeclarer.getDeclaration().getOccurrence(), is(ONCE));
+  }
+
+  @Test
+  public void routerWithDefaultOccurrence() {
+    NestedChainDeclarer chainDeclarer = testDeclarer.getExtensionDeclarer()
+        .withOperation("router")
+        .withRoute("route")
+        .withChain();
+
+    assertThat(chainDeclarer.getDeclaration().getOccurrence(), is(UNKNOWN));
+  }
+
+  @Test
+  public void routerWithOccurrence() {
+    NestedChainDeclarer chainDeclarer = testDeclarer.getExtensionDeclarer()
+        .withOperation("router")
+        .withRoute("route")
+        .withChain()
+        .setExecutionOccurrence(ONCE);
+
+    assertThat(chainDeclarer.getDeclaration().getOccurrence(), is(ONCE));
   }
 
   @Test
