@@ -154,6 +154,27 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
          UNKNOWN);
   }
 
+  /**
+   * Creates a new instance
+   *
+   * @param name                 the model's name
+   * @param description          the model's description
+   * @param parameterGroupModels a {@link List} with the source's {@link ParameterGroupModel parameter group models}
+   * @param isRequired           whether {@code this} element is required for its owner element
+   * @param allowedStereotypes   a {@link Set} with the {@link StereotypeModel}s that can be assigned to this nested element.
+   * @param nestedComponents     a {@link List} with the components contained by this model
+   * @param displayModel         a model which contains directive about how this component is displayed in the UI
+   * @param stereotype           the {@link StereotypeModel stereotype} of this component
+   * @param visibility           the model's {@link ComponentVisibility}
+   * @param modelProperties      A {@link Set} of custom properties which extend this model
+   * @param deprecationModel     a {@link DeprecationModel} describing if the component is deprecated. A null value means it is
+   *                             not deprecated.
+   * @param semanticTerms        a {@link Set} of semantic terms which describe the component's meaning and effect
+   * @param minMuleVersion       the min mule version of the nested chain model
+   * @param executionOccurrence  the chain's {@link ChainExecutionOccurrence}
+   * @throws IllegalArgumentException if {@code name} is blank
+   * @since 1.7.0
+   */
   public ImmutableNestedChainModel(String name,
                                    String description,
                                    List<ParameterGroupModel> parameterGroupModels,
@@ -202,6 +223,10 @@ public class ImmutableNestedChainModel extends ImmutableNestedComponentModel imp
     visitor.visit(this);
   }
 
+  /**
+   * @return this chain's {@link ChainExecutionOccurrence}
+   * @since 1.7.0
+   */
   @Override
   public ChainExecutionOccurrence getChainExecutionOccurrence() {
     return executionOccurrence;
