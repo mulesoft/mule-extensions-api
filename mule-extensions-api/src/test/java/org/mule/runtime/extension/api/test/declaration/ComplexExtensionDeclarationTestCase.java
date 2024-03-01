@@ -6,11 +6,6 @@
  */
 package org.mule.runtime.extension.api.test.declaration;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
 import static org.mule.runtime.api.meta.Category.COMMUNITY;
 import static org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence.ONCE;
 import static org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence.UNKNOWN;
@@ -30,6 +25,12 @@ import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.STATIC_RESOURCE_OPERATION_NAME;
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.VENDOR;
 import static org.mule.runtime.api.test.meta.model.tck.TestHttpConnectorDeclarer.VERSION;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
 
 import org.mule.metadata.api.model.BinaryType;
 import org.mule.metadata.api.model.NumberType;
