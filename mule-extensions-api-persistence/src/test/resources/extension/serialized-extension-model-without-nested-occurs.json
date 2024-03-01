@@ -919,7 +919,8 @@
               "name": "processors",
               "description": "",
               "modelProperties": {},
-              "kind": "chain"
+              "kind": "chain",
+              "executionOccurrence": "ONCE_OR_NONE"
             },
             {
               "isRequired": false,
@@ -1001,11 +1002,13 @@
               "errors": [],
               "semanticTerms": [],
               "visibility": "PUBLIC",
+
               "parameterGroupModels": [],
               "name": "processors",
               "description": "",
               "modelProperties": {},
-              "kind": "chain"
+              "kind": "chain",
+              "executionOccurrence": "ONCE_OR_NONE"
             }
           ],
           "kind": "route"

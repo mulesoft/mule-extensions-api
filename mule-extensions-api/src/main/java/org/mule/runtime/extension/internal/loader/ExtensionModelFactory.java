@@ -49,7 +49,6 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ConstructDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.FunctionDeclaration;
-import org.mule.runtime.api.meta.model.declaration.fluent.NamedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestableElementDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestedChainDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.NestedComponentDeclaration;
@@ -634,7 +633,8 @@ public final class ExtensionModelFactory {
                                              declaration.getModelProperties(),
                                              (DeprecationModel) declaration.getDeprecation().orElse(null),
                                              declaration.getSemanticTerms(),
-                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null));
+                                             (MuleVersion) declaration.getMinMuleVersion().orElse(null),
+                                             ((NestedChainDeclaration) declaration).getOccurrence());
       }
       return new ImmutableNestedComponentModel(
                                                declaration.getName(),
