@@ -28,7 +28,7 @@ import java.util.Optional;
 @NoImplement
 public interface ExtensionLoadingContext {
 
-  final String EXTENSION_LOADER_PROPERTY_PREFIX = "EXTENSION_LOADER_";
+  String EXTENSION_LOADER_PROPERTY_PREFIX = "EXTENSION_LOADER_";
 
   /**
    * The {@link ExtensionDeclarer} in which the extension is being described into
@@ -125,6 +125,8 @@ public interface ExtensionLoadingContext {
    * @since 1.5
    */
   boolean isOCSEnabled();
+
+  boolean isDesignTime();
 
   /**
    * @return the {@link ArtifactCoordinates} of the Extension

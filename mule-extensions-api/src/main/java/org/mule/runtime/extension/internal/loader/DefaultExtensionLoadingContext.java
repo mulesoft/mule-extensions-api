@@ -164,6 +164,11 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
     return request.isOCSEnabled() || isPlatformManagedOAuthEnabled();
   }
 
+  @Override
+  public boolean isDesignTime() {
+    return request.isDesignTime();
+  }
+
   /**
    * {@inheritDoc}
    */
