@@ -17,17 +17,13 @@ import org.mule.api.annotation.jpms.PrivilegedApi;
         "org.mule.runtime.extension.api.annotation.privileged"
     },
     privilegedArtifactIds = {
-        "com.mulesoft.munit:munit-runner",
-        "com.mulesoft.munit:munit-tools",
-        "com.mulesoft.munit:mtf-tools",
-        "org.mule.runtime:mule-module-extensions-support",
-        "org.mule.tests:test-components",
-        "org.mule.modules:mule-tracing-module",
-        "org.mule.modules:mule-scripting-module",
-        "org.mule.modules:mule-validation-module",
-        "org.mule.modules:mule-soapkit-module",
         "org.mule.modules:mule-aggregators-module",
-        "org.mule.modules:mule-streaming-utils-module"
+        "org.mule.modules:mule-scripting-module",
+        "org.mule.modules:mule-soapkit-module",
+        "org.mule.modules:mule-tracing-module",
+        "org.mule.modules:mule-validation-module",
+
+        "org.mule.tests:test-components"
     })
 module org.mule.runtime.extensions.api {
 
