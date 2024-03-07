@@ -6,20 +6,9 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.getBoolean;
-import static java.lang.String.format;
-import static java.lang.String.valueOf;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
-import static java.util.Collections.singletonList;
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
-import static org.mule.runtime.api.util.MuleSystemProperties.MULE_FLOW_REFERERENCE_FIELDS_MATCH_ANY;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getAllFields;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.getClassValueModel;
@@ -37,7 +26,6 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isTextFi
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SUB_FLOW;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.getDefaultValue;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExclusiveOptionalsIsOneRequired;
@@ -45,6 +33,15 @@ import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.ge
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getNullSafeDefaultImplementedType;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.isConfigOverride;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.String.format;
+import static java.lang.String.valueOf;
+import static java.util.Arrays.stream;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
 
 import org.mule.metadata.api.annotation.DefaultValueAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -321,11 +318,7 @@ final class ExtensionsObjectFieldHandler implements ObjectFieldHandler {
     }
 
     if (field.getAnnotation(FlowReference.class) != null) {
-      if (getBoolean(MULE_FLOW_REFERERENCE_FIELDS_MATCH_ANY)) {
-        fieldBuilder.with(new StereotypeTypeAnnotation(asList(FLOW, SUB_FLOW, OBJECT_STORE, CONFIG)));
-      } else {
-        fieldBuilder.with(new StereotypeTypeAnnotation(singletonList(FLOW)));
-      }
+      fieldBuilder.with(new StereotypeTypeAnnotation(singletonList(FLOW)));
     }
 
     if (field.getAnnotation(ObjectStoreReference.class) != null) {
