@@ -6,9 +6,10 @@
  */
 package org.mule.runtime.extension.api.loader;
 
+import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
-import static org.mule.runtime.api.util.Preconditions.checkArgument;
 
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
@@ -120,6 +121,18 @@ public final class ExtensionModelLoadingRequest {
     }
 
     /**
+     * Enables or disables extension validation.
+     *
+     * @param forceExtensionValidation whether the validation must be validated after being loaded.
+     * @return {@code this} builder
+     */
+    public Builder setForceExtensionValidation(boolean forceExtensionValidation) {
+      product.forceExtensionValidation = forceExtensionValidation;
+
+      return this;
+    }
+
+    /**
      * @return The built request
      */
     public ExtensionModelLoadingRequest build() {
@@ -143,6 +156,7 @@ public final class ExtensionModelLoadingRequest {
   private final Map<String, Object> parameters = new HashMap<>();
   private ArtifactCoordinates artifactCoordinates;
   private boolean ocsEnabled;
+  private boolean forceExtensionValidation;
 
   private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
@@ -171,6 +185,13 @@ public final class ExtensionModelLoadingRequest {
    */
   public boolean isOCSEnabled() {
     return ocsEnabled;
+  }
+
+  /**
+   * @return whether the validation must be validated after being loaded.
+   */
+  public boolean isForceExtensionValidation() {
+    return forceExtensionValidation;
   }
 
   /**
