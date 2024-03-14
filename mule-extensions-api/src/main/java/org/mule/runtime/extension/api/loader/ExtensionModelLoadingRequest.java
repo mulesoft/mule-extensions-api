@@ -189,6 +189,7 @@ public final class ExtensionModelLoadingRequest {
 
   /**
    * @return whether the validation must be validated after being loaded.
+   * @since 1.7
    */
   public boolean isForceExtensionValidation() {
     return forceExtensionValidation;

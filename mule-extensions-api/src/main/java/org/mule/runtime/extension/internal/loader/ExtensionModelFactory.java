@@ -10,7 +10,6 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
-import static org.mule.runtime.api.util.MuleSystemProperties.FORCE_EXTENSION_VALIDATION_PROPERTY_NAME;
 import static org.mule.runtime.api.util.MuleSystemProperties.isTestingMode;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_SUPPORTED_JAVA_VERSIONS;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
@@ -245,7 +244,7 @@ public final class ExtensionModelFactory {
   }
 
   private boolean shouldValidate(ExtensionLoadingContext extensionLoadingContext) {
-    return validate || extensionLoadingContext.<Boolean>getParameter(FORCE_EXTENSION_VALIDATION_PROPERTY_NAME).orElse(false);
+    return validate || extensionLoadingContext.isForceExtensionValidation();
   }
 
   private void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter,

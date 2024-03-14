@@ -127,6 +127,12 @@ public interface ExtensionLoadingContext {
   boolean isOCSEnabled();
 
   /**
+   * @return whether the validation must be validated after being loaded.
+   * @since 1.7
+   */
+  boolean isForceExtensionValidation();
+
+  /**
    * @return the {@link ArtifactCoordinates} of the Extension
    * @since 1.5
    */
