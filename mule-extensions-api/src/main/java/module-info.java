@@ -176,6 +176,11 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.api.test;
 
+  exports org.mule.runtime.extension.internal.metadata to
+      org.mule.runtime.extension.model,
+      org.mule.runtime.extensions.soap.support,
+      org.mule.runtime.extensions.support;
+
   exports org.mule.runtime.extension.internal.notification to
       org.mule.runtime.extensions.support;
 
