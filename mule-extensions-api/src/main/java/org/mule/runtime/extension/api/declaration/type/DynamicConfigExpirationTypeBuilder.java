@@ -12,6 +12,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.extension.api.ExtensionConstants.DYNAMIC_CONFIG_EXPIRATION_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.DYNAMIC_CONFIG_EXPIRATION_FREQUENCY;
 import static org.mule.runtime.extension.api.ExtensionConstants.EXPIRATION_POLICY_DESCRIPTION;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -36,7 +37,8 @@ import java.util.concurrent.TimeUnit;
 public class DynamicConfigExpirationTypeBuilder extends InfrastructureTypeBuilder {
 
   public MetadataType buildDynamicConfigExpirationType() {
-    final ObjectTypeBuilder type = create(JAVA).objectType().id("DynamicConfigExpiration")
+    final ObjectTypeBuilder type = create(MULE_INFRASTRUCTURE_FORMAT).objectType()
+        .id("DynamicConfigExpiration")
         .description(DYNAMIC_CONFIG_EXPIRATION_DESCRIPTION)
         .with(new TypeDslAnnotation(true, false, null, null));
 

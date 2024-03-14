@@ -6,9 +6,7 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static java.util.Arrays.stream;
 import static org.mule.metadata.api.builder.BaseTypeBuilder.create;
-import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTES_STREAMING_MAX_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_DATA_UNIT;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STREAMING_BUFFER_INCREMENT_SIZE;
@@ -16,8 +14,11 @@ import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STR
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_INCREMENT_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_MAX_BUFFER_SIZE;
+import static org.mule.runtime.extension.api.declaration.type.TypeUtils.MULE_INFRASTRUCTURE_FORMAT;
 import static org.mule.runtime.internal.dsl.DslConstants.EE_NAMESPACE;
 import static org.mule.runtime.internal.dsl.DslConstants.EE_PREFIX;
+
+import static java.util.Arrays.stream;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;
@@ -51,9 +52,9 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
    * @return a {@link MetadataType} representation of a byte streaming strategy
    */
   public MetadataType getByteStreamingStrategyType() {
-    BaseTypeBuilder typeBuilder = create(JAVA);
+    BaseTypeBuilder typeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
 
-    return create(JAVA).unionType()
+    return create(MULE_INFRASTRUCTURE_FORMAT).unionType()
         .of(getInMemoryByteStrategy(typeBuilder))
         .of(getFileStoreByteStrategy(typeBuilder))
         .of(getNoStreamingByteStrategy(typeBuilder))
@@ -66,9 +67,9 @@ public final class StreamingStrategyTypeBuilder extends InfrastructureTypeBuilde
    * @return a {@link MetadataType} representation of an object streaming strategy
    */
   public MetadataType getObjectStreamingStrategyType() {
-    BaseTypeBuilder typeBuilder = create(JAVA);
+    BaseTypeBuilder typeBuilder = create(MULE_INFRASTRUCTURE_FORMAT);
 
-    return create(JAVA).unionType()
+    return create(MULE_INFRASTRUCTURE_FORMAT).unionType()
         .of(getInMemoryObjectStrategy(typeBuilder))
         .of(getFileStoreObjectStrategy(typeBuilder))
         .of(getNoStreamingObjectStrategy(typeBuilder))

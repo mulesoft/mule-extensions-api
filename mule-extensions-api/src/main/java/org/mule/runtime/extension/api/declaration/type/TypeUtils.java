@@ -9,8 +9,10 @@ package org.mule.runtime.extension.api.declaration.type;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import org.mule.metadata.api.model.MetadataFormat;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.display.ClassValueModel;
 import org.mule.runtime.api.meta.model.display.PathModel;
@@ -47,6 +49,8 @@ import java.util.stream.Stream;
  * @since 1.0
  */
 public final class TypeUtils {
+
+  public static final MetadataFormat MULE_INFRASTRUCTURE_FORMAT = new MetadataFormat("Mule Infrastructure", "muleInfra");
 
   private TypeUtils() {}
 
