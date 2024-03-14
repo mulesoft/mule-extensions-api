@@ -6,11 +6,12 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
-import static java.util.Collections.unmodifiableList;
-import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 import static org.mule.runtime.extension.internal.ocs.PlatformManagedOAuthUtils.isPlatformManagedOAuthEnabled;
+
+import static java.util.Collections.unmodifiableList;
+import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
@@ -68,6 +69,7 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   /**
    * {@inheritDoc}
    */
+  @Override
   public ExtensionDeclarer getExtensionDeclarer() {
     return extensionDeclarer;
   }
@@ -162,6 +164,11 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   @Override
   public boolean isOCSEnabled() {
     return request.isOCSEnabled() || isPlatformManagedOAuthEnabled();
+  }
+
+  @Override
+  public boolean isForceExtensionValidation() {
+    return request.isForceExtensionValidation();
   }
 
   /**
