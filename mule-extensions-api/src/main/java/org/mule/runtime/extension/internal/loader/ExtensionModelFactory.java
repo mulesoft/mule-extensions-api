@@ -172,7 +172,7 @@ public final class ExtensionModelFactory {
 
   private final List<DeclarationEnricher> declarationEnrichers;
   private final List<ExtensionModelValidator> extensionModelValidators;
-  private final boolean validate;
+  private final boolean testingMode;
 
   public ExtensionModelFactory() {
     declarationEnrichers = unmodifiableList(asList(
@@ -217,7 +217,7 @@ public final class ExtensionModelFactory {
                                                        new ConnectionProviderNameModelValidator(),
                                                        new ConfigurationModelValidator()));
 
-    validate = isTestingMode();
+    testingMode = isTestingMode();
   }
 
   /**
@@ -244,7 +244,7 @@ public final class ExtensionModelFactory {
   }
 
   private boolean shouldValidate(ExtensionLoadingContext extensionLoadingContext) {
-    return validate || extensionLoadingContext.isForceExtensionValidation();
+    return testingMode || extensionLoadingContext.isForceExtensionValidation();
   }
 
   private void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter,
