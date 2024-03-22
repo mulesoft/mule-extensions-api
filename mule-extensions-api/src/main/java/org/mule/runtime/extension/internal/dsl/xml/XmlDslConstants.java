@@ -6,7 +6,7 @@
  */
 package org.mule.runtime.extension.internal.dsl.xml;
 
-import static org.mule.runtime.internal.dsl.DslConstants.DEFAULT_NAMESPACE_URI_MASK;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.DEFAULT_NAMESPACE_URI_MASK;
 
 import static java.lang.String.format;
 

@@ -17,7 +17,7 @@ import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.
 import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
 import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.VALIDATOR;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;

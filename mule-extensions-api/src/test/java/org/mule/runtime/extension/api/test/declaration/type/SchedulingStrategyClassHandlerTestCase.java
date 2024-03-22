@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.test.declaration.type;
 
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
-import static org.mule.runtime.internal.dsl.DslConstants.SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_NAMESPACE;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER;
 
 import static java.util.Collections.emptyList;
 

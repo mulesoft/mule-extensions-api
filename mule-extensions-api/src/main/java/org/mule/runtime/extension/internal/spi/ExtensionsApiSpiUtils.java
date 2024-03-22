@@ -35,6 +35,14 @@ public final class ExtensionsApiSpiUtils {
                   false);
   }
 
+  public static Stream<ExtensionModelLoaderProvider> loadExtensionModelLoaderProviders(ClassLoader classLoader) {
+    return stream(((Iterable<ExtensionModelLoaderProvider>) () -> load(ExtensionModelLoaderProvider.class,
+                                                                       classLoader)
+                                                                           .iterator())
+                                                                               .spliterator(),
+                  false);
+  }
+
   public static Stream<ExtensionSchemaGenerator> loadExtensionSchemaGenerators() {
     return stream(((Iterable<ExtensionSchemaGenerator>) () -> load(ExtensionSchemaGenerator.class,
                                                                    ExtensionsApiSpiUtils.class.getClassLoader())

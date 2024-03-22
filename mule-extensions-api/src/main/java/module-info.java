@@ -140,6 +140,8 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.internal.declaration.type to
       org.mule.runtime.extensions.mule.support;
+  exports org.mule.runtime.extension.internal.dsl to
+      org.mule.runtime.extensions.api.test;
   exports org.mule.runtime.extension.internal.dsl.xml to
       org.mule.runtime.artifact.ast.xmlParser,
       org.mule.runtime.extensions.mule.support,
