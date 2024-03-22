@@ -16,8 +16,8 @@ import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_BYTE_STR
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_INCREMENT_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_BUFFER_SIZE;
 import static org.mule.runtime.extension.api.ExtensionConstants.DEFAULT_OBJECT_STREAMING_MAX_BUFFER_SIZE;
-import static org.mule.runtime.internal.dsl.DslConstants.EE_NAMESPACE;
-import static org.mule.runtime.internal.dsl.DslConstants.EE_PREFIX;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.EE_NAMESPACE;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.EE_PREFIX;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.builder.ObjectTypeBuilder;

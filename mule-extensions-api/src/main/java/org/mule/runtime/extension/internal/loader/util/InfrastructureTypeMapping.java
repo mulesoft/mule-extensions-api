@@ -13,15 +13,15 @@ import static org.mule.runtime.extension.api.ExtensionConstants.SCHEDULING_STRAT
 import static org.mule.runtime.extension.api.ExtensionConstants.TLS_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_ACTION_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TYPE_PARAMETER_NAME;
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
-import static org.mule.runtime.internal.dsl.DslConstants.ERROR_MAPPING_ELEMENT_IDENTIFIER;
-import static org.mule.runtime.internal.dsl.DslConstants.SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER;
-import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
-import static org.mule.runtime.internal.dsl.DslConstants.TLS_CRL_FILE_ELEMENT_IDENTIFIER;
-import static org.mule.runtime.internal.dsl.DslConstants.TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER;
-import static org.mule.runtime.internal.dsl.DslConstants.TLS_PREFIX;
-import static org.mule.runtime.internal.dsl.DslConstants.TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_NAMESPACE;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.ERROR_MAPPING_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_CRL_FILE_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_PREFIX;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
 
 import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;

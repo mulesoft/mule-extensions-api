@@ -32,8 +32,8 @@ import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
 import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
-import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
-import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singleton;

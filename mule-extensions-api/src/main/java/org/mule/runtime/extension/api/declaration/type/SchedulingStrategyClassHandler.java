@@ -6,9 +6,9 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_NAMESPACE;
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
-import static org.mule.runtime.internal.dsl.DslConstants.SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_NAMESPACE;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.builder.BaseTypeBuilder;
