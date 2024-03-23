@@ -317,6 +317,21 @@ public final class ExtensionConstants {
   public static final String POLLING_SOURCE_LIMIT_PARAMETER_DESCRIPTION = "Limits the amount of items per poll. ";
 
   /**
+   * The name of the parameter which makes polling sources polls be secuential.
+   *
+   * @since 1.5.0
+   */
+  public static final String SEQUENTIAL_POLLS_PARAMETER_NAME = "sequentialPolls";
+
+  /**
+   * The description of the parameter which makes polling sources polls be secuential.
+   *
+   * @since 1.5.0
+   */
+  public static final String SEQUENTIAL_POLLS_PARAMETER_DESCRIPTION =
+      "Configure whether processing of items from different polls can overlap.";
+
+  /**
    * The id for the {@link ExtensionModelLoader} used to load Java based extensions
    *
    * @since 1.5.0
