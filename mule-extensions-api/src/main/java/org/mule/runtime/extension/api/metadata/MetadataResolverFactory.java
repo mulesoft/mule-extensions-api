@@ -6,14 +6,22 @@
  */
 package org.mule.runtime.extension.api.metadata;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Optional.empty;
+
+import org.mule.api.annotation.Experimental;
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
 import org.mule.runtime.api.metadata.resolving.InputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.api.metadata.resolving.QueryEntityResolver;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
+import org.mule.sdk.api.annotation.MinMuleVersion;
+import org.mule.sdk.api.metadata.resolving.ChainInputTypeResolver;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Provides instances of the {@link TypeKeysResolver}, {@link TypeKeysResolver}, {@link OutputTypeResolver} and
@@ -58,6 +66,18 @@ public interface MetadataResolverFactory {
    * @return an instance of the {@link AttributesTypeResolver}
    */
   <T> AttributesTypeResolver<T> getOutputAttributesResolver();
+
+  @Experimental
+  @MinMuleVersion("4.7.0")
+  default Optional<ChainInputTypeResolver> getScopeChainInputTypeResolver() {
+    return empty();
+  }
+
+  @Experimental
+  @MinMuleVersion("4.7.0")
+  default Map<String, ChainInputTypeResolver> getRouterChainInputResolvers() {
+    return emptyMap();
+  }
 
   /**
    * Provides an instance of the {@link QueryEntityResolver} type associated to a query operation.
