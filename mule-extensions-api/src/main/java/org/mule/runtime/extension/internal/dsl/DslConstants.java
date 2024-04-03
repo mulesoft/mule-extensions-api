@@ -34,68 +34,9 @@ public interface DslConstants {
   String CORE_NAMESPACE = format(DEFAULT_NAMESPACE_URI_MASK, "core");
 
   /**
-   * The prefix for components (operations, sources, etc) defined in the current application
-   *
-   * @since 1.5.0
-   */
-  String THIS_PREFIX = "this";
-
-  /**
-   * The namespace for components (operations, sources, etc) defined in the current application
-   *
-   * @since 1.5.0
-   */
-  String THIS_NAMESPACE = format(DEFAULT_NAMESPACE_URI_MASK, THIS_PREFIX);
-
-  /**
-   * The prefix for defining operations.
-   *
-   * @since 1.5.0
-   */
-  String OPERATION_PREFIX = "operation";
-
-  /**
-   * The name of an operation's body.
-   *
-   * @since 1.5.0
-   */
-  String BODY_NAME = "body";
-
-  /**
-   * The name of the try scope.
-   *
-   * @since 1.5.0
-   */
-  String TRY_SCOPE_NAME = "try";
-
-  /**
-   * The name of the error handler section.
-   *
-   * @since 1.5.0
-   */
-  String ERROR_HANDLER_NAME = "error-handler";
-
-  /**
-   * The name of the error handler's ref parameter.
-   *
-   * @since 1.5.0
-   */
-  String ERROR_HANDLER_REF_PARAMETER_NAME = "ref";
-
-  /**
    * Namespace for Mule core elements
    */
   String CORE_SCHEMA_LOCATION = format("%s/%s/%s.xsd", CORE_NAMESPACE, "current", CORE_PREFIX);
-
-  /**
-   * This is the namespace prefix for core domain elements in the configuration.
-   */
-  String DOMAIN_PREFIX = "domain";
-
-  /**
-   * Namespace for Mule core domain elements
-   */
-  String DOMAIN_NAMESPACE = format(DEFAULT_NAMESPACE_URI_MASK, "domain");
 
   /**
    * This is the namespace prefix for EE elements in the configuration.
@@ -106,26 +47,6 @@ public interface DslConstants {
    * Namespace for EE elements
    */
   String EE_NAMESPACE = format(DEFAULT_NAMESPACE_URI_MASK, "ee/core");
-
-  /**
-   * This is the namespace prefix for EE domain elements in the configuration.
-   */
-  String EE_DOMAIN_PREFIX = "ee-domain";
-
-  /**
-   * Namespace for EE domain elements
-   */
-  String EE_DOMAIN_NAMESPACE = format(DEFAULT_NAMESPACE_URI_MASK, "ee/domain");
-
-  /**
-   * The identifier name of a {@code flow}
-   */
-  String FLOW_ELEMENT_IDENTIFIER = "flow";
-
-  /**
-   * The identifier name of a {@code sub-flow}
-   */
-  String SUBFLOW_ELEMENT_IDENTIFIER = "sub-flow";
 
   /**
    * The name of the 'name' attribute of a DSL element
@@ -148,25 +69,9 @@ public interface DslConstants {
   String VALUE_ATTRIBUTE_NAME = "value";
 
   /**
-   * The identifier name of the {@code reconnectForever} implementation of {@code reconnectionStrategy} infrastructure parameter
-   */
-  String RECONNECT_FOREVER_ELEMENT_IDENTIFIER = "reconnect-forever";
-
-  /**
-   * The identifier name of the {@code reconnect} implementation of {@code reconnectionStrategy} infrastructure parameter
-   */
-
-  String RECONNECT_ELEMENT_IDENTIFIER = "reconnect";
-
-  /**
    * The identifier name of the {@code reconnection} implementation of {@code reconnectionConfig} infrastructure parameter
    */
   String RECONNECTION_ELEMENT_IDENTIFIER = "reconnection";
-
-  /**
-   * The identifier name of the {@code redeliveryPolicy} infrastructure parameter
-   */
-  String REDELIVERY_POLICY_ELEMENT_IDENTIFIER = "redelivery-policy";
 
   /**
    * The identifier name of the {@code expirationPolicy} infrastructure parameter
@@ -224,16 +129,6 @@ public interface DslConstants {
   String SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER = "scheduling-strategy";
 
   /**
-   * The identifier name of the {@code schedulingStrategy} infrastructure parameter
-   */
-  String FIXED_FREQUENCY_STRATEGY_ELEMENT_IDENTIFIER = "fixed-frequency";
-
-  /**
-   * The identifier name of the {@code schedulingStrategy} infrastructure parameter
-   */
-  String CRON_STRATEGY_ELEMENT_IDENTIFIER = "cron";
-
-  /**
    * The identifier name of the {@code errorMappings} infrastructure parameter
    */
   String ERROR_MAPPINGS_ELEMENT_IDENTIFIER = "error-mappings";
@@ -242,9 +137,4 @@ public interface DslConstants {
    * The identifier name of the {@code errorMapping} infrastructure parameter
    */
   String ERROR_MAPPING_ELEMENT_IDENTIFIER = "error-mapping";
-
-  /**
-   * The identifier name of the on-error-propagate element
-   */
-  String ON_ERROR_PROPAGATE_ELEMENT_IDENTIFIER = "on-error-propagate";
 }
