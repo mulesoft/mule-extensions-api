@@ -80,9 +80,8 @@ public interface MetadataResolverFactory {
   }
 
   /**
-   * If the component is a router, it provides {@link ChainInputTypeResolver} instances
-   * through a {@link Map} which keys are the corresponding route names. If the component is not a router,
-   * an empty map will be returned.
+   * If the component is a router, it provides {@link ChainInputTypeResolver} instances through a {@link Map} which keys are the
+   * corresponding route names. If the component is not a router, an empty map will be returned.
    *
    * <b>NOTE:</b> Experimental feature. Backwards compatibility is not guaranteed.
    *
