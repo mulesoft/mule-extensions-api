@@ -13,7 +13,7 @@ import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MAX_POOL_ACTIVE
 import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MAX_POOL_IDLE;
 import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MAX_POOL_WAIT;
 import static org.mule.runtime.api.config.PoolingProfile.DEFAULT_MIN_EVICTION_MILLIS;
-import static org.mule.runtime.internal.dsl.DslConstants.POOLING_PROFILE_ELEMENT_IDENTIFIER;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.POOLING_PROFILE_ELEMENT_IDENTIFIER;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;

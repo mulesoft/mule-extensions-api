@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.client;
 
 import static java.util.Optional.ofNullable;
 
-import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
 
 import org.mule.sdk.api.annotation.MinMuleVersion;
 

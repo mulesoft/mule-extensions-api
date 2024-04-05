@@ -8,7 +8,7 @@ package org.mule.runtime.extension.api.stereotype;
 
 import static org.mule.runtime.api.meta.model.stereotype.StereotypeModelBuilder.newStereotype;
 import static org.mule.runtime.extension.api.ExtensionConstants.OBJECT_STORE_ELEMENT_NAMESPACE;
-import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
 
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
 

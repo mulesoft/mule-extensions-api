@@ -8,7 +8,7 @@ package org.mule.runtime.extension.internal.loader.validator;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.mule.runtime.internal.dsl.DslConstants.NAME_ATTRIBUTE_NAME;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.NAME_ATTRIBUTE_NAME;
 
 import java.util.List;
 
