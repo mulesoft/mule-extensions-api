@@ -16,24 +16,17 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Provider of an {@link ExtensionModel} of a Mule Runtime Component.
+ *
+ * @since 1.7
+ */
 @NoImplement
 public interface RuntimeExtensionModelProvider {
 
-  ExtensionModel createExtensionModel();
-
   /**
-   * Discovers the extension models provided by the Mule Runtime.
-   *
-   * @return {@link Set} of the runtime provided {@link ExtensionModel}s.
+   * @return the {@link ExtensionModel} corresponding to the Runtime Component.
    */
-  static Set<ExtensionModel> discoverRuntimeExtensionModels() {
-    return stream(((Iterable<RuntimeExtensionModelProvider>) () -> load(RuntimeExtensionModelProvider.class,
-                                                                        RuntimeExtensionModelProvider.class.getClassLoader())
-                                                                            .iterator()).spliterator(),
-                  false)
-                      .map(RuntimeExtensionModelProvider::createExtensionModel)
-                      .filter(Objects::nonNull)
-                      .collect(toSet());
-  }
+  ExtensionModel createExtensionModel();
 
 }
