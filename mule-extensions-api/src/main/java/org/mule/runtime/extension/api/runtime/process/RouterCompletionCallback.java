@@ -46,9 +46,12 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * <p>
  *
  * @since 1.0
+ * @deprecated since 1.7.0. Starting with Mule 4.7, routers can now have random outputs, use
+ *             {@link org.mule.sdk.api.runtime.process.CompletionCallback} instead
  */
 @MinMuleVersion("4.1")
 @NoImplement
+@Deprecated
 public interface RouterCompletionCallback extends CompletionCallback<Object, Object> {
 
 
