@@ -20,7 +20,7 @@ import static java.util.stream.StreamSupport.stream;
  *
  * @since 1.7
  */
-public class RuntimeExtensionModelProviderLoaderUtils {
+public final class RuntimeExtensionModelProviderLoaderUtils {
 
   private RuntimeExtensionModelProviderLoaderUtils() {
 
@@ -37,7 +37,6 @@ public class RuntimeExtensionModelProviderLoaderUtils {
                                                                             .iterator()).spliterator(),
                   false)
                       .map(RuntimeExtensionModelProvider::createExtensionModel)
-                      .filter(Objects::nonNull)
                       .collect(toSet());
   }
 
