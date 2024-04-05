@@ -102,6 +102,8 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 abstract class BasePersistenceTestCase {
 
+  protected static final String SERIALIZED_EXTENSION_MODEL_COMPATIBILITY_JSON =
+      "/extension/serialized-extension-model-compatibility.json";
   protected static final String SERIALIZED_EXTENSION_MODEL_JSON = "/extension/serialized-extension-model.json";
   protected static final String SERIALIZED_EXTENSION_MODEL_JSON_NO_CATALOG =
       "/extension/serialized-extension-model-no-catalog.json";
@@ -157,9 +159,13 @@ abstract class BasePersistenceTestCase {
 
   protected ExtensionModel deserializedExtensionModel;
   protected ExtensionModel originalExtensionModel;
+  protected ExtensionModel compatibilityExtensionModel;
   protected OperationModel getCarOperation;
-  protected ConstructModel foreachScope;
-  protected ConstructModel choiceRouter;
+  protected ConstructModel compatibilityForeachScope;
+  protected ConstructModel compatibilityChoiceRouter;
+  protected OperationModel foreachScope;
+  protected OperationModel choiceRouter;
+
   protected SourceModel sourceModel;
   protected JsonElement serializedExtensionModel;
   protected JsonObject operationModelProperties;
@@ -289,10 +295,25 @@ abstract class BasePersistenceTestCase {
     configureOAuth();
     originalExtensionModel =
         new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
+                                    emptyList(), asList(getCarOperation, foreachScope, choiceRouter),
+                                    singletonList(basicAuth), singletonList(sourceModel),
+                                    singletonList(functionModel),
+                                    emptyList(),
+                                    defaultDisplayModel,
+                                    XmlDslModel.builder().build(),
+                                    emptySet(), typesCatalog,
+                                    emptySet(), emptySet(),
+                                    of(ERROR_MODEL, PARENT_ERROR_MODEL, CONNECTIVITY_ERROR_MODEL, ANY_ERROR_MODEL),
+                                    externalLibrarySet(), emptySet(), emptySet(), singleton(accessCodeModelProperty), emptySet(),
+                                    null, null, EXTENSION_MIN_MULE_VERSION,
+                                    new LinkedHashSet<>(asList(JAVA_VERSION_8, JAVA_VERSION_11)));
+
+    compatibilityExtensionModel =
+        new ImmutableExtensionModel("DummyExtension", "Test extension", "4.0.0", "MuleSoft", COMMUNITY,
                                     emptyList(), asList(getCarOperation),
                                     singletonList(basicAuth), singletonList(sourceModel),
                                     singletonList(functionModel),
-                                    asList(foreachScope, choiceRouter),
+                                    asList(compatibilityForeachScope, compatibilityChoiceRouter),
                                     defaultDisplayModel,
                                     XmlDslModel.builder().build(),
                                     emptySet(), typesCatalog,
@@ -323,6 +344,22 @@ abstract class BasePersistenceTestCase {
   }
 
   private void createCoreOperations() {
+    ExtensionModel compatibilityCoreModel = new ExtensionModelLoader() {
+
+      @Override
+      public String getId() {
+        return "test";
+      }
+
+      @Override
+      protected void declareExtension(ExtensionLoadingContext context) {
+        new TestCoreExtensionDeclarer().compatibilityDeclareOn(context.getExtensionDeclarer());
+      }
+    }.loadExtensionModel(getClass().getClassLoader(), getDefault(emptySet()), new HashMap<>());
+
+    compatibilityForeachScope = compatibilityCoreModel.getConstructModel(FOREACH_OPERATION_NAME).get();
+    compatibilityChoiceRouter = compatibilityCoreModel.getConstructModel(CHOICE_OPERATION_NAME).get();
+
     ExtensionModel coreModel = new ExtensionModelLoader() {
 
       @Override
@@ -336,8 +373,8 @@ abstract class BasePersistenceTestCase {
       }
     }.loadExtensionModel(getClass().getClassLoader(), getDefault(emptySet()), new HashMap<>());
 
-    foreachScope = coreModel.getConstructModel(FOREACH_OPERATION_NAME).get();
-    choiceRouter = coreModel.getConstructModel(CHOICE_OPERATION_NAME).get();
+    foreachScope = coreModel.getOperationModel(FOREACH_OPERATION_NAME).get();
+    choiceRouter = coreModel.getOperationModel(CHOICE_OPERATION_NAME).get();
   }
 
   protected String getResourceAsString(String fileName) throws IOException {
