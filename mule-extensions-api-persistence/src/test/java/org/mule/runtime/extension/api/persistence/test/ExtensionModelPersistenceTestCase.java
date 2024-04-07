@@ -105,6 +105,12 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
   }
 
   @Test
+  public void validateJsonStructureRoutersCompatibility() throws IOException {
+    String serializedModel = extensionModelJsonSerializer.serialize(compatibilityExtensionModel);
+    assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_COMPATIBILITY_JSON);
+  }
+
+  @Test
   public void validateJsonStructure() throws IOException {
     String serializedModel = extensionModelJsonSerializer.serialize(originalExtensionModel);
     assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON);
@@ -121,7 +127,7 @@ public class ExtensionModelPersistenceTestCase extends BasePersistenceTestCase {
     ExtensionModel extensionModel = extensionModelJsonSerializer
         .deserialize(getResourceAsString("/extension/serialized-extension-model-without-nested-occurs.json"));
     String serializedModel = extensionModelJsonSerializer.serialize(extensionModel);
-    assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_JSON, false);
+    assertSerializedJson(serializedModel, SERIALIZED_EXTENSION_MODEL_COMPATIBILITY_JSON, false);
   }
 
   @Test
