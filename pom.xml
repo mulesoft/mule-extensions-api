@@ -143,7 +143,7 @@
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
 
-        <muleBomVersion>4.3.0-20240318</muleBomVersion>
+        <muleBomVersion>4.3.0-20240408</muleBomVersion>
     </properties>
 
     <!--
