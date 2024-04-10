@@ -37,6 +37,9 @@ public final class RuntimeExtensionModelProviderLoaderUtils {
                                                                             .iterator()).spliterator(),
                   false)
                       .map(RuntimeExtensionModelProvider::createExtensionModel)
+                      // When the Mule SDK is disabled, it loads a null Extension Model (the default behavior for now), so we need
+                      // to filter that null here
+                      .filter(Objects::nonNull)
                       .collect(toSet());
   }
 
