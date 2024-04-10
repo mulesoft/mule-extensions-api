@@ -83,6 +83,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.resources;
   exports org.mule.runtime.extension.api.resources.spi;
   exports org.mule.runtime.extension.api.property;
+  exports org.mule.runtime.extension.api.provider;
   exports org.mule.runtime.extension.api.runtime;
   exports org.mule.runtime.extension.api.runtime.config;
   exports org.mule.runtime.extension.api.runtime.connectivity;
@@ -253,6 +254,7 @@ module org.mule.runtime.extensions.api {
   uses org.mule.runtime.extension.api.dsl.syntax.resources.spi.DslResourceFactory;
   uses org.mule.runtime.extension.api.dsl.syntax.resources.spi.ExtensionSchemaGenerator;
   uses org.mule.runtime.extension.api.loader.ExtensionModelLoaderProvider;
+  uses org.mule.runtime.extension.api.provider.RuntimeExtensionModelProvider;
   uses org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory;
 
 }
