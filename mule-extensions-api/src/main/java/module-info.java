@@ -256,5 +256,6 @@ module org.mule.runtime.extensions.api {
   uses org.mule.runtime.extension.api.loader.ExtensionModelLoaderProvider;
   uses org.mule.runtime.extension.api.provider.RuntimeExtensionModelProvider;
   uses org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory;
+  uses org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer.ComponentMetadataConfigurerFactory;
 
 }
