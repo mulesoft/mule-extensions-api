@@ -175,15 +175,4 @@ public interface ComponentMetadataConfigurer {
    */
   <T extends ComponentDeclaration> void configure(ParameterizedDeclaration<T> declaration);
 
-  /**
-   * Factory of {@link ComponentMetadataConfigurer}.
-   */
-  interface ComponentMetadataConfigurerFactory {
-
-    /**
-     * @return an implementation of {@link ComponentMetadataConfigurer}.
-     */
-    ComponentMetadataConfigurer create();
-  }
-
 }
