@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.metadata;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer;
 
 /**
@@ -13,6 +14,7 @@ import org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer;
  * 
  * @since 4.8
  */
+@NoImplement
 public interface ComponentMetadataConfigurerFactoryDelegate {
 
   /**
