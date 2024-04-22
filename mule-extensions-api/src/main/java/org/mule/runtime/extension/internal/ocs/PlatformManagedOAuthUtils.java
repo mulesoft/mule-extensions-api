@@ -6,8 +6,9 @@
  */
 package org.mule.runtime.extension.internal.ocs;
 
+import static org.mule.runtime.extension.api.ocs.OCSConstants.OCS_ENABLED;
+
 import static java.lang.System.getProperty;
-import static org.mule.runtime.extension.internal.ocs.OCSConstants.OCS_ENABLED;
 
 import org.mule.runtime.api.component.ConfigurationProperties;
 

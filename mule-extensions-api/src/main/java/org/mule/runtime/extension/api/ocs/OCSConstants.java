@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.ocs;
+package org.mule.runtime.extension.api.ocs;
 
 import org.mule.api.annotation.Experimental;
 import org.mule.runtime.api.component.ConfigurationProperties;
