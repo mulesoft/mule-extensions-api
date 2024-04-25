@@ -82,6 +82,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.loader;
   exports org.mule.runtime.extension.api.resources;
   exports org.mule.runtime.extension.api.resources.spi;
+  exports org.mule.runtime.extension.api.ocs;
   exports org.mule.runtime.extension.api.property;
   exports org.mule.runtime.extension.api.provider;
   exports org.mule.runtime.extension.api.runtime;
@@ -182,8 +183,6 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.notification to
       org.mule.runtime.extensions.support;
 
-  exports org.mule.runtime.extension.internal.ocs to
-      org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.internal.property to
       org.mule.runtime.artifact.ast,
       org.mule.runtime.extension.model,
