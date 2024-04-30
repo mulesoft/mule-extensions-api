@@ -55,6 +55,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.annotation.dsl.xml;
   exports org.mule.runtime.extension.api.annotation.execution;
   exports org.mule.runtime.extension.api.annotation.error;
+  exports org.mule.runtime.extension.api.annotation.license;
   exports org.mule.runtime.extension.api.annotation.metadata;
   exports org.mule.runtime.extension.api.annotation.metadata.fixed;
   exports org.mule.runtime.extension.api.annotation.notification;
@@ -63,19 +64,27 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.annotation.param.display;
   exports org.mule.runtime.extension.api.annotation.param.reference;
   exports org.mule.runtime.extension.api.annotation.param.stereotype;
+  exports org.mule.runtime.extension.api.annotation.privileged;
   exports org.mule.runtime.extension.api.annotation.source;
   exports org.mule.runtime.extension.api.connectivity;
   exports org.mule.runtime.extension.api.connectivity.oauth;
   exports org.mule.runtime.extension.api.client;
   exports org.mule.runtime.extension.api.client.params;
   exports org.mule.runtime.extension.api.client.source;
+  exports org.mule.runtime.extension.api.data.sample;
+  exports org.mule.runtime.extension.api.declaration.fluent.util;
   exports org.mule.runtime.extension.api.error;
   exports org.mule.runtime.extension.api.exception;
   exports org.mule.runtime.extension.api.metadata;
   exports org.mule.runtime.extension.api.model;
   exports org.mule.runtime.extension.api.model.config;
-  exports org.mule.runtime.extension.api.model.operation;
+  exports org.mule.runtime.extension.api.model.construct;
+  exports org.mule.runtime.extension.api.model.connection;
+  exports org.mule.runtime.extension.api.model.deprecated;
+  exports org.mule.runtime.extension.api.model.function;
+  exports org.mule.runtime.extension.api.model.nested;
   exports org.mule.runtime.extension.api.model.notification;
+  exports org.mule.runtime.extension.api.model.operation;
   exports org.mule.runtime.extension.api.model.parameter;
   exports org.mule.runtime.extension.api.model.source;
   exports org.mule.runtime.extension.api.notification;
@@ -112,33 +121,6 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.privileged.semantic;
   exports org.mule.runtime.extension.privileged.spi;
   exports org.mule.runtime.extension.privileged.util;
-
-  exports org.mule.runtime.extension.api.annotation.privileged to
-      org.mule.runtime.extensions.support;
-  exports org.mule.runtime.extension.api.annotation.license to
-      org.mule.runtime.extensions.support;
-  exports org.mule.runtime.extension.api.data.sample to
-      org.mule.runtime.extensions.support;
-  exports org.mule.runtime.extension.api.declaration.fluent.util to
-      org.mule.runtime.extensions.xml.support;
-  exports org.mule.runtime.extension.api.model.construct to
-      org.mule.runtime.extensions.api.persistence,
-      org.mule.runtime.extensions.support;
-  exports org.mule.runtime.extension.api.model.connection to
-      org.mule.runtime.extensions.api.persistence,
-      org.mule.runtime.spring.config,
-      org.mule.runtime.extensions.api.persistence.test;
-  exports org.mule.runtime.extension.api.model.deprecated to
-      org.mule.runtime.extensions.api.persistence,
-      org.mule.runtime.extensions.api.persistence.test,
-      org.mule.runtime.extension.model,
-      org.mule.runtime.extensions.support,
-      org.mule.runtime.extensions.mule.support;
-  exports org.mule.runtime.extension.api.model.function to
-      org.mule.runtime.extensions.api.persistence,
-      org.mule.runtime.extensions.api.persistence.test;
-  exports org.mule.runtime.extension.api.model.nested to
-      org.mule.runtime.extensions.api.persistence;
 
   // W-15399821 Add visibility for legacy code
   exports org.mule.runtime.extension.internal.client to
@@ -177,10 +159,6 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.mule.support,
       org.mule.runtime.extensions.soap.support;
-
-  // Allow extensions-support to create objects from these packages dynamically
-  opens org.mule.runtime.extension.api.runtime.route to
-      org.mule.runtime.extensions.support;
 
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
