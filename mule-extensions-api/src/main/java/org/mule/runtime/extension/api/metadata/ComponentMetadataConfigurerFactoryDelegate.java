@@ -4,10 +4,9 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.metadata;
+package org.mule.runtime.extension.api.metadata;
 
 import org.mule.api.annotation.NoImplement;
-import org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer;
 
 /**
  * Factory of {@link ComponentMetadataConfigurer}.
