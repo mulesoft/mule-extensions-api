@@ -13,13 +13,12 @@ import org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer;
  * Factory of {@link ComponentMetadataConfigurer}.
  * 
  * @since 4.8
+ * 
+ * @deprecated Use org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurerFactoryDelegate instead.
  */
 @NoImplement
-public interface ComponentMetadataConfigurerFactoryDelegate {
-
-  /**
-   * @return an implementation of {@link ComponentMetadataConfigurer}.
-   */
-  ComponentMetadataConfigurer create();
+@Deprecated
+public interface ComponentMetadataConfigurerFactoryDelegate
+    extends org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurerFactoryDelegate {
 
 }

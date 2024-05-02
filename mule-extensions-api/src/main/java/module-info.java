@@ -213,9 +213,6 @@ module org.mule.runtime.extensions.api {
   opens org.mule.runtime.extension.api.runtime.route to
       org.mule.runtime.extensions.support;
 
-  exports org.mule.runtime.extension.internal.metadata to
-      org.mule.runtime.extensions.support;
-
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
       com.google.gson;
@@ -258,6 +255,6 @@ module org.mule.runtime.extensions.api {
   uses org.mule.runtime.extension.api.loader.ExtensionModelLoaderProvider;
   uses org.mule.runtime.extension.api.provider.RuntimeExtensionModelProvider;
   uses org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory;
-  uses org.mule.runtime.extension.internal.metadata.ComponentMetadataConfigurerFactoryDelegate;
+  uses org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurerFactoryDelegate;
 
 }

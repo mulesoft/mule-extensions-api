@@ -13,6 +13,7 @@ import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.util.LazyValue;
 import org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer;
 import org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurerFactory;
+import org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurerFactoryDelegate;
 
 import java.util.Iterator;
 
