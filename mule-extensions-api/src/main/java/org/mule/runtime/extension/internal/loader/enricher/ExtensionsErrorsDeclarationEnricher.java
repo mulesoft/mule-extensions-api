@@ -6,19 +6,19 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.String.format;
-import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.model.error.ErrorModelBuilder.newError;
 import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
-import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.MULE_DSL;
-import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.isExtensionDevelopmentFramework;
+import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isConnectivityErrorSupported;
 import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
 import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
-import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.VALIDATOR;
+
+import static java.lang.String.format;
+import static java.util.Optional.of;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
@@ -79,7 +79,7 @@ public class ExtensionsErrorsDeclarationEnricher implements WalkingDeclarationEn
     public void onOperation(WithOperationsDeclaration owner, OperationDeclaration operationDeclaration) {
       errorModels.addAll(operationDeclaration.getErrorModels());
       if (operationDeclaration.isRequiresConnection()) {
-        if (requiresConnectivityError(extensionDeclaration)) {
+        if (requiresConnectivityError(operationDeclaration)) {
           addErrorModel(operationDeclaration, connectivityError, CONNECTIVITY_ERROR_TYPE);
         }
         if (requiresRetryExhaustedError(operationDeclaration)) {
@@ -90,10 +90,10 @@ public class ExtensionsErrorsDeclarationEnricher implements WalkingDeclarationEn
       assureValidationError(extensionDeclaration, operationDeclaration);
     }
 
-    private boolean requiresConnectivityError(ExtensionDeclaration extensionDeclaration) {
+    private boolean requiresConnectivityError(OperationDeclaration operationDeclaration) {
       // Composite operations defined in the same application should not declare the connectivity error type.
       // They will just propagate the errors from the inner operations.
-      return !isExtensionDevelopmentFramework(extensionDeclaration, MULE_DSL);
+      return isConnectivityErrorSupported(operationDeclaration);
     }
 
     private boolean requiresRetryExhaustedError(OperationDeclaration operationDeclaration) {
