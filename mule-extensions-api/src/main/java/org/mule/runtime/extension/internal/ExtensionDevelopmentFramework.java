@@ -13,8 +13,9 @@ import org.mule.runtime.extension.internal.property.DevelopmentFrameworkModelPro
 /**
  * The main extension development frameworks.
  *
- * @since 1.5
+ * @deprecated since 1.8
  */
+@Deprecated
 public enum ExtensionDevelopmentFramework {
 
   JAVA_SDK, XML_SDK, MULE_SDK, MULE_DSL;

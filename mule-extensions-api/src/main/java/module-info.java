@@ -134,26 +134,18 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.model.nested to
       org.mule.runtime.extensions.api.persistence;
 
-  exports org.mule.runtime.extension.internal to
-      org.mule.runtime.extensions.support,
-      org.mule.runtime.extensions.mule.support,
-      org.mule.runtime.extensions.xml.support;
+  // W-15399821 Add visibility for legacy code
   exports org.mule.runtime.extension.internal.client to
       org.mule.runtime.extensions.support;
-  exports org.mule.runtime.extension.internal.declaration.type to
-      org.mule.runtime.extensions.mule.support;
+
   exports org.mule.runtime.extension.internal.dsl to
       org.mule.runtime.extensions.api.test;
   exports org.mule.runtime.extension.internal.dsl.xml to
-      org.mule.runtime.artifact.ast.xmlParser,
-      org.mule.runtime.extensions.mule.support,
-      org.mule.runtime.extensions.xml.support,
-      org.mule.runtime.spring.config;
+      org.mule.runtime.artifact.ast.xmlParser;
   // required by modules creating crafted extension models
   exports org.mule.runtime.extension.internal.loader to
       org.mule.runtime.extension.model,
       org.mule.runtime.extensions.spring.support,
-      org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.xml.support,
       org.mule.runtime.extensions.mule.support,
       com.mulesoft.mule.runtime.ee.extension.model,
@@ -177,7 +169,6 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.loader.validator to
-      org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.notification to

@@ -6,15 +6,12 @@
  */
 package org.mule.runtime.extension.internal.util;
 
-import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.MULE_DSL;
-import static org.mule.runtime.extension.internal.ExtensionDevelopmentFramework.isExtensionDevelopmentFramework;
-
 import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
-import org.mule.runtime.extension.internal.ExtensionDevelopmentFramework;
+import org.mule.runtime.extension.internal.property.NoConnectivityErrorModelProperty;
 import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
 
 /**
@@ -34,7 +31,7 @@ public class ExtensionConnectivityUtils {
   public static boolean isConnectionProvisioningRequired(ExtensionModel extensionModel,
                                                          ConnectableComponentModel componentModel) {
     return componentModel.requiresConnection()
-        && !ExtensionDevelopmentFramework.isExtensionDevelopmentFramework(extensionModel, MULE_DSL);
+        && isConnectivityErrorSupported(componentModel);
   }
 
   /**
@@ -64,5 +61,21 @@ public class ExtensionConnectivityUtils {
 
   private static boolean isReconnectionStrategySupported(BaseDeclaration<?> declaration) {
     return !declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent();
+  }
+
+  /**
+   * @param declaration an {@link ExecutableComponentDeclaration}.
+   * @return Whether the component declared by the given {@code declaration} supports having a reconnection strategy.
+   */
+  public static boolean isConnectivityErrorSupported(ExecutableComponentDeclaration<?> declaration) {
+    return isConnectivityErrorSupported((BaseDeclaration<?>) declaration);
+  }
+
+  private static boolean isConnectivityErrorSupported(BaseDeclaration<?> declaration) {
+    return !declaration.getModelProperty(NoConnectivityErrorModelProperty.class).isPresent();
+  }
+
+  private static boolean isConnectivityErrorSupported(ConnectableComponentModel componentModel) {
+    return !componentModel.getModelProperty(NoConnectivityErrorModelProperty.class).isPresent();
   }
 }

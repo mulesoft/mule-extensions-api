@@ -16,7 +16,9 @@ import org.mule.runtime.extension.internal.ExtensionDevelopmentFramework;
  * frameworks. An example of this could be extensions programmatically declared.
  *
  * @since 1.5
+ * @deprecated since 1.8
  */
+@Deprecated
 public class DevelopmentFrameworkModelProperty implements ModelProperty {
 
   private final ExtensionDevelopmentFramework extensionDevelopmentFramework;
