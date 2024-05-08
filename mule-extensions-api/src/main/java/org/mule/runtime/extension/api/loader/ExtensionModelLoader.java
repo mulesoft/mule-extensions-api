@@ -120,6 +120,8 @@ public abstract class ExtensionModelLoader {
    * @return an {@link ExtensionModel} that represents the plugin being described
    * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
    *                                  one.
+   * 
+   * @since 1.8
    */
   public final ExtensionModel loadExtensionModel(ExtensionDeclarer extensionDeclarer, ExtensionModelLoadingRequest request) {
     ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(extensionDeclarer, request);
