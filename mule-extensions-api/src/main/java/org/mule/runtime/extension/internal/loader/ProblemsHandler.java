@@ -6,11 +6,16 @@
  */
 package org.mule.runtime.extension.internal.loader;
 
+import org.mule.runtime.extension.api.loader.Problem;
+import org.mule.runtime.extension.api.loader.ProblemsReporter;
+
 /**
  * Handler for the {@link Problem problems} generated when loading an extension.
  *
  * @since 1.1
+ * @deprecated
  */
+@Deprecated
 public interface ProblemsHandler {
 
   /**
