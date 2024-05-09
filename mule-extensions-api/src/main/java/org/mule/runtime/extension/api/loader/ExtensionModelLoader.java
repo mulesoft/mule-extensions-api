@@ -7,11 +7,12 @@
 package org.mule.runtime.extension.api.loader;
 
 
-import static java.lang.Thread.currentThread;
+import static org.mule.runtime.extension.api.loader.ExtensionLoadingContext.EXTENSION_LOADER_PROPERTY_PREFIX;
 import static org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest.builder;
 
+import static java.lang.Thread.currentThread;
+
 import org.mule.api.annotation.NoImplement;
-import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.deployment.meta.MulePluginModel;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -29,6 +30,16 @@ import java.util.Map;
  */
 @NoImplement
 public abstract class ExtensionModelLoader {
+
+  /**
+   * Avoids setting a default value of {@code false} to parameters of boolean type.
+   * <p>
+   * This is used to avoid W-12003688.
+   *
+   * @since 1.5.0
+   */
+  public static final String DONT_SET_DEFAULT_VALUE_TO_BOOLEAN_PARAMS =
+      EXTENSION_LOADER_PROPERTY_PREFIX + "DONT_SET_DEFAULT_VALUE_TO_BOOLEAN_PARAMS";
 
   private final ExtensionModelFactory factory = new ExtensionModelFactory();
 
@@ -90,7 +101,30 @@ public abstract class ExtensionModelLoader {
    *                                  one.
    */
   public final ExtensionModel loadExtensionModel(ExtensionModelLoadingRequest request) {
-    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(request);
+    return loadExtensionModel(new ExtensionDeclarer(), request);
+  }
+
+  /**
+   * Creates an {@link ExtensionModel} from the {@code request}.
+   * <p>
+   * This method delegates into {@link #declareExtension(ExtensionLoadingContext)} in order to obtain the
+   * {@link ExtensionDeclaration}. That declaration is then transformed into an actual {@link ExtensionModel}. While loading the
+   * extension, a default set of {@link DeclarationEnricher} and {@link ExtensionModelValidator} will be applied.
+   * <p>
+   * The {@link ExtensionLoadingContext} received in {@link #declareExtension(ExtensionLoadingContext)} might additionally contain
+   * extra ones. The {@link #configureContextBeforeDeclaration(ExtensionLoadingContext)} allows to add custom configurations into
+   * the context before the declaration begins.
+   *
+   * @param extensionDeclarer a base declarer for the extension to be loaded.
+   * @param request           a {@link ExtensionModelLoadingRequest} which configures the loading operation
+   * @return an {@link ExtensionModel} that represents the plugin being described
+   * @throws IllegalArgumentException if there are missing entries in {@code attributes} or their type does not match the expected
+   *                                  one.
+   * 
+   * @since 1.8
+   */
+  public final ExtensionModel loadExtensionModel(ExtensionDeclarer extensionDeclarer, ExtensionModelLoadingRequest request) {
+    ExtensionLoadingContext ctx = new DefaultExtensionLoadingContext(extensionDeclarer, request);
     configureContextBeforeDeclaration(ctx);
 
     ClassLoader currentClassLoader = currentThread().getContextClassLoader();

@@ -1,4 +1,16 @@
 {
+  "1.8.0": {
+    "revapi": {
+      "ignore": [
+		{
+		  "ignore": true,
+		  "code": "java.method.finalMethodAddedToNonFinalClass",
+		  "new": "method org.mule.runtime.api.meta.model.ExtensionModel org.mule.runtime.extension.api.loader.ExtensionModelLoader::loadExtensionModel(org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer, org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest)",
+		  "justification": "W-15716727: Update ExtensionModel providers to not use extensions-api internals"
+		}
+      ]
+    }
+  },
   "1.5.0": {
     "revapi": {
       "ignore": [
