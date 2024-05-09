@@ -17,7 +17,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
-import org.mule.runtime.extension.internal.property.NoErrorMappingModelProperty;
+import org.mule.runtime.extension.api.property.NoErrorMappingModelProperty;
 
 import java.util.Optional;
 

@@ -4,23 +4,31 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.property;
+package org.mule.runtime.extension.api.property;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.tx.TransactionType;
 
 /**
- * {@link ModelProperty} for indicating that the owning operation may not have a configuring streaming strategy, regardless of it
- * being a streaming operation.
+ * Marker {@link ModelProperty} to indicate that the enriched element is a {@link TransactionType}
  *
- * @since 1.5
+ * @since 1.0
  */
-public class NoStreamingConfigurationModelProperty implements ModelProperty {
+public class TransactionalTypeModelProperty implements ModelProperty {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getName() {
-    return "noStreamingConfiguration";
+    return "transactionType";
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@code false}
+   */
   @Override
   public boolean isPublic() {
     return false;

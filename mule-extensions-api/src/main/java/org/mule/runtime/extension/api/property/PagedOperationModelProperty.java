@@ -4,30 +4,27 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.property;
+package org.mule.runtime.extension.api.property;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.meta.model.parameter.ParameterModel;
+import org.mule.runtime.api.meta.model.operation.OperationModel;
 
 /**
- * Marker {@link ModelProperty} indicating that the enriched {@link ParameterModel} is the parameter considered to inject the
- * value of the Transactional Action.
+ * A marker {@link ModelProperty} to signal that the owning {@link OperationModel} is paged.
  *
  * @since 1.0
  */
-public class TransactionalActionModelProperty implements ModelProperty {
+public class PagedOperationModelProperty implements ModelProperty {
 
   /**
-   * {@inheritDoc}
+   * @return {@code paged}
    */
   @Override
   public String getName() {
-    return "transactionActionParameter";
+    return "paged";
   }
 
   /**
-   * {@inheritDoc}
-   *
    * @return {@code false}
    */
   @Override

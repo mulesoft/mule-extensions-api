@@ -4,37 +4,38 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.semantic;
+package org.mule.runtime.extension.api.semantic;
+
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.ACCOUNT_ID;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.API_KEY;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.API_KEY_AUTH_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.BASIC_AUTH_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.CLIENT_ID;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.CLIENT_SECRET;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.CONNECTION_ID;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.CONNECTIVITY_PREFIX;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.DIGEST_AUTH_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.DOMAIN;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.ENDPOINT;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.HOST;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.KERBEROS_AUTH_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.NTLM_DOMAIN;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.NTLM_PROXY_CONFIGURATION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.PASSWORD;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.PORT;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.PROXY_CONFIGURATION_TYPE;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.SECRET;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.SECRET_TOKEN;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.SECURITY_TOKEN;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.SESSION_ID;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.TENANT;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.TOKEN_ID;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.UNSECURED_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.URL_PATH;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.URL_TEMPLATE;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.USERNAME;
 
 import static java.util.stream.Collectors.toCollection;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.ACCOUNT_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.API_KEY;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.API_KEY_AUTH_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.BASIC_AUTH_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_SECRET;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CONNECTION_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CONNECTIVITY_PREFIX;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.DIGEST_AUTH_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.DOMAIN;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.ENDPOINT;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.HOST;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.KERBEROS_AUTH_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.NTLM_DOMAIN;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.NTLM_PROXY_CONFIGURATION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.PASSWORD;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.PORT;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.PROXY_CONFIGURATION_TYPE;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.SECRET;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.SECRET_TOKEN;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.SECURITY_TOKEN;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.SESSION_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.TENANT;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.TOKEN_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.UNSECURED_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_PATH;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_TEMPLATE;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.USERNAME;
 
 import org.mule.sdk.api.annotation.semantics.connectivity.ApiKeyAuth;
 import org.mule.sdk.api.annotation.semantics.connectivity.BasicAuth;

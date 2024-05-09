@@ -21,8 +21,8 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
-import org.mule.runtime.extension.internal.property.NoStreamingConfigurationModelProperty;
-import org.mule.runtime.extension.internal.property.PagedOperationModelProperty;
+import org.mule.runtime.extension.api.property.NoStreamingConfigurationModelProperty;
+import org.mule.runtime.extension.api.property.PagedOperationModelProperty;
 
 import java.io.InputStream;
 import java.util.Optional;

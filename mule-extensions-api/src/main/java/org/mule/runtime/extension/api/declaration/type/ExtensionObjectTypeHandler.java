@@ -13,9 +13,9 @@ import static java.util.Optional.of;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromAllowedDefinitions;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
+import static org.mule.runtime.extension.api.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.mapReduceAnnotation;
-import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;

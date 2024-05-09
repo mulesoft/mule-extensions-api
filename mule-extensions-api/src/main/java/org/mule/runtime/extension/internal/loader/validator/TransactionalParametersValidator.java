@@ -19,7 +19,7 @@ import org.mule.runtime.api.meta.model.util.IdempotentExtensionWalker;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
-import org.mule.runtime.extension.internal.property.TransactionalActionModelProperty;
+import org.mule.runtime.extension.api.property.TransactionalActionModelProperty;
 
 import java.util.List;
 

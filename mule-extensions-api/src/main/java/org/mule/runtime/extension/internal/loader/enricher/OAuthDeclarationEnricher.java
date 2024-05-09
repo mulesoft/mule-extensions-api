@@ -46,18 +46,18 @@ import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthCo
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.SCOPES_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.connectivity.oauth.ExtensionOAuthConstants.TOKEN_URL_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.CLIENT_ID;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.CLIENT_SECRET;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.CONNECTION_ID;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.TOKEN_URL;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.URL_PATH;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.URL_TEMPLATE;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_SECRET;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CONNECTION_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.TOKEN_URL;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_PATH;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_TEMPLATE;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;

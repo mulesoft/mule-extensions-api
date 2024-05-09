@@ -4,31 +4,24 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.property;
+package org.mule.runtime.extension.api.property;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.tx.TransactionType;
 
 /**
- * Marker {@link ModelProperty} to indicate that the enriched element is a {@link TransactionType}
+ * Marker {@link ModelProperty} for modules to avoid propagating connectivity errors from operations.
  *
- * @since 1.0
+ * @since 1.8
  */
-public class TransactionalTypeModelProperty implements ModelProperty {
+public class NoConnectivityErrorModelProperty implements ModelProperty {
 
-  /**
-   * {@inheritDoc}
-   */
+  private static final long serialVersionUID = 1L;
+
   @Override
   public String getName() {
-    return "transactionType";
+    return "noConnectivityError";
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @return {@code false}
-   */
   @Override
   public boolean isPublic() {
     return false;

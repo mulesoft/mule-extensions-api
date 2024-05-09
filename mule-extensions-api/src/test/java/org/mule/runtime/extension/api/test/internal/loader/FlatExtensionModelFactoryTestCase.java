@@ -112,7 +112,7 @@ import org.mule.runtime.extension.api.declaration.type.RedeliveryPolicyTypeBuild
 import org.mule.runtime.extension.api.declaration.type.StreamingStrategyTypeBuilder;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
-import org.mule.runtime.extension.internal.property.PagedOperationModelProperty;
+import org.mule.runtime.extension.api.property.PagedOperationModelProperty;
 
 import java.io.InputStream;
 import java.io.Serializable;

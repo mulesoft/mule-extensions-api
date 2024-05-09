@@ -6,16 +6,16 @@
  */
 package org.mule.runtime.extension.api.test.internal.semantic;
 
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.API_KEY_AUTH_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.DOMAIN;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.ENDPOINT;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.API_KEY_AUTH_CONNECTION;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.DOMAIN;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.ENDPOINT;
+import static org.mule.runtime.extension.api.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
-import org.mule.runtime.extension.internal.semantic.SemanticTermsHelper;
+import org.mule.runtime.extension.api.semantic.SemanticTermsHelper;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

@@ -11,6 +11,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
+import org.mule.runtime.extension.api.loader.ProblemsHandler;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 
 import org.slf4j.Logger;

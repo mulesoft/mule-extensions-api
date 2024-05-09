@@ -4,10 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.loader;
-
-import org.mule.runtime.extension.api.loader.Problem;
-import org.mule.runtime.extension.api.loader.ProblemsReporter;
+package org.mule.runtime.extension.api.loader;
 
 /**
  * Handler for the {@link Problem problems} generated when loading an extension.

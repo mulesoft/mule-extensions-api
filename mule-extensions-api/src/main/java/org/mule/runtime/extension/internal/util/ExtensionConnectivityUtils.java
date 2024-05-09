@@ -11,8 +11,8 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
-import org.mule.runtime.extension.internal.property.NoConnectivityErrorModelProperty;
-import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelProperty;
+import org.mule.runtime.extension.api.property.NoConnectivityErrorModelProperty;
+import org.mule.runtime.extension.api.property.NoReconnectionStrategyModelProperty;
 
 /**
  * Utility methods for analyzing connectivity aspects of {@link ExtensionModel} instances.

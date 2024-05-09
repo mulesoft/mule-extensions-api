@@ -44,7 +44,7 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
-import org.mule.runtime.extension.internal.property.TargetModelProperty;
+import org.mule.runtime.extension.api.property.TargetModelProperty;
 
 import java.util.HashSet;
 import java.util.Map;

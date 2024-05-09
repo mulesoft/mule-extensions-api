@@ -4,27 +4,24 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.property;
+package org.mule.runtime.extension.api.property;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
 
 /**
- * Model property for indicating that the owning operation may not contain errorMappings.
+ * {@link ModelProperty} for indicating that the owning operation is a composed operation.
  *
- * @since 1.4
+ * @since 1.5
  */
-public class NoErrorMappingModelProperty implements ModelProperty {
-
-  private static final long serialVersionUID = 1544876329052421254L;
+public class ComposedOperationModelProperty implements ModelProperty {
 
   @Override
   public String getName() {
-    return "noErrorMapping";
+    return "composedOperation";
   }
 
   @Override
   public boolean isPublic() {
     return false;
   }
-
 }

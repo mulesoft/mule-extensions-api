@@ -4,29 +4,22 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.property;
+package org.mule.runtime.extension.api.property;
 
 import org.mule.runtime.api.meta.model.ModelProperty;
-import org.mule.runtime.api.meta.model.operation.OperationModel;
 
 /**
- * A marker {@link ModelProperty} to signal that the owning {@link OperationModel} is paged.
+ * {@link ModelProperty} for indicating that the owning operation may not have a configuring transactionalAction.
  *
- * @since 1.0
+ * @since 1.5
  */
-public class PagedOperationModelProperty implements ModelProperty {
+public class NoTransactionalActionModelProperty implements ModelProperty {
 
-  /**
-   * @return {@code paged}
-   */
   @Override
   public String getName() {
-    return "paged";
+    return "noTransactionalAction";
   }
 
-  /**
-   * @return {@code false}
-   */
   @Override
   public boolean isPublic() {
     return false;

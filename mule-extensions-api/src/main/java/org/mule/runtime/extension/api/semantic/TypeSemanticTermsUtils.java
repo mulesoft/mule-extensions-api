@@ -4,9 +4,9 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.semantic;
+package org.mule.runtime.extension.api.semantic;
 
-import static org.mule.runtime.extension.internal.semantic.SemanticTermsHelper.getParameterTermsFromAnnotations;
+import static org.mule.runtime.extension.api.semantic.SemanticTermsHelper.getParameterTermsFromAnnotations;
 
 import org.mule.metadata.api.builder.WithAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.SemanticTermsTypeAnnotation;

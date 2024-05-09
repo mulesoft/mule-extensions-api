@@ -39,11 +39,11 @@ import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDelegate;
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
+import org.mule.runtime.extension.api.property.NoTransactionalActionModelProperty;
+import org.mule.runtime.extension.api.property.TransactionalActionModelProperty;
+import org.mule.runtime.extension.api.property.TransactionalTypeModelProperty;
 import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
 import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
-import org.mule.runtime.extension.internal.property.NoTransactionalActionModelProperty;
-import org.mule.runtime.extension.internal.property.TransactionalActionModelProperty;
-import org.mule.runtime.extension.internal.property.TransactionalTypeModelProperty;
 
 import java.util.Optional;
 

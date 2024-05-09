@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.spi;
+package org.mule.runtime.extension.api.spi;
 
 import static java.util.ServiceLoader.load;
 import static java.util.stream.StreamSupport.stream;
