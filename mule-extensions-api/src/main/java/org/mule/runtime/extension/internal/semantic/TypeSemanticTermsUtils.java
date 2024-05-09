@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.semantic;
+package org.mule.runtime.extension.internal.semantic;
 
 import static org.mule.runtime.extension.api.semantic.SemanticTermsHelper.getParameterTermsFromAnnotations;
 
@@ -20,7 +20,9 @@ import java.util.Set;
  * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
  *
  * @since 1.4.0
+ * @deprecated
  */
+@Deprecated
 public final class TypeSemanticTermsUtils {
 
   /**

@@ -146,6 +146,13 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.artifact.ast.xmlParser;
   // required by modules creating crafted extension models
   exports org.mule.runtime.extension.internal.loader to
+      org.mule.runtime.extension.model,
+      org.mule.runtime.extensions.spring.support,
+      org.mule.runtime.extensions.xml.support,
+      org.mule.runtime.extensions.mule.support,
+      com.mulesoft.mule.runtime.ee.extension.model,
+      com.mulesoft.mule.runtime.cluster,
+      com.mulesoft.anypoint.gw.module.autodiscovery,
       org.mule.runtime.extensions.api.test;
   exports org.mule.runtime.extension.internal.loader.util to
       org.mule.runtime.artifact.ast,
@@ -167,8 +174,28 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.notification to
-  // pull down
       org.mule.runtime.extensions.support;
+
+  exports org.mule.runtime.extension.internal.property to
+      org.mule.runtime.artifact.ast,
+      org.mule.runtime.extension.model,
+      com.mulesoft.mule.runtime.ee.extension.model,
+      org.mule.runtime.extensions.support,
+      org.mule.runtime.extensions.spring.support,
+      org.mule.runtime.extensions.mule.support,
+      org.mule.runtime.extensions.xml.support,
+      org.mule.runtime.extensions.api.test;
+
+  exports org.mule.runtime.extension.internal.spi to
+      org.mule.runtime.artifact.ast.xmlParser,
+      org.mule.runtime.artifact.activation,
+      org.mule.runtime.extensions.spring.support,
+      org.mule.test.runner;
+
+  exports org.mule.runtime.extension.internal.semantic to
+      org.mule.runtime.extensions.support,
+      org.mule.runtime.extensions.mule.support,
+      org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.util to
       org.mule.runtime.extensions.support,

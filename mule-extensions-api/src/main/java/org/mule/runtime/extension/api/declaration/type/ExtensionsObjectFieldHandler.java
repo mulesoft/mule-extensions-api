@@ -23,7 +23,6 @@ import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isParame
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isPasswordField;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isQueryField;
 import static org.mule.runtime.extension.api.declaration.type.TypeUtils.isTextField;
-import static org.mule.runtime.extension.api.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
@@ -33,6 +32,7 @@ import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.ge
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getExpressionSupport;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getNullSafeDefaultImplementedType;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.isConfigOverride;
+import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.String.format;
