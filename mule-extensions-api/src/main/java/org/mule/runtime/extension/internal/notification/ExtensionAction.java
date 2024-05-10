@@ -10,7 +10,10 @@ import org.mule.runtime.api.notification.Notification.Action;
 
 /**
  * {@link Action} produced by extensions.
+ * 
+ * @deprecated
  */
+@Deprecated
 public class ExtensionAction implements Action {
 
   private final String namespace;
