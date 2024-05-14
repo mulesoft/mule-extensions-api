@@ -138,6 +138,7 @@ import org.mule.runtime.extension.internal.loader.validator.ParameterModelValida
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
+import org.mule.runtime.extension.privileged.loader.ProblemsHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;

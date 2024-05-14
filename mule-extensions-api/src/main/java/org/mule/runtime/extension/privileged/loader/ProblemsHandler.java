@@ -4,19 +4,18 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.loader;
+package org.mule.runtime.extension.privileged.loader;
 
 import org.mule.runtime.extension.api.loader.Problem;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
 
 /**
  * Handler for the {@link Problem problems} generated when loading an extension.
+ * <p>
+ * Being {@code privileged]}, this is not intended to be used outside of the scope of crafted extension declarations.
  *
  * @since 1.1
- * 
- * @deprecated marked for removal
  */
-@Deprecated
 public interface ProblemsHandler {
 
   /**

@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.semantic;
+package org.mule.runtime.extension.privileged.semantic;
 
 import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.ACCOUNT_ID;
 import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.API_KEY;
@@ -79,10 +79,7 @@ import java.util.function.Function;
  * <b>THIS CLASS IS NOT API. Only to be used by Mule Runtime internals</b>
  *
  * @since 1.5.0
- * 
- * @deprecated marked for removal
  */
-@Deprecated
 public final class SemanticTermsHelper {
 
   /**

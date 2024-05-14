@@ -49,15 +49,15 @@ import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STR
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.FLOW;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.OBJECT_STORE;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CLIENT_SECRET;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.CONNECTION_ID;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.TOKEN_URL;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_PATH;
-import static org.mule.runtime.extension.internal.semantic.ConnectivityVocabulary.URL_TEMPLATE;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.CLIENT_ID;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.CLIENT_SECRET;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.CONNECTION_ID;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.OAUTH_AUTHORIZATION_CODE_CONNECTION;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.OAUTH_CLIENT_CREDENTIALS_CONNECTION;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.OAUTH_PLATFORM_MANAGED_CONNECTION;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.TOKEN_URL;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.URL_PATH;
+import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.URL_TEMPLATE;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;

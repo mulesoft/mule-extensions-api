@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.spi;
+package org.mule.runtime.extension.privileged.spi;
 
 import static java.util.ServiceLoader.load;
 import static java.util.stream.StreamSupport.stream;
@@ -18,11 +18,11 @@ import java.util.stream.Stream;
 
 /**
  * Provides utilities to lookup and load implementations of interfaces defined in {@code extensions-api} through SPI.
+ * <p>
+ * Being {@code privileged]}, this is not intended to be used outside of the scope of crafted extension declarations.
  * 
  * @since 1.5
- * @deprecated marked for removal
  */
-@Deprecated
 public final class ExtensionsApiSpiUtils {
 
   private ExtensionsApiSpiUtils() {

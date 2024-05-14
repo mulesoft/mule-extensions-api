@@ -107,6 +107,11 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.dsl.syntax.resources.spi;
   exports org.mule.runtime.extension.api.dsql;
 
+  // Being {@code privileged]}, this is not intended to be used outside of the scope of crafted extension declarations.
+  exports org.mule.runtime.extension.privileged.loader;
+  exports org.mule.runtime.extension.privileged.semantic;
+  exports org.mule.runtime.extension.privileged.spi;
+
   exports org.mule.runtime.extension.api.annotation.privileged to
       org.mule.runtime.extensions.support;
   exports org.mule.runtime.extension.api.annotation.license to
