@@ -12,7 +12,9 @@ import org.mule.runtime.api.meta.model.ModelProperty;
  * {@link ModelProperty} for indicating that the owning operation is a composed operation.
  *
  * @since 1.5
+ * @deprecated to be removed
  */
+@Deprecated
 public class ComposedOperationModelProperty implements ModelProperty {
 
   @Override
