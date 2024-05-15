@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.internal.semantic;
+package org.mule.runtime.extension.privileged.semantic;
 
 /**
  * A set of constants which represent the Anypoint model vocabulary terms which are relevant to the connectivity domain
@@ -12,10 +12,7 @@ package org.mule.runtime.extension.internal.semantic;
  * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
  *
  * @since 1.5.0
- * 
- * @deprecated marked for removal
  */
-@Deprecated
 public final class ConnectivityVocabulary {
 
   private static final String API_CONTRACT_PREFIX = "apiContract.";
