@@ -176,9 +176,6 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.loader.validator to
       org.mule.runtime.extensions.api.test;
 
-  exports org.mule.runtime.extension.internal.notification to
-      org.mule.runtime.extensions.support;
-
   exports org.mule.runtime.extension.internal.property to
       org.mule.runtime.artifact.ast,
       org.mule.runtime.extension.model,
@@ -189,15 +186,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.xml.support,
       org.mule.runtime.extensions.api.test;
 
-  exports org.mule.runtime.extension.internal.spi to
-      org.mule.runtime.artifact.ast.xmlParser,
-      org.mule.runtime.artifact.activation,
-      org.mule.runtime.extensions.spring.support,
-      org.mule.test.runner;
-
   exports org.mule.runtime.extension.internal.semantic to
-      org.mule.runtime.extensions.support,
-      org.mule.runtime.extensions.mule.support,
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.util to
