@@ -11,7 +11,6 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclarer;
-import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclarer;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.extension.internal.property.NoConnectivityErrorModelProperty;
@@ -64,12 +63,8 @@ public final class ComponentDeclarationUtils {
     declarer.withModelProperty(new NoErrorMappingModelProperty());
   }
 
-  public static final void pagedOperation(ComponentDeclarer declarer) {
+  public static final void asPagedOperation(ComponentDeclarer declarer) {
     declarer.withModelProperty(new PagedOperationModelProperty());
-  }
-
-  public static final void targetModelProperty(ParameterDeclarer declarer) {
-    declarer.withModelProperty(new TargetModelProperty());
   }
 
   public static final boolean isNoTransactionalAction(ComponentModel componentModel) {

@@ -14,6 +14,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
  * @since 1.5
  * @deprecated to be removed
  */
+// TODO W-15727511 remove this
 @Deprecated
 public class ComposedOperationModelProperty implements ModelProperty {
 
