@@ -140,7 +140,7 @@
         <reactive-streams.version>1.0.2</reactive-streams.version>
         <xmlunit.version>1.6</xmlunit.version>
         <jsonassert.version>1.5.2</jsonassert.version>
-        <muleRevapiExtensionVersion>1.7.0-SNAPSHOT</muleRevapiExtensionVersion>
+        <muleRevapiExtensionVersion>1.7.0-rc3</muleRevapiExtensionVersion>
 
         <build.helper.maven.plugin.version>3.0.0</build.helper.maven.plugin.version>
 
