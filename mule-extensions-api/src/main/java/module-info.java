@@ -111,6 +111,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.privileged.loader;
   exports org.mule.runtime.extension.privileged.semantic;
   exports org.mule.runtime.extension.privileged.spi;
+  exports org.mule.runtime.extension.privileged.util;
 
   exports org.mule.runtime.extension.api.annotation.privileged to
       org.mule.runtime.extensions.support;
