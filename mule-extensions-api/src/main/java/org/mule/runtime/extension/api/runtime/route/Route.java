@@ -41,7 +41,18 @@ public abstract class Route {
     return processors;
   }
 
+  /**
+   * This is for call from the runtime when building this component. Additional calls to this will fail with
+   * {@link IllegalStateException}.
+   * 
+   * @param processors the processors of this route
+   * 
+   * @since 1.8
+   */
   public final void setProcessors(Chain processors) {
+    if (this.processors != null) {
+      throw new IllegalStateException("'processors' had been already set in route '" + this.toString() + "'");
+    }
     this.processors = processors;
   }
 
