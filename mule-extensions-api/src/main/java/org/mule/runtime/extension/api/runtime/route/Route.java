@@ -41,4 +41,8 @@ public abstract class Route {
     return processors;
   }
 
+  public final void setProcessors(Chain processors) {
+    this.processors = processors;
+  }
+
 }
