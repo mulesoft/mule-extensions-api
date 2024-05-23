@@ -12,6 +12,7 @@ import org.mule.runtime.extension.api.runtime.route.Chain;
 import org.mule.runtime.extension.api.runtime.route.Route;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import io.qameta.allure.Issue;
@@ -22,6 +23,7 @@ public class RouteTestCase {
   public ExpectedException expectedException = ExpectedException.none();
 
   @Issue("W-15836498")
+  @Test
   public void processorsSetOnlyOnce() {
     final Route route = new Route() {
 

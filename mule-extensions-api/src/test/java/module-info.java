@@ -52,6 +52,7 @@ module org.mule.runtime.extensions.api.test {
   exports org.mule.runtime.extension.api.test.runtime;
   exports org.mule.runtime.extension.api.test.runtime.operation;
   exports org.mule.runtime.extension.api.test.runtime.parameters;
+  exports org.mule.runtime.extension.api.test.runtime.route;
   exports org.mule.runtime.extension.api.test.stereotype;
   exports org.mule.runtime.extension.api.test.util;
 
