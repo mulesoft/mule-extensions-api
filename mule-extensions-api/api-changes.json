@@ -1,14 +1,22 @@
 {
   "1.8.0": {
     "revapi": {
-      "ignore": [
-		{
-		  "ignore": true,
-		  "code": "java.method.finalMethodAddedToNonFinalClass",
-		  "new": "method org.mule.runtime.api.meta.model.ExtensionModel org.mule.runtime.extension.api.loader.ExtensionModelLoader::loadExtensionModel(org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer, org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest)",
-		  "justification": "W-15716727: Update ExtensionModel providers to not use extensions-api internals"
-		}
-      ]
+      "differences": {
+        "differences": [
+          {
+            "ignore": true,
+            "code": "java.method.finalMethodAddedToNonFinalClass",
+            "new": "method org.mule.runtime.api.meta.model.ExtensionModel org.mule.runtime.extension.api.loader.ExtensionModelLoader::loadExtensionModel(org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer, org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest)",
+            "justification": "W-15716727: Update ExtensionModel providers to not use extensions-api internals"
+          },
+          {
+            "ignore": true,
+            "code": "java.method.finalMethodAddedToNonFinalClass",
+            "new": "method void org.mule.runtime.extension.api.runtime.route.Route::setProcessors(org.mule.runtime.extension.api.runtime.route.Chain)",
+            "justification": "W-15836498: Add a setter for Route#processors to prevent reflective access to the field"
+          }
+        ]
+      }
     }
   },
   "1.5.0": {
