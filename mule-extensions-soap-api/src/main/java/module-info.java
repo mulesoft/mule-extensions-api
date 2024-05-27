@@ -26,7 +26,4 @@ module org.mule.runtime.extensions.soap.api {
   exports org.mule.runtime.extension.api.soap.security.config;
   exports org.mule.runtime.extension.api.soap.annotation;
 
-  opens org.mule.runtime.extension.api.soap to
-      org.mule.runtime.extensions.support;
-
 }

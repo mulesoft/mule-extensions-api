@@ -10,7 +10,10 @@ package org.mule.runtime.extension.api.soap;
  * Represents a multilevel metadata key that describes a soap operation giving a web service.
  *
  * @since 1.0
+ * 
+ * @deprecated since 1.8 this is handled internally by the runtime, moved to extensions-soap-support.
  */
+@Deprecated
 public final class WebServiceTypeKey {
 
   /**
