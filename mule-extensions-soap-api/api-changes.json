@@ -1,0 +1,18 @@
+{
+  "1.8.0": {
+    "revapi": {
+      "differences": {
+        "differences": [
+          {
+            "ignore": true,
+            "code": "java.annotation.added",
+            "old": "class org.mule.runtime.extension.api.soap.WebServiceTypeKey",
+            "new": "class org.mule.runtime.extension.api.soap.WebServiceTypeKey",
+            "annotation": "@org.mule.api.annotation.NoInstantiate",
+            "justification": "W-15844426: Add setters and getter accessor for WebServiceTypeKey to prevent reflective access to the fields"
+          }
+        ]
+      }
+    }
+  }
+}

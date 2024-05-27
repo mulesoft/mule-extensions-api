@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.api.soap;
 
+import org.mule.api.annotation.NoInstantiate;
+
 /**
  * Represents a multilevel metadata key that describes a soap operation giving a web service.
  *
  * @since 1.0
  */
+@NoInstantiate
 public final class WebServiceTypeKey {
 
   /**
@@ -31,33 +34,11 @@ public final class WebServiceTypeKey {
     return operation;
   }
 
-  /**
-   * This is for call from the runtime when building this component. Additional calls to this will fail with
-   * {@link IllegalStateException}.
-   * 
-   * @param service the service name
-   * 
-   * @since 1.8
-   */
   public final void setService(String service) {
-    if (this.service != null) {
-      throw new IllegalStateException("'service' had been already set in WebServiceTypeKey '" + this.toString() + "'");
-    }
     this.service = service;
   }
 
-  /**
-   * This is for call from the runtime when building this component. Additional calls to this will fail with
-   * {@link IllegalStateException}.
-   * 
-   * @param operation the operation name
-   * 
-   * @since 1.8
-   */
   public final void setOperation(String operation) {
-    if (this.operation != null) {
-      throw new IllegalStateException("'operation' had been already set in WebServiceTypeKey '" + this.toString() + "'");
-    }
     this.operation = operation;
   }
 
