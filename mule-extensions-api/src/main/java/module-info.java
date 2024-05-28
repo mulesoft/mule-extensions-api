@@ -153,7 +153,6 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.loader.util to
       org.mule.runtime.artifact.ast,
       org.mule.runtime.artifact.ast.serialization,
-      org.mule.runtime.extension.model,
       org.mule.runtime.extensions.support,
       org.mule.runtime.extensions.spring.support,
       org.mule.runtime.extensions.xml.support,
