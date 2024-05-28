@@ -243,7 +243,7 @@ public final class JavaParserUtils {
     } else if (type == org.mule.sdk.api.meta.ExternalLibraryType.NATIVE) {
       return ExternalLibraryType.NATIVE;
     } else {
-      throw new IllegalModelDefinitionException("Unsupported ExternalLIbraryType " + type);
+      throw new IllegalModelDefinitionException("Unsupported ExternalLibraryType " + type);
     }
   }
 
