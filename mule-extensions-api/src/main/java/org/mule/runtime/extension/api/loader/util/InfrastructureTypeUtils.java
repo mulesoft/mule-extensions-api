@@ -151,36 +151,58 @@ public class InfrastructureTypeUtils {
   private static Map<String, String> nameMap =
       MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getKey().getName(), e -> e.getValue().getName()));
 
-  public static Map<Class<?>, InfrastructureType> getClassMapping() {
-    return MAPPING;
-  }
-
+  /**
+   * @return all the infrastructure types available.
+   */
   public static Collection<InfrastructureType> getInfrastructureTypes() {
     return INFRASTRUCTURE_TYPES;
   }
 
+  /**
+   * @param infrastructureTypeClass {@link Class} of the infrastructure type to obtain.
+   * @return the infrastructure type of the given {@link Class}.
+   */
   public static InfrastructureType getInfrastructureType(Class<?> infrastructureTypeClass) {
     return MAPPING.get(infrastructureTypeClass);
   }
 
+  /**
+   * @param name infrastructure type's {@link Class} name.
+   * @return infrastructure type name.
+   */
   public static String getName(String name) {
     return nameMap.get(name);
   }
 
+  /**
+   * @param name infrastructure type name.
+   * @return {@link QNameModelProperty} for the infrastructure type with the given {@code name}, if any.
+   */
   public static Optional<QNameModelProperty> getQName(String name) {
     return ofNullable(QNAMES.get(name));
   }
 
+  /**
+   * @param name infrastructure type name.
+   * @return {@link ParameterDslConfiguration} for the infrastructure type with the given {@code name}, if any.
+   */
   public static Optional<ParameterDslConfiguration> getDslConfiguration(String name) {
     return ofNullable(DSL_CONFIGURATIONS.get(name));
   }
 
+  /**
+   * @param compId {@link ComponentIdentifier} of an infrastructure type.
+   * @return the {@link Class} of the infrastructure type identified by the given {@link ComponentIdentifier}.
+   */
   public static Optional<Class<?>> getTypeFor(ComponentIdentifier compId) {
     return ofNullable(IDENTIFIER_TYPE_MAPPING.get(compId));
   }
 
   private InfrastructureTypeUtils() {}
 
+  /**
+   * Representation of an infrastructure type.
+   */
   public static class InfrastructureType {
 
     private final Class<?> clazz;
