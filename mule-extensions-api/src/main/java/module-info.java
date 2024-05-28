@@ -80,6 +80,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.model.source;
   exports org.mule.runtime.extension.api.notification;
   exports org.mule.runtime.extension.api.loader;
+  exports org.mule.runtime.extension.api.loader.util;
   exports org.mule.runtime.extension.api.resources;
   exports org.mule.runtime.extension.api.resources.spi;
   exports org.mule.runtime.extension.api.ocs;
