@@ -45,8 +45,6 @@ import java.util.Optional;
 
 import javax.xml.namespace.QName;
 
-import com.google.common.collect.ImmutableMap;
-
 /**
  * Utilities for types considered of "Infrastructure".
  *
@@ -54,104 +52,106 @@ import com.google.common.collect.ImmutableMap;
  */
 public class InfrastructureTypeUtils {
 
+  private static final ParameterDslConfiguration transactionalActionParameterDslConfiguration =
+      ParameterDslConfiguration.builder()
+          .allowsInlineDefinition(false)
+          .allowTopLevelDefinition(false)
+          .allowsReferences(false)
+          .build();
+
   private static final Collection<InfrastructureType> INFRASTRUCTURE_TYPES = asList(
                                                                                     new InfrastructureType(TlsContextFactory.class,
                                                                                                            TLS_PARAMETER_NAME,
-                                                                                                           8),
+                                                                                                           8,
+                                                                                                           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
+                                                                                                                                            TLS_CONTEXT_ELEMENT_IDENTIFIER,
+                                                                                                                                            TLS_PREFIX)),
+                                                                                                           ParameterDslConfiguration
+                                                                                                               .builder()
+                                                                                                               .allowsInlineDefinition(true)
+                                                                                                               .allowTopLevelDefinition(true)
+                                                                                                               .allowsReferences(true)
+                                                                                                               .build()),
+                                                                                    new InfrastructureType(TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER,
+                                                                                                           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
+                                                                                                                                            TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER,
+                                                                                                                                            TLS_PREFIX))),
+                                                                                    new InfrastructureType(TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER,
+                                                                                                           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
+                                                                                                                                            TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER,
+                                                                                                                                            TLS_PREFIX))),
+                                                                                    new InfrastructureType(TLS_CRL_FILE_ELEMENT_IDENTIFIER,
+                                                                                                           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
+                                                                                                                                            TLS_CRL_FILE_ELEMENT_IDENTIFIER,
+                                                                                                                                            TLS_PREFIX))),
                                                                                     new InfrastructureType(SourceTransactionalAction.class,
                                                                                                            TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                           6),
+                                                                                                           6,
+                                                                                                           transactionalActionParameterDslConfiguration),
                                                                                     new InfrastructureType(OperationTransactionalAction.class,
                                                                                                            TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                           7),
+                                                                                                           7,
+                                                                                                           transactionalActionParameterDslConfiguration),
                                                                                     new InfrastructureType(org.mule.sdk.api.tx.OperationTransactionalAction.class,
                                                                                                            TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                           7),
+                                                                                                           7,
+                                                                                                           transactionalActionParameterDslConfiguration),
                                                                                     new InfrastructureType(TransactionType.class,
                                                                                                            TRANSACTIONAL_TYPE_PARAMETER_NAME,
-                                                                                                           9),
+                                                                                                           9,
+                                                                                                           ParameterDslConfiguration
+                                                                                                               .builder()
+                                                                                                               .allowsInlineDefinition(false)
+                                                                                                               .allowTopLevelDefinition(false)
+                                                                                                               .allowsReferences(false)
+                                                                                                               .build()),
                                                                                     new InfrastructureType(SchedulingStrategy.class,
                                                                                                            SCHEDULING_STRATEGY_PARAMETER_NAME,
-                                                                                                           10),
+                                                                                                           10,
+                                                                                                           new QNameModelProperty(new QName(CORE_NAMESPACE,
+                                                                                                                                            SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER,
+                                                                                                                                            CORE_PREFIX)),
+                                                                                                           ParameterDslConfiguration
+                                                                                                               .builder()
+                                                                                                               .allowsInlineDefinition(true)
+                                                                                                               .allowTopLevelDefinition(false)
+                                                                                                               .allowsReferences(false)
+                                                                                                               .build()),
                                                                                     new InfrastructureType(ErrorMapping.class,
                                                                                                            ERROR_MAPPINGS_PARAMETER_NAME,
-                                                                                                           11));
+                                                                                                           11,
+                                                                                                           new QNameModelProperty(new QName(CORE_NAMESPACE,
+                                                                                                                                            ERROR_MAPPING_ELEMENT_IDENTIFIER,
+                                                                                                                                            CORE_PREFIX)),
+                                                                                                           ParameterDslConfiguration
+                                                                                                               .builder()
+                                                                                                               .allowsInlineDefinition(true)
+                                                                                                               .allowTopLevelDefinition(false)
+                                                                                                               .allowsReferences(false)
+                                                                                                               .build()));
 
   private static final Map<Class<?>, InfrastructureType> MAPPING =
-      INFRASTRUCTURE_TYPES.stream().collect(toImmutableMap(InfrastructureType::getClazz, identity()));
+      INFRASTRUCTURE_TYPES.stream().filter(infrastructureType -> infrastructureType.getClazz().isPresent())
+          .collect(toImmutableMap(infrastructureType -> infrastructureType.getClazz().get(), identity()));
 
-  private static final Map<String, QNameModelProperty> QNAMES = ImmutableMap.<String, QNameModelProperty>builder()
-      .put(SCHEDULING_STRATEGY_PARAMETER_NAME,
-           new QNameModelProperty(new QName(CORE_NAMESPACE, SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER, CORE_PREFIX)))
-      .put(ERROR_MAPPINGS_PARAMETER_NAME,
-           new QNameModelProperty(new QName(CORE_NAMESPACE, ERROR_MAPPING_ELEMENT_IDENTIFIER, CORE_PREFIX)))
-      .put(TLS_PARAMETER_NAME,
-           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
-                                            TLS_CONTEXT_ELEMENT_IDENTIFIER,
-                                            TLS_PREFIX)))
-      .put(TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER,
-           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
-                                            TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER,
-                                            TLS_PREFIX)))
-      .put(TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER,
-           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
-                                            TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER,
-                                            TLS_PREFIX)))
-      .put(TLS_CRL_FILE_ELEMENT_IDENTIFIER,
-           new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
-                                            TLS_CRL_FILE_ELEMENT_IDENTIFIER,
-                                            TLS_PREFIX)))
-      .build();
-
-  private static final Map<ComponentIdentifier, Class<?>> IDENTIFIER_TYPE_MAPPING = MAPPING.entrySet()
+  private static final Map<ComponentIdentifier, Class<?>> IDENTIFIER_TYPE_MAPPING = INFRASTRUCTURE_TYPES
       .stream()
-      .filter(entry -> getQName(entry.getValue().getName()).isPresent())
-      .collect(toImmutableMap(entry -> {
-        final QName qName = getQName(entry.getValue().getName()).get().getValue();
+      .filter(infrastructureType -> infrastructureType.getQNameModelProperty().isPresent())
+      .collect(toImmutableMap(infrastructureType -> {
+        final QName qName = infrastructureType.getQNameModelProperty().get().getValue();
         return ComponentIdentifier.builder()
             .namespaceUri(qName.getNamespaceURI())
             .namespace(qName.getPrefix())
             .name(qName.getLocalPart())
             .build();
       },
-                              Map.Entry::getKey));
+                              infrastructureType -> infrastructureType.getClazz().get()));
 
-  private static final Map<String, ParameterDslConfiguration> DSL_CONFIGURATIONS =
-      ImmutableMap.<String, ParameterDslConfiguration>builder()
-          .put(SCHEDULING_STRATEGY_PARAMETER_NAME,
-               ParameterDslConfiguration.builder()
-                   .allowsInlineDefinition(true)
-                   .allowTopLevelDefinition(false)
-                   .allowsReferences(false)
-                   .build())
-          .put(ERROR_MAPPINGS_PARAMETER_NAME,
-               ParameterDslConfiguration.builder()
-                   .allowsInlineDefinition(true)
-                   .allowTopLevelDefinition(false)
-                   .allowsReferences(false)
-                   .build())
-          .put(TLS_PARAMETER_NAME,
-               ParameterDslConfiguration.builder()
-                   .allowsInlineDefinition(true)
-                   .allowTopLevelDefinition(true)
-                   .allowsReferences(true)
-                   .build())
-          .put(TRANSACTIONAL_ACTION_PARAMETER_NAME,
-               ParameterDslConfiguration.builder()
-                   .allowsInlineDefinition(false)
-                   .allowTopLevelDefinition(false)
-                   .allowsReferences(false)
-                   .build())
-          .put(TRANSACTIONAL_TYPE_PARAMETER_NAME,
-               ParameterDslConfiguration.builder()
-                   .allowsInlineDefinition(false)
-                   .allowTopLevelDefinition(false)
-                   .allowsReferences(false)
-                   .build())
-          .build();
+  private static final Map<String, InfrastructureType> CLASS_NAME_MAP =
+      MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getKey().getName(), Map.Entry::getValue));
 
-  private static Map<String, String> nameMap =
-      MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getKey().getName(), e -> e.getValue().getName()));
+  private static final Map<String, InfrastructureType> NAME_MAP =
+      MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getValue().getName(), Map.Entry::getValue));
 
   /**
    * @return all the infrastructure types available.
@@ -169,6 +169,14 @@ public class InfrastructureTypeUtils {
   }
 
   /**
+   * @param name infrastructure type name.
+   * @return the infrastructure type with the given {@code name}.
+   */
+  public static InfrastructureType getInfrastructureType(String name) {
+    return NAME_MAP.get(name);
+  }
+
+  /**
    * @param fieldType {@link MetadataType} infrastructure type.
    * @return infrastructure type name if the given {@link MetadataType} corresponds to an infrastructure type.
    */
@@ -181,23 +189,7 @@ public class InfrastructureTypeUtils {
    * @return infrastructure type name.
    */
   private static String getName(String name) {
-    return nameMap.get(name);
-  }
-
-  /**
-   * @param name infrastructure type name.
-   * @return {@link QNameModelProperty} for the infrastructure type with the given {@code name}, if any.
-   */
-  public static Optional<QNameModelProperty> getQName(String name) {
-    return ofNullable(QNAMES.get(name));
-  }
-
-  /**
-   * @param name infrastructure type name.
-   * @return {@link ParameterDslConfiguration} for the infrastructure type with the given {@code name}, if any.
-   */
-  public static Optional<ParameterDslConfiguration> getDslConfiguration(String name) {
-    return ofNullable(DSL_CONFIGURATIONS.get(name));
+    return CLASS_NAME_MAP.get(name).getName();
   }
 
   /**
@@ -218,15 +210,34 @@ public class InfrastructureTypeUtils {
     private final Class<?> clazz;
     private final String name;
     private final int sequence;
+    private final QNameModelProperty qNameModelProperty;
+    private final ParameterDslConfiguration parameterDslConfiguration;
 
-    InfrastructureType(Class<?> clazz, String name, int sequence) {
+    InfrastructureType(Class<?> clazz,
+                       String name,
+                       int sequence,
+                       QNameModelProperty qNameModelProperty,
+                       ParameterDslConfiguration parameterDslConfiguration) {
       this.clazz = clazz;
       this.name = name;
       this.sequence = sequence;
+      this.qNameModelProperty = qNameModelProperty;
+      this.parameterDslConfiguration = parameterDslConfiguration;
     }
 
-    public Class<?> getClazz() {
-      return clazz;
+    public InfrastructureType(Class<?> clazz,
+                              String name,
+                              int sequence,
+                              ParameterDslConfiguration parameterDslConfiguration) {
+      this(clazz, name, sequence, null, parameterDslConfiguration);
+    }
+
+    public InfrastructureType(String name, QNameModelProperty qNameModelProperty) {
+      this(null, name, -1, qNameModelProperty, null);
+    }
+
+    public Optional<Class<?>> getClazz() {
+      return ofNullable(clazz);
     }
 
     public String getName() {
@@ -235,6 +246,14 @@ public class InfrastructureTypeUtils {
 
     public int getSequence() {
       return sequence;
+    }
+
+    public Optional<QNameModelProperty> getQNameModelProperty() {
+      return ofNullable(qNameModelProperty);
+    }
+
+    public Optional<ParameterDslConfiguration> getDslConfiguration() {
+      return ofNullable(parameterDslConfiguration);
     }
 
   }
