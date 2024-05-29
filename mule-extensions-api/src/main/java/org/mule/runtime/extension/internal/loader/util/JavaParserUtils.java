@@ -48,7 +48,7 @@ public final class JavaParserUtils {
    * @return the field's alias, as defined by any of the {@code @Alias} annotations
    */
   public static String getAlias(Field field) {
-    return getAlias(field, field::getName);
+    return getAlias(field::getAnnotation, field::getName);
   }
 
   /**
@@ -56,7 +56,7 @@ public final class JavaParserUtils {
    * @return the class alias, as defined by any of the {@code @Alias} annotations
    */
   public static String getAlias(Class<?> clazz) {
-    return getAlias(clazz, clazz::getSimpleName);
+    return getAlias(clazz::getAnnotation, clazz::getSimpleName);
   }
 
   /**
@@ -79,8 +79,8 @@ public final class JavaParserUtils {
    * @param defaultValue     a default value supplier
    * @return the resolved alias
    */
-  public static String getAlias(Function<Class<? extends Annotation>, Annotation> annotationMapper,
-                                Supplier<String> defaultValue) {
+  private static String getAlias(Function<Class<? extends Annotation>, Annotation> annotationMapper,
+                                 Supplier<String> defaultValue) {
     String name = null;
     Alias legacyAlias = (Alias) annotationMapper.apply(Alias.class);
     if (legacyAlias != null) {
@@ -101,15 +101,7 @@ public final class JavaParserUtils {
    * @return the {@link ExpressionSupport} defined for the element, if defined. {@link Optional#empty()} otherwise.
    */
   public static Optional<ExpressionSupport> getExpressionSupport(AnnotatedElement element) {
-    return getExpressionSupport(element::getAnnotation);
-  }
-
-  /**
-   * @param mapper function which encapsulates annotation resolution
-   * @return the {@link ExpressionSupport} defined for the element, if defined. {@link Optional#empty()} otherwise.
-   */
-  public static Optional<ExpressionSupport> getExpressionSupport(Function<Class<? extends Annotation>, ? extends Annotation> mapper) {
-    return mapReduceAnnotation(mapper,
+    return mapReduceAnnotation(element::getAnnotation,
                                Expression.class,
                                org.mule.sdk.api.annotation.Expression.class,
                                ann -> ann.value(),
@@ -145,12 +137,12 @@ public final class JavaParserUtils {
   }
 
   /**
-   * Monad for extracting information from an {@link Element} which might be annotated with two different annotations of similar
-   * semantics. Both annotations types are reduced to a single output type.
+   * Monad for extracting information from a {@link Class} which might be annotated with two different annotations of similar
+   * semantics. Both annotations' types are reduced to a single output type.
    * <p>
    * Simultaneous presence of both types will be considered an error
    *
-   * @param element                 the annotated element
+   * @param type                    the annotated class
    * @param legacyAnnotationClass   the legacy annotation type
    * @param sdkAnnotationClass      the new annotation type
    * @param legacyAnnotationMapping mapping function for the legacy annotation
@@ -160,20 +152,6 @@ public final class JavaParserUtils {
    * @param <T>                     Output generic type
    * @return a reduced value
    */
-  public static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
-                                                                                                Element element,
-                                                                                                Class<R> legacyAnnotationClass,
-                                                                                                Class<S> sdkAnnotationClass,
-                                                                                                Function<R, T> legacyAnnotationMapping,
-                                                                                                Function<S, T> sdkAnnotationMapping) {
-
-    return mapReduceAnnotation(element::getAnnotation,
-                               legacyAnnotationClass,
-                               sdkAnnotationClass,
-                               legacyAnnotationMapping,
-                               sdkAnnotationMapping);
-  }
-
   public static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
                                                                                                 Class<?> type,
                                                                                                 Class<R> legacyAnnotationClass,
@@ -225,25 +203,6 @@ public final class JavaParserUtils {
       return Category.PREMIUM;
     } else {
       throw new IllegalModelDefinitionException("Unsupported Category type " + category);
-    }
-  }
-
-  /**
-   * Transforms an sdk-api {@link org.mule.sdk.api.meta.ExternalLibraryType} into a mule-api {@link ExternalLibraryType}
-   *
-   * @param type an sdk-api representation of the library type semantic
-   * @return the transformed value
-   * @throws IllegalModelDefinitionException if no equivalent semantic found.
-   */
-  public static ExternalLibraryType toMuleApi(org.mule.sdk.api.meta.ExternalLibraryType type) {
-    if (type == org.mule.sdk.api.meta.ExternalLibraryType.JAR) {
-      return ExternalLibraryType.JAR;
-    } else if (type == org.mule.sdk.api.meta.ExternalLibraryType.DEPENDENCY) {
-      return ExternalLibraryType.DEPENDENCY;
-    } else if (type == org.mule.sdk.api.meta.ExternalLibraryType.NATIVE) {
-      return ExternalLibraryType.NATIVE;
-    } else {
-      throw new IllegalModelDefinitionException("Unsupported ExternalLibraryType " + type);
     }
   }
 
