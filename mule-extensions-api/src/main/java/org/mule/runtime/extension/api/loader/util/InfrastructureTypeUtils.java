@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.util;
 
+import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 
@@ -15,6 +16,7 @@ import static org.mule.runtime.extension.api.ExtensionConstants.SCHEDULING_STRAT
 import static org.mule.runtime.extension.api.ExtensionConstants.TLS_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_ACTION_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.TRANSACTIONAL_TYPE_PARAMETER_NAME;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_NAMESPACE;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.ERROR_MAPPING_ELEMENT_IDENTIFIER;
@@ -26,6 +28,7 @@ import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_NAMESPACE
 import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_PREFIX;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
 
+import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
 import org.mule.runtime.api.scheduler.SchedulingStrategy;
@@ -36,7 +39,6 @@ import org.mule.runtime.extension.api.property.QNameModelProperty;
 import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
 import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -52,28 +54,28 @@ import com.google.common.collect.ImmutableMap;
  */
 public class InfrastructureTypeUtils {
 
-  private static final Collection<InfrastructureType> INFRASTRUCTURE_TYPES = Arrays.asList(
-                                                                                           new InfrastructureType(TlsContextFactory.class,
-                                                                                                                  TLS_PARAMETER_NAME,
-                                                                                                                  8),
-                                                                                           new InfrastructureType(SourceTransactionalAction.class,
-                                                                                                                  TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                                  6),
-                                                                                           new InfrastructureType(OperationTransactionalAction.class,
-                                                                                                                  TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                                  7),
-                                                                                           new InfrastructureType(org.mule.sdk.api.tx.OperationTransactionalAction.class,
-                                                                                                                  TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                                  7),
-                                                                                           new InfrastructureType(TransactionType.class,
-                                                                                                                  TRANSACTIONAL_TYPE_PARAMETER_NAME,
-                                                                                                                  9),
-                                                                                           new InfrastructureType(SchedulingStrategy.class,
-                                                                                                                  SCHEDULING_STRATEGY_PARAMETER_NAME,
-                                                                                                                  10),
-                                                                                           new InfrastructureType(ErrorMapping.class,
-                                                                                                                  ERROR_MAPPINGS_PARAMETER_NAME,
-                                                                                                                  11));
+  private static final Collection<InfrastructureType> INFRASTRUCTURE_TYPES = asList(
+                                                                                    new InfrastructureType(TlsContextFactory.class,
+                                                                                                           TLS_PARAMETER_NAME,
+                                                                                                           8),
+                                                                                    new InfrastructureType(SourceTransactionalAction.class,
+                                                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME,
+                                                                                                           6),
+                                                                                    new InfrastructureType(OperationTransactionalAction.class,
+                                                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME,
+                                                                                                           7),
+                                                                                    new InfrastructureType(org.mule.sdk.api.tx.OperationTransactionalAction.class,
+                                                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME,
+                                                                                                           7),
+                                                                                    new InfrastructureType(TransactionType.class,
+                                                                                                           TRANSACTIONAL_TYPE_PARAMETER_NAME,
+                                                                                                           9),
+                                                                                    new InfrastructureType(SchedulingStrategy.class,
+                                                                                                           SCHEDULING_STRATEGY_PARAMETER_NAME,
+                                                                                                           10),
+                                                                                    new InfrastructureType(ErrorMapping.class,
+                                                                                                           ERROR_MAPPINGS_PARAMETER_NAME,
+                                                                                                           11));
 
   private static final Map<Class<?>, InfrastructureType> MAPPING =
       INFRASTRUCTURE_TYPES.stream().collect(toImmutableMap(InfrastructureType::getClazz, identity()));
@@ -167,10 +169,18 @@ public class InfrastructureTypeUtils {
   }
 
   /**
+   * @param fieldType {@link MetadataType} infrastructure type.
+   * @return infrastructure type name if the given {@link MetadataType} corresponds to an infrastructure type.
+   */
+  public static Optional<String> getInfrastructureParameterName(MetadataType fieldType) {
+    return getId(fieldType).map(InfrastructureTypeUtils::getName);
+  }
+
+  /**
    * @param name infrastructure type's {@link Class} name.
    * @return infrastructure type name.
    */
-  public static String getName(String name) {
+  private static String getName(String name) {
     return nameMap.get(name);
   }
 
