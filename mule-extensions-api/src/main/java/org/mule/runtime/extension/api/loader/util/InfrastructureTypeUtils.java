@@ -7,9 +7,11 @@
 package org.mule.runtime.extension.api.loader.util;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 import static org.mule.runtime.api.util.collection.Collectors.toImmutableMap;
 import static org.mule.runtime.extension.api.ExtensionConstants.ERROR_MAPPINGS_PARAMETER_NAME;
@@ -41,7 +43,6 @@ import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
 import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -62,9 +63,7 @@ public class InfrastructureTypeUtils {
           .build();
 
   private static final Collection<InfrastructureType> INFRASTRUCTURE_TYPES = asList(
-                                                                                    new InfrastructureType(TlsContextFactory.class,
-                                                                                                           TLS_PARAMETER_NAME,
-                                                                                                           8,
+                                                                                    new InfrastructureType(TLS_PARAMETER_NAME,
                                                                                                            new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
                                                                                                                                             TLS_CONTEXT_ELEMENT_IDENTIFIER,
                                                                                                                                             TLS_PREFIX)),
@@ -73,7 +72,9 @@ public class InfrastructureTypeUtils {
                                                                                                                .allowsInlineDefinition(true)
                                                                                                                .allowTopLevelDefinition(true)
                                                                                                                .allowsReferences(true)
-                                                                                                               .build()),
+                                                                                                               .build(),
+                                                                                                           singletonList(new ActionableInfrastructureTypeComponents(TlsContextFactory.class,
+                                                                                                                                                                    8))),
                                                                                     new InfrastructureType(TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER,
                                                                                                            new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
                                                                                                                                             TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER,
@@ -86,30 +87,24 @@ public class InfrastructureTypeUtils {
                                                                                                            new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
                                                                                                                                             TLS_CRL_FILE_ELEMENT_IDENTIFIER,
                                                                                                                                             TLS_PREFIX))),
-                                                                                    new InfrastructureType(SourceTransactionalAction.class,
-                                                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                           6,
-                                                                                                           transactionalActionParameterDslConfiguration),
-                                                                                    new InfrastructureType(OperationTransactionalAction.class,
-                                                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                           7,
-                                                                                                           transactionalActionParameterDslConfiguration),
-                                                                                    new InfrastructureType(org.mule.sdk.api.tx.OperationTransactionalAction.class,
-                                                                                                           TRANSACTIONAL_ACTION_PARAMETER_NAME,
-                                                                                                           7,
-                                                                                                           transactionalActionParameterDslConfiguration),
-                                                                                    new InfrastructureType(TransactionType.class,
-                                                                                                           TRANSACTIONAL_TYPE_PARAMETER_NAME,
-                                                                                                           9,
+                                                                                    new InfrastructureType(TRANSACTIONAL_ACTION_PARAMETER_NAME,
+                                                                                                           transactionalActionParameterDslConfiguration,
+                                                                                                           asList(new ActionableInfrastructureTypeComponents(SourceTransactionalAction.class,
+                                                                                                                                                             6),
+                                                                                                                  new ActionableInfrastructureTypeComponents(OperationTransactionalAction.class,
+                                                                                                                                                             7),
+                                                                                                                  new ActionableInfrastructureTypeComponents(org.mule.sdk.api.tx.OperationTransactionalAction.class,
+                                                                                                                                                             7))),
+                                                                                    new InfrastructureType(TRANSACTIONAL_TYPE_PARAMETER_NAME,
                                                                                                            ParameterDslConfiguration
                                                                                                                .builder()
                                                                                                                .allowsInlineDefinition(false)
                                                                                                                .allowTopLevelDefinition(false)
                                                                                                                .allowsReferences(false)
-                                                                                                               .build()),
-                                                                                    new InfrastructureType(SchedulingStrategy.class,
-                                                                                                           SCHEDULING_STRATEGY_PARAMETER_NAME,
-                                                                                                           10,
+                                                                                                               .build(),
+                                                                                                           singletonList(new ActionableInfrastructureTypeComponents(TransactionType.class,
+                                                                                                                                                                    9))),
+                                                                                    new InfrastructureType(SCHEDULING_STRATEGY_PARAMETER_NAME,
                                                                                                            new QNameModelProperty(new QName(CORE_NAMESPACE,
                                                                                                                                             SCHEDULING_STRATEGY_ELEMENT_IDENTIFIER,
                                                                                                                                             CORE_PREFIX)),
@@ -118,10 +113,10 @@ public class InfrastructureTypeUtils {
                                                                                                                .allowsInlineDefinition(true)
                                                                                                                .allowTopLevelDefinition(false)
                                                                                                                .allowsReferences(false)
-                                                                                                               .build()),
-                                                                                    new InfrastructureType(ErrorMapping.class,
-                                                                                                           ERROR_MAPPINGS_PARAMETER_NAME,
-                                                                                                           11,
+                                                                                                               .build(),
+                                                                                                           singletonList(new ActionableInfrastructureTypeComponents(SchedulingStrategy.class,
+                                                                                                                                                                    10))),
+                                                                                    new InfrastructureType(ERROR_MAPPINGS_PARAMETER_NAME,
                                                                                                            new QNameModelProperty(new QName(CORE_NAMESPACE,
                                                                                                                                             ERROR_MAPPING_ELEMENT_IDENTIFIER,
                                                                                                                                             CORE_PREFIX)),
@@ -130,15 +125,19 @@ public class InfrastructureTypeUtils {
                                                                                                                .allowsInlineDefinition(true)
                                                                                                                .allowTopLevelDefinition(false)
                                                                                                                .allowsReferences(false)
-                                                                                                               .build()));
+                                                                                                               .build(),
+                                                                                                           singletonList(new ActionableInfrastructureTypeComponents(ErrorMapping.class,
+                                                                                                                                                                    11))));
 
-  private static final Map<Class<?>, InfrastructureType> MAPPING =
-      INFRASTRUCTURE_TYPES.stream().filter(infrastructureType -> infrastructureType.getClazz().isPresent())
-          .collect(toImmutableMap(infrastructureType -> infrastructureType.getClazz().get(), identity()));
+  private static final Collection<ActionableInfrastructureType> ACTIONABLE_INFRASTRUCTURE_TYPES = INFRASTRUCTURE_TYPES.stream()
+      .flatMap(infrastructureType -> infrastructureType.getActionableInfrastructureTypes().stream()).collect(toList());
 
-  private static final Map<ComponentIdentifier, Class<?>> IDENTIFIER_TYPE_MAPPING = INFRASTRUCTURE_TYPES
+  private static final Map<Class<?>, ActionableInfrastructureType> ACTIONABLE_INFRASTRUCTURE_TYPES_CLASS_MAPPING =
+      ACTIONABLE_INFRASTRUCTURE_TYPES.stream()
+          .collect(toImmutableMap(ActionableInfrastructureType::getClazz, identity()));
+
+  private static final Map<ComponentIdentifier, Class<?>> IDENTIFIER_TYPE_MAPPING = ACTIONABLE_INFRASTRUCTURE_TYPES
       .stream()
-      .filter(infrastructureType -> infrastructureType.getClazz().isPresent())
       .filter(infrastructureType -> infrastructureType.getQNameModelProperty().isPresent())
       .collect(toImmutableMap(infrastructureType -> {
         final QName qName = infrastructureType.getQNameModelProperty().get().getValue();
@@ -148,34 +147,35 @@ public class InfrastructureTypeUtils {
             .name(qName.getLocalPart())
             .build();
       },
-                              infrastructureType -> infrastructureType.getClazz().get()));
+                              ActionableInfrastructureType::getClazz));
 
   private static final Map<String, String> CLASS_NAME_MAP =
-      MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getKey().getName(), e -> e.getValue().getName()));
+      ACTIONABLE_INFRASTRUCTURE_TYPES_CLASS_MAPPING.entrySet().stream()
+          .collect(toImmutableMap(e -> e.getKey().getName(), e -> e.getValue().getName()));
 
-  private static final Map<String, List<InfrastructureType>> NAME_MAP =
-      INFRASTRUCTURE_TYPES.stream().collect(groupingBy(InfrastructureType::getName));
+  private static final Map<String, InfrastructureType> NAME_MAP =
+      INFRASTRUCTURE_TYPES.stream().collect(toImmutableMap(InfrastructureType::getName, identity()));
 
   /**
    * @return all the infrastructure types available.
    */
-  public static Collection<InfrastructureType> getInfrastructureTypes() {
-    return INFRASTRUCTURE_TYPES;
+  public static Collection<ActionableInfrastructureType> getActionableInfrastructureTypes() {
+    return ACTIONABLE_INFRASTRUCTURE_TYPES;
   }
 
   /**
    * @param infrastructureTypeClass {@link Class} of the infrastructure type to obtain.
    * @return the infrastructure type of the given {@link Class}.
    */
-  public static InfrastructureType getInfrastructureType(Class<?> infrastructureTypeClass) {
-    return MAPPING.get(infrastructureTypeClass);
+  public static ActionableInfrastructureType getActionableInfrastructureType(Class<?> infrastructureTypeClass) {
+    return ACTIONABLE_INFRASTRUCTURE_TYPES_CLASS_MAPPING.get(infrastructureTypeClass);
   }
 
   /**
    * @param name infrastructure type name.
-   * @return the infrastructure types with the given {@code name}.
+   * @return the infrastructure type with the given {@code name}.
    */
-  public static Collection<InfrastructureType> getInfrastructureTypes(String name) {
+  public static InfrastructureType getInfrastructureType(String name) {
     return NAME_MAP.get(name);
   }
 
@@ -197,42 +197,41 @@ public class InfrastructureTypeUtils {
 
   private InfrastructureTypeUtils() {}
 
+  private static class ActionableInfrastructureTypeComponents {
+
+    public final Class<?> clazz;
+    public final int sequence;
+
+    ActionableInfrastructureTypeComponents(Class<?> clazz,
+                                           int sequence) {
+      this.clazz = clazz;
+      this.sequence = sequence;
+    }
+
+  }
+
   /**
-   * Representation of an infrastructure type.
+   * Representation of an actionable infrastructure type.
    */
-  public static class InfrastructureType {
+  public static class ActionableInfrastructureType {
 
-    private final Class<?> clazz;
     private final String name;
+    private final Class<?> clazz;
     private final int sequence;
-    private final QNameModelProperty qNameModelProperty;
-    private final ParameterDslConfiguration parameterDslConfiguration;
+    private final InfrastructureType parentType;
 
-    InfrastructureType(Class<?> clazz,
-                       String name,
-                       int sequence,
-                       QNameModelProperty qNameModelProperty,
-                       ParameterDslConfiguration parameterDslConfiguration) {
+    ActionableInfrastructureType(String name,
+                                 Class<?> clazz,
+                                 int sequence,
+                                 InfrastructureType parentType) {
       this.clazz = clazz;
       this.name = name;
       this.sequence = sequence;
-      this.qNameModelProperty = qNameModelProperty;
-      this.parameterDslConfiguration = parameterDslConfiguration;
+      this.parentType = parentType;
     }
 
-    public InfrastructureType(Class<?> clazz,
-                              String name,
-                              int sequence,
-                              ParameterDslConfiguration parameterDslConfiguration) {
-      this(clazz, name, sequence, null, parameterDslConfiguration);
-    }
-
-    public InfrastructureType(String name, QNameModelProperty qNameModelProperty) {
-      this(null, name, -1, qNameModelProperty, null);
-    }
-
-    public Optional<Class<?>> getClazz() {
-      return ofNullable(clazz);
+    public Class<?> getClazz() {
+      return clazz;
     }
 
     public String getName() {
@@ -244,11 +243,61 @@ public class InfrastructureTypeUtils {
     }
 
     public Optional<QNameModelProperty> getQNameModelProperty() {
+      return parentType.getQNameModelProperty();
+    }
+
+    public Optional<ParameterDslConfiguration> getDslConfiguration() {
+      return parentType.getDslConfiguration();
+    }
+
+  }
+
+  /**
+   * Representation of an infrastructure type.
+   */
+  public static class InfrastructureType {
+
+    private final String name;
+    private final QNameModelProperty qNameModelProperty;
+    private final ParameterDslConfiguration parameterDslConfiguration;
+    private final Collection<ActionableInfrastructureType> actionableInfrastructureTypes;
+
+    InfrastructureType(String name,
+                       QNameModelProperty qNameModelProperty,
+                       ParameterDslConfiguration parameterDslConfiguration,
+                       Collection<ActionableInfrastructureTypeComponents> actionableInfrastructureTypesComponents) {
+      this.name = name;
+      this.qNameModelProperty = qNameModelProperty;
+      this.parameterDslConfiguration = parameterDslConfiguration;
+      this.actionableInfrastructureTypes = actionableInfrastructureTypesComponents.stream()
+          .map(components -> new ActionableInfrastructureType(name, components.clazz, components.sequence, this))
+          .collect(toList());
+    }
+
+    InfrastructureType(String name,
+                       ParameterDslConfiguration parameterDslConfiguration,
+                       Collection<ActionableInfrastructureTypeComponents> actionableInfrastructureTypesComponents) {
+      this(name, null, parameterDslConfiguration, actionableInfrastructureTypesComponents);
+    }
+
+    InfrastructureType(String name, QNameModelProperty qNameModelProperty) {
+      this(name, qNameModelProperty, null, emptyList());
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public Optional<QNameModelProperty> getQNameModelProperty() {
       return ofNullable(qNameModelProperty);
     }
 
     public Optional<ParameterDslConfiguration> getDslConfiguration() {
       return ofNullable(parameterDslConfiguration);
+    }
+
+    public Collection<ActionableInfrastructureType> getActionableInfrastructureTypes() {
+      return actionableInfrastructureTypes;
     }
 
   }
