@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api.loader.util;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.groupingBy;
 
 import static org.mule.runtime.api.util.collection.Collectors.toImmutableMap;
 import static org.mule.runtime.extension.api.ExtensionConstants.ERROR_MAPPINGS_PARAMETER_NAME;
@@ -40,6 +41,7 @@ import org.mule.runtime.extension.api.tx.OperationTransactionalAction;
 import org.mule.runtime.extension.api.tx.SourceTransactionalAction;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -136,6 +138,7 @@ public class InfrastructureTypeUtils {
 
   private static final Map<ComponentIdentifier, Class<?>> IDENTIFIER_TYPE_MAPPING = INFRASTRUCTURE_TYPES
       .stream()
+      .filter(infrastructureType -> infrastructureType.getClazz().isPresent())
       .filter(infrastructureType -> infrastructureType.getQNameModelProperty().isPresent())
       .collect(toImmutableMap(infrastructureType -> {
         final QName qName = infrastructureType.getQNameModelProperty().get().getValue();
@@ -147,11 +150,11 @@ public class InfrastructureTypeUtils {
       },
                               infrastructureType -> infrastructureType.getClazz().get()));
 
-  private static final Map<String, InfrastructureType> CLASS_NAME_MAP =
-      MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getKey().getName(), Map.Entry::getValue));
+  private static final Map<String, String> CLASS_NAME_MAP =
+      MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getKey().getName(), e -> e.getValue().getName()));
 
-  private static final Map<String, InfrastructureType> NAME_MAP =
-      MAPPING.entrySet().stream().collect(toImmutableMap(e -> e.getValue().getName(), Map.Entry::getValue));
+  private static final Map<String, List<InfrastructureType>> NAME_MAP =
+      INFRASTRUCTURE_TYPES.stream().collect(groupingBy(InfrastructureType::getName));
 
   /**
    * @return all the infrastructure types available.
@@ -170,9 +173,9 @@ public class InfrastructureTypeUtils {
 
   /**
    * @param name infrastructure type name.
-   * @return the infrastructure type with the given {@code name}.
+   * @return the infrastructure types with the given {@code name}.
    */
-  public static InfrastructureType getInfrastructureType(String name) {
+  public static Collection<InfrastructureType> getInfrastructureTypes(String name) {
     return NAME_MAP.get(name);
   }
 
@@ -181,15 +184,7 @@ public class InfrastructureTypeUtils {
    * @return infrastructure type name if the given {@link MetadataType} corresponds to an infrastructure type.
    */
   public static Optional<String> getInfrastructureParameterName(MetadataType fieldType) {
-    return getId(fieldType).map(InfrastructureTypeUtils::getName);
-  }
-
-  /**
-   * @param name infrastructure type's {@link Class} name.
-   * @return infrastructure type name.
-   */
-  private static String getName(String name) {
-    return CLASS_NAME_MAP.get(name).getName();
+    return getId(fieldType).map(CLASS_NAME_MAP::get);
   }
 
   /**
