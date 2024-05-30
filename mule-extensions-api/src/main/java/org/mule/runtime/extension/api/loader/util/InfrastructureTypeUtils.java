@@ -73,7 +73,7 @@ public class InfrastructureTypeUtils {
                                                                                                                .allowTopLevelDefinition(true)
                                                                                                                .allowsReferences(true)
                                                                                                                .build(),
-                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponents(TlsContextFactory.class,
+                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponent(TlsContextFactory.class,
                                                                                                                                                                            8))),
                                                                                     new InfrastructureType(TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER,
                                                                                                            new QNameModelProperty(new QName(TLS_NAMESPACE_URI,
@@ -89,11 +89,11 @@ public class InfrastructureTypeUtils {
                                                                                                                                             TLS_PREFIX))),
                                                                                     new InfrastructureType(TRANSACTIONAL_ACTION_PARAMETER_NAME,
                                                                                                            transactionalActionParameterDslConfiguration,
-                                                                                                           asList(new MetadataTypeBasedInfrastructureTypeComponents(SourceTransactionalAction.class,
+                                                                                                           asList(new MetadataTypeBasedInfrastructureTypeComponent(SourceTransactionalAction.class,
                                                                                                                                                                     6),
-                                                                                                                  new MetadataTypeBasedInfrastructureTypeComponents(OperationTransactionalAction.class,
+                                                                                                                  new MetadataTypeBasedInfrastructureTypeComponent(OperationTransactionalAction.class,
                                                                                                                                                                     7),
-                                                                                                                  new MetadataTypeBasedInfrastructureTypeComponents(org.mule.sdk.api.tx.OperationTransactionalAction.class,
+                                                                                                                  new MetadataTypeBasedInfrastructureTypeComponent(org.mule.sdk.api.tx.OperationTransactionalAction.class,
                                                                                                                                                                     7))),
                                                                                     new InfrastructureType(TRANSACTIONAL_TYPE_PARAMETER_NAME,
                                                                                                            ParameterDslConfiguration
@@ -102,7 +102,7 @@ public class InfrastructureTypeUtils {
                                                                                                                .allowTopLevelDefinition(false)
                                                                                                                .allowsReferences(false)
                                                                                                                .build(),
-                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponents(TransactionType.class,
+                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponent(TransactionType.class,
                                                                                                                                                                            9))),
                                                                                     new InfrastructureType(SCHEDULING_STRATEGY_PARAMETER_NAME,
                                                                                                            new QNameModelProperty(new QName(CORE_NAMESPACE,
@@ -114,7 +114,7 @@ public class InfrastructureTypeUtils {
                                                                                                                .allowTopLevelDefinition(false)
                                                                                                                .allowsReferences(false)
                                                                                                                .build(),
-                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponents(SchedulingStrategy.class,
+                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponent(SchedulingStrategy.class,
                                                                                                                                                                            10))),
                                                                                     new InfrastructureType(ERROR_MAPPINGS_PARAMETER_NAME,
                                                                                                            new QNameModelProperty(new QName(CORE_NAMESPACE,
@@ -126,7 +126,7 @@ public class InfrastructureTypeUtils {
                                                                                                                .allowTopLevelDefinition(false)
                                                                                                                .allowsReferences(false)
                                                                                                                .build(),
-                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponents(ErrorMapping.class,
+                                                                                                           singletonList(new MetadataTypeBasedInfrastructureTypeComponent(ErrorMapping.class,
                                                                                                                                                                            11))));
 
   private static final Collection<MetadataTypeBasedInfrastructureType> METADATA_TYPE_BASED_INFRASTRUCTURE_TYPES =
@@ -198,13 +198,13 @@ public class InfrastructureTypeUtils {
 
   private InfrastructureTypeUtils() {}
 
-  private static class MetadataTypeBasedInfrastructureTypeComponents {
+  private static class MetadataTypeBasedInfrastructureTypeComponent {
 
     public final Class<?> clazz;
     public final int sequence;
 
-    MetadataTypeBasedInfrastructureTypeComponents(Class<?> clazz,
-                                                  int sequence) {
+    MetadataTypeBasedInfrastructureTypeComponent(Class<?> clazz,
+                                                 int sequence) {
       this.clazz = clazz;
       this.sequence = sequence;
     }
@@ -266,7 +266,7 @@ public class InfrastructureTypeUtils {
     InfrastructureType(String name,
                        QNameModelProperty qNameModelProperty,
                        ParameterDslConfiguration parameterDslConfiguration,
-                       Collection<MetadataTypeBasedInfrastructureTypeComponents> actionableInfrastructureTypesComponents) {
+                       Collection<MetadataTypeBasedInfrastructureTypeComponent> actionableInfrastructureTypesComponents) {
       this.name = name;
       this.qNameModelProperty = qNameModelProperty;
       this.parameterDslConfiguration = parameterDslConfiguration;
@@ -277,7 +277,7 @@ public class InfrastructureTypeUtils {
 
     InfrastructureType(String name,
                        ParameterDslConfiguration parameterDslConfiguration,
-                       Collection<MetadataTypeBasedInfrastructureTypeComponents> actionableInfrastructureTypesComponents) {
+                       Collection<MetadataTypeBasedInfrastructureTypeComponent> actionableInfrastructureTypesComponents) {
       this(name, null, parameterDslConfiguration, actionableInfrastructureTypesComponents);
     }
 
