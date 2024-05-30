@@ -48,7 +48,7 @@ public final class JavaParserUtils {
    * @return the field's alias, as defined by any of the {@code @Alias} annotations
    */
   public static String getAlias(Field field) {
-    return getAlias(field::getAnnotation, field::getName);
+    return getAlias(field, field::getName);
   }
 
   /**
@@ -56,7 +56,7 @@ public final class JavaParserUtils {
    * @return the class alias, as defined by any of the {@code @Alias} annotations
    */
   public static String getAlias(Class<?> clazz) {
-    return getAlias(clazz::getAnnotation, clazz::getSimpleName);
+    return getAlias(clazz, clazz::getSimpleName);
   }
 
   /**
@@ -79,8 +79,8 @@ public final class JavaParserUtils {
    * @param defaultValue     a default value supplier
    * @return the resolved alias
    */
-  private static String getAlias(Function<Class<? extends Annotation>, Annotation> annotationMapper,
-                                 Supplier<String> defaultValue) {
+  public static String getAlias(Function<Class<? extends Annotation>, Annotation> annotationMapper,
+                                Supplier<String> defaultValue) {
     String name = null;
     Alias legacyAlias = (Alias) annotationMapper.apply(Alias.class);
     if (legacyAlias != null) {
@@ -101,7 +101,15 @@ public final class JavaParserUtils {
    * @return the {@link ExpressionSupport} defined for the element, if defined. {@link Optional#empty()} otherwise.
    */
   public static Optional<ExpressionSupport> getExpressionSupport(AnnotatedElement element) {
-    return mapReduceAnnotation(element::getAnnotation,
+    return getExpressionSupport(element::getAnnotation);
+  }
+
+  /**
+   * @param mapper function which encapsulates annotation resolution
+   * @return the {@link ExpressionSupport} defined for the element, if defined. {@link Optional#empty()} otherwise.
+   */
+  public static Optional<ExpressionSupport> getExpressionSupport(Function<Class<? extends Annotation>, ? extends Annotation> mapper) {
+    return mapReduceAnnotation(mapper,
                                Expression.class,
                                org.mule.sdk.api.annotation.Expression.class,
                                ann -> ann.value(),
@@ -137,12 +145,12 @@ public final class JavaParserUtils {
   }
 
   /**
-   * Monad for extracting information from a {@link Class} which might be annotated with two different annotations of similar
-   * semantics. Both annotations' types are reduced to a single output type.
+   * Monad for extracting information from an {@link Element} which might be annotated with two different annotations of similar
+   * semantics. Both annotations types are reduced to a single output type.
    * <p>
    * Simultaneous presence of both types will be considered an error
    *
-   * @param type                    the annotated class
+   * @param element                 the annotated element
    * @param legacyAnnotationClass   the legacy annotation type
    * @param sdkAnnotationClass      the new annotation type
    * @param legacyAnnotationMapping mapping function for the legacy annotation
@@ -152,6 +160,20 @@ public final class JavaParserUtils {
    * @param <T>                     Output generic type
    * @return a reduced value
    */
+  public static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
+                                                                                                Element element,
+                                                                                                Class<R> legacyAnnotationClass,
+                                                                                                Class<S> sdkAnnotationClass,
+                                                                                                Function<R, T> legacyAnnotationMapping,
+                                                                                                Function<S, T> sdkAnnotationMapping) {
+
+    return mapReduceAnnotation(element::getAnnotation,
+                               legacyAnnotationClass,
+                               sdkAnnotationClass,
+                               legacyAnnotationMapping,
+                               sdkAnnotationMapping);
+  }
+
   public static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
                                                                                                 Class<?> type,
                                                                                                 Class<R> legacyAnnotationClass,
