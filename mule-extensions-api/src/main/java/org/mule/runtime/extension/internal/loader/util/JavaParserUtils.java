@@ -206,6 +206,25 @@ public final class JavaParserUtils {
     }
   }
 
+  /**
+   * Transforms an sdk-api {@link org.mule.sdk.api.meta.ExternalLibraryType} into a mule-api {@link ExternalLibraryType}
+   *
+   * @param type an sdk-api representation of the library type semantic
+   * @return the transformed value
+   * @throws IllegalModelDefinitionException if no equivalent semantic found.
+   */
+  public static ExternalLibraryType toMuleApi(org.mule.sdk.api.meta.ExternalLibraryType type) {
+    if (type == org.mule.sdk.api.meta.ExternalLibraryType.JAR) {
+      return ExternalLibraryType.JAR;
+    } else if (type == org.mule.sdk.api.meta.ExternalLibraryType.DEPENDENCY) {
+      return ExternalLibraryType.DEPENDENCY;
+    } else if (type == org.mule.sdk.api.meta.ExternalLibraryType.NATIVE) {
+      return ExternalLibraryType.NATIVE;
+    } else {
+      throw new IllegalModelDefinitionException("Unsupported ExternalLIbraryType " + type);
+    }
+  }
+
   private static <R extends Annotation, S extends Annotation, T> Optional<T> mapReduceAnnotation(
                                                                                                  Function<Class<? extends Annotation>, ? extends Annotation> mapper,
                                                                                                  Class<R> legacyAnnotationClass,
