@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.internal.loader.util;
 
-import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.util.collection.Collectors.toImmutableMap;
 import static org.mule.runtime.extension.api.ExtensionConstants.ERROR_MAPPINGS_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.ExtensionConstants.SCHEDULING_STRATEGY_PARAMETER_NAME;
@@ -22,6 +21,8 @@ import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_CRL_FILE_
 import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_CUSTOM_OCSP_RESPONDER_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_PREFIX;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.TLS_STANDARD_REVOCATION_CHECK_ELEMENT_IDENTIFIER;
+
+import static java.util.Optional.ofNullable;
 
 import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
@@ -45,7 +46,10 @@ import com.google.common.collect.ImmutableMap;
  * of it.
  *
  * @since 4.0
+ * @deprecated since 4.8, use {@link org.mule.runtime.extension.api.loader.util.InfrastructureTypeUtils}.
  */
+// TODO W-15770710 - remove class
+@Deprecated
 public final class InfrastructureTypeMapping {
 
   public static final String TLS_NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/tls";

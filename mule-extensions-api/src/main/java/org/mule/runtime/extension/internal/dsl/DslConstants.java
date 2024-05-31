@@ -119,6 +119,11 @@ public interface DslConstants {
   String TLS_CRL_FILE_ELEMENT_IDENTIFIER = "crl-file";
 
   /**
+   * The namespace URI of the {@code TLS} infrastructure parameters
+   */
+  String TLS_NAMESPACE_URI = "http://www.mulesoft.org/schema/mule/tls";
+
+  /**
    * The prefix name of the {@code tls:context} infrastructure parameter
    */
   String TLS_PREFIX = "tls";
