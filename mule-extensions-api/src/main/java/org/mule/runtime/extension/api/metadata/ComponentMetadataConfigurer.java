@@ -89,6 +89,14 @@ public interface ComponentMetadataConfigurer {
   ComponentMetadataConfigurer setChainInputTypeResolver(ChainInputTypeResolver chainInputTypeResolver);
 
   /**
+   * Convenience method to configure a scope/router whose inner chain/s will receive the same input type of the scope/router
+   * itself. An example of such a scope would be {@code <async>}.
+   *
+   * @return {@code this} instance
+   */
+  ComponentMetadataConfigurer withPassThroughChainInputTypeResolver();
+
+  /**
    * Adds an {@link InputTypeResolver} for a specific input parameter
    *
    * @param parameterName the resolved parameter name
