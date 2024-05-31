@@ -51,7 +51,7 @@ import javax.xml.namespace.QName;
 /**
  * Utilities for types considered of "Infrastructure".
  *
- * @since 4.8
+ * @since 1.8
  */
 public class InfrastructureTypeUtils {
 
