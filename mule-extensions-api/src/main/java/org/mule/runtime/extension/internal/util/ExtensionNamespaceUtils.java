@@ -11,7 +11,7 @@ import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 
 /**
- * Utilities for handling a extension's namespace
+ * Utilities for handling an extension's namespace
  * <p>
  * This class <b>IS NOT</b> part of the API. To be used by the Mule Runtime only
  *
@@ -22,7 +22,10 @@ public class ExtensionNamespaceUtils {
   /**
    * @param extensionModel an {@link ExtensionModel}
    * @return the extension's namespace for a given {@link ExtensionModel}
+   * @deprecated since 1.8
    */
+  // TODO W-15885333 - remove
+  @Deprecated
   public static String getExtensionsNamespace(ExtensionModel extensionModel) {
     return getExtensionsNamespace(extensionModel.getXmlDslModel());
   }
@@ -38,7 +41,10 @@ public class ExtensionNamespaceUtils {
   /**
    * @param dslModel a {@link XmlDslModel}
    * @return the extension's namespace for a given {@link ExtensionDeclaration}
+   * @deprecated since 1.8
    */
+  // TODO W-15885333 - remove
+  @Deprecated
   public static String getExtensionsNamespace(XmlDslModel dslModel) {
     return dslModel.getPrefix().toUpperCase();
   }
