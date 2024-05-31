@@ -9,8 +9,7 @@ package org.mule.runtime.extension.internal.exception;
 import org.mule.runtime.extension.api.dsql.DsqlQuery;
 
 /**
- * {@link RuntimeException} implementation that is thrown when an unexpected behaviour
- * occurs when parsing a {@link DsqlQuery}.
+ * {@link RuntimeException} implementation that is thrown when an unexpected behaviour occurs when parsing a {@link DsqlQuery}.
  *
  * @since 1.0
  */

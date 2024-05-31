@@ -21,7 +21,7 @@ public class EmptyExpression extends Expression {
    */
   @Override
   public void accept(QueryTranslator queryVisitor) {
-    //DO NOTHING ON EMPTY CASE
+    // DO NOTHING ON EMPTY CASE
   }
 
   /**

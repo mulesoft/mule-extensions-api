@@ -38,6 +38,6 @@ public class Function extends Expression {
    */
   @Override
   public void accept(QueryTranslator queryVisitor) {
-    //TODO
+    // TODO
   }
 }
