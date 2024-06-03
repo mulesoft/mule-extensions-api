@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.internal.util;
 
-import org.mule.runtime.api.meta.model.ExtensionModel;
-import org.mule.runtime.api.meta.model.XmlDslModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 
 /**
@@ -20,32 +18,11 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 public class ExtensionNamespaceUtils {
 
   /**
-   * @param extensionModel an {@link ExtensionModel}
-   * @return the extension's namespace for a given {@link ExtensionModel}
-   * @deprecated since 1.8
-   */
-  // TODO W-15885333 - remove
-  @Deprecated
-  public static String getExtensionsNamespace(ExtensionModel extensionModel) {
-    return getExtensionsNamespace(extensionModel.getXmlDslModel());
-  }
-
-  /**
    * @param extensionDeclaration a {@link ExtensionDeclaration}
    * @return the extension's namespace for a given {@link ExtensionDeclaration}
    */
   public static String getExtensionsNamespace(ExtensionDeclaration extensionDeclaration) {
-    return getExtensionsNamespace(extensionDeclaration.getXmlDslModel());
+    return extensionDeclaration.getXmlDslModel().getPrefix().toUpperCase();
   }
 
-  /**
-   * @param dslModel a {@link XmlDslModel}
-   * @return the extension's namespace for a given {@link ExtensionDeclaration}
-   * @deprecated since 1.8
-   */
-  // TODO W-15885333 - remove
-  @Deprecated
-  public static String getExtensionsNamespace(XmlDslModel dslModel) {
-    return dslModel.getPrefix().toUpperCase();
-  }
 }
