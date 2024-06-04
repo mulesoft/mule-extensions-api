@@ -150,9 +150,7 @@ module org.mule.runtime.extensions.api {
       org.mule.runtime.extensions.api.test;
 
   exports org.mule.runtime.extension.internal.util to
-      org.mule.runtime.extensions.support,
-      org.mule.runtime.extensions.mule.support,
-      org.mule.runtime.extensions.soap.support;
+      org.mule.runtime.extensions.support;
 
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
