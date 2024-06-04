@@ -7,8 +7,12 @@
 package org.mule.runtime.extension.privileged.util;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.ConnectableComponentModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
+import org.mule.runtime.api.meta.model.declaration.fluent.BaseDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclarer;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
+import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclarer;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -30,7 +34,7 @@ import java.util.Set;
 /**
  * Provides a way to access the functionality on internal model properties when declaring components on crafted extensions.
  * <p>
- * Being {@code privileged]}, this is not intended to be used outside of the scope of crafted extension declarations.
+ * Being {@code privileged}, this is not intended to be used outside of the scope of crafted extension declarations.
  * 
  * @since 1.8
  */
@@ -46,7 +50,7 @@ public final class ComponentDeclarationUtils {
    * 
    * @param declarer the declarer of the operation to mark.
    */
-  public static final void withNoStreamingConfiguration(OperationDeclarer declarer) {
+  public static void withNoStreamingConfiguration(OperationDeclarer declarer) {
     declarer.withModelProperty(new NoStreamingConfigurationModelProperty());
   }
 
@@ -56,7 +60,7 @@ public final class ComponentDeclarationUtils {
    * 
    * @param declarer the declarer of the operation to mark.
    */
-  public static final void withNoTransactionalAction(OperationDeclarer declarer) {
+  public static void withNoTransactionalAction(OperationDeclarer declarer) {
     declarer.withModelProperty(new NoTransactionalActionModelProperty());
   }
 
@@ -66,7 +70,7 @@ public final class ComponentDeclarationUtils {
    * 
    * @param declarer the declarer of the operation to mark.
    */
-  public static final void withNoReconnectionStrategy(OperationDeclarer declarer) {
+  public static void withNoReconnectionStrategy(OperationDeclarer declarer) {
     declarer.withModelProperty(new NoReconnectionStrategyModelProperty());
   }
 
@@ -77,7 +81,7 @@ public final class ComponentDeclarationUtils {
    * @param declarer the declarer of the extension to mark.
    */
   // account for use cases where this is declared at the extension level for all its operations
-  public static final void withNoReconnectionStrategy(ExtensionDeclarer declarer) {
+  public static void withNoReconnectionStrategy(ExtensionDeclarer declarer) {
     declarer.withModelProperty(new NoReconnectionStrategyModelProperty());
   }
 
@@ -87,7 +91,7 @@ public final class ComponentDeclarationUtils {
    * 
    * @param declarer the declarer of the operation to mark.
    */
-  public static final void withNoConnectivityError(OperationDeclarer declarer) {
+  public static void withNoConnectivityError(OperationDeclarer declarer) {
     declarer.withModelProperty(new NoConnectivityErrorModelProperty());
   }
 
@@ -96,7 +100,7 @@ public final class ComponentDeclarationUtils {
    * 
    * @param declarer the declarer of the operation to mark.
    */
-  public static final void withNoErrorMapping(OperationDeclarer declarer) {
+  public static void withNoErrorMapping(OperationDeclarer declarer) {
     declarer.withModelProperty(new NoErrorMappingModelProperty());
   }
 
@@ -105,7 +109,7 @@ public final class ComponentDeclarationUtils {
    * 
    * @param declarer the declarer of the component to mark.
    */
-  public static final void asPagedOperation(ComponentDeclarer declarer) {
+  public static void asPagedOperation(ComponentDeclarer declarer) {
     declarer.withModelProperty(new PagedOperationModelProperty());
   }
 
@@ -113,7 +117,7 @@ public final class ComponentDeclarationUtils {
    * @param componentModel the component to check for.
    * @return whether {@code componentModel} may not have a configuring transactionalAction.
    */
-  public static final boolean isNoTransactionalAction(ComponentModel componentModel) {
+  public static boolean isNoTransactionalAction(ComponentModel componentModel) {
     return componentModel.getModelProperty(NoTransactionalActionModelProperty.class).isPresent();
   }
 
@@ -121,7 +125,7 @@ public final class ComponentDeclarationUtils {
    * @param componentModel the operation to check for.
    * @return whether {@code componentModel} may not contain errorMappings.
    */
-  public static final boolean isNoErrorMapping(OperationModel componentModel) {
+  public static boolean isNoErrorMapping(OperationModel componentModel) {
     return componentModel.getModelProperty(NoErrorMappingModelProperty.class).isPresent();
   }
 
@@ -129,7 +133,7 @@ public final class ComponentDeclarationUtils {
    * @param componentModel the component to check for.
    * @return whether {@code componentModel} is paged.
    */
-  public static final boolean isPagedOperation(ComponentModel componentModel) {
+  public static boolean isPagedOperation(ComponentModel componentModel) {
     return componentModel.getModelProperty(PagedOperationModelProperty.class).isPresent();
   }
 
@@ -137,7 +141,7 @@ public final class ComponentDeclarationUtils {
    * @param paramModel the parameter to check for.
    * @return whether {@code paramModel} is the parameter considered to inject the value of the Transactional Action.
    */
-  public static final boolean isTransactionalAction(ParameterModel paramModel) {
+  public static boolean isTransactionalAction(ParameterModel paramModel) {
     return paramModel.getModelProperty(TransactionalActionModelProperty.class).isPresent();
   }
 
@@ -145,7 +149,7 @@ public final class ComponentDeclarationUtils {
    * @param paramModel the parameter to check for.
    * @return whether {@code paramModel} is the parameter is a {@link TransactionType}.
    */
-  public static final boolean isTransactionalType(ParameterModel paramModel) {
+  public static boolean isTransactionalType(ParameterModel paramModel) {
     return paramModel.getModelProperty(TransactionalTypeModelProperty.class).isPresent();
   }
 
@@ -163,6 +167,65 @@ public final class ComponentDeclarationUtils {
    */
   public static boolean isTargetParameter(ParameterModel paramModel) {
     return isTargetParameter(paramModel.getModelProperties());
+  }
+
+  /**
+   * @param componentModel a {@link ConnectableComponentModel}
+   * @return Whether a component modeled by the given {@code componentModel} would need a connection to be provided in order to
+   *         function.
+   */
+  public static boolean isConnectionProvisioningRequired(ConnectableComponentModel componentModel) {
+    return componentModel.requiresConnection()
+        && isConnectivityErrorSupported(componentModel);
+  }
+
+  /**
+   * @param componentModel an {@link ConnectableComponentModel}
+   * @return Whether the component modeled by the given {@code componentModel} supports having a reconnection strategy.
+   */
+  public static boolean isReconnectionStrategySupported(ConnectableComponentModel componentModel) {
+    return !componentModel.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent();
+  }
+
+  /**
+   * @param declaration an {@link ExtensionDeclaration}.
+   * @return Whether the components belonging to the extension declared by the given {@code declaration} support having a
+   *         reconnection strategy.
+   */
+  public static boolean isReconnectionStrategySupported(ExtensionDeclaration declaration) {
+    return isReconnectionStrategySupported((BaseDeclaration<?>) declaration);
+  }
+
+  /**
+   * @param declaration an {@link ExecutableComponentDeclaration}.
+   * @return Whether the component declared by the given {@code declaration} supports having a reconnection strategy.
+   */
+  public static boolean isReconnectionStrategySupported(ExecutableComponentDeclaration<?> declaration) {
+    return isReconnectionStrategySupported((BaseDeclaration<?>) declaration);
+  }
+
+  /**
+   * @param declaration an {@link ExecutableComponentDeclaration}.
+   * @return Whether the component declared by the given {@code declaration} supports having a reconnection strategy.
+   */
+  private static boolean isReconnectionStrategySupported(BaseDeclaration<?> declaration) {
+    return !declaration.getModelProperty(NoReconnectionStrategyModelProperty.class).isPresent();
+  }
+
+  /**
+   * @param declaration an {@link ExecutableComponentDeclaration}.
+   * @return Whether the {@code componentModel} supports propagating connectivity errors from operations.
+   */
+  public static boolean isConnectivityErrorSupported(ExecutableComponentDeclaration<?> declaration) {
+    return !declaration.getModelProperty(NoConnectivityErrorModelProperty.class).isPresent();
+  }
+
+  /**
+   * @param componentModel the component to check for.
+   * @return Whether the {@code componentModel} supports propagating connectivity errors from operations.
+   */
+  private static boolean isConnectivityErrorSupported(ConnectableComponentModel componentModel) {
+    return !componentModel.getModelProperty(NoConnectivityErrorModelProperty.class).isPresent();
   }
 
 }
