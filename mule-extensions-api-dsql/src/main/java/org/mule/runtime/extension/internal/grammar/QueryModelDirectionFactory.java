@@ -12,8 +12,8 @@ import org.mule.runtime.extension.api.dsql.Direction;
 import java.util.HashMap;
 
 /**
- * Singleton class that returns a {@link Direction} expression depending on the token
- * that is passed as parameter in the {@link QueryModelDirectionFactory#getDirection(String)}
+ * Singleton class that returns a {@link Direction} expression depending on the token that is passed as parameter in the
+ * {@link QueryModelDirectionFactory#getDirection(String)}
  *
  * @since 1.0
  */

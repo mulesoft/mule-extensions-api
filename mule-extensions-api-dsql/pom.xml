@@ -17,8 +17,9 @@
     <url>https://github.com/mulesoft/mule-extensions-api</url>
 
     <properties>
-        <antlrVersion>3.5.2</antlrVersion>
-        <skipCodeFormatting>true</skipCodeFormatting>
+        <antlr.output.directory>${project.build.directory}/generated-antlr/org/mule/runtime/extension/internal/dsql</antlr.output.directory>
+
+        <formatterConfigPath>../formatter.xml</formatterConfigPath>
     </properties>
 
     <dependencies>
@@ -42,12 +43,30 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${antlr.output.directory}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr3-maven-plugin</artifactId>
                 <version>${antlrVersion}</version>
                 <configuration>
                     <sourceDirectory>${basedir}/src/main/resources/grammar</sourceDirectory>
-                    <outputDirectory>${basedir}/src/main/java/org/mule/runtime/extension/internal/dsql</outputDirectory>
+                    <outputDirectory>${antlr.output.directory}</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>

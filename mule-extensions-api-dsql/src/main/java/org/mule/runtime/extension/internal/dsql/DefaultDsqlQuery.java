@@ -73,12 +73,12 @@ public final class DefaultDsqlQuery extends DsqlQuery {
    * @param offset           the number of items to skip from the beginning of the result set.
    */
   public DefaultDsqlQuery(EntityType type,
-                   List<Field> fields,
-                   List<Field> orderByFields,
-                   Direction direction,
-                   Expression filterExpression,
-                   Integer limit,
-                   Integer offset) {
+                          List<Field> fields,
+                          List<Field> orderByFields,
+                          Direction direction,
+                          Expression filterExpression,
+                          Integer limit,
+                          Integer offset) {
     this.type = type;
     this.fields = fields;
     this.orderByFields = orderByFields;

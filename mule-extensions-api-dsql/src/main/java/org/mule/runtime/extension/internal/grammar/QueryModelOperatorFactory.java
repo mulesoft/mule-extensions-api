@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Singleton class that returns {@link Operator} expression instances depending on the token
- * that is passed as parameter in the {@link QueryModelOperatorFactory#getOperator(String)}
+ * Singleton class that returns {@link Operator} expression instances depending on the token that is passed as parameter in the
+ * {@link QueryModelOperatorFactory#getOperator(String)}
  *
  * @since 1.0
  */

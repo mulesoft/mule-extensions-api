@@ -26,6 +26,6 @@ public class Not extends UnaryLogicalExpression {
    */
   @Override
   public void accept(QueryTranslator queryVisitor) {
-    //TODO
+    // TODO
   }
 }
