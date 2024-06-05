@@ -11,7 +11,7 @@ import static org.mule.runtime.api.meta.model.connection.ConnectionManagementTyp
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addPoolingProfileParameter;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionConfigParameter;
-import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
+import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isReconnectionStrategySupported;
 
 import org.mule.runtime.api.config.PoolingProfile;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;

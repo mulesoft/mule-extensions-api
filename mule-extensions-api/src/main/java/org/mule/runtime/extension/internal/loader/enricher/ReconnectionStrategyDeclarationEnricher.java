@@ -10,7 +10,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addReconnectionStrategyParameter;
-import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
+import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isReconnectionStrategySupported;
 
 import org.mule.runtime.api.meta.model.declaration.fluent.ExecutableComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;

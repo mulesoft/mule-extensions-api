@@ -12,8 +12,8 @@ import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isRouter;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isScope;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
-import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isConnectionProvisioningRequired;
 import static org.mule.runtime.extension.internal.util.ExtensionValidationUtils.validateNoInlineParameters;
+import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isConnectionProvisioningRequired;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComposableModel;
@@ -78,7 +78,7 @@ public final class OperationModelValidator implements ExtensionModelValidator {
         protected void onOperation(HasOperationModels owner, OperationModel model) {
           validateErrors(extensionModel, model, problemsReporter);
           validateOutput(model);
-          validateConnection(extensionModel, owner, model, hasGlobalConnectionProviders);
+          validateConnection(owner, model, hasGlobalConnectionProviders);
 
           if (isScope(model)) {
             validateScope(model);
@@ -175,9 +175,9 @@ public final class OperationModelValidator implements ExtensionModelValidator {
       }
     }
 
-    private void validateConnection(ExtensionModel extensionModel, HasOperationModels owner, OperationModel model,
+    private void validateConnection(HasOperationModels owner, OperationModel model,
                                     boolean hasGlobalConnectionProviders) {
-      if (isConnectionProvisioningRequired(extensionModel, model)) {
+      if (isConnectionProvisioningRequired(model)) {
         boolean connectable;
         if (owner instanceof HasConnectionProviderModels) {
           connectable =

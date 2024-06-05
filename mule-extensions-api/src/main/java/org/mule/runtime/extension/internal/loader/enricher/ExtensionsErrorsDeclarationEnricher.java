@@ -11,10 +11,10 @@ import static org.mule.runtime.extension.api.error.MuleErrors.ANY;
 import static org.mule.runtime.extension.api.error.MuleErrors.VALIDATION;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.POST_STRUCTURE;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.CORE_PREFIX;
-import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isConnectivityErrorSupported;
-import static org.mule.runtime.extension.internal.util.ExtensionConnectivityUtils.isReconnectionStrategySupported;
 import static org.mule.runtime.extension.internal.util.ExtensionErrorUtils.getValidationError;
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
+import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isConnectivityErrorSupported;
+import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isReconnectionStrategySupported;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.VALIDATOR;
 
 import static java.lang.String.format;

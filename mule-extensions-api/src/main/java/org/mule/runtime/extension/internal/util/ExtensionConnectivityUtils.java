@@ -18,7 +18,10 @@ import org.mule.runtime.extension.internal.property.NoReconnectionStrategyModelP
  * Utility methods for analyzing connectivity aspects of {@link ExtensionModel} instances.
  *
  * @since 1.5
+ * @deprecated since 1.8 use {@link org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils}.
  */
+// TODO W-15885351 - remove
+@Deprecated
 public class ExtensionConnectivityUtils {
 
   private ExtensionConnectivityUtils() {}
