@@ -149,10 +149,6 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.semantic to
       org.mule.runtime.extensions.api.test;
 
-  // TODO W-15885351 - remove
-  exports org.mule.runtime.extension.internal.util to
-      org.mule.runtime.extensions.support;
-
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
       com.google.gson;
