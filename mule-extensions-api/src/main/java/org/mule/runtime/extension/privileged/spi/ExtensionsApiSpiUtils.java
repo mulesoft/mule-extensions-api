@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.privileged.spi;
 
+import static org.mule.runtime.api.util.classloader.MuleImplementationLoaderUtils.getMuleImplementationsLoader;
+
 import static java.util.ServiceLoader.load;
 import static java.util.stream.StreamSupport.stream;
 
@@ -19,7 +21,7 @@ import java.util.stream.Stream;
 /**
  * Provides utilities to lookup and load implementations of interfaces defined in {@code extensions-api} through SPI.
  * <p>
- * Being {@code privileged]}, this is not intended to be used outside of the scope of crafted extension declarations.
+ * Being {@code privileged}, this is not intended to be used outside of the scope of crafted extension declarations.
  * 
  * @since 1.5
  */
@@ -31,7 +33,7 @@ public final class ExtensionsApiSpiUtils {
 
   public static Stream<ExtensionModelLoaderProvider> loadExtensionModelLoaderProviders() {
     return stream(((Iterable<ExtensionModelLoaderProvider>) () -> load(ExtensionModelLoaderProvider.class,
-                                                                       ExtensionsApiSpiUtils.class.getClassLoader())
+                                                                       getMuleImplementationsLoader())
                                                                            .iterator())
                                                                                .spliterator(),
                   false);
@@ -39,7 +41,7 @@ public final class ExtensionsApiSpiUtils {
 
   public static Stream<ExtensionSchemaGenerator> loadExtensionSchemaGenerators() {
     return stream(((Iterable<ExtensionSchemaGenerator>) () -> load(ExtensionSchemaGenerator.class,
-                                                                   ExtensionsApiSpiUtils.class.getClassLoader())
+                                                                   getMuleImplementationsLoader())
                                                                        .iterator())
                                                                            .spliterator(),
                   false);
@@ -47,7 +49,7 @@ public final class ExtensionsApiSpiUtils {
 
   public static Stream<DslResourceFactory> loadDslResourceFactories() {
     return stream(((Iterable<DslResourceFactory>) () -> load(DslResourceFactory.class,
-                                                             ExtensionsApiSpiUtils.class.getClassLoader())
+                                                             getMuleImplementationsLoader())
                                                                  .iterator())
                                                                      .spliterator(),
                   false);
@@ -55,7 +57,7 @@ public final class ExtensionsApiSpiUtils {
 
   public static Stream<GeneratedResourceFactory> loadGeneratedResourceFactories() {
     return stream(((Iterable<GeneratedResourceFactory>) () -> load(GeneratedResourceFactory.class,
-                                                                   ExtensionsApiSpiUtils.class.getClassLoader())
+                                                                   getMuleImplementationsLoader())
                                                                        .iterator())
                                                                            .spliterator(),
                   false);

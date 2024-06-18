@@ -7,6 +7,8 @@
 package org.mule.runtime.extension.internal.metadata;
 
 import static java.util.ServiceLoader.load;
+
+import static org.mule.runtime.api.util.classloader.MuleImplementationLoaderUtils.getMuleImplementationsLoader;
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -23,7 +25,7 @@ public class DefaultComponentMetadataConfigurerFactory extends ComponentMetadata
       new LazyValue(() -> {
         Iterator<ComponentMetadataConfigurerFactoryDelegate> iter =
             load(ComponentMetadataConfigurerFactoryDelegate.class,
-                 ComponentMetadataConfigurerFactoryDelegate.class.getClassLoader()).iterator();
+                 getMuleImplementationsLoader()).iterator();
         if (!iter.hasNext()) {
           throw new MuleRuntimeException(createStaticMessage("There is no implementation available for %s.",
                                                              ComponentMetadataConfigurerFactoryDelegate.class.getName()));
