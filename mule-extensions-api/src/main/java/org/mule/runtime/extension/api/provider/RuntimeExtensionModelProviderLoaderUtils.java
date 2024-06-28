@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.provider;
 
+import static org.mule.runtime.api.util.classloader.MuleImplementationLoaderUtils.getMuleImplementationsLoader;
+
 import org.mule.runtime.api.meta.model.ExtensionModel;
 
 import java.util.Objects;
@@ -33,7 +35,7 @@ public final class RuntimeExtensionModelProviderLoaderUtils {
    */
   public static Set<ExtensionModel> discoverRuntimeExtensionModels() {
     return stream(((Iterable<RuntimeExtensionModelProvider>) () -> load(RuntimeExtensionModelProvider.class,
-                                                                        RuntimeExtensionModelProvider.class.getClassLoader())
+                                                                        getMuleImplementationsLoader())
                                                                             .iterator()).spliterator(),
                   false)
                       .map(RuntimeExtensionModelProvider::createExtensionModel)

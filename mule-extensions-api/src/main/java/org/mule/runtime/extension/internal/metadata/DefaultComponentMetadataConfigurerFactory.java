@@ -7,7 +7,10 @@
 package org.mule.runtime.extension.internal.metadata;
 
 import static java.util.ServiceLoader.load;
+
+import static org.mule.runtime.api.util.classloader.MuleImplementationLoaderUtils.getMuleImplementationsLoader;
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
+import static org.mule.runtime.api.util.classloader.MuleImplementationLoaderUtils.isResolveMuleImplementationLoadersDynamically;
 
 import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.util.LazyValue;
@@ -20,20 +23,28 @@ import java.util.Iterator;
 public class DefaultComponentMetadataConfigurerFactory extends ComponentMetadataConfigurerFactory {
 
   private static final LazyValue<ComponentMetadataConfigurerFactoryDelegate> DELEGATE =
-      new LazyValue(() -> {
-        Iterator<ComponentMetadataConfigurerFactoryDelegate> iter =
-            load(ComponentMetadataConfigurerFactoryDelegate.class,
-                 ComponentMetadataConfigurerFactoryDelegate.class.getClassLoader()).iterator();
-        if (!iter.hasNext()) {
-          throw new MuleRuntimeException(createStaticMessage("There is no implementation available for %s.",
-                                                             ComponentMetadataConfigurerFactoryDelegate.class.getName()));
-        }
-        return iter.next();
-      });
+      new LazyValue(DefaultComponentMetadataConfigurerFactory::loadFactoryDelegate);
+
+  private static ComponentMetadataConfigurerFactoryDelegate loadFactoryDelegate() {
+    Iterator<ComponentMetadataConfigurerFactoryDelegate> iter =
+        load(ComponentMetadataConfigurerFactoryDelegate.class,
+             getMuleImplementationsLoader()).iterator();
+    if (!iter.hasNext()) {
+      throw new MuleRuntimeException(createStaticMessage("There is no implementation available for %s.",
+                                                         ComponentMetadataConfigurerFactoryDelegate.class.getName()));
+    }
+    return iter.next();
+  }
 
   @Override
   public ComponentMetadataConfigurer create() {
-    ComponentMetadataConfigurerFactoryDelegate delegate = DELEGATE.get();
+    ComponentMetadataConfigurerFactoryDelegate delegate;
+    if (isResolveMuleImplementationLoadersDynamically()) {
+      delegate = loadFactoryDelegate();
+    } else {
+      delegate = DELEGATE.get();
+    }
+
     return delegate.create();
   }
 }
