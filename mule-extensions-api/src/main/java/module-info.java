@@ -217,6 +217,10 @@ module org.mule.runtime.extensions.api {
   opens org.mule.runtime.extension.api.runtime.route to
       org.mule.runtime.extensions.support;
 
+  // Introspection by kryo used by mule serializer
+  opens org.mule.runtime.extension.api.exception to
+      kryo.shaded;
+
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
       com.google.gson;
