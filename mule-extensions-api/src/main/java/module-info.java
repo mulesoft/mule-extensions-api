@@ -149,6 +149,10 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.internal.semantic to
       org.mule.runtime.extensions.api.test;
 
+  // Introspection by kryo used by mule serializer
+  opens org.mule.runtime.extension.api.exception to
+      kryo.shaded;
+
   // Allow introspection for serialization/deserialization by Gson
   opens org.mule.runtime.extension.api.connectivity.oauth to
       com.google.gson;
