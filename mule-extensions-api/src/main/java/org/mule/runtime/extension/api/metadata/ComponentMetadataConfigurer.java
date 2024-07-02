@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.metadata;
 
 import org.mule.api.annotation.Experimental;
+import org.mule.api.annotation.NoImplement;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @since 1.8
  */
 @Experimental
+@NoImplement
 public interface ComponentMetadataConfigurer {
 
   /**
