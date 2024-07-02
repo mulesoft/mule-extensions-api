@@ -5,6 +5,14 @@
         "differences": [
           {
             "ignore": true,
+            "code": "java.annotation.added",
+            "old": "interface org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer",
+            "new": "interface org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurer",
+            "annotation": "@org.mule.api.annotation.NoImplement",
+            "justification": "W-15261626: The annotation should have been added since the beginning. This is an experimental interface, so we can add it now."
+          },
+          {
+            "ignore": true,
             "code": "java.method.finalMethodAddedToNonFinalClass",
             "new": "method org.mule.runtime.api.meta.model.ExtensionModel org.mule.runtime.extension.api.loader.ExtensionModelLoader::loadExtensionModel(org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer, org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest)",
             "justification": "W-15716727: Update ExtensionModel providers to not use extensions-api internals"
