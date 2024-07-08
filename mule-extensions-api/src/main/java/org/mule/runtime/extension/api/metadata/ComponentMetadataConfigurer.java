@@ -91,8 +91,8 @@ public interface ComponentMetadataConfigurer {
   ComponentMetadataConfigurer setChainInputTypeResolver(ChainInputTypeResolver chainInputTypeResolver);
 
   /**
-   * Convenience method to configure a scope/router whose inner chain/s will receive the same input type of the scope/router
-   * itself. An example of such a scope would be {@code <async>}.
+   * Convenience method to configure a scope whose inner chain/s will receive the same input type of the scope itself. An example
+   * of such a scope would be {@code <async>}.
    *
    * @return {@code this} instance
    */
@@ -117,6 +117,18 @@ public interface ComponentMetadataConfigurer {
    *                                  would
    */
   ComponentMetadataConfigurer addInputResolvers(Map<String, InputTypeResolver> resolvers);
+
+
+  /**
+   * Convenience method for configuring a route whose inner chain/s will receive the same input type of the router itself.
+   * <p>
+   * Only use when configuring router components.
+   *
+   * @param routeName the route name
+   * @return {@code this} instance
+   * @throws IllegalArgumentException if {@code routeName} is blank
+   */
+  ComponentMetadataConfigurer addRoutePassThroughChainInputResolver(String routeName);
 
   /**
    * Adds a {@link ChainInputTypeResolver} for a specific route. Only use when configuring router components
