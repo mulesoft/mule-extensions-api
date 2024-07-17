@@ -38,10 +38,6 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
     this(order, true);
   }
 
-  public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
-    this(order, providedByKeyResolver, false);
-  }
-
   /**
    * Creates a new instance.
    *
@@ -49,6 +45,22 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    * @param providedByKeyResolver whether or not this part will be provided by the keys resolver associated to the container of
    *                              this part
    */
+  public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
+    this(order, providedByKeyResolver, false);
+  }
+
+  /**
+   * Creates a new instance.
+   * <p>
+   * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
+   *
+   * @param order                 the order of the parameter in the {@link MetadataKey};
+   * @param providedByKeyResolver whether or not this part will be provided by the keys resolver associated to the container of
+   *                              this part
+   * @param isExpressionAllowed   whether an expression is allowed as the value for the key part.
+   * @since 1.8
+   */
+  @Experimental
   public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver, boolean isExpressionAllowed) {
     checkArgument(order > 0,
                   format("Invalid [order] for [MetadataKeyPart]. Expected a number greater than zero but found [%s]", order));
@@ -95,8 +107,12 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    * <p>
    * This flag indicates that an eventual expression is allowed and that it will be provided unresolved as a string for the key
    * part value.
+   * <p>
+   * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
    *
-   * @return whether an expression is allowed as the value for the parameter.
+   * @return whether an expression is allowed as the value for the key part.
+   *
+   * @since 1.8
    */
   @Experimental
   public boolean isExpressionAllowed() {
