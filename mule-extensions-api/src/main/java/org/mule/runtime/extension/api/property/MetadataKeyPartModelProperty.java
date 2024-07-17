@@ -8,6 +8,8 @@ package org.mule.runtime.extension.api.property;
 
 import static java.lang.String.format;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
+import org.mule.api.annotation.Experimental;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -25,6 +27,7 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
 
   private final int order;
   private final boolean providedByKeyResolver;
+  private final boolean isExpressionAllowed;
 
   /**
    * Creates a new instance.
@@ -35,6 +38,10 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
     this(order, true);
   }
 
+  public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
+    this(order, providedByKeyResolver, false);
+  }
+
   /**
    * Creates a new instance.
    *
@@ -42,11 +49,12 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    * @param providedByKeyResolver whether or not this part will be provided by the keys resolver associated to the container of
    *                              this part
    */
-  public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
+  public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver, boolean isExpressionAllowed) {
     checkArgument(order > 0,
                   format("Invalid [order] for [MetadataKeyPart]. Expected a number greater than zero but found [%s]", order));
     this.order = order;
     this.providedByKeyResolver = providedByKeyResolver;
+    this.isExpressionAllowed = isExpressionAllowed;
   }
 
   /**
@@ -80,5 +88,18 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    */
   public boolean isProvidedByKeyResolver() {
     return providedByKeyResolver;
+  }
+
+  /**
+   * By default, metadata keys need to be static values. An error is thrown whenever an expression is provided.
+   * <p>
+   * This flag indicates that an eventual expression is allowed and that it will be provided unresolved as a string for the key
+   * part value.
+   *
+   * @return whether an expression is allowed as the value for the parameter.
+   */
+  @Experimental
+  public boolean isExpressionAllowed() {
+    return isExpressionAllowed;
   }
 }
