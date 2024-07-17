@@ -91,8 +91,8 @@ public interface ComponentMetadataConfigurer {
   ComponentMetadataConfigurer setChainInputTypeResolver(ChainInputTypeResolver chainInputTypeResolver);
 
   /**
-   * Convenience method to configure a scope of which the inner chain will receive the same input type of the scope itself. An example
-   * of such a scope would be {@code <async>}.
+   * Convenience method to configure a scope of which the inner chain will receive the same input type of the scope itself. An
+   * example of such a scope would be {@code <async>}.
    *
    * @return {@code this} instance
    */
