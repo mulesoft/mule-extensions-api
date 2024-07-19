@@ -57,6 +57,7 @@ import org.mule.runtime.extension.internal.persistence.ErrorModelToIdentifierTyp
 import org.mule.runtime.extension.internal.persistence.ExtensionModelTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.FunctionModelTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ImportedTypesModelTypeAdapter;
+import org.mule.runtime.extension.internal.persistence.MetadataKeyPartModelPropertyTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.NestableElementModelTypeAdapterFactory;
@@ -196,6 +197,7 @@ public class ExtensionModelJsonSerializer {
         .registerTypeAdapter(ArtifactCoordinates.class, new ArtifactCoordinatesTypeAdapter())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
+        .registerTypeAdapterFactory(new MetadataKeyPartModelPropertyTypeAdapterFactory())
         .registerTypeAdapterFactory(new SourceModelTypeAdapterFactory())
         .registerTypeAdapterFactory(sourceCallbackModelTypeAdapterFactory)
         .registerTypeAdapterFactory(parameterModelTypeAdapterFactory)

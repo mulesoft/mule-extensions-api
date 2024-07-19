@@ -30,9 +30,7 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
 
   private final int order;
   private final boolean providedByKeyResolver;
-
-  // This initialization is not redundant, it is for compatibility with previously serialized instances
-  private ExpressionSupport expressionSupport = NOT_SUPPORTED;
+  private final ExpressionSupport expressionSupport;
 
   /**
    * Creates a new instance.
