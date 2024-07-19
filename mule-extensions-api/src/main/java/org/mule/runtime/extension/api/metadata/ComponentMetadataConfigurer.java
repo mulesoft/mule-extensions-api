@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.metadata;
 
 import org.mule.api.annotation.Experimental;
+import org.mule.api.annotation.NoImplement;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.declaration.fluent.ComponentDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclaration;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @since 1.8
  */
 @Experimental
+@NoImplement
 public interface ComponentMetadataConfigurer {
 
   /**
@@ -89,6 +91,14 @@ public interface ComponentMetadataConfigurer {
   ComponentMetadataConfigurer setChainInputTypeResolver(ChainInputTypeResolver chainInputTypeResolver);
 
   /**
+   * Convenience method to configure a scope of which the inner chain will receive the same input type of the scope itself. An
+   * example of such a scope would be {@code <async>}.
+   *
+   * @return {@code this} instance
+   */
+  ComponentMetadataConfigurer withPassThroughChainInputTypeResolver();
+
+  /**
    * Adds an {@link InputTypeResolver} for a specific input parameter
    *
    * @param parameterName the resolved parameter name
@@ -107,6 +117,18 @@ public interface ComponentMetadataConfigurer {
    *                                  would
    */
   ComponentMetadataConfigurer addInputResolvers(Map<String, InputTypeResolver> resolvers);
+
+
+  /**
+   * Convenience method for configuring a route of which the inner chain will receive the same input type of the router itself.
+   * <p>
+   * Only use when configuring router components.
+   *
+   * @param routeName the route name
+   * @return {@code this} instance
+   * @throws IllegalArgumentException if {@code routeName} is blank
+   */
+  ComponentMetadataConfigurer addRoutePassThroughChainInputResolver(String routeName);
 
   /**
    * Adds a {@link ChainInputTypeResolver} for a specific route. Only use when configuring router components

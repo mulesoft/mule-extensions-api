@@ -38,6 +38,7 @@ import org.mule.runtime.extension.api.model.parameter.ImmutableParameterModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceCallbackModel;
 import org.mule.runtime.extension.api.model.source.ImmutableSourceModel;
 import org.mule.runtime.extension.internal.persistence.DefaultImplementationTypeAdapterFactory;
+import org.mule.runtime.extension.internal.persistence.MetadataKeyPartModelPropertyTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.ModelPropertyMapTypeAdapterFactory;
 import org.mule.runtime.extension.internal.persistence.MuleVersionTypeAdapter;
 import org.mule.runtime.extension.internal.persistence.metadata.ComponentMetadataTypesTypeAdapterFactory;
@@ -97,6 +98,7 @@ abstract class AbstractMetadataResultJsonSerializer<T> {
         .registerTypeAdapter(MetadataType.class, getMetadataTypeAdapterFactory(reduced))
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ModelPropertyMapTypeAdapterFactory())
+        .registerTypeAdapterFactory(new MetadataKeyPartModelPropertyTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentResultTypeAdapterFactory())
         .registerTypeAdapterFactory(new ComponentMetadataTypesTypeAdapterFactory())
         .registerTypeAdapter(MetadataKey.class, new MetadataKeyTypeAdapter())

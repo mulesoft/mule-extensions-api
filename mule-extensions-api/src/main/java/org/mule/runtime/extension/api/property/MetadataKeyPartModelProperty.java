@@ -7,7 +7,12 @@
 package org.mule.runtime.extension.api.property;
 
 import static java.lang.String.format;
+
+import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
+
+import org.mule.api.annotation.Experimental;
+import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
@@ -25,6 +30,7 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
 
   private final int order;
   private final boolean providedByKeyResolver;
+  private final ExpressionSupport expressionSupport;
 
   /**
    * Creates a new instance.
@@ -43,10 +49,27 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    *                              this part
    */
   public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver) {
+    this(order, providedByKeyResolver, NOT_SUPPORTED);
+  }
+
+  /**
+   * Creates a new instance.
+   * <p>
+   * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
+   *
+   * @param order                 the order of the parameter in the {@link MetadataKey};
+   * @param providedByKeyResolver whether or not this part will be provided by the keys resolver associated to the container of
+   *                              this part
+   * @param expressionSupport     the level of support this key part has for expressions
+   * @since 1.8
+   */
+  @Experimental
+  public MetadataKeyPartModelProperty(int order, boolean providedByKeyResolver, ExpressionSupport expressionSupport) {
     checkArgument(order > 0,
                   format("Invalid [order] for [MetadataKeyPart]. Expected a number greater than zero but found [%s]", order));
     this.order = order;
     this.providedByKeyResolver = providedByKeyResolver;
+    this.expressionSupport = expressionSupport;
   }
 
   /**
@@ -80,5 +103,22 @@ public final class MetadataKeyPartModelProperty implements ModelProperty {
    */
   public boolean isProvidedByKeyResolver() {
     return providedByKeyResolver;
+  }
+
+  /**
+   * By default, metadata keys need to be static values. An error is thrown whenever an expression is provided.
+   * <p>
+   * This indicates whether an eventual expression is supported/required and that it will be provided unresolved as a string for
+   * the key part value.
+   * <p>
+   * <b>NOTE:</b> Experimental feature. Backwards compatibility not guaranteed.
+   *
+   * @return the level of support this key part has for expressions
+   *
+   * @since 1.8
+   */
+  @Experimental
+  public ExpressionSupport getExpressionSupport() {
+    return expressionSupport;
   }
 }
