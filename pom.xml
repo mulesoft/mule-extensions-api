@@ -126,7 +126,7 @@
         <muleApiVersion>1.8.0-20240729</muleApiVersion>
         <muleConnectivityApiVersion>1.1.0-SNAPSHOT</muleConnectivityApiVersion>
         <metadataModelApiVersion>1.8.0-SNAPSHOT</metadataModelApiVersion>
-        <muleModuleMavenPluginVersion>1.8.0-SNAPSHOT</muleModuleMavenPluginVersion>
+        <muleModuleMavenPluginVersion>1.8.0-20240729</muleModuleMavenPluginVersion>
 
         <muleBomVersion>4.8.0-SNAPSHOT</muleBomVersion>
         <reactive-streams.version>1.0.2</reactive-streams.version>
