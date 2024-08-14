@@ -14,6 +14,7 @@ import static java.util.Collections.unmodifiableMap;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.api.meta.model.version.HasMinMuleVersion;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -133,6 +134,19 @@ public final class ExtensionModelLoadingRequest {
     }
 
     /**
+     * Enables or disables minMuleVersion calculation for each extension element.
+     *
+     * @param resolveMinMuleVersion whether the {@link #getResolvedMinMuleVersion() minMuleVersion resolution} has to be
+     *                              performed.
+     * @return {@code this} builder
+     */
+    public Builder setResolveMinMuleVersion(boolean resolveMinMuleVersion) {
+      product.resolveMinMuleVersion = resolveMinMuleVersion;
+
+      return this;
+    }
+
+    /**
      * @return The built request
      */
     public ExtensionModelLoadingRequest build() {
@@ -155,8 +169,9 @@ public final class ExtensionModelLoadingRequest {
   private final List<DeclarationEnricher> enrichers = new LinkedList<>();
   private final Map<String, Object> parameters = new HashMap<>();
   private ArtifactCoordinates artifactCoordinates;
-  private boolean ocsEnabled;
-  private boolean forceExtensionValidation;
+  private boolean ocsEnabled = false;
+  private boolean forceExtensionValidation = false;
+  private boolean resolveMinMuleVersion = false;
 
   private ExtensionModelLoadingRequest(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     checkArgument(extensionClassLoader != null, "extension classLoader cannot be null");
@@ -193,6 +208,14 @@ public final class ExtensionModelLoadingRequest {
    */
   public boolean isForceExtensionValidation() {
     return forceExtensionValidation;
+  }
+
+  /**
+   * @return whether the {@link HasMinMuleVersion#getMinMuleVersion() minMuleVersion} of each component must be calculated.
+   * @since 1.9
+   */
+  public boolean isResolveMinMuleVersion() {
+    return resolveMinMuleVersion;
   }
 
   /**

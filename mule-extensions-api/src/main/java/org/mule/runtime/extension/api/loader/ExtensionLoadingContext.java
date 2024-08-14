@@ -11,6 +11,7 @@ import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
+import org.mule.runtime.api.meta.model.version.HasMinMuleVersion;
 
 import java.util.Collection;
 import java.util.List;
@@ -127,10 +128,16 @@ public interface ExtensionLoadingContext {
   boolean isOCSEnabled();
 
   /**
-   * @return whether the validation must be validated after being loaded.
+   * @return whether the extension must be validated after being loaded.
    * @since 1.7
    */
   boolean isForceExtensionValidation();
+
+  /**
+   * @return whether the {@link HasMinMuleVersion#getMinMuleVersion() minMuleVersion} of each component must be calculated.
+   * @since 1.9
+   */
+  boolean isResolveMinMuleVersion();
 
   /**
    * @return the {@link ArtifactCoordinates} of the Extension
