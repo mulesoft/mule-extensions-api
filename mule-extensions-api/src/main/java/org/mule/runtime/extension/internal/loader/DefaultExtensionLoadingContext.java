@@ -171,6 +171,11 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
     return request.isForceExtensionValidation();
   }
 
+  @Override
+  public boolean isResolveMinMuleVersion() {
+    return request.isResolveMinMuleVersion();
+  }
+
   /**
    * {@inheritDoc}
    */
