@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.OUTPUT;
@@ -21,23 +22,17 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
-import static java.util.Collections.unmodifiableMap;
-import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.of;
 
-import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.VoidType;
+import org.mule.metadata.api.model.impl.DefaultStringType;
 import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
-import org.mule.runtime.api.util.collection.SmallMap;
 import org.mule.runtime.extension.api.ExtensionConstants;
-import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.exception.IllegalOperationModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
@@ -46,10 +41,7 @@ import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDe
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.internal.property.TargetModelProperty;
 
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * A {@link DeclarationEnricher} which adds a {@link ExtensionConstants#TARGET_PARAMETER_NAME} parameter to all non void
@@ -59,20 +51,7 @@ import java.util.Set;
  */
 public final class TargetParameterDeclarationEnricher implements WalkingDeclarationEnricher {
 
-  /**
-   * This map holds as key the names of the extensions that have Operations that will not be enriched and as value a {@link Set}
-   * with the names of the Operations.
-   */
-  private static final Map<String, Set<String>> BLOCK_LIST;
-
-  static {
-    Map<String, Set<String>> block = new SmallMap<>();
-    block.put("ee", singleton("transform"));
-    block.put("cxf", unmodifiableSet(new HashSet<>(asList("simpleService", "jaxwsService", "proxyService",
-                                                          "simpleClient", "jaxwsClient", "proxyClient"))));
-
-    BLOCK_LIST = unmodifiableMap(block);
-  }
+  private static final DefaultStringType stringType = BaseTypeBuilder.create(JAVA).stringType().build();
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -81,28 +60,21 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
 
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
-    String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
-    return of(new WalkDelegateDelegateDeclaration(BLOCK_LIST.getOrDefault(extensionName, emptySet())));
+    return of(new WalkDelegateDelegateDeclaration());
   }
 
   private static class WalkDelegateDelegateDeclaration extends IdempotentDeclarationEnricherWalkDelegate {
 
-    private final Set<String> blockedOperationsNames;
     private final MetadataType attributeType;
     private final MetadataType targetValue;
 
-    private WalkDelegateDelegateDeclaration(Set<String> blockedOperationsNames) {
-      ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-      this.attributeType = typeLoader.load(String.class);
-      this.targetValue = typeLoader.load(String.class);
-      this.blockedOperationsNames = blockedOperationsNames;
+    private WalkDelegateDelegateDeclaration() {
+      this.attributeType = stringType;
+      this.targetValue = stringType;
     }
 
     @Override
     protected void onOperation(OperationDeclaration declaration) {
-      if (blockedOperationsNames.contains(declaration.getName())) {
-        return;
-      }
       final MetadataType outputType = declaration.getOutput().getType();
       if (outputType == null) {
         throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",

@@ -6,8 +6,6 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.String.format;
-import static java.util.Optional.of;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterGroupModel.DEFAULT_GROUP_NAME;
 import static org.mule.runtime.api.tx.TransactionType.LOCAL;
@@ -20,6 +18,9 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 import static org.mule.runtime.extension.api.tx.OperationTransactionalAction.JOIN_IF_POSSIBLE;
 import static org.mule.runtime.extension.api.tx.SourceTransactionalAction.NONE;
+
+import static java.lang.String.format;
+import static java.util.Optional.of;
 
 import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.metadata.api.model.MetadataType;
@@ -58,6 +59,15 @@ import java.util.Optional;
  */
 public final class TransactionalDeclarationEnricher implements WalkingDeclarationEnricher {
 
+  private final static ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
+  private final static MetadataType operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
+  private final static MetadataType sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
+  private final static MetadataType sdkOperationTransactionalActionType =
+      typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
+  private final static MetadataType sdkSourceTransactionalActionType =
+      typeLoader.load(org.mule.sdk.api.tx.SourceTransactionalAction.class);
+  private final static MetadataType transactionType = typeLoader.load(TransactionType.class);
+
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
     return STRUCTURE;
@@ -66,14 +76,6 @@ public final class TransactionalDeclarationEnricher implements WalkingDeclaratio
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
     return of(new IdempotentDeclarationEnricherWalkDelegate() {
-
-      final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-      final MetadataType operationTransactionalActionType = typeLoader.load(OperationTransactionalAction.class);
-      final MetadataType sourceTransactionalActionType = typeLoader.load(SourceTransactionalAction.class);
-      final MetadataType sdkOperationTransactionalActionType =
-          typeLoader.load(org.mule.sdk.api.tx.OperationTransactionalAction.class);
-      final MetadataType sdkSourceTransactionalActionType = typeLoader.load(org.mule.sdk.api.tx.SourceTransactionalAction.class);
-      final MetadataType transactionType = typeLoader.load(TransactionType.class);
 
       @Override
       protected void onSource(SourceDeclaration declaration) {

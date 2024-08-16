@@ -13,9 +13,11 @@ import static org.mule.runtime.extension.internal.ocs.PlatformManagedOAuthUtils.
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 
+import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
+import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.ExtensionModelLoadingRequest;
@@ -42,6 +44,7 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   private final List<ExtensionModelValidator> customValidators = new LinkedList<>();
   private final List<DeclarationEnricher> customDeclarationEnrichers = new LinkedList<>();
   private final Map<String, Object> customParameters;
+  private final ClassTypeLoader typeLoader;
 
   public DefaultExtensionLoadingContext(ClassLoader extensionClassLoader, DslResolvingContext dslResolvingContext) {
     this(new ExtensionDeclarer(), builder(extensionClassLoader, dslResolvingContext).build());
@@ -62,6 +65,8 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
     checkArgument(request != null, "request cannot be null");
 
     this.extensionDeclarer = extensionDeclarer;
+    this.typeLoader = new CachedClassTypeLoader(ExtensionsTypeLoaderFactory.getDefault().createTypeLoader());
+
     customParameters = new HashMap<>(request.getParameters());
     this.request = request;
   }
@@ -72,6 +77,11 @@ public final class DefaultExtensionLoadingContext implements ExtensionLoadingCon
   @Override
   public ExtensionDeclarer getExtensionDeclarer() {
     return extensionDeclarer;
+  }
+
+  @Override
+  public ClassTypeLoader getTypeLoader() {
+    return typeLoader;
   }
 
   /**

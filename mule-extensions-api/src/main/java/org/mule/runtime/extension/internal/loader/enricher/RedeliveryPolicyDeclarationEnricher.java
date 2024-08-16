@@ -6,19 +6,18 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.util.Optional.of;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getTypeId;
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.WIRING;
 import static org.mule.runtime.extension.internal.loader.util.InfrastructureParameterBuilder.addRedeliveryPolicy;
 
-import org.mule.metadata.api.ClassTypeLoader;
+import static java.util.Optional.of;
+
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.SourceDeclaration;
 import org.mule.runtime.api.store.ObjectStore;
-import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
 import org.mule.runtime.extension.api.loader.DeclarationEnricherPhase;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
@@ -60,8 +59,8 @@ public final class RedeliveryPolicyDeclarationEnricher implements WalkingDeclara
       @Override
       public void onWalkFinished() {
         if (hasObjectStoreParams && !isObjectStoreAlreadyImported(extension)) {
-          ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-          extension.getImportedTypes().add(new ImportedTypeModel((ObjectType) typeLoader.load(ObjectStore.class)));
+          extension.getImportedTypes()
+              .add(new ImportedTypeModel((ObjectType) extensionLoadingContext.getTypeLoader().load(ObjectStore.class)));
         }
       }
     });
