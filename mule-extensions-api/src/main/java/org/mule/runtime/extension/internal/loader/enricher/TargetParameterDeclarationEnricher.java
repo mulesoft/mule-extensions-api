@@ -22,6 +22,9 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 import static org.mule.runtime.extension.api.loader.DeclarationEnricherPhase.STRUCTURE;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableMap;
 import static java.util.Optional.of;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
@@ -32,6 +35,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OperationDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ParameterDeclaration;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
+import org.mule.runtime.api.util.collection.SmallMap;
 import org.mule.runtime.extension.api.ExtensionConstants;
 import org.mule.runtime.extension.api.exception.IllegalOperationModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -41,7 +45,9 @@ import org.mule.runtime.extension.api.loader.IdempotentDeclarationEnricherWalkDe
 import org.mule.runtime.extension.api.loader.WalkingDeclarationEnricher;
 import org.mule.runtime.extension.internal.property.TargetModelProperty;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A {@link DeclarationEnricher} which adds a {@link ExtensionConstants#TARGET_PARAMETER_NAME} parameter to all non void
@@ -53,6 +59,19 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
 
   private static final DefaultStringType stringType = BaseTypeBuilder.create(JAVA).stringType().build();
 
+  /**
+   * This map holds as key the names of the extensions that have Operations that will not be enriched and as value a {@link Set}
+   * with the names of the Operations.
+   */
+  private static final Map<String, Set<String>> BLOCK_LIST;
+
+  static {
+    Map<String, Set<String>> block = new SmallMap<>();
+    block.put("ee", singleton("transform"));
+
+    BLOCK_LIST = unmodifiableMap(block);
+  }
+
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
     return STRUCTURE;
@@ -60,21 +79,27 @@ public final class TargetParameterDeclarationEnricher implements WalkingDeclarat
 
   @Override
   public Optional<DeclarationEnricherWalkDelegate> getWalkDelegate(ExtensionLoadingContext extensionLoadingContext) {
-    return of(new WalkDelegateDelegateDeclaration());
+    String extensionName = extensionLoadingContext.getExtensionDeclarer().getDeclaration().getName();
+    return of(new WalkDelegateDelegateDeclaration(BLOCK_LIST.getOrDefault(extensionName, emptySet())));
   }
 
   private static class WalkDelegateDelegateDeclaration extends IdempotentDeclarationEnricherWalkDelegate {
 
+    private final Set<String> blockedOperationsNames;
     private final MetadataType attributeType;
     private final MetadataType targetValue;
 
-    private WalkDelegateDelegateDeclaration() {
+    private WalkDelegateDelegateDeclaration(Set<String> blockedOperationsNames) {
       this.attributeType = stringType;
       this.targetValue = stringType;
+      this.blockedOperationsNames = blockedOperationsNames;
     }
 
     @Override
     protected void onOperation(OperationDeclaration declaration) {
+      if (blockedOperationsNames.contains(declaration.getName())) {
+        return;
+      }
       final MetadataType outputType = declaration.getOutput().getType();
       if (outputType == null) {
         throw new IllegalOperationModelDefinitionException(format("Operation '%s' does not specify an output type",

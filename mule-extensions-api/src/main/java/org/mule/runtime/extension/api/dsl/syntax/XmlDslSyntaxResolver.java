@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax;
 
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.util.FunctionalUtils.computeIfAbsent;
@@ -42,13 +43,14 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 
-import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectFieldType;
 import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.model.StringType;
 import org.mule.metadata.api.model.UnionType;
+import org.mule.metadata.api.model.impl.DefaultStringType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -72,7 +74,6 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.type.TypeCatalog;
 import org.mule.runtime.api.util.Reference;
-import org.mule.runtime.extension.api.declaration.type.ExtensionsTypeLoaderFactory;
 import org.mule.runtime.extension.api.declaration.type.annotation.QNameTypeAnnotation;
 import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotation;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
@@ -104,13 +105,14 @@ import com.google.common.collect.ImmutableSet;
  */
 public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
+  private static final DefaultStringType STRING_TYPE = BaseTypeBuilder.create(JAVA).stringType().build();
+
   private final ExtensionModel extensionModel;
   private final TypeCatalog typeCatalog;
   private final XmlDslModel languageModel;
   private final Map<String, DslElementSyntax> resolvedTypes = new HashMap<>();
   private final Map<MetadataType, XmlDslModel> importedTypes;
   private final Deque<String> typeResolvingStack = new ArrayDeque<>();
-  private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
 
   /**
    * Creates an instance using the default implementation
@@ -856,7 +858,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
         objectFieldBuilder.supportsChildDeclaration(true);
 
-        objectFieldBuilder.withGeneric(typeLoader.load(String.class),
+        objectFieldBuilder.withGeneric(STRING_TYPE,
                                        DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build());
         objectType.getOpenRestriction()
             .ifPresent(type -> type.accept(getMapValueTypeVisitor(objectFieldBuilder, fieldName,
