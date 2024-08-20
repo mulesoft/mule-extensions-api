@@ -60,11 +60,8 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
   private final LiteralTypeAnnotation literalTypeAnnotation = new LiteralTypeAnnotation();
   private final TypedValueTypeAnnotation typedValueTypeAnnotation = new TypedValueTypeAnnotation();
 
-  private final ParsingContext wrappedTypesContext;
-
   public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler) {
     super(fieldHandler);
-    wrappedTypesContext = new ParsingContext();
   }
 
   @Override
@@ -74,15 +71,15 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     Class<?> currentClass = clazz;
 
     if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContext,
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
                         baseTypeBuilder, parameterResolverTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContext,
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
                         baseTypeBuilder, typedValueTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (Literal.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContext,
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
