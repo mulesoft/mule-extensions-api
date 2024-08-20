@@ -7,6 +7,7 @@
 package org.mule.runtime.extension.api.loader;
 
 import org.mule.api.annotation.NoImplement;
+import org.mule.metadata.api.ClassTypeLoader;
 import org.mule.runtime.api.artifact.ArtifactCoordinates;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
@@ -37,6 +38,13 @@ public interface ExtensionLoadingContext {
    * @return a non {@code null} {@link ExtensionDeclarer}
    */
   ExtensionDeclarer getExtensionDeclarer();
+
+  /**
+   * @return a type loader for the types from Java classes within an extension.
+   * 
+   * @since 1.9
+   */
+  ClassTypeLoader getTypeLoader();
 
   /**
    * Adds a custom parameter registered under {@code key}

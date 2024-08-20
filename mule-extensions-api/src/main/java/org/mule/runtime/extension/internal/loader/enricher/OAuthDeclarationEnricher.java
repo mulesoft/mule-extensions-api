@@ -6,11 +6,7 @@
  */
 package org.mule.runtime.extension.internal.loader.enricher;
 
-import static java.lang.System.identityHashCode;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
-import static java.util.Collections.singletonList;
-import static java.util.Optional.of;
+import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.connection.ConnectionManagementType.CACHED;
@@ -59,8 +55,16 @@ import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabul
 import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.URL_PATH;
 import static org.mule.runtime.extension.privileged.semantic.ConnectivityVocabulary.URL_TEMPLATE;
 
+import static java.lang.System.identityHashCode;
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.of;
+
 import org.mule.metadata.api.ClassTypeLoader;
+import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.MetadataType;
+import org.mule.metadata.api.model.impl.DefaultStringType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectedDeclaration;
 import org.mule.runtime.api.meta.model.declaration.fluent.ConnectionProviderDeclaration;
@@ -95,6 +99,8 @@ import java.util.Set;
  * @since 1.0
  */
 public class OAuthDeclarationEnricher implements WalkingDeclarationEnricher {
+
+  private static final DefaultStringType stringType = BaseTypeBuilder.create(JAVA).stringType().build();
 
   @Override
   public DeclarationEnricherPhase getExecutionPhase() {
@@ -163,9 +169,6 @@ public class OAuthDeclarationEnricher implements WalkingDeclarationEnricher {
 
     private final ConnectionProviderDeclaration declaration;
     private final List<OAuthGrantType> grantTypes;
-
-    private final ClassTypeLoader typeLoader = ExtensionsTypeLoaderFactory.getDefault().createTypeLoader();
-    private final MetadataType stringType = typeLoader.load(String.class);
 
     private PropertiesEnricher(ConnectionProviderDeclaration declaration, List<OAuthGrantType> grantTypes) {
       this.declaration = declaration;

@@ -6,16 +6,17 @@
  */
 package org.mule.runtime.extension.api.declaration.type;
 
-import static java.lang.String.format;
-import static java.util.Collections.singletonList;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromAllowedDefinitions;
 import static org.mule.runtime.extension.api.declaration.type.annotation.StereotypeTypeAnnotation.fromDefinitions;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.getAlias;
 import static org.mule.runtime.extension.internal.loader.util.JavaParserUtils.mapReduceAnnotation;
 import static org.mule.runtime.extension.internal.semantic.TypeSemanticTermsUtils.enrichWithTypeAnnotation;
+
+import static java.lang.String.format;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeAnnotation;
@@ -44,11 +45,8 @@ import org.mule.sdk.api.runtime.parameter.ParameterResolver;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * An implementation of {@link ObjectHandler} which allows the type to me enriched with custom type annotations of the Extensions
@@ -62,15 +60,8 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
   private final LiteralTypeAnnotation literalTypeAnnotation = new LiteralTypeAnnotation();
   private final TypedValueTypeAnnotation typedValueTypeAnnotation = new TypedValueTypeAnnotation();
 
-  private final Map<Class<?>, ParsingContext> wrappedTypesContexts;
-
   public ExtensionObjectTypeHandler(ObjectFieldHandler fieldHandler) {
     super(fieldHandler);
-    wrappedTypesContexts = ImmutableMap.<Class<?>, ParsingContext>builder()
-        .put(ParameterResolver.class, new ParsingContext())
-        .put(TypedValue.class, new ParsingContext())
-        .put(Literal.class, new ParsingContext())
-        .build();
   }
 
   @Override
@@ -80,15 +71,15 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     Class<?> currentClass = clazz;
 
     if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(ParameterResolver.class),
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
                         baseTypeBuilder, parameterResolverTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(TypedValue.class),
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
                         baseTypeBuilder, typedValueTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (Literal.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, wrappedTypesContexts.get(Literal.class),
+      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
