@@ -71,15 +71,15 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     Class<?> currentClass = clazz;
 
     if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
+      handleGenericType(clazz, genericTypes, typeHandlerManager, new ParsingContext(),
                         baseTypeBuilder, parameterResolverTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
+      handleGenericType(clazz, genericTypes, typeHandlerManager, new ParsingContext(),
                         baseTypeBuilder, typedValueTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (Literal.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
+      handleGenericType(clazz, genericTypes, typeHandlerManager, new ParsingContext(),
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
