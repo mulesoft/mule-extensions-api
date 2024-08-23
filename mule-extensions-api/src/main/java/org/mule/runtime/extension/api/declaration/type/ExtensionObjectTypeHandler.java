@@ -71,19 +71,24 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
     Class<?> currentClass = clazz;
 
     if (ParameterResolver.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
+      handleGenericType(clazz, genericTypes, typeHandlerManager,
+                        context.getSubContext(ParameterResolver.class.getName()),
                         baseTypeBuilder, parameterResolverTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (TypedValue.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
+      handleGenericType(clazz, genericTypes, typeHandlerManager,
+                        context.getSubContext(TypedValue.class.getName()),
                         baseTypeBuilder, typedValueTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else if (Literal.class.isAssignableFrom(clazz)) {
-      handleGenericType(clazz, genericTypes, typeHandlerManager, context,
+      handleGenericType(clazz, genericTypes, typeHandlerManager,
+                        context.getSubContext(Literal.class.getName()),
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
-      typeBuilder = super.handleClass(currentClass, genericTypes, typeHandlerManager, context, baseTypeBuilder);
+      typeBuilder = super.handleClass(currentClass, genericTypes, typeHandlerManager,
+                                      context,
+                                      baseTypeBuilder);
     }
 
     if (typeBuilder != null && typeBuilder instanceof WithAnnotation) {
@@ -169,7 +174,7 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
           || currentClass.isAnnotationPresent(org.mule.sdk.api.annotation.param.stereotype.Stereotype.class)) {
         return of(ImplicitStereotypeDefinition.class);
       } else {
-        return Optional.empty();
+        return empty();
       }
     }
   }
