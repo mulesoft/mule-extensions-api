@@ -86,9 +86,7 @@ public class ExtensionObjectTypeHandler extends ObjectHandler {
                         baseTypeBuilder, literalTypeAnnotation);
       currentClass = getGenericClass(genericTypes, 0);
     } else {
-      typeBuilder = super.handleClass(currentClass, genericTypes, typeHandlerManager,
-                                      context,
-                                      baseTypeBuilder);
+      typeBuilder = super.handleClass(currentClass, genericTypes, typeHandlerManager, context, baseTypeBuilder);
     }
 
     if (typeBuilder != null && typeBuilder instanceof WithAnnotation) {

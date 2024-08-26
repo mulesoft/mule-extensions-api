@@ -6,6 +6,14 @@
  */
 package org.mule.runtime.extension.api.test.internal.loader;
 
+import org.mule.runtime.api.metadata.TypedValue;
+import org.mule.sdk.api.runtime.parameter.Literal;
+import org.mule.sdk.api.runtime.parameter.ParameterResolver;
+
 public final class TestingClass {
+
+  private ParameterResolver<TestingClass> paramResolverRecursive;
+  private TypedValue<TestingClass> typedValueRecursive;
+  private Literal<TestingClass> literalRecursive;
 
 }
