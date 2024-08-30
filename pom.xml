@@ -129,8 +129,6 @@
         <muleModuleMavenPluginVersion>1.9.0-SNAPSHOT</muleModuleMavenPluginVersion>
 
         <muleBomVersion>4.9.0-SNAPSHOT</muleBomVersion>
-        <reactive-streams.version>1.0.2</reactive-streams.version>
-        <antlrVersion>3.5.2</antlrVersion>
 
         <formatterConfigPath>formatter.xml</formatterConfigPath>
 
