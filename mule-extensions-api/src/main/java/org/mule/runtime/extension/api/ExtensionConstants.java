@@ -9,6 +9,7 @@ package org.mule.runtime.extension.api;
 import static org.mule.runtime.api.util.DataUnit.KB;
 import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_11;
 import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_17;
+import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_21;
 import static org.mule.runtime.api.util.JavaConstants.JAVA_VERSION_8;
 
 import static java.util.Arrays.asList;
@@ -405,7 +406,7 @@ public final class ExtensionConstants {
    * @since 1.5.0
    */
   public static final Set<String> ALL_SUPPORTED_JAVA_VERSIONS =
-      unmodifiableSet(new LinkedHashSet<>(asList(JAVA_VERSION_8, JAVA_VERSION_11, JAVA_VERSION_17)));
+      unmodifiableSet(new LinkedHashSet<>(asList(JAVA_VERSION_8, JAVA_VERSION_11, JAVA_VERSION_17, JAVA_VERSION_21)));
 
   private ExtensionConstants() {}
 }
