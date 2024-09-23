@@ -130,7 +130,7 @@
 
         <muleBomVersion>4.9.0-SNAPSHOT</muleBomVersion>
 
-        <formatterConfigPath>formatter.xml</formatterConfigPath>
+        <caffeine.java8.version>2.9.3</caffeine.java8.version>
 
         <oldMuleArtifactVersion>1.7.0-rc1</oldMuleArtifactVersion>
 
@@ -168,6 +168,13 @@
                 <groupId>org.mule.runtime</groupId>
                 <artifactId>mule-metadata-model-persistence</artifactId>
                 <version>${metadataModelApiVersion}</version>
+            </dependency>
+
+            <!-- Ensure this artifact still works with Java 8 -->
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.java8.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
