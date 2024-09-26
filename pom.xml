@@ -131,6 +131,7 @@
         <muleBomVersion>4.9.0-SNAPSHOT</muleBomVersion>
 
         <caffeine.java8.version>2.9.3</caffeine.java8.version>
+        <javax.jaxb-api.version>2.3.1</javax.jaxb-api.version>
 
         <oldMuleArtifactVersion>1.7.0-rc1</oldMuleArtifactVersion>
 
