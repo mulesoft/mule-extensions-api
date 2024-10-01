@@ -1,0 +1,184 @@
+{
+  "1.9.0": {
+    "revapi": {
+      "differences": {
+        "differences": [
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.ContextAwareMessageDispatcherProvider<T extends org.mule.runtime.extension.api.soap.message.MessageDispatcher>",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "interface org.mule.runtime.extension.api.soap.DispatchingContext",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "interface org.mule.runtime.extension.api.soap.MessageDispatcherProvider<T extends org.mule.runtime.extension.api.soap.message.MessageDispatcher>",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.SoapAttachment",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.SoapAttributes",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.SoapOutputPayload",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "interface org.mule.runtime.extension.api.soap.SoapServiceProvider",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.SoapServiceProviderConfigurationException",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.WebServiceDefinition",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.WebServiceDefinitionBuilder",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.WebServiceTypeKey",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "@interface org.mule.runtime.extension.api.soap.annotation.Soap",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "@interface org.mule.runtime.extension.api.soap.annotation.SoapMessageDispatcherProviders",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.message.DispatchingRequest",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.message.DispatchingResponse",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "interface org.mule.runtime.extension.api.soap.message.MessageDispatcher",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.metadata.SoapOutputTypeBuilder",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.DecryptSecurityStrategy",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.EncryptSecurityStrategy",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "enum org.mule.runtime.extension.api.soap.security.PasswordType",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "interface org.mule.runtime.extension.api.soap.security.SecurityStrategy",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "interface org.mule.runtime.extension.api.soap.security.SecurityStrategyVisitor",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.SignSecurityStrategy",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.TimestampSecurityStrategy",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.UsernameTokenSecurityStrategy",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.VerifySignatureSecurityStrategy",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.config.WssKeyStoreConfiguration",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "interface org.mule.runtime.extension.api.soap.security.config.WssStoreConfiguration",
+            "justification": "W-"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.mule.runtime.extension.api.soap.security.config.WssTrustStoreConfiguration",
+            "justification": "W-"
+          }
+        ]
+      }
+    }
+  }
+}
