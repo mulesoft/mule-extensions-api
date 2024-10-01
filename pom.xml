@@ -132,7 +132,7 @@
 
         <caffeine.java8.version>2.9.3</caffeine.java8.version>
 
-        <oldMuleArtifactVersion>1.7.0-rc1</oldMuleArtifactVersion>
+        <oldMuleArtifactVersion>1.8.0</oldMuleArtifactVersion>
 
         <licensePath>LICENSE_HEADER_CPAL.txt</licensePath>
         <licenseYear>2023</licenseYear>
@@ -321,6 +321,9 @@
                 <plugin>
                     <groupId>org.revapi</groupId>
                     <artifactId>revapi-maven-plugin</artifactId>
+                    <configuration>
+                        <oldVersion>${oldMuleArtifactVersion}</oldVersion>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
