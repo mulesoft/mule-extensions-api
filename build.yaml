@@ -1,5 +1,5 @@
 upstreamProjects:
-  Mule-runtime/mule-api/master
+  Mule-runtime/mule-api/master-TESTCYCLE-2020-DRY-RUN
 projectType: runtime
 mavenTool: "3.9.9"
 jdkTool: OPEN-JDK17
