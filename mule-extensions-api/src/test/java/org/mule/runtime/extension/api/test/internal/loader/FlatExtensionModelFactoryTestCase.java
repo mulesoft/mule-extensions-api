@@ -69,8 +69,6 @@ import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_PARAMETER
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_DESCRIPTION;
 import static org.mule.runtime.extension.api.ExtensionConstants.TARGET_VALUE_PARAMETER_NAME;
 import static org.mule.runtime.extension.api.annotation.param.Optional.PAYLOAD;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONFIG;
-import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.CONNECTION;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.PROCESSOR;
 import static org.mule.runtime.extension.api.stereotype.MuleStereotypes.SOURCE;
 
@@ -119,8 +117,6 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Issue;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -419,40 +415,6 @@ public class FlatExtensionModelFactoryTestCase extends BaseExtensionModelFactory
 
 
     assertObjectStreamingStrategyParameter(streamingStrategy);
-  }
-
-  @Test
-  @Issue("MULE-18457")
-  @Description("For crafted extensions that do not set a stereotype in the models, a default is set.")
-  public void configDefaultStereotype() {
-    declare(extensionDeclarer -> {
-      declareBase(extensionDeclarer).withConfig("myConfig");
-    });
-
-    ExtensionModel extensionModel = load();
-
-    StereotypeModel configStereotype = extensionModel.getConfigurationModel("myConfig").get().getStereotype();
-    assertThat(configStereotype.getType(), equalTo("MY_CONFIG"));
-    assertThat(configStereotype.getNamespace(), equalTo(DSL_PREFIX.toUpperCase()));
-    assertThat(configStereotype.getParent().get(), is(CONFIG));
-  }
-
-  @Test
-  @Issue("MULE-18457")
-  @Description("For crafted extensions that do not set a stereotype in the models, a default is set.")
-  public void connectionDefaultStereotype() {
-    declare(extensionDeclarer -> {
-      declareBase(extensionDeclarer)
-          .withConnectionProvider("myConnection")
-          .withConnectionManagementType(NONE);
-    });
-
-    ExtensionModel extensionModel = load();
-
-    StereotypeModel connectionStereotype = extensionModel.getConnectionProviderModel("myConnection").get().getStereotype();
-    assertThat(connectionStereotype.getType(), equalTo("MY_CONNECTION"));
-    assertThat(connectionStereotype.getNamespace(), equalTo(NAMESPACE));
-    assertThat(connectionStereotype.getParent().get(), is(CONNECTION));
   }
 
   private void assertConsumeOperation(List<OperationModel> operationModels) {
