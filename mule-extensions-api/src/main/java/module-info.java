@@ -38,7 +38,7 @@ module org.mule.runtime.extensions.api {
   requires java.desktop;
 
   requires com.google.common;
-  requires com.sun.xml.bind;
+  requires jakarta.xml.bind;
 
   requires com.github.benmanes.caffeine;
   requires org.apache.commons.lang3;
