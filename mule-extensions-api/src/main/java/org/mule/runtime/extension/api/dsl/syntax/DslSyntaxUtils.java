@@ -9,7 +9,7 @@ package org.mule.runtime.extension.api.dsl.syntax;
 import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.compile;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.text.WordUtils.capitalize;
+import static org.apache.commons.text.WordUtils.capitalize;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.allowsInlineDefinition;
