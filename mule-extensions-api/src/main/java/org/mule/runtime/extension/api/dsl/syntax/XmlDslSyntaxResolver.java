@@ -110,6 +110,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   private final ExtensionModel extensionModel;
   private final TypeCatalog typeCatalog;
   private final XmlDslModel languageModel;
+  private final Map<NamedObject, String> sanitizedElementNames = new HashMap<>();
   private final Map<String, DslElementSyntax> resolvedTypes = new HashMap<>();
   private final Map<MetadataType, XmlDslModel> importedTypes;
   private final Deque<String> typeResolvingStack = new ArrayDeque<>();
@@ -156,7 +157,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
    */
   @Override
   public DslElementSyntax resolve(final NamedObject component) {
-    final String elementName = getSanitizedElementName(component);
+    final String elementName = sanitizedElementNames.computeIfAbsent(component, DslSyntaxUtils::getSanitizedElementName);
     return computeIfAbsent(resolvedTypes, elementName, key -> {
       DslElementSyntaxBuilder dsl = DslElementSyntaxBuilder.create()
           .withElementName(elementName)
