@@ -199,7 +199,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
     Reference<String> prefix = new Reference<>(languageModel.getPrefix());
     Reference<String> namespace = new Reference<>(languageModel.getNamespace());
-    Reference<String> elementName = new Reference<>(hyphenize(parameter.getName()));
+    Reference<String> elementName = new Reference<>();
 
     final Optional<QName> customQName = getCustomQName(parameter);
     customQName.ifPresent(qName -> {
@@ -207,6 +207,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
       prefix.set(qName.getPrefix());
       namespace.set(qName.getNamespaceURI());
     });
+    if (elementName.get() == null) {
+      elementName.set(sanitizedElementNames.computeIfAbsent(parameter, DslSyntaxUtils::getSanitizedElementName));
+    }
 
     parameter.getType().accept(
                                new MetadataTypeVisitor() {
