@@ -6,8 +6,9 @@
  */
 package org.mule.runtime.extension.api.loader;
 
-import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.api.meta.model.ExtensionModel;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 
 /**
  * Validates that a constructed model is legal, meaning it's consistent and doesn't violate any restriction.
@@ -21,6 +22,19 @@ public interface ExtensionModelValidator {
    *
    * @param model a {@link ExtensionModel}
    * @throws IllegalModelDefinitionException if the model is illegal
+   * @deprecated since 1.9 use {@link #validate(ExtensionModel, DslSyntaxResolver, ProblemsReporter)} instead.
    */
+  @Deprecated
   void validate(ExtensionModel model, ProblemsReporter problemsReporter);
+
+  /**
+   * Validates the given {@code model}
+   *
+   * @param model          a {@link ExtensionModel}
+   * @param syntaxResolver the dsl syntax for the {@code extensionModel}
+   * @throws IllegalModelDefinitionException if the model is illegal
+   */
+  default void validate(ExtensionModel model, DslSyntaxResolver syntaxResolver, ProblemsReporter problemsReporter) {
+    validate(model, problemsReporter);
+  }
 }

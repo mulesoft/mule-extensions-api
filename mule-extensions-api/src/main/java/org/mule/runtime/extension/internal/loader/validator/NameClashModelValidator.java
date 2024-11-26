@@ -6,6 +6,13 @@
  */
 package org.mule.runtime.extension.internal.loader.validator;
 
+import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
+import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.areTypesEqual;
+import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
+import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
+
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.function.Function.identity;
@@ -14,12 +21,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.concat;
-import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
-import static org.mule.metadata.java.api.utils.JavaTypeUtils.getType;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.areTypesEqual;
-import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.getId;
-import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
-import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
@@ -58,10 +59,6 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
 import org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils;
 import org.mule.runtime.extension.api.util.ExtensionModelUtils;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -72,6 +69,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -92,7 +93,14 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
-    new ValidationDelegate(model, problemsReporter).validate();
+    new ValidationDelegate(model,
+                           DslSyntaxResolver.getDefault(model, new SingleExtensionImportTypesStrategy()),
+                           problemsReporter).validate();
+  }
+
+  @Override
+  public void validate(ExtensionModel model, DslSyntaxResolver syntaxResolver, ProblemsReporter problemsReporter) {
+    new ValidationDelegate(model, syntaxResolver, problemsReporter).validate();
   }
 
   private class ValidationDelegate {
@@ -112,11 +120,11 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
     private final DslSyntaxResolver dslSyntaxResolver;
     private final ProblemsReporter problemsReporter;
 
-    public ValidationDelegate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
+    public ValidationDelegate(ExtensionModel extensionModel, DslSyntaxResolver syntaxResolver,
+                              ProblemsReporter problemsReporter) {
       this.extensionModel = extensionModel;
       this.problemsReporter = problemsReporter;
-      this.dslSyntaxResolver = DslSyntaxResolver.getDefault(extensionModel,
-                                                            new SingleExtensionImportTypesStrategy());
+      this.dslSyntaxResolver = syntaxResolver;
     }
 
     private void validate() {

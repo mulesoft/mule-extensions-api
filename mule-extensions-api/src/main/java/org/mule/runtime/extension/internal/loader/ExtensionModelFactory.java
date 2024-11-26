@@ -74,6 +74,8 @@ import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
 import org.mule.runtime.api.meta.model.source.SourceCallbackModel;
 import org.mule.runtime.api.meta.model.source.SourceModel;
 import org.mule.runtime.api.meta.model.stereotype.StereotypeModel;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
+import org.mule.runtime.extension.api.dsl.syntax.resolver.SingleExtensionImportTypesStrategy;
 import org.mule.runtime.extension.api.exception.IllegalModelDefinitionException;
 import org.mule.runtime.extension.api.exception.IllegalParameterModelDefinitionException;
 import org.mule.runtime.extension.api.loader.DeclarationEnricher;
@@ -253,7 +255,9 @@ public final class ExtensionModelFactory {
     List<ExtensionModelValidator> validators = new LinkedList<>(extensionModelValidators);
     validators.addAll(extensionLoadingContext.getCustomValidators());
 
-    validators.forEach(v -> v.validate(extensionModel, problemsReporter));
+    final DslSyntaxResolver dslSyntaxResolver = DslSyntaxResolver.getDefault(extensionModel,
+                                                                             new SingleExtensionImportTypesStrategy());
+    validators.forEach(v -> v.validate(extensionModel, dslSyntaxResolver, problemsReporter));
   }
 
   private void validateMuleVersion(ExtensionDeclaration extensionDeclaration) {
