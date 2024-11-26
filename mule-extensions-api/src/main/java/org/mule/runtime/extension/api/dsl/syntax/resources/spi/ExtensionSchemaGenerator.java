@@ -39,5 +39,7 @@ public interface ExtensionSchemaGenerator {
    * @return an String containing the XML Schema Definition for the given extension.
    * @since 1.9
    */
-  String generate(ExtensionModel extensionModel, DslResolvingContext context, DslSyntaxResolver dsl);
+  default String generate(ExtensionModel extensionModel, DslResolvingContext context, DslSyntaxResolver dsl) {
+    return generate(extensionModel, context);
+  }
 }
