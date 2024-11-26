@@ -1,4 +1,18 @@
 {
+  "1.8.2": {
+    "revapi": {
+      "differences": {
+        "differences": [
+          {
+            "ignore": true,
+            "code": "java.method.defaultMethodAddedToInterface",
+            "new": "method java.lang.String org.mule.runtime.extension.api.dsl.syntax.resources.spi.ExtensionSchemaGenerator::generate(org.mule.runtime.api.meta.model.ExtensionModel, org.mule.runtime.api.dsl.DslResolvingContext, org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver)",
+            "justification": "ADD YOUR EXPLANATION FOR THE NECESSITY OF THIS CHANGE"
+          }
+        ]
+      }
+    }
+  },
   "1.8.0": {
     "revapi": {
       "differences": {
