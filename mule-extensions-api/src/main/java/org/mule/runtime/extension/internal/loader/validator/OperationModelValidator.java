@@ -6,14 +6,15 @@
  */
 package org.mule.runtime.extension.internal.loader.validator;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isRouter;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isScope;
 import static org.mule.runtime.extension.api.util.NameUtils.getComponentModelTypeName;
 import static org.mule.runtime.extension.internal.util.ExtensionValidationUtils.validateNoInlineParameters;
 import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isConnectionProvisioningRequired;
+
+import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComposableModel;
@@ -48,7 +49,14 @@ public final class OperationModelValidator implements ExtensionModelValidator {
 
   @Override
   public void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
-    new ValidatorDelegate().validate(extensionModel, problemsReporter);
+    new ValidatorDelegate().validate(extensionModel,
+                                     DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy()),
+                                     problemsReporter);
+  }
+
+  @Override
+  public void validate(ExtensionModel extensionModel, DslSyntaxResolver syntaxResolver, ProblemsReporter problemsReporter) {
+    new ValidatorDelegate().validate(extensionModel, syntaxResolver, problemsReporter);
   }
 
   private static class ValidatorDelegate {
@@ -56,9 +64,9 @@ public final class OperationModelValidator implements ExtensionModelValidator {
     private ProblemsReporter problemsReporter;
     private DslSyntaxResolver dsl;
 
-    void validate(ExtensionModel extensionModel, ProblemsReporter problemsReporter) {
+    void validate(ExtensionModel extensionModel, DslSyntaxResolver syntaxResolver, ProblemsReporter problemsReporter) {
       this.problemsReporter = problemsReporter;
-      this.dsl = DslSyntaxResolver.getDefault(extensionModel, new SingleExtensionImportTypesStrategy());
+      this.dsl = syntaxResolver;
       final boolean hasGlobalConnectionProviders = !extensionModel.getConnectionProviders().isEmpty();
       final boolean extensionWithoutErrors = extensionModel.getErrorModels().isEmpty();
 
