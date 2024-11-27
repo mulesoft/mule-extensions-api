@@ -36,7 +36,7 @@ module org.mule.runtime.extensions.api {
   requires java.compiler;
   // Required for using java.beans.Introspector.
   requires java.desktop;
-  requires java.xml.bind;
+  requires jakarta.xml.bind;
   requires jakarta.activation;
 
   requires com.google.common;
