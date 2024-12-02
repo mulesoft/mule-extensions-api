@@ -63,6 +63,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -132,20 +133,29 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
         @Override
         public void onConfiguration(ConfigurationModel model) {
-          defaultValidation(model);
+          final String elementName = dslSyntaxResolver.resolve(model).getElementName();
+
+          defaultValidation(model, elementName);
         }
 
         @Override
         public void onConnectionProvider(HasConnectionProviderModels owner, ConnectionProviderModel model) {
-          defaultValidation(model);
+          final String elementName = dslSyntaxResolver.resolve(model).getElementName();
+
+          defaultValidation(model, elementName);
         }
 
         @Override
         public void onOperation(HasOperationModels owner, OperationModel model) {
-          validateComponent(model);
-          registerNamedObject(model);
-          validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
-          splitParametersByContent(model);
+          Map<ParameterModel, DslElementSyntax> paramsDsl = model.getAllParameterModels()
+              .stream()
+              .collect(toMap(identity(), dslSyntaxResolver::resolve, (x, y) -> x, IdentityHashMap::new));
+          final String elementName = dslSyntaxResolver.resolve(model).getElementName();
+
+          validateComponent(model, paramsDsl, elementName);
+          registerNamedObject(model, elementName);
+          validateSingularizedNameClash(model, elementName);
+          splitParametersByContent(model, paramsDsl);
         }
 
         @Override
@@ -155,10 +165,15 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
         @Override
         public void onSource(HasSourceModels owner, SourceModel model) {
+          Map<ParameterModel, DslElementSyntax> paramsDsl = model.getAllParameterModels()
+              .stream()
+              .collect(toMap(identity(), dslSyntaxResolver::resolve, (x, y) -> x, IdentityHashMap::new));
+          final String elementName = dslSyntaxResolver.resolve(model).getElementName();
+
           validateCallbackNames(model.getSuccessCallback(), model);
           validateCallbackNames(model.getErrorCallback(), model);
-          defaultValidation(model);
-          splitParametersByContent(model);
+          defaultValidation(model, elementName);
+          splitParametersByContent(model, paramsDsl);
         }
 
         @Override
@@ -170,20 +185,25 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
 
         @Override
         public void onConstruct(HasConstructModels owner, ConstructModel model) {
-          validateComponent(model);
-          registerNamedObject(model);
-          validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
-          splitParametersByContent(model);
+          Map<ParameterModel, DslElementSyntax> paramsDsl = model.getAllParameterModels()
+              .stream()
+              .collect(toMap(identity(), dslSyntaxResolver::resolve, (x, y) -> x, IdentityHashMap::new));
+          final String elementName = dslSyntaxResolver.resolve(model).getElementName();
+
+          validateComponent(model, paramsDsl, elementName);
+          registerNamedObject(model, elementName);
+          validateSingularizedNameClash(model, elementName);
+          splitParametersByContent(model, paramsDsl);
         }
 
-        private void defaultValidation(ParameterizedModel model) {
+        private void defaultValidation(ParameterizedModel model, String elementName) {
           validateNamesWithinGroups(model);
-          registerNamedObject(model);
-          validateSingularizedNameClash(model, dslSyntaxResolver.resolve(model).getElementName());
+          registerNamedObject(model, elementName);
+          validateSingularizedNameClash(model, elementName);
         }
 
-        private void registerNamedObject(ParameterizedModel named) {
-          namedObjects.add(new DescribedReference<>(named, dslSyntaxResolver.resolve(named).getElementName()));
+        private void registerNamedObject(ParameterizedModel named, String elementName) {
+          namedObjects.add(new DescribedReference<>(named, elementName));
         }
 
         private void validateCallbackNames(Optional<SourceCallbackModel> sourceCallback, SourceModel model) {
@@ -261,9 +281,9 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       });
     }
 
-    private void splitParametersByContent(ParameterizedModel model) {
+    private void splitParametersByContent(ParameterizedModel model, Map<ParameterModel, DslElementSyntax> paramsDsl) {
       model.getAllParameterModels().forEach(p -> {
-        ParameterReference reference = new ParameterReference(p, model, dslSyntaxResolver.resolve(p));
+        ParameterReference reference = new ParameterReference(p, model, paramsDsl.get(p));
         if (ExtensionModelUtils.isContent(p)) {
           contentParameters.add(reference);
         } else {
@@ -272,10 +292,10 @@ public final class NameClashModelValidator implements ExtensionModelValidator {
       });
     }
 
-    private void validateComponent(ComponentModel component) {
+    private void validateComponent(ComponentModel component, Map<ParameterModel, DslElementSyntax> paramsDsl,
+                                   String componentName) {
       validateNamesWithinGroups(component);
-      String componentName = dslSyntaxResolver.resolve(component).getElementName();
-      component.getAllParameterModels().stream().map(parameterModel -> dslSyntaxResolver.resolve(parameterModel))
+      component.getAllParameterModels().stream().map(parameterModel -> paramsDsl.get(parameterModel))
           .filter(DslElementSyntax::supportsChildDeclaration)
           .forEach(parameterElement -> {
 
