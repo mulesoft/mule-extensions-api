@@ -6,22 +6,24 @@
  */
 package org.mule.runtime.extension.api.util;
 
-import static java.lang.String.valueOf;
-import static java.util.Collections.emptyList;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
-import static org.mule.runtime.api.util.Preconditions.checkArgument;
 import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
 import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isConnectionProvisioningRequired;
+
+import static java.lang.String.valueOf;
+import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -199,19 +201,19 @@ public class ExtensionModelUtils {
     new ExtensionWalker() {
 
       @Override
-      public void onOperation(HasOperationModels owner, OperationModel model) {
-        if (owner == configurationModel) {
-          collect(owner, model);
+      protected void onConfiguration(ConfigurationModel model) {
+        if (model == configurationModel) {
+          model.getOperationModels()
+              .forEach(this::collect);
+          model.getSourceModels()
+              .forEach(this::collect);
+
+          stop();
         }
       }
 
-      @Override
-      public void onSource(HasSourceModels owner, SourceModel model) {
-        collect(owner, model);
-      }
-
-      private void collect(Object owner, ConnectableComponentModel model) {
-        if (owner == configurationModel && model.requiresConnection()) {
+      private void collect(ConnectableComponentModel model) {
+        if (model.requiresConnection()) {
           connectedModels.add(model);
         }
       }
@@ -278,18 +280,10 @@ public class ExtensionModelUtils {
     new ExtensionWalker() {
 
       @Override
-      public void onOperation(HasOperationModels owner, OperationModel model) {
-        resolve(model, owner);
-      }
-
-      @Override
-      public void onSource(HasSourceModels owner, SourceModel model) {
-        resolve(model, owner);
-      }
-
-      private void resolve(ComponentModel model, Object owner) {
-        if (model == component && owner != extensionModel) {
-          result.add((ConfigurationModel) owner);
+      protected void onConfiguration(ConfigurationModel model) {
+        if (model.getOperationModels().stream().anyMatch(op -> op == component)
+            || model.getSourceModels().stream().anyMatch(src -> src == component)) {
+          result.add(model);
         }
       }
     }.walk(extensionModel);
@@ -313,7 +307,7 @@ public class ExtensionModelUtils {
   }
 
   public static boolean isContent(ParameterRole purpose) {
-    checkArgument(purpose != null, "cannot evaluate null purpose");
+    requireNonNull(purpose, "cannot evaluate null purpose");
     return purpose != BEHAVIOUR;
   }
 
@@ -361,7 +355,9 @@ public class ExtensionModelUtils {
         return false;
       }
     }
-    return parameterizedModel.getAllParameterModels().stream().filter(p -> !p.isComponentId()).noneMatch(p -> p.isRequired());
+    return parameterizedModel.getAllParameterModels().stream()
+        .filter(p -> !p.isComponentId())
+        .noneMatch(ParameterModel::isRequired);
   }
 
   /**
@@ -380,12 +376,14 @@ public class ExtensionModelUtils {
 
     List<ConfigurationModel> implicitConfigs = configs.stream()
         .filter(config -> config.getOperationModels().contains(component) || config.getSourceModels().contains(component))
-        .filter(config -> canBeUsedImplicitly(config))
+        .filter(ExtensionModelUtils::canBeUsedImplicitly)
         .collect(toList());
 
     return implicitConfigs.stream().anyMatch(config -> {
       List<ConnectionProviderModel> providers = config.getConnectionProviders();
-      return providers.isEmpty() || providers.stream().anyMatch(cp -> canBeUsedImplicitly(cp));
+      return providers.isEmpty()
+          || providers.stream()
+              .anyMatch(ExtensionModelUtils::canBeUsedImplicitly);
     });
 
   }
@@ -492,7 +490,7 @@ public class ExtensionModelUtils {
    */
   public static Optional<ClassLoader> getExtensionClassLoader(ExtensionModel extensionModel) {
     return extensionModel.getModelProperty(ClassLoaderModelProperty.class)
-        .map(classLoaderModelProperty -> classLoaderModelProperty.getClassLoader());
+        .map(ClassLoaderModelProperty::getClassLoader);
   }
 
   /**
@@ -515,7 +513,8 @@ public class ExtensionModelUtils {
    * @since 1.5.0
    */
   public static boolean isScope(ComponentModel model) {
-    return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedChainModel);
+    return model.getNestedComponents().stream()
+        .anyMatch(NestedChainModel.class::isInstance);
   }
 
   /**
@@ -525,7 +524,7 @@ public class ExtensionModelUtils {
    * @since 1.5.0
    */
   public static boolean isRouter(ConstructModel model) {
-    return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
+    return isRouter((ComponentModel) model);
   }
 
   /**
@@ -535,6 +534,7 @@ public class ExtensionModelUtils {
    * @since 1.7.0
    */
   public static boolean isRouter(ComponentModel model) {
-    return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
+    return model.getNestedComponents().stream()
+        .anyMatch(NestedRouteModel.class::isInstance);
   }
 }
