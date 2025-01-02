@@ -6,28 +6,21 @@
  */
 package org.mule.runtime.extension.api.test.internal.loader.validator;
 
+import static org.mule.runtime.extension.internal.dsl.DslConstants.NAME_ATTRIBUTE_NAME;
+
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.rules.ExpectedException.none;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.when;
-import static org.mule.runtime.extension.internal.dsl.DslConstants.NAME_ATTRIBUTE_NAME;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -42,7 +35,14 @@ import org.mule.runtime.extension.internal.loader.validator.ConfigurationModelVa
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
 public class ConfigurationModelValidatorTestCase {
 
   public static final String EXTENSION_NAME = "extension";
@@ -50,11 +50,8 @@ public class ConfigurationModelValidatorTestCase {
   public static final String OPERATION_NAME = "operation";
   public static final String PARAMETER_NAME = "parameterName";
 
-  public static final String ALLOWLISTED_EXTENSION_NAME = "cxf";
-  public static final String ALLOWLISTED_CONFIGURATION_NAME = "wsSecurity";
-
   @Rule
-  public ExpectedException expectedException = none();
+  public MockitoRule rule = MockitoJUnit.rule();
 
   @Mock(lenient = true)
   private ExtensionModel extensionModel;
@@ -119,21 +116,13 @@ public class ConfigurationModelValidatorTestCase {
     validateError("Configuration '" + CONFIG_NAME + "' declares a parameter whose name is 'name', which is not allowed");
   }
 
-  @Test
-  public void configurationWithNonSyntheticNameParameterFromAllowList() {
-    when(extensionModel.getName()).thenReturn(ALLOWLISTED_EXTENSION_NAME);
-    when(configurationModel.getName()).thenReturn(ALLOWLISTED_CONFIGURATION_NAME);
-    when(nameParameterModel.getModelProperty(SyntheticModelModelProperty.class)).thenReturn(empty());
-    validate();
-  }
-
   private void validate() {
-    validator.validate(extensionModel, problemsReporter);
+    validator.validate(extensionModel, null, problemsReporter);
     assertThat(problemsReporter.hasErrors(), is(false));
   }
 
   private void validateError(String errorMessage) {
-    validator.validate(extensionModel, problemsReporter);
+    validator.validate(extensionModel, null, problemsReporter);
     assertThat(problemsReporter.hasErrors(), is(true));
     assertThat(problemsReporter.getErrors(), hasSize(1));
     assertThat(problemsReporter.getErrors().get(0).getMessage(), containsString(errorMessage));
