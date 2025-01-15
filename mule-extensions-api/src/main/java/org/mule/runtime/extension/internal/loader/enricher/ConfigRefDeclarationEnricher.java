@@ -16,10 +16,11 @@ import static org.mule.runtime.extension.internal.declaration.type.MetadataTypeC
 import static org.mule.runtime.extension.internal.util.ExtensionNamespaceUtils.getExtensionsNamespace;
 import static org.mule.sdk.api.stereotype.MuleStereotypes.CONFIG;
 
-import static com.google.common.collect.LinkedListMultimap.create;
 import static java.lang.Boolean.getBoolean;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
+
+import static com.google.common.collect.LinkedListMultimap.create;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -48,6 +49,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.google.common.collect.Multimap;
+
 import org.slf4j.Logger;
 
 /**
@@ -142,19 +144,19 @@ public class ConfigRefDeclarationEnricher implements WalkingDeclarationEnricher 
   }
 
   private List<StereotypeModel> collectStereotypes(Collection<ConfigurationDeclaration> configs) {
-    return configs.stream().map(c -> c.getStereotype()).collect(toList());
+    return configs.stream().map(ConfigurationDeclaration::getStereotype).collect(toList());
   }
 
   private boolean hasAnImplicitConfig(Collection<ConfigurationDeclaration> configs) {
     return configs.stream()
-        .filter(this::canBeUsedImplicitly)
+        .filter(ConfigRefDeclarationEnricher::canBeUsedImplicitly)
         .anyMatch(config -> {
           List<ConnectionProviderDeclaration> providers = config.getConnectionProviders();
-          return providers.isEmpty() || providers.stream().anyMatch(this::canBeUsedImplicitly);
+          return providers.isEmpty() || providers.stream().anyMatch(ConfigRefDeclarationEnricher::canBeUsedImplicitly);
         });
   }
 
-  private boolean canBeUsedImplicitly(ParameterizedDeclaration<?> parameterized) {
+  static boolean canBeUsedImplicitly(ParameterizedDeclaration<?> parameterized) {
     if (parameterized.getModelProperty(NoImplicitModelProperty.class).isPresent()) {
       return false;
     }

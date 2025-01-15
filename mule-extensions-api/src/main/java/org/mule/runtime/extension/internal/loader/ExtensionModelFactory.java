@@ -115,6 +115,7 @@ import org.mule.runtime.extension.internal.loader.enricher.ErrorMappingsParamete
 import org.mule.runtime.extension.internal.loader.enricher.ExecutionTypeDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionTypesDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ExtensionsErrorsDeclarationEnricher;
+import org.mule.runtime.extension.internal.loader.enricher.ImplicitConfigEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.NamedObjectDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.OAuthDeclarationEnricher;
 import org.mule.runtime.extension.internal.loader.enricher.ParameterDslDeclarationEnricher;
@@ -195,6 +196,7 @@ public final class ExtensionModelFactory {
                                                    new StreamingDeclarationEnricher(),
                                                    new OAuthDeclarationEnricher(),
                                                    new ConfigRefDeclarationEnricher(),
+                                                   new ImplicitConfigEnricher(),
                                                    new DefaultStereotypeEnricher(),
                                                    new NamedObjectDeclarationEnricher(),
                                                    new TransactionalDeclarationEnricher(),
