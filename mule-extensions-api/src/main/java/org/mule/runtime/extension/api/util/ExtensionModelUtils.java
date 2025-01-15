@@ -59,7 +59,9 @@ import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
 import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
+import org.mule.runtime.extension.api.property.ImplicitConfigNameModelProperty;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.ManyImplicitConfigsModelProperty;
 import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 
 import java.lang.reflect.AccessibleObject;
@@ -273,8 +275,11 @@ public class ExtensionModelUtils {
   /**
    * @param extensionModel the model which owns the {@code component}
    * @param component      a component
-   * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside with the {@code component}
+   * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside the {@code component}
+   * 
+   * @deprecated since 1.10 Use {@link ImplicitConfigNameModelProperty} and {@link ManyImplicitConfigsModelProperty} instead.
    */
+  @Deprecated
   public static Set<ConfigurationModel> getConfigurationForComponent(ExtensionModel extensionModel, ComponentModel component) {
     Set<ConfigurationModel> result = new HashSet<>();
     new ExtensionWalker() {
