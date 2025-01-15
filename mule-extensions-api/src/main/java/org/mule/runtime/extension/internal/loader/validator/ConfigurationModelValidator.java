@@ -6,7 +6,6 @@
  */
 package org.mule.runtime.extension.internal.loader.validator;
 
-import static java.util.Collections.emptySet;
 import static org.mule.runtime.extension.internal.loader.validator.ModelValidationUtils.validateConfigOverrideParametersNotAllowed;
 import static org.mule.runtime.extension.internal.loader.validator.ModelValidationUtils.validateConfigParametersNamesNotAllowed;
 
@@ -16,12 +15,6 @@ import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.api.meta.model.util.ExtensionWalker;
 import org.mule.runtime.extension.api.loader.ExtensionModelValidator;
 import org.mule.runtime.extension.api.loader.ProblemsReporter;
-
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * {@link ExtensionModelValidator} which applies to {@link ExtensionModel}s which contains {@link ConfigurationModel}s and
@@ -38,21 +31,13 @@ import com.google.common.collect.ImmutableSet;
  */
 public final class ConfigurationModelValidator implements ExtensionModelValidator {
 
-  private static final Map<String, Set<String>> allowlistedExtensionsConfigurations =
-      ImmutableMap.of("cxf", ImmutableSet.of("wsSecurity", "configuration"));
-
   @Override
   public void validate(ExtensionModel model, ProblemsReporter problemsReporter) {
-
-    Set<String> allowListed = allowlistedExtensionsConfigurations.getOrDefault(model.getName(), emptySet());
-
     new ExtensionWalker() {
 
       @Override
       protected void onConfiguration(ConfigurationModel model) {
-        if (!allowListed.contains(model.getName())) {
-          validateConfigParametersNamesNotAllowed(model, problemsReporter, "Configuration");
-        }
+        validateConfigParametersNamesNotAllowed(model, problemsReporter, "Configuration");
         validateConfigOverrideParametersNotAllowed(model, problemsReporter, "Configuration");
       }
     }.walk(model);
