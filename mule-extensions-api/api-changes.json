@@ -3,12 +3,6 @@
     "revapi": {
       "differences": {
         "differences": [
-          {
-            "ignore": true,
-            "code": "java.method.removed",
-            "old": "method java.util.Set<org.mule.runtime.api.meta.model.config.ConfigurationModel> org.mule.runtime.extension.api.util.ExtensionModelUtils::getConfigurationForComponent(org.mule.runtime.api.meta.model.ExtensionModel, org.mule.runtime.api.meta.model.ComponentModel)",
-            "justification": "W-17599201: Enrich extension model with implicit configs metadata"
-          }
         ]
       }
     }
