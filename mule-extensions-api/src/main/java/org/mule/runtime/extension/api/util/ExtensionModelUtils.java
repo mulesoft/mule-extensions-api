@@ -11,6 +11,7 @@ import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.CONTENT;
 import static org.mule.runtime.api.meta.model.parameter.ParameterRole.PRIMARY_CONTENT;
+import static org.mule.runtime.extension.api.annotation.Extension.DEFAULT_CONFIG_NAME;
 import static org.mule.runtime.extension.privileged.util.ComponentDeclarationUtils.isConnectionProvisioningRequired;
 
 import static java.lang.String.valueOf;
@@ -58,11 +59,14 @@ import org.mule.runtime.api.util.Reference;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.display.ClassValue;
 import org.mule.runtime.extension.api.property.ClassLoaderModelProperty;
+import org.mule.runtime.extension.api.property.ImplicitConfigNameModelProperty;
 import org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty;
+import org.mule.runtime.extension.api.property.ManyImplicitConfigsModelProperty;
 import org.mule.runtime.extension.api.property.NoImplicitModelProperty;
 
 import java.lang.reflect.AccessibleObject;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -266,6 +270,42 @@ public class ExtensionModelUtils {
     }.walk(extensionModel);
 
     return result.get();
+  }
+
+  /**
+   * @param extensionModel the model which owns the {@code component}
+   * @param component      a component
+   * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside the {@code component}
+   * 
+   * @deprecated since 1.10 Use {@link ImplicitConfigNameModelProperty} and {@link ManyImplicitConfigsModelProperty} instead.
+   */
+  @Deprecated
+  public static Set<ConfigurationModel> getConfigurationForComponent(ExtensionModel extensionModel, ComponentModel component) {
+    Set<ConfigurationModel> result = new HashSet<>();
+    new ExtensionWalker() {
+
+      @Override
+      public void onOperation(HasOperationModels owner, OperationModel model) {
+        resolve(model, owner);
+      }
+
+      @Override
+      public void onSource(HasSourceModels owner, SourceModel model) {
+        resolve(model, owner);
+      }
+
+      private void resolve(ComponentModel model, Object owner) {
+        if (model == component && owner != extensionModel) {
+          result.add((ConfigurationModel) owner);
+        }
+      }
+    }.walk(extensionModel);
+
+    if (component instanceof ConnectableComponentModel && ((ConnectableComponentModel) component).requiresConnection()) {
+      extensionModel.getConfigurationModel(DEFAULT_CONFIG_NAME).ifPresent(result::add);
+    }
+
+    return result;
   }
 
   public static boolean isContent(ParameterModel parameterModel) {
