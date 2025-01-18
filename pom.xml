@@ -128,7 +128,7 @@
         <metadataModelApiVersion>1.8.4-SNAPSHOT</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.8.4-SNAPSHOT</muleModuleMavenPluginVersion>
 
-        <muleBomVersion>4.8.3-SNAPSHOT</muleBomVersion>
+        <muleBomVersion>4.8.4-SNAPSHOT</muleBomVersion>
         <reactive-streams.version>1.0.2</reactive-streams.version>
         <antlrVersion>3.5.2</antlrVersion>
 
