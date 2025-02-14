@@ -132,7 +132,7 @@
 
         <caffeine.java8.version>2.9.3</caffeine.java8.version>
 
-        <oldMuleArtifactVersion>1.8.0</oldMuleArtifactVersion>
+        <oldMuleArtifactVersion>1.8.4-rc1</oldMuleArtifactVersion>
 
         <licensePath>LICENSE_HEADER_CPAL.txt</licensePath>
         <licenseYear>2023</licenseYear>
