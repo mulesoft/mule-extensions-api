@@ -12,7 +12,7 @@
 
     <groupId>org.mule.runtime</groupId>
     <artifactId>mule-extensions-api-parent</artifactId>
-    <version>1.8.5-SNAPSHOT</version>
+    <version>1.8.6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Mule Extensions API Parent</name>
     <description>Parent POM for Mule Extensions API modules</description>
