@@ -128,7 +128,7 @@
         <metadataModelApiVersion>1.9.2</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.9.2</muleModuleMavenPluginVersion>
 
-        <muleBomVersion>4.9.2-rc1</muleBomVersion>
+        <muleBomVersion>4.9.2</muleBomVersion>
 
         <caffeine.java8.version>2.9.3</caffeine.java8.version>
 
