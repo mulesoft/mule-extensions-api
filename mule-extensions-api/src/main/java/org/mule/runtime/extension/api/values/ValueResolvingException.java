@@ -6,9 +6,6 @@
  */
 package org.mule.runtime.extension.api.values;
 
-import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
-
-import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.i18n.I18nMessage;
 import org.mule.runtime.api.value.Value;
 import org.mule.sdk.api.annotation.MinMuleVersion;

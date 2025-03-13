@@ -30,7 +30,7 @@ module org.mule.runtime.extensions.api {
   requires org.mule.runtime.metadata.model.api;
   requires org.mule.runtime.metadata.model.java;
   requires org.mule.runtime.metadata.model.message;
-  requires org.mule.runtime.api;
+  requires transitive org.mule.runtime.api;
   requires org.mule.sdk.api;
 
   requires java.compiler;

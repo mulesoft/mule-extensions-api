@@ -3,6 +3,28 @@
     "revapi": {
       "differences": {
         "differences": [
+          {
+            "ignore": true,
+            "code": "java.method.returnTypeTypeParametersChanged",
+            "old": "method java.util.Optional<org.mule.runtime.api.connection.ConnectionProvider> org.mule.runtime.extension.api.runtime.config.ConfigurationInstance::getConnectionProvider()",
+            "new": "method <C> java.util.Optional<org.mule.runtime.api.connection.ConnectionProvider<C>> org.mule.runtime.extension.api.runtime.config.ConfigurationInstance::getConnectionProvider()",
+            "justification": "W-18030082: Add missing generic to CoinfigurationInstance#getConnectionProvider = Improve code quality"
+          },
+          {
+            "ignore": true,
+            "code": "java.generics.elementNowParameterized",
+            "old": "method java.util.Optional<org.mule.runtime.api.connection.ConnectionProvider> org.mule.runtime.extension.api.runtime.config.ConfigurationInstance::getConnectionProvider()",
+            "new": "method <C> java.util.Optional<org.mule.runtime.api.connection.ConnectionProvider<C>> org.mule.runtime.extension.api.runtime.config.ConfigurationInstance::getConnectionProvider()",
+            "justification": "W-18030082: Add missing generic to CoinfigurationInstance#getConnectionProvider = Improve code quality"
+          },
+          {
+            "ignore": true,
+            "code": "java.generics.formalTypeParameterAdded",
+            "old": "method java.util.Optional<org.mule.runtime.api.connection.ConnectionProvider> org.mule.runtime.extension.api.runtime.config.ConfigurationInstance::getConnectionProvider()",
+            "new": "method <C> java.util.Optional<org.mule.runtime.api.connection.ConnectionProvider<C>> org.mule.runtime.extension.api.runtime.config.ConfigurationInstance::getConnectionProvider()",
+            "typeParameter": "C",
+            "justification": "W-18030082: Add missing generic to CoinfigurationInstance#getConnectionProvider = Improve code quality"
+          }
         ]
       }
     }
