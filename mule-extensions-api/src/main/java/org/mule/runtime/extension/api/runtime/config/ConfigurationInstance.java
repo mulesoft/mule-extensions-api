@@ -56,10 +56,11 @@ public interface ConfigurationInstance {
   ConfigurationStats getStatistics();
 
   /**
+   * @param <C> the actual type of the connection to be provided.
    * @return An {@link Optional} which (maybe) holds the {@link ConnectionProvider} to be used with {@code this}
    *         {@link ConfigurationInstance}
    */
-  Optional<ConnectionProvider> getConnectionProvider();
+  <C> Optional<ConnectionProvider<C>> getConnectionProvider();
 
   /**
    * @return a {@link ConfigurationState} holding the parameter values for {@code this} instance.
