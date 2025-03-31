@@ -35,6 +35,8 @@ public final class GeneratedResource {
    * @param availableInArtifact whether the resource will be part of the target extension artifact.
    * @param path                the resource's path
    * @param content             the resource's content
+   * 
+   * @since 1.10, 1.9.4
    */
   public GeneratedResource(boolean availableInArtifact, String path, byte[] content) {
     this.availableInArtifact = availableInArtifact;
@@ -47,6 +49,7 @@ public final class GeneratedResource {
    * temporary data.
    * 
    * @return whether the resource will be part of the target extension artifact.
+   * @since 1.10, 1.9.4
    */
   public boolean isAvailableInArtifact() {
     return availableInArtifact;
