@@ -285,18 +285,10 @@ public class ExtensionModelUtils {
     new ExtensionWalker() {
 
       @Override
-      public void onOperation(HasOperationModels owner, OperationModel model) {
-        resolve(model, owner);
-      }
-
-      @Override
-      public void onSource(HasSourceModels owner, SourceModel model) {
-        resolve(model, owner);
-      }
-
-      private void resolve(ComponentModel model, Object owner) {
-        if (model == component && owner != extensionModel) {
-          result.add((ConfigurationModel) owner);
+      protected void onConfiguration(ConfigurationModel model) {
+        if (model.getOperationModels().stream().anyMatch(op -> op == component)
+            || model.getSourceModels().stream().anyMatch(src -> src == component)) {
+          result.add(model);
         }
       }
     }.walk(extensionModel);
