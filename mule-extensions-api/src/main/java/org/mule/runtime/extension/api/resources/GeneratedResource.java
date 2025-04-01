@@ -15,6 +15,7 @@ import org.mule.runtime.api.meta.model.ExtensionModel;
  */
 public final class GeneratedResource {
 
+  private final boolean availableInArtifact;
   private final String path;
   private final byte[] content;
 
@@ -25,8 +26,33 @@ public final class GeneratedResource {
    * @param content the resource's content
    */
   public GeneratedResource(String path, byte[] content) {
+    this(false, path, content);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param availableInArtifact whether the resource will be part of the target extension artifact.
+   * @param path                the resource's path
+   * @param content             the resource's content
+   * 
+   * @since 1.10, 1.9.4
+   */
+  public GeneratedResource(boolean availableInArtifact, String path, byte[] content) {
+    this.availableInArtifact = availableInArtifact;
     this.path = path;
     this.content = content;
+  }
+
+  /**
+   * Resources that are not available in the target extension artifact may be used during the build process of the extension as
+   * temporary data.
+   * 
+   * @return whether the resource will be part of the target extension artifact.
+   * @since 1.10, 1.9.4
+   */
+  public boolean isAvailableInArtifact() {
+    return availableInArtifact;
   }
 
   /**
