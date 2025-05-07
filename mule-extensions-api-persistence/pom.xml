@@ -16,10 +16,6 @@
     <description>Persistence API for Mule Extensions</description>
     <url>https://github.com/mulesoft/mule-extensions-api</url>
 
-    <properties>
-        <formatterConfigPath>../formatter.xml</formatterConfigPath>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
