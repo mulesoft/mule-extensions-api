@@ -15,10 +15,6 @@
     <name>Mule Extensions API - Mime Types</name>
     <description>Provides the standard mime types that the Mule Runtime is able to interpret for extensions using Activation's MimetypesFileTypeMap</description>
 
-    <properties>
-        <formatterConfigPath>../formatter.xml</formatterConfigPath>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
