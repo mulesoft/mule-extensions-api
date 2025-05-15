@@ -125,7 +125,7 @@
 
         <muleApiVersion>1.9.5</muleApiVersion>
         <muleConnectivityApiVersion>1.1.0-SNAPSHOT</muleConnectivityApiVersion>
-        <metadataModelApiVersion>1.9.4</metadataModelApiVersion>
+        <metadataModelApiVersion>1.9.5</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.9.5</muleModuleMavenPluginVersion>
 
         <muleBomVersion>4.9.4</muleBomVersion>
