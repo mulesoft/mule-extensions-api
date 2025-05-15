@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * Parameterize how the {@link DslSyntaxResolver} would behave when dealing with imported types from other extensions.
- * 
+ *
  * @since 1.0
  */
 public interface ImportTypesStrategy {

@@ -23,7 +23,7 @@ public class NullSafeTypeAnnotation implements TypeAnnotation {
 
   /**
    * Creates a new instance
-   * 
+   *
    * @param type            the type of the default value to be created
    * @param defaultOverride whether the default implementing class has been overriden or not
    */
@@ -47,7 +47,7 @@ public class NullSafeTypeAnnotation implements TypeAnnotation {
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @return {@code false}
    */
   @Override

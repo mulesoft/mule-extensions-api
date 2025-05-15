@@ -29,7 +29,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * <p>
  * For example, let's see a very simple non blocking http request
  * <p>
- * 
+ *
  * <pre>
  *
  *  public void request(String path, @Content Object content, CompletionCallback<InputStream, HttpAttributes> callback) {

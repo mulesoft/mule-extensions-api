@@ -35,7 +35,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * <p>
  * Let's see a quick example:
  * <p>
- * 
+ *
  * <pre>
  *  &#64;OnSuccess
  *  public void onSuccess(@Content String response, SourceCompletionCallback callback) {

@@ -24,7 +24,7 @@ public class AccessTokenExpiredException extends org.mule.sdk.api.connectivity.o
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @since 1.2.1
    */
   public AccessTokenExpiredException() {

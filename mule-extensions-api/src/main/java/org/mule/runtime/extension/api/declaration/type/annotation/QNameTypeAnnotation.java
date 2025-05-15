@@ -24,7 +24,7 @@ public final class QNameTypeAnnotation implements TypeAnnotation {
 
   /**
    * Creates a new instance
-   * 
+   *
    * @param value the referenced {@link QName}
    */
   public QNameTypeAnnotation(QName value) {

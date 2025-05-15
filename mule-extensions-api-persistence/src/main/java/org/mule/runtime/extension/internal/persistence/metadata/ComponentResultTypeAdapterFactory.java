@@ -16,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * {@link TypeAdapterFactory}
- * 
+ *
  * @since 1.0
  */
 public final class ComponentResultTypeAdapterFactory

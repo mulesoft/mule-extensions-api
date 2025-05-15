@@ -312,7 +312,7 @@ public final class ExtensionModelFactory {
    * compatibility, we have to add a proxy construct that inflict the changes to the now-operation declaration. Since this only
    * affects privileged extensions, and routers are the only one that has routers, we keep this especial case only for this. Is
    * this the best code you will ever see? no, but it is the hero the Mule needs, not the one it deserves. Issue: W-14954379
-   * 
+   *
    * @since 1.7
    */
   private void applyEnricherWithProxyDeclaration(ExtensionLoadingContext extensionLoadingContext, DeclarationEnricher enricher) {

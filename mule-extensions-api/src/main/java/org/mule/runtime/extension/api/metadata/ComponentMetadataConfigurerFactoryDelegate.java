@@ -10,7 +10,7 @@ import org.mule.api.annotation.NoImplement;
 
 /**
  * Factory of {@link ComponentMetadataConfigurer}.
- * 
+ *
  * @since 4.8
  */
 @NoImplement

@@ -27,7 +27,7 @@ public final class QNameModelProperty implements ModelProperty {
 
   /**
    * Creates a new instance
-   * 
+   *
    * @param value the referenced {@link QName}
    */
   public QNameModelProperty(QName value) {

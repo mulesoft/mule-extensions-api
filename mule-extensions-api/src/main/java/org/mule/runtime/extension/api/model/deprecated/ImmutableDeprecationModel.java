@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /**
  * Immutable implementation of {@link DeprecationModel}
- * 
+ *
  * @since 1.2
  */
 public class ImmutableDeprecationModel implements DeprecationModel {

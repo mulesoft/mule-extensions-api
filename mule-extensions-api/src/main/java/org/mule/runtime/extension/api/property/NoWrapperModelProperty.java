@@ -11,7 +11,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 /**
  * Indicates that a complex parameter that would have a wrapper element under normal conditions, doesn't have a wrapper element
  * when represented in the DSL.
- * 
+ *
  * @since 1.4
  */
 public class NoWrapperModelProperty implements ModelProperty {

@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
  * }
  * <p>
  * Where the configuration {@code ConfigType} declares a parameter as:
- * 
+ *
  * <pre>
  * <code>
  *  {@literal @}Parameter
@@ -47,7 +47,7 @@ import java.lang.annotation.Target;
  * <p>
  * 1) We use the default value of the {@code maxRetries} parameter provided by the config. In this case, the operation
  * {@code request} will be injected with {@code 10} as the value for {@code maxRetries}
- * 
+ *
  * <pre>
  * {@code
  * <mule>
@@ -62,7 +62,7 @@ import java.lang.annotation.Target;
  *
  * 2) We provide a value for the {@code maxRetries} parameter in the config. In this case, the operation {@code request} will be
  * injected with {@code 2} as the value for {@code maxRetries}
- * 
+ *
  * <pre>
  * {@code
  * <mule>
@@ -77,7 +77,7 @@ import java.lang.annotation.Target;
  *
  * 3) We provide a value for the {@code maxRetries} parameter in the operation. In this case, the operation {@code request} will
  * be injected with {@code 5} as the value for {@code maxRetries}
- * 
+ *
  * <pre>
  * {@code
  * <mule>

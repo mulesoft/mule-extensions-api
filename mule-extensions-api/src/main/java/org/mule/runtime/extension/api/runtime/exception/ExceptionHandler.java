@@ -47,7 +47,7 @@ public abstract class ExceptionHandler {
    * This method instrospects the given {@code exception} looking for the deepest {@link ErrorTypeDefinition} in the causes.
    * Returns a a new {@link ModuleException} that wraps the exception received as parameter with the {@link ErrorTypeDefinition}
    * found.
-   * 
+   *
    * @param exception to introspect
    * @return {@link ModuleException} with the innermost {@link ErrorTypeDefinition} found.
    */
@@ -60,7 +60,7 @@ public abstract class ExceptionHandler {
    * Returns the first cause of {@code throwable} which is an instance of {@code causeType}.
    *
    * If {@code throwable} is an instance of {@code causeType} itself, then {@code throwable} is returned.
-   * 
+   *
    * @param throwable the exception to introspect
    * @param causeType the cause type
    * @param <T>       the generic type of the expected exception

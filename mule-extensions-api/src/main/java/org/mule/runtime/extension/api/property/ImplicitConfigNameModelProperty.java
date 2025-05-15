@@ -11,7 +11,7 @@ import org.mule.runtime.api.meta.model.ModelProperty;
 /**
  * Indicates the name of the config to use when the operation/source with this property does not expliciely define the config to
  * use.
- * 
+ *
  * @since 1.10
  */
 public class ImplicitConfigNameModelProperty implements ModelProperty {

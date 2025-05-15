@@ -73,7 +73,7 @@ public interface SourceResultHandler<T, A> {
    * Finally, this method should only be called <b>at most once</b> per instance and should be mutually exclusive with
    * {@link #completeWithSuccess(Consumer)}, which means that if one is called, the other one shouldn't.
    *
-   * 
+   *
    * @param exception               The exception found
    * @param errorCallbackParameters parameterizes the source's error callback.
    * @return a {@link CompletableFuture}

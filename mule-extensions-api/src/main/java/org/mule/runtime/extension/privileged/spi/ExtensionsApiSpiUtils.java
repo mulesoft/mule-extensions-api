@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  * Provides utilities to lookup and load implementations of interfaces defined in {@code extensions-api} through SPI.
  * <p>
  * Being {@code privileged}, this is not intended to be used outside of the scope of crafted extension declarations.
- * 
+ *
  * @since 1.5
  */
 public final class ExtensionsApiSpiUtils {

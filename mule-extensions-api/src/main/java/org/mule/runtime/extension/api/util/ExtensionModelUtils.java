@@ -276,7 +276,7 @@ public class ExtensionModelUtils {
    * @param extensionModel the model which owns the {@code component}
    * @param component      a component
    * @return A {@link Set} with the {@link ConfigurationModel} that the can be used alongside the {@code component}
-   * 
+   *
    * @deprecated since 1.10 Use {@link ImplicitConfigNameModelProperty} and {@link ManyImplicitConfigsModelProperty} instead.
    */
   @Deprecated
@@ -482,7 +482,7 @@ public class ExtensionModelUtils {
 
   /**
    * Uses the value in the given {@code annotation} and transforms it into a {@link ClassValueModel}
-   * 
+   *
    * @param annotation an annotation
    * @return a {@link ClassValueModel}
    */

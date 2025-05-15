@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 
 /**
  * Indicated that the current annotated member is deprecated from the extension.
- * 
+ *
  * This annotation can be applied to: Operations, Parameters, Sources, Scopes, Routers, Functions, Configuration, Connection
  * Providers and Extensions.
  *

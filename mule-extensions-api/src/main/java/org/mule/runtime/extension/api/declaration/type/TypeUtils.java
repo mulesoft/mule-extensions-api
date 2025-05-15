@@ -81,7 +81,7 @@ public final class TypeUtils {
 
   /**
    * Returns all the superclasses of the given {@code type}, without including {@link Object}
-   * 
+   *
    * @param type a type
    * @return all the type's super classes
    */
