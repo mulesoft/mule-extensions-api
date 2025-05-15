@@ -250,7 +250,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    * <p>
    * As a fallback, it uses {@link ClassInformationAnnotation#getClassname()} to obtain the simple name of the class. Finally if
    * there is no ClassInformation, the {@link TypeIdAnnotation} will be used as Alias, failing if it is not found.
-   * 
+   *
    * @param metadataType the {@link MetadataType} whose Alias is required
    * @return the alias of the given type
    */

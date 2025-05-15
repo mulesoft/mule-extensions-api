@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
 /**
  * Allows to specify an example for a {@link EnrichableModel} to be used in the UI. This example is not related to the
  * {@link Optional#defaultValue()} used, it's only for the purpose of showing how does a possible value looks like.
- * 
+ *
  * @since 1.0
  */
 @MinMuleVersion("4.1")

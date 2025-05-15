@@ -150,7 +150,7 @@ public final class XmlModelUtils {
 
   /**
    * Given a prefix and a namespace returns the correspondent schema location
-   * 
+   *
    * @param prefix
    * @param namespace
    * @return {@link String} with the schema location

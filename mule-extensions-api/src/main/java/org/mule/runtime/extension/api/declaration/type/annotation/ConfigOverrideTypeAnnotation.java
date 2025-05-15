@@ -28,7 +28,7 @@ public class ConfigOverrideTypeAnnotation implements TypeAnnotation {
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @return {@code true}
    */
   @Override

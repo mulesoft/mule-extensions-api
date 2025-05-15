@@ -28,7 +28,7 @@ public final class ProblemsReporter {
 
   /**
    * Creates a new instance
-   * 
+   *
    * @param extensionModel the model which is being validated
    */
   public ProblemsReporter(ExtensionModel extensionModel) {
@@ -37,7 +37,7 @@ public final class ProblemsReporter {
 
   /**
    * Adds an error
-   * 
+   *
    * @param problem the problem found
    * @return {@code this} reporter
    */
@@ -48,7 +48,7 @@ public final class ProblemsReporter {
 
   /***
    * Adds a warning
-   * 
+   *
    * @param problem the warning found
    * @return {@code this} reporter
    */

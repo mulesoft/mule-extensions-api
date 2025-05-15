@@ -27,7 +27,7 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  * <p>
  * For example, a Void Router can be declared as:
  * <p>
- * 
+ *
  * <pre>
  *
  * public void enricher(WhenRoute when, @Optional DefaultRoute defaultRoute, VoidCompletionCallback callback) {

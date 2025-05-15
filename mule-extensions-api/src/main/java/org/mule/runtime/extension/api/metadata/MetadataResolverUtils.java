@@ -16,7 +16,7 @@ import java.util.Optional;
 
 /**
  * Helper methods for the {@link MetadataResolverFactory}
- * 
+ *
  * @since 1.0
  */
 public abstract class MetadataResolverUtils {

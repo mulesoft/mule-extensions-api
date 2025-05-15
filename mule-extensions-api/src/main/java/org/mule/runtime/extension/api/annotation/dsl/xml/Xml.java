@@ -29,7 +29,7 @@ public @interface Xml {
   /**
    * Extension's prefix. If left empty it will create a default one based on the extension's name, removing the words "extension",
    * "module" or "connector" at the end if they are present and hyphenating the resulting name.
-   * 
+   *
    * <pre>
    * Mulesoft Extension           = mulesoft
    * Cloud Service Connector      = cloud-service

@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * <p>
  * For example, let's see a very simple logging case
  * <p>
- * 
+ *
  * <pre>
  *
  *  public void listeningOperation(FlowListener listener) {

@@ -6,17 +6,17 @@
  */
 /**
  * Persistence API for Mule Extensions.
- * 
+ *
  * @moduleGraph
  * @since 1.5
  */
 module org.mule.runtime.extensions.api.persistence {
-  
+
   requires org.mule.runtime.api;
   requires org.mule.runtime.extensions.api;
   requires org.mule.runtime.metadata.model.api;
   requires org.mule.runtime.metadata.model.persistence;
-  
+
   requires com.google.common;
   requires com.google.gson;
   requires org.apache.commons.lang3;
@@ -27,7 +27,7 @@ module org.mule.runtime.extensions.api.persistence {
 
   exports org.mule.runtime.extension.internal.persistence to
       org.mule.runtime.extensions.api.persistence.test;
-  
+
   provides org.mule.metadata.persistence.api.TypeAnnotationSerializerExtender
       with org.mule.runtime.extension.internal.persistence.ExtensionTypeAnnotationSerializerExtender;
 

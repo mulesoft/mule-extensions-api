@@ -35,7 +35,7 @@ import java.util.Set;
  * Provides a way to access the functionality on internal model properties when declaring components on crafted extensions.
  * <p>
  * Being {@code privileged}, this is not intended to be used outside of the scope of crafted extension declarations.
- * 
+ *
  * @since 1.8
  */
 public final class ComponentDeclarationUtils {
@@ -47,7 +47,7 @@ public final class ComponentDeclarationUtils {
   /**
    * Marks that the operation being declared by the {@code declarer} may not have a configuring streaming strategy, regardless of
    * it being a streaming operation.
-   * 
+   *
    * @param declarer the declarer of the operation to mark.
    */
   public static void withNoStreamingConfiguration(OperationDeclarer declarer) {
@@ -57,7 +57,7 @@ public final class ComponentDeclarationUtils {
   /**
    * Marks that the operation being declared by the {@code declarer} may not have a configuring transactionalAction, regardless of
    * being transactional.
-   * 
+   *
    * @param declarer the declarer of the operation to mark.
    */
   public static void withNoTransactionalAction(OperationDeclarer declarer) {
@@ -67,7 +67,7 @@ public final class ComponentDeclarationUtils {
   /**
    * Marks that the operation being declared by the {@code declarer} may not have a
    * {@link ExtensionConstants#RECONNECTION_CONFIG_PARAMETER_NAME} parameter, regardless of being connected.
-   * 
+   *
    * @param declarer the declarer of the operation to mark.
    */
   public static void withNoReconnectionStrategy(OperationDeclarer declarer) {
@@ -77,7 +77,7 @@ public final class ComponentDeclarationUtils {
   /**
    * Marks that the operations of the extension being declared by the {@code declarer} may not have a
    * {@link ExtensionConstants#RECONNECTION_CONFIG_PARAMETER_NAME} parameter, regardless of them being connected.
-   * 
+   *
    * @param declarer the declarer of the extension to mark.
    */
   // account for use cases where this is declared at the extension level for all its operations
@@ -88,7 +88,7 @@ public final class ComponentDeclarationUtils {
   /**
    * Marks that the operation being declared by the {@code declarer} will avoid propagating connectivity errors from operations,
    * regardless of being connected.
-   * 
+   *
    * @param declarer the declarer of the operation to mark.
    */
   public static void withNoConnectivityError(OperationDeclarer declarer) {
@@ -97,7 +97,7 @@ public final class ComponentDeclarationUtils {
 
   /**
    * Marks that the operation being declared by the {@code declarer} may not contain errorMappings.
-   * 
+   *
    * @param declarer the declarer of the operation to mark.
    */
   public static void withNoErrorMapping(OperationDeclarer declarer) {
@@ -106,7 +106,7 @@ public final class ComponentDeclarationUtils {
 
   /**
    * Marks that the component being declared by the {@code declarer} is paged.
-   * 
+   *
    * @param declarer the declarer of the component to mark.
    */
   public static void asPagedOperation(ComponentDeclarer declarer) {

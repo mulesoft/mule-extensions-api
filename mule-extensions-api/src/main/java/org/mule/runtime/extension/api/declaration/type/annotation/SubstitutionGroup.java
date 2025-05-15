@@ -10,7 +10,7 @@ package org.mule.runtime.extension.api.declaration.type.annotation;
 /**
  * Pojo used to store a substitutionGroup when specified from {@code TypeDsl}. The format expected is prefix:element and they
  * should both always be specified.
- * 
+ *
  * @since 1.0
  */
 public class SubstitutionGroup extends PrefixDefinedAnnotation {

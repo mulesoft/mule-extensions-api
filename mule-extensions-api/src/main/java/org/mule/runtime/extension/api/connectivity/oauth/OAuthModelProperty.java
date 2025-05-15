@@ -24,7 +24,7 @@ public class OAuthModelProperty implements ModelProperty {
 
   /**
    * Creates a new instance
-   * 
+   *
    * @param grantTypes the {@link OAuthGrantType grant types} supported
    */
   public OAuthModelProperty(List<OAuthGrantType> grantTypes) {
@@ -33,7 +33,7 @@ public class OAuthModelProperty implements ModelProperty {
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @return {@code oauth}
    */
   @Override
@@ -43,7 +43,7 @@ public class OAuthModelProperty implements ModelProperty {
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @return {@code true}
    */
   @Override

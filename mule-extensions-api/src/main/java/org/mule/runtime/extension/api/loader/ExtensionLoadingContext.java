@@ -41,7 +41,7 @@ public interface ExtensionLoadingContext {
 
   /**
    * @return a type loader for the types from Java classes within an extension.
-   * 
+   *
    * @since 1.9
    */
   ClassTypeLoader getTypeLoader();

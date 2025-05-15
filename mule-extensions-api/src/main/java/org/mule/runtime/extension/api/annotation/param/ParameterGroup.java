@@ -27,9 +27,9 @@ import java.lang.annotation.Target;
  * not contain any reference to the defining class.
  * <p>
  * For example:
- * 
+ *
  * <pre>
- * 
+ *
  * {
  *   &#64;code
  *   &#64;Extension
@@ -64,7 +64,7 @@ import java.lang.annotation.Target;
  * (i.e: it needs to have setters and getters matching the field name).
  * <p/>
  * Lastly, the annotation can be applied to a method which is defining an operation:
- * 
+ *
  * <pre>
  *     {@code
  *

@@ -18,7 +18,7 @@ import org.mule.runtime.extension.api.runtime.parameter.HttpParameterPlacement;
  * OAuth parameter.
  * <p>
  * This is equivalent to the {@link OAuthParameter} annotation
- * 
+ *
  * @since 1.0
  */
 public class OAuthParameterModelProperty implements ModelProperty {

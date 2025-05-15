@@ -10,7 +10,7 @@ import org.mule.runtime.api.notification.Notification.Action;
 
 /**
  * {@link Action} produced by extensions.
- * 
+ *
  * @deprecated marked for removal
  */
 @Deprecated

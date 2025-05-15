@@ -17,7 +17,7 @@ import org.mule.runtime.extension.api.loader.ProblemsReporter;
 
 /**
  * {@link ExtensionModelValidator} which applies to {@link ExtensionModel}s which contains {@link ConnectionProviderModel}s
- * 
+ *
  * This validator makes sure that:
  * <ul>
  * <li>No parameter of any {@link ConnectionProviderModel} is defined as a configuration override</li>

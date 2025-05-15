@@ -30,9 +30,9 @@ import org.mule.sdk.api.annotation.MinMuleVersion;
  *
  * For example, a Router can be declared as:
  * <p>
- * 
+ *
  * <pre>
- * 
+ *
  * public void twoRoutesRouter(WhenRoute when, @Optional OtherwiseRoute other, RouterCompletionCallback callback) {
  *   if (when.shouldExecute()) {
  *     when.getChain().process(routeResult -> callback.success(routeResult), (e, r) -> callback.error(e));

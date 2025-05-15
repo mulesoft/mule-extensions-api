@@ -9,9 +9,9 @@
  * @since 1.5
  */
 module org.mule.runtime.extensions.api.persistence.test {
-  
+
   requires org.mule.runtime.extensions.api.persistence;
-  
+
   requires org.mule.runtime.api;
   requires org.mule.runtime.api.test;
   requires org.mule.runtime.extensions.api;
@@ -20,7 +20,7 @@ module org.mule.runtime.extensions.api.persistence.test {
   requires org.mule.runtime.metadata.model.java;
   requires org.mule.runtime.metadata.model.json;
   requires org.mule.runtime.metadata.model.persistence;
-  
+
   requires com.google.gson;
   requires net.bytebuddy;
   requires net.bytebuddy.agent;

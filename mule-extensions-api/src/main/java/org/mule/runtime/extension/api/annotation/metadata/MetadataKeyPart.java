@@ -38,7 +38,7 @@ public @interface MetadataKeyPart {
 
   /**
    * The resolution order of this key part, starting from {@code 1}.
-   * 
+   *
    * @return the resolution order of this key part during the building of the {@link MetadataKeyId} annotated parameter
    *         corresponding to this {@link MetadataKeyPart}.
    */

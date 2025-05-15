@@ -35,7 +35,7 @@ public final class GeneratedResource {
    * @param availableInArtifact whether the resource will be part of the target extension artifact.
    * @param path                the resource's path
    * @param content             the resource's content
-   * 
+   *
    * @since 1.10, 1.9.4
    */
   public GeneratedResource(boolean availableInArtifact, String path, byte[] content) {
@@ -47,7 +47,7 @@ public final class GeneratedResource {
   /**
    * Resources that are not available in the target extension artifact may be used during the build process of the extension as
    * temporary data.
-   * 
+   *
    * @return whether the resource will be part of the target extension artifact.
    * @since 1.10, 1.9.4
    */

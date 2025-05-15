@@ -34,7 +34,7 @@ import java.util.Map;
  * <li>An non-instantiable type: A default instance is created using the type provided as parameter in
  * {@code defaultImplementingType}.</li> Any {@link Optional} {@link Parameter} fields with a default value will be assigned to
  * such default. E.g.:
- * 
+ *
  * <pre>
  *      public class HelloWorld {
  *      &#64;Parameter

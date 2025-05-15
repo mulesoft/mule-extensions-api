@@ -8,7 +8,7 @@ import org.mule.api.annotation.jpms.PrivilegedApi;
 
 /**
  * API for Mule Extensions to integrate with the Mule Runtime in a decoupled way.
- * 
+ *
  * @moduleGraph
  * @since 1.5
  */
