@@ -19,6 +19,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 
 import org.mule.metadata.api.annotation.TypeAliasAnnotation;
 import org.mule.metadata.api.annotation.TypeIdAnnotation;
@@ -92,6 +93,14 @@ public class NameUtilsTestCase {
     assertThat("my-parameter-name", is(hyphenize("MyParameterName")));
     assertThat("parameter-dsl", is(hyphenize("ParameterDSL")));
     assertThat("parameter-dsl-name", is(hyphenize("ParameterDSLName")));
+  }
+
+  @Test
+  public void uncountables() {
+    assertThat(pluralize("equipment"), is("equipment"));
+    assertThat(pluralize("information"), is("information"));
+    assertThat(pluralize("species"), is("species"));
+    assertThat(pluralize("metadata"), is("metadata"));
   }
 
   @Alias(TYPE_ALIAS)
