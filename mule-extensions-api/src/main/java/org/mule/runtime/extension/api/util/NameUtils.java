@@ -121,14 +121,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     irregular("sex", "sexes");
     irregular("move", "moves");
 
-    uncountable("equipment");
-    uncountable("information");
-    uncountable("rice");
-    uncountable("money");
-    uncountable("species");
-    uncountable("series");
-    uncountable("fish");
-    uncountable("sheep");
+    uncountable("metadata");
   }
 
   private NameUtils() {}
@@ -220,12 +213,14 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    */
   public static boolean isUncountable(String word) {
     if (isBlank(word)) {
-      for (String w : uncountable) {
-        if (w.equalsIgnoreCase(word)) {
-          return true;
-        }
+      return false;
+    }
+    for (String w : uncountable) {
+      if (w.equalsIgnoreCase(word)) {
+        return true;
       }
     }
+
 
     return false;
   }
