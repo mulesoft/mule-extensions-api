@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.mule.runtime</groupId>
         <artifactId>mule-extensions-api-parent</artifactId>
-        <version>1.6.17-SNAPSHOT</version>
+        <version>1.6.18-SNAPSHOT</version>
     </parent>
 
     <artifactId>mule-extensions-mime-types</artifactId>
-    <version>1.6.17-SNAPSHOT</version>
+    <version>1.6.18-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Mule Extensions API - Mime Types</name>
     <description>Provides the standard mime types that the Mule Runtime is able to interpret for extensions using Activation's MimetypesFileTypeMap</description>
