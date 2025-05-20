@@ -655,7 +655,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
        */
       @Override
       protected void defaultVisit(MetadataType metadataType) {
-        if (namespaceUri.equals("http://www.mulesoft.org/schema/mule/ee/tracking") && parameterName.equals("metaData")) {
+        if (isCoreExtensionWithFlattenedMap()) {
           mapBuilder
               .containing(KEY_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build())
               .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(VALUE_ATTRIBUTE_NAME).build());
@@ -1014,5 +1014,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private Optional<QName> getCustomQName(MetadataType type) {
     return type.getAnnotation(QNameTypeAnnotation.class).map(QNameTypeAnnotation::getValue);
+  }
+
+  private boolean isCoreExtensionWithFlattenedMap() {
+    return extensionModel.getVendor().equals("MuleSoft, Inc.") && extensionModel.getName().equals("tracking");
   }
 }
