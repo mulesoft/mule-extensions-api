@@ -123,7 +123,7 @@
         <javaVersion>1.8</javaVersion>
         <javaReleaseVersion>8</javaReleaseVersion>
 
-        <muleApiVersion>1.8.6-SNAPSHOT</muleApiVersion>
+        <muleApiVersion>1.8.7-SNAPSHOT</muleApiVersion>
         <muleConnectivityApiVersion>1.1.0-SNAPSHOT</muleConnectivityApiVersion>
         <metadataModelApiVersion>1.8.6-SNAPSHOT</metadataModelApiVersion>
         <muleModuleMavenPluginVersion>1.8.6-SNAPSHOT</muleModuleMavenPluginVersion>
