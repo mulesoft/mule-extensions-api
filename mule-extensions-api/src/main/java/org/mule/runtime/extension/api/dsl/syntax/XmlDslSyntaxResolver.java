@@ -655,6 +655,13 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
        */
       @Override
       protected void defaultVisit(MetadataType metadataType) {
+        if (namespaceUri.equals("http://www.mulesoft.org/schema/mule/ee/tracking") && parameterName.equals("metaData")) {
+          mapBuilder
+              .containing(KEY_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build())
+              .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(VALUE_ATTRIBUTE_NAME).build());
+          return;
+        }
+
         mapBuilder.withGeneric(metadataType,
                                createBaseValueEntryDefinition()
                                    .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create()
