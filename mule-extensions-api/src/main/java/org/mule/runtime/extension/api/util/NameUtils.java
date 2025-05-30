@@ -122,6 +122,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     irregular("move", "moves");
 
     uncountable("metadata");
+    uncountable("property");
   }
 
   private NameUtils() {}
