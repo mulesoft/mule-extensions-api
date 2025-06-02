@@ -551,7 +551,9 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                           ParameterDslConfiguration dslModel,
                                           String name, String namespace, String namespaceUri, boolean skipWrapper) {
 
-    final String parameterName = isContent ? name : pluralize(name);
+    // In case this a non-wrapped parameter, then it should consider that the word is uncountable
+    boolean canBeUncountable = skipWrapper;
+    final String parameterName = isContent ? name : pluralize(name, canBeUncountable);
     builder.withElementName(hyphenize(parameterName))
         .supportsChildDeclaration(supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent));
 

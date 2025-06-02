@@ -164,7 +164,19 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    * @return The pluralized word
    */
   public static String pluralize(String word) {
-    if (isUncountable(word)) {
+    return pluralize(word, false);
+  }
+
+
+  /**
+   * Return the pluralized version of a word.
+   *
+   * @param word                The word
+   * @param considerUncountable if it should consider that the word may be uncountable
+   * @return The pluralized word
+   */
+  public static String pluralize(String word, boolean considerUncountable) {
+    if (isUncountable(word) && considerUncountable) {
       return word;
     } else {
       for (Inflection inflection : plural) {
@@ -183,7 +195,18 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    * @return The singularized word
    */
   public static String singularize(String word) {
-    if (isUncountable(word)) {
+    return singularize(word, false);
+  }
+
+  /**
+   * Return the singularized version of a word.
+   *
+   * @param word                The word
+   * @param considerUncountable if it should consider that the word may be uncountable
+   * @return The singularized word
+   */
+  public static String singularize(String word, boolean considerUncountable) {
+    if (isUncountable(word) && considerUncountable) {
       return word;
     } else {
       for (Inflection inflection : singular) {

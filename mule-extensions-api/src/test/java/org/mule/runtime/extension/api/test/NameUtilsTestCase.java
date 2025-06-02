@@ -97,7 +97,10 @@ public class NameUtilsTestCase {
 
   @Test
   public void uncountables() {
-    assertThat(pluralize("metadata"), is("metadata"));
+    assertThat(pluralize("metadata"), is("metadatas"));
+    assertThat(pluralize("metadata", true), is("metadata"));
+    assertThat(pluralize("property", true), is("property"));
+    assertThat(pluralize("property", false), is("properties"));
   }
 
   @Alias(TYPE_ALIAS)
