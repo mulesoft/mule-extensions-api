@@ -121,6 +121,7 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     irregular("sex", "sexes");
     irregular("move", "moves");
 
+    // W-17864898: core elements that are not wrapped, so they are not consistent with SDK implemented components
     uncountable("metadata");
     uncountable("property");
   }
