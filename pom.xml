@@ -131,6 +131,7 @@
         <muleBomVersion>4.10.0-SNAPSHOT</muleBomVersion>
 
         <caffeine.java8.version>2.9.3</caffeine.java8.version>
+        <mockito.java8.version>4.11.0</mockito.java8.version>
 
         <oldMuleArtifactVersion>1.9.0-rc1</oldMuleArtifactVersion>
 
@@ -175,6 +176,19 @@
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
                 <version>${caffeine.java8.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.java8.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-inline</artifactId>
+                <version>${mockito.java8.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
