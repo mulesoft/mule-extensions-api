@@ -10,6 +10,7 @@ import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.metadata.api.model.MetadataFormat.JSON;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.hyphenize;
+import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -92,6 +93,14 @@ public class NameUtilsTestCase {
     assertThat("my-parameter-name", is(hyphenize("MyParameterName")));
     assertThat("parameter-dsl", is(hyphenize("ParameterDSL")));
     assertThat("parameter-dsl-name", is(hyphenize("ParameterDSLName")));
+  }
+
+  @Test
+  public void uncountables() {
+    assertThat(pluralize("metadata"), is("metadatas"));
+    assertThat(pluralize("metadata", true), is("metadata"));
+    assertThat(pluralize("property", true), is("property"));
+    assertThat(pluralize("property", false), is("properties"));
   }
 
   @Alias(TYPE_ALIAS)
