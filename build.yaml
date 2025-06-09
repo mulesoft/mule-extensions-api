@@ -1,5 +1,5 @@
 upstreamProjects:
-  Mule-runtime/mule-api/1.9.6
+  Mule-runtime/mule-api/1.9.6-WITH-W-18622349
 projectType: runtime
 mavenTool: "3.9.9"
 jdkTool: OPEN-JDK17
