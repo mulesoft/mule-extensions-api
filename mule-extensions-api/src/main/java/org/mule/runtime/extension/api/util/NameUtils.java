@@ -121,14 +121,9 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
     irregular("sex", "sexes");
     irregular("move", "moves");
 
-    uncountable("equipment");
-    uncountable("information");
-    uncountable("rice");
-    uncountable("money");
-    uncountable("species");
-    uncountable("series");
-    uncountable("fish");
-    uncountable("sheep");
+    // W-17864898: core elements that are not wrapped, so they are not consistent with SDK implemented components
+    uncountable("metadata");
+    uncountable("property");
   }
 
   private NameUtils() {}
@@ -170,7 +165,19 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    * @return The pluralized word
    */
   public static String pluralize(String word) {
-    if (isUncountable(word)) {
+    return pluralize(word, false);
+  }
+
+
+  /**
+   * Return the pluralized version of a word.
+   *
+   * @param word                The word
+   * @param considerUncountable if it should consider that the word may be uncountable
+   * @return The pluralized word
+   */
+  public static String pluralize(String word, boolean considerUncountable) {
+    if (isUncountable(word) && considerUncountable) {
       return word;
     } else {
       for (Inflection inflection : plural) {
@@ -189,7 +196,18 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    * @return The singularized word
    */
   public static String singularize(String word) {
-    if (isUncountable(word)) {
+    return singularize(word, false);
+  }
+
+  /**
+   * Return the singularized version of a word.
+   *
+   * @param word                The word
+   * @param considerUncountable if it should consider that the word may be uncountable
+   * @return The singularized word
+   */
+  public static String singularize(String word, boolean considerUncountable) {
+    if (isUncountable(word) && considerUncountable) {
       return word;
     } else {
       for (Inflection inflection : singular) {
@@ -220,10 +238,11 @@ public class NameUtils extends org.mule.runtime.api.util.NameUtils {
    */
   public static boolean isUncountable(String word) {
     if (isBlank(word)) {
-      for (String w : uncountable) {
-        if (w.equalsIgnoreCase(word)) {
-          return true;
-        }
+      return false;
+    }
+    for (String w : uncountable) {
+      if (w.equalsIgnoreCase(word)) {
+        return true;
       }
     }
 
