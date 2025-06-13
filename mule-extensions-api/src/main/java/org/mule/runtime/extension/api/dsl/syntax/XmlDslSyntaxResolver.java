@@ -56,6 +56,7 @@ import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.ComposableModel;
+import org.mule.runtime.api.meta.model.EnrichableModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.ImportedTypeModel;
 import org.mule.runtime.api.meta.model.ParameterDslConfiguration;
@@ -285,7 +286,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
                                    if (isMap(objectType)) {
                                      resolveMapDslFromParameter(objectType, builder, isContent,
                                                                 expressionSupport, dslConfig, parameter.getName(),
-                                                                prefix.get(), namespace.get());
+                                                                prefix.get(), namespace.get(), skipComponent(parameter));
                                    } else {
                                      builder.withElementName(elementName.get());
 
@@ -499,11 +500,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
     }
   }
 
-  private boolean skipComponent(ComponentModel componentModel) {
+  private boolean skipComponent(EnrichableModel enrichableModel) {
     // The syntax for those component models having the NoWrapperModelProperty won't be included on the DSL Syntax tree.
     // In case that a component having the mentioned property has children, these will be included on the DSL Syntax tree as
     // direct children of the parent of the skipped/excluded component
-    return componentModel.getModelProperty(NoWrapperModelProperty.class).isPresent();
+    return enrichableModel.getModelProperty(NoWrapperModelProperty.class).isPresent();
   }
 
   private void resolveObjectDslFromParameter(ParameterModel parameter, ObjectType objectType, DslElementSyntaxBuilder builder,
@@ -542,9 +543,11 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   private void resolveMapDslFromParameter(ObjectType objectType, DslElementSyntaxBuilder builder,
                                           boolean isContent, ExpressionSupport expressionSupport,
                                           ParameterDslConfiguration dslModel,
-                                          String name, String namespace, String namespaceUri) {
+                                          String name, String namespace, String namespaceUri, boolean skipWrapper) {
 
-    final String parameterName = isContent ? name : pluralize(name);
+    // In case this a non-wrapped parameter, then it should consider that the word is uncountable
+    boolean canBeUncountable = skipWrapper;
+    final String parameterName = isContent ? name : pluralize(name, canBeUncountable);
     builder.withElementName(hyphenize(parameterName))
         .supportsChildDeclaration(supportsInlineDeclaration(objectType, expressionSupport, dslModel, isContent));
 
@@ -553,7 +556,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
           .ifPresent(type -> type
               .accept(getMapValueTypeVisitor(builder, name,
                                              namespace, namespaceUri,
-                                             dslModel)));
+                                             dslModel, skipWrapper)));
     }
   }
 
@@ -635,7 +638,7 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
   private MetadataTypeVisitor getMapValueTypeVisitor(final DslElementSyntaxBuilder mapBuilder, final String parameterName,
                                                      final String namespace, final String namespaceUri,
-                                                     ParameterDslConfiguration dslModel) {
+                                                     ParameterDslConfiguration dslModel, final boolean skipWrapper) {
     return new MetadataTypeVisitor() {
 
       /**
@@ -649,6 +652,13 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
        */
       @Override
       protected void defaultVisit(MetadataType metadataType) {
+        if (skipWrapper) {
+          mapBuilder
+              .containing(KEY_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(KEY_ATTRIBUTE_NAME).build())
+              .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create().withAttributeName(VALUE_ATTRIBUTE_NAME).build());
+          return;
+        }
+
         mapBuilder.withGeneric(metadataType,
                                createBaseValueEntryDefinition()
                                    .containing(VALUE_ATTRIBUTE_NAME, DslElementSyntaxBuilder.create()
@@ -862,7 +872,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
             .ifPresent(type -> type.accept(getMapValueTypeVisitor(objectFieldBuilder, fieldName,
                                                                   ownerNamespace, ownerNamespaceUri,
                                                                   ParameterDslConfiguration
-                                                                      .getDefaultInstance())));
+                                                                      .getDefaultInstance(),
+                                                                  false)));
       }
 
       @Override
@@ -1002,4 +1013,5 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
   private Optional<QName> getCustomQName(MetadataType type) {
     return type.getAnnotation(QNameTypeAnnotation.class).map(QNameTypeAnnotation::getValue);
   }
+
 }

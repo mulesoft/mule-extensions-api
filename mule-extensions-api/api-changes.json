@@ -1,4 +1,24 @@
 {
+  "1.8.7": {
+    "revapi": {
+      "differences": {
+        "differences": [
+          {
+            "ignore": true,
+            "code": "java.method.added",
+            "new": "method java.lang.String org.mule.runtime.extension.api.util.NameUtils::pluralize(java.lang.String, boolean)",
+            "justification": "W-17864898: correction of uncountable code, applying only for particular core scenarios"
+          },
+          {
+            "ignore": true,
+            "code": "java.method.added",
+            "new": "method java.lang.String org.mule.runtime.extension.api.util.NameUtils::singularize(java.lang.String, boolean)",
+            "justification": "W-17864898: correction of uncountable code, applying only for particular core scenarios"
+          }
+        ]
+      }
+    }
+  },
   "1.8.0": {
     "revapi": {
       "differences": {
