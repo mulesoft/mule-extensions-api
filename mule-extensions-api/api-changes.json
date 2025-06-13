@@ -7,13 +7,13 @@
             "ignore": true,
             "code": "java.method.added",
             "new": "method java.lang.String org.mule.runtime.extension.api.util.NameUtils::pluralize(java.lang.String, boolean)",
-            "justification": "ADD YOUR EXPLANATION FOR THE NECESSITY OF THIS CHANGE"
+            "justification": "W-17864898: correction of uncountable code, applying only for particular core scenarios"
           },
           {
             "ignore": true,
             "code": "java.method.added",
             "new": "method java.lang.String org.mule.runtime.extension.api.util.NameUtils::singularize(java.lang.String, boolean)",
-            "justification": "ADD YOUR EXPLANATION FOR THE NECESSITY OF THIS CHANGE"
+            "justification": "W-17864898: correction of uncountable code, applying only for particular core scenarios"
           }
         ]
       }
