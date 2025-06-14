@@ -1036,6 +1036,7 @@
         }
       ],
       "supportsConnectivityTesting": true,
+	  "supportsXa": false,
       "semanticTerms": [],
       "stereotype": {
         "type": "CONNECTION",
