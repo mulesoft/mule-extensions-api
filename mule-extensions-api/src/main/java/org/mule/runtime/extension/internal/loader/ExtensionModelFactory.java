@@ -138,7 +138,6 @@ import org.mule.runtime.extension.internal.loader.validator.NameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.NoWrapperModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.OperationModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.ParameterModelValidator;
-import org.mule.runtime.extension.internal.loader.validator.ParameterPluralNameModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.SubtypesModelValidator;
 import org.mule.runtime.extension.internal.loader.validator.TransactionalParametersValidator;
 import org.mule.runtime.extension.internal.loader.validator.ValidatorModelValidator;
@@ -214,7 +213,6 @@ public final class ExtensionModelFactory {
                                                        new OperationModelValidator(),
                                                        new FunctionModelValidator(),
                                                        new ParameterModelValidator(),
-                                                       new ParameterPluralNameModelValidator(),
                                                        new SubtypesModelValidator(),
                                                        new TransactionalParametersValidator(),
                                                        new ValidatorModelValidator(),
