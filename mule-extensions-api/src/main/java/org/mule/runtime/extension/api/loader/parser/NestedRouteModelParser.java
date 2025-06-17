@@ -72,7 +72,6 @@ public interface NestedRouteModelParser extends SemanticTermsParser, AllowedSter
 
   /**
    * @return the {@link ChainExecutionOccurrence} for the route's inner chain
-   * @since 4.7.0
    */
   ChainExecutionOccurrence getExecutionOccurrence();
 }

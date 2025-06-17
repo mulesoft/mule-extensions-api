@@ -180,7 +180,6 @@ public interface SourceModelParser extends SemanticTermsParser, StereotypeModelP
    *
    * @see ExtensionModelParser
    * @see SourceCallbackModel
-   * @since 4.5.0
    */
   interface SourceCallbackModelParser {
 

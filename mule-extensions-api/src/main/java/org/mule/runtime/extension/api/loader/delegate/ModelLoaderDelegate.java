@@ -14,7 +14,7 @@ import org.mule.runtime.extension.api.loader.parser.ExtensionModelParserFactory;
 /**
  * Contract for classes that creates an {@link ExtensionDeclarer} from a {@link ExtensionLoadingContext}.
  *
- * @since 4.0
+ * @since 1.10.0
  */
 @NoImplement
 public interface ModelLoaderDelegate {

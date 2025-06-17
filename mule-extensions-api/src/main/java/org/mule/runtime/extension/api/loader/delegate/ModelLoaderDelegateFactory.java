@@ -11,7 +11,7 @@ import org.mule.api.annotation.NoImplement;
 /**
  * {@link ModelLoaderDelegate} factory
  *
- * @since 4.1
+ * @since 1.10.0
  */
 @FunctionalInterface
 @NoImplement

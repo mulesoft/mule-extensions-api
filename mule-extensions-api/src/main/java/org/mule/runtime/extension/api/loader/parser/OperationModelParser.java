@@ -149,29 +149,21 @@ public interface OperationModelParser extends SemanticTermsParser, AdditionalPro
 
   /**
    * Returns whether this operation supports configuring its streaming.
-   *
-   * @since 4.8
    */
   boolean hasStreamingConfiguration();
 
   /**
    * Returns whether this operation supports configuring its transactional action.
-   *
-   * @since 4.8
    */
   boolean hasTransactionalAction();
 
   /**
    * Returns whether this operation supports configuring its reconnection strategy.
-   *
-   * @since 4.8
    */
   boolean hasReconnectionStrategy();
 
   /**
    * Returns whether this operation propagates connectivity errors.
-   *
-   * @since 4.8
    */
   boolean propagatesConnectivityError();
 
@@ -238,13 +230,11 @@ public interface OperationModelParser extends SemanticTermsParser, AdditionalPro
 
   /**
    * @return a {@link ScopeChainInputTypeResolverModelParser} if the parsed operation is a scope
-   * @since 4.7.0
    */
   Optional<ScopeChainInputTypeResolverModelParser> getScopeChainInputTypeResolverModelParser();
 
   /**
    * @return a {@link RoutesChainInputTypesResolverModelParser} if the parsed operation is a router
-   * @since 4.7.0
    */
   Optional<RoutesChainInputTypesResolverModelParser> getRoutesChainInputTypesResolverModelParser();
 
