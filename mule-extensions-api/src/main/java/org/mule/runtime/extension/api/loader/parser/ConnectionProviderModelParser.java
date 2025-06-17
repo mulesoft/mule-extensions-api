@@ -8,7 +8,6 @@ package org.mule.runtime.extension.api.loader.parser;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
-import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -27,7 +26,8 @@ import java.util.Optional;
  * @since 1.10.0
  */
 @NoImplement
-public interface ConnectionProviderModelParser extends SemanticTermsParser, StereotypeModelParser {
+public interface ConnectionProviderModelParser
+    extends SemanticTermsParser, StereotypeModelParser, AdditionalPropertiesModelParser {
 
   /**
    * @return the provider's name
@@ -81,14 +81,6 @@ public interface ConnectionProviderModelParser extends SemanticTermsParser, Ster
    * @return if the provider supports OAuth, returns an {@link OAuthModelProperty} which describes its grant types
    */
   Optional<OAuthModelProperty> getOAuthModelProperty();
-
-  /**
-   * Returns a list with all the {@link ModelProperty model properties} to be applied at the connection provider level which are
-   * specifically linked to the type of syntax used to define the extension.
-   *
-   * @return a list with {@link ModelProperty} instances.
-   */
-  List<ModelProperty> getAdditionalModelProperties();
 
   /**
    * @return the connection provider's {@link DeprecationModel} if one was defined

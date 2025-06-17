@@ -24,7 +24,7 @@ import java.util.Set;
  * @since 1.10.0
  */
 @NoImplement
-public interface ParameterGroupModelParser {
+public interface ParameterGroupModelParser extends AdditionalPropertiesModelParser {
 
   /**
    * @return the group's name
@@ -65,14 +65,6 @@ public interface ParameterGroupModelParser {
    * @return whether this group should be made explicit in the DSL
    */
   boolean showsInDsl();
-
-  /**
-   * Returns a list with all the {@link ModelProperty model properties} to be applied at the group level which are specifically
-   * linked to the type of syntax used to define the extension.
-   *
-   * @return a list with {@link ModelProperty} instances.
-   */
-  List<ModelProperty> getAdditionalModelProperties();
 
   /**
    * Describes the group's exclusive optional parameters

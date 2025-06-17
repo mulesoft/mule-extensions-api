@@ -32,7 +32,8 @@ import java.util.Optional;
  * @since 1.10.0
  */
 @NoImplement
-public interface ParameterModelParser extends SemanticTermsParser, AllowedStereotypesModelParser {
+public interface ParameterModelParser
+    extends SemanticTermsParser, AllowedStereotypesModelParser, AdditionalPropertiesModelParser {
 
   /**
    * @return the parameter's name
@@ -93,14 +94,6 @@ public interface ParameterModelParser extends SemanticTermsParser, AllowedStereo
    * @return whether this parameter acts as the id of the owning component
    */
   boolean isComponentId();
-
-  /**
-   * Returns a list with all the {@link ModelProperty model properties} to be applied at the parameter level which are
-   * specifically linked to the type of syntax used to define the extension.
-   *
-   * @return a list with {@link ModelProperty} instances.
-   */
-  List<ModelProperty> getAdditionalModelProperties();
 
   /**
    * @return the parameter's {@link DeprecationModel} if one was defined

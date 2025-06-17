@@ -23,7 +23,8 @@ import java.util.Optional;
  * @since 1.10.0
  */
 @NoImplement
-public interface NestedRouteModelParser extends SemanticTermsParser, AllowedStereotypesModelParser, SdkApiAwareParser {
+public interface NestedRouteModelParser
+    extends SemanticTermsParser, AllowedStereotypesModelParser, SdkApiAwareParser, AdditionalPropertiesModelParser {
 
   /**
    * @return the route's name
@@ -56,14 +57,6 @@ public interface NestedRouteModelParser extends SemanticTermsParser, AllowedSter
    * @return a list with the config's {@link ParameterGroupModelParser}
    */
   List<ParameterGroupModelParser> getParameterGroupModelParsers();
-
-  /**
-   * Returns a list with all the {@link ModelProperty model properties} to be applied at the route level which are specifically
-   * linked to the type of syntax used to define the extension.
-   *
-   * @return a list with {@link ModelProperty} instances.
-   */
-  List<ModelProperty> getAdditionalModelProperties();
 
   /**
    * @return the router's {@link DeprecationModel} if one was defined
