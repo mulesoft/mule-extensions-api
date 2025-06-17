@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.extension.api.loader.parser;
+package org.mule.runtime.extension.api.runtime.function;
 
 import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.metadata.DataType;

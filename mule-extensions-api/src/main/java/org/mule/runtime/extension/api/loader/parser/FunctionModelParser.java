@@ -10,6 +10,8 @@ import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
+import org.mule.runtime.extension.api.runtime.function.FunctionExecutor;
+import org.mule.runtime.extension.api.runtime.function.FunctionExecutorFactory;
 
 import java.util.List;
 import java.util.Optional;

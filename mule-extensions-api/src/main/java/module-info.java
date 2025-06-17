@@ -104,6 +104,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.runtime.config;
   exports org.mule.runtime.extension.api.runtime.connectivity;
   exports org.mule.runtime.extension.api.runtime.exception;
+  exports org.mule.runtime.extension.api.runtime.function;
   exports org.mule.runtime.extension.api.runtime.operation;
   exports org.mule.runtime.extension.api.runtime.parameter;
   exports org.mule.runtime.extension.api.runtime.process;
