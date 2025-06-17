@@ -988,6 +988,7 @@
           "connectionManagementType": "NONE",
           "externalLibraryModels": [],
           "supportsConnectivityTesting": false,
+		  "supportsXa": false,
           "parameterGroupModels": [],
           "name": "connection",
           "description": "",
