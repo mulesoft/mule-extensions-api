@@ -152,6 +152,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -170,6 +171,8 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
  * @since 1.0
  */
 public final class ExtensionModelFactory {
+
+  private static final Pattern pattern = Pattern.compile("([0-9]+)(\\.)([0-9]+)((\\.)([0-9]+))?.*");
 
   public static final String PROBLEMS_HANDLER = "PROBLEMS_HANDLER";
   private static final String AGGREGATORS_PACKAGE = "org.mule.extension.aggregator";
@@ -262,18 +265,17 @@ public final class ExtensionModelFactory {
     validators.forEach(v -> v.validate(extensionModel, dslSyntaxResolver, problemsReporter));
   }
 
-  private void validateMuleVersion(ExtensionDeclaration extensionDeclaration) {
+  private void validateExtensionVersion(ExtensionDeclaration extensionDeclaration) {
     final String version = extensionDeclaration.getVersion();
     if (version == null || version.trim().length() == 0) {
       throw new IllegalModelDefinitionException(format("Extension '%s' did not specified a version",
                                                        extensionDeclaration.getName()));
     }
 
-    try {
-      new MuleVersion(version);
-    } catch (IllegalArgumentException e) {
+    if (!pattern.matcher(version).matches()) {
       throw new IllegalArgumentException(format("Invalid version '%s' for extension '%s'",
-                                                version, extensionDeclaration.getName()));
+                                                version,
+                                                extensionDeclaration.getName()));
     }
   }
 
@@ -395,7 +397,7 @@ public final class ExtensionModelFactory {
     private final Cache<ParameterizedDeclaration, ParameterizedModel> modelCache = CacheBuilder.newBuilder().build();
 
     private ExtensionModel toExtension(ExtensionDeclaration extensionDeclaration) {
-      validateMuleVersion(extensionDeclaration);
+      validateExtensionVersion(extensionDeclaration);
       ExtensionModel extensionModel =
           new ImmutableExtensionModel(extensionDeclaration.getName(), extensionDeclaration.getDescription(),
                                       extensionDeclaration.getVersion(), extensionDeclaration.getVendor(),
