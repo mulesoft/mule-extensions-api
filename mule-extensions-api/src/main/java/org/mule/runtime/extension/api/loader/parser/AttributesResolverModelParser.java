@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
 
 /**
@@ -15,6 +16,7 @@ import org.mule.runtime.api.metadata.resolving.AttributesTypeResolver;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface AttributesResolverModelParser {
 
   boolean hasAttributesResolver();

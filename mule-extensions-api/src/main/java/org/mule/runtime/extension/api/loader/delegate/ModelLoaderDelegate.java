@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.delegate;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.declaration.fluent.ExtensionDeclarer;
 import org.mule.runtime.extension.api.loader.ExtensionLoadingContext;
 import org.mule.runtime.extension.api.loader.parser.ExtensionModelParserFactory;
@@ -15,6 +16,7 @@ import org.mule.runtime.extension.api.loader.parser.ExtensionModelParserFactory;
  *
  * @since 4.0
  */
+@NoImplement
 public interface ModelLoaderDelegate {
 
   /**

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser.metadata;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.metadata.resolving.OutputTypeResolver;
 import org.mule.runtime.extension.api.loader.parser.ExtensionModelParser;
 
@@ -16,6 +17,7 @@ import org.mule.runtime.extension.api.loader.parser.ExtensionModelParser;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface OutputResolverModelParser {
 
   boolean hasOutputResolver();

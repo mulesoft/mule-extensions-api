@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser.metadata;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.metadata.resolving.PartialTypeKeysResolver;
 import org.mule.runtime.api.metadata.resolving.TypeKeysResolver;
@@ -19,6 +20,7 @@ import org.mule.runtime.extension.api.loader.parser.ExtensionModelParser;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface MetadataKeyModelParser {
 
   /**

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.connection.ConnectionManagementType;
@@ -25,6 +26,7 @@ import java.util.Optional;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface ConnectionProviderModelParser extends SemanticTermsParser, StereotypeModelParser {
 
   /**

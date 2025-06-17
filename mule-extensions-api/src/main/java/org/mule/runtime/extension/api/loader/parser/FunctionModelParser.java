@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
@@ -20,6 +21,7 @@ import java.util.Optional;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface FunctionModelParser extends SemanticTermsParser, AdditionalPropertiesModelParser {
 
   /**

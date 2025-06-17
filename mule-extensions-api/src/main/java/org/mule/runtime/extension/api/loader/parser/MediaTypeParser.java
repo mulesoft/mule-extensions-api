@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
+
 /**
  * Parses the syntactical definition of a media type.
  *
  * @since 1.10.0
  */
+@NoImplement
 public interface MediaTypeParser {
 
   String getMimeType();

@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.display.DisplayModel;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
@@ -22,6 +23,7 @@ import java.util.Set;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface ParameterGroupModelParser {
 
   /**

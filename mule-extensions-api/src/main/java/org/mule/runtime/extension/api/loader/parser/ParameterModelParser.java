@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.api.meta.MuleVersion;
@@ -30,6 +31,7 @@ import java.util.Optional;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface ParameterModelParser extends SemanticTermsParser, AllowedStereotypesModelParser {
 
   /**

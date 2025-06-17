@@ -6,11 +6,14 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
+
 /**
  * Contract for a model parser with information on whether the component was written with the extensions-api or sdk-api
  *
  * @since 1.10.0
  */
+@NoImplement
 public interface SdkApiAwareParser {
 
   boolean isSdkApiDefined();

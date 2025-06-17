@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.el.ExpressionFunction;
 import org.mule.runtime.api.meta.model.function.FunctionModel;
 
@@ -14,6 +15,7 @@ import org.mule.runtime.api.meta.model.function.FunctionModel;
  *
  * @since 1.10.0
  */
+@NoImplement
 public interface FunctionExecutorFactory {
 
   /**

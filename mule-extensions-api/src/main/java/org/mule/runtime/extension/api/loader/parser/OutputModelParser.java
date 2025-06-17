@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.runtime.api.meta.model.OutputModel;
 import org.mule.runtime.api.meta.model.declaration.fluent.OutputDeclarer;
@@ -17,6 +18,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.OutputDeclarer;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface OutputModelParser {
 
   /**

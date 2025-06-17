@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser.metadata;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.sdk.api.metadata.resolving.ChainInputTypeResolver;
 
 
@@ -14,6 +15,7 @@ import org.mule.sdk.api.metadata.resolving.ChainInputTypeResolver;
  *
  * @since 1.10.0
  */
+@NoImplement
 public interface ScopeChainInputTypeResolverModelParser {
 
   /**

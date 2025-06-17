@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.FunctionParameter;
 
@@ -15,6 +16,7 @@ import org.mule.runtime.api.metadata.FunctionParameter;
  * @since 1.10.0
  */
 @FunctionalInterface
+@NoImplement
 public interface FunctionParameterDefaultValueResolverFactory {
 
   FunctionParameter.DefaultValueResolver create(Object defaultValue, DataType type);

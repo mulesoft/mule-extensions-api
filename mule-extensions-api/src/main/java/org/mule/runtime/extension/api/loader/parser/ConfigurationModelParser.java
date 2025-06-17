@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ExternalLibraryModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
@@ -22,6 +23,7 @@ import java.util.Optional;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface ConfigurationModelParser extends StereotypeModelParser, AdditionalPropertiesModelParser {
 
   /**

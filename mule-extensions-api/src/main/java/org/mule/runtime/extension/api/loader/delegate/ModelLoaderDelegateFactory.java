@@ -6,12 +6,15 @@
  */
 package org.mule.runtime.extension.api.loader.delegate;
 
+import org.mule.api.annotation.NoImplement;
+
 /**
  * {@link ModelLoaderDelegate} factory
  *
  * @since 4.1
  */
 @FunctionalInterface
+@NoImplement
 public interface ModelLoaderDelegateFactory {
 
   /**

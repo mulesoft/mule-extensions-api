@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.ComponentVisibility;
 
 /**
@@ -13,6 +14,7 @@ import org.mule.runtime.api.meta.model.ComponentVisibility;
  *
  * @since 1.10.0
  */
+@NoImplement
 public interface ComponentVisibilityParser {
 
   /**

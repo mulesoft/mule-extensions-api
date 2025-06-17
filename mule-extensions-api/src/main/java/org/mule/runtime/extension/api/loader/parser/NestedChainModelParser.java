@@ -6,6 +6,7 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence;
 import org.mule.runtime.api.meta.model.nested.NestedChainModel;
 
@@ -16,6 +17,7 @@ import org.mule.runtime.api.meta.model.nested.NestedChainModel;
  * @see ExtensionModelParser
  * @since 1.10.0
  */
+@NoImplement
 public interface NestedChainModelParser extends SemanticTermsParser, AllowedStereotypesModelParser, SdkApiAwareParser {
 
   /**

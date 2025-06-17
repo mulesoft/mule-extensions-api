@@ -6,6 +6,8 @@
  */
 package org.mule.runtime.extension.api.loader.parser;
 
+import org.mule.api.annotation.NoImplement;
+
 import java.util.Set;
 
 /**
@@ -13,6 +15,7 @@ import java.util.Set;
  *
  * @since 1.10.0
  */
+@NoImplement
 public interface SemanticTermsParser {
 
   /**

@@ -11,10 +11,10 @@ package org.mule.runtime.extension.api.loader.parser;
  *
  * @since 1.10.0
  */
-public class XmlDslConfiguration {
+public final class XmlDslConfiguration {
 
-  String prefix;
-  String namespace;
+  private final String prefix;
+  private final String namespace;
 
   public XmlDslConfiguration(String prefix, String namespace) {
     this.prefix = prefix;

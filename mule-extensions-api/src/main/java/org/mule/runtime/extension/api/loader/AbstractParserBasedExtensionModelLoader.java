@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
+import org.mule.api.annotation.NoImplement;
 import org.mule.runtime.extension.api.loader.delegate.ModelLoaderDelegate;
 import org.mule.runtime.extension.api.loader.delegate.ModelLoaderDelegateFactory;
 import org.mule.runtime.extension.api.loader.parser.ExtensionModelParserFactory;
@@ -23,6 +24,7 @@ import org.mule.runtime.extension.api.loader.parser.ExtensionModelParserFactory;
  *
  * @since 1.10.0
  */
+@NoImplement
 public abstract class AbstractParserBasedExtensionModelLoader extends ExtensionModelLoader {
 
   /**
