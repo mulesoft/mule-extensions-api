@@ -95,9 +95,9 @@ public interface ExtensionModelParser extends AdditionalPropertiesModelParser {
   List<ErrorModelParser> getErrorModelParsers();
 
   /**
-   * @return a {@link LicensingParser} which describes the extension's licensing.
+   * @return a {@link LicenseModelParser} which describes the extension's licensing.
    */
-  LicensingParser getLicensingParser();
+  LicenseModelParser getLicensingParser();
 
   /**
    * @return a list with an {@link ExternalLibraryModel} per each external library defined at the extension level.

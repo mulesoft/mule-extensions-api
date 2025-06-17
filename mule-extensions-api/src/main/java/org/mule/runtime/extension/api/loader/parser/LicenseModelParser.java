@@ -16,7 +16,7 @@ import java.util.Optional;
  * @since 1.10.0
  */
 @NoImplement
-public interface LicensingParser {
+public interface LicenseModelParser {
 
   /**
    * @return true if the extension requires an EE license, false otherwise.
