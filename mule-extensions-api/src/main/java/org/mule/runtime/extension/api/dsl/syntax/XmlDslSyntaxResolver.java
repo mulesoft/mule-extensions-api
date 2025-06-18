@@ -80,6 +80,7 @@ import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotat
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
+import org.mule.runtime.extension.api.property.ListOfRoutesModelProperty;
 import org.mule.runtime.extension.api.property.NoWrapperModelProperty;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
 
@@ -449,7 +450,27 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       @Override
       public void visit(NestedRouteModel model) {
-        processComposableModel(model, dsl);
+        if (model.getModelProperty(ListOfRoutesModelProperty.class).isPresent()) {
+          boolean skipComponent = skipComponent(model);
+          if (!skipComponent) {
+            String childModelName = singularize(model.getName());
+            String childElementName = hyphenize(childModelName);
+            DslElementSyntaxBuilder listOfRoutesDsl = DslElementSyntaxBuilder.create()
+                .withElementName(childElementName)
+                .withNamespace(languageModel.getPrefix(), languageModel.getNamespace())
+                .supportsTopLevelDeclaration(false)
+                .supportsChildDeclaration(true)
+                .supportsAttributeDeclaration(false)
+                .requiresConfig(false);
+            resolveParameterizedDsl(component, listOfRoutesDsl);
+            processComposableModel(model, listOfRoutesDsl);
+            dsl.containing(childModelName, listOfRoutesDsl.build());
+          } else {
+            processComposableModel(model, dsl);
+          }
+        } else {
+          processComposableModel(model, dsl);
+        }
       }
     });
   }

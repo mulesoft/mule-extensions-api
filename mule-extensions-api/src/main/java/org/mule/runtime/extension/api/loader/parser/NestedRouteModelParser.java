@@ -7,7 +7,6 @@
 package org.mule.runtime.extension.api.loader.parser;
 
 import org.mule.api.annotation.NoImplement;
-import org.mule.runtime.api.meta.model.ModelProperty;
 import org.mule.runtime.api.meta.model.deprecated.DeprecationModel;
 import org.mule.runtime.api.meta.model.nested.ChainExecutionOccurrence;
 import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
@@ -67,4 +66,14 @@ public interface NestedRouteModelParser
    * @return the {@link ChainExecutionOccurrence} for the route's inner chain
    */
   ChainExecutionOccurrence getExecutionOccurrence();
+
+  /**
+   * @return whether the parsed model may be present more than once in its component.
+   *
+   * @since 1.10.0, 1.9.7
+   */
+  default boolean isListOfRoutes() {
+    return false;
+  }
+
 }
