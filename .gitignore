@@ -32,6 +32,9 @@ hostkey.ser
 *.h2.db
 *.factorypath
 
+# Allure
+.allure
+
 #Dsql generated files
 mule-extensions-api-dsql/src/main/java/org/mule/runtime/extension/internal/dsql/MuleDsql.tokens
 mule-extensions-api-dsql/src/main/java/org/mule/runtime/extension/internal/dsql/MuleDsqlLexer.java
