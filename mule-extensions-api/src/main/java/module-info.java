@@ -91,6 +91,9 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.model.source;
   exports org.mule.runtime.extension.api.notification;
   exports org.mule.runtime.extension.api.loader;
+  exports org.mule.runtime.extension.api.loader.delegate;
+  exports org.mule.runtime.extension.api.loader.parser;
+  exports org.mule.runtime.extension.api.loader.parser.metadata;
   exports org.mule.runtime.extension.api.loader.util;
   exports org.mule.runtime.extension.api.resources;
   exports org.mule.runtime.extension.api.resources.spi;
@@ -101,6 +104,7 @@ module org.mule.runtime.extensions.api {
   exports org.mule.runtime.extension.api.runtime.config;
   exports org.mule.runtime.extension.api.runtime.connectivity;
   exports org.mule.runtime.extension.api.runtime.exception;
+  exports org.mule.runtime.extension.api.runtime.function;
   exports org.mule.runtime.extension.api.runtime.operation;
   exports org.mule.runtime.extension.api.runtime.parameter;
   exports org.mule.runtime.extension.api.runtime.process;
@@ -195,6 +199,7 @@ module org.mule.runtime.extensions.api {
   uses org.mule.runtime.extension.api.dsl.syntax.resources.spi.DslResourceFactory;
   uses org.mule.runtime.extension.api.dsl.syntax.resources.spi.ExtensionSchemaGenerator;
   uses org.mule.runtime.extension.api.loader.ExtensionModelLoaderProvider;
+  uses org.mule.runtime.extension.api.loader.delegate.ModelLoaderDelegateFactory;
   uses org.mule.runtime.extension.api.provider.RuntimeExtensionModelProvider;
   uses org.mule.runtime.extension.api.resources.spi.GeneratedResourceFactory;
   uses org.mule.runtime.extension.api.metadata.ComponentMetadataConfigurerFactoryDelegate;
