@@ -537,4 +537,8 @@ public class ExtensionModelUtils {
   public static boolean isRouter(ComponentModel model) {
     return model.getNestedComponents().stream().anyMatch(nested -> nested instanceof NestedRouteModel);
   }
+
+  public static boolean supportsMultiple(NestedRouteModel routeModel) {
+    return routeModel.getMaxOccurs().map(i -> i > 1).orElse(true);
+  }
 }
