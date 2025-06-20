@@ -550,4 +550,8 @@ public class ExtensionModelUtils {
     return model.getNestedComponents().stream()
         .anyMatch(NestedRouteModel.class::isInstance);
   }
+
+  public static boolean supportsMultiple(NestedRouteModel routeModel) {
+    return routeModel.getMaxOccurs().map(i -> i > 1).orElse(true);
+  }
 }
