@@ -6,6 +6,13 @@
  */
 package org.mule.runtime.extension.api.dsl.syntax;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
+import static java.util.Collections.sort;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.stream.Collectors.toList;
+
 import static org.mule.metadata.api.model.MetadataFormat.JAVA;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 import static org.mule.runtime.api.meta.ExpressionSupport.SUPPORTED;
@@ -28,6 +35,7 @@ import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isM
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isContent;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.requiresConfig;
+import static org.mule.runtime.extension.api.util.ExtensionModelUtils.supportsMultiple;
 import static org.mule.runtime.extension.api.util.LayoutOrderComparator.OBJECTS_FIELDS_BY_LAYOUT_ORDER;
 import static org.mule.runtime.extension.api.util.NameUtils.getTopLevelTypeName;
 import static org.mule.runtime.extension.api.util.NameUtils.itemize;
@@ -35,13 +43,6 @@ import static org.mule.runtime.extension.api.util.NameUtils.pluralize;
 import static org.mule.runtime.extension.api.util.NameUtils.singularize;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.extension.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
-
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singleton;
-import static java.util.Collections.sort;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static java.util.stream.Collectors.toList;
 
 import org.mule.metadata.api.builder.BaseTypeBuilder;
 import org.mule.metadata.api.model.ArrayType;
@@ -80,7 +81,6 @@ import org.mule.runtime.extension.api.declaration.type.annotation.TypeDslAnnotat
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DefaultImportTypesStrategy;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.DslSyntaxResolver;
 import org.mule.runtime.extension.api.dsl.syntax.resolver.ImportTypesStrategy;
-import org.mule.runtime.extension.api.property.ListOfRoutesModelProperty;
 import org.mule.runtime.extension.api.property.NoWrapperModelProperty;
 import org.mule.runtime.extension.api.property.QNameModelProperty;
 
@@ -450,9 +450,8 @@ public class XmlDslSyntaxResolver implements DslSyntaxResolver {
 
       @Override
       public void visit(NestedRouteModel model) {
-        if (model.getModelProperty(ListOfRoutesModelProperty.class).isPresent()) {
-          boolean skipComponent = skipComponent(model);
-          if (!skipComponent) {
+        if (supportsMultiple(model)) {
+          if (!skipComponent(model)) {
             String childModelName = singularize(model.getName());
             String childElementName = hyphenize(childModelName);
             DslElementSyntaxBuilder listOfRoutesDsl = DslElementSyntaxBuilder.create()
