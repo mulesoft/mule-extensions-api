@@ -6,27 +6,24 @@
  */
 package org.mule.runtime.extension.api.test.dsl;
 
-import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
-
 import static java.util.Collections.singletonList;
-import static java.util.Optional.of;
+import static java.util.Optional.empty;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.mule.runtime.api.meta.model.parameter.ParameterRole.BEHAVIOUR;
 
 import org.mule.runtime.api.meta.model.ComponentModelVisitor;
 import org.mule.runtime.api.meta.model.nested.NestableElementModel;
 import org.mule.runtime.api.meta.model.nested.NestedRouteModel;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
 import org.mule.runtime.extension.api.dsl.syntax.DslElementSyntax;
-import org.mule.runtime.extension.api.property.ListOfRoutesModelProperty;
 
 import java.util.Optional;
 
@@ -45,7 +42,7 @@ public class ListOfRoutesXmlDeclarationTestCase extends BaseXmlDeclarationTestCa
 
     NestableElementModel nestable = mock(NestableElementModel.class, withSettings().extraInterfaces(NestedRouteModel.class));
     when(nestable.getName()).thenReturn("listOfRoutes");
-    when(nestable.getModelProperty(ListOfRoutesModelProperty.class)).thenReturn(of(ListOfRoutesModelProperty.INSTANCE));
+    when(nestable.getMaxOccurs()).thenReturn(empty());
     doAnswer(inv -> {
       inv.getArgument(0, ComponentModelVisitor.class)
           .visit((NestedRouteModel) inv.getMock());
