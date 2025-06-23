@@ -135,6 +135,8 @@
 
         <oldMuleArtifactVersion>1.9.0-rc1</oldMuleArtifactVersion>
 
+        <surefire.args.mockito/>
+
         <licensePath>LICENSE_HEADER_CPAL.txt</licensePath>
         <licenseYear>2023</licenseYear>
     </properties>
